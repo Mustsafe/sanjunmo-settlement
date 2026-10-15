@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>산준모 v4.0.0 — SNB 줄간격(gap) 완전 고정 패치기 (v5)</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #0f172a; color: #f8fafc; line-height: 1.5;
+  }
+  .wrap { max-width: 960px; margin: 0 auto; }
+  h1 { margin: 0 0 8px; font-size: 21px; font-weight: 900; color: #fff; }
+  .sub { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
+  .dropzone {
+    border: 2px dashed #38bdf8; border-radius: 14px;
+    background: rgba(56, 189, 248, 0.07);
+    padding: 36px 24px; text-align: center; cursor: pointer;
+    transition: .15s; margin-bottom: 18px;
+  }
+  .dropzone:hover, .dropzone.dragover { background: rgba(56, 189, 248, 0.15); border-color: #7dd3fc; }
+  .dropzone h2 { margin: 0 0 6px; font-size: 16px; color: #38bdf8; }
+  .dropzone p { margin: 0; font-size: 12.5px; color: #cbd5e1; }
+  .btn-bar { display: flex; gap: 10px; margin-bottom: 16px; }
+  button {
+    padding: 11px 18px; border-radius: 9px; border: 0;
+    font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit;
+  }
+  .btn-primary { background: #2563eb; color: #fff; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .file-list { display: grid; gap: 8px; }
+  .file-card {
+    background: #1e293b; border: 1px solid #334155;
+    border-radius: 10px; padding: 11px 15px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .file-name { font-weight: 800; font-size: 13px; color: #f8fafc; }
+  .file-meta { font-size: 11.5px; color: #34d399; margin-top: 2px; }
+  .btn-dl { background: #0f766e; color: #fff; padding: 6px 12px; font-size: 11.5px; border-radius: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🛠️ 산준모 v4.0.0 — SNB 줄간격(gap)·위치 완전 고정 패치기 (v5)</h1>
+  <div class="sub">
+    원본 파일의 <code>.snb { gap: 4px }</code> 잔재와 본문 높이에 따른 Flex/Grid 늘어남 현상을 차단하기 위해, <code>gap: 0px !important</code> 및 <code>position: fixed</code> 고정 레이아웃으로 13개 화면을 완벽히 통일합니다.
+  </div>
+
+  <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+    <h2>📂 prototype 폴더의 HTML 파일 13개를 한꺼번에 드래그 앤 드롭하세요</h2>
+    <p><code>00_WORKFLOW_GUIDE_baseline.html</code> + <code>ADMN-*_baseline.html</code> 12개 모두 지원</p>
+    <input type="file" id="fileInput" multiple accept=".html" style="display:none" onchange="handleFiles(this.files)" />
+  </div>
+
+  <div class="btn-bar">
+    <button class="btn-primary" id="btnDownloadAll" disabled onclick="downloadAll()">💾 줄간격 고정 완료 파일 전체 일괄 다운로드</button>
+  </div>
+
+  <div class="file-list" id="fileList"></div>
+</div>
+
+<script>
+const MASTER_NAV_GROUPS = [
+  {
+    groupTitle: "0단계 · 전체 업무 플로우 안내",
+    items: [
+      { code: "WORKFLOW-GUIDE", title: "전체 업무 플로우 가이드", file: "00_WORKFLOW_GUIDE_baseline.html" }
+    ]
+  },
+  {
+    groupTitle: "1단계 · 계약 · 상품 · 매핑 설정",
+    items: [
+      { code: "ADMN-INST-001", title: "권리자 계약 원장", file: "ADMN-INST-001_baseline.html" },
+      { code: "ADMN-SETT-007", title: "수취인 분할 관리", file: "ADMN-SETT-007_baseline.html" },
+      { code: "ADMN-BOOK-001", title: "도서 공급 원장", file: "ADMN-BOOK-001_baseline.html" },
+      { code: "ADMN-SETT-001", title: "상품별 권리자 매핑", file: "ADMN-SETT-001_baseline.html" }
+    ]
+  },
+  {
+    groupTitle: "2단계 · 월마감 전 검증 (Gate)",
+    items: [
+      { code: "ADMN-SETT-004", title: "PG 정산 원장 대사", file: "ADMN-SETT-004_baseline.html" },
+      { code: "ADMN-INST-002", title: "약정금 마일스톤 검수", file: "ADMN-INST-002_baseline.html" },
+      { code: "ADMN-SETT-006", title: "합격 환급반 관리", file: "ADMN-SETT-006_baseline.html" },
+      { code: "ADMN-SETT-008", title: "사업자등록 확인 이력", file: "ADMN-SETT-008_baseline.html" }
+    ]
+  },
+  {
+    groupTitle: "3단계 · 월간 정산 · 집행 · 조회",
+    items: [
+      { code: "ADMN-SETT-002", title: "월간 정산 및 집행", file: "ADMN-SETT-002_baseline.html" },
+      { code: "ADMN-SETT-005", title: "정산 수동 조정", file: "ADMN-SETT-005_baseline.html" },
+      { code: "ADMN-SETT-009", title: "내부 정산 조회 (전용)", file: "ADMN-SETT-009_baseline.html" }
+    ]
+  },
+  {
+    groupTitle: "4단계 · 보안 및 감사 통제",
+    items: [
+      { code: "ADMN-USER-004", title: "민감 정보 열람 통제", file: "ADMN-USER-004_baseline.html" },
+      { code: "ADMN-CONF-008", title: "정산 감사 로그", file: "ADMN-CONF-008_baseline.html" }
+    ]
+  }
+];
+
+// gap: 0px !important 및 position: fixed 로 본문 레이아웃 영향 100% 차단
+const LOCKED_SNB_CSS = `
+<style id="v4-master-snb-style">
+  html { overflow-y: scroll !important; }
+  .layout, .app-layout {
+    display: block !important;
+    padding-left: 272px !important;
+    min-height: 100vh !important;
+  }
+  .savebar, .footer-bar {
+    left: 272px !important;
+  }
+  aside.v4-master-snb,
+  aside.v4-master-snb *,
+  aside.v4-master-snb *::before,
+  aside.v4-master-snb *::after {
+    box-sizing: border-box !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+    letter-spacing: -0.01em !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+  aside.v4-master-snb {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 272px !important;
+    min-width: 272px !important;
+    max-width: 272px !important;
+    height: 100vh !important;
+    background: #0f172a !important;
+    color: #cbd5e1 !important;
+    padding: 18px 14px 24px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    border-right: 1px solid #1e293b !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0px !important;
+    row-gap: 0px !important;
+    column-gap: 0px !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+  }
+  aside.v4-master-snb .v4-snb-brand {
+    padding: 4px 8px 14px !important;
+    border-bottom: 1px solid rgba(148,163,184,.16) !important;
+    margin: 0 0 6px 0 !important;
+    cursor: pointer !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-title {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-sub {
+    color: #94a3b8 !important;
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 500 !important;
+    margin: 4px 0 0 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-group-label {
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    padding: 12px 8px 5px !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-item {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    flex: 0 0 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 10px !important;
+    margin: 0 0 3px 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: #cbd5e1 !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background-color 0.12s ease, color 0.12s ease !important;
+  }
+  aside.v4-master-snb .v4-snb-item:hover {
+    background: rgba(255,255,255,.06) !important;
+    color: #ffffff !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active {
+    background: rgba(37,99,235,.22) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(96,165,250,.45) !important;
+  }
+  aside.v4-master-snb .v4-snb-item-title {
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
+    font-weight: 800 !important;
+  }
+  aside.v4-master-snb .v4-snb-item-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    font-size: 10px !important;
+    line-height: 14px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    background: rgba(15,23,42,.65) !important;
+    padding: 2px 6px !important;
+    border-radius: 5px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    letter-spacing: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
+    color: #93c5fd !important;
+    background: rgba(30,58,138,.7) !important;
+  }
+  aside.v4-master-snb .v4-snb-footer {
+    margin-top: auto !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(148,163,184,.14) !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box {
+    background: rgba(15,23,42,.55) !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 10px !important;
+    padding: 10px 11px !important;
+    font-size: 11px !important;
+    line-height: 16px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    margin: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box strong {
+    color: #e2e8f0 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+  }
+</style>`;
+
+function buildLockedSnbHtml(activeCode) {
+  let groupsHtml = "";
+  for (const g of MASTER_NAV_GROUPS) {
+    groupsHtml += `  <div class="v4-snb-group-label">${g.groupTitle}</div>\n`;
+    for (const item of g.items) {
+      const isActive = item.code === activeCode ? " active" : "";
+      const shortBadge = item.code === "WORKFLOW-GUIDE" ? "GUIDE" : item.code;
+      groupsHtml += `  <button type="button" class="v4-snb-item${isActive}" onclick="window.location.href='${item.file}'">
+    <span class="v4-snb-item-title">${item.title}</span>
+    <span class="v4-snb-item-code">${shortBadge}</span>
+  </button>\n`;
+    }
+  }
+
+  return `<aside class="v4-master-snb" aria-label="산준모 정산 백오피스 표준 사이드바">
+  <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" title="전체 업무 플로우 가이드로 이동">
+    <div class="v4-snb-brand-title">산준모 정산시스템</div>
+    <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
+  </div>
+${groupsHtml}  <div class="v4-snb-footer">
+    <div class="v4-snb-footer-box">
+      <strong>SSOT 정합성 기준</strong><br/>
+      01 비즈니스 · 02 연산/세무<br/>
+      03 화면/연동 · 04 QA 테스트
+    </div>
+  </div>
+</aside>`;
+}
+
+function detectScreenCode(filename, content) {
+  if (/00_WORKFLOW_GUIDE|index\.html/i.test(filename)) return "WORKFLOW-GUIDE";
+  const m1 = filename.match(/ADMN-(INST|SETT|BOOK|USER|CONF)-\d{3}/i);
+  if (m1) return m1[0].toUpperCase();
+  if (/전체 업무 플로우 가이드/i.test(content) && !content.includes("ADMN-INST-001 ·")) return "WORKFLOW-GUIDE";
+  const m2 = content.match(/ADMN-(INST|SETT|BOOK|USER|CONF)-\d{3}/);
+  return m2 ? m2[0].toUpperCase() : "WORKFLOW-GUIDE";
+}
+
+function findMatchingCloseTag(html, startIdx, tagName) {
+  const openRe = new RegExp(`<${tagName}\\b[^>]*>`, "gi");
+  const closeRe = new RegExp(`</${tagName}\\s*>`, "gi");
+  openRe.lastIndex = startIdx;
+  const firstOpen = openRe.exec(html);
+  if (!firstOpen || firstOpen.index !== startIdx) return -1;
+
+  let depth = 1;
+  let pos = openRe.lastIndex;
+  while (depth > 0) {
+    openRe.lastIndex = pos;
+    closeRe.lastIndex = pos;
+    const nextOpen = openRe.exec(html);
+    const nextClose = closeRe.exec(html);
+    if (!nextClose) return -1;
+    if (nextOpen && nextOpen.index < nextClose.index) {
+      depth++;
+      pos = openRe.lastIndex;
+    } else {
+      depth--;
+      pos = closeRe.lastIndex;
+      if (depth === 0) return pos;
+    }
+  }
+  return -1;
+}
+
+function replaceSnbBlock(html, newSnbHtml) {
+  // 기존 class="snb" 또는 class="v4-master-snb" 모두 탐색
+  const startRegex = /<(aside|nav|div)\b[^>]*\bclass\s*=\s*["'][^"']*\b(snb|v4-master-snb)\b[^"']*["'][^>]*>/i;
+  const match = startRegex.exec(html);
+  if (!match) return { html, replaced: false };
+
+  const tagName = match[1].toLowerCase();
+  const startIdx = match.index;
+  const endIdx = findMatchingCloseTag(html, startIdx, tagName);
+  if (endIdx === -1) return { html, replaced: false };
+
+  const updated = html.slice(0, startIdx) + newSnbHtml + html.slice(endIdx);
+  return { html: updated, replaced: true };
+}
+
+let processedFiles = [];
+
+const dropzone = document.getElementById("dropzone");
+dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
+dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+dropzone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropzone.classList.remove("dragover");
+  handleFiles(e.dataTransfer.files);
+});
+
+async function handleFiles(fileList) {
+  processedFiles = [];
+  for (const file of fileList) {
+    if (!file.name.endsWith(".html")) continue;
+    const raw = await file.text();
+    const code = detectScreenCode(file.name, raw);
+
+    let cleaned = raw
+      .replace(/<style id="v4-std-snb-style">[\s\S]*?<\/style>/gi, "")
+      .replace(/<style id="v4-master-snb-style">[\s\S]*?<\/style>/gi, "");
+
+    const newSnb = buildLockedSnbHtml(code);
+    const res = replaceSnbBlock(cleaned, newSnb);
+    let outHtml = res.html;
+    if (outHtml.includes("</head>")) {
+      outHtml = outHtml.replace("</head>", LOCKED_SNB_CSS + "\n</head>");
+    } else {
+      outHtml = LOCKED_SNB_CSS + "\n" + outHtml;
+    }
+
+    const outName = code === "WORKFLOW-GUIDE"
+      ? "00_WORKFLOW_GUIDE_baseline.html"
+      : `${code}_baseline.html`;
+
+    processedFiles.push({
+      outName,
+      code,
+      replaced: res.replaced,
+      content: outHtml
+    });
+  }
+  renderList();
+}
+
+function renderList() {
+  const box = document.getElementById("fileList");
+  document.getElementById("btnDownloadAll").disabled = processedFiles.length === 0;
+  box.innerHTML = processedFiles.map((f, idx) => `
+    <div class="file-card">
+      <div>
+        <div class="file-name">${f.outName} <span style="color:#38bdf8;font-size:11.5px;">[${f.code}]</span></div>
+        <div class="file-meta">${f.replaced ? "✔ 기존 .snb 클래스 분리 + gap:0px + position:fixed 고정 완료" : "⚠ SNB 영역 미발견"}</div>
+      </div>
+      <button class="btn-dl" onclick="downloadOne(${idx})">다운로드</button>
+    </div>
+  `).join("");
+}
+
+function downloadOne(idx) {
+  const f = processedFiles[idx];
+  const blob = new Blob([f.content], { type: "text/html;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = f.outName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function downloadAll() {
+  processedFiles.forEach((_, idx) => {
+    setTimeout(() => downloadOne(idx), idx * 180);
+  });
+}
+</script>
+</body>
+</html>

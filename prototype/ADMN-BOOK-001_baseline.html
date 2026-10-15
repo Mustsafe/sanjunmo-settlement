@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>[ADMN-BOOK-001] 도서 공급 원장</title>
+<style>
+:root{
+  --p:#2563eb;--bd:#cbd5e1;--bl:#e2e8f0;--mu:#64748b;
+  --bg:#f8fafc;--dg:#b91c1c;--ok:#15803d;--warn:#b45309
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:#0f172a;
+  font:13px/1.5 -apple-system,BlinkMacSystemFont,"Pretendard","Segoe UI",sans-serif
+}
+button,input,select,textarea{font:inherit}
+[hidden]{display:none!important}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.45}
+a{color:var(--p)}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.snb{
+  background:#0f172a;color:#cbd5e1;padding:18px 0;
+  position:sticky;top:0;height:100vh;overflow:auto
+}
+.snb .brand{
+  padding:0 18px 14px;font-weight:800;color:white;
+  font-size:14px;border-bottom:1px solid #1e293b
+}
+.snb .grp{padding:14px 18px 4px;font-size:11px;color:#94a3b8;font-weight:700}
+.snb button{
+  display:block;width:100%;border:0;text-align:left;padding:8px 18px;
+  color:#cbd5e1;background:none;font-size:12px
+}
+.snb button small{display:block;color:#94a3b8;font-size:10px}
+.snb button.on{
+  background:#1e293b;color:white;border-left:3px solid var(--p);padding-left:15px
+}
+.snb button:hover:not(.on){background:#1e293b88;color:white}
+.snb .ph{
+  margin:18px;font-size:11px;color:#94a3b8;
+  border:1px dashed #334155;border-radius:4px;padding:8px
+}
+.content{padding:24px 24px 125px;min-width:0}
+.top{
+  max-width:1240px;margin:0 auto 12px;display:flex;
+  justify-content:space-between;align-items:flex-start;gap:16px
+}
+h1{font-size:20px;margin:0 0 5px}
+h2{font-size:15px;margin:0}
+h3{font-size:13px;margin:0 0 8px}
+.sub,.note{color:var(--mu);font-size:12px}
+.note{margin-top:6px;font-size:11px}
+.tools,.inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ptabs{
+  max-width:1240px;margin:0 auto 14px;display:flex;
+  gap:4px;border-bottom:1px solid var(--bl);flex-wrap:wrap
+}
+.ptabs button{
+  border:0;background:none;padding:9px 14px;font-weight:700;
+  color:var(--mu);border-bottom:2px solid transparent
+}
+.ptabs button.on{color:var(--p);border-bottom-color:var(--p)}
+.main{max-width:1240px;margin:0 auto}
+.card{
+  background:white;border:1px solid var(--bl);
+  border-radius:8px;padding:18px;margin-bottom:14px
+}
+.cardhead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.row{display:grid;gap:12px}
+.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.lbl{display:block;font-weight:600;margin:10px 0 5px;color:#334155}
+.fc{
+  width:100%;min-width:0;height:33px;border:1px solid var(--bd);
+  border-radius:4px;padding:5px 9px;background:white;color:#0f172a
+}
+.fc[readonly],.fc:disabled{background:#f1f5f9;color:#475569}
+.check{display:inline-flex;gap:6px;align-items:center}
+.chip{
+  display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;
+  border-radius:999px;background:#e2e8f0;color:#334155;white-space:nowrap
+}
+.chip.ok{background:#dcfce7;color:var(--ok)}
+.chip.ng{background:#fee2e2;color:var(--dg)}
+.chip.info{background:#e0f2fe;color:#0369a1}
+.chip.warn{background:#fef3c7;color:var(--warn)}
+.chip.tx{background:#f3e8ff;color:#6b21a8}
+.btn{
+  height:32px;padding:0 12px;border-radius:4px;border:1px solid var(--bd);
+  background:white;font-size:12px;font-weight:600;color:#334155
+}
+.btn.pr{background:var(--p);color:white;border-color:var(--p)}
+.btn.sm{height:27px;padding:0 9px;font-size:11px}
+.btn.danger{color:var(--dg);border-color:#fca5a5;background:#fff5f5}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.kpi-card{
+  background:white;border:1px solid var(--bl);border-radius:8px;padding:13px 14px;
+  text-align:left;transition:.15s
+}
+.kpi-card:hover{border-color:#93c5fd;background:#f8fafc}
+.kpi-card.active{border:2px solid var(--p);background:#eff6ff}
+.kpi-card .k-title{font-size:11.5px;color:var(--mu);font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.kpi-card .k-num{font-size:21px;font-weight:800;margin-top:5px;font-variant-numeric:tabular-nums}
+.kpi-card .k-sub{font-size:11px;color:var(--mu);margin-top:3px}
+
+.tablewrap{overflow:auto}
+table{width:100%;border-collapse:collapse;margin-top:8px}
+th{
+  background:#f8fafc;text-align:left;padding:9px 10px;font-size:12px;
+  color:#475569;border-bottom:1px solid var(--bd);white-space:nowrap
+}
+td{padding:9px 10px;font-size:12px;border-bottom:1px solid var(--bl);vertical-align:middle}
+tr.row-hover:hover{background:#f1f5f9;cursor:pointer}
+tr.row-pending{background:#fffbeb}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.neg{color:var(--dg)}
+.pos{color:var(--p)}
+.nowrap{white-space:nowrap}
+.empty{text-align:center;padding:26px;color:var(--mu)}
+.fixed{
+  background:#f1f5f9;border-radius:6px;padding:9px 12px;
+  font-size:12px;color:#334155;margin-top:10px
+}
+.eff{
+  min-height:33px;display:flex;align-items:center;justify-content:center;
+  background:#eff6ff;border:1px solid var(--bl);border-radius:4px;
+  font-weight:700;color:#1e40af;padding:5px 8px;text-align:center
+}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}
+.summary>div{background:#f8fafc;border:1px solid var(--bl);border-radius:6px;padding:10px 12px}
+.summary label{display:block;font-size:11px;color:var(--mu)}
+.summary b{font-size:15px;font-variant-numeric:tabular-nums}
+.alert{border-radius:5px;padding:9px 11px;font-size:12px;margin-top:10px}
+.alert.warn{background:#fff8e6;color:#8a5a00}
+.alert.err{background:#fde8e8;color:#b42318}
+.alert.ok{background:#e3f6ea;color:#107a3c}
+.term{background:white;border:1px solid var(--bd);border-radius:8px;margin-bottom:14px}
+.term>header{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:12px 16px;background:#f8fafc;border-bottom:1px solid var(--bl);
+  border-radius:8px 8px 0 0;flex-wrap:wrap
+}
+.term>header b{font-size:14px}
+.term .body{padding:16px}
+.breadcrumb{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  background:white;border:1px solid var(--bd);border-radius:8px;
+  padding:10px 16px;margin-bottom:14px;flex-wrap:wrap
+}
+.savebar{
+  position:fixed;left:220px;right:0;bottom:0;background:white;
+  border-top:1px solid var(--bd);padding:12px 24px;
+  display:flex;justify-content:space-between;align-items:center;gap:16px;z-index:100
+}
+#gate{font-size:12px;min-width:0}
+#gateDetails{margin-top:3px;color:var(--mu);font-size:11px;max-width:900px}
+.modalback{
+  position:fixed;inset:0;background:rgba(15,23,42,.55);
+  display:flex;align-items:center;justify-content:center;padding:18px;z-index:300
+}
+.modal{
+  background:white;width:800px;max-width:100%;max-height:92vh;
+  border-radius:8px;display:flex;flex-direction:column;overflow:hidden
+}
+.modal>header,.modal>footer{
+  padding:13px 18px;background:#f8fafc;display:flex;
+  align-items:center;justify-content:space-between;gap:12px
+}
+.modal>header{border-bottom:1px solid var(--bl)}
+.modal>footer{border-top:1px solid var(--bl)}
+.modalbody{padding:16px 18px;overflow:auto}
+.modalerror{background:#fde8e8;color:#b42318;padding:8px 12px;margin-top:10px;border-radius:4px}
+.close{border:0;background:none;color:#64748b;font-size:22px;padding:0 5px}
+#toast{
+  position:fixed;right:24px;bottom:100px;background:#0f172a;color:white;
+  border-radius:6px;padding:12px 16px;max-width:480px;z-index:400;
+  box-shadow:0 8px 30px #0f172a22
+}
+@media(max-width:1100px){
+  .layout{grid-template-columns:180px 1fr}
+  .savebar{left:180px}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+
+  
+
+  
+
+  
+
+
+
+<style id="v4-master-snb-style">
+  html { overflow-y: scroll !important; }
+  .layout, .app-layout {
+    display: block !important;
+    padding-left: 272px !important;
+    min-height: 100vh !important;
+  }
+  .savebar, .footer-bar {
+    left: 272px !important;
+  }
+  aside.v4-master-snb,
+  aside.v4-master-snb *,
+  aside.v4-master-snb *::before,
+  aside.v4-master-snb *::after {
+    box-sizing: border-box !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+    letter-spacing: -0.01em !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+  aside.v4-master-snb {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 272px !important;
+    min-width: 272px !important;
+    max-width: 272px !important;
+    height: 100vh !important;
+    background: #0f172a !important;
+    color: #cbd5e1 !important;
+    padding: 18px 14px 24px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    border-right: 1px solid #1e293b !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0px !important;
+    row-gap: 0px !important;
+    column-gap: 0px !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+  }
+  aside.v4-master-snb .v4-snb-brand {
+    padding: 4px 8px 14px !important;
+    border-bottom: 1px solid rgba(148,163,184,.16) !important;
+    margin: 0 0 6px 0 !important;
+    cursor: pointer !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-title {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-sub {
+    color: #94a3b8 !important;
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 500 !important;
+    margin: 4px 0 0 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-group-label {
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    padding: 12px 8px 5px !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-item {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    flex: 0 0 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 10px !important;
+    margin: 0 0 3px 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: #cbd5e1 !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background-color 0.12s ease, color 0.12s ease !important;
+  }
+  aside.v4-master-snb .v4-snb-item:hover {
+    background: rgba(255,255,255,.06) !important;
+    color: #ffffff !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active {
+    background: rgba(37,99,235,.22) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(96,165,250,.45) !important;
+  }
+  aside.v4-master-snb .v4-snb-item-title {
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
+    font-weight: 800 !important;
+  }
+  aside.v4-master-snb .v4-snb-item-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    font-size: 10px !important;
+    line-height: 14px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    background: rgba(15,23,42,.65) !important;
+    padding: 2px 6px !important;
+    border-radius: 5px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    letter-spacing: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
+    color: #93c5fd !important;
+    background: rgba(30,58,138,.7) !important;
+  }
+  aside.v4-master-snb .v4-snb-footer {
+    margin-top: auto !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(148,163,184,.14) !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box {
+    background: rgba(15,23,42,.55) !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 10px !important;
+    padding: 10px 11px !important;
+    font-size: 11px !important;
+    line-height: 16px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    margin: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box strong {
+    color: #e2e8f0 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="v4-master-snb" aria-label="산준모 정산 백오피스 표준 사이드바">
+  <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" title="전체 업무 플로우 가이드로 이동">
+    <div class="v4-snb-brand-title">산준모 정산시스템</div>
+    <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
+  </div>
+  <div class="v4-snb-group-label">0단계 · 전체 업무 플로우 안내</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'">
+    <span class="v4-snb-item-title">전체 업무 플로우 가이드</span>
+    <span class="v4-snb-item-code">GUIDE</span>
+  </button>
+  <div class="v4-snb-group-label">1단계 · 계약 · 상품 · 매핑 설정</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-001_baseline.html'">
+    <span class="v4-snb-item-title">권리자 계약 원장</span>
+    <span class="v4-snb-item-code">ADMN-INST-001</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-007_baseline.html'">
+    <span class="v4-snb-item-title">수취인 분할 관리</span>
+    <span class="v4-snb-item-code">ADMN-SETT-007</span>
+  </button>
+  <button type="button" class="v4-snb-item active" onclick="window.location.href='ADMN-BOOK-001_baseline.html'">
+    <span class="v4-snb-item-title">도서 공급 원장</span>
+    <span class="v4-snb-item-code">ADMN-BOOK-001</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-001_baseline.html'">
+    <span class="v4-snb-item-title">상품별 권리자 매핑</span>
+    <span class="v4-snb-item-code">ADMN-SETT-001</span>
+  </button>
+  <div class="v4-snb-group-label">2단계 · 월마감 전 검증 (Gate)</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-004_baseline.html'">
+    <span class="v4-snb-item-title">PG 정산 원장 대사</span>
+    <span class="v4-snb-item-code">ADMN-SETT-004</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-002_baseline.html'">
+    <span class="v4-snb-item-title">약정금 마일스톤 검수</span>
+    <span class="v4-snb-item-code">ADMN-INST-002</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-006_baseline.html'">
+    <span class="v4-snb-item-title">합격 환급반 관리</span>
+    <span class="v4-snb-item-code">ADMN-SETT-006</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-008_baseline.html'">
+    <span class="v4-snb-item-title">사업자등록 확인 이력</span>
+    <span class="v4-snb-item-code">ADMN-SETT-008</span>
+  </button>
+  <div class="v4-snb-group-label">3단계 · 월간 정산 · 집행 · 조회</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-002_baseline.html'">
+    <span class="v4-snb-item-title">월간 정산 및 집행</span>
+    <span class="v4-snb-item-code">ADMN-SETT-002</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-005_baseline.html'">
+    <span class="v4-snb-item-title">정산 수동 조정</span>
+    <span class="v4-snb-item-code">ADMN-SETT-005</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-009_baseline.html'">
+    <span class="v4-snb-item-title">내부 정산 조회 (전용)</span>
+    <span class="v4-snb-item-code">ADMN-SETT-009</span>
+  </button>
+  <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-004_baseline.html'">
+    <span class="v4-snb-item-title">민감 정보 열람 통제</span>
+    <span class="v4-snb-item-code">ADMN-USER-004</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-008_baseline.html'">
+    <span class="v4-snb-item-title">정산 감사 로그</span>
+    <span class="v4-snb-item-code">ADMN-CONF-008</span>
+  </button>
+  <div class="v4-snb-footer">
+    <div class="v4-snb-footer-box">
+      <strong>SSOT 정합성 기준</strong><br/>
+      01 비즈니스 · 02 연산/세무<br/>
+      03 화면/연동 · 04 QA 테스트
+    </div>
+  </div>
+</aside>
+
+  <main class="content">
+    <div class="top">
+      <div>
+        <h1>[ADMN-BOOK-001] 도서 공급 원장 <span class="chip info">Baseline</span></h1>
+        <div class="sub">도서 4대 공급 형태(`book_supply_type`), 자사 저작권 보유(`own_copyright_yn`), 도서 정가 이력(`book_price_history`), 가채번(`BK-REQ-*`) SKU 연결 및 매입처(`suppliers`)를 통합 관리합니다.</div>
+      </div>
+      <div class="tools">
+        <button class="btn" type="button" data-action="goList" id="topBackBtn" hidden>← 도서 공급 목록으로</button>
+        <button class="btn pr" type="button" data-action="newBookModal">+ 신규 도서 SKU 등록</button>
+      </div>
+    </div>
+
+    <div class="ptabs" role="tablist">
+      <button class="on" data-tab="list" id="tabBtnList" type="button">1. 도서 공급 원장 목록 (가채번 · 4대 공급형태)</button>
+      <button data-tab="detail" id="tabBtnDetail" type="button">2. 선택 도서 상세 · 정가 이력 · 위탁 회수 <span class="chip info" id="tabDetailLabel">PROD-BK-1001</span></button>
+      <button data-tab="suppliers" id="tabBtnSuppliers" type="button">3. 도서 매입처 마스터 (suppliers · AP 분리)</button>
+      <button data-tab="audit" id="tabBtnAudit" type="button">4. 공급형태 · 정가 변경 감사 이력</button>
+    </div>
+
+    <div class="main">
+      <!-- ==================== [탭 1] 도서 공급 원장 목록 ==================== -->
+      <div id="view-list">
+        <div class="kpi-grid" id="bookKpiGrid"></div>
+
+        <!-- 권리자 계약 원장(ADMN-INST-001)에서 넘어온 미출간 가채번 대기 큐 -->
+        <section class="card" id="preCodeCard">
+          <div class="cardhead">
+            <div>
+              <h2>📌 출간 대기 인세 계약 가채번 큐 (`BK-REQ-YYYY-SEQ` → 정식 도서 SKU 바인딩 대기)</h2>
+              <div class="note">권리자 계약 원장(ADMN-INST-001)에서 선계약으로 발급된 임시 도서 관리코드입니다(5.1·6.2절). 출간 시 <b>[정식 도서 SKU 생성 · 연결]</b>을 실행하세요.</div>
+            </div>
+          </div>
+          <div class="tablewrap" id="preCodeTableWrap"></div>
+        </section>
+
+        <!-- 정식 도서 마스터(book_master) 목록 -->
+        <section class="card">
+          <div class="cardhead">
+            <div>
+              <h2>정식 도서 공급 마스터 목록 (`book_master`)</h2>
+              <div class="note">정산 대상 여부(`settlement_required_yn`)는 공급 형태에서 자동 파생됩니다. 판매 이력이 존재하는 도서는 공급 형태를 변경할 수 없습니다(`book_supply_type_change_allowed_yn = false`, 6.1절).</div>
+            </div>
+          </div>
+
+          <div class="row c4" style="margin-bottom:12px">
+            <div>
+              <label class="lbl" for="fSupply">도서 공급 형태 (book_supply_type)</label>
+              <select class="fc" id="fSupply">
+                <option value="ALL">전체 공급 형태 (4대 분류)</option>
+                <option value="OWN_PUBLISHED">자사 발행 (OWN_PUBLISHED)</option>
+                <option value="OWN_COPYRIGHT">└ 자사 저작권 보유 (own_copyright_yn = true)</option>
+                <option value="PURCHASED_RESALE">매입 재판매 · 사입 (PURCHASED_RESALE)</option>
+                <option value="CONSIGNMENT">위탁 판매 (CONSIGNMENT)</option>
+                <option value="BUNDLED">강좌 부속 · 사은품 (BUNDLED)</option>
+              </select>
+            </div>
+            <div>
+              <label class="lbl" for="fSettle">정산 파이프라인 인입 여부</label>
+              <select class="fc" id="fSettle">
+                <option value="ALL">전체</option>
+                <option value="YES">정산 대상 (Pipeline 2.1 / 2.2 / 5.1)</option>
+                <option value="NO">정산 비인입 (AP 매입채무 / 판촉비)</option>
+              </select>
+            </div>
+            <div style="grid-column:span 2">
+              <label class="lbl" for="fSearch">도서명 / SKU / 가채번 코드 / ISBN 검색</label>
+              <input class="fc" id="fSearch" type="text" placeholder="예: PROD-BK, BK-REQ, 정종대, 위탁, 97911...">
+            </div>
+          </div>
+
+          <div class="tablewrap" id="bookListTableWrap"></div>
+        </section>
+      </div>
+
+      <!-- ==================== [탭 2] 선택 도서 상세 · 정가 이력 · 위탁 회수 ==================== -->
+      <div id="view-detail" hidden>
+        <div class="breadcrumb">
+          <div class="inline">
+            <button class="btn sm" type="button" data-action="goList">← 도서 목록으로 돌아가기</button>
+            <b id="detailTitleBanner" style="font-size:14px"></b>
+            <span id="detailPipelineChip"></span>
+          </div>
+          <div class="inline">
+            <span class="sub">빠른 도서 전환:</span>
+            <select class="fc" id="quickBookSelect" style="width:320px;height:30px"></select>
+            <button class="btn sm" type="button" data-action="goSett001">권리자 지분 매핑(ADMN-SETT-001) 이동 →</button>
+          </div>
+        </div>
+
+        <!-- 섹션 1: 도서 기본 정보 및 공급 형태 (6.1절) -->
+        <section class="term">
+          <header>
+            <b>[Book-CORE] 도서 기본 식별 정보 · 4대 공급 형태 및 정산 파생 규칙 (6.1절)</b>
+            <span class="chip info" id="salesHistoryBadge"></span>
+          </header>
+          <div class="body">
+            <div class="row c4">
+              <div>
+                <label class="lbl" for="d_sku">정식 도서 SKU</label>
+                <input class="fc" id="d_sku" readonly>
+              </div>
+              <div>
+                <label class="lbl" for="d_preCode">연결된 인세 가채번 코드</label>
+                <input class="fc" id="d_preCode" readonly>
+              </div>
+              <div>
+                <label class="lbl" for="d_isbn">ISBN-13</label>
+                <input class="fc" id="d_isbn" data-book-field>
+              </div>
+              <div>
+                <label class="lbl" for="d_pubDate">초판 발행일 (재정가 12개월 기산점)</label>
+                <input class="fc" id="d_pubDate" type="date" data-book-field>
+              </div>
+            </div>
+
+            <div class="row c3">
+              <div style="grid-column:span 2">
+                <label class="lbl" for="d_name">도서명</label>
+                <input class="fc" id="d_name" data-book-field>
+              </div>
+              <div>
+                <label class="lbl" for="d_supplyType">도서 공급 형태 (book_supply_type)</label>
+                <select class="fc" id="d_supplyType" data-book-field>
+                  <option value="OWN_PUBLISHED">자사 발행 (OWN_PUBLISHED)</option>
+                  <option value="PURCHASED_RESALE">매입 재판매 · 사입 (PURCHASED_RESALE)</option>
+                  <option value="CONSIGNMENT">위탁 판매 (CONSIGNMENT)</option>
+                  <option value="BUNDLED">부속 · 사은품 (BUNDLED)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row c4" id="ownCopyrightRow">
+              <div>
+                <label class="lbl" for="d_ownCopyright">자사 저작권 보유 여부 (own_copyright_yn)</label>
+                <select class="fc" id="d_ownCopyright" data-book-field>
+                  <option value="false">아니오 (외부 저작권자 인세 대상 · false)</option>
+                  <option value="true">예 (당사 저작권 100% 보유 · true)</option>
+                </select>
+              </div>
+              <div>
+                <label class="lbl">정산 대상 파생 (settlement_required_yn)</label>
+                <div class="eff" id="d_settleRequiredView">true</div>
+              </div>
+              <div>
+                <label class="lbl">가격 결정 주체 (price_owner)</label>
+                <div class="eff" id="d_priceOwnerView">당사 (SELF)</div>
+              </div>
+              <div>
+                <label class="lbl">도서정가제 할인/적립 한도</label>
+                <div class="eff">할인 0% · 적립 0% (1차 오픈)</div>
+              </div>
+            </div>
+
+            <!-- 공급 형태별 자동 파생 회계·세무·파이프라인 요약 -->
+            <div class="summary" id="derivedPolicySummary"></div>
+            <div id="supplyPolicyAlert" class="alert ok"></div>
+          </div>
+        </section>
+
+        <!-- 섹션 2: 도서 정가 이력 (book_price_history) 및 재정가 12개월 통제 (6.2절) -->
+        <section class="term">
+          <header>
+            <div>
+              <b>[Book-PRICE] 도서 정가 이력 (`book_price_history`) 및 재정가 통제 (출판법 제22조 제2항)</b>
+              <div class="note">인세 및 위탁 정산 시 판매 확정일이 속한 정가 버전을 스냅샷 바인딩합니다. 발행일로부터 <b>12개월(`book_reprice_min_months = 12`)</b> 미경과 도서 및 위탁 도서(`price_owner = CONSIGNOR`)는 정가 변경을 차단합니다.</div>
+            </div>
+            <button class="btn pr" id="repriceBtn" type="button" data-action="openRepriceModal">+ 재정가(정가 변경) 이력 등록</button>
+          </header>
+          <div class="body">
+            <div id="repriceBlockNotice" class="alert warn" hidden></div>
+            <div class="tablewrap" id="priceHistoryTableWrap"></div>
+          </div>
+        </section>
+
+        <!-- 섹션 3: 사입 도서 매입처(AP) 연결 섹션 (PURCHASED_RESALE 전용) -->
+        <section class="term" id="purchasedSection" hidden>
+          <header>
+            <b>[Book-AP] 사입 도서 매입처(`suppliers`) 및 원가 계정 설정 (6.1절 · 2.4절)</b>
+            <span class="chip warn">정산 엔진 비인입 · 회계 AP 경로 분리</span>
+          </header>
+          <div class="body">
+            <div class="row c3">
+              <div>
+                <label class="lbl" for="d_supplierId">연결 매입처 (suppliers 테이블)</label>
+                <select class="fc" id="d_supplierId" data-book-field></select>
+              </div>
+              <div>
+                <label class="lbl" for="d_purchaseCost">권당 매입 단가 · 원 (면세 계산서 수취)</label>
+                <input class="fc" id="d_purchaseCost" type="number" min="0" data-book-field>
+              </div>
+              <div>
+                <label class="lbl">원가 계정 구분 (cost_account_type)</label>
+                <div class="eff">재고자산 취득 (INVENTORY_PURCHASE)</div>
+              </div>
+            </div>
+            <div class="fixed">매입처 대금은 월간 정산 및 집행(ADMN-SETT-002)의 펌뱅킹 리스트에 절대 포함하지 않으며 회계 AP 경로로 지급합니다. 증빙은 매입처로부터 전자계산서를 수취합니다(채널 4).</div>
+          </div>
+        </section>
+
+        <!-- 섹션 4: 위탁 도서 수수료 및 반품 실물 회수 추적 (CONSIGNMENT 전용, 6.6절) -->
+        <section class="term" id="consignmentSection" hidden>
+          <header>
+            <b>[Book-CONSIGN] 위탁 도서 판매 조건 및 반품 실물 회수 상태 추적 (`consignment_return_status`, 6.6절)</b>
+            <span class="chip info">위탁 도서 판매대금 정산 (Pipeline 2.2)</span>
+          </header>
+          <div class="body">
+            <div class="row c4">
+              <div>
+                <label class="lbl">위탁 권리자 (CONSIGNOR)</label>
+                <div class="eff" id="d_consignorView">한국안전출판 위탁상사 (RH-0044)</div>
+              </div>
+              <div>
+                <label class="lbl">위탁 수수료 수취 방식</label>
+                <div class="eff" id="d_consignFeeTypeView">차감 후 지급 (NET_DEDUCT)</div>
+              </div>
+              <div>
+                <label class="lbl">위탁 수수료율 (계약 원장 연동)</label>
+                <div class="eff" id="d_consignRateView">25.00% (수수료 VAT 10% 별도)</div>
+              </div>
+              <div>
+                <label class="lbl">재고 회수 기한 · 담당</label>
+                <div class="eff">반품 승인 후 14일 · 물류운영팀</div>
+              </div>
+            </div>
+            <div class="cardhead" style="margin-top:14px">
+              <h3>위탁 도서 반품 실물 회수 추적 목록 (금액 차감과 실물 회수 분리 관리)</h3>
+              <button class="btn sm" type="button" data-action="addConsignReturn">+ 반품 회수 추적 건 시연 추가</button>
+            </div>
+            <div class="tablewrap" id="consignReturnTableWrap"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ==================== [탭 3] 도서 매입처 마스터 (suppliers) ==================== -->
+      <div id="view-suppliers" hidden>
+        <section class="card">
+          <div class="cardhead">
+            <div>
+              <h2>거래처(매입처) 마스터 (`suppliers` 테이블 — 권리자 테이블과 물리적 분리, 2.4절)</h2>
+              <div class="note">매입처를 권리자(`rights_holder`) 테이블에 넣으면 지급명세서 쿼리와 마스터 계약 선행 스캔이 오염되므로 별도 테이블로 분리 관리합니다. 폐업 사업자로부터 계산서를 수취할 수 없으므로 발주 전 국세청 상태조회를 수행합니다.</div>
+            </div>
+            <button class="btn pr" type="button" data-action="newSupplierModal">+ 신규 매입처(supplier) 등록</button>
+          </div>
+          <div class="tablewrap" id="supplierTableWrap"></div>
+        </section>
+      </div>
+
+      <!-- ==================== [탭 4] 감사 로그 ==================== -->
+      <div id="view-audit" hidden>
+        <section class="card">
+          <div class="cardhead">
+            <h2>도서 공급 원장 변경 이력 · 시스템 감사 로그 (ADMN-CONF-008 연동)</h2>
+          </div>
+          <div class="tablewrap" id="auditTableWrap"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- 하단 고정 검증 게이트 바 -->
+<div class="savebar">
+  <div>
+    <div id="gate" aria-live="polite"></div>
+    <div id="gateDetails"></div>
+    <div class="note" id="savedAt">도서 공급 형태 및 정가 이력은 주문 스냅샷(`book_supply_type_snapshot`)의 기준이 됩니다.</div>
+  </div>
+  <div class="inline" style="flex-shrink:0">
+    <button class="btn pr" id="saveBookBtn" type="button" data-action="saveBook">도서 공급 원장 저장</button>
+  </div>
+</div>
+
+<!-- 공통 모달 -->
+<div id="modalBack" class="modalback" hidden>
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <header>
+      <h2 id="modalTitle"></h2>
+      <button class="close" type="button" data-action="closeModal" aria-label="닫기">×</button>
+    </header>
+    <form id="modalForm">
+      <div class="modalbody">
+        <div id="modalContent"></div>
+        <div id="modalError" class="modalerror" role="alert" hidden></div>
+      </div>
+      <footer>
+        <span class="note">ADMN-BOOK-001 화면설계 프로토타입</span>
+        <div class="inline">
+          <button class="btn" type="button" data-action="closeModal">닫기</button>
+          <button class="btn pr" id="modalSubmit" type="submit">반영</button>
+        </div>
+      </footer>
+    </form>
+  </section>
+</div>
+<div id="toast" role="status" hidden></div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money = v => Number(v || 0).toLocaleString("ko-KR") + "원";
+const stamp = () => new Date().toLocaleString("ko-KR");
+
+const supplyTypeNames = {
+  OWN_PUBLISHED:"자사 발행 (OWN_PUBLISHED)",
+  PURCHASED_RESALE:"매입 재판매 (PURCHASED_RESALE)",
+  CONSIGNMENT:"위탁 판매 (CONSIGNMENT)",
+  BUNDLED:"강좌 부속 · 사은품 (BUNDLED)"
+};
+
+const state = {
+  seq:500,
+  activeTab:"list",
+  selectedSku:"PROD-BK-1001",
+  dirty:false,
+  savedAt:null,
+  /* 권리자 계약 원장(ADMN-INST-001)에서 선발급된 출간 전 가채번 대기 큐 */
+  preCodes:[
+    {
+      code:"BK-REQ-2026-0002",
+      contractId:"CT-2026-0412",
+      holderName:"산준교육 콘텐츠 주식회사 (김예시)",
+      title:"산업안전 실전 문제집 개정판",
+      expectedDate:"2026-12-01",
+      royaltyRate:10,
+      royaltyBasis:"LIST_PRICE",
+      linkedSku:""
+    }
+  ],
+  /* 매입처 마스터 (suppliers 테이블) */
+  suppliers:[
+    {id:"SUPP-001", name:"주식회사 한빛총판도매", bizNo:"105-86-12345", ceo:"박도매", openDate:"2019-03-15", taxType:"부가가치세 일반과세자", bizStatus:"계속사업자", checkedAt:"2026-10-05", account:"국민 441-01-****", terms:"월말 마감 익월 15일 AP 지급", costType:"INVENTORY_PURCHASE"},
+    {id:"SUPP-002", name:"안전기술서적 총판", bizNo:"211-09-54321", ceo:"최서적", openDate:"2021-07-01", taxType:"부가가치세 면세사업자", bizStatus:"계속사업자", checkedAt:"2026-10-02", account:"신한 110-33-****", terms:"월말 마감 익월 10일 AP 지급", costType:"INVENTORY_PURCHASE"}
+  ],
+  /* 정식 도서 마스터 (book_master) */
+  books:[
+    {
+      sku:"PROD-BK-1001",
+      preCode:"BK-REQ-2026-0001",
+      isbn:"979-11-90001-01-4",
+      name:"산업안전 핵심 이론 교재 (공동저자 인세 대상)",
+      supplyType:"OWN_PUBLISHED",
+      ownCopyright:false,
+      pubDate:"2024-10-01",
+      salesCount:1420,
+      supplierId:"",
+      purchaseCost:0,
+      supportNote:"개발지원금(SUP-2026-001 · 15%) 연결",
+      priceHistory:[
+        {ver:1, price:25000, start:"2024-10-01", end:"2025-10-31", owner:"SELF", reason:"초판 발행 정가"},
+        {ver:2, price:28000, start:"2025-11-01", end:"2099-12-31", owner:"SELF", reason:"발행 12개월 경과 개정 증보판 재정가"}
+      ],
+      consignReturns:[]
+    },
+    {
+      sku:"PROD-BK-1004",
+      preCode:"해당 없음 (자사 저작권 100%)",
+      isbn:"979-11-90001-04-5",
+      name:"정종대 산업안전 필기 기출문제집 (own_copyright_yn=true · 정종대 지원금 15% 연동)",
+      supplyType:"OWN_PUBLISHED",
+      ownCopyright:true,
+      pubDate:"2025-01-10",
+      salesCount:980,
+      supplierId:"",
+      purchaseCost:0,
+      supportNote:"정종대 강사 매출연동 지원금(Pipeline 5.1 · 15% · 상계 허용 CONDITIONAL) 모수 인입",
+      priceHistory:[
+        {ver:1, price:30000, start:"2025-01-10", end:"2099-12-31", owner:"SELF", reason:"초판 발행 정가"}
+      ],
+      consignReturns:[]
+    },
+    {
+      sku:"PROD-BK-1002",
+      preCode:"BK-REQ-2026-0003",
+      isbn:"979-11-90001-02-1",
+      name:"[신규 출간] 2027 산업안전 실전 모의고사 문제집 (판매이력 0건 · 공급형태 변경 가능)",
+      supplyType:"OWN_PUBLISHED",
+      ownCopyright:false,
+      pubDate:"2026-09-15",
+      salesCount:0,
+      supplierId:"",
+      purchaseCost:0,
+      supportNote:"없음",
+      priceHistory:[
+        {ver:1, price:22000, start:"2026-09-15", end:"2099-12-31", owner:"SELF", reason:"신규 출간 초판 정가"}
+      ],
+      consignReturns:[]
+    },
+    {
+      sku:"PROD-BK-2001",
+      preCode:"해당 없음 (사입 도서)",
+      isbn:"978-89-70002-11-9",
+      name:"외부 출판사 사입 교재 (산업안전 법령집)",
+      supplyType:"PURCHASED_RESALE",
+      ownCopyright:false,
+      pubDate:"2025-02-01",
+      salesCount:540,
+      supplierId:"SUPP-001",
+      purchaseCost:12000,
+      supportNote:"정산 비대상 (매입채무 AP 분리)",
+      priceHistory:[
+        {ver:1, price:18000, start:"2025-02-01", end:"2099-12-31", owner:"CONSIGNOR", reason:"발행 출판사 표시 정가"}
+      ],
+      consignReturns:[]
+    },
+    {
+      sku:"PROD-BK-3001",
+      preCode:"해당 없음 (위탁 도서)",
+      isbn:"979-11-88003-22-0",
+      name:"외부 출판사 위탁 교재 (한국안전출판 기출해설집)",
+      supplyType:"CONSIGNMENT",
+      ownCopyright:false,
+      pubDate:"2025-03-10",
+      salesCount:310,
+      supplierId:"",
+      purchaseCost:0,
+      supportNote:"위탁 판매 정산 (Pipeline 2.2 · 수수료 25%)",
+      priceHistory:[
+        {ver:1, price:25000, start:"2025-03-10", end:"2099-12-31", owner:"CONSIGNOR", reason:"위탁 출판사 지정 정가 (당사 변경 불가)"}
+      ],
+      consignReturns:[
+        {id:"RET-001", orderItemId:"ORD-202610-0891", refundMonth:"2026-10", qty:5, amountAdjust:-90625, status:"WAITING_RETURN", deadline:"2026-10-24", owner:"물류운영팀 김물류"},
+        {id:"RET-002", orderItemId:"ORD-202609-0312", refundMonth:"2026-09", qty:2, amountAdjust:-36250, status:"RETURNED", deadline:"2026-09-28", owner:"물류운영팀 김물류"}
+      ]
+    },
+    {
+      sku:"PROD-BK-4001",
+      preCode:"해당 없음 (사은품)",
+      isbn:"비매품 (강좌 부속)",
+      name:"핵심 암기 공식 포켓북 (패키지 수강생 무료 증정 부속 교재)",
+      supplyType:"BUNDLED",
+      ownCopyright:true,
+      pubDate:"2025-01-01",
+      salesCount:2100,
+      supplierId:"",
+      purchaseCost:0,
+      supportNote:"정산 비대상 (판촉비 회계 처리)",
+      priceHistory:[
+        {ver:1, price:0, start:"2025-01-01", end:"2099-12-31", owner:"SELF", reason:"강좌 부속 사은품 (판매가 0원)"}
+      ],
+      consignReturns:[]
+    }
+  ],
+  audit:[
+    {time:"2026. 10. 14. 오전 10:00", actor:"시스템", target:"PROD-BK-1004", event:"자사 저작권 도서(own_copyright_yn=true) Pipeline 5.1 연동 확인", detail:"자사 발행(OWN_PUBLISHED) + 자사 저작권(true) → 인세(2.1)는 Bypass하되 외부 강사 개발지원금(Pipeline 5.1) 모수로 정상 인입"}
+  ]
+};
+
+let modalHandler = null;
+let toastTimer = null;
+
+function toast(msg){
+  $("toast").textContent = msg;
+  $("toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> $("toast").hidden = true, 4200);
+}
+
+function logAudit(target, event, detail){
+  state.audit.unshift({time:stamp(), actor:"도서 MD · 정산 운영자", target, event, detail});
+}
+
+function currentBook(){
+  return state.books.find(b => b.sku === state.selectedSku) || state.books[0];
+}
+
+function currentPrice(book){
+  return book.priceHistory[book.priceHistory.length - 1]?.price ?? 0;
+}
+
+/* 발행일로부터 12개월 경과 여부 판정 (출판법 제22조 제2항, book_reprice_min_months = 12) */
+function monthsSincePub(pubDateStr){
+  if(!pubDateStr) return 0;
+  const [y,m] = pubDateStr.split("-").map(Number);
+  return (2026 - y) * 12 + (10 - m); // 기준월 2026-10 기준
+}
+
+/* 도서 공급 형태별 파생 속성 계산 (6.1절) */
+function deriveBookPolicy(b){
+  const isOwn = b.supplyType === "OWN_PUBLISHED";
+  const isConsign = b.supplyType === "CONSIGNMENT";
+  const isPurchased = b.supplyType === "PURCHASED_RESALE";
+  const settlementRequired = isOwn || isConsign;
+  const priceOwner = isOwn || b.supplyType === "BUNDLED" ? "SELF" : "CONSIGNOR";
+
+  let pipelineText = "";
+  let accountingText = "";
+  let taxEvidenceText = "";
+  let policyNotice = "";
+
+  if(isOwn && !b.ownCopyright){
+    pipelineText = "자사 발행 도서 인세 (Pipeline 2.1)";
+    accountingText = "매출 총액 인식 · 1계층 저자 지분 100% 필수";
+    taxEvidenceText = "저자 지위별 원천세(3.3%) 또는 과세 세금계산서 (TX-03/07/09)";
+    policyNotice = "외부 저작권자가 존재하는 자사 발행 도서입니다. 판매 확정(배송완료 D+7) 부수를 기준으로 Pipeline 2.1 인세를 산출합니다.";
+  } else if(isOwn && b.ownCopyright){
+    pipelineText = "인세 Bypass · 개발지원금(Pipeline 5.1) 모수 인입 허용";
+    accountingText = "매출 총액 인식 · 자사 권리자(엘캠퍼스) 100% 자동 고정";
+    taxEvidenceText = "도서 자체 인세 지급 없음 (외부 강사 지원금 매핑 시 TX-02/07 적용)";
+    policyNotice = "[v4.0.0 정합화 (6.1절, D-15·D-16)] 자사 저작권 보유 도서(own_copyright_yn = true)이므로 저작자 인세(Pipeline 2.1) 지급은 발생하지 않으나, 외부 강사(예: 정종대 강사)의 매출연동 개발지원금(Pipeline 5.1) 약정 대상으로 지정된 경우 확정 판매 기준금이 지원금 모수로 정상 인입됩니다.";
+  } else if(isPurchased){
+    pipelineText = "정산 엔진 비인입 (외부 지급 0원)";
+    accountingText = "매출 총액 인식 · 재고자산 매입원가(INVENTORY_PURCHASE) · 회계 AP 지급";
+    taxEvidenceText = "매입처로부터 면세 전자계산서 수취 (TX-11 · 정정 채널 4)";
+    policyNotice = "매입 재판매(PURCHASED_RESALE) 도서는 권리자 정산 파이프라인에 절대 인입하지 않으며, 매입 대금은 회계 AP 경로로 지급합니다.";
+  } else if(isConsign){
+    pipelineText = "위탁 도서 판매대금 정산 (Pipeline 2.2)";
+    accountingText = "위탁자 1인 100% 직접 귀속 (MMG·지원금·선급금·수취인분할 전면 격리)";
+    taxEvidenceText = "도서 판매분 계산서 수취(TX-11) + 당사 위탁수수료 과세 세금계산서 발행";
+    policyNotice = "위탁 판매(CONSIGNMENT) 도서의 소유권과 정가 결정권(price_owner = CONSIGNOR)은 위탁자에게 있습니다. 당사 백오피스에서 임의로 정가를 변경할 수 없습니다.";
+  } else {
+    pipelineText = "정산 엔진 비인입 (강좌 부속 사은품)";
+    accountingText = "별도 도서 매출 미인식 · 판촉비(원가) 회계 처리";
+    taxEvidenceText = "해당 없음";
+    policyNotice = "강좌 패키지에 무상 부속되는 사은품(BUNDLED) 도서로, 정산 엔진 인입 및 지분 100% 검증 대상에서 제외됩니다.";
+  }
+
+  return {settlementRequired, priceOwner, pipelineText, accountingText, taxEvidenceText, policyNotice};
+}
+
+function switchTab(tab){
+  state.activeTab = tab;
+  ["list","detail","suppliers","audit"].forEach(t => {
+    $("view-"+t).hidden = t !== tab;
+    $("tabBtn"+t.charAt(0).toUpperCase()+t.slice(1)).classList.toggle("on", t === tab);
+  });
+  $("topBackBtn").hidden = tab === "list";
+  refresh();
+}
+
+function openBookDetail(sku){
+  state.selectedSku = sku;
+  switchTab("detail");
+}
+
+function refresh(){
+  renderListView();
+  renderDetailView();
+  renderSuppliersView();
+  renderAuditView();
+  renderGate();
+}
+
+/* [탭 1] 목록 렌더링 */
+function renderListView(){
+  const unlinkedPreCount = state.preCodes.filter(p => !p.linkedSku).length;
+  const cntOwn = state.books.filter(b => b.supplyType === "OWN_PUBLISHED").length;
+  const cntPurchased = state.books.filter(b => b.supplyType === "PURCHASED_RESALE").length;
+  const cntConsign = state.books.filter(b => b.supplyType === "CONSIGNMENT").length;
+  const cntBundled = state.books.filter(b => b.supplyType === "BUNDLED").length;
+
+  const curSupply = $("fSupply").value;
+  $("bookKpiGrid").innerHTML = `
+    <button type="button" class="kpi-card ${curSupply==="ALL"?"active":""}" data-kpi="ALL">
+      <div class="k-title"><span>전체 정식 도서 SKU</span><span class="chip">전체</span></div>
+      <div class="k-num">${state.books.length}종</div>
+      <div class="k-sub">출간 대기 가채번 ${unlinkedPreCount}건 별도</div>
+    </button>
+    <button type="button" class="kpi-card ${curSupply==="OWN_PUBLISHED"?"active":""}" data-kpi="OWN_PUBLISHED">
+      <div class="k-title"><span>자사 발행 (OWN_PUBLISHED)</span><span class="chip info">P2.1 / P5.1</span></div>
+      <div class="k-num pos">${cntOwn}종</div>
+      <div class="k-sub">인세 대상 및 자사저작권 도서</div>
+    </button>
+    <button type="button" class="kpi-card ${curSupply==="PURCHASED_RESALE"?"active":""}" data-kpi="PURCHASED_RESALE">
+      <div class="k-title"><span>매입 재판매 (사입)</span><span class="chip warn">AP 분리</span></div>
+      <div class="k-num">${cntPurchased}종</div>
+      <div class="k-sub">정산 비인입 · 매입처 계산서 수취</div>
+    </button>
+    <button type="button" class="kpi-card ${curSupply==="CONSIGNMENT"?"active":""}" data-kpi="CONSIGNMENT">
+      <div class="k-title"><span>위탁 판매 (CONSIGNMENT)</span><span class="chip info">P2.2</span></div>
+      <div class="k-num">${cntConsign}종</div>
+      <div class="k-sub">위탁 수수료 차감/청구 · 반품 추적</div>
+    </button>
+    <button type="button" class="kpi-card ${curSupply==="BUNDLED"?"active":""}" data-kpi="BUNDLED">
+      <div class="k-title"><span>부속 · 사은품 (BUNDLED)</span><span class="chip">비인입</span></div>
+      <div class="k-num">${cntBundled}종</div>
+      <div class="k-sub">강좌 부속 · 판촉비 처리</div>
+    </button>
+  `;
+
+  /* 가채번 대기 큐 테이블 */
+  $("preCodeTableWrap").innerHTML = `<table>
+    <thead><tr>
+      <th>상태</th><th>임시 도서 관리코드 (가채번)</th><th>발급 계약 · 권리자</th>
+      <th>계약상 가칭 저서명</th><th>출간 예정일</th><th>계약 인세 조건</th><th>출간 SKU 바인딩 작업</th>
+    </tr></thead>
+    <tbody>${state.preCodes.map(p => `
+      <tr class="${p.linkedSku?"":"row-pending"}">
+        <td>${p.linkedSku ? `<span class="chip ok">연결 완료 (${esc(p.linkedSku)})</span>` : '<span class="chip warn">🚨 출간 대기 · SKU 미연결</span>'}</td>
+        <td><b>${esc(p.code)}</b></td>
+        <td>${esc(p.holderName)}<div class="note">${esc(p.contractId)}</div></td>
+        <td><b>${esc(p.title)}</b></td>
+        <td>${esc(p.expectedDate)}</td>
+        <td>인세 ${p.royaltyRate}% (${p.royaltyBasis==="LIST_PRICE"?"정가 기준":"실구매가 기준"})</td>
+        <td class="nowrap">
+          ${p.linkedSku
+            ? `<button type="button" class="btn sm" data-open-sku="${esc(p.linkedSku)}">연결된 SKU 보기 →</button>`
+            : `<button type="button" class="btn sm pr" data-action="convertPreCode" data-code="${esc(p.code)}">정식 도서 SKU 생성 · 연결 →</button>`}
+        </td>
+      </tr>
+    `).join("")}</tbody>
+  </table>`;
+
+  /* 정식 도서 필터링 */
+  const fSettle = $("fSettle").value;
+  const kw = $("fSearch").value.trim().toLowerCase();
+
+  const filtered = state.books.filter(b => {
+    const pol = deriveBookPolicy(b);
+    if(curSupply === "OWN_PUBLISHED" && b.supplyType !== "OWN_PUBLISHED") return false;
+    if(curSupply === "OWN_COPYRIGHT" && !(b.supplyType === "OWN_PUBLISHED" && b.ownCopyright)) return false;
+    if(curSupply === "PURCHASED_RESALE" && b.supplyType !== "PURCHASED_RESALE") return false;
+    if(curSupply === "CONSIGNMENT" && b.supplyType !== "CONSIGNMENT") return false;
+    if(curSupply === "BUNDLED" && b.supplyType !== "BUNDLED") return false;
+    if(fSettle === "YES" && !pol.settlementRequired) return false;
+    if(fSettle === "NO" && pol.settlementRequired) return false;
+    if(kw){
+      const hay = `${b.sku} ${b.preCode} ${b.isbn} ${b.name} ${b.supportNote}`.toLowerCase();
+      if(!hay.includes(kw)) return false;
+    }
+    return true;
+  });
+
+  $("bookListTableWrap").innerHTML = `<table>
+    <thead><tr>
+      <th>도서 SKU / 가채번</th>
+      <th>도서명 / ISBN</th>
+      <th>공급 형태 (book_supply_type)</th>
+      <th>자사 저작권 (own_copyright_yn)</th>
+      <th class="num">현행 정가</th>
+      <th>정산 대상 (settlement_required_yn)</th>
+      <th class="num">누적 확정 판매</th>
+      <th>공급형태 변경 가능</th>
+      <th>관리</th>
+    </tr></thead>
+    <tbody>${filtered.map(b => {
+      const pol = deriveBookPolicy(b);
+      const canChangeSupply = b.salesCount === 0;
+      return `<tr class="row-hover" data-open-sku="${esc(b.sku)}">
+        <td><b>${esc(b.sku)}</b><div class="note">${esc(b.preCode)}</div></td>
+        <td><b>${esc(b.name)}</b><div class="note">ISBN: ${esc(b.isbn)} · 발행일 ${esc(b.pubDate)}</div></td>
+        <td><span class="chip info">${esc(supplyTypeNames[b.supplyType])}</span></td>
+        <td>${b.supplyType==="OWN_PUBLISHED" ? (b.ownCopyright ? '<span class="chip tx">true (자사저작권 100%)</span>' : '<span class="chip">false (외부저자 인세)</span>') : '<span class="sub">—</span>'}</td>
+        <td class="num"><b>${money(currentPrice(b))}</b></td>
+        <td>${pol.settlementRequired ? '<span class="chip ok">true (정산 인입)</span>' : '<span class="chip">false (비인입)</span>'}<div class="note">${esc(b.supportNote)}</div></td>
+        <td class="num">${b.salesCount.toLocaleString()}권</td>
+        <td>${canChangeSupply ? '<span class="chip ok">허용 (판매 0건)</span>' : '<span class="chip ng">잠금 (판매이력 존재)</span>'}</td>
+        <td class="nowrap"><button type="button" class="btn sm pr" data-open-sku="${esc(b.sku)}">원장 상세/정가 →</button></td>
+      </tr>`;
+    }).join("") || `<tr><td colspan="9" class="empty">조건에 해당하는 도서가 없습니다.</td></tr>`}</tbody>
+  </table>`;
+}
+
+/* [탭 2] 도서 상세 렌더링 */
+function renderDetailView(){
+  const b = currentBook();
+  const pol = deriveBookPolicy(b);
+
+  $("tabDetailLabel").textContent = b.sku;
+  $("detailTitleBanner").textContent = `[${b.sku}] ${b.name}`;
+  $("detailPipelineChip").innerHTML = `<span class="chip info">${esc(pol.pipelineText)}</span>`;
+
+  $("quickBookSelect").innerHTML = state.books.map(x =>
+    `<option value="${esc(x.sku)}" ${x.sku===b.sku?"selected":""}>[${esc(x.sku)}] ${esc(x.name)}</option>`
+  ).join("");
+
+  $("d_sku").value = b.sku;
+  $("d_preCode").value = b.preCode;
+  $("d_isbn").value = b.isbn;
+  $("d_pubDate").value = b.pubDate;
+  $("d_name").value = b.name;
+  $("d_supplyType").value = b.supplyType;
+  /* 판매 이력이 존재하면 도서 공급 형태 변경 차단 (book_supply_type_change_allowed_yn = false, 6.1절) */
+  $("d_supplyType").disabled = b.salesCount > 0;
+  $("salesHistoryBadge").className = "chip " + (b.salesCount > 0 ? "warn" : "ok");
+  $("salesHistoryBadge").textContent = b.salesCount > 0
+    ? `누적 판매 ${b.salesCount.toLocaleString()}권 · 공급 형태 변경 잠금 (신규 SKU 발급 필요)`
+    : `판매 이력 0건 · 공급 형태 변경 허용`;
+
+  $("ownCopyrightRow").hidden = false;
+  $("d_ownCopyright").value = String(b.ownCopyright);
+  $("d_ownCopyright").disabled = b.supplyType !== "OWN_PUBLISHED" || b.salesCount > 0;
+  $("d_settleRequiredView").textContent = pol.settlementRequired ? "true (정산 파이프라인 인입)" : "false (정산 비인입)";
+  $("d_priceOwnerView").textContent = pol.priceOwner === "SELF" ? "당사 결정 (SELF)" : "위탁자/출판사 결정 (CONSIGNOR · 변경 차단)";
+
+  $("derivedPolicySummary").innerHTML = `
+    <div><label>인입 파이프라인</label><b>${esc(pol.pipelineText)}</b></div>
+    <div><label>매출 인식 · 권리자 지분</label><b>${esc(pol.accountingText)}</b></div>
+    <div><label>세무 판정 · 증빙 경로</label><b>${esc(pol.taxEvidenceText)}</b></div>
+    <div><label>현행 바인딩 정가</label><b class="pos">${money(currentPrice(b))}</b></div>
+  `;
+  $("supplyPolicyAlert").textContent = pol.policyNotice;
+
+  /* 재정가 통제 (발행 후 12개월 경과 & price_owner === SELF 검증) */
+  const elapsedMonths = monthsSincePub(b.pubDate);
+  const canReprice = pol.priceOwner === "SELF" && elapsedMonths >= 12 && b.supplyType !== "BUNDLED";
+  $("repriceBtn").disabled = !canReprice;
+  if(pol.priceOwner === "CONSIGNOR"){
+    $("repriceBlockNotice").hidden = false;
+    $("repriceBlockNotice").textContent = "가격 결정 주체가 위탁자/외부출판사(price_owner = CONSIGNOR)이므로 당사 백오피스에서 정가를 변경할 수 없습니다(6.2절).";
+  } else if(elapsedMonths < 12 && b.supplyType === "OWN_PUBLISHED"){
+    $("repriceBlockNotice").hidden = false;
+    $("repriceBlockNotice").textContent = `출판문화산업 진흥법 제22조 제2항에 따라 발행일(${b.pubDate})로부터 12개월(book_reprice_min_months = 12)이 경과해야 정가를 변경할 수 있습니다. (현재 ${elapsedMonths}개월 경과 · 재정가 잠금)`;
+  } else {
+    $("repriceBlockNotice").hidden = true;
+  }
+
+  $("priceHistoryTableWrap").innerHTML = `<table>
+    <thead><tr>
+      <th>버전</th><th class="num">도서 정가 (인세/위탁 기준가)</th><th>적용 시작일</th><th>적용 종료일</th>
+      <th>가격 결정 주체 (price_owner)</th><th>변경 사유</th>
+    </tr></thead>
+    <tbody>${b.priceHistory.map(ph => `<tr>
+      <td><span class="chip info">v${ph.ver}</span></td>
+      <td class="num"><b>${money(ph.price)}</b></td>
+      <td>${esc(ph.start)}</td><td>${esc(ph.end)}</td>
+      <td>${ph.owner==="SELF"?"당사 (SELF)":"위탁자/출판사 (CONSIGNOR)"}</td>
+      <td>${esc(ph.reason)}</td>
+    </tr>`).join("")}</tbody>
+  </table>`;
+
+  /* 사입 도서 전용 영역 */
+  $("purchasedSection").hidden = b.supplyType !== "PURCHASED_RESALE";
+  if(b.supplyType === "PURCHASED_RESALE"){
+    $("d_supplierId").innerHTML = state.suppliers.map(s =>
+      `<option value="${esc(s.id)}" ${s.id===b.supplierId?"selected":""}>[${esc(s.id)}] ${esc(s.name)} (${esc(s.taxType)})</option>`
+    ).join("");
+    $("d_purchaseCost").value = b.purchaseCost;
+  }
+
+  /* 위탁 도서 전용 영역 */
+  $("consignmentSection").hidden = b.supplyType !== "CONSIGNMENT";
+  if(b.supplyType === "CONSIGNMENT"){
+    $("consignReturnTableWrap").innerHTML = `<table>
+      <thead><tr>
+        <th>반품 추적 ID</th><th>원 주문품목 ID</th><th>반품 승인 귀속월</th>
+        <th class="num">반품 수량</th><th class="num">위탁 정산 차감액 (NET_DEDUCT)</th>
+        <th>실물 회수 상태 (consignment_return_status)</th><th>회수 기한 · 담당</th><th>상태 전환</th>
+      </tr></thead>
+      <tbody>${b.consignReturns.map(r => `<tr>
+        <td><b>${esc(r.id)}</b></td>
+        <td>${esc(r.orderItemId)}</td>
+        <td>${esc(r.refundMonth)}</td>
+        <td class="num">${r.qty}권</td>
+        <td class="num neg"><b>${money(r.amountAdjust)}</b></td>
+        <td>${r.status==="RETURNED" ? '<span class="chip ok">실물 회수 완료 (RETURNED)</span>' : '<span class="chip warn">실물 회수 대기 (WAITING_RETURN)</span>'}</td>
+        <td>${esc(r.deadline)} · ${esc(r.owner)}</td>
+        <td>${r.status==="WAITING_RETURN" ? `<button type="button" class="btn sm pr" data-action="completeReturn" data-id="${esc(r.id)}">실물 입고 확정</button>` : "완료"}</td>
+      </tr>`).join("") || `<tr><td colspan="8" class="empty">반품 회수 추적 내역이 없습니다.</td></tr>`}</tbody>
+    </table>`;
+  }
+}
+
+/* [탭 3] 매입처 마스터(suppliers) 렌더링 */
+function renderSuppliersView(){
+  $("supplierTableWrap").innerHTML = `<table>
+    <thead><tr>
+      <th>매입처 ID (supplier_id)</th><th>상호명 (supplier_name)</th><th>사업자번호 (b_no) · 대표자 (p_nm)</th>
+      <th>국세청 과세유형 (payee_tax_type)</th><th>사업자 상태 (business_status)</th>
+      <th>결제 계좌 · 지급 조건 (AP)</th><th>원가 계정</th><th>국세청 재조회</th>
+    </tr></thead>
+    <tbody>${state.suppliers.map(s => `<tr>
+      <td><b>${esc(s.id)}</b></td>
+      <td><b>${esc(s.name)}</b></td>
+      <td>${esc(s.bizNo)}<div class="note">대표: ${esc(s.ceo)} · 개업: ${esc(s.openDate)}</div></td>
+      <td><span class="chip info">${esc(s.taxType)}</span></td>
+      <td><span class="chip ${s.bizStatus==="계속사업자"?"ok":"ng"}">${esc(s.bizStatus)}</span><div class="note">확인: ${esc(s.checkedAt)}</div></td>
+      <td>${esc(s.account)}<div class="note">${esc(s.terms)}</div></td>
+      <td><span class="chip">${esc(s.costType)}</span></td>
+      <td><button type="button" class="btn sm" data-action="verifySupplier" data-id="${esc(s.id)}">진위·상태 확인</button></td>
+    </tr>`).join("")}</tbody>
+  </table>`;
+}
+
+function renderAuditView(){
+  $("auditTableWrap").innerHTML = `<table>
+    <thead><tr><th>일시</th><th>작업자</th><th>대상 SKU/코드</th><th>이벤트</th><th>상세 내역</th></tr></thead>
+    <tbody>${state.audit.map(a => `<tr>
+      <td class="nowrap">${esc(a.time)}</td><td>${esc(a.actor)}</td>
+      <td><span class="chip">${esc(a.target)}</span></td>
+      <td><b>${esc(a.event)}</b></td><td>${esc(a.detail)}</td>
+    </tr>`).join("")}</tbody>
+  </table>`;
+}
+
+function renderGate(){
+  const unlinked = state.preCodes.filter(p => !p.linkedSku).length;
+  $("gate").innerHTML = `<span class="chip ok">도서 마스터 정합성 정상</span>` +
+    (unlinked ? ` <span class="chip warn">출간 대기 가채번 ${unlinked}건</span>` : "");
+  $("gateDetails").textContent = `현재 선택 도서 [${state.selectedSku}] · 정산 대상 여부(settlement_required_yn) 및 주문 스냅샷 기준이 정상 설정되어 있습니다.`;
+}
+
+function openModal(title, html, handler = null, submitLabel = "반영"){
+  $("modalTitle").textContent = title;
+  $("modalContent").innerHTML = html;
+  $("modalError").hidden = true;
+  $("modalSubmit").hidden = !handler;
+  $("modalSubmit").textContent = submitLabel;
+  modalHandler = handler;
+  $("modalBack").hidden = false;
+}
+function closeModal(){
+  $("modalBack").hidden = true;
+  modalHandler = null;
+}
+function showModalErr(msg){
+  $("modalError").textContent = msg;
+  $("modalError").hidden = false;
+  return false;
+}
+
+document.addEventListener("click", e => {
+  const openSkuEl = e.target.closest("[data-open-sku]");
+  if(openSkuEl){
+    openBookDetail(openSkuEl.dataset.openSku);
+    return;
+  }
+
+  const kpiBtn = e.target.closest("[data-kpi]");
+  if(kpiBtn){
+    $("fSupply").value = kpiBtn.dataset.kpi;
+    renderListView();
+    return;
+  }
+
+  const btn = e.target.closest("button");
+  if(!btn || btn.disabled) return;
+
+  if(btn.dataset.href){
+    toast(`${btn.dataset.screen} (${btn.dataset.href}) 화면으로 이동합니다...`);
+    setTimeout(()=> { window.location.href = btn.dataset.href; }, 300);
+    return;
+  }
+
+  if(btn.dataset.tab){
+    switchTab(btn.dataset.tab);
+    return;
+  }
+
+  const action = btn.dataset.action;
+  if(action === "goList") switchTab("list");
+  if(action === "goSett001"){
+    toast("상품별 권리자 매핑(ADMN-SETT-001_baseline.html) 화면으로 이동합니다...");
+    setTimeout(()=> { window.location.href = "ADMN-SETT-001_baseline.html"; }, 300);
+  }
+
+  /* 가채번(BK-REQ-*)을 정식 도서 SKU로 출간 등록·연결 */
+  if(action === "convertPreCode"){
+    const pre = state.preCodes.find(p => p.code === btn.dataset.code);
+    if(!pre) return;
+    openModal(`가채번 [${pre.code}] → 정식 도서 SKU 생성 및 연결`, `
+      <div class="fixed"><b>계약 원장 선등록 저서:</b> ${esc(pre.title)} (${esc(pre.holderName)} · 인세 ${pre.royaltyRate}%)<br>가채번 코드는 정식 SKU 연결 후에도 영구 보존됩니다(5.1·6.2절).</div>
+      <div class="row c2">
+        <div>
+          <label class="lbl">발급할 정식 도서 SKU</label>
+          <input class="fc" name="sku" value="PROD-BK-1005" required>
+        </div>
+        <div>
+          <label class="lbl">ISBN-13</label>
+          <input class="fc" name="isbn" value="979-11-90001-05-2" required>
+        </div>
+      </div>
+      <div class="row c2">
+        <div>
+          <label class="lbl">초판 발행일</label>
+          <input class="fc" name="pubDate" type="date" value="2026-10-14" required>
+        </div>
+        <div>
+          <label class="lbl">초판 발행 정가 · 원</label>
+          <input class="fc" name="price" type="number" min="1000" value="26000" required>
+        </div>
+      </div>
+    `, data => {
+      const sku = data.get("sku").trim();
+      const price = Number(data.get("price"));
+      if(state.books.some(b => b.sku === sku)) return showModalErr("이미 존재하는 SKU입니다.");
+      pre.linkedSku = sku;
+      state.books.unshift({
+        sku,
+        preCode:pre.code,
+        isbn:data.get("isbn").trim(),
+        name:pre.title,
+        supplyType:"OWN_PUBLISHED",
+        ownCopyright:false,
+        pubDate:data.get("pubDate"),
+        salesCount:0,
+        supplierId:"",
+        purchaseCost:0,
+        supportNote:`가채번(${pre.code}) 연결 완료 · ADMN-SETT-001 지분 매핑 필요`,
+        priceHistory:[{ver:1, price, start:data.get("pubDate"), end:"2099-12-31", owner:"SELF", reason:"초판 발행 정가"}],
+        consignReturns:[]
+      });
+      logAudit(sku, "가채번 정식 SKU 연결 완료", `${pre.code} → ${sku} (정가 ${money(price)})`);
+      toast(`가채번 [${pre.code}]이 정식 도서 [${sku}]로 연결되었습니다!`);
+      openBookDetail(sku);
+      return true;
+    }, "SKU 생성 및 연결");
+  }
+
+  /* 재정가 모달 */
+  if(action === "openRepriceModal"){
+    const b = currentBook();
+    openModal(`[${b.sku}] 도서 재정가(정가 변경) 등록`, `
+      <div class="alert warn">재정가 시행일 이전 판매 확정분은 구 정가 스냅샷으로 연산되며, 시행일 이후 판매 확정분부터 신규 정가가 바인딩됩니다(6.2절).</div>
+      <div class="row c2">
+        <div>
+          <label class="lbl">신규 변경 정가 · 원</label>
+          <input class="fc" name="newPrice" type="number" min="1000" value="${currentPrice(b) + 2000}" required>
+        </div>
+        <div>
+          <label class="lbl">재정가 시행 시작일</label>
+          <input class="fc" name="startDate" type="date" value="2026-11-01" required>
+        </div>
+      </div>
+      <label class="lbl">재정가 사유 (필수)</label>
+      <input class="fc" name="reason" placeholder="예: 발행 12개월 경과 및 개정판 증보에 따른 정가 변경" required>
+    `, data => {
+      const newPrice = Number(data.get("newPrice"));
+      const startDate = data.get("startDate");
+      const reason = data.get("reason").trim();
+      const last = b.priceHistory[b.priceHistory.length - 1];
+      if(startDate <= last.start) return showModalErr("신규 시행일은 직전 정가 시작일 이후여야 합니다.");
+      last.end = startDate;
+      b.priceHistory.push({ver:b.priceHistory.length + 1, price:newPrice, start:startDate, end:"2099-12-31", owner:"SELF", reason});
+      logAudit(b.sku, "도서 재정가 등록", `${money(last.price)} → ${money(newPrice)} (시행일: ${startDate})`);
+      toast("신규 정가 이력이 등록되었습니다.");
+      refresh();
+      return true;
+    }, "재정가 등록");
+  }
+
+  /* 신규 도서 SKU 직접 등록 모달 */
+  if(action === "newBookModal"){
+    openModal("신규 도서 SKU 등록 (book_master)", `
+      <div class="row c2">
+        <div><label class="lbl">도서 SKU</label><input class="fc" name="sku" value="PROD-BK-${++state.seq}" required></div>
+        <div><label class="lbl">ISBN-13</label><input class="fc" name="isbn" value="979-11-90001-99-1" required></div>
+      </div>
+      <label class="lbl">도서명</label>
+      <input class="fc" name="name" placeholder="도서명 입력" required>
+      <div class="row c3">
+        <div>
+          <label class="lbl">도서 공급 형태 (book_supply_type)</label>
+          <select class="fc" name="supplyType">
+            <option value="OWN_PUBLISHED">자사 발행 (OWN_PUBLISHED)</option>
+            <option value="PURCHASED_RESALE">매입 재판매 (PURCHASED_RESALE)</option>
+            <option value="CONSIGNMENT">위탁 판매 (CONSIGNMENT)</option>
+            <option value="BUNDLED">부속 · 사은품 (BUNDLED)</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">자사 저작권 보유 (own_copyright_yn)</label>
+          <select class="fc" name="ownCopyright">
+            <option value="false">아니오 (false)</option>
+            <option value="true">예 (true · 자사 100%)</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">초판 정가 · 원</label>
+          <input class="fc" name="price" type="number" min="0" value="25000" required>
+        </div>
+      </div>
+    `, data => {
+      const sku = data.get("sku").trim();
+      const supplyType = data.get("supplyType");
+      const ownCopyright = supplyType === "OWN_PUBLISHED" && data.get("ownCopyright") === "true";
+      const price = Number(data.get("price"));
+      state.books.unshift({
+        sku, preCode:"신규 직접 등록", isbn:data.get("isbn"), name:data.get("name"),
+        supplyType, ownCopyright, pubDate:"2026-10-14", salesCount:0, supplierId:"SUPP-001", purchaseCost:10000,
+        supportNote: ownCopyright ? "자사저작권 100% (Pipeline 5.1 매핑 가능)" : "신규 등록",
+        priceHistory:[{ver:1, price, start:"2026-10-14", end:"2099-12-31", owner:supplyType==="OWN_PUBLISHED"?"SELF":"CONSIGNOR", reason:"초판 정가"}],
+        consignReturns:[]
+      });
+      logAudit(sku, "신규 도서 SKU 등록", `${supplyType} ·own_copyright_yn=${ownCopyright}`);
+      openBookDetail(sku);
+      return true;
+    }, "도서 등록");
+  }
+
+  if(action === "completeReturn"){
+    const b = currentBook();
+    const ret = b.consignReturns.find(r => r.id === btn.dataset.id);
+    if(ret){
+      ret.status = "RETURNED";
+      logAudit(b.sku, "위탁 반품 실물 회수 완료", `${ret.id} (${ret.qty}권) 실물 회수 확정`);
+      toast(`${ret.id} 건의 실물 회수 상태가 RETURNED로 갱신되었습니다.`);
+      refresh();
+    }
+  }
+
+  if(action === "addConsignReturn"){
+    const b = currentBook();
+    b.consignReturns.unshift({
+      id:"RET-00"+(b.consignReturns.length+1),
+      orderItemId:"ORD-202610-9912",
+      refundMonth:"2026-10",
+      qty:3,
+      amountAdjust:-54375,
+      status:"WAITING_RETURN",
+      deadline:"2026-10-28",
+      owner:"물류운영팀 김물류"
+    });
+    toast("반품 실물 회수 대기 건이 추가되었습니다.");
+    refresh();
+  }
+
+  if(action === "verifySupplier"){
+    const s = state.suppliers.find(x => x.id === btn.dataset.id);
+    if(s){
+      s.checkedAt = "2026-10-14 (방금 확인)";
+      toast(`[${s.name}] 국세청 상태조회 결과: ${s.bizStatus} (${s.taxType}) — 전자계산서 수취 적격`);
+      renderSuppliersView();
+    }
+  }
+
+  if(action === "newSupplierModal"){
+    openModal("신규 도서 매입처(supplier) 등록", `
+      <div class="row c2">
+        <div><label class="lbl">상호명 (supplier_name)</label><input class="fc" name="name" required></div>
+        <div><label class="lbl">사업자등록번호 (b_no)</label><input class="fc" name="bizNo" placeholder="000-00-00000" required></div>
+      </div>
+      <div class="row c2">
+        <div><label class="lbl">대표자명 (p_nm)</label><input class="fc" name="ceo" required></div>
+        <div><label class="lbl">개업일자 (start_dt)</label><input class="fc" name="openDate" type="date" value="2022-01-01" required></div>
+      </div>
+      <label class="lbl">AP 결제 계좌 및 정산 조건</label>
+      <input class="fc" name="terms" value="월말 마감 익월 15일 AP 지급" required>
+    `, data => {
+      state.suppliers.push({
+        id:"SUPP-00"+(state.suppliers.length+1),
+        name:data.get("name"), bizNo:data.get("bizNo"), ceo:data.get("ceo"), openDate:data.get("openDate"),
+        taxType:"부가가치세 면세사업자", bizStatus:"계속사업자", checkedAt:"2026-10-14",
+        account:"기업 012-34-****", terms:data.get("terms"), costType:"INVENTORY_PURCHASE"
+      });
+      toast("신규 매입처가 등록되었습니다.");
+      renderSuppliersView();
+      return true;
+    }, "매입처 등록");
+  }
+
+  if(action === "saveBook"){
+    const b = currentBook();
+    logAudit(b.sku, "도서 공급 원장 저장", `supplyType=${b.supplyType}, own_copyright_yn=${b.ownCopyright}`);
+    toast(`[${b.sku}] 도서 공급 원장 설정이 저장되었습니다.`);
+  }
+
+  if(action === "closeModal") closeModal();
+});
+
+document.addEventListener("change", e => {
+  const el = e.target;
+  if(["fSupply","fSettle"].includes(el.id)) renderListView();
+  if(el.id === "quickBookSelect") openBookDetail(el.value);
+  if(el.matches("[data-book-field]")){
+    const b = currentBook();
+    b.isbn = $("d_isbn").value;
+    b.pubDate = $("d_pubDate").value;
+    b.name = $("d_name").value;
+    if(b.salesCount === 0){
+      b.supplyType = $("d_supplyType").value;
+      b.ownCopyright = b.supplyType === "OWN_PUBLISHED" && $("d_ownCopyright").value === "true";
+    }
+    if(b.supplyType === "PURCHASED_RESALE"){
+      b.supplierId = $("d_supplierId").value;
+      b.purchaseCost = Number($("d_purchaseCost").value || 0);
+    }
+    refresh();
+  }
+});
+
+document.addEventListener("input", e => {
+  if(e.target.id === "fSearch") renderListView();
+});
+
+$("modalForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if(modalHandler && modalHandler(new FormData(e.currentTarget)) === true) closeModal();
+});
+
+refresh();
+</script>
+</body>
+</html>

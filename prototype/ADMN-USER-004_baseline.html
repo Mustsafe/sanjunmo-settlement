@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>[ADMN-USER-004] 민감 정보 열람 통제 — 산준모 정산시스템 v4.0.0</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --ink: #0f172a;
+      --muted: #475569;
+      --sub: #64748b;
+      --line: #dbe3ef;
+      --line-strong: #b8c6db;
+      --pri: #1d4ed8;
+      --pri-soft: #eff6ff;
+      --ok: #15803d;
+      --ok-soft: #f0fdf4;
+      --ok-line: #86efac;
+      --warn: #b45309;
+      --warn-soft: #fffbeb;
+      --warn-line: #fcd34d;
+      --bad: #b91c1c;
+      --bad-soft: #fef2f2;
+      --bad-line: #fca5a5;
+      --purple: #6d28d9;
+      --purple-soft: #f5f3ff;
+      --teal: #0f766e;
+      --teal-soft: #f0fdfa;
+      --snb-bg: #0b1324;
+      --snb-ink: #cbd5e1;
+      --snb-active: #2563eb;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+      --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.48;
+      font-size: 13.5px;
+    }
+    .layout { display: grid; grid-template-columns: 272px 1fr; min-height: 100vh; }
+
+    /* 좌측 SNB (4단계 업무 여정 표준) */
+    .snb {
+      background: var(--snb-bg);
+      color: var(--snb-ink);
+      padding: 20px 14px;
+      display: flex; flex-direction: column; gap: 14px;
+      border-right: 1px solid #1e293b;
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 8px 14px; border-bottom: 1px solid #1e293b;
+    }
+    .brand-logo {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: grid; place-items: center;
+      color: #fff; font-weight: 800; font-size: 15px;
+    }
+    .brand-title { font-weight: 800; color: #fff; font-size: 14.5px; line-height: 1.25; }
+    .brand-sub { font-size: 11.5px; color: #94a3b8; margin-top: 2px; }
+    .nav-group { display: flex; flex-direction: column; gap: 3px; }
+    .nav-label {
+      font-size: 10.5px; font-weight: 700; color: #64748b;
+      text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 10px;
+    }
+    .nav-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 11px; border-radius: 8px;
+      color: #cbd5e1; text-decoration: none;
+      font-size: 12.5px; font-weight: 600;
+      cursor: pointer; border: none; background: transparent;
+      width: 100%; text-align: left; transition: 0.15s;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-btn.active { background: var(--snb-active); color: #fff; font-weight: 700; }
+    .nav-code {
+      font-family: var(--mono); font-size: 10.5px;
+      padding: 2px 6px; border-radius: 4px;
+      background: rgba(15, 23, 42, 0.45); color: #94a3b8;
+    }
+    .nav-btn.active .nav-code { background: rgba(255,255,255,0.2); color: #fff; }
+
+    /* Main */
+    .main { display: flex; flex-direction: column; min-width: 0; }
+    .topbar {
+      background: #fff; border-bottom: 1px solid var(--line);
+      padding: 16px 26px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; position: sticky; top: 0; z-index: 20;
+    }
+    .title-area h1 { margin: 0; font-size: 19px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .title-area p { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 9px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 700; white-space: nowrap;
+    }
+    .b-pri { background: var(--pri-soft); color: var(--pri); border: 1px solid #bfdbfe; }
+    .b-ok { background: var(--ok-soft); color: var(--ok); border: 1px solid var(--ok-line); }
+    .b-warn { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--warn-line); }
+    .b-bad { background: var(--bad-soft); color: var(--bad); border: 1px solid var(--bad-line); }
+    .b-pur { background: var(--purple-soft); color: var(--purple); border: 1px solid #ddd6fe; }
+    .b-teal { background: var(--teal-soft); color: var(--teal); border: 1px solid #99f6e4; }
+    .b-dark { background: #0f172a; color: #fff; }
+    .b-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 13px; border-radius: 8px;
+      font-size: 12.5px; font-weight: 700;
+      border: 1px solid var(--line-strong);
+      background: #fff; color: var(--ink);
+      cursor: pointer; transition: 0.15s; white-space: nowrap;
+    }
+    .btn:hover { background: #f8fafc; }
+    .btn-pri { background: var(--pri); color: #fff; border-color: var(--pri); }
+    .btn-pri:hover { background: #1e40af; }
+    .btn-bad { background: var(--bad); color: #fff; border-color: var(--bad); }
+    .btn-sm { padding: 5px 10px; font-size: 11.5px; border-radius: 6px; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .content { padding: 20px 26px 96px; display: flex; flex-direction: column; gap: 18px; }
+
+    /* KPI Strip */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .kpi-card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 14px 16px;
+      box-shadow: var(--shadow); cursor: pointer; transition: 0.15s;
+    }
+    .kpi-card:hover { border-color: var(--pri); transform: translateY(-1px); }
+    .kpi-card.active { border: 2px solid var(--pri); background: #f8fbff; }
+    .kpi-label { font-size: 12px; font-weight: 700; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+    .kpi-val { font-size: 20px; font-weight: 800; margin-top: 6px; font-family: var(--mono); }
+    .kpi-sub { font-size: 11.5px; color: var(--sub); margin-top: 4px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 6px; border-bottom: 1px solid var(--line);
+      background: #fff; padding: 0 18px; border-radius: 10px 10px 0 0;
+      border: 1px solid var(--line); border-bottom: none;
+    }
+    .tab-btn {
+      padding: 13px 16px; font-size: 13px; font-weight: 800;
+      color: var(--muted); background: transparent; border: none;
+      border-bottom: 3px solid transparent; cursor: pointer;
+    }
+    .tab-btn.active { color: var(--pri); border-bottom-color: var(--pri); }
+
+    .card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .card-hd {
+      padding: 14px 18px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      background: #f8fafc;
+    }
+    .card-hd h3 { margin: 0; font-size: 14.5px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .card-bd { padding: 18px; }
+
+    .filter-bar {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      padding: 12px 18px; background: #f8fafc; border-bottom: 1px solid var(--line);
+    }
+    .input, .select, .textarea {
+      padding: 8px 11px; border-radius: 7px; border: 1px solid var(--line-strong);
+      font-size: 12.5px; font-family: var(--font); background: #fff;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th {
+      background: #f8fafc; color: var(--muted); font-weight: 800;
+      text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap;
+    }
+    td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    tr:hover td { background: #f8fbff; }
+    .num { text-align: right; font-family: var(--mono); font-weight: 700; }
+    .code { font-family: var(--mono); font-size: 11.5px; color: #334155; }
+
+    /* Masked / Unmasked Value Box */
+    .pii-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 4px 9px; border-radius: 6px;
+      font-family: var(--mono); font-size: 12px; font-weight: 700;
+      background: #f1f5f9; border: 1px solid #cbd5e1; color: #1e293b;
+    }
+    .pii-chip.unmasked {
+      background: #fef2f2; border-color: #fca5a5; color: #b91c1c;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.15);
+    }
+    .ttl-timer {
+      font-family: var(--mono); font-size: 11px; font-weight: 800;
+      padding: 2px 6px; border-radius: 4px; background: #dc2626; color: #fff;
+    }
+
+    /* Modal Backdrop & Box */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+      display: none; place-items: center; z-index: 60; padding: 20px;
+    }
+    .modal-backdrop.open { display: grid; }
+    .modal {
+      background: #fff; border-radius: 14px; width: min(640px, 95vw);
+      box-shadow: 0 24px 48px rgba(15, 23, 42, 0.3); overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .modal-hd {
+      padding: 16px 20px; border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      background: #0f172a; color: #fff;
+    }
+    .modal-hd h3 { margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .modal-bd { padding: 18px 20px; }
+    .modal-ft {
+      padding: 13px 20px; border-top: 1px solid var(--line);
+      background: #f8fafc; display: flex; justify-content: flex-end; gap: 8px;
+    }
+
+    .reason-chip {
+      display: inline-block; padding: 5px 10px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 600; background: #eff6ff; color: var(--pri);
+      border: 1px solid #bfdbfe; cursor: pointer; margin: 3px 4px 3px 0;
+    }
+    .reason-chip:hover { background: #dbeafe; }
+
+    /* Footer Bar */
+    .footer-bar {
+      position: fixed; bottom: 0; left: 272px; right: 0;
+      background: #0f172a; color: #fff;
+      padding: 12px 26px; display: flex; align-items: center; justify-content: space-between;
+      z-index: 30; border-top: 1px solid #334155;
+    }
+
+    #toast {
+      position: fixed; bottom: 72px; right: 26px;
+      background: #0f172a; color: #fff; padding: 11px 16px;
+      border-radius: 8px; font-size: 12.5px; font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25); display: none; z-index: 100;
+    }
+  </style>
+
+  
+
+  
+
+
+
+<style id="v4-master-snb-style">
+  html { overflow-y: scroll !important; }
+  .layout, .app-layout {
+    display: block !important;
+    padding-left: 272px !important;
+    min-height: 100vh !important;
+  }
+  .savebar, .footer-bar {
+    left: 272px !important;
+  }
+  aside.v4-master-snb,
+  aside.v4-master-snb *,
+  aside.v4-master-snb *::before,
+  aside.v4-master-snb *::after {
+    box-sizing: border-box !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+    letter-spacing: -0.01em !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+  aside.v4-master-snb {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 272px !important;
+    min-width: 272px !important;
+    max-width: 272px !important;
+    height: 100vh !important;
+    background: #0f172a !important;
+    color: #cbd5e1 !important;
+    padding: 18px 14px 24px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    border-right: 1px solid #1e293b !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0px !important;
+    row-gap: 0px !important;
+    column-gap: 0px !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+  }
+  aside.v4-master-snb .v4-snb-brand {
+    padding: 4px 8px 14px !important;
+    border-bottom: 1px solid rgba(148,163,184,.16) !important;
+    margin: 0 0 6px 0 !important;
+    cursor: pointer !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-title {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-sub {
+    color: #94a3b8 !important;
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 500 !important;
+    margin: 4px 0 0 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-group-label {
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    padding: 12px 8px 5px !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-item {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    flex: 0 0 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 10px !important;
+    margin: 0 0 3px 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: #cbd5e1 !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background-color 0.12s ease, color 0.12s ease !important;
+  }
+  aside.v4-master-snb .v4-snb-item:hover {
+    background: rgba(255,255,255,.06) !important;
+    color: #ffffff !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active {
+    background: rgba(37,99,235,.22) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(96,165,250,.45) !important;
+  }
+  aside.v4-master-snb .v4-snb-item-title {
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
+    font-weight: 800 !important;
+  }
+  aside.v4-master-snb .v4-snb-item-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    font-size: 10px !important;
+    line-height: 14px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    background: rgba(15,23,42,.65) !important;
+    padding: 2px 6px !important;
+    border-radius: 5px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    letter-spacing: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
+    color: #93c5fd !important;
+    background: rgba(30,58,138,.7) !important;
+  }
+  aside.v4-master-snb .v4-snb-footer {
+    margin-top: auto !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(148,163,184,.14) !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box {
+    background: rgba(15,23,42,.55) !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 10px !important;
+    padding: 10px 11px !important;
+    font-size: 11px !important;
+    line-height: 16px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    margin: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box strong {
+    color: #e2e8f0 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- 좌측 SNB (업무 여정 4단계 표준) -->
+  <aside class="v4-master-snb" aria-label="산준모 정산 백오피스 표준 사이드바">
+  <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" title="전체 업무 플로우 가이드로 이동">
+    <div class="v4-snb-brand-title">산준모 정산시스템</div>
+    <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
+  </div>
+  <div class="v4-snb-group-label">0단계 · 전체 업무 플로우 안내</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'">
+    <span class="v4-snb-item-title">전체 업무 플로우 가이드</span>
+    <span class="v4-snb-item-code">GUIDE</span>
+  </button>
+  <div class="v4-snb-group-label">1단계 · 계약 · 상품 · 매핑 설정</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-001_baseline.html'">
+    <span class="v4-snb-item-title">권리자 계약 원장</span>
+    <span class="v4-snb-item-code">ADMN-INST-001</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-007_baseline.html'">
+    <span class="v4-snb-item-title">수취인 분할 관리</span>
+    <span class="v4-snb-item-code">ADMN-SETT-007</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-BOOK-001_baseline.html'">
+    <span class="v4-snb-item-title">도서 공급 원장</span>
+    <span class="v4-snb-item-code">ADMN-BOOK-001</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-001_baseline.html'">
+    <span class="v4-snb-item-title">상품별 권리자 매핑</span>
+    <span class="v4-snb-item-code">ADMN-SETT-001</span>
+  </button>
+  <div class="v4-snb-group-label">2단계 · 월마감 전 검증 (Gate)</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-004_baseline.html'">
+    <span class="v4-snb-item-title">PG 정산 원장 대사</span>
+    <span class="v4-snb-item-code">ADMN-SETT-004</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-002_baseline.html'">
+    <span class="v4-snb-item-title">약정금 마일스톤 검수</span>
+    <span class="v4-snb-item-code">ADMN-INST-002</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-006_baseline.html'">
+    <span class="v4-snb-item-title">합격 환급반 관리</span>
+    <span class="v4-snb-item-code">ADMN-SETT-006</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-008_baseline.html'">
+    <span class="v4-snb-item-title">사업자등록 확인 이력</span>
+    <span class="v4-snb-item-code">ADMN-SETT-008</span>
+  </button>
+  <div class="v4-snb-group-label">3단계 · 월간 정산 · 집행 · 조회</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-002_baseline.html'">
+    <span class="v4-snb-item-title">월간 정산 및 집행</span>
+    <span class="v4-snb-item-code">ADMN-SETT-002</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-005_baseline.html'">
+    <span class="v4-snb-item-title">정산 수동 조정</span>
+    <span class="v4-snb-item-code">ADMN-SETT-005</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-009_baseline.html'">
+    <span class="v4-snb-item-title">내부 정산 조회 (전용)</span>
+    <span class="v4-snb-item-code">ADMN-SETT-009</span>
+  </button>
+  <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
+  <button type="button" class="v4-snb-item active" onclick="window.location.href='ADMN-USER-004_baseline.html'">
+    <span class="v4-snb-item-title">민감 정보 열람 통제</span>
+    <span class="v4-snb-item-code">ADMN-USER-004</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-008_baseline.html'">
+    <span class="v4-snb-item-title">정산 감사 로그</span>
+    <span class="v4-snb-item-code">ADMN-CONF-008</span>
+  </button>
+  <div class="v4-snb-footer">
+    <div class="v4-snb-footer-box">
+      <strong>SSOT 정합성 기준</strong><br/>
+      01 비즈니스 · 02 연산/세무<br/>
+      03 화면/연동 · 04 QA 테스트
+    </div>
+  </div>
+</aside>
+
+  <!-- 우측 메인 -->
+  <main class="main">
+    <header class="topbar">
+      <div class="title-area">
+        <h1>
+          <span class="badge b-dark">ADMN-USER-004</span>
+          민감 정보 열람 통제 및 보존기한 3계층 파기 관리
+          <span class="badge b-bad">AES-256 · 30초 자동 재마스킹 · S3 Presigned URL</span>
+        </h1>
+        <p>주민등록번호·계좌번호 마스킹 해제 시 최소 10자 사유 입력을 강제하고(3.4절), 개인정보 필드 파기와 정산 원장 보존(10년)을 분리 통제합니다(제3장 3.1~3.5절).</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn" onclick="maskAllNow()">🔒 열람 중인 민감 정보 즉시 전체 재마스킹</button>
+        <button class="btn btn-pri" onclick="goNav('ADMN-CONF-008_baseline.html')">↗ 정산 감사 로그 확인 (CONF-008)</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- 상단 KPI 4종 -->
+      <div class="kpi-grid">
+        <div class="kpi-card active" onclick="switchTab('vault')">
+          <div class="kpi-label"><span>암호화 관리 대상 주체 (AES-256)</span><span class="badge b-pri">제3장 3.2절</span></div>
+          <div class="kpi-val">5건</div>
+          <div class="kpi-sub">프리랜서(주민번호+계좌) · 사업자(계좌만 수집)</div>
+        </div>
+        <div class="kpi-card" onclick="switchTab('vault')">
+          <div class="kpi-label"><span>현재 마스킹 일시 해제 중</span><span class="badge b-bad">TTL 30초</span></div>
+          <div class="kpi-val" style="color:var(--bad);" id="kpiUnmaskedCount">0건</div>
+          <div class="kpi-sub"><code>pii_unmask_ttl_seconds = 30초</code> 경과 시 자동 잠금</div>
+        </div>
+        <div class="kpi-card" onclick="switchTab('retention')">
+          <div class="kpi-label"><span>계층 1 개인정보 파기 후보 (5년 경과)</span><span class="badge b-warn">승인 대기</span></div>
+          <div class="kpi-val" style="color:var(--warn);" id="kpiDestructCandidate">1건</div>
+          <div class="kpi-sub">무인 자동 삭제 금지 · 재무 담당자 승인 후 필드 파기</div>
+        </div>
+        <div class="kpi-card" onclick="switchTab('retention')">
+          <div class="kpi-label"><span>계층 3 파기 보류 예외 (`destruction_hold`)</span><span class="badge b-pur">분리 보관</span></div>
+          <div class="kpi-val" style="color:var(--purple);">2건</div>
+          <div class="kpi-sub">미상계 선급금 · 미소진 지원금 한도 · 대손 채권</div>
+        </div>
+      </div>
+
+      <!-- 탭 -->
+      <div>
+        <div class="tabs">
+          <button class="tab-btn active" id="tabBtn-vault" onclick="switchTab('vault')">1. 권리자·환급수취인 민감정보 마스킹 열람 및 증빙 사본 통제 (3.1 ~ 3.4절)</button>
+          <button class="tab-btn" id="tabBtn-retention" onclick="switchTab('retention')">2. 법정 보존기한 3계층 분리 및 개인정보 필드 파기 스케줄러 (3.5절)</button>
+          <button class="tab-btn" id="tabBtn-fieldmap" onclick="switchTab('fieldmap')">3. 개인정보 파기 필드 매핑 (`pii_destruction_field_map`) 및 열람 이력</button>
+        </div>
+
+        <!-- TAB 1: 민감정보 마스킹 열람 및 사유 입력 팝업 -->
+        <div class="card" id="tabPanel-vault" style="border-top-left-radius:0;">
+          <div class="filter-bar">
+            <span style="font-weight:800; font-size:12.5px;">수취 주체 구분:</span>
+            <select id="holderTypeFilter" class="select" onchange="renderVaultTable()">
+              <option value="ALL">전체 수취 주체 (권리자 · 사업자 · 합격환급 수강생)</option>
+              <option value="INDIVIDUAL">개인 비사업자/프리랜서 (주민등록번호 13자리 수집 대상)</option>
+              <option value="BIZ">법인/개인사업자 (주민등록번호 수집 금지 · 3.1절)</option>
+              <option value="REFUND">합격환급반 수강생 (제세공과금 22% 신고용 수집)</option>
+            </select>
+            <span style="margin-left:auto; font-size:12px; color:var(--muted);">
+              ※ 열람 아이콘 클릭 시 <strong>[ADMN-USER-004 민감 정보 열람 사유 입력 팝업]</strong>이 호출되며, 사유(10자 이상) 입력 후 <strong>30초간만 평문이 표시</strong>됩니다.
+            </span>
+          </div>
+
+          <div class="card-bd" style="padding:0;">
+            <table>
+              <thead>
+                <tr>
+                  <th>식별자 / 성명(상호)</th>
+                  <th>주체 유형 및 수집 근거 (3.1절)</th>
+                  <th>주민등록번호 (AES-256)<br><span style="font-size:10.5px; font-weight:500;">법인·사업자는 수집 안 함</span></th>
+                  <th>지급/환급 은행 및 계좌번호 (AES-256)</th>
+                  <th>프라이빗 S3 증빙 사본 (3.3절)<br><span style="font-size:10.5px; font-weight:500;">SSE-KMS · Presigned URL (5분 만료)</span></th>
+                  <th>보존 계층 상태</th>
+                </tr>
+              </thead>
+              <tbody id="vaultTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: 법정 보존기한 3계층 분리 및 파기 스케줄러 -->
+        <div class="card" id="tabPanel-retention" style="display:none; border-top-left-radius:0;">
+          <div class="card-hd">
+            <h3>🛡️ 법정 보존기한 3계층 분리 및 개인정보 필드 분리 파기 워크스페이스 (제3장 3.5절)</h3>
+            <span class="badge b-pri">개인정보 파기 ≠ 정산 원장 삭제 (금액·원거래 10년 보존)</span>
+          </div>
+          <div class="card-bd">
+            <div style="background:#fffbeb; border:1px solid #fcd34d; border-radius:10px; padding:13px 16px; margin-bottom:16px; font-size:12.5px; color:#78350f;">
+              <strong>📌 [3.5절 파기와 보존의 충돌 해소 원칙]</strong><br/>
+              • <strong>계층 1(개인식별정보: 국세기본법 법정신고기한 + 5년)</strong> 기한이 도래하면 주민등록번호·신분증 사본·연락처·주소만 복구 불가능하게 파기하고, <strong>계층 2(계약서 및 회계 정산 원장: 상법 제33조 장부 폐쇄일 + 10년)</strong>의 금액·원거래 참조·조정 내역은 내부 대체키(<code>rights_holder_id</code>)와 비식별 표시명(예: <code>이*기_CT-2020-0011</code>)으로 전환하여 그대로 보존합니다.<br/>
+              • <strong>계층 3(파기 보류 예외, <code>destruction_hold = true</code>)</strong>: 미상계 선급금 잔액 존재, 미소진 지원금 한도(<code>ACTIVE</code>), 대손 채권, 세무조사·소송 진행 건은 파기 대상에서 자동 격리(개인정보 보호법 제21조 제3항 분리 보관)합니다.
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>레코드 식별자 / 대상자</th>
+                  <th>계약 종료일 / 국세 법정신고기한</th>
+                  <th>계층 1 파기 예정일<br><span style="font-size:10.5px; font-weight:500;">(법정신고기한 + 5년)</span></th>
+                  <th>계층 2 원장 보존 만료일<br><span style="font-size:10.5px; font-weight:500;">(장부 폐쇄일 + 10년)</span></th>
+                  <th>계층 3 파기 보류 (`destruction_hold`) 사유</th>
+                  <th>파기 배치 상태</th>
+                  <th>재무 담당자 승인 액션 (무인 자동삭제 금지)</th>
+                </tr>
+              </thead>
+              <tbody id="retentionTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: 파기 필드 매핑 및 열람 감사 로그 -->
+        <div class="card" id="tabPanel-fieldmap" style="display:none; border-top-left-radius:0;">
+          <div class="card-hd">
+            <h3>🗂️ 개인정보 파기 필드 매핑 설정표 (`pii_destruction_field_map`) 및 당일 열람 로그</h3>
+            <span class="badge b-dark">코드 수정 없는 테이블 기반 통제 (3.5절)</span>
+          </div>
+          <div class="card-bd">
+            <h4 style="margin:0 0 10px; font-size:13.5px;">1) 필드별 파기 · 비식별 전환 · 원장 영구 보존 매핑 (`pii_destruction_field_map`)</h4>
+            <table style="margin-bottom:22px;">
+              <thead>
+                <tr>
+                  <th>테이블 / 대상 컬럼명</th>
+                  <th>한글 필드 명칭</th>
+                  <th>보존 계층 구분</th>
+                  <th>계층 1 만료 시 처리 방식 (3.5절)</th>
+                  <th>정산 원장 금액·조인 영향도</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="code">rights_holders.rrn_encrypted</td>
+                  <td>주민등록번호 (13자리 암호문)</td>
+                  <td><span class="badge b-warn">계층 1 (신고기한 + 5년)</span></td>
+                  <td>복구 불가능 영구 덮어쓰기 (<code>NULL</code> 처리 + KMS 참조 해제)</td>
+                  <td>영향 없음 (<code>rights_holder_id</code> 조인 유지)</td>
+                </tr>
+                <tr>
+                  <td class="code">rights_holders.bank_account_enc</td>
+                  <td>은행 계좌번호 암호문</td>
+                  <td><span class="badge b-warn">계층 1 (신고기한 + 5년)</span></td>
+                  <td>복구 불가능 파기 (단, 이체 확인증 원장은 계층 2 기준 별도 관리)</td>
+                  <td>과거 정산서 금액 불변 유지</td>
+                </tr>
+                <tr>
+                  <td class="code">rights_holders.holder_name</td>
+                  <td>권리자 성명</td>
+                  <td><span class="badge b-pri">비식별 표시명 전환</span></td>
+                  <td>성명 이니셜 + 계약 ID로 치환 (예: <code>이*기_CT-2020-0011</code>)</td>
+                  <td>정산서·감사로그 조회 가독성 유지</td>
+                </tr>
+                <tr>
+                  <td class="code">s3://private-bucket/id_cards/*</td>
+                  <td>신분증 사본 · 통장 사본 파일</td>
+                  <td><span class="badge b-warn">계층 1 (신고기한 + 5년)</span></td>
+                  <td>S3 Object 영구 삭제 및 버전 파기 이력 기록</td>
+                  <td>계약서 원본 PDF(계층 2)는 10년 분리 보존</td>
+                </tr>
+                <tr>
+                  <td class="code">settlement_statements.*</td>
+                  <td>정산 명세서 금액 · 과세표준 · 원천세 · 스냅샷</td>
+                  <td><span class="badge b-ok">계층 2 (장부폐쇄 + 10년)</span></td>
+                  <td><strong>절대 삭제·비우기 금지</strong> (1원 단위 정합성 및 수정신고 대비 보존)</td>
+                  <td>100% 보존</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4 style="margin:0 0 10px; font-size:13.5px;">2) 민감 정보 열람 및 파기 실행 감사 로그 (`ADMN_AUDIT_LOG` 실시간 적재 내역)</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>기록 시각</th>
+                  <th>대상 식별자 / 성명</th>
+                  <th>수행 액션 구분</th>
+                  <th>입력된 열람/승인 사유 (최소 10자 강제)</th>
+                  <th>작업자 (RBAC 그룹)</th>
+                  <th>재마스킹 / 후속 상태</th>
+                </tr>
+              </thead>
+              <tbody id="accessLogTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 하단 상태 바 -->
+    <footer class="footer-bar">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="badge b-bad">RBAC 전용 재무 운영자 권한</span>
+        <span style="font-size:12.5px; color:#cbd5e1;">
+          모든 마스킹 해제 및 증빙 사본(Presigned URL) 호출은 <strong>[ADMN-USER-004 사유 입력 팝업]</strong> 통과 후 <strong>ADMN-CONF-008(감사 로그)</strong>에 영구 기록됩니다.
+        </span>
+      </div>
+      <div style="font-family:var(--mono); font-size:12px; color:#93c5fd;">
+        부록 B 파라미터: <code>pii_unmask_ttl_seconds = 30초</code> · 암호화: <code>AES-256 (AWS KMS)</code>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<!-- ===================================================================== -->
+<!-- [ADMN-USER-004] 민감 정보 열람 사유 입력 팝업 모달 (3.4절 핵심 규격)       -->
+<!-- ===================================================================== -->
+<div class="modal-backdrop" id="unmaskReasonModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3>🔐 [ADMN-USER-004] 민감 정보 열람 사유 입력 통제 팝업 (제3장 3.4절)</h3>
+      <button class="btn btn-sm" style="background:#1e293b; color:#fff; border-color:#475569;" onclick="closeUnmaskModal()">✕ 닫기</button>
+    </div>
+    <div class="modal-bd">
+      <div style="background:#fef2f2; border:1px solid #fca5a5; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12.5px; color:#7f1d1d;">
+        ⚠️ <strong>[개인정보 보호법 및 내부 감사 통제 고지]</strong><br/>
+        요청하신 항목은 AES-256 암호화 보호 대상입니다. 열람 또는 사본 다운로드 시 <strong>작업자 ID, IP, 열람 시각, 입력 사유가 시스템 감사 로그(<code>ADMN-CONF-008</code>)에 즉시 기록</strong>되며, 화면 평문은 <strong>30초(<code>pii_unmask_ttl_seconds</code>) 후 자동으로 다시 마스킹</strong>됩니다.
+      </div>
+
+      <div style="background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:11px 14px; margin-bottom:14px;">
+        <div style="font-size:12px; color:var(--muted);">열람 요청 대상 및 항목</div>
+        <div style="font-weight:800; font-size:14px; margin-top:3px;" id="modalTargetSummary">-</div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <div style="font-size:12px; font-weight:700; color:var(--muted); margin-bottom:6px;">⚡ 자주 쓰는 구체적 열람 사유 빠른 선택 (클릭 시 자동 입력):</div>
+        <div>
+          <span class="reason-chip" onclick="setQuickReason('2026년 10월 귀속 거주자 사업·기타소득 원천징수이행상황신고 및 간이지급명세서 제출 대조 확인')">원천징수 신고·지급명세서 대조</span>
+          <span class="reason-chip" onclick="setQuickReason('당월 펌뱅킹 대량이체 실행 전 예금주 실명 불일치 오류 건 계좌번호 및 통장사본 육안 대조')">펌뱅킹 예금주 불일치 계좌 검증</span>
+          <span class="reason-chip" onclick="setQuickReason('합격환급반 제세공과금(22%) 원천징수 신고 및 환급 계좌 오입금 방지를 위한 본인 확인')">합격환급반 제세공과금·계좌 확인</span>
+          <span class="reason-chip" onclick="setQuickReason('신규 전속·인세 계약 체결에 따른 본인 신분증 사본 및 입금 계좌 일치 여부 검수')">신규 계약 신분증·통장사본 검수</span>
+        </div>
+      </div>
+
+      <div>
+        <label style="font-weight:800; font-size:12.5px; display:flex; justify-content:space-between;">
+          <span>구체적 열람 사유 수기 입력 (필수 · 최소 10자 이상)</span>
+          <span id="reasonCharCount" class="code" style="color:var(--bad);">0 / 최소 10자</span>
+        </label>
+        <textarea id="unmaskReasonInput" class="textarea" rows="3" style="width:100%; margin-top:6px;"
+          placeholder="예: 2026-10 귀속 원천세 신고서 작성 중 주민등록번호 오류 검증을 위한 열람 (단순 '확인용', '테스트' 등 10자 미만 입력 시 차단)"
+          oninput="updateReasonCounter()"></textarea>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn" onclick="closeUnmaskModal()">취소</button>
+      <button class="btn btn-bad" id="btnConfirmUnmask" disabled onclick="confirmUnmaskAction()">
+        🔓 감사 로그 기록 및 30초간 열람 실행
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Presigned URL 증빙 뷰어 모달 -->
+<div class="modal-backdrop" id="docViewerModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <h3>📄 프라이빗 S3 증빙 서류 보안 뷰어 (Presigned URL 임시 렌더링 · 3.3절)</h3>
+      <button class="btn btn-sm" style="background:#1e293b; color:#fff;" onclick="document.getElementById('docViewerModal').classList.remove('open')">✕ 닫기</button>
+    </div>
+    <div class="modal-bd" id="docViewerBody"></div>
+    <div class="modal-ft">
+      <button class="btn btn-pri" onclick="document.getElementById('docViewerModal').classList.remove('open')">확인 완료 (임시 URL 즉시 폐기)</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  const PII_RECORDS = [
+    {
+      id: "RH-0012",
+      name: "김안전",
+      holderCategory: "INDIVIDUAL",
+      typeLabel: "개인 비사업자 (프리랜서 강사 · TX-02)",
+      collectBasis: "소득세법 제164조 지급명세서 제출 의무 (주민번호+계좌)",
+      rrnCollected: true,
+      rrnMasked: "840315-1******",
+      rrnPlain: "840315-1482910",
+      bankName: "신한은행",
+      acctMasked: "110-421-******",
+      acctPlain: "110-421-889201",
+      docLabel: "신분증 사본 + 통장 사본 (S3 SSE-KMS)",
+      docFile: "s3://sanjunmo-private-pii/2026/RH-0012_id_bank_bundle.pdf",
+      tierStatus: "계층 1·2 정상 보존 중 (유효 계약 ACTIVE)",
+      unmaskedUntil: 0,
+      remainingSec: 0
+    },
+    {
+      id: "RH-0025",
+      name: "정종대",
+      holderCategory: "BIZ",
+      typeLabel: "개인 면세사업자 (138-92-01823 · TX-08)",
+      collectBasis: "사업자번호 + 계좌 수집 (사업소득 원천징수용 주민번호 병행 보관)",
+      rrnCollected: true,
+      rrnMasked: "791102-1******",
+      rrnPlain: "791102-1093821",
+      bankName: "국민은행",
+      acctMasked: "042-81-04****-*",
+      acctPlain: "042-81-049921-3",
+      docLabel: "사업자등록증 + 통장 사본 (S3 SSE-KMS)",
+      docFile: "s3://sanjunmo-private-pii/2026/RH-0025_biz_bank.pdf",
+      tierStatus: "계층 3 파기 보류 (선급금 350만원·지원금 한도 ACTIVE)",
+      unmaskedUntil: 0,
+      remainingSec: 0
+    },
+    {
+      id: "RH-0019",
+      name: "산준교육 주식회사",
+      holderCategory: "BIZ",
+      typeLabel: "법인 일반과세자 (105-87-22910 · TX-07)",
+      collectBasis: "3.1절 최소 수집 원칙 — 법인은 주민등록번호 미수집",
+      rrnCollected: false,
+      rrnMasked: "미수집 (법인사업자 필드 미노출 · 3.1절)",
+      rrnPlain: "미수집 (법인사업자 필드 미노출 · 3.1절)",
+      bankName: "우리은행",
+      acctMasked: "1005-902-******",
+      acctPlain: "1005-902-441928",
+      docLabel: "법인 사업자등록증 + 법인통장 사본",
+      docFile: "s3://sanjunmo-private-pii/2026/RH-0019_corp_docs.pdf",
+      tierStatus: "계층 2 상법 10년 보존",
+      unmaskedUntil: 0,
+      remainingSec: 0
+    },
+    {
+      id: "HRF-202610-01",
+      name: "박합격 (수강생)",
+      holderCategory: "REFUND",
+      typeLabel: "합격환급반 수취 수강생 (기타소득 제세공과금 22%)",
+      collectBasis: "기타소득(상금·부상) 원천징수영수증 발급 및 무통장 환급",
+      rrnCollected: true,
+      rrnMasked: "960822-2******",
+      rrnPlain: "960822-2194012",
+      bankName: "카카오뱅크",
+      acctMasked: "3333-14-*******",
+      acctPlain: "3333-14-8829104",
+      docLabel: "합격확인서 + 신분증 + 통장 사본",
+      docFile: "s3://sanjunmo-private-pii/2026/HRF-202610-01_refund_kyc.pdf",
+      tierStatus: "계층 1 (국세 법정신고기한 + 5년)",
+      unmaskedUntil: 0,
+      remainingSec: 0
+    },
+    {
+      id: "RH-0003",
+      name: "이*기_CT-2020-0011",
+      holderCategory: "INDIVIDUAL",
+      typeLabel: "종료 계약 강사 (계층 1 파기 완료 · 계층 2 원장 잔존)",
+      collectBasis: "계층 1(5년) 만료로 주민번호·신분증 파기 완료 / 정산금액 10년 보존",
+      rrnCollected: false,
+      rrnMasked: "[파기완료 NULL] (2026-06-01 복구불능 파기)",
+      rrnPlain: "[파기완료 NULL]",
+      bankName: "[파기완료]",
+      acctMasked: "[파기완료 NULL] (원장 금액만 보존)",
+      acctPlain: "[파기완료 NULL]",
+      docLabel: "신분증 파기 완료 / 계약서 원본(계층2)만 보존",
+      docFile: "DESTROYED",
+      tierStatus: "✅ 계층 1 파기 완료 · 계층 2(10년) 금액 보존 중",
+      unmaskedUntil: 0,
+      remainingSec: 0
+    }
+  ];
+
+  const RETENTION_QUEUE = [
+    {
+      id: "RH-0007",
+      name: "최과거 (종료 계약 프리랜서)",
+      contractId: "CT-2020-0089",
+      endDate: "2020-12-31",
+      taxDueDate: "2021-05-31 (종합소득세 법정신고기한)",
+      tier1ExpireDate: "2026-05-31 (5년 도래)",
+      tier2ExpireDate: "2030-12-31 (장부폐쇄 + 10년)",
+      holdYn: false,
+      holdReason: "보류 사유 없음 (선급금 0원 · 지원금 종결 · 소송 없음)",
+      status: "CANDIDATE",
+      afterAlias: "최*거_CT-2020-0089"
+    },
+    {
+      id: "RH-0015",
+      name: "이전기 (중도해지 강사)",
+      contractId: "CT-2025-0911",
+      endDate: "2026-10-05",
+      taxDueDate: "2027-05-31",
+      tier1ExpireDate: "2032-05-31",
+      tier2ExpireDate: "2036-12-31",
+      holdYn: true,
+      holdReason: "🚨 [계층 3 파기 예외] 미회수 청구 채권(-4,818,767원) 및 선급금 미종결 존재 (destruction_hold = true)",
+      status: "HOLD",
+      afterAlias: "-"
+    },
+    {
+      id: "RH-0025",
+      name: "정종대 (현행 주강사)",
+      contractId: "CT-2026-0501",
+      endDate: "2027-02-28",
+      taxDueDate: "2028-05-31",
+      tier1ExpireDate: "2033-05-31",
+      tier2ExpireDate: "2037-12-31",
+      holdYn: true,
+      holdReason: "🚨 [계층 3 파기 예외] 미상계 선급금(3,500,000원) 및 매출연동 지원금(SUP-2026-009) ACTIVE",
+      status: "HOLD",
+      afterAlias: "-"
+    },
+    {
+      id: "RH-0003",
+      name: "이*기_CT-2020-0011 (원 성명: 이기초)",
+      contractId: "CT-2020-0011",
+      endDate: "2020-03-31",
+      taxDueDate: "2021-05-31",
+      tier1ExpireDate: "2026-05-31",
+      tier2ExpireDate: "2030-12-31",
+      holdYn: false,
+      holdReason: "계층 1(주민번호·신분증·통장사본·연락처) 파기 완료 / 정산 원장 금액(42,500,000원) 10년 보존 유지",
+      status: "DESTROYED_TIER1",
+      afterAlias: "이*기_CT-2020-0011"
+    }
+  ];
+
+  const ACCESS_LOGS = [
+    {
+      ts: "2026-10-15 14:22:10",
+      target: "정종대 (RH-0025)",
+      action: "계좌번호 마스킹 해제 (30초 열람)",
+      reason: "2026-10 당월 펌뱅킹 대량이체 실행 전 예금주 실명 확인 및 계좌 대조",
+      actor: "박정산 (ROLE_FINANCE_ADMIN)",
+      stateText: "30초 경과 후 자동 재마스킹 완료"
+    },
+    {
+      ts: "2026-10-15 11:08:45",
+      target: "박합격 (HRF-202610-01)",
+      action: "증빙 사본 Presigned URL 열람 (5분 만료)",
+      reason: "합격환급반 제세공과금(22%) 원천징수 신고 및 무통장 환급 계좌 본인 일치 검수",
+      actor: "김세무 (ROLE_FINANCE_ADMIN)",
+      stateText: "Presigned URL 만료 소멸 완료"
+    }
+  ];
+
+  let pendingAction = null; // { recordId, mode: 'UNMASK' | 'DOC' }
+
+  function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.textContent = msg;
+    t.style.display = "block";
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => { t.style.display = "none"; }, 2800);
+  }
+
+  function goNav(file) {
+    window.location.href = file;
+  }
+
+  function switchTab(tabId) {
+    ["vault", "retention", "fieldmap"].forEach(id => {
+      document.getElementById("tabBtn-" + id).classList.toggle("active", id === tabId);
+      document.getElementById("tabPanel-" + id).style.display = (id === tabId) ? "block" : "none";
+    });
+    if (tabId === "vault") renderVaultTable();
+    if (tabId === "retention") renderRetentionTable();
+    if (tabId === "fieldmap") renderAccessLogs();
+  }
+
+  function renderVaultTable() {
+    const flt = document.getElementById("holderTypeFilter").value;
+    const tbody = document.getElementById("vaultTbody");
+    const rows = PII_RECORDS.filter(r => flt === "ALL" || r.holderCategory === flt);
+
+    let unmaskedCnt = 0;
+    PII_RECORDS.forEach(r => { if (r.remainingSec > 0) unmaskedCnt++; });
+    document.getElementById("kpiUnmaskedCount").textContent = unmaskedCnt + "건";
+
+    tbody.innerHTML = rows.map(r => {
+      const isUnmasked = r.remainingSec > 0;
+      const isDestroyed = r.docFile === "DESTROYED";
+
+      return `
+        <tr>
+          <td>
+            <span class="code" style="font-weight:800; color:var(--pri);">${r.id}</span>
+            <div style="font-weight:800; margin-top:2px;">${r.name}</div>
+          </td>
+          <td>
+            <div style="font-weight:700;">${r.typeLabel}</div>
+            <div style="font-size:11.5px; color:var(--muted); margin-top:2px;">${r.collectBasis}</div>
+          </td>
+          <td>
+            ${!r.rrnCollected
+              ? `<span class="badge b-gray">${r.rrnMasked}</span>`
+              : `
+                <div class="pii-chip ${isUnmasked ? 'unmasked' : ''}">
+                  <span>${isUnmasked ? r.rrnPlain : r.rrnMasked}</span>
+                  ${isUnmasked ? `<span class="ttl-timer">${r.remainingSec}초</span>` : ""}
+                </div>
+              `}
+          </td>
+          <td>
+            ${isDestroyed
+              ? `<span class="badge b-gray">${r.acctMasked}</span>`
+              : `
+                <div style="font-size:11.5px; color:var(--muted); font-weight:700; margin-bottom:3px;">${r.bankName}</div>
+                <div class="pii-chip ${isUnmasked ? 'unmasked' : ''}">
+                  <span>${isUnmasked ? r.acctPlain : r.acctMasked}</span>
+                  ${isUnmasked ? `<span class="ttl-timer">${r.remainingSec}초</span>` : ""}
+                </div>
+              `}
+          </td>
+          <td>
+            ${isDestroyed
+              ? `<span class="badge b-gray">${r.docLabel}</span>`
+              : `
+                <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+                  <button class="btn btn-sm ${isUnmasked ? '' : 'btn-pri'}" onclick="requestUnmask('${r.id}', 'UNMASK')">
+                    ${isUnmasked ? '🔒 즉시 재마스킹' : '👁️ 마스킹 해제 (사유입력)'}
+                  </button>
+                  <button class="btn btn-sm" onclick="requestUnmask('${r.id}', 'DOC')">
+                    📄 증빙 사본 열람 (Presigned URL)
+                  </button>
+                </div>
+              `}
+          </td>
+          <td>
+            <span class="badge ${r.tierStatus.includes('보류') ? 'b-pur' : (r.tierStatus.includes('파기 완료') ? 'b-ok' : 'b-pri')}">
+              ${r.tierStatus}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function requestUnmask(recordId, mode) {
+    const rec = PII_RECORDS.find(r => r.id === recordId);
+    if (!rec) return;
+
+    // 이미 해제된 상태에서 버튼을 누르면 즉시 재마스킹
+    if (mode === "UNMASK" && rec.remainingSec > 0) {
+      rec.remainingSec = 0;
+      renderVaultTable();
+      showToast(`${rec.name}(${rec.id})의 민감 정보가 즉시 재마스킹되었습니다.`);
+      return;
+    }
+
+    pendingAction = { recordId, mode };
+    const actionName = mode === "UNMASK"
+      ? "주민등록번호 및 계좌번호 평문 마스킹 해제 (30초 한시 노출)"
+      : "프라이빗 S3 증빙 사본 Presigned URL 발급 열람 (5분 만기)";
+
+    document.getElementById("modalTargetSummary").textContent = `[${rec.id}] ${rec.name} — ${actionName}`;
+    document.getElementById("unmaskReasonInput").value = "";
+    updateReasonCounter();
+    document.getElementById("unmaskReasonModal").classList.add("open");
+  }
+
+  function setQuickReason(text) {
+    document.getElementById("unmaskReasonInput").value = text;
+    updateReasonCounter();
+  }
+
+  function updateReasonCounter() {
+    const val = (document.getElementById("unmaskReasonInput").value || "").trim();
+    const len = val.length;
+    const counter = document.getElementById("reasonCharCount");
+    const btn = document.getElementById("btnConfirmUnmask");
+
+    counter.textContent = `${len}자 / 최소 10자 필수`;
+    if (len >= 10) {
+      counter.style.color = "var(--ok)";
+      btn.disabled = false;
+    } else {
+      counter.style.color = "var(--bad)";
+      btn.disabled = true;
+    }
+  }
+
+  function closeUnmaskModal() {
+    document.getElementById("unmaskReasonModal").classList.remove("open");
+    pendingAction = null;
+  }
+
+  function confirmUnmaskAction() {
+    if (!pendingAction) return;
+    const reason = (document.getElementById("unmaskReasonInput").value || "").trim();
+    if (reason.length < 10) {
+      alert("[3.4절 감사 통제] 열람 사유를 최소 10자 이상 구체적으로 입력해야 합니다.");
+      return;
+    }
+
+    const rec = PII_RECORDS.find(r => r.id === pendingAction.recordId);
+    const mode = pendingAction.mode;
+    closeUnmaskModal();
+
+    if (mode === "UNMASK") {
+      rec.remainingSec = 30; // 부록 B: pii_unmask_ttl_seconds = 30초
+      ACCESS_LOGS.unshift({
+        ts: "2026-10-15 17:20:05",
+        target: `${rec.name} (${rec.id})`,
+        action: "주민번호·계좌번호 마스킹 해제 (TTL 30초)",
+        reason,
+        actor: "박정산 (ROLE_FINANCE_ADMIN)",
+        stateText: "30초 카운트다운 진행 중"
+      });
+      renderVaultTable();
+      showToast(`[감사 로그 기록 완료] ${rec.name}의 민감 정보가 30초간 일시 해제됩니다.`);
+    } else {
+      ACCESS_LOGS.unshift({
+        ts: "2026-10-15 17:20:05",
+        target: `${rec.name} (${rec.id})`,
+        action: "S3 프라이빗 증빙 Presigned URL 발급 (5분 만료)",
+        reason,
+        actor: "박정산 (ROLE_FINANCE_ADMIN)",
+        stateText: "임시 서명 URL 발급 완료"
+      });
+      openPresignedViewer(rec, reason);
+    }
+  }
+
+  function openPresignedViewer(rec, reason) {
+    const token = Math.random().toString(36).substring(2, 12).toUpperCase();
+    document.getElementById("docViewerBody").innerHTML = `
+      <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12.5px; color:#14532d;">
+        ✅ <strong>[3.3절 임시 서명 URL(Presigned URL) 발급 완료]</strong><br/>
+        프라이빗 버킷(SSE-KMS AES-256)에서 5분(300초) 만기 일회성 URL을 생성했습니다. 창을 닫으면 즉시 소멸합니다.
+      </div>
+      <div style="font-family:var(--mono); font-size:11.5px; background:#0f172a; color:#93c5fd; padding:12px; border-radius:8px; word-break:break-all; margin-bottom:14px;">
+        GET ${rec.docFile}?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Expires=300&X-Amz-Signature=${token}8891F2A
+      </div>
+      <div style="border:1px dashed var(--line-strong); border-radius:10px; padding:22px; text-align:center; background:#f8fafc;">
+        <div style="font-size:15px; font-weight:800; color:var(--ink);">[${rec.docLabel}] 보안 워터마크 뷰어</div>
+        <div style="font-size:12.5px; color:var(--muted); margin-top:6px;">
+          대상: <strong>${rec.name} (${rec.id})</strong> · 은행/계좌: <strong>${rec.bankName} ${rec.acctPlain}</strong>
+        </div>
+        <div style="font-size:11.5px; color:var(--pri); margin-top:8px;">
+          워터마크: 열람자 박정산(ROLE_FINANCE_ADMIN) · 사유: ${reason}
+        </div>
+      </div>
+    `;
+    document.getElementById("docViewerModal").classList.add("open");
+  }
+
+  function maskAllNow() {
+    PII_RECORDS.forEach(r => { r.remainingSec = 0; });
+    renderVaultTable();
+    showToast("열람 중이던 모든 민감 정보가 즉시 마스킹(별표) 상태로 복귀되었습니다.");
+  }
+
+  // 1초 주기 TTL 카운트다운 타이머 (pii_unmask_ttl_seconds = 30초 자동 재마스킹)
+  setInterval(() => {
+    let changed = false;
+    PII_RECORDS.forEach(r => {
+      if (r.remainingSec > 0) {
+        r.remainingSec -= 1;
+        changed = true;
+        if (r.remainingSec === 0) {
+          showToast(`[3.4절 자동 재마스킹] 30초(pii_unmask_ttl_seconds)가 경과하여 ${r.name}(${r.id})의 민감 정보가 자동 잠금되었습니다.`);
+        }
+      }
+    });
+    if (changed) renderVaultTable();
+  }, 1000);
+
+  function renderRetentionTable() {
+    const tbody = document.getElementById("retentionTbody");
+    const candCnt = RETENTION_QUEUE.filter(q => q.status === "CANDIDATE").length;
+    document.getElementById("kpiDestructCandidate").textContent = candCnt + "건";
+
+    tbody.innerHTML = RETENTION_QUEUE.map((q, idx) => {
+      return `
+        <tr>
+          <td>
+            <span class="code" style="font-weight:800; color:var(--pri);">${q.id}</span>
+            <div style="font-weight:800; margin-top:2px;">${q.name}</div>
+            <div class="code" style="font-size:11px; color:var(--muted);">계약: ${q.contractId}</div>
+          </td>
+          <td>
+            <div>계약종료: ${q.endDate}</div>
+            <div style="font-size:11.5px; color:var(--muted);">신고기한: ${q.taxDueDate}</div>
+          </td>
+          <td class="code" style="font-weight:700; color:var(--warn);">${q.tier1ExpireDate}</td>
+          <td class="code" style="font-weight:700; color:var(--pri);">${q.tier2ExpireDate}</td>
+          <td>
+            <span class="badge ${q.holdYn ? 'b-bad' : 'b-ok'}" style="white-space:normal; text-align:left;">
+              ${q.holdReason}
+            </span>
+          </td>
+          <td>
+            ${q.status === "CANDIDATE"
+              ? '<span class="badge b-warn">계층 1 파기 승인 대기</span>'
+              : (q.status === "HOLD"
+                ? '<span class="badge b-pur">파기 보류 격리 (계층 3)</span>'
+                : '<span class="badge b-ok">계층 1 파기 완료 / 원장 보존</span>')}
+          </td>
+          <td>
+            ${q.status === "CANDIDATE"
+              ? `<button class="btn btn-sm btn-bad" onclick="approveTier1Destruction(${idx})">🔥 계층 1 개인정보 필드만 승인 파기</button>`
+              : '<button class="btn btn-sm" disabled>실행 불가 (보류 또는 완료)</button>'}
+          </td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function approveTier1Destruction(idx) {
+    const item = RETENTION_QUEUE[idx];
+    if (!item || item.holdYn) return;
+    item.status = "DESTROYED_TIER1";
+    item.name = `${item.afterAlias} (개인식별정보 파기 완료)`;
+    item.holdReason = `계층 1 필드(주민번호·신분증·통장사본·연락처) 복구불능 파기 완료 / 계층 2 정산원장 금액 및 대체키(${item.afterAlias}) 10년 보존 전환`;
+
+    ACCESS_LOGS.unshift({
+      ts: "2026-10-15 17:25:00",
+      target: `${item.id} (${item.contractId})`,
+      action: "3.5절 계층 1 개인정보 필드 분리 파기 승인 실행",
+      reason: "국세기본법 법정신고기한 5년 경과에 따른 주민번호·신분증 파기 (정산 원장 금액 및 권리자 ID 10년 보존 유지)",
+      actor: "박정산 (재무 책임자 승인)",
+      stateText: "파기 4개 필드 / 잔존 원장 100% 보존"
+    });
+
+    renderRetentionTable();
+    showToast(`[3.5절 분리 파기 완료] ${item.id}의 개인식별 필드만 복구불능 파기되었으며, 정산 원장 금액은 비식별 표시명(${item.afterAlias})으로 10년 보존됩니다.`);
+  }
+
+  function renderAccessLogs() {
+    const tbody = document.getElementById("accessLogTbody");
+    tbody.innerHTML = ACCESS_LOGS.map(l => `
+      <tr>
+        <td class="code">${l.ts}</td>
+        <td><strong>${l.target}</strong></td>
+        <td><span class="badge b-pri">${l.action}</span></td>
+        <td>${l.reason}</td>
+        <td class="code">${l.actor}</td>
+        <td><span class="badge b-ok">${l.stateText}</span></td>
+      </tr>
+    `).join("");
+  }
+
+  renderVaultTable();
+</script>
+</body>
+</html>
