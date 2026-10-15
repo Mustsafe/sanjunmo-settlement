@@ -417,276 +417,254 @@
         }
     </style>
 
-    <style id="v4-master-snb-style">
-        html {
-            overflow-y: scroll !important;
-        }
+    
 
-        .layout,
-        .app-layout {
-            display: block !important;
-            padding-left: 272px !important;
-            min-height: 100vh !important;
-        }
-
-        .savebar,
-        .footer-bar {
-            left: 272px !important;
-        }
-
-        aside.v4-master-snb,
-        aside.v4-master-snb *,
-        aside.v4-master-snb *::before,
-        aside.v4-master-snb *::after {
-            box-sizing: border-box !important;
-            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
-            letter-spacing: -0.01em !important;
-            -webkit-font-smoothing: antialiased !important;
-        }
-
-        aside.v4-master-snb {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            bottom: 0 !important;
-            width: 272px !important;
-            min-width: 272px !important;
-            max-width: 272px !important;
-            height: 100vh !important;
-            background: #0f172a !important;
-            color: #cbd5e1 !important;
-            padding: 18px 14px 24px !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            border-right: 1px solid #1e293b !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-start !important;
-            align-items: stretch !important;
-            gap: 0px !important;
-            row-gap: 0px !important;
-            column-gap: 0px !important;
-            z-index: 100 !important;
-            margin: 0 !important;
-            font-size: 12.5px !important;
-            line-height: 18px !important;
-        }
-
-        aside.v4-master-snb .v4-snb-brand {
-            padding: 4px 8px 14px !important;
-            border-bottom: 1px solid rgba(148, 163, 184, .16) !important;
-            margin: 0 0 6px 0 !important;
-            cursor: pointer !important;
-            display: block !important;
-            flex: 0 0 auto !important;
-        }
-
-        aside.v4-master-snb .v4-snb-brand-title {
-            color: #ffffff !important;
-            font-size: 15px !important;
-            line-height: 20px !important;
-            font-weight: 900 !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        aside.v4-master-snb .v4-snb-brand-sub {
-            color: #94a3b8 !important;
-            font-size: 11px !important;
-            line-height: 14px !important;
-            font-weight: 500 !important;
-            margin: 4px 0 0 0 !important;
-            padding: 0 !important;
-        }
-
-        aside.v4-master-snb .v4-snb-group-label {
-            font-size: 11px !important;
-            line-height: 14px !important;
-            font-weight: 800 !important;
-            color: #64748b !important;
-            padding: 12px 8px 5px !important;
-            margin: 0 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.02em !important;
-            flex: 0 0 auto !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item {
-            width: 100% !important;
-            height: 34px !important;
-            min-height: 34px !important;
-            max-height: 34px !important;
-            flex: 0 0 34px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            gap: 8px !important;
-            padding: 0 10px !important;
-            margin: 0 0 3px 0 !important;
-            border-radius: 8px !important;
-            border: 1px solid transparent !important;
-            background: transparent !important;
-            color: #cbd5e1 !important;
-            cursor: pointer !important;
-            text-align: left !important;
-            text-decoration: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-            transition: background-color 0.12s ease, color 0.12s ease !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item:hover {
-            background: rgba(255, 255, 255, .06) !important;
-            color: #ffffff !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item.active {
-            background: rgba(37, 99, 235, .22) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(96, 165, 250, .45) !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item-title {
-            font-size: 12.5px !important;
-            line-height: 18px !important;
-            font-weight: 600 !important;
-            color: inherit !important;
-            white-space: nowrap !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
-            font-weight: 800 !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item-code {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-            font-size: 10px !important;
-            line-height: 14px !important;
-            font-weight: 600 !important;
-            color: #94a3b8 !important;
-            background: rgba(15, 23, 42, .65) !important;
-            padding: 2px 6px !important;
-            border-radius: 5px !important;
-            flex-shrink: 0 !important;
-            margin: 0 !important;
-            letter-spacing: 0 !important;
-        }
-
-        aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
-            color: #93c5fd !important;
-            background: rgba(30, 58, 138, .7) !important;
-        }
-
-        aside.v4-master-snb .v4-snb-footer {
-            margin-top: auto !important;
-            padding-top: 12px !important;
-            border-top: 1px solid rgba(148, 163, 184, .14) !important;
-            flex: 0 0 auto !important;
-        }
-
-        aside.v4-master-snb .v4-snb-footer-box {
-            background: rgba(15, 23, 42, .55) !important;
-            border: 1px solid rgba(148, 163, 184, .16) !important;
-            border-radius: 10px !important;
-            padding: 10px 11px !important;
-            font-size: 11px !important;
-            line-height: 16px !important;
-            font-weight: 500 !important;
-            color: #94a3b8 !important;
-            margin: 0 !important;
-        }
-
-        aside.v4-master-snb .v4-snb-footer-box strong {
-            color: #e2e8f0 !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-        }
-    </style>
+<style id="v4-master-snb-style">
+  html { overflow-y: scroll !important; }
+  .layout, .app-layout {
+    display: block !important;
+    padding-left: 272px !important;
+    min-height: 100vh !important;
+  }
+  .savebar, .footer-bar {
+    left: 272px !important;
+  }
+  aside.v4-master-snb,
+  aside.v4-master-snb *,
+  aside.v4-master-snb *::before,
+  aside.v4-master-snb *::after {
+    box-sizing: border-box !important;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+    letter-spacing: -0.01em !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+  aside.v4-master-snb {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 272px !important;
+    min-width: 272px !important;
+    max-width: 272px !important;
+    height: 100vh !important;
+    background: #0f172a !important;
+    color: #cbd5e1 !important;
+    padding: 18px 14px 24px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    border-right: 1px solid #1e293b !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0px !important;
+    row-gap: 0px !important;
+    column-gap: 0px !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+  }
+  aside.v4-master-snb .v4-snb-brand {
+    padding: 4px 8px 14px !important;
+    border-bottom: 1px solid rgba(148,163,184,.16) !important;
+    margin: 0 0 6px 0 !important;
+    cursor: pointer !important;
+    display: block !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-title {
+    color: #ffffff !important;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-brand-sub {
+    color: #94a3b8 !important;
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 500 !important;
+    margin: 4px 0 0 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-group-label {
+    font-size: 11px !important;
+    line-height: 14px !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    padding: 12px 8px 5px !important;
+    margin: 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-item {
+    width: 100% !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    flex: 0 0 34px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 10px !important;
+    margin: 0 0 3px 0 !important;
+    border-radius: 8px !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    color: #cbd5e1 !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: background-color 0.12s ease, color 0.12s ease !important;
+  }
+  aside.v4-master-snb .v4-snb-item:hover {
+    background: rgba(255,255,255,.06) !important;
+    color: #ffffff !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active {
+    background: rgba(37,99,235,.22) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(96,165,250,.45) !important;
+  }
+  aside.v4-master-snb .v4-snb-item-title {
+    font-size: 12.5px !important;
+    line-height: 18px !important;
+    font-weight: 600 !important;
+    color: inherit !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
+    font-weight: 800 !important;
+  }
+  aside.v4-master-snb .v4-snb-item-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+    font-size: 10px !important;
+    line-height: 14px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+    background: rgba(15,23,42,.65) !important;
+    padding: 2px 6px !important;
+    border-radius: 5px !important;
+    flex-shrink: 0 !important;
+    margin: 0 !important;
+    letter-spacing: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
+    color: #93c5fd !important;
+    background: rgba(30,58,138,.7) !important;
+  }
+  aside.v4-master-snb .v4-snb-footer {
+    margin-top: auto !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(148,163,184,.14) !important;
+    flex: 0 0 auto !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box {
+    background: rgba(15,23,42,.55) !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 10px !important;
+    padding: 10px 11px !important;
+    font-size: 11px !important;
+    line-height: 16px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    margin: 0 !important;
+  }
+  aside.v4-master-snb .v4-snb-footer-box strong {
+    color: #e2e8f0 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+  }
+</style>
 </head>
 
 <body>
     <div class="layout">
         <!-- 좌측 SNB (전체 12개 화면 + 가이드 홈) -->
         <aside class="v4-master-snb" aria-label="산준모 정산 백오피스 표준 사이드바">
-            <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'"
-                title="전체 업무 플로우 가이드로 이동">
-                <div class="v4-snb-brand-title">산준모 정산시스템</div>
-                <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
-            </div>
-            <div class="v4-snb-group-label">0단계 · 전체 업무 플로우 안내</div>
-            <button type="button" class="v4-snb-item active"
-                onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'">
-                <span class="v4-snb-item-title">전체 업무 플로우 가이드</span>
-                <span class="v4-snb-item-code">GUIDE</span>
-            </button>
-            <div class="v4-snb-group-label">1단계 · 계약 · 상품 · 매핑 설정</div>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-001_baseline.html'">
-                <span class="v4-snb-item-title">권리자 계약 원장</span>
-                <span class="v4-snb-item-code">ADMN-INST-001</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-007_baseline.html'">
-                <span class="v4-snb-item-title">수취인 분할 관리</span>
-                <span class="v4-snb-item-code">ADMN-SETT-007</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-BOOK-001_baseline.html'">
-                <span class="v4-snb-item-title">도서 공급 원장</span>
-                <span class="v4-snb-item-code">ADMN-BOOK-001</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-001_baseline.html'">
-                <span class="v4-snb-item-title">상품별 권리자 매핑</span>
-                <span class="v4-snb-item-code">ADMN-SETT-001</span>
-            </button>
-            <div class="v4-snb-group-label">2단계 · 월마감 전 사전 검증</div>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-004_baseline.html'">
-                <span class="v4-snb-item-title">PG 정산 원장 대사</span>
-                <span class="v4-snb-item-code">ADMN-SETT-004</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-002_baseline.html'">
-                <span class="v4-snb-item-title">약정금 마일스톤 검수</span>
-                <span class="v4-snb-item-code">ADMN-INST-002</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-006_baseline.html'">
-                <span class="v4-snb-item-title">합격 환급반 관리</span>
-                <span class="v4-snb-item-code">ADMN-SETT-006</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-008_baseline.html'">
-                <span class="v4-snb-item-title">사업자등록 확인 이력</span>
-                <span class="v4-snb-item-code">ADMN-SETT-008</span>
-            </button>
-            <div class="v4-snb-group-label">3단계 · 월간 정산 · 집행 · 조회</div>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-002_baseline.html'">
-                <span class="v4-snb-item-title">월간 정산 및 집행</span>
-                <span class="v4-snb-item-code">ADMN-SETT-002</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-005_baseline.html'">
-                <span class="v4-snb-item-title">정산 수동 조정</span>
-                <span class="v4-snb-item-code">ADMN-SETT-005</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-009_baseline.html'">
-                <span class="v4-snb-item-title">내부 정산 조회 - 조회 전용</span>
-                <span class="v4-snb-item-code">ADMN-SETT-009</span>
-            </button>
-            <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-007_baseline.html'">
-                <span class="v4-snb-item-title">민감 정보 열람 통제</span>
-                <span class="v4-snb-item-code">ADMN-USER-007</span>
-            </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-010_baseline.html'">
-                <span class="v4-snb-item-title">정산 감사 로그</span>
-                <span class="v4-snb-item-code">ADMN-CONF-010</span>
-            </button>
-            <div class="v4-snb-footer">
-                <div class="v4-snb-footer-box">
-                    <strong>SSOT 정합성 기준</strong><br />
-                    01 비즈니스 · 02 연산/세무<br />
-                    03 화면/연동 · 04 QA 테스트
-                </div>
-            </div>
-        </aside>
+  <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" title="전체 업무 플로우 가이드로 이동">
+    <div class="v4-snb-brand-title">산준모 정산시스템</div>
+    <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
+  </div>
+  <div class="v4-snb-group-label">0단계 · 전체 업무 플로우 안내</div>
+  <button type="button" class="v4-snb-item active" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'">
+    <span class="v4-snb-item-title">전체 업무 플로우 가이드</span>
+    <span class="v4-snb-item-code">GUIDE</span>
+  </button>
+  <div class="v4-snb-group-label">1단계 · 계약 · 상품 · 매핑 설정</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-001_baseline.html'">
+    <span class="v4-snb-item-title">권리자 계약 원장</span>
+    <span class="v4-snb-item-code">ADMN-INST-001</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-007_baseline.html'">
+    <span class="v4-snb-item-title">수취인 분할 관리</span>
+    <span class="v4-snb-item-code">ADMN-SETT-007</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-BOOK-001_baseline.html'">
+    <span class="v4-snb-item-title">도서 공급 원장</span>
+    <span class="v4-snb-item-code">ADMN-BOOK-001</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-001_baseline.html'">
+    <span class="v4-snb-item-title">상품별 권리자 매핑</span>
+    <span class="v4-snb-item-code">ADMN-SETT-001</span>
+  </button>
+  <div class="v4-snb-group-label">2단계 · 월마감 전 사전 검증</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-004_baseline.html'">
+    <span class="v4-snb-item-title">PG 정산 원장 대사</span>
+    <span class="v4-snb-item-code">ADMN-SETT-004</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-002_baseline.html'">
+    <span class="v4-snb-item-title">약정금 마일스톤 검수</span>
+    <span class="v4-snb-item-code">ADMN-INST-002</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-006_baseline.html'">
+    <span class="v4-snb-item-title">합격 환급반 관리</span>
+    <span class="v4-snb-item-code">ADMN-SETT-006</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-008_baseline.html'">
+    <span class="v4-snb-item-title">사업자등록 확인 이력</span>
+    <span class="v4-snb-item-code">ADMN-SETT-008</span>
+  </button>
+  <div class="v4-snb-group-label">3단계 · 월간 정산 · 집행 · 조회</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-002_baseline.html'">
+    <span class="v4-snb-item-title">월간 정산 및 집행</span>
+    <span class="v4-snb-item-code">ADMN-SETT-002</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-005_baseline.html'">
+    <span class="v4-snb-item-title">정산 수동 조정</span>
+    <span class="v4-snb-item-code">ADMN-SETT-005</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-009_baseline.html'">
+    <span class="v4-snb-item-title">내부 정산 조회 - 조회 전용</span>
+    <span class="v4-snb-item-code">ADMN-SETT-009</span>
+  </button>
+  <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-007_baseline.html'">
+    <span class="v4-snb-item-title">민감 정보 열람 통제</span>
+    <span class="v4-snb-item-code">ADMN-USER-007</span>
+  </button>
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-010_baseline.html'">
+    <span class="v4-snb-item-title">정산 감사 로그</span>
+    <span class="v4-snb-item-code">ADMN-CONF-010</span>
+  </button>
+  <div class="v4-snb-footer">
+    <div class="v4-snb-footer-box">
+      <strong>SSOT 정합성 기준</strong><br/>
+      01 비즈니스 · 02 연산/세무<br/>
+      03 화면/연동 · 04 QA 테스트
+    </div>
+  </div>
+</aside>
 
         <!-- 우측 본문 -->
         <main class="main">
