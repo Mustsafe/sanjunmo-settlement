@@ -671,13 +671,13 @@
                 <span class="v4-snb-item-code">ADMN-SETT-009</span>
             </button>
             <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-004_baseline.html'">
+            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-007_baseline.html'">
                 <span class="v4-snb-item-title">민감 정보 열람 통제</span>
-                <span class="v4-snb-item-code">ADMN-USER-004</span>
+                <span class="v4-snb-item-code">ADMN-USER-007</span>
             </button>
-            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-008_baseline.html'">
+            <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-010_baseline.html'">
                 <span class="v4-snb-item-title">정산 감사 로그</span>
-                <span class="v4-snb-item-code">ADMN-CONF-008</span>
+                <span class="v4-snb-item-code">ADMN-CONF-010</span>
             </button>
             <div class="v4-snb-footer">
                 <div class="v4-snb-footer-box">
@@ -948,9 +948,9 @@
                                     <div class="stage-desc">개인정보 열람 통제(30초 재마스킹), 3계층 분리 파기, 전 화면 변경 이력을 추적합니다.</div>
                                 </div>
 
-                                <div class="screen-card" onclick="goScreen('ADMN-USER-004_baseline.html')">
+                                <div class="screen-card" onclick="goScreen('ADMN-USER-007_baseline.html')">
                                     <div class="screen-top">
-                                        <span class="screen-code">ADMN-USER-004</span>
+                                        <span class="screen-code">ADMN-USER-007</span>
                                         <span class="badge b-bad">AES-256 · TTL 30초</span>
                                     </div>
                                     <div class="screen-name">민감 정보 열람 통제</div>
@@ -965,9 +965,9 @@
                                     <div class="screen-go"><span>화면 열기</span><span>→</span></div>
                                 </div>
 
-                                <div class="screen-card" onclick="goScreen('ADMN-CONF-008_baseline.html')">
+                                <div class="screen-card" onclick="goScreen('ADMN-CONF-010_baseline.html')">
                                     <div class="screen-top">
-                                        <span class="screen-code">ADMN-CONF-008</span>
+                                        <span class="screen-code">ADMN-CONF-010</span>
                                         <span class="badge b-dark">WORM 불변 원장</span>
                                     </div>
                                     <div class="screen-name">정산 감사 로그</div>
@@ -1207,8 +1207,8 @@
                                     <td><strong>시나리오 D. 세무신고일(매월 10일/말일) 원천세·간이지급명세서 추출 및 계좌 진위 대조</strong></td>
                                     <td>
                                         <code>ADMN-SETT-009</code> (자사/전체 정산 대조 및 제14장 신고 기초자료 추출) → 확인 필요 시
-                                        <code>ADMN-USER-004</code> (10자 사유 입력 후 30초간 주민번호·계좌 열람) →
-                                        <code>ADMN-CONF-008</code> (감사로그 확인)
+                                        <code>ADMN-USER-007</code> (10자 사유 입력 후 30초간 주민번호·계좌 열람) →
+                                        <code>ADMN-CONF-010</code> (감사로그 확인)
                                     </td>
                                     <td>원천세 신고 집계는 실제 지급·적법한 상계·지급 의제 성립 건
                                         (<code>payment_event_date IS NOT NULL</code>)만 포함하며, 민감 정보 열람 후 30초

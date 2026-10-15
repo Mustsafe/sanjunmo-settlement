@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>[ADMN-CONF-008] 정산 감사 로그 — 산준모 정산시스템 v4.0.0</title>
+  <title>[ADMN-CONF-010] 정산 감사 로그 — 산준모 정산시스템 v4.0.0</title>
   <style>
     :root {
       --bg: #f3f6fb;
@@ -479,13 +479,13 @@
     <span class="v4-snb-item-code">ADMN-SETT-009</span>
   </button>
   <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
-  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-004_baseline.html'">
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-007_baseline.html'">
     <span class="v4-snb-item-title">민감 정보 열람 통제</span>
-    <span class="v4-snb-item-code">ADMN-USER-004</span>
+    <span class="v4-snb-item-code">ADMN-USER-007</span>
   </button>
-  <button type="button" class="v4-snb-item active" onclick="window.location.href='ADMN-CONF-008_baseline.html'">
+  <button type="button" class="v4-snb-item active" onclick="window.location.href='ADMN-CONF-010_baseline.html'">
     <span class="v4-snb-item-title">정산 감사 로그</span>
-    <span class="v4-snb-item-code">ADMN-CONF-008</span>
+    <span class="v4-snb-item-code">ADMN-CONF-010</span>
   </button>
   <div class="v4-snb-footer">
     <div class="v4-snb-footer-box">
@@ -501,7 +501,7 @@
     <header class="topbar">
       <div class="title-area">
         <h1>
-          <span class="badge b-dark">ADMN-CONF-008</span>
+          <span class="badge b-dark">ADMN-CONF-010</span>
           시스템 정산 감사 로그 (<code>ADMN_AUDIT_LOG</code> · 월별/기간별 불변 원장)
           <span class="badge b-ok">WORM (Write-Once-Read-Many) 무결성 검증</span>
         </h1>
@@ -566,7 +566,7 @@
           <div class="kpi-sub">COMPLETED↔ACTIVE 복원 · 과세유형 전환</div>
         </div>
         <div class="kpi-card" id="kpi-PII" onclick="setAuditCategory('PII')">
-          <div class="kpi-label"><span>민감정보 열람 · 계층 1 파기</span><span class="badge b-bad">USER-004 · 3.5절</span></div>
+          <div class="kpi-label"><span>민감정보 열람 · 계층 1 파기</span><span class="badge b-bad">USER-007 · 3.5절</span></div>
           <div class="kpi-val" style="color:var(--bad);" id="kpiValPii">2건</div>
           <div class="kpi-sub">10자 이상 열람 사유 및 개인정보 필드 파기</div>
         </div>
@@ -588,7 +588,7 @@
               <option value="SHARE">1. 1계층·2계층 지분율 및 매핑 변경 (SETT-001 / SETT-007)</option>
               <option value="FINANCE">2. 정산 수동 조정 · 계정 간 대체 · 수기 검수 (SETT-005 / INST-002)</option>
               <option value="STATE">3. 지원금 상태전이(COMPLETED↔ACTIVE) · 국세청 · 도서 공급형태</option>
-              <option value="PII">4. 민감정보 마스킹 해제 및 계층 1 개인정보 파기 (USER-004)</option>
+              <option value="PII">4. 민감정보 마스킹 해제 및 계층 1 개인정보 파기 (USER-007)</option>
             </select>
 
             <select id="screenSelect" class="select" onchange="renderAuditRows()">
@@ -600,7 +600,7 @@
               <option value="ADMN-SETT-002">ADMN-SETT-002 (월간 정산 및 집행)</option>
               <option value="ADMN-SETT-008">ADMN-SETT-008 (사업자등록 확인 이력)</option>
               <option value="ADMN-BOOK-001">ADMN-BOOK-001 (도서 공급 원장)</option>
-              <option value="ADMN-USER-004">ADMN-USER-004 (민감 정보 열람 통제)</option>
+              <option value="ADMN-USER-007">ADMN-USER-007 (민감 정보 열람 통제)</option>
             </select>
 
             <input type="text" id="auditKeyword" class="input" style="width:260px;" placeholder="로그ID, 대상 식별자(CT/SUP/ADJ), 작업자, 사유 검색..." oninput="renderAuditRows()" />
@@ -823,8 +823,8 @@
       dateOnly: "2026-10-15",
       ts: "2026-10-15 14:22:10",
       cat: "PII",
-      screenCode: "ADMN-USER-004",
-      screenFile: "ADMN-USER-004_baseline.html",
+      screenCode: "ADMN-USER-007",
+      screenFile: "ADMN-USER-007_baseline.html",
       eventName: "민감 정보(주민번호·계좌번호) 마스킹 해제 열람 (3.4절 · TTL 30초)",
       targetId: "RH-0025 (정종대)",
       reason: "2026-10 당월 펌뱅킹 대량이체 실행 전 예금주 실명 확인 및 계좌 대조 (10자 이상 사유 검증 통과)",
@@ -997,8 +997,8 @@
       dateOnly: "2026-10-12",
       ts: "2026-10-12 09:50:11",
       cat: "PII",
-      screenCode: "ADMN-USER-004",
-      screenFile: "ADMN-USER-004_baseline.html",
+      screenCode: "ADMN-USER-007",
+      screenFile: "ADMN-USER-007_baseline.html",
       eventName: "계층 1 개인식별 필드 분리 파기 및 계층 2 정산원장 비식별 보존 (3.5절)",
       targetId: "RH-0003 (이*기_CT-2020-0011)",
       reason: "국세기본법 법정신고기한 + 5년 경과 및 파기 보류 사유(선급금·소송) 부재 확인에 따른 주민번호·신분증 파기 승인 (정산 금액은 10년 보존)",
@@ -1070,8 +1070,8 @@
       dateOnly: "2026-09-10",
       ts: "2026-09-10 11:20:09",
       cat: "PII",
-      screenCode: "ADMN-USER-004",
-      screenFile: "ADMN-USER-004_baseline.html",
+      screenCode: "ADMN-USER-007",
+      screenFile: "ADMN-USER-007_baseline.html",
       eventName: "증빙 사본 Presigned URL 발급 열람 (5분 만료 · 3.3절)",
       targetId: "RH-0018 (상속재산분할협의서 및 가족관계증명서)",
       reason: "저작자 사망에 따른 상속인 수취 계좌 및 법정상속인 신분증 진위 대조를 위한 S3 보안 문서 열람",

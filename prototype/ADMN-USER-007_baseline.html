@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>[ADMN-USER-004] 민감 정보 열람 통제 — 산준모 정산시스템 v4.0.0</title>
+  <title>[ADMN-USER-007] 민감 정보 열람 통제 — 산준모 정산시스템 v4.0.0</title>
   <style>
     :root {
       --bg: #f3f6fb;
@@ -485,13 +485,13 @@
     <span class="v4-snb-item-code">ADMN-SETT-009</span>
   </button>
   <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
-  <button type="button" class="v4-snb-item active" onclick="window.location.href='ADMN-USER-004_baseline.html'">
+  <button type="button" class="v4-snb-item active" onclick="window.location.href='ADMN-USER-007_baseline.html'">
     <span class="v4-snb-item-title">민감 정보 열람 통제</span>
-    <span class="v4-snb-item-code">ADMN-USER-004</span>
+    <span class="v4-snb-item-code">ADMN-USER-007</span>
   </button>
-  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-008_baseline.html'">
+  <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-010_baseline.html'">
     <span class="v4-snb-item-title">정산 감사 로그</span>
-    <span class="v4-snb-item-code">ADMN-CONF-008</span>
+    <span class="v4-snb-item-code">ADMN-CONF-010</span>
   </button>
   <div class="v4-snb-footer">
     <div class="v4-snb-footer-box">
@@ -507,7 +507,7 @@
     <header class="topbar">
       <div class="title-area">
         <h1>
-          <span class="badge b-dark">ADMN-USER-004</span>
+          <span class="badge b-dark">ADMN-USER-007</span>
           민감 정보 열람 통제 및 보존기한 3계층 파기 관리
           <span class="badge b-bad">AES-256 · 30초 자동 재마스킹 · S3 Presigned URL</span>
         </h1>
@@ -515,7 +515,7 @@
       </div>
       <div style="display:flex; gap:8px;">
         <button class="btn" onclick="maskAllNow()">🔒 열람 중인 민감 정보 즉시 전체 재마스킹</button>
-        <button class="btn btn-pri" onclick="goNav('ADMN-CONF-008_baseline.html')">↗ 정산 감사 로그 확인 (CONF-008)</button>
+        <button class="btn btn-pri" onclick="goNav('ADMN-CONF-010_baseline.html')">↗ 정산 감사 로그 확인 (CONF-010)</button>
       </div>
     </header>
 
@@ -563,7 +563,7 @@
               <option value="REFUND">합격환급반 수강생 (제세공과금 22% 신고용 수집)</option>
             </select>
             <span style="margin-left:auto; font-size:12px; color:var(--muted);">
-              ※ 열람 아이콘 클릭 시 <strong>[ADMN-USER-004 민감 정보 열람 사유 입력 팝업]</strong>이 호출되며, 사유(10자 이상) 입력 후 <strong>30초간만 평문이 표시</strong>됩니다.
+              ※ 열람 아이콘 클릭 시 <strong>[ADMN-USER-007 민감 정보 열람 사유 입력 팝업]</strong>이 호출되며, 사유(10자 이상) 입력 후 <strong>30초간만 평문이 표시</strong>됩니다.
             </span>
           </div>
 
@@ -695,7 +695,7 @@
       <div style="display:flex; align-items:center; gap:12px;">
         <span class="badge b-bad">RBAC 전용 재무 운영자 권한</span>
         <span style="font-size:12.5px; color:#cbd5e1;">
-          모든 마스킹 해제 및 증빙 사본(Presigned URL) 호출은 <strong>[ADMN-USER-004 사유 입력 팝업]</strong> 통과 후 <strong>ADMN-CONF-008(감사 로그)</strong>에 영구 기록됩니다.
+          모든 마스킹 해제 및 증빙 사본(Presigned URL) 호출은 <strong>[ADMN-USER-007 사유 입력 팝업]</strong> 통과 후 <strong>ADMN-CONF-010(감사 로그)</strong>에 영구 기록됩니다.
         </span>
       </div>
       <div style="font-family:var(--mono); font-size:12px; color:#93c5fd;">
@@ -706,18 +706,18 @@
 </div>
 
 <!-- ===================================================================== -->
-<!-- [ADMN-USER-004] 민감 정보 열람 사유 입력 팝업 모달 (3.4절 핵심 규격)       -->
+<!-- [ADMN-USER-007] 민감 정보 열람 사유 입력 팝업 모달 (3.4절 핵심 규격)       -->
 <!-- ===================================================================== -->
 <div class="modal-backdrop" id="unmaskReasonModal">
   <div class="modal">
     <div class="modal-hd">
-      <h3>🔐 [ADMN-USER-004] 민감 정보 열람 사유 입력 통제 팝업 (제3장 3.4절)</h3>
+      <h3>🔐 [ADMN-USER-007] 민감 정보 열람 사유 입력 통제 팝업 (제3장 3.4절)</h3>
       <button class="btn btn-sm" style="background:#1e293b; color:#fff; border-color:#475569;" onclick="closeUnmaskModal()">✕ 닫기</button>
     </div>
     <div class="modal-bd">
       <div style="background:#fef2f2; border:1px solid #fca5a5; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12.5px; color:#7f1d1d;">
         ⚠️ <strong>[개인정보 보호법 및 내부 감사 통제 고지]</strong><br/>
-        요청하신 항목은 AES-256 암호화 보호 대상입니다. 열람 또는 사본 다운로드 시 <strong>작업자 ID, IP, 열람 시각, 입력 사유가 시스템 감사 로그(<code>ADMN-CONF-008</code>)에 즉시 기록</strong>되며, 화면 평문은 <strong>30초(<code>pii_unmask_ttl_seconds</code>) 후 자동으로 다시 마스킹</strong>됩니다.
+        요청하신 항목은 AES-256 암호화 보호 대상입니다. 열람 또는 사본 다운로드 시 <strong>작업자 ID, IP, 열람 시각, 입력 사유가 시스템 감사 로그(<code>ADMN-CONF-010</code>)에 즉시 기록</strong>되며, 화면 평문은 <strong>30초(<code>pii_unmask_ttl_seconds</code>) 후 자동으로 다시 마스킹</strong>됩니다.
       </div>
 
       <div style="background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:11px 14px; margin-bottom:14px;">
