@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[ADMN-PROD-001] 카테고리 관리 — 산준모 백오피스 v4.0.0</title>
+<style>
+  :root {
+    --bg: #f3f6fb;
+    --card: #ffffff;
+    --ink: #0f172a;
+    --muted: #475569;
+    --sub: #64748b;
+    --line: #dbe3ef;
+    --line-strong: #b8c6db;
+    --pri: #1d4ed8;
+    --pri-soft: #eff6ff;
+    --ok: #15803d;
+    --ok-soft: #dcfce7;
+    --ok-line: #86efac;
+    --warn: #b45309;
+    --warn-soft: #fffbeb;
+    --warn-line: #fcd34d;
+    --bad: #b91c1c;
+    --bad-soft: #fee2e2;
+    --bad-line: #fca5a5;
+    --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --radius: 12px;
+    --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.5;
+    font-size: 13px;
+  }
+  .main { display: flex; flex-direction: column; min-width: 0; padding-bottom: 60px; }
+
+  /* Top Header Bar */
+  .page-top-banner {
+    background: #111827;
+    color: #ffffff;
+    padding: 10px 28px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar {
+    background: #ffffff;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .title-wrap h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .title-wrap h1 small {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sub);
+  }
+  .breadcrumb {
+    font-size: 12px;
+    color: var(--sub);
+    font-weight: 600;
+  }
+
+  .content { padding: 20px 28px; display: flex; flex-direction: column; gap: 16px; max-width: 1480px; }
+
+  /* Search Filter Box */
+  .search-table {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    border-collapse: collapse;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .search-table th {
+    width: 120px;
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 800;
+    padding: 11px 14px;
+    border-right: 1px solid var(--line);
+    text-align: left;
+    font-size: 12.5px;
+  }
+  .search-table td {
+    padding: 9px 14px;
+    border-right: 1px solid var(--line);
+  }
+  .search-table td:last-child { border-right: none; }
+
+  input[type="text"], input[type="number"], select {
+    padding: 7px 11px;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-family: inherit;
+    color: var(--ink);
+    background: #ffffff;
+  }
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.12);
+  }
+  .field-ro {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    border-color: #cbd5e1 !important;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  /* Buttons & Badges */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 8px 14px; border-radius: 7px;
+    font-size: 12.5px; font-weight: 800;
+    border: 1px solid var(--line-strong);
+    background: #ffffff; color: var(--ink);
+    cursor: pointer; transition: 0.14s; font-family: inherit; white-space: nowrap;
+  }
+  .btn:hover { background: #f8fafc; }
+  .btn-dark { background: #111827; color: #ffffff; border-color: #111827; }
+  .btn-dark:hover { background: #1f2937; }
+  .btn-danger-outline { background: #ffffff; color: #dc2626; border-color: #fca5a5; }
+  .btn-danger-outline:hover { background: #fef2f2; }
+  .btn-sm { padding: 4px 9px; font-size: 11.5px; border-radius: 5px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 800; white-space: nowrap;
+  }
+  .b-on { background: var(--ok-soft); color: var(--ok); }
+  .b-off { background: var(--bad-soft); color: var(--bad); }
+  .b-default { background: #e2e8f0; color: #475569; }
+
+  /* Two-Column Workspace */
+  .workspace-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .panel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .panel-hd {
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .panel-hd h2 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .panel-hd h2 small {
+    font-weight: 500;
+    color: var(--sub);
+    font-size: 11.5px;
+  }
+  .panel-bd { padding: 14px 16px; }
+
+  /* Left Category Tree */
+  .tree-list { display: flex; flex-direction: column; gap: 4px; }
+  .tree-node {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: 0.12s;
+    user-select: none;
+  }
+  .tree-node:hover { background: #f8fafc; border-color: var(--line); }
+  .tree-node.depth-1 { font-weight: 800; font-size: 13px; margin-top: 4px; }
+  .tree-node.depth-2 { margin-left: 20px; font-weight: 600; font-size: 12.5px; color: #334155; }
+  .tree-node.inactive-node { color: #94a3b8; }
+  .tree-node.selected {
+    background: #eff6ff !important;
+    border-color: #93c5fd !important;
+    color: #1e3a8a !important;
+  }
+  .drag-handle {
+    color: #94a3b8;
+    font-family: var(--mono);
+    font-size: 12px;
+    margin-right: 6px;
+    cursor: grab;
+  }
+  .tree-meta { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--sub); }
+  .order-arrows { display: inline-flex; gap: 2px; margin-left: 4px; }
+  .arrow-btn {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #475569;
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .arrow-btn:hover { background: #e2e8f0; }
+
+  .tree-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Right Detail Form */
+  .section-title-bar {
+    padding: 0 0 8px 0;
+    border-bottom: 2px solid #0f172a;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .section-title-bar h3 { margin: 0; font-size: 14.5px; font-weight: 900; }
+  .section-title-bar span { font-size: 12px; color: var(--sub); font-weight: 600; }
+
+  .form-block { margin-bottom: 14px; }
+  .form-block label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 5px;
+  }
+  .req { color: #dc2626; margin-left: 2px; }
+  .help-txt { font-size: 11.5px; color: var(--sub); margin-top: 4px; }
+  .help-warn { font-size: 11.5px; color: #b45309; font-weight: 600; margin-top: 5px; }
+
+  .chk-group { display: flex; gap: 8px; align-items: center; }
+  .chk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 6px;
+    background: #fff;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .chk-pill.active-pill {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+
+  /* Connected Courses Table */
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.data-table th {
+    background: #f8fafc;
+    color: var(--muted);
+    font-weight: 800;
+    padding: 9px 12px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  table.data-table th.left, table.data-table td.left { text-align: left; }
+  table.data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+
+  .bottom-action-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .constraint-note {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #475569;
+  }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 28px;
+    background: #0f172a; color: #fff; padding: 11px 16px;
+    border-radius: 9px; font-size: 12.5px; font-weight: 700;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none; z-index: 300; border-left: 4px solid #38bdf8;
+  }
+</style>
+
+<!-- 픽셀 고정 마스터 SNB 스타일 -->
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"><style id="v4-patch-v8-1-style">
+/* === [SANJUNMO v4.0.0 MASTER SNB & GEN-3 TOPBAR LOCK v8.1 FINAL] === */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+}
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  background-color: #F8FAFC !important;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  display: block !important;
+}
+
+/* 구버전 잔재 사이드바 및 중복 헤더 100% 숨김 */
+aside.v4-master-snb:not(#v4-master-snb),
+aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
+.page-top-banner, .wb-header, .wireframe-banner, .legacy-top-banner,
+#v4-page-body .topbar {
+  display: none !important;
+}
+
+/* ============================================================================
+   1. 고정 픽셀 마스터 SNB (좌측 260px · 단일 스크롤 · 좌측 정렬 100% 고정)
+   ============================================================================ */
+#v4-master-snb {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  height: 100vh !important;
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 9999 !important;
+  border-right: 1px solid #1E293B !important;
+  user-select: none !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-align: left !important;
+}
+#v4-master-snb * {
+  box-sizing: border-box !important;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+#v4-master-snb .snb-brand {
+  padding: 18px 18px 14px 18px !important;
+  border-bottom: 1px solid #1E293B !important;
+  flex: 0 0 auto !important;
+}
+#v4-master-snb .snb-brand-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 4px !important;
+}
+#v4-master-snb .snb-brand-title {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  letter-spacing: -0.02em !important;
+  line-height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 7px !important;
+}
+#v4-master-snb .snb-brand-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #3B82F6 !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+}
+#v4-master-snb .snb-version-pill {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 999px !important;
+  background: rgba(59, 130, 246, 0.18) !important;
+  color: #60A5FA !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  line-height: 14px !important;
+}
+#v4-master-snb .snb-brand-sub {
+  font-size: 11px !important;
+  color: #64748B !important;
+  font-weight: 500 !important;
+  line-height: 15px !important;
+  text-align: left !important;
+}
+#v4-master-snb .snb-scroll-area {
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 12px 10px 20px 10px !important;
+}
+#v4-master-snb .snb-scroll-area::-webkit-scrollbar { width: 5px !important; }
+#v4-master-snb .snb-scroll-area::-webkit-scrollbar-track { background: #0F172A !important; }
+#v4-master-snb .snb-scroll-area::-webkit-scrollbar-thumb { background: #334155 !important; border-radius: 3px !important; }
+#v4-master-snb .snb-group { margin-bottom: 14px !important; }
+#v4-master-snb .snb-group-title {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: #64748B !important;
+  padding: 0 8px 6px 8px !important;
+  letter-spacing: 0.02em !important;
+  line-height: 14px !important;
+  text-transform: uppercase !important;
+  text-align: left !important;
+}
+#v4-master-snb .snb-item-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 2px !important;
+}
+#v4-master-snb .snb-item,
+#v4-master-snb a.snb-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  gap: 8px !important;
+  width: 100% !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0 10px !important;
+  border-radius: 7px !important;
+  text-decoration: none !important;
+  color: #CBD5E1 !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  line-height: 18px !important;
+  transition: background 0.12s, color 0.12s !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+#v4-master-snb .snb-item:hover {
+  background: #1E293B !important;
+  color: #FFFFFF !important;
+}
+#v4-master-snb .snb-item.active {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35) !important;
+}
+#v4-master-snb .snb-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 5px !important;
+  border-radius: 4px !important;
+  background: rgba(148, 163, 184, 0.14) !important;
+  color: #94A3B8 !important;
+  line-height: 13px !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+#v4-master-snb .snb-item.active .snb-code {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+}
+#v4-master-snb .snb-label {
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+#v4-master-snb .snb-footer {
+  padding: 10px 16px !important;
+  border-top: 1px solid #1E293B !important;
+  font-size: 10.5px !important;
+  color: #475569 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  flex: 0 0 auto !important;
+}
+
+/* ============================================================================
+   2. 본문 루트 쉘 (#v4-root-shell) 및 20개 전 화면 본문 여백(28px) 완전 통일
+   ============================================================================ */
+#v4-root-shell {
+  margin-left: 260px !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  width: calc(100% - 260px) !important;
+  max-width: calc(100% - 260px) !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #F8FAFC !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+#v4-page-body {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background: #F8FAFC !important;
+  flex: 1 1 auto !important;
+  overflow: visible !important;
+}
+
+/* 바깥쪽 껍데기 래퍼(.layout, .app-layout, .app-shell)는 여백 0으로 평탄화 */
+#v4-root-shell .layout,
+#v4-root-shell .app-layout,
+#v4-root-shell .app-shell {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* 실제 컨텐츠 컨테이너(.content, .main-container, main.main 등)는 모두 동일하게 상하 22px, 좌우 28px 여백 부여! */
+#v4-root-shell main.content,
+#v4-root-shell .content,
+#v4-root-shell main.main-container,
+#v4-root-shell .main-container,
+#v4-root-shell main.main,
+#v4-root-shell .layout > .main,
+#v4-root-shell .app-layout > .main,
+#v4-page-body > .main {
+  display: block !important;
+  padding: 22px 28px 96px 28px !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* 단, ADMN-INST-001 및 ADMN-SETT-001처럼 main.content 안쪽에 div.main이 한 번 더 중첩된 경우에는 이중 패딩 방지 */
+#v4-root-shell .content .main {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 탭 바(.ptabs) 및 브레드크럼 바(.breadcrumb-bar) 정렬 */
+#v4-root-shell .ptabs {
+  display: flex !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+/* 만약 .ptabs가 .content 바깥(상단)에 단독으로 있는 경우(ADMN-SETT-001) 좌우 28px 맞춤 */
+#v4-page-body > .ptabs,
+#v4-root-shell .layout > .ptabs {
+  padding: 18px 28px 0 28px !important;
+}
+
+#v4-root-shell .breadcrumb,
+#v4-root-shell .breadcrumb-bar {
+  display: flex !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 10px 28px !important;
+  box-sizing: border-box !important;
+}
+
+/* 하단 고정 액션바(savebar / footer-bar) 좌측 260px 맞춤 */
+.savebar, .footer-bar {
+  left: 260px !important;
+  width: calc(100% - 260px) !important;
+  z-index: 800 !important;
+}
+
+/* ============================================================================
+   3. 3세대 표준 상단 Top Bar (60px 고정 · 우측 컨트롤 깨짐 방지)
+   ============================================================================ */
+header.top-bar.v4-gen3-topbar {
+  height: 60px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  padding: 0 28px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 900 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-group {
+  font-size: 12px !important;
+  color: #64748B !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-sep {
+  color: #CBD5E1 !important;
+  font-size: 12px !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 4px 9px !important;
+  border-radius: 6px !important;
+  background: #EFF6FF !important;
+  color: #1D4ED8 !important;
+  border: 1px solid #BFDBFE !important;
+  white-space: nowrap !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-title {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  letter-spacing: -0.02em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right .tools,
+header.top-bar.v4-gen3-topbar .top-bar-right .inline {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right label {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  white-space: nowrap !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right select,
+header.top-bar.v4-gen3-topbar .top-bar-right select.fc,
+header.top-bar.v4-gen3-topbar .top-bar-right select.select,
+header.top-bar.v4-gen3-topbar .top-bar-right select.form-select {
+  width: auto !important;
+  min-width: 120px !important;
+  height: 32px !important;
+  padding: 0 10px !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #1E293B !important;
+  background: #F8FAFC !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .subview-switcher {
+  display: inline-flex !important;
+  background: #F1F5F9 !important;
+  padding: 3px !important;
+  border-radius: 8px !important;
+  border: 1px solid #E2E8F0 !important;
+  gap: 2px !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn {
+  border: none !important;
+  background: transparent !important;
+  padding: 5px 11px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all 0.12s !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn.active {
+  background: #FFFFFF !important;
+  color: #1D4ED8 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn .code-pill,
+header.top-bar.v4-gen3-topbar .subview-btn .code-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  background: #E2E8F0 !important;
+  color: #475569 !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn.active .code-pill,
+header.top-bar.v4-gen3-topbar .subview-btn.active .code-tag {
+  background: #DBEAFE !important;
+  color: #1D4ED8 !important;
+}
+</style></head>
+<body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바">
+    <div class="snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" style="cursor:pointer;">
+      <div class="snb-brand-top">
+        <div class="snb-brand-title">
+          <span class="snb-brand-dot"></span>
+          <span>산준모 백오피스</span>
+        </div>
+        <span class="snb-version-pill">v4.0.0</span>
+      </div>
+      <div class="snb-brand-sub">상품 · 권리자 · 정산 통합 어드민</div>
+    </div>
+    <div class="snb-scroll-area">
+      <div class="snb-group">
+        <div class="snb-group-title">0단계 · 전체 업무 플로우 안내</div>
+        <div class="snb-item-list">
+        <a href="00_WORKFLOW_GUIDE_baseline.html" class="snb-item" data-screen-code="WORKFLOW-GUIDE">
+          <span class="snb-code">GUIDE</span>
+          <span class="snb-label">전체 업무 플로우 가이드</span>
+        </a></div>
+      </div>
+      <div class="snb-group">
+        <div class="snb-group-title">상품 · 강좌 · 교재 관리 (PROD)</div>
+        <div class="snb-item-list">
+        <a href="ADMN-PROD-001_baseline.html" class="snb-item active" data-screen-code="ADMN-PROD-001">
+          <span class="snb-code">PROD-001</span>
+          <span class="snb-label">카테고리 관리</span>
+        </a>
+        <a href="ADMN-PROD-002_baseline.html" class="snb-item" data-screen-code="ADMN-PROD-002">
+          <span class="snb-code">PROD-002</span>
+          <span class="snb-label">강의 관리 (영상 단품)</span>
+        </a>
+        <a href="ADMN-PROD-003_baseline.html" class="snb-item" data-screen-code="ADMN-PROD-003">
+          <span class="snb-code">PROD-003</span>
+          <span class="snb-label">단과 강좌 관리</span>
+        </a>
+        <a href="ADMN-PROD-004_baseline.html" class="snb-item" data-screen-code="ADMN-PROD-004">
+          <span class="snb-code">PROD-004</span>
+          <span class="snb-label">교재 관리</span>
+        </a>
+        <a href="ADMN-PROD-005_baseline.html" class="snb-item" data-screen-code="ADMN-PROD-005">
+          <span class="snb-code">PROD-005</span>
+          <span class="snb-label">패키지 · 환급반 상품 관리</span>
+        </a>
+        <a href="ADMN-PROD-006_baseline.html" class="snb-item" data-screen-code="ADMN-PROD-006">
+          <span class="snb-code">PROD-006</span>
+          <span class="snb-label">강사 노출 정보 관리</span>
+        </a>
+        <a href="ADMN-PROD-007_baseline.html" class="snb-item" data-screen-code="ADMN-PROD-007">
+          <span class="snb-code">PROD-007</span>
+          <span class="snb-label">일반상품 관리</span>
+        </a></div>
+      </div>
+      <div class="snb-group">
+        <div class="snb-group-title">1단계 · 계약 · 상품 · 매핑 설정</div>
+        <div class="snb-item-list">
+        <a href="ADMN-INST-001_baseline.html" class="snb-item" data-screen-code="ADMN-INST-001">
+          <span class="snb-code">INST-001</span>
+          <span class="snb-label">권리자 계약 원장</span>
+        </a>
+        <a href="ADMN-SETT-007_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-007">
+          <span class="snb-code">SETT-007</span>
+          <span class="snb-label">수취인 분할 관리</span>
+        </a>
+        <a href="ADMN-BOOK-001_baseline.html" class="snb-item" data-screen-code="ADMN-BOOK-001">
+          <span class="snb-code">BOOK-001</span>
+          <span class="snb-label">도서 공급 원장</span>
+        </a>
+        <a href="ADMN-SETT-001_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-001">
+          <span class="snb-code">SETT-001</span>
+          <span class="snb-label">상품별 권리자 매핑</span>
+        </a></div>
+      </div>
+      <div class="snb-group">
+        <div class="snb-group-title">2단계 · 월마감 전 검증 (Gate)</div>
+        <div class="snb-item-list">
+        <a href="ADMN-SETT-004_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-004">
+          <span class="snb-code">SETT-004</span>
+          <span class="snb-label">PG 정산 원장 대사</span>
+        </a>
+        <a href="ADMN-INST-002_baseline.html" class="snb-item" data-screen-code="ADMN-INST-002">
+          <span class="snb-code">INST-002</span>
+          <span class="snb-label">약정금 마일스톤 검수</span>
+        </a>
+        <a href="ADMN-SETT-006_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-006">
+          <span class="snb-code">SETT-006</span>
+          <span class="snb-label">합격 환급반 관리</span>
+        </a>
+        <a href="ADMN-SETT-008_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-008">
+          <span class="snb-code">SETT-008</span>
+          <span class="snb-label">사업자등록 확인 이력</span>
+        </a></div>
+      </div>
+      <div class="snb-group">
+        <div class="snb-group-title">3단계 · 월간 정산 · 집행 · 조회</div>
+        <div class="snb-item-list">
+        <a href="ADMN-SETT-002_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-002">
+          <span class="snb-code">SETT-002</span>
+          <span class="snb-label">월간 정산 및 집행</span>
+        </a>
+        <a href="ADMN-SETT-005_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-005">
+          <span class="snb-code">SETT-005</span>
+          <span class="snb-label">정산 수동 조정</span>
+        </a>
+        <a href="ADMN-SETT-009_baseline.html" class="snb-item" data-screen-code="ADMN-SETT-009">
+          <span class="snb-code">SETT-009</span>
+          <span class="snb-label">내부 정산 조회 - 조회 전용</span>
+        </a></div>
+      </div>
+      <div class="snb-group">
+        <div class="snb-group-title">4단계 · 보안 및 감사 통제</div>
+        <div class="snb-item-list">
+        <a href="ADMN-USER-007_baseline.html" class="snb-item" data-screen-code="ADMN-USER-007">
+          <span class="snb-code">USER-007</span>
+          <span class="snb-label">민감 정보 열람 통제</span>
+        </a>
+        <a href="ADMN-CONF-010_baseline.html" class="snb-item" data-screen-code="ADMN-CONF-010">
+          <span class="snb-code">CONF-010</span>
+          <span class="snb-label">정산 감사 로그</span>
+        </a></div>
+      </div>
+    </div>
+    <div class="snb-footer">
+      <span>PROD &amp; SETTLEMENT</span>
+      <span>SSOT Verified</span>
+    </div>
+  </aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
+    <div class="top-bar-left">
+      <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+      <span class="crumb-sep">›</span>
+      <span class="crumb-code" id="header-screen-code">ADMN-PROD-001</span>
+      <h1 class="crumb-title" id="header-screen-title">카테고리 관리 (2-Depth 직무 · 자격증 분류 체계)</h1>
+    </div>
+    <div class="top-bar-right" id="v4-topbar-right-slot">
+      <span style="font-size:11.5px; font-weight:700; color:#475569; background:#F1F5F9; padding:5px 10px; border-radius:6px; border:1px solid #E2E8F0;">SSOT v4.0.0 Baseline</span>
+    </div></header><div id="v4-page-body">
+  
+  
+
+  
+  <!-- 좌측 마스터 SNB (개별 파일 링크 정식 반영) -->
+  
+
+  <!-- 우측 본문 -->
+  <main class="main">
+    
+
+    
+
+    <div class="content">
+      <!-- 상단 검색 필터 -->
+      <table class="search-table">
+        <tbody>
+          <tr>
+            <th>전시 상태</th>
+            <td style="width: 320px;">
+              <select id="filterActive" style="width: 180px;" onchange="applyFilter()">
+                <option value="ALL">전체</option>
+                <option value="ON">전시중</option>
+                <option value="OFF">비전시</option>
+              </select>
+            </td>
+            <th>카테고리명</th>
+            <td>
+              <div style="display:flex; gap:8px; justify-content:flex-end; align-items:center;">
+                <input type="text" id="filterKeyword" placeholder="카테고리명 입력" style="width: 220px;" onkeyup="if(event.key==='Enter') applyFilter()">
+                <button class="btn btn-dark" onclick="applyFilter()">조회</button>
+                <button class="btn" onclick="resetFilter()">초기화</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 좌우 2단 워크스페이스 -->
+      <div class="workspace-grid">
+        <!-- 좌측 카테고리 트리 -->
+        <div class="panel">
+          <div class="panel-hd">
+            <h2>카테고리 트리 <small>드래그로 순서 변경</small></h2>
+          </div>
+          <div class="panel-bd">
+            <div class="tree-list" id="treeContainer"></div>
+
+            <div class="tree-actions">
+              <button class="btn" onclick="startAddCategory(1)">+ 1Depth 추가</button>
+              <button class="btn" onclick="startAddCategory(2)">+ 2Depth 추가</button>
+              <button class="btn btn-dark" onclick="saveTreeOrder()">정렬 저장</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 우측 카테고리 상세 및 연결 현황 -->
+        <div class="panel">
+          <div class="panel-bd" style="padding: 20px 24px;" id="detailContainer"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+<div class="toast" id="toast"></div>
+
+
+
+</div></div><script>
+// ============================================================================
+// 초기 데이터 (스크린샷 스펙 100% 반영)
+// ============================================================================
+const CATEGORIES = [
+  // 1. 산업안전기사 (1Depth)
+  {
+    id: "CAT-100", code: "SAFE_ENGINEER", depth: 1, parentId: null,
+    numLabel: "1.", name: "산업안전기사", order: 1, active: true, isDefault: true, note: "",
+    courses: [
+      { id: "CRS-2026-0042", title: "2026 산업안전기사 실기 필답형 (안창훈)", price: 132000, display: true },
+      { id: "CRS-2026-0041", title: "2026 산업안전기사 필기 이론 마스터 (정종대)", price: 198000, display: true }
+    ]
+  },
+  {
+    id: "CAT-101", code: "SAFE_WRITTEN", depth: 2, parentId: "CAT-100",
+    numLabel: "01.", name: "필기", order: 1, active: true, isDefault: false, note: "",
+    courses: [
+      { id: "CRS-2026-0041", title: "2026 산업안전기사 필기 이론 마스터 (정종대)", price: 198000, display: true },
+      { id: "CRS-2026-0039", title: "2026 산업안전기사 필기 7개년 기출 완성 (정종대)", price: 154000, display: true },
+      { id: "CRS-2026-0035", title: "산업안전기사 필기 핵심 계산문제 특강", price: 88000, display: true },
+      { id: "CRS-2026-0031", title: "안전관리론 단기 완성반", price: 66000, display: true },
+      { id: "CRS-2026-0029", title: "인간공학 및 시스템안전공학 단과", price: 66000, display: true },
+      { id: "CRS-2026-0025", title: "산업안전보건법령 빈출 지문 정리", price: 55000, display: true }
+    ]
+  },
+  {
+    id: "CAT-102", code: "SAFE_PRACTICAL", depth: 2, parentId: "CAT-100",
+    numLabel: "02.", name: "실기", order: 2, active: true, isDefault: false, note: "",
+    courses: [
+      { id: "CRS-2026-0042", title: "2026 산업안전기사 실기 필답형 (안창훈)", price: 132000, display: true },
+      { id: "CRS-2026-0040", title: "2026 산업안전기사 실기 작업형 (안창훈)", price: 110000, display: true },
+      { id: "CRS-2026-0038", title: "실기 기출 10개년 해설 특강", price: 66000, display: true },
+      { id: "CRS-2026-0033", title: "실기 최종 마무리 요약 특강", price: 44000, display: false }
+    ]
+  },
+  {
+    id: "CAT-103", code: "SAFE_SPECIAL", depth: 2, parentId: "CAT-100",
+    numLabel: "03.", name: "기출 · 특강", order: 3, active: true, isDefault: false, note: "",
+    courses: [
+      { id: "CRS-2026-0038", title: "실기 기출 10개년 해설 특강", price: 66000, display: true },
+      { id: "CRS-2026-0036", title: "2026 개정 산안법령 핵심 요약 특강", price: 44000, display: true },
+      { id: "CRS-2026-0030", title: "CBT 시험장 실전 모의고사 해설반", price: 55000, display: true }
+    ]
+  },
+  {
+    id: "CAT-104", code: "SAFE_REEDU", depth: 2, parentId: "CAT-100",
+    numLabel: "04.", name: "실무 보수교육", order: 4, active: false, isDefault: false, note: "",
+    courses: []
+  },
+
+  // 2. 소방설비기사 (1Depth)
+  {
+    id: "CAT-200", code: "FIRE_ENGINEER", depth: 1, parentId: null,
+    numLabel: "2.", name: "소방설비기사", order: 2, active: false, isDefault: false, note: "오픈 준비",
+    courses: []
+  },
+  {
+    id: "CAT-201", code: "FIRE_ELEC_WRITTEN", depth: 2, parentId: "CAT-200",
+    numLabel: "01.", name: "전기분야 필기", order: 1, active: false, isDefault: false, note: "",
+    courses: []
+  },
+  {
+    id: "CAT-202", code: "FIRE_MECH_WRITTEN", depth: 2, parentId: "CAT-200",
+    numLabel: "02.", name: "기계분야 필기", order: 2, active: false, isDefault: false, note: "",
+    courses: []
+  },
+
+  // 3. 전기기사 (1Depth)
+  {
+    id: "CAT-300", code: "ELEC_ENGINEER", depth: 1, parentId: null,
+    numLabel: "3.", name: "전기기사", order: 3, active: false, isDefault: false, note: "",
+    courses: []
+  },
+
+  // 4. 건설안전기사 (1Depth)
+  {
+    id: "CAT-400", code: "CONST_SAFE_ENG", depth: 1, parentId: null,
+    numLabel: "4.", name: "건설안전기사", order: 4, active: false, isDefault: false, note: "",
+    courses: []
+  }
+];
+
+let selectedId = "CAT-102"; // 기본 선택: 산업안전기사 > 02. 실기 (스크린샷과 동일)
+let isNewMode = false;
+let draftNode = null;
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => { t.style.display = "none"; }, 3000);
+}
+
+function getFilteredCategories() {
+  const st = document.getElementById("filterActive").value;
+  const kw = document.getElementById("filterKeyword").value.trim().toLowerCase();
+  return CATEGORIES.filter(c => {
+    if (st === "ON" && !c.active) return false;
+    if (st === "OFF" && c.active) return false;
+    if (kw && !c.name.toLowerCase().includes(kw) && !c.code.toLowerCase().includes(kw)) return false;
+    return true;
+  });
+}
+
+function applyFilter() {
+  renderTree();
+}
+function resetFilter() {
+  document.getElementById("filterActive").value = "ALL";
+  document.getElementById("filterKeyword").value = "";
+  renderTree();
+}
+
+function renderTree() {
+  const list = getFilteredCategories();
+  const box = document.getElementById("treeContainer");
+
+  box.innerHTML = list.map(c => {
+    const isSel = (!isNewMode && c.id === selectedId);
+    const depthCls = c.depth === 1 ? "depth-1" : "depth-2";
+    const inactCls = !c.active ? "inactive-node" : "";
+    const selCls = isSel ? "selected" : "";
+
+    return `
+      <div class="tree-node ${depthCls} ${inactCls} ${selCls}" onclick="selectCategory('${c.id}')">
+        <div style="display:flex; align-items:center; gap:5px; min-width:0;">
+          <span class="drag-handle" title="드래그하여 순서 변경">⋮⋮</span>
+          <span>${c.numLabel} ${c.name}</span>
+          <span class="badge ${c.active ? 'b-on' : 'b-off'}">${c.active ? '전시중' : '비전시'}</span>
+          ${c.isDefault ? `<span class="badge b-default">Default</span>` : ''}
+          ${c.note ? `<span style="font-size:11px; color:var(--sub); font-weight:600;">${c.note}</span>` : ''}
+        </div>
+        <div class="tree-meta">
+          ${c.depth === 2 ? `<span>강좌 ${c.courses.length}</span>` : ''}
+          <span class="order-arrows" onclick="event.stopPropagation()">
+            <button type="button" class="arrow-btn" title="위로 이동" onclick="moveOrder('${c.id}', -1)">▲</button>
+            <button type="button" class="arrow-btn" title="아래로 이동" onclick="moveOrder('${c.id}', 1)">▼</button>
+          </span>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function selectCategory(id) {
+  isNewMode = false;
+  draftNode = null;
+  selectedId = id;
+  renderTree();
+  renderDetail();
+}
+
+function moveOrder(id, dir) {
+  const idx = CATEGORIES.findIndex(c => c.id === id);
+  if (idx === -1) return;
+  const target = CATEGORIES[idx];
+
+  // 동일 parentId 및 동일 depth 내에서 순서 교환
+  const siblings = CATEGORIES.filter(c => c.depth === target.depth && c.parentId === target.parentId);
+  const sIdx = siblings.findIndex(c => c.id === id);
+  const swapIdx = sIdx + dir;
+  if (swapIdx < 0 || swapIdx >= siblings.length) return;
+
+  const other = siblings[swapIdx];
+  const tmpOrder = target.order;
+  target.order = other.order;
+  other.order = tmpOrder;
+
+  if (target.depth === 2) {
+    target.numLabel = String(target.order).padStart(2, "0") + ".";
+    other.numLabel = String(other.order).padStart(2, "0") + ".";
+  } else {
+    target.numLabel = target.order + ".";
+    other.numLabel = other.order + ".";
+  }
+
+  // 배열 내 위치 정렬
+  sortCategoriesInPlace();
+  renderTree();
+  if (selectedId === id) renderDetail();
+}
+
+function sortCategoriesInPlace() {
+  const depth1List = CATEGORIES.filter(c => c.depth === 1).sort((a, b) => a.order - b.order);
+  const rebuilt = [];
+  for (const d1 of depth1List) {
+    rebuilt.push(d1);
+    const children = CATEGORIES.filter(c => c.depth === 2 && c.parentId === d1.id).sort((a, b) => a.order - b.order);
+    rebuilt.push(...children);
+  }
+  CATEGORIES.length = 0;
+  CATEGORIES.push(...rebuilt);
+}
+
+function saveTreeOrder() {
+  showToast("좌측 카테고리 트리의 전시 정렬 순서가 저장되었습니다.");
+}
+
+function startAddCategory(depth) {
+  isNewMode = true;
+  const current = CATEGORIES.find(c => c.id === selectedId) || CATEGORIES[0];
+  const parentNode = depth === 1
+    ? null
+    : (current.depth === 1 ? current : CATEGORIES.find(c => c.id === current.parentId));
+
+  const siblings = CATEGORIES.filter(c => c.depth === depth && c.parentId === (parentNode ? parentNode.id : null));
+  const nextOrder = siblings.length + 1;
+
+  draftNode = {
+    id: "CAT-NEW-" + Date.now(),
+    code: "AUTO_GEN_ON_SAVE (최초 저장 시 자동 생성)",
+    depth,
+    parentId: parentNode ? parentNode.id : null,
+    numLabel: depth === 1 ? `${nextOrder}.` : `${String(nextOrder).padStart(2, "0")}.`,
+    name: "",
+    order: nextOrder,
+    active: true,
+    isDefault: false,
+    note: "",
+    courses: []
+  };
+  renderTree();
+  renderDetail();
+}
+
+function renderDetail() {
+  const box = document.getElementById("detailContainer");
+  const node = isNewMode ? draftNode : CATEGORIES.find(c => c.id === selectedId);
+  if (!node) return;
+
+  const parentNode = node.parentId ? CATEGORIES.find(c => c.id === node.parentId) : null;
+  const pathLabel = isNewMode
+    ? (node.depth === 1 ? "신규 1Depth 자격증 종목 등록" : `${parentNode ? parentNode.name : ''} > 신규 2Depth 과정 등록`)
+    : (node.depth === 1 ? `${node.name} (1Depth 최상위)` : `${parentNode ? parentNode.name : ''} > ${node.numLabel} ${node.name}`);
+
+  const parentDisplayValue = node.depth === 1
+    ? "최상위 (1Depth 자격증 종목)"
+    : `${parentNode ? parentNode.name : ''} (1Depth)`;
+
+  box.innerHTML = `
+    <div class="section-title-bar">
+      <h3>카테고리 정보</h3>
+      <span>${pathLabel}</span>
+    </div>
+
+    <div class="form-block">
+      <label>상위 카테고리</label>
+      <div class="field-ro">
+        <span>${parentDisplayValue}</span>
+        <span>🔒</span>
+      </div>
+      <div class="help-txt">1Depth 신규 등록 시에는 '최상위' 로 고정 · 변경 불가</div>
+    </div>
+
+    <div class="form-block">
+      <label>카테고리명 <span class="req">*</span></label>
+      <input type="text" id="inpCatName" value="${node.name}" maxlength="30" placeholder="카테고리명을 입력하세요 (최대 30자)" style="width:100%; border-color:#15803d;" />
+      <div class="help-txt">프론트 GNB · 수강신청 목록(USER-CRS-001) 탭 라벨로 그대로 노출 · 최대 30자</div>
+    </div>
+
+    <div class="form-block">
+      <label>전시 정렬 순서</label>
+      <div style="display:grid; grid-template-columns: 1fr auto; gap: 12px; align-items:center;">
+        <div class="field-ro">
+          <span>${node.order}</span>
+          <span>🔒</span>
+        </div>
+        <span style="font-size:12px; color:var(--sub);">읽기 전용 · 현재 순서만 표시 · 순서 변경은 좌측 트리 드래그로만</span>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <label>활성화 여부 <span class="req">*</span></label>
+      <div class="chk-group">
+        <div class="chk-pill ${node.active ? 'active-pill' : ''}" onclick="setNodeActive(true)">
+          <input type="checkbox" ${node.active ? 'checked' : ''} style="pointer-events:none;" /> 활성(전시)
+        </div>
+        <div class="chk-pill ${!node.active ? 'active-pill' : ''}" onclick="setNodeActive(false)">
+          <input type="checkbox" ${!node.active ? 'checked' : ''} style="pointer-events:none;" /> 비활성(비전시)
+        </div>
+      </div>
+      <div class="help-warn">비활성 전환 시 하위 2Depth · 소속 강좌가 프론트에서 함께 숨겨진다(기결제 회원의 학습은 유지)</div>
+    </div>
+
+    <div class="form-block">
+      <label>카테고리 코드</label>
+      <div class="field-ro" style="font-family:var(--mono);">
+        <span>${node.code}</span>
+        <span>🔒</span>
+      </div>
+      <div class="help-txt">최초 저장 시 자동 생성 · 통계/정산 집계 키로 사용되어 수정 불가</div>
+    </div>
+
+    <!-- 연결 현황 -->
+    <div class="section-title-bar" style="margin-top: 24px;">
+      <h3>연결 현황</h3>
+      <span>이 카테고리에 매핑된 단과 강좌 (${node.courses.length}건)</span>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width:70px;">순번</th>
+          <th class="left">단과 강좌명</th>
+          <th style="width:130px;">판매가</th>
+          <th style="width:100px;">전시</th>
+          <th style="width:100px;">이동</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${node.courses.length === 0 ? `
+          <tr>
+            <td colspan="5" style="padding:22px; color:var(--sub);">연결된 단과 강좌가 없습니다. (하위 2Depth 및 연결 강좌 0건 시 삭제 가능)</td>
+          </tr>
+        ` : node.courses.map((crs, idx) => `
+          <tr>
+            <td>${idx + 1}</td>
+            <td class="left"><strong>${crs.title}</strong></td>
+            <td>${crs.price.toLocaleString("ko-KR")}</td>
+            <td><span class="badge ${crs.display ? 'b-on' : 'b-off'}">${crs.display ? 'ON' : 'OFF'}</span></td>
+            <td><button class="btn btn-sm" onclick="window.location.href='ADMN-PROD-003_baseline.html'">상세</button></td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+
+    <!-- ④ 하단 액션 및 삭제 제약 안내 -->
+    <div class="bottom-action-row">
+      ${!isNewMode ? `<button class="btn btn-danger-outline" onclick="deleteCategory()">삭제</button>` : ''}
+      <button class="btn" onclick="cancelEdit()">취소</button>
+      <button class="btn btn-dark" onclick="saveCategory()">저장</button>
+    </div>
+
+    <div class="constraint-note">
+      <strong>삭제 제약 —</strong> 하위 2Depth가 있거나 연결된 단과 강좌가 1건이라도 있으면 삭제 불가. <code>"하위 항목을 먼저 이동하거나 삭제하세요"</code> 알럿 후 중단.
+    </div>
+  `;
+}
+
+function setNodeActive(flag) {
+  const node = isNewMode ? draftNode : CATEGORIES.find(c => c.id === selectedId);
+  if (!node) return;
+  node.active = flag;
+  renderDetail();
+}
+
+function saveCategory() {
+  const nameVal = document.getElementById("inpCatName").value.trim();
+  if (!nameVal) {
+    alert("카테고리명을 입력해 주세요. (최대 30자)");
+    return;
+  }
+
+  if (isNewMode && draftNode) {
+    draftNode.name = nameVal;
+    draftNode.code = "CAT_AUTO_" + Math.random().toString(36).substring(2, 7).toUpperCase();
+    CATEGORIES.push(draftNode);
+    sortCategoriesInPlace();
+    selectedId = draftNode.id;
+    isNewMode = false;
+    draftNode = null;
+    renderTree();
+    renderDetail();
+    showToast(`신규 카테고리 '${nameVal}'가 자동 코드로 생성·저장되었습니다.`);
+  } else {
+    const node = CATEGORIES.find(c => c.id === selectedId);
+    if (!node) return;
+    node.name = nameVal;
+    // 1Depth를 비활성으로 바꾸면 하위 2Depth도 함께 비활성 연동 시뮬레이션
+    if (node.depth === 1 && !node.active) {
+      CATEGORIES.filter(c => c.parentId === node.id).forEach(ch => ch.active = false);
+    }
+    renderTree();
+    renderDetail();
+    showToast(`카테고리 '${node.name}' 정보가 저장되었습니다.`);
+  }
+}
+
+function deleteCategory() {
+  const node = CATEGORIES.find(c => c.id === selectedId);
+  if (!node) return;
+
+  const childCount = CATEGORIES.filter(c => c.parentId === node.id).length;
+  if (childCount > 0 || node.courses.length > 0) {
+    alert("하위 항목을 먼저 이동하거나 삭제하세요.\n\n(사유: 하위 2Depth 카테고리 " + childCount + "건, 연결된 단과 강좌 " + node.courses.length + "건이 존재합니다.)");
+    return;
+  }
+
+  if (!confirm(`'${node.name}' 카테고리를 삭제하시겠습니까?`)) return;
+  const idx = CATEGORIES.findIndex(c => c.id === node.id);
+  if (idx !== -1) CATEGORIES.splice(idx, 1);
+  selectedId = CATEGORIES[0]?.id || "";
+  renderTree();
+  renderDetail();
+  showToast(`'${node.name}' 카테고리가 삭제되었습니다.`);
+}
+
+function cancelEdit() {
+  if (isNewMode) {
+    isNewMode = false;
+    draftNode = null;
+  }
+  renderTree();
+  renderDetail();
+  showToast("편집 내용이 취소되었습니다.");
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  renderTree();
+  renderDetail();
+});
+</script><script id="v4-patch-v8-enforcer">
+(function() {
+  function enforceCleanLayout() {
+    document.querySelectorAll('aside.v4-master-snb:not(#v4-master-snb), aside.snb, nav.snb').forEach(function(el) {
+      el.remove();
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", enforceCleanLayout);
+  } else {
+    enforceCleanLayout();
+  }
+  if ("ADMN-PROD-001" === "ADMN-PROD-002") {
+    var origOpen = window.openFormView;
+    var origBack = window.backToList;
+    if (typeof origOpen === "function") {
+      window.openFormView = function(no) {
+        try { origOpen(no); } catch(e) {}
+        var bL = document.getElementById("btn-view-list");
+        var bF = document.getElementById("btn-view-form");
+        if (bL) bL.classList.remove("active");
+        if (bF) bF.classList.add("active");
+      };
+    }
+    if (typeof origBack === "function") {
+      window.backToList = function() {
+        try { origBack(); } catch(e) {}
+        var bL = document.getElementById("btn-view-list");
+        var bF = document.getElementById("btn-view-form");
+        if (bL) bL.classList.add("active");
+        if (bF) bF.classList.remove("active");
+      };
+    }
+  }
+})();</script></body></html>

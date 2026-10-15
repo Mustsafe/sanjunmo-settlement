@@ -1,433 +1,1035 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8" />
-<title>산준모 v4.0.0 — SNB 줄간격(gap) 완전 고정 패치기 (v5)</title>
-<style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 32px;
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #0f172a; color: #f8fafc; line-height: 1.5;
-  }
-  .wrap { max-width: 960px; margin: 0 auto; }
-  h1 { margin: 0 0 8px; font-size: 21px; font-weight: 900; color: #fff; }
-  .sub { color: #94a3b8; font-size: 13px; margin-bottom: 20px; }
-  .dropzone {
-    border: 2px dashed #38bdf8; border-radius: 14px;
-    background: rgba(56, 189, 248, 0.07);
-    padding: 36px 24px; text-align: center; cursor: pointer;
-    transition: .15s; margin-bottom: 18px;
-  }
-  .dropzone:hover, .dropzone.dragover { background: rgba(56, 189, 248, 0.15); border-color: #7dd3fc; }
-  .dropzone h2 { margin: 0 0 6px; font-size: 16px; color: #38bdf8; }
-  .dropzone p { margin: 0; font-size: 12.5px; color: #cbd5e1; }
-  .btn-bar { display: flex; gap: 10px; margin-bottom: 16px; }
-  button {
-    padding: 11px 18px; border-radius: 9px; border: 0;
-    font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit;
-  }
-  .btn-primary { background: #2563eb; color: #fff; }
-  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-  .file-list { display: grid; gap: 8px; }
-  .file-card {
-    background: #1e293b; border: 1px solid #334155;
-    border-radius: 10px; padding: 11px 15px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .file-name { font-weight: 800; font-size: 13px; color: #f8fafc; }
-  .file-meta { font-size: 11.5px; color: #34d399; margin-top: 2px; }
-  .btn-dl { background: #0f766e; color: #fff; padding: 6px 12px; font-size: 11.5px; border-radius: 6px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>산준모 v4.0.0 — 20개 전 화면 본문 여백 28px 통일 패치기 (v8.1 Final)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0F172A;
+      color: #F8FAFC;
+      padding: 32px 24px 80px;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 26px 30px;
+      margin-bottom: 22px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.18);
+      color: #6EE7B7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    h1 { font-size: 22px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .sub { font-size: 13.5px; color: #94A3B8; }
+
+    .action-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .action-card {
+      background: #1E293B;
+      border: 2px solid #10B981;
+      border-radius: 14px;
+      padding: 22px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .action-card.secondary { border-color: #475569; }
+    .action-card h2 { font-size: 16.5px; font-weight: 800; color: #FFFFFF; margin-bottom: 6px; }
+    .action-card p { font-size: 12.5px; color: #94A3B8; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 20px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: #FFFFFF;
+      background: #059669;
+    }
+    .btn:hover { background: #047857; }
+    .btn.slate { background: #334155; border: 1px solid #475569; }
+    .btn.slate:hover { background: #475569; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .drop-zone {
+      border: 2px dashed #475569;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: #3B82F6;
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .status-card {
+      background: #1E293B;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 20px 24px;
+    }
+    .status-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #0F172A;
+      color: #94A3B8;
+      border-bottom: 1px solid #334155;
+    }
+    td { padding: 10px 12px; border-bottom: 1px solid #334155; color: #E2E8F0; }
+    .pill-ok {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34D399;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: rgba(15, 23, 42, 0.7);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #93C5FD;
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>🛠️ 산준모 v4.0.0 — SNB 줄간격(gap)·위치 완전 고정 패치기 (v5)</h1>
-  <div class="sub">
-    원본 파일의 <code>.snb { gap: 4px }</code> 잔재와 본문 높이에 따른 Flex/Grid 늘어남 현상을 차단하기 위해, <code>gap: 0px !important</code> 및 <code>position: fixed</code> 고정 레이아웃으로 13개 화면을 완벽히 통일합니다.
-  </div>
+  <div class="wrap">
+    <div class="hero">
+      <div class="badge-row">
+        <span class="badge">✔ v8.1 핫픽스 — main.main (SETT-004 등 10개 화면) 본문 좌우 여백 28px 완전 통일</span>
+      </div>
+      <h1>산준모 백오피스 v4.0.0 — 본문 좌우 여백(28px) 통일 패치기 (v8.1 Final)</h1>
+      <p class="sub">
+        <code>ADMN-SETT-004</code>, <code>SETT-002</code>, <code>INST-002</code> 등 <code>&lt;main class="main"&gt;</code> 구조를 사용하는 화면들이 SNB에 딱 붙던 현상을 해결하여, 20개 전 화면을 <code>ADMN-INST-001</code>과 동일한 상하좌우 여백(<code>padding: 22px 28px</code>)으로 통일합니다.
+      </p>
+    </div>
 
-  <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-    <h2>📂 prototype 폴더의 HTML 파일 13개를 한꺼번에 드래그 앤 드롭하세요</h2>
-    <p><code>00_WORKFLOW_GUIDE_baseline.html</code> + <code>ADMN-*_baseline.html</code> 12개 모두 지원</p>
-    <input type="file" id="fileInput" multiple accept=".html" style="display:none" onchange="handleFiles(this.files)" />
-  </div>
+    <div class="action-panel">
+      <div class="action-card">
+        <div>
+          <h2>방법 1. 로컬 폴더 선택하여 20개 원본 즉시 덮어쓰기</h2>
+          <p>선택한 <code>prototype</code> 폴더 내의 <code>*_baseline.html</code> 파일 20개를 즉시 패치합니다.</p>
+        </div>
+        <button type="button" class="btn" onclick="patchViaDirectoryPicker()">
+          📁 prototype 폴더 선택하여 20개 파일 즉시 덮어쓰기
+        </button>
+      </div>
 
-  <div class="btn-bar">
-    <button class="btn-primary" id="btnDownloadAll" disabled onclick="downloadAll()">💾 줄간격 고정 완료 파일 전체 일괄 다운로드</button>
-  </div>
+      <div class="action-card secondary">
+        <div>
+          <h2>방법 2. 파일 드래그 앤 드롭 후 연속 다운로드</h2>
+          <p>20개 HTML 파일을 드롭한 뒤 개별 다운로드합니다.</p>
+        </div>
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <input type="file" id="fileInput" multiple accept=".html" style="display:none" onchange="handleFiles(this.files)">
+          <div style="font-weight:700; color:#93C5FD; font-size:13.5px;">여기에 20개 *_baseline.html 파일을 드롭하거나 클릭하여 선택</div>
+        </div>
+      </div>
+    </div>
 
-  <div class="file-list" id="fileList"></div>
-</div>
+    <div class="status-card">
+      <div class="status-top">
+        <div style="font-weight:800; font-size:15px;">
+          패치 처리 결과 (<span id="countText" style="color:#60A5FA;">0</span>개 파일 완료)
+        </div>
+        <button type="button" class="btn slate" id="btnDownloadAll" style="height:36px; font-size:12.5px;" disabled onclick="downloadAllSequential()">
+          📄 패치된 파일 전체 연속 다운로드
+        </button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:50px;">No</th>
+            <th style="width:240px;">파일명</th>
+            <th style="width:130px;">화면코드</th>
+            <th>적용 내역</th>
+            <th style="width:105px;">상태</th>
+            <th style="width:100px;">단일 저장</th>
+          </tr>
+        </thead>
+        <tbody id="resultTbody">
+          <tr>
+            <td colspan="6" style="text-align:center; color:#64748B; padding:28px;">
+              위에서 [폴더 선택하여 즉시 덮어쓰기]를 눌러 주세요.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 <script>
 const MASTER_NAV_GROUPS = [
   {
     groupTitle: "0단계 · 전체 업무 플로우 안내",
     items: [
-      { code: "WORKFLOW-GUIDE", title: "전체 업무 플로우 가이드", file: "00_WORKFLOW_GUIDE_baseline.html" }
+      { code: "WORKFLOW-GUIDE", shortCode: "GUIDE", title: "전체 업무 플로우 가이드", topTitle: "전체 업무 플로우 가이드 (상품 · 권리자 · 정산 통합)", file: "00_WORKFLOW_GUIDE_baseline.html" }
+    ]
+  },
+  {
+    groupTitle: "상품 · 강좌 · 교재 관리 (PROD)",
+    items: [
+      { code: "ADMN-PROD-001", shortCode: "PROD-001", title: "카테고리 관리", topTitle: "카테고리 관리 (2-Depth 직무 · 자격증 분류 체계)", file: "ADMN-PROD-001_baseline.html" },
+      { code: "ADMN-PROD-002", shortCode: "PROD-002", title: "강의 관리 (영상 단품)", topTitle: "강의 관리 (영상 단품 · VOD Key · 재생시간)", file: "ADMN-PROD-002_baseline.html" },
+      { code: "ADMN-PROD-003", shortCode: "PROD-003", title: "단과 강좌 관리", topTitle: "단과 강좌 관리 (커리큘럼 · 수강기간 · 정산 하드락)", file: "ADMN-PROD-003_baseline.html" },
+      { code: "ADMN-PROD-004", shortCode: "PROD-004", title: "교재 관리", topTitle: "교재 관리 (도서정가제 0% · 면세 · 3원장 연동)", file: "ADMN-PROD-004_baseline.html" },
+      { code: "ADMN-PROD-005", shortCode: "PROD-005", title: "패키지 · 환급반 상품 관리", topTitle: "패키지 · 환급반 상품 관리 (복합과세 분할 · 안분 가중치)", file: "ADMN-PROD-005_baseline.html" },
+      { code: "ADMN-PROD-006", shortCode: "PROD-006", title: "강사 노출 정보 관리", topTitle: "강사 노출 정보 관리 (권리자 계약 원장 연동)", file: "ADMN-PROD-006_baseline.html" },
+      { code: "ADMN-PROD-007", shortCode: "PROD-007", title: "일반상품 관리", topTitle: "일반상품 관리 (Track G 정산 제외 · 비도서 실물상품)", file: "ADMN-PROD-007_baseline.html" }
     ]
   },
   {
     groupTitle: "1단계 · 계약 · 상품 · 매핑 설정",
     items: [
-      { code: "ADMN-INST-001", title: "권리자 계약 원장", file: "ADMN-INST-001_baseline.html" },
-      { code: "ADMN-SETT-007", title: "수취인 분할 관리", file: "ADMN-SETT-007_baseline.html" },
-      { code: "ADMN-BOOK-001", title: "도서 공급 원장", file: "ADMN-BOOK-001_baseline.html" },
-      { code: "ADMN-SETT-001", title: "상품별 권리자 매핑", file: "ADMN-SETT-001_baseline.html" }
+      { code: "ADMN-INST-001", shortCode: "INST-001", title: "권리자 계약 원장", topTitle: "권리자 계약 원장 (강사 · 저자 · 출판사 계약/가채번 마스터)", file: "ADMN-INST-001_baseline.html" },
+      { code: "ADMN-SETT-007", shortCode: "SETT-007", title: "수취인 분할 관리", topTitle: "수취인 분할 관리 (2계층 공동수취 · 에이전시 지분 분할)", file: "ADMN-SETT-007_baseline.html" },
+      { code: "ADMN-BOOK-001", shortCode: "BOOK-001", title: "도서 공급 원장", topTitle: "도서 공급 원장 (SKU · 공급원가 · 인세 마스터)", file: "ADMN-BOOK-001_baseline.html" },
+      { code: "ADMN-SETT-001", shortCode: "SETT-001", title: "상품별 권리자 매핑", topTitle: "상품별 권리자 매핑 (1계층 지분율 100.00% 검증)", file: "ADMN-SETT-001_baseline.html" }
     ]
   },
   {
-    groupTitle: "2단계 · 월마감 전 사전 검증",
+    groupTitle: "2단계 · 월마감 전 검증 (Gate)",
     items: [
-      { code: "ADMN-SETT-004", title: "PG 정산 원장 대사", file: "ADMN-SETT-004_baseline.html" },
-      { code: "ADMN-INST-002", title: "약정금 마일스톤 검수", file: "ADMN-INST-002_baseline.html" },
-      { code: "ADMN-SETT-006", title: "합격 환급반 관리", file: "ADMN-SETT-006_baseline.html" },
-      { code: "ADMN-SETT-008", title: "사업자등록 확인 이력", file: "ADMN-SETT-008_baseline.html" }
+      { code: "ADMN-SETT-004", shortCode: "SETT-004", title: "PG 정산 원장 대사", topTitle: "PG 정산 원장 대사 (결제 · 환불 대사 게이트)", file: "ADMN-SETT-004_baseline.html" },
+      { code: "ADMN-INST-002", shortCode: "INST-002", title: "약정금 마일스톤 검수", topTitle: "약정금 마일스톤 검수 (선급 · 제작지원금 승인 게이트)", file: "ADMN-INST-002_baseline.html" },
+      { code: "ADMN-SETT-006", shortCode: "SETT-006", title: "합격 환급반 관리", topTitle: "합격 환급반 관리 (출석 · 진도율 · 환급 차감 검증)", file: "ADMN-SETT-006_baseline.html" },
+      { code: "ADMN-SETT-008", shortCode: "SETT-008", title: "사업자등록 확인 이력", topTitle: "사업자등록 상태 조회 · 확인 이력 (국세청 홈택스 대사)", file: "ADMN-SETT-008_baseline.html" }
     ]
   },
   {
     groupTitle: "3단계 · 월간 정산 · 집행 · 조회",
     items: [
-      { code: "ADMN-SETT-002", title: "월간 정산 및 집행", file: "ADMN-SETT-002_baseline.html" },
-      { code: "ADMN-SETT-005", title: "정산 수동 조정", file: "ADMN-SETT-005_baseline.html" },
-      { code: "ADMN-SETT-009", title: "내부 정산 조회 - 조회 전용", file: "ADMN-SETT-009_baseline.html" }
+      { code: "ADMN-SETT-002", shortCode: "SETT-002", title: "월간 정산 및 집행", topTitle: "월간 정산 산출 · 마감 · 지급 집행 (1~11단계 엔진)", file: "ADMN-SETT-002_baseline.html" },
+      { code: "ADMN-SETT-005", shortCode: "SETT-005", title: "정산 수동 조정", topTitle: "정산 수동 조정 (마감 후 소급 · 계정 간 대체)", file: "ADMN-SETT-005_baseline.html" },
+      { code: "ADMN-SETT-009", shortCode: "SETT-009", title: "내부 정산 조회 - 조회 전용", topTitle: "내부 정산 조회 - 조회 전용 (자사 귀속 · 손익 대사)", file: "ADMN-SETT-009_baseline.html" }
     ]
   },
   {
     groupTitle: "4단계 · 보안 및 감사 통제",
     items: [
-      { code: "ADMN-USER-007", title: "민감 정보 열람 통제", file: "ADMN-USER-007_baseline.html" },
-      { code: "ADMN-CONF-010", title: "정산 감사 로그", file: "ADMN-CONF-010_baseline.html" }
+      { code: "ADMN-USER-007", shortCode: "USER-007", title: "민감 정보 열람 통제", topTitle: "민감 정보 열람 통제 (계좌 · 주민/사업자번호 · 원가 마스킹)", file: "ADMN-USER-007_baseline.html" },
+      { code: "ADMN-CONF-010", shortCode: "CONF-010", title: "정산 감사 로그", topTitle: "정산 감사 로그 (전 원장 변경 · 열람 불변 이력)", file: "ADMN-CONF-010_baseline.html" }
     ]
   }
 ];
 
-// gap: 0px !important 및 position: fixed 로 본문 레이아웃 영향 100% 차단
-const LOCKED_SNB_CSS = `
-<style id="v4-master-snb-style">
-  html { overflow-y: scroll !important; }
-  .layout, .app-layout {
-    display: block !important;
-    padding-left: 272px !important;
-    min-height: 100vh !important;
-  }
-  .savebar, .footer-bar {
-    left: 272px !important;
-  }
-  aside.v4-master-snb,
-  aside.v4-master-snb *,
-  aside.v4-master-snb *::before,
-  aside.v4-master-snb *::after {
-    box-sizing: border-box !important;
-    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
-    letter-spacing: -0.01em !important;
-    -webkit-font-smoothing: antialiased !important;
-  }
-  aside.v4-master-snb {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    bottom: 0 !important;
-    width: 272px !important;
-    min-width: 272px !important;
-    max-width: 272px !important;
-    height: 100vh !important;
-    background: #0f172a !important;
-    color: #cbd5e1 !important;
-    padding: 18px 14px 24px !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    border-right: 1px solid #1e293b !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-items: stretch !important;
-    gap: 0px !important;
-    row-gap: 0px !important;
-    column-gap: 0px !important;
-    z-index: 100 !important;
-    margin: 0 !important;
-    font-size: 12.5px !important;
-    line-height: 18px !important;
-  }
-  aside.v4-master-snb .v4-snb-brand {
-    padding: 4px 8px 14px !important;
-    border-bottom: 1px solid rgba(148,163,184,.16) !important;
-    margin: 0 0 6px 0 !important;
-    cursor: pointer !important;
-    display: block !important;
-    flex: 0 0 auto !important;
-  }
-  aside.v4-master-snb .v4-snb-brand-title {
-    color: #ffffff !important;
-    font-size: 15px !important;
-    line-height: 20px !important;
-    font-weight: 900 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  aside.v4-master-snb .v4-snb-brand-sub {
-    color: #94a3b8 !important;
-    font-size: 11px !important;
-    line-height: 14px !important;
-    font-weight: 500 !important;
-    margin: 4px 0 0 0 !important;
-    padding: 0 !important;
-  }
-  aside.v4-master-snb .v4-snb-group-label {
-    font-size: 11px !important;
-    line-height: 14px !important;
-    font-weight: 800 !important;
-    color: #64748b !important;
-    padding: 12px 8px 5px !important;
-    margin: 0 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.02em !important;
-    flex: 0 0 auto !important;
-  }
-  aside.v4-master-snb .v4-snb-item {
-    width: 100% !important;
-    height: 34px !important;
-    min-height: 34px !important;
-    max-height: 34px !important;
-    flex: 0 0 34px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 8px !important;
-    padding: 0 10px !important;
-    margin: 0 0 3px 0 !important;
-    border-radius: 8px !important;
-    border: 1px solid transparent !important;
-    background: transparent !important;
-    color: #cbd5e1 !important;
-    cursor: pointer !important;
-    text-align: left !important;
-    text-decoration: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    transition: background-color 0.12s ease, color 0.12s ease !important;
-  }
-  aside.v4-master-snb .v4-snb-item:hover {
-    background: rgba(255,255,255,.06) !important;
-    color: #ffffff !important;
-  }
-  aside.v4-master-snb .v4-snb-item.active {
-    background: rgba(37,99,235,.22) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(96,165,250,.45) !important;
-  }
-  aside.v4-master-snb .v4-snb-item-title {
-    font-size: 12.5px !important;
-    line-height: 18px !important;
-    font-weight: 600 !important;
-    color: inherit !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
-    font-weight: 800 !important;
-  }
-  aside.v4-master-snb .v4-snb-item-code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-    font-size: 10px !important;
-    line-height: 14px !important;
-    font-weight: 600 !important;
-    color: #94a3b8 !important;
-    background: rgba(15,23,42,.65) !important;
-    padding: 2px 6px !important;
-    border-radius: 5px !important;
-    flex-shrink: 0 !important;
-    margin: 0 !important;
-    letter-spacing: 0 !important;
-  }
-  aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
-    color: #93c5fd !important;
-    background: rgba(30,58,138,.7) !important;
-  }
-  aside.v4-master-snb .v4-snb-footer {
-    margin-top: auto !important;
-    padding-top: 12px !important;
-    border-top: 1px solid rgba(148,163,184,.14) !important;
-    flex: 0 0 auto !important;
-  }
-  aside.v4-master-snb .v4-snb-footer-box {
-    background: rgba(15,23,42,.55) !important;
-    border: 1px solid rgba(148,163,184,.16) !important;
-    border-radius: 10px !important;
-    padding: 10px 11px !important;
-    font-size: 11px !important;
-    line-height: 16px !important;
-    font-weight: 500 !important;
-    color: #94a3b8 !important;
-    margin: 0 !important;
-  }
-  aside.v4-master-snb .v4-snb-footer-box strong {
-    color: #e2e8f0 !important;
-    font-size: 11px !important;
-    font-weight: 800 !important;
-  }
-</style>`;
-
-function buildLockedSnbHtml(activeCode) {
-  let groupsHtml = "";
-  for (const g of MASTER_NAV_GROUPS) {
-    groupsHtml += `  <div class="v4-snb-group-label">${g.groupTitle}</div>\n`;
-    for (const item of g.items) {
-      const isActive = item.code === activeCode ? " active" : "";
-      const shortBadge = item.code === "WORKFLOW-GUIDE" ? "GUIDE" : item.code;
-      groupsHtml += `  <button type="button" class="v4-snb-item${isActive}" onclick="window.location.href='${item.file}'">
-    <span class="v4-snb-item-title">${item.title}</span>
-    <span class="v4-snb-item-code">${shortBadge}</span>
-  </button>\n`;
-    }
-  }
-
-  return `<aside class="v4-master-snb" aria-label="산준모 정산 백오피스 표준 사이드바">
-  <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" title="전체 업무 플로우 가이드로 이동">
-    <div class="v4-snb-brand-title">산준모 정산시스템</div>
-    <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
-  </div>
-${groupsHtml}  <div class="v4-snb-footer">
-    <div class="v4-snb-footer-box">
-      <strong>SSOT 정합성 기준</strong><br/>
-      01 비즈니스 · 02 연산/세무<br/>
-      03 화면/연동 · 04 QA 테스트
-    </div>
-  </div>
-</aside>`;
-}
-
-function detectScreenCode(filename, content) {
-  if (/00_WORKFLOW_GUIDE|index\.html/i.test(filename)) return "WORKFLOW-GUIDE";
-  const m1 = filename.match(/ADMN-(INST|SETT|BOOK|USER|CONF)-\d{3}/i);
-  if (m1) return m1[0].toUpperCase();
-  if (/전체 업무 플로우 가이드/i.test(content) && !content.includes("ADMN-INST-001 ·")) return "WORKFLOW-GUIDE";
-  const m2 = content.match(/ADMN-(INST|SETT|BOOK|USER|CONF)-\d{3}/);
-  return m2 ? m2[0].toUpperCase() : "WORKFLOW-GUIDE";
-}
-
-function findMatchingCloseTag(html, startIdx, tagName) {
-  const openRe = new RegExp(`<${tagName}\\b[^>]*>`, "gi");
-  const closeRe = new RegExp(`</${tagName}\\s*>`, "gi");
-  openRe.lastIndex = startIdx;
-  const firstOpen = openRe.exec(html);
-  if (!firstOpen || firstOpen.index !== startIdx) return -1;
-
-  let depth = 1;
-  let pos = openRe.lastIndex;
-  while (depth > 0) {
-    openRe.lastIndex = pos;
-    closeRe.lastIndex = pos;
-    const nextOpen = openRe.exec(html);
-    const nextClose = closeRe.exec(html);
-    if (!nextClose) return -1;
-    if (nextOpen && nextOpen.index < nextClose.index) {
-      depth++;
-      pos = openRe.lastIndex;
-    } else {
-      depth--;
-      pos = closeRe.lastIndex;
-      if (depth === 0) return pos;
-    }
-  }
-  return -1;
-}
-
-function replaceSnbBlock(html, newSnbHtml) {
-  // 기존 class="snb" 또는 class="v4-master-snb" 모두 탐색
-  const startRegex = /<(aside|nav|div)\b[^>]*\bclass\s*=\s*["'][^"']*\b(snb|v4-master-snb)\b[^"']*["'][^>]*>/i;
-  const match = startRegex.exec(html);
-  if (!match) return { html, replaced: false };
-
-  const tagName = match[1].toLowerCase();
-  const startIdx = match.index;
-  const endIdx = findMatchingCloseTag(html, startIdx, tagName);
-  if (endIdx === -1) return { html, replaced: false };
-
-  const updated = html.slice(0, startIdx) + newSnbHtml + html.slice(endIdx);
-  return { html: updated, replaced: true };
-}
-
-let processedFiles = [];
-
-const dropzone = document.getElementById("dropzone");
-dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("dragover"); });
-dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
-dropzone.addEventListener("drop", e => {
-  e.preventDefault();
-  dropzone.classList.remove("dragover");
-  handleFiles(e.dataTransfer.files);
+const SCREEN_META_MAP = {};
+MASTER_NAV_GROUPS.forEach(g => {
+  g.items.forEach(it => {
+    SCREEN_META_MAP[it.code] = { ...it, groupTitle: g.groupTitle };
+  });
 });
+SCREEN_META_MAP["ADMN-CONF-008"] = SCREEN_META_MAP["ADMN-CONF-010"];
+SCREEN_META_MAP["ADMN-USER-004"] = SCREEN_META_MAP["ADMN-USER-007"];
 
-async function handleFiles(fileList) {
-  processedFiles = [];
-  for (const file of fileList) {
-    if (!file.name.endsWith(".html")) continue;
-    const raw = await file.text();
-    const code = detectScreenCode(file.name, raw);
-
-    let cleaned = raw
-      .replace(/<style id="v4-std-snb-style">[\s\S]*?<\/style>/gi, "")
-      .replace(/<style id="v4-master-snb-style">[\s\S]*?<\/style>/gi, "");
-
-    const newSnb = buildLockedSnbHtml(code);
-    const res = replaceSnbBlock(cleaned, newSnb);
-    let outHtml = res.html;
-    if (outHtml.includes("</head>")) {
-      outHtml = outHtml.replace("</head>", LOCKED_SNB_CSS + "\n</head>");
-    } else {
-      outHtml = LOCKED_SNB_CSS + "\n" + outHtml;
+function buildMasterSnbHtml(activeCode) {
+  let groupsHtml = "";
+  for (const grp of MASTER_NAV_GROUPS) {
+    let itemsHtml = "";
+    for (const item of grp.items) {
+      const isAct = (item.code === activeCode) ? " active" : "";
+      itemsHtml += `
+        <a href="${item.file}" class="snb-item${isAct}" data-screen-code="${item.code}">
+          <span class="snb-code">${item.shortCode}</span>
+          <span class="snb-label">${item.title}</span>
+        </a>`;
     }
+    groupsHtml += `
+      <div class="snb-group">
+        <div class="snb-group-title">${grp.groupTitle}</div>
+        <div class="snb-item-list">${itemsHtml}</div>
+      </div>`;
+  }
 
-    const outName = code === "WORKFLOW-GUIDE"
-      ? "00_WORKFLOW_GUIDE_baseline.html"
-      : `${code}_baseline.html`;
+  return `
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바">
+    <div class="snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" style="cursor:pointer;">
+      <div class="snb-brand-top">
+        <div class="snb-brand-title">
+          <span class="snb-brand-dot"></span>
+          <span>산준모 백오피스</span>
+        </div>
+        <span class="snb-version-pill">v4.0.0</span>
+      </div>
+      <div class="snb-brand-sub">상품 · 권리자 · 정산 통합 어드민</div>
+    </div>
+    <div class="snb-scroll-area">${groupsHtml}
+    </div>
+    <div class="snb-footer">
+      <span>PROD &amp; SETTLEMENT</span>
+      <span>SSOT Verified</span>
+    </div>
+  </aside>`;
+}
 
-    processedFiles.push({
-      outName,
-      code,
-      replaced: res.replaced,
-      content: outHtml
+const MASTER_V8_1_CSS = `
+/* === [SANJUNMO v4.0.0 MASTER SNB & GEN-3 TOPBAR LOCK v8.1 FINAL] === */
+html {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+}
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  background-color: #F8FAFC !important;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  display: block !important;
+}
+
+/* 구버전 잔재 사이드바 및 중복 헤더 100% 숨김 */
+aside.v4-master-snb:not(#v4-master-snb),
+aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
+.page-top-banner, .wb-header, .wireframe-banner, .legacy-top-banner,
+#v4-page-body .topbar {
+  display: none !important;
+}
+
+/* ============================================================================
+   1. 고정 픽셀 마스터 SNB (좌측 260px · 단일 스크롤 · 좌측 정렬 100% 고정)
+   ============================================================================ */
+#v4-master-snb {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  height: 100vh !important;
+  background: #0F172A !important;
+  color: #F8FAFC !important;
+  display: flex !important;
+  flex-direction: column !important;
+  z-index: 9999 !important;
+  border-right: 1px solid #1E293B !important;
+  user-select: none !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  text-align: left !important;
+}
+#v4-master-snb * {
+  box-sizing: border-box !important;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+#v4-master-snb .snb-brand {
+  padding: 18px 18px 14px 18px !important;
+  border-bottom: 1px solid #1E293B !important;
+  flex: 0 0 auto !important;
+}
+#v4-master-snb .snb-brand-top {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 4px !important;
+}
+#v4-master-snb .snb-brand-title {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #FFFFFF !important;
+  letter-spacing: -0.02em !important;
+  line-height: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 7px !important;
+}
+#v4-master-snb .snb-brand-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #3B82F6 !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+}
+#v4-master-snb .snb-version-pill {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 999px !important;
+  background: rgba(59, 130, 246, 0.18) !important;
+  color: #60A5FA !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  line-height: 14px !important;
+}
+#v4-master-snb .snb-brand-sub {
+  font-size: 11px !important;
+  color: #64748B !important;
+  font-weight: 500 !important;
+  line-height: 15px !important;
+  text-align: left !important;
+}
+#v4-master-snb .snb-scroll-area {
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 12px 10px 20px 10px !important;
+}
+#v4-master-snb .snb-scroll-area::-webkit-scrollbar { width: 5px !important; }
+#v4-master-snb .snb-scroll-area::-webkit-scrollbar-track { background: #0F172A !important; }
+#v4-master-snb .snb-scroll-area::-webkit-scrollbar-thumb { background: #334155 !important; border-radius: 3px !important; }
+#v4-master-snb .snb-group { margin-bottom: 14px !important; }
+#v4-master-snb .snb-group-title {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  color: #64748B !important;
+  padding: 0 8px 6px 8px !important;
+  letter-spacing: 0.02em !important;
+  line-height: 14px !important;
+  text-transform: uppercase !important;
+  text-align: left !important;
+}
+#v4-master-snb .snb-item-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 2px !important;
+}
+#v4-master-snb .snb-item,
+#v4-master-snb a.snb-item {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  gap: 8px !important;
+  width: 100% !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  padding: 0 10px !important;
+  border-radius: 7px !important;
+  text-decoration: none !important;
+  color: #CBD5E1 !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  line-height: 18px !important;
+  transition: background 0.12s, color 0.12s !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+#v4-master-snb .snb-item:hover {
+  background: #1E293B !important;
+  color: #FFFFFF !important;
+}
+#v4-master-snb .snb-item.active {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35) !important;
+}
+#v4-master-snb .snb-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 5px !important;
+  border-radius: 4px !important;
+  background: rgba(148, 163, 184, 0.14) !important;
+  color: #94A3B8 !important;
+  line-height: 13px !important;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+#v4-master-snb .snb-item.active .snb-code {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+}
+#v4-master-snb .snb-label {
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+#v4-master-snb .snb-footer {
+  padding: 10px 16px !important;
+  border-top: 1px solid #1E293B !important;
+  font-size: 10.5px !important;
+  color: #475569 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  flex: 0 0 auto !important;
+}
+
+/* ============================================================================
+   2. 본문 루트 쉘 (#v4-root-shell) 및 20개 전 화면 본문 여백(28px) 완전 통일
+   ============================================================================ */
+#v4-root-shell {
+  margin-left: 260px !important;
+  margin-right: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  width: calc(100% - 260px) !important;
+  max-width: calc(100% - 260px) !important;
+  min-height: 100vh !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #F8FAFC !important;
+  box-sizing: border-box !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+#v4-page-body {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  background: #F8FAFC !important;
+  flex: 1 1 auto !important;
+  overflow: visible !important;
+}
+
+/* 바깥쪽 껍데기 래퍼(.layout, .app-layout, .app-shell)는 여백 0으로 평탄화 */
+#v4-root-shell .layout,
+#v4-root-shell .app-layout,
+#v4-root-shell .app-shell {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* 실제 컨텐츠 컨테이너(.content, .main-container, main.main 등)는 모두 동일하게 상하 22px, 좌우 28px 여백 부여! */
+#v4-root-shell main.content,
+#v4-root-shell .content,
+#v4-root-shell main.main-container,
+#v4-root-shell .main-container,
+#v4-root-shell main.main,
+#v4-root-shell .layout > .main,
+#v4-root-shell .app-layout > .main,
+#v4-page-body > .main {
+  display: block !important;
+  padding: 22px 28px 96px 28px !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+/* 단, ADMN-INST-001 및 ADMN-SETT-001처럼 main.content 안쪽에 div.main이 한 번 더 중첩된 경우에는 이중 패딩 방지 */
+#v4-root-shell .content .main {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* 탭 바(.ptabs) 및 브레드크럼 바(.breadcrumb-bar) 정렬 */
+#v4-root-shell .ptabs {
+  display: flex !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+/* 만약 .ptabs가 .content 바깥(상단)에 단독으로 있는 경우(ADMN-SETT-001) 좌우 28px 맞춤 */
+#v4-page-body > .ptabs,
+#v4-root-shell .layout > .ptabs {
+  padding: 18px 28px 0 28px !important;
+}
+
+#v4-root-shell .breadcrumb,
+#v4-root-shell .breadcrumb-bar {
+  display: flex !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 10px 28px !important;
+  box-sizing: border-box !important;
+}
+
+/* 하단 고정 액션바(savebar / footer-bar) 좌측 260px 맞춤 */
+.savebar, .footer-bar {
+  left: 260px !important;
+  width: calc(100% - 260px) !important;
+  z-index: 800 !important;
+}
+
+/* ============================================================================
+   3. 3세대 표준 상단 Top Bar (60px 고정 · 우측 컨트롤 깨짐 방지)
+   ============================================================================ */
+header.top-bar.v4-gen3-topbar {
+  height: 60px !important;
+  min-height: 60px !important;
+  max-height: 60px !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  padding: 0 28px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 900 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-group {
+  font-size: 12px !important;
+  color: #64748B !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-sep {
+  color: #CBD5E1 !important;
+  font-size: 12px !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 11.5px !important;
+  font-weight: 800 !important;
+  padding: 4px 9px !important;
+  border-radius: 6px !important;
+  background: #EFF6FF !important;
+  color: #1D4ED8 !important;
+  border: 1px solid #BFDBFE !important;
+  white-space: nowrap !important;
+}
+header.top-bar.v4-gen3-topbar .crumb-title {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #0F172A !important;
+  letter-spacing: -0.02em !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 10px !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right .tools,
+header.top-bar.v4-gen3-topbar .top-bar-right .inline {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: nowrap !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right label {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  white-space: nowrap !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right select,
+header.top-bar.v4-gen3-topbar .top-bar-right select.fc,
+header.top-bar.v4-gen3-topbar .top-bar-right select.select,
+header.top-bar.v4-gen3-topbar .top-bar-right select.form-select {
+  width: auto !important;
+  min-width: 120px !important;
+  height: 32px !important;
+  padding: 0 10px !important;
+  border: 1px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #1E293B !important;
+  background: #F8FAFC !important;
+  margin: 0 !important;
+}
+header.top-bar.v4-gen3-topbar .subview-switcher {
+  display: inline-flex !important;
+  background: #F1F5F9 !important;
+  padding: 3px !important;
+  border-radius: 8px !important;
+  border: 1px solid #E2E8F0 !important;
+  gap: 2px !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn {
+  border: none !important;
+  background: transparent !important;
+  padding: 5px 11px !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all 0.12s !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn.active {
+  background: #FFFFFF !important;
+  color: #1D4ED8 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn .code-pill,
+header.top-bar.v4-gen3-topbar .subview-btn .code-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  background: #E2E8F0 !important;
+  color: #475569 !important;
+}
+header.top-bar.v4-gen3-topbar .subview-btn.active .code-pill,
+header.top-bar.v4-gen3-topbar .subview-btn.active .code-tag {
+  background: #DBEAFE !important;
+  color: #1D4ED8 !important;
+}
+`;
+
+function detectScreenCode(fileName, htmlText) {
+  const m = fileName.match(/(ADMN-[A-Z]+-\d+|WORKFLOW_GUIDE)/i);
+  if (m) {
+    let raw = m[1].toUpperCase();
+    if (raw === "WORKFLOW_GUIDE") return "WORKFLOW-GUIDE";
+    if (raw === "ADMN-CONF-008") return "ADMN-CONF-010";
+    if (raw === "ADMN-USER-004") return "ADMN-USER-007";
+    return raw;
+  }
+  if (htmlText.includes("WORKFLOW-GUIDE")) return "WORKFLOW-GUIDE";
+  return "WORKFLOW-GUIDE";
+}
+
+function patchSingleHtmlDocument(fileName, rawHtml) {
+  let cleanedHtml = rawHtml
+    .replace(/ADMN-CONF-008/g, "ADMN-CONF-010")
+    .replace(/ADMN-USER-004/g, "ADMN-USER-007");
+
+  const screenCode = detectScreenCode(fileName, cleanedHtml);
+  const meta = SCREEN_META_MAP[screenCode] || SCREEN_META_MAP["WORKFLOW-GUIDE"];
+
+  cleanedHtml = cleanedHtml.replace(
+    /function\s+renderMasterSnb\s*\(\s*\)\s*\{/g,
+    "function renderMasterSnb() { if (true) return;"
+  );
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(cleanedHtml, "text/html");
+
+  doc.querySelectorAll(
+    "#v4-master-snb-style, #v4-patch-v7-style, #v4-patch-v8-style, #v4-patch-v8-1-style, #v4-patch-v7-enforcer, #v4-patch-v8-enforcer"
+  ).forEach(el => el.remove());
+
+  if (!doc.querySelector('link[href*="pretendard"]')) {
+    const link = doc.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css";
+    doc.head.appendChild(link);
+  }
+
+  doc.title = `[${meta.code}] ${meta.title} — 산준모 백오피스 v4.0.0`;
+
+  let rightControlsHtml = "";
+  const existingSlot = doc.getElementById("v4-topbar-right-slot");
+  if (existingSlot && existingSlot.innerHTML.trim()) {
+    rightControlsHtml = existingSlot.innerHTML.trim();
+  }
+
+  if (screenCode === "ADMN-PROD-002") {
+    rightControlsHtml = `
+      <div class="subview-switcher">
+        <button type="button" class="subview-btn active" id="btn-view-list" onclick="if(window.backToList) backToList()">
+          <span class="code-pill">002</span> 강의 목록
+        </button>
+        <button type="button" class="subview-btn" id="btn-view-form" onclick="if(window.openFormView) openFormView(128)">
+          <span class="code-pill">002-S1</span> 강의 등록/수정
+        </button>
+      </div>`;
+  }
+
+  if (!rightControlsHtml) {
+    rightControlsHtml = `<span style="font-size:11.5px; font-weight:700; color:#475569; background:#F1F5F9; padding:5px 10px; border-radius:6px; border:1px solid #E2E8F0;">SSOT v4.0.0 Baseline</span>`;
+  }
+
+  const oldPageBody = doc.getElementById("v4-page-body");
+  if (oldPageBody) {
+    const frag = doc.createDocumentFragment();
+    while (oldPageBody.firstChild) {
+      frag.appendChild(oldPageBody.firstChild);
+    }
+    const oldShell = doc.getElementById("v4-root-shell");
+    if (oldShell) {
+      oldShell.replaceWith(frag);
+    }
+  }
+
+  doc.querySelectorAll(
+    "#v4-master-snb, aside.v4-master-snb, aside.snb, nav.snb, .snb, .sidebar, #sidebar, .page-top-banner, .wb-header, #v4-gen3-topbar"
+  ).forEach(el => el.remove());
+
+  const bodyChildren = Array.from(doc.body.childNodes);
+  const rootShell = doc.createElement("div");
+  rootShell.id = "v4-root-shell";
+
+  const topbar = doc.createElement("header");
+  topbar.className = "top-bar v4-gen3-topbar";
+  topbar.id = "v4-gen3-topbar";
+  topbar.innerHTML = `
+    <div class="top-bar-left">
+      <span class="crumb-group">${meta.groupTitle}</span>
+      <span class="crumb-sep">›</span>
+      <span class="crumb-code" id="header-screen-code">${meta.code}</span>
+      <h1 class="crumb-title" id="header-screen-title">${meta.topTitle}</h1>
+    </div>
+    <div class="top-bar-right" id="v4-topbar-right-slot">
+      ${rightControlsHtml}
+    </div>`;
+
+  const pageBody = doc.createElement("div");
+  pageBody.id = "v4-page-body";
+
+  bodyChildren.forEach(node => {
+    if (node.nodeType === 1 && node.tagName.toLowerCase() === "script") {
+      return;
+    }
+    pageBody.appendChild(node);
+  });
+
+  const snbTemp = doc.createElement("div");
+  snbTemp.innerHTML = buildMasterSnbHtml(meta.code).trim();
+  const snbEl = snbTemp.firstElementChild;
+
+  rootShell.appendChild(topbar);
+  rootShell.appendChild(pageBody);
+
+  doc.body.insertBefore(rootShell, doc.body.firstChild);
+  doc.body.insertBefore(snbEl, doc.body.firstChild);
+
+  const styleEl = doc.createElement("style");
+  styleEl.id = "v4-patch-v8-1-style";
+  styleEl.textContent = MASTER_V8_1_CSS;
+  doc.head.appendChild(styleEl);
+
+  const enforcerScript = doc.createElement("script");
+  enforcerScript.id = "v4-patch-v8-enforcer";
+  enforcerScript.textContent = `
+(function() {
+  function enforceCleanLayout() {
+    document.querySelectorAll('aside.v4-master-snb:not(#v4-master-snb), aside.snb, nav.snb').forEach(function(el) {
+      el.remove();
     });
   }
-  renderList();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", enforceCleanLayout);
+  } else {
+    enforceCleanLayout();
+  }
+  if ("${meta.code}" === "ADMN-PROD-002") {
+    var origOpen = window.openFormView;
+    var origBack = window.backToList;
+    if (typeof origOpen === "function") {
+      window.openFormView = function(no) {
+        try { origOpen(no); } catch(e) {}
+        var bL = document.getElementById("btn-view-list");
+        var bF = document.getElementById("btn-view-form");
+        if (bL) bL.classList.remove("active");
+        if (bF) bF.classList.add("active");
+      };
+    }
+    if (typeof origBack === "function") {
+      window.backToList = function() {
+        try { origBack(); } catch(e) {}
+        var bL = document.getElementById("btn-view-list");
+        var bF = document.getElementById("btn-view-form");
+        if (bL) bL.classList.add("active");
+        if (bF) bF.classList.remove("active");
+      };
+    }
+  }
+})();`;
+  doc.body.appendChild(enforcerScript);
+
+  return {
+    fileName,
+    screenCode: meta.code,
+    patchedHtml: "<!DOCTYPE html>\n" + doc.documentElement.outerHTML
+  };
 }
 
-function renderList() {
-  const box = document.getElementById("fileList");
-  document.getElementById("btnDownloadAll").disabled = processedFiles.length === 0;
-  box.innerHTML = processedFiles.map((f, idx) => `
-    <div class="file-card">
-      <div>
-        <div class="file-name">${f.outName} <span style="color:#38bdf8;font-size:11.5px;">[${f.code}]</span></div>
-        <div class="file-meta">${f.replaced ? "✔ 기존 .snb 클래스 분리 + gap:0px + position:fixed 고정 완료" : "⚠ SNB 영역 미발견"}</div>
-      </div>
-      <button class="btn-dl" onclick="downloadOne(${idx})">다운로드</button>
-    </div>
+let patchedFilesStore = [];
+
+function renderResultTable() {
+  const tbody = document.getElementById("resultTbody");
+  document.getElementById("countText").textContent = patchedFilesStore.length;
+  document.getElementById("btnDownloadAll").disabled = (patchedFilesStore.length === 0);
+
+  if (patchedFilesStore.length === 0) return;
+
+  tbody.innerHTML = patchedFilesStore.map((item, idx) => `
+    <tr>
+      <td>${idx + 1}</td>
+      <td><code>${item.fileName}</code></td>
+      <td><strong>${item.screenCode}</strong></td>
+      <td>본문 좌우 여백 28px · 상하 여백 22px 전 화면 표준화 완료</td>
+      <td><span class="pill-ok">✔ 패치 완료</span></td>
+      <td>
+        <button type="button" class="btn slate" style="height:28px; padding:0 10px; font-size:11.5px;" onclick="downloadSingle(${idx})">다운로드</button>
+      </td>
+    </tr>
   `).join("");
 }
 
-function downloadOne(idx) {
-  const f = processedFiles[idx];
-  const blob = new Blob([f.content], { type: "text/html;charset=utf-8" });
+async function patchViaDirectoryPicker() {
+  if (!window.showDirectoryPicker) {
+    alert("현재 브라우저가 폴더 직접 쓰기(showDirectoryPicker)를 지원하지 않습니다. 우측의 드래그 앤 드롭 방식을 사용해 주세요.");
+    return;
+  }
+  try {
+    const dirHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+    patchedFilesStore = [];
+    let count = 0;
+
+    for await (const [name, entry] of dirHandle.entries()) {
+      if (entry.kind === "file" && name.endsWith("_baseline.html")) {
+        const file = await entry.getFile();
+        const rawText = await file.text();
+        const res = patchSingleHtmlDocument(name, rawText);
+
+        const writable = await entry.createWritable();
+        await writable.write(res.patchedHtml);
+        await writable.close();
+
+        patchedFilesStore.push(res);
+        count++;
+      }
+    }
+
+    patchedFilesStore.sort((a, b) => a.fileName.localeCompare(b.fileName));
+    renderResultTable();
+    alert(`성공! 선택한 폴더 내 ${count}개의 *_baseline.html 파일 모두 본문 여백(22px 28px)이 동일하게 통일되었습니다.`);
+  } catch (err) {
+    if (err.name !== "AbortError") {
+      alert("폴더 패치 중 오류가 발생했습니다: " + err.message);
+    }
+  }
+}
+
+async function handleFiles(fileList) {
+  const files = Array.from(fileList).filter(f => f.name.endsWith(".html"));
+  if (!files.length) return;
+  patchedFilesStore = [];
+
+  for (const file of files) {
+    const rawText = await file.text();
+    const res = patchSingleHtmlDocument(file.name, rawText);
+    patchedFilesStore.push(res);
+  }
+  patchedFilesStore.sort((a, b) => a.fileName.localeCompare(b.fileName));
+  renderResultTable();
+}
+
+function downloadSingle(idx) {
+  const item = patchedFilesStore[idx];
+  if (!item) return;
+  const blob = new Blob([item.patchedHtml], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = f.outName;
+  a.href = url;
+  a.download = item.fileName;
   document.body.appendChild(a);
   a.click();
   a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
-function downloadAll() {
-  processedFiles.forEach((_, idx) => {
-    setTimeout(() => downloadOne(idx), idx * 180);
+function downloadAllSequential() {
+  patchedFilesStore.forEach((item, idx) => {
+    setTimeout(() => downloadSingle(idx), idx * 220);
   });
 }
+
+const dropZone = document.getElementById("dropZone");
+dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("dragover"); });
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  handleFiles(e.dataTransfer.files);
+});
 </script>
 </body>
 </html>
