@@ -1,581 +1,869 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>00_WORKFLOW_GUIDE · 산준모 정산시스템 백오피스 업무 플로우 가이드</title>
-<style>
-  :root{
-    --snb-w:272px;
-    --bg:#f5f6f8; --panel:#ffffff; --line:#e3e6eb; --text:#1f2430; --sub:#5b6474; --muted:#8a93a3;
-    --s1:#2f6fed; --s2:#e08a00; --s3:#1a9b6c; --s4:#8a4fd8;
-    --warn:#c0392b; --warn-bg:#fdecea; --info-bg:#eef4ff; --ok-bg:#e9f7f1; --gate-bg:#fff7e6;
-    --radius:10px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
-  a{color:inherit;text-decoration:none}
+ <meta charset="utf-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>[산준모 정산시스템 v4.0.0] 전체 업무 플로우 가이드 & 프로토타입 런처</title>
+ <style>
+ :root {
+ --bg: #f3f6fb;
+ --card: #ffffff;
+ --ink: #0f172a;
+ --muted: #475569;
+ --sub: #64748b;
+ --line: #dbe3ef;
+ --line-strong: #b8c6db;
+ --pri: #1d4ed8;
+ --pri-soft: #eff6ff;
+ --ok: #15803d;
+ --ok-soft: #f0fdf4;
+ --ok-line: #86efac;
+ --warn: #b45309;
+ --warn-soft: #fffbeb;
+ --warn-line: #fcd34d;
+ --bad: #b91c1c;
+ --bad-soft: #fef2f2;
+ --bad-line: #fca5a5;
+ --purple: #6d28d9;
+ --purple-soft: #f5f3ff;
+ --teal: #0f766e;
+ --teal-soft: #f0fdfa;
+ --snb-bg: #0b1324;
+ --snb-ink: #cbd5e1;
+ --snb-active: #2563eb;
+ --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+ --radius: 14px;
+ --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+ --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+ }
+ * { box-sizing: border-box; }
+ body {
+ margin: 0;
+ font-family: var(--font);
+ color: var(--ink);
+ background: var(--bg);
+ line-height: 1.5;
+ font-size: 13.5px;
+ }
+ .layout { display: grid; grid-template-columns: 272px 1fr; min-height: 100vh; }
 
-  /* ===== SNB (272px 고정) ===== */
-  .snb{position:fixed;top:0;left:0;bottom:0;width:var(--snb-w);background:#141a26;color:#cfd5e1;overflow-y:auto;padding:20px 0 40px;z-index:10}
-  .snb-brand{padding:0 20px 18px;border-bottom:1px solid #2a3244;margin-bottom:10px}
-  .snb-brand strong{display:block;color:#fff;font-size:15px}
-  .snb-brand span{font-size:12px;color:#8b95a8}
-  .snb-guide{display:block;margin:6px 12px 10px;padding:9px 12px;border-radius:8px;background:#22304a;color:#fff;font-size:13px;font-weight:600}
-  .snb-stage{padding:12px 20px 4px;font-size:12px;font-weight:700;letter-spacing:.2px}
-  .snb-stage.s1{color:#7fa6ff}.snb-stage.s2{color:#ffb84d}.snb-stage.s3{color:#5fd3a6}.snb-stage.s4{color:#c29bff}
-  .snb a.item{display:block;padding:7px 20px 7px 28px;font-size:13px;color:#cfd5e1;border-left:3px solid transparent}
-  .snb a.item small{display:block;font-size:11px;color:#7d879a}
-  .snb a.item:hover{background:#1d2535;color:#fff}
-  .snb a.item.active{background:#1d2535;border-left-color:#7fa6ff;color:#fff}
+ /* Main */
+ .main { display: flex; flex-direction: column; min-width: 0; }
+ .hero {
+ background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+ color: #fff; padding: 28px 32px;
+ border-bottom: 1px solid #1e293b;
+ display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+ }
+ .hero h1 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+ .hero p { margin: 6px 0 0; font-size: 13.5px; color: #cbd5e1; max-width: 780px; }
 
-  /* ===== Main ===== */
-  .main{margin-left:var(--snb-w);padding:32px 40px 80px;max-width:1440px}
-  .hero{background:linear-gradient(135deg,#1c2b4a,#2f4f8a);color:#fff;border-radius:14px;padding:30px 32px;margin-bottom:28px}
-  .hero .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-  .badge{display:inline-block;font-size:12px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.15)}
-  .hero h1{font-size:24px;margin-bottom:8px}
-  .hero p{color:#d6def0;font-size:14px}
-  .hero .ssot{margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-  .hero .ssot div{background:rgba(255,255,255,.08);border-radius:8px;padding:10px 12px;font-size:12px;color:#e6ecf8}
-  .hero .ssot b{display:block;color:#fff;font-size:13px;margin-bottom:2px}
+ .badge {
+ display: inline-flex; align-items: center; gap: 5px;
+ padding: 3px 9px; border-radius: 999px;
+ font-size: 11.5px; font-weight: 700; white-space: nowrap;
+ }
+ .b-pri { background: var(--pri-soft); color: var(--pri); border: 1px solid #bfdbfe; }
+ .b-ok { background: var(--ok-soft); color: var(--ok); border: 1px solid var(--ok-line); }
+ .b-warn { background: var(--warn-soft); color: var(--warn); border: 1px solid var(--warn-line); }
+ .b-bad { background: var(--bad-soft); color: var(--bad); border: 1px solid var(--bad-line); }
+ .b-pur { background: var(--purple-soft); color: var(--purple); border: 1px solid #ddd6fe; }
+ .b-teal { background: var(--teal-soft); color: var(--teal); border: 1px solid #99f6e4; }
+ .b-dark { background: #0f172a; color: #fff; }
+ .b-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
 
-  section{margin-bottom:36px}
-  h2{font-size:19px;margin-bottom:6px}
-  .lead{color:var(--sub);margin-bottom:16px;font-size:13px}
+ .btn {
+ display: inline-flex; align-items: center; gap: 6px;
+ padding: 8px 14px; border-radius: 8px;
+ font-size: 12.5px; font-weight: 700;
+ border: 1px solid var(--line-strong);
+ background: #fff; color: var(--ink);
+ cursor: pointer; transition: 0.15s; text-decoration: none; white-space: nowrap;
+ }
+ .btn:hover { background: #f8fafc; transform: translateY(-1px); }
+ .btn-pri { background: var(--pri); color: #fff; border-color: var(--pri); }
+ .btn-pri:hover { background: #1e40af; }
+ .btn-sm { padding: 5px 10px; font-size: 11.5px; border-radius: 6px; }
 
-  /* Stage cards */
-  .stage{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:16px;overflow:hidden}
-  .stage-head{padding:12px 18px;font-weight:700;color:#fff;display:flex;justify-content:space-between;align-items:center}
-  .stage-head small{font-weight:400;opacity:.9}
-  .stage.s1 .stage-head{background:var(--s1)}.stage.s2 .stage-head{background:var(--s2)}
-  .stage.s3 .stage-head{background:var(--s3)}.stage.s4 .stage-head{background:var(--s4)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;padding:14px}
-  .card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fff;display:flex;flex-direction:column}
-  .card .code{font-size:11px;color:var(--muted);font-family:Consolas,monospace}
-  .card h3{font-size:15px;margin:2px 0 4px}
-  .card .role{display:inline-block;font-size:11px;padding:1px 8px;border-radius:4px;background:#eef1f5;color:var(--sub);margin-bottom:8px;align-self:flex-start}
-  .card ul{padding-left:16px;font-size:12.5px;color:#333a47}
-  .card li{margin-bottom:4px}
-  .card .ref{margin-top:auto;padding-top:8px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line)}
-  .card .go{display:inline-block;margin-top:8px;font-size:12px;color:var(--s1);font-weight:600}
-  .chip-block{color:var(--warn);font-weight:600}
+ .content { padding: 24px 30px 60px; display: flex; flex-direction: column; gap: 22px; max-width: 1440px; }
 
-  /* Book flow */
-  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
-  .step .no{font-size:11px;font-weight:700;color:var(--s1);letter-spacing:.5px}
-  .step h3{font-size:15px;margin:2px 0 8px}
-  .step ul{padding-left:16px;font-size:12.5px}
-  .step li{margin-bottom:4px}
-  table.supply{width:100%;border-collapse:collapse;margin-top:12px;background:#fff;font-size:12.5px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-  table.supply th,table.supply td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
-  table.supply th{background:#f0f2f6;font-weight:600;color:var(--sub)}
+ .section-card {
+ background: var(--card); border: 1px solid var(--line);
+ border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+ }
+ .section-hd {
+ padding: 16px 22px; border-bottom: 1px solid var(--line);
+ background: #f8fafc; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+ }
+ .section-hd h2 { margin: 0; font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+ .section-bd { padding: 20px 22px; }
 
-  /* Engine */
-  .engine{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  .group{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-  .group-head{padding:10px 14px;font-weight:700;font-size:14px;background:#eef1f6;border-bottom:1px solid var(--line)}
-  .group-head small{display:block;font-weight:400;color:var(--muted);font-size:11px}
-  .eng{padding:12px 14px;border-bottom:1px solid var(--line)}
-  .eng:last-child{border-bottom:none}
-  .eng .t{font-weight:700;font-size:13px}
-  .eng .t span{font-family:Consolas,monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:4px}
-  .eng p{font-size:12px;color:#3a4252;margin-top:4px}
-  .eng .src{font-size:11px;color:var(--s1);margin-top:4px}
+ /* 4-Stage Pipeline Grid */
+ .stage-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+ .stage-col {
+ background: #f8fafc; border: 1px solid var(--line);
+ border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px;
+ }
+ .stage-col-hd {
+ padding-bottom: 10px; border-bottom: 2px solid var(--line-strong);
+ display: flex; flex-direction: column; gap: 4px;
+ }
+ .stage-num { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+ .stage-title { font-size: 14.5px; font-weight: 800; color: var(--ink); }
+ .stage-desc { font-size: 11.5px; color: var(--muted); }
 
-  /* Gate */
-  .gate{background:var(--gate-bg);border:1px solid #f1d9a6;border-radius:var(--radius);padding:16px 18px}
-  .gate ol{padding-left:18px;font-size:13px}
-  .gate li{margin-bottom:6px}
+ .screen-card {
+ background: #fff; border: 1px solid var(--line);
+ border-radius: 10px; padding: 13px 14px;
+ display: flex; flex-direction: column; gap: 7px;
+ cursor: pointer; transition: 0.16s; position: relative;
+ }
+ .screen-card:hover {
+ border-color: var(--pri);
+ box-shadow: 0 6px 18px rgba(29, 78, 216, 0.12);
+ transform: translateY(-2px);
+ }
+ .screen-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+ .screen-code {
+ font-family: var(--mono); font-size: 11px; font-weight: 800;
+ padding: 2px 7px; border-radius: 5px; background: #0f172a; color: #fff;
+ }
+ .screen-name { font-size: 14px; font-weight: 800; color: var(--ink); }
+ .screen-role { font-size: 12px; color: var(--muted); line-height: 1.42; }
+ .screen-rules {
+ margin: 2px 0 0; padding-left: 15px; font-size: 11.5px; color: #334155;
+ display: flex; flex-direction: column; gap: 3px;
+ }
+ .screen-go {
+ margin-top: 4px; padding-top: 8px; border-top: 1px dashed var(--line);
+ display: flex; justify-content: space-between; align-items: center;
+ font-size: 11.5px; font-weight: 800; color: var(--pri);
+ }
 
-  /* Scenario */
-  .scn{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px}
-  .scn h3{font-size:16px;margin-bottom:4px}
-  .scn .desc{font-size:12.5px;color:var(--sub);margin-bottom:12px}
-  .route{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
-  .route .r{flex:1 1 180px;background:#f7f9fc;border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12.5px;position:relative}
-  .route .r b{display:block;font-size:12px;color:var(--s1);margin-bottom:2px}
-  .rules{margin-top:12px;background:var(--info-bg);border-radius:8px;padding:10px 14px;font-size:12.5px}
-  .rules ul{padding-left:16px}
+ /* Swimlane / Journey Flow */
+ .flow-track {
+ display: grid; grid-template-columns: 1fr 34px 1fr 34px 1fr;
+ align-items: stretch; gap: 8px; margin-top: 10px;
+ }
+ .flow-node {
+ border: 1px solid var(--line); border-radius: 11px; padding: 14px 16px;
+ background: #fff; display: flex; flex-direction: column; gap: 6px;
+ }
+ .flow-arrow {
+ display: grid; place-items: center; font-size: 20px; font-weight: 800; color: var(--pri);
+ }
 
-  .note{font-size:12px;color:var(--muted);margin-top:8px}
-  footer{margin-top:40px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+ /* Engine Step Strip */
+ .engine-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+ .engine-group {
+ border: 1px solid var(--line); border-radius: 10px; padding: 13px 15px; background: #fbfdff;
+ }
+ .engine-step {
+ padding: 8px 10px; border-radius: 7px; background: #fff; border: 1px solid #e2e8f0;
+ margin-top: 8px; font-size: 12px;
+ }
 
-  @media (max-width:1200px){.engine{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:1fr}.hero .ssot{grid-template-columns:repeat(2,1fr)}}
+ table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+ th {
+ background: #f8fafc; color: var(--muted); font-weight: 800;
+ text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap;
+ }
+ td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+ .code { font-family: var(--mono); font-size: 11.5px; color: #1e293b; }
+ </style>
+
+<style id="v4-master-snb-style">
+ html { overflow-y: scroll !important; }
+ .layout, .app-layout {
+ display: block !important;
+ padding-left: 272px !important;
+ min-height: 100vh !important;
+ }
+ .savebar, .footer-bar {
+ left: 272px !important;
+ }
+ aside.v4-master-snb,
+ aside.v4-master-snb *,
+ aside.v4-master-snb *::before,
+ aside.v4-master-snb *::after {
+ box-sizing: border-box !important;
+ font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+ letter-spacing: -0.01em !important;
+ -webkit-font-smoothing: antialiased !important;
+ }
+ aside.v4-master-snb {
+ position: fixed !important;
+ top: 0 !important;
+ left: 0 !important;
+ bottom: 0 !important;
+ width: 272px !important;
+ min-width: 272px !important;
+ max-width: 272px !important;
+ height: 100vh !important;
+ background: #0f172a !important;
+ color: #cbd5e1 !important;
+ padding: 18px 14px 24px !important;
+ overflow-y: auto !important;
+ overflow-x: hidden !important;
+ border-right: 1px solid #1e293b !important;
+ display: flex !important;
+ flex-direction: column !important;
+ justify-content: flex-start !important;
+ align-items: stretch !important;
+ gap: 0px !important;
+ row-gap: 0px !important;
+ column-gap: 0px !important;
+ z-index: 100 !important;
+ margin: 0 !important;
+ font-size: 12.5px !important;
+ line-height: 18px !important;
+ }
+ aside.v4-master-snb .v4-snb-brand {
+ padding: 4px 8px 14px !important;
+ border-bottom: 1px solid rgba(148,163,184,.16) !important;
+ margin: 0 0 6px 0 !important;
+ cursor: pointer !important;
+ display: block !important;
+ flex: 0 0 auto !important;
+ }
+ aside.v4-master-snb .v4-snb-brand-title {
+ color: #ffffff !important;
+ font-size: 15px !important;
+ line-height: 20px !important;
+ font-weight: 900 !important;
+ margin: 0 !important;
+ padding: 0 !important;
+ }
+ aside.v4-master-snb .v4-snb-brand-sub {
+ color: #94a3b8 !important;
+ font-size: 11px !important;
+ line-height: 14px !important;
+ font-weight: 500 !important;
+ margin: 4px 0 0 0 !important;
+ padding: 0 !important;
+ }
+ aside.v4-master-snb .v4-snb-group-label {
+ font-size: 11px !important;
+ line-height: 14px !important;
+ font-weight: 800 !important;
+ color: #64748b !important;
+ padding: 12px 8px 5px !important;
+ margin: 0 !important;
+ text-transform: uppercase !important;
+ letter-spacing: 0.02em !important;
+ flex: 0 0 auto !important;
+ }
+ aside.v4-master-snb .v4-snb-item {
+ width: 100% !important;
+ height: 34px !important;
+ min-height: 34px !important;
+ max-height: 34px !important;
+ flex: 0 0 34px !important;
+ display: flex !important;
+ align-items: center !important;
+ justify-content: space-between !important;
+ gap: 8px !important;
+ padding: 0 10px !important;
+ margin: 0 0 3px 0 !important;
+ border-radius: 8px !important;
+ border: 1px solid transparent !important;
+ background: transparent !important;
+ color: #cbd5e1 !important;
+ cursor: pointer !important;
+ text-align: left !important;
+ text-decoration: none !important;
+ box-shadow: none !important;
+ outline: none !important;
+ transition: background-color 0.12s ease, color 0.12s ease !important;
+ }
+ aside.v4-master-snb .v4-snb-item:hover {
+ background: rgba(255,255,255,.06) !important;
+ color: #ffffff !important;
+ }
+ aside.v4-master-snb .v4-snb-item.active {
+ background: rgba(37,99,235,.22) !important;
+ color: #ffffff !important;
+ border: 1px solid rgba(96,165,250,.45) !important;
+ }
+ aside.v4-master-snb .v4-snb-item-title {
+ font-size: 12.5px !important;
+ line-height: 18px !important;
+ font-weight: 600 !important;
+ color: inherit !important;
+ white-space: nowrap !important;
+ overflow: hidden !important;
+ text-overflow: ellipsis !important;
+ margin: 0 !important;
+ padding: 0 !important;
+ }
+ aside.v4-master-snb .v4-snb-item.active .v4-snb-item-title {
+ font-weight: 800 !important;
+ }
+ aside.v4-master-snb .v4-snb-item-code {
+ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+ font-size: 10px !important;
+ line-height: 14px !important;
+ font-weight: 600 !important;
+ color: #94a3b8 !important;
+ background: rgba(15,23,42,.65) !important;
+ padding: 2px 6px !important;
+ border-radius: 5px !important;
+ flex-shrink: 0 !important;
+ margin: 0 !important;
+ letter-spacing: 0 !important;
+ }
+ aside.v4-master-snb .v4-snb-item.active .v4-snb-item-code {
+ color: #93c5fd !important;
+ background: rgba(30,58,138,.7) !important;
+ }
+ aside.v4-master-snb .v4-snb-footer {
+ margin-top: auto !important;
+ padding-top: 12px !important;
+ border-top: 1px solid rgba(148,163,184,.14) !important;
+ flex: 0 0 auto !important;
+ }
+ aside.v4-master-snb .v4-snb-footer-box {
+ background: rgba(15,23,42,.55) !important;
+ border: 1px solid rgba(148,163,184,.16) !important;
+ border-radius: 10px !important;
+ padding: 10px 11px !important;
+ font-size: 11px !important;
+ line-height: 16px !important;
+ font-weight: 500 !important;
+ color: #94a3b8 !important;
+ margin: 0 !important;
+ }
+ aside.v4-master-snb .v4-snb-footer-box strong {
+ color: #e2e8f0 !important;
+ font-size: 11px !important;
+ font-weight: 800 !important;
+ }
 </style>
 </head>
 <body>
+<div class="layout">
+ <!-- 좌측 SNB (전체 12개 화면 + 가이드 홈) -->
+ <aside class="v4-master-snb" aria-label="산준모 정산 백오피스 표준 사이드바">
+ <div class="v4-snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'" title="전체 업무 플로우 가이드로 이동">
+ <div class="v4-snb-brand-title">산준모 정산시스템</div>
+ <div class="v4-snb-brand-sub">Settlement Backoffice · v4.0.0</div>
+ </div>
+ <div class="v4-snb-group-label">0단계 · 전체 업무 플로우 안내</div>
+ <button type="button" class="v4-snb-item active" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'">
+ <span class="v4-snb-item-title">전체 업무 플로우 가이드</span>
+ <span class="v4-snb-item-code">GUIDE</span>
+ </button>
+ <div class="v4-snb-group-label">1단계 · 계약 · 상품 · 매핑 설정</div>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-001_baseline.html'">
+ <span class="v4-snb-item-title">권리자 계약 원장</span>
+ <span class="v4-snb-item-code">ADMN-INST-001</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-007_baseline.html'">
+ <span class="v4-snb-item-title">수취인 분할 관리</span>
+ <span class="v4-snb-item-code">ADMN-SETT-007</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-BOOK-001_baseline.html'">
+ <span class="v4-snb-item-title">도서 공급 원장</span>
+ <span class="v4-snb-item-code">ADMN-BOOK-001</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-001_baseline.html'">
+ <span class="v4-snb-item-title">상품별 권리자 매핑</span>
+ <span class="v4-snb-item-code">ADMN-SETT-001</span>
+ </button>
+ <div class="v4-snb-group-label">2단계 · 월마감 전 사전 검증</div>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-004_baseline.html'">
+ <span class="v4-snb-item-title">PG 정산 원장 대사</span>
+ <span class="v4-snb-item-code">ADMN-SETT-004</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-INST-002_baseline.html'">
+ <span class="v4-snb-item-title">약정금 마일스톤 검수</span>
+ <span class="v4-snb-item-code">ADMN-INST-002</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-006_baseline.html'">
+ <span class="v4-snb-item-title">합격 환급반 관리</span>
+ <span class="v4-snb-item-code">ADMN-SETT-006</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-008_baseline.html'">
+ <span class="v4-snb-item-title">사업자등록 확인 이력</span>
+ <span class="v4-snb-item-code">ADMN-SETT-008</span>
+ </button>
+ <div class="v4-snb-group-label">3단계 · 월간 정산 · 집행 · 조회</div>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-002_baseline.html'">
+ <span class="v4-snb-item-title">월간 정산 및 집행</span>
+ <span class="v4-snb-item-code">ADMN-SETT-002</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-005_baseline.html'">
+ <span class="v4-snb-item-title">정산 수동 조정</span>
+ <span class="v4-snb-item-code">ADMN-SETT-005</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-SETT-009_baseline.html'">
+ <span class="v4-snb-item-title">내부 정산 조회 - 조회 전용</span>
+ <span class="v4-snb-item-code">ADMN-SETT-009</span>
+ </button>
+ <div class="v4-snb-group-label">4단계 · 보안 및 감사 통제</div>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-USER-004_baseline.html'">
+ <span class="v4-snb-item-title">민감 정보 열람 통제</span>
+ <span class="v4-snb-item-code">ADMN-USER-004</span>
+ </button>
+ <button type="button" class="v4-snb-item" onclick="window.location.href='ADMN-CONF-008_baseline.html'">
+ <span class="v4-snb-item-title">정산 감사 로그</span>
+ <span class="v4-snb-item-code">ADMN-CONF-008</span>
+ </button>
+ <div class="v4-snb-footer">
+ <div class="v4-snb-footer-box">
+ <strong>SSOT 정합성 기준</strong><br/>
+ 01 비즈니스 · 02 연산/세무<br/>
+ 03 화면/연동 · 04 QA 테스트
+ </div>
+ </div>
+</aside>
 
-<!-- ===================== SNB : 4단계 업무 여정 (272px 고정) ===================== -->
-<nav class="snb" aria-label="업무 여정 내비게이션">
-  <div class="snb-brand">
-    <strong>산준모 정산시스템</strong>
-    <span>백오피스 · v4.0.0 기준선 · 13개 화면</span>
-  </div>
-  <a class="snb-guide" href="00_WORKFLOW_GUIDE_baseline.html">업무 플로우 가이드</a>
+ <!-- 우측 본문 -->
+ <main class="main">
+ <section class="hero">
+ <div>
+ <div style="display:flex; gap:8px; margin-bottom:8px;">
+ <span class="badge b-pri" style="background:rgba(255,255,255,0.16); color:#fff; border-color:rgba(255,255,255,0.3);">산준모 정산시스템 v4.0.0 Baseline</span>
+ <span class="badge b-ok" style="background:rgba(34,197,94,0.2); color:#86efac; border-color:rgba(34,197,94,0.4);">백오피스 12개 화면 인터랙티브 허브</span>
+ </div>
+ <h1>🧭 계약부터 월간 정산·집행·감사까지 — 전체 업무 플로우 안내서</h1>
+ <p>
+ 본 문서는 백오피스 12개 화면(<code>{화면코드}_baseline.html</code>)의 업무 순서, 화면 간 데이터 인계 조건, 그리고 8.3절 1~11단계 통합 연산 엔진과의 연결 관계를 한눈에 파악하고 즉시 화면을 실행할 수 있는 통합 런처입니다.
+ </p>
+ </div>
+ <div style="display:flex; gap:8px; flex-wrap:wrap;">
+ <button class="btn" onclick="goScreen('ADMN-INST-001_baseline.html')">▶ 1단계 첫 화면(계약 원장) 열기</button>
+ <button class="btn btn-pri" style="background:#3b82f6; border-color:#60a5fa;" onclick="goScreen('ADMN-SETT-002_baseline.html')">⚡ 핵심 집행 화면(SETT-002) 바로 열기</button>
+ </div>
+ </section>
 
-  <div class="snb-stage s1">1단계 · 계약 · 상품 · 매핑 설정</div>
-  <a class="item" href="ADMN-INST-001_baseline.html">권리자 계약 원장<small>ADMN-INST-001</small></a>
-  <a class="item" href="ADMN-SETT-007_baseline.html">수취인 분할 관리<small>ADMN-SETT-007</small></a>
-  <a class="item" href="ADMN-BOOK-001_baseline.html">도서 공급 원장<small>ADMN-BOOK-001</small></a>
-  <a class="item" href="ADMN-SETT-001_baseline.html">상품별 권리자 매핑<small>ADMN-SETT-001</small></a>
+ <div class="content">
 
-  <div class="snb-stage s2">2단계 · 월마감 전 사전 검증</div>
-  <a class="item" href="ADMN-SETT-004_baseline.html">PG 정산 원장 대사<small>ADMN-SETT-004</small></a>
-  <a class="item" href="ADMN-INST-002_baseline.html">약정금 마일스톤 검수<small>ADMN-INST-002</small></a>
-  <a class="item" href="ADMN-SETT-006_baseline.html">합격 환급반 관리<small>ADMN-SETT-006</small></a>
-  <a class="item" href="ADMN-SETT-008_baseline.html">사업자등록 확인 이력<small>ADMN-SETT-008</small></a>
+ <!-- SECTION 1: 4단계 전체 업무 여정 & 12개 화면 런처 -->
+ <div class="section-card">
+ <div class="section-hd">
+ <h2>1️⃣ 전체 12개 화면의 4단계 업무 여정 맵 (카드를 클릭하면 해당 화면으로 이동합니다)</h2>
+ <span class="badge b-dark">결번 ADMN-SETT-003 영구 제외 (16.2절)</span>
+ </div>
+ <div class="section-bd">
+ <div class="stage-grid">
 
-  <div class="snb-stage s3">3단계 · 월간 정산 · 집행 · 조회</div>
-  <a class="item" href="ADMN-SETT-002_baseline.html">월간 정산 및 집행<small>ADMN-SETT-002</small></a>
-  <a class="item" href="ADMN-SETT-005_baseline.html">정산 수동 조정<small>ADMN-SETT-005</small></a>
-  <a class="item" href="ADMN-SETT-009_baseline.html">내부 정산 조회 - 조회 전용<small>ADMN-SETT-009</small></a>
+ <!-- STAGE 1 -->
+ <div class="stage-col">
+ <div class="stage-col-hd">
+ <span class="stage-num" style="color:var(--pri);">STAGE 01 · 상시/사전 설정</span>
+ <div class="stage-title">계약 · 상품 · 매핑 설정</div>
+ <div class="stage-desc">강좌와 도서를 판매 오픈하기 전 계약 요율과 1·2계층 지분 100.00%를 세팅합니다.</div>
+ </div>
 
-  <div class="snb-stage s4">4단계 · 보안 및 감사 통제</div>
-  <a class="item" href="ADMN-USER-004_baseline.html">민감 정보 열람 통제<small>ADMN-USER-004</small></a>
-  <a class="item" href="ADMN-CONF-008_baseline.html">정산 감사 로그<small>ADMN-CONF-008</small></a>
-</nav>
+ <div class="screen-card" onclick="goScreen('ADMN-INST-001_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-INST-001</span>
+ <span class="badge b-pri">출발점</span>
+ </div>
+ <div class="screen-name">권리자 계약 원장</div>
+ <div class="screen-role">강사·저자·위탁자와의 모든 계약 조항(요율, 월 최저보장(<code>MMG</code>), 지원금, 선급금) 등록</div>
+ <ul class="screen-rules">
+ <li>출간 전 인세 도서 <strong>도서 가채번 (<code>BK-REQ-*</code>) 최초 발급</strong></li>
+ <li>개발지원금 전 유형 기본값 <strong>상계 허용 (<code>CONDITIONAL</code>)</strong> (5.2절)</li>
+ <li>국세청 API 연동 세무 판정 케이스 (<code>TX-01~TX-13</code>) 자동 바인딩</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-<main class="main">
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-007_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-007</span>
+ <span class="badge b-pur">2계층 조건부</span>
+ </div>
+ <div class="screen-name">수취인 분할 관리</div>
+ <div class="screen-role">1계층 권리자 정산금을 공동 서명인(소속사·상속인)과 나누는 2계층 분할 비율 (<code>payee_splits</code>)</div>
+ <ul class="screen-rules">
+ <li><strong>미상계 선급금 잔액 &gt; 0원 계약은 분할 등록 원천 차단 (5.3절)</strong></li>
+ <li>수취인별 세무 유형(강사 3.3% vs 소속사 세금계산서) 독립 적용</li>
+ <li>사망·상속 승계 확정일 기준 저작자 본인 여부 (<code>payee_is_author</code>) 전환</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-  <!-- ===================== HERO ===================== -->
-  <div class="hero">
-    <div class="badges">
-      <span class="badge">v4.0.0 기준선</span>
-      <span class="badge">백오피스 13개 화면</span>
-      <span class="badge">결번 ADMN-SETT-003 영구 제외</span>
-    </div>
-    <h1>백오피스 업무 플로우 가이드</h1>
-    <p>계약·상품 설정부터 월마감 사전 검증, 1~11단계 정산 엔진, 집행·감사까지 13개 화면이 이어지는 순서를 정리했습니다. 모든 내용은 기획서 4권(00 INDEX ~ 04 QA)을 근거로 하며, 수식·세무 판정이 서로 다르게 적혀 있으면 아래 정본을 따릅니다.</p>
-    <div class="ssot">
-      <div><b>금액 수식·이월·상계</b>02권 1~11단계 통합 연산 엔진(8.3절) · 단수 처리와 총액 역산(제13장)</div>
-      <div><b>세무·원천세·증빙 정정</b>02권 세무 판정 매트릭스 TX-01~TX-13(제11장) · 증빙 정정 4채널(10.4절)</div>
-      <div><b>계약·도서·지원금·이월 정책</b>01권 비즈니스 정책</div>
-      <div><b>화면 역할·국세청 API·보안</b>03권 화면 목록(16.1절) · 국세청 연동(제17장) · 보안(제3장)</div>
-    </div>
-  </div>
+ <div class="screen-card" onclick="goScreen('ADMN-BOOK-001_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-BOOK-001</span>
+ <span class="badge b-teal">도서 마스터</span>
+ </div>
+ <div class="screen-name">도서 공급 원장</div>
+ <div class="screen-role">실물 도서 4대 공급 형태 (<code>book_supply_type</code>: 자사발행/사입/위탁/사은품) 및 정가 이력 관리</div>
+ <ul class="screen-rules">
+ <li><code>ADMN-INST-001</code>의 <strong>도서 가채번 (<code>BK-REQ-*</code>)과 정식 SKU 매칭</strong></li>
+ <li>자사 저작권 보유 (<code>own_copyright_yn = true</code>) 시 인세(<code>Pipeline 2.1</code>) Bypass (단, 외부 수취인 개발지원금 <code>Pipeline 5.1</code> 매핑 시 모수 정상 인입)</li>
+ <li>판매 이력 발생 후 공급 형태 변경 하드락 차단 (6.1절)</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-  <!-- ===================== 1. 4단계 업무 여정 ===================== -->
-  <section id="journey">
-    <h2>1. 4단계 업무 여정과 화면별 역할</h2>
-    <p class="lead">화면 역할은 03권 정산 화면 목록(16.1절)을 기준으로 적었습니다. 정합성 판정은 서버 측 공통 검증 모듈에서 하고, 화면 검증은 이를 돕는 보조 수단입니다(01권 정합성 판정 일원화).</p>
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-001_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-001</span>
+ <span class="badge b-ok">1계층 100%</span>
+ </div>
+ <div class="screen-name">상품별 권리자 매핑</div>
+ <div class="screen-role">강의(lesson) 및 도서 SKU별 1계층 권리자 지분율 매핑 (유일 쓰기 진입점)</div>
+ <ul class="screen-rules">
+ <li>기간 구간별 <strong>합계 100.00% 충족 시에만 판매 차단 해제 (4.3절)</strong></li>
+ <li>매출연동 개발지원금 (<code>Pipeline 5.1</code>) 요율 합계 ≤ 자사 권리자 (<code>is_internal = true</code>) 지분 검증</li>
+ <li>자사저작권·사입·사은품 도서는 자사 권리자 100% 자동 고정</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
+ </div>
 
-    <!-- STAGE 1 -->
-    <div class="stage s1">
-      <div class="stage-head">1단계 · 계약 · 상품 · 매핑 설정 <small>정산 엔진이 읽어 가는 기준 데이터를 만드는 단계</small></div>
-      <div class="cards">
-        <div class="card">
-          <span class="code">ADMN-INST-001</span>
-          <h3>권리자 계약 원장</h3>
-          <span class="role">설정</span>
-          <ul>
-            <li>계약 상태: 작성 중 (DRAFT) · 계약 중 (ACTIVE) · 만료 (EXPIRED) · 중도 해지 (TERMINATED). 만료·해지 계약도 잔여 정산이 끝날 때까지 정산에 반영합니다.</li>
-            <li>갱신 방식: 자동 갱신 (AUTO) · 수동 종료 (MANUAL). 현재 종료일 (current_end_date)은 시스템이 자동 계산합니다.</li>
-            <li>요율 행 유형: 기본 수익배분 (BASIC) · 지원금 (SUPPORT). 지원금 행에는 약정 식별자 (agreement_id)가 꼭 있어야 하며, 두 유형을 합쳐 등록할 수 없습니다.</li>
-            <li>선급금 세무 유형: 소득 선지급 (EARNED) · 대여금 (LOAN)</li>
-            <li>개발지원금 약정: 지급 방식(일시금 · 분할 · 매출연동), 한도 유형(한도형 (CAPPED) · 무한도 (UNLIMITED)), 상계 유형(상계 허용 (CONDITIONAL, 기본값) · 비상계 (NON_OFFSET)), 정산 범위, 대상 강의·SKU</li>
-            <li>최소 지급 기준액은 100,000원, 최소 청구 기준액은 −100,000원이 기본값입니다. 합격 환급반 부담 방식의 기본값은 옵션 A입니다.</li>
-            <li>사업자 권리자는 [사업자 확인]으로 진위확인 API를 호출합니다. 과세유형과 세금계산서 발급 가능 여부는 자동으로 채워지며 편집할 수 없습니다. 사업자등록증과 맞지 않으면 <span class="chip-block">저장 차단</span>, 폐업자면 <span class="chip-block">등록 차단</span>, 휴업자면 재무 책임자 승인 후 저장합니다. 개인 프리랜서와 자사 권리자에게는 이 게이트를 적용하지 않습니다.</li>
-          </ul>
-          <div class="ref">근거: 계약 상태·기간(01권 5.5절) · 요율 행(01권 5.1절) · 지원금 약정(01권 5.2절) · 최소 지급 하한(01권 7.3절) · 1차 사업자 확인(03권 17.4절)</div>
-          <a class="go" href="ADMN-INST-001_baseline.html">화면 열기 →</a>
-        </div>
+ <!-- STAGE 2 -->
+ <div class="stage-col">
+ <div class="stage-col-hd">
+ <span class="stage-num" style="color:var(--warn);">STAGE 02 · 매월 초 마감 게이트</span>
+ <div class="stage-title">월마감 전 사전 검증</div>
+ <div class="stage-desc">월간 정산 배치를 돌리고 정산 마감 확정(<code>Locked = True</code>)하기 전에 반드시 통과해야 하는 검문소입니다.</div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-SETT-007</span>
-          <h3>수취인 분할 관리</h3>
-          <span class="role">설정 · 2계층</span>
-          <ul>
-            <li>계약·권리자 단위로 수취인 분할 비율 (split_ratio)을 등록합니다. 권리자 기준 합계가 100.00%여야 트랜잭션 저장이 됩니다.</li>
-            <li>1계층 지분 편집(ADMN-SETT-001)과 물리적으로 분리해, 합계를 검증하는 단위가 섞이지 않게 합니다.</li>
-            <li>선급금 원장이 끝나지 않은 계약에는 분할 비율을 <span class="chip-block">저장할 수 없습니다</span>(선급금·수취인 분할 상호 차단). 잔액이 0원이 되어 종결된 뒤에 등록할 수 있습니다.</li>
-            <li>수취인 승계: 승계 확정일 이후 발생분부터 승계인을 적용하고, 그 이전 발생분의 환불은 원 결제 시점의 비율로 공제합니다. 저작자 본인 여부 (payee_is_author)는 승계 확정일에 전환합니다.</li>
-          </ul>
-          <div class="ref">근거: 2계층 분할(03권 16.1절) · 상호 차단(01권 5.3절) · 환불 원거래 귀속(04권 D-1)</div>
-          <a class="go" href="ADMN-SETT-007_baseline.html">화면 열기 →</a>
-        </div>
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-004_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-004</span>
+ <span class="badge b-bad">마감 게이트 1</span>
+ </div>
+ <div class="screen-name">PG 정산 원장 대사</div>
+ <div class="screen-role">자체 주문 품목 (<code>order_items</code>) 원장과 결제대행사(PG) 입금 정산 내역 1:1 대사</div>
+ <ul class="screen-rules">
+ <li><strong>원인 미분류 불일치 (<code>UNKNOWN_MISMATCH</code>) 단 1건만 있어도 해당 권리자 마감 차단</strong></li>
+ <li>전사 미소명 오차 <code>1,000원</code> 이내 시 단수차액 일괄 대체 (8.2절)</li>
+ <li>강좌+교재 복합결제 시 과·면세 분할 및 도서 할인 0% 검증</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-BOOK-001</span>
-          <h3>도서 공급 원장</h3>
-          <span class="role">설정</span>
-          <ul>
-            <li>도서 공급 형태 (book_supply_type)는 4가지입니다: 자사 발행 (OWN_PUBLISHED) · 매입 재판매 (PURCHASED_RESALE) · 위탁 판매 (CONSIGNMENT) · 부속·사은품 (BUNDLED).</li>
-            <li>정산 대상 여부 (settlement_required_yn)는 공급 형태에서 자동으로 정해집니다. 자사 발행·위탁 판매는 대상, 매입 재판매·부속은 비대상이며 직접 입력하지 않습니다.</li>
-            <li>도서 정가 이력, 가격 결정 주체 (price_owner), 위탁 도서 재고 회수 조건을 관리합니다.</li>
-            <li>매입처 마스터를 등록할 때도 사업자 확인을 거칩니다.</li>
-            <li>판매 이력이 있는 SKU는 공급 형태 변경이 <span class="chip-block">차단</span>됩니다.</li>
-          </ul>
-          <div class="ref">근거: 도서 공급 형태(01권 6.1절) · 화면 역할(03권 16.1절) · 매입처 확인(03권 17.4절)</div>
-          <a class="go" href="ADMN-BOOK-001_baseline.html">화면 열기 →</a>
-        </div>
+ <div class="screen-card" onclick="goScreen('ADMN-INST-002_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-INST-002</span>
+ <span class="badge b-warn">마감 게이트 2</span>
+ </div>
+ <div class="screen-name">약정금 마일스톤 검수</div>
+ <div class="screen-role">비정기 약정금·매절 대금 건별 검수 및 매출연동형 (<code>REVENUE_SHARE</code>) 지원금 최초 1회 검수</div>
+ <ul class="screen-rules">
+ <li><strong>자금 출금 기능 일체 배제</strong> (귀속월 확정 후 7단계 이관만 수행)</li>
+ <li>소득구분·지원금 필수값·국세청 90일 이내 확인 3대 게이트</li>
+ <li>증빙 파일 첨부 (<code>EVIDENCE_FILE</code>) / 수기 확인 소명 (<code>MANUAL_NOTE</code>) 이원화</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-SETT-001</span>
-          <h3>상품별 권리자 매핑</h3>
-          <span class="role">설정 · 1계층</span>
-          <ul>
-            <li>1계층 지분 매핑을 쓸 수 있는 유일한 화면입니다. 강의 등록 화면은 '정산 매핑 미완료' 배지와 이 화면으로 가는 링크만 보여 줍니다.</li>
-            <li>지분율 합계는 100.00% 하드락입니다. 지분율은 0보다 커야 하고 소수점 둘째 자리까지 입력하며, 종료 기준과 변경 사유는 필수입니다.</li>
-            <li>매핑 기간이 계약 유효 기간을 벗어나면 미매핑으로 처리됩니다. 미매핑 SKU는 신규 판매가 차단되고, 매핑을 보완하면 자동으로 재개됩니다.</li>
-            <li>지원금 약정과 연결된 대상에는 경고를 표시합니다.</li>
-          </ul>
-          <div class="ref">근거: 화면 역할(03권 16.1절) · 지분 편집·유효 매핑(01권 4.3절)</div>
-          <a class="go" href="ADMN-SETT-001_baseline.html">화면 열기 →</a>
-        </div>
-      </div>
-    </div>
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-006_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-006</span>
+ <span class="badge b-pri">4·5단계 공제 연동</span>
+ </div>
+ <div class="screen-name">합격 환급반 관리</div>
+ <div class="screen-role">수강생 합격 환급금 승인 및 권리자 환급 부담 방식 (<code>refund_promo_burden_type</code>: A/B/C) 연동</div>
+ <ul class="screen-rules">
+ <li><strong>3단계 월 보장액 보정 (<code>MMG_ADJ</code>) 후 4단계 공제 반영 (<code>DEDUCT</code>)에서 차감</strong> (이중부담 회피)</li>
+ <li>지원금(<code>Pipeline 5.1</code>) 옵션 B·C 공제는 5단계 한도 캡 적용 후 차감·복원 (C-01 흡수 방지)</li>
+ <li>귀속월은 원 결제월 소급 없이 <strong>환급 승인 확정월</strong>로 고정 (15.3절)</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-    <!-- STAGE 2 -->
-    <div class="stage s2">
-      <div class="stage-head">2단계 · 월마감 전 사전 검증 <small>마감을 막는 요인을 미리 해소하는 단계</small></div>
-      <div class="cards">
-        <div class="card">
-          <span class="code">ADMN-SETT-004</span>
-          <h3>PG 정산 원장 대사</h3>
-          <span class="role">검증</span>
-          <ul>
-            <li>PG 정산 원장과 내부 주문 데이터를 대사하고, 결과를 미분류 건수와 전사 총액 차액이라는 두 기준으로 판정합니다.</li>
-            <li>권리자 단위: 미분류 (UNKNOWN_MISMATCH) 허용 한도는 0건입니다. 미분류 건이 있으면 <b>해당 권리자</b>의 마감만 차단합니다.</li>
-            <li>전사 단위: 전사 총액 차액이 1,000원을 넘으면 전사 마감을 차단합니다.</li>
-          </ul>
-          <div class="ref">근거: 이원화 임계값(03권 16.1절) · 시스템 설정값(03권 부록 B) · 대사 기준(01권 C.5 거버넌스 3번)</div>
-          <a class="go" href="ADMN-SETT-004_baseline.html">화면 열기 →</a>
-        </div>
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-008_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-008</span>
+ <span class="badge b-teal">국세청 API</span>
+ </div>
+ <div class="screen-name">사업자등록 확인 이력</div>
+ <div class="screen-role">권리자·위탁자·매입처의 국세청 과세유형 전환 및 휴·폐업 감지 큐 관리</div>
+ <ul class="screen-rules">
+ <li>과세유형 전환 감지 시 자동 덮어쓰기 금지 → <strong>담당자 승인 후 신규 유효일자 행 Insert</strong></li>
+ <li>전환 효력일 불명 시 7월 1일 임의 가정 금지 (17.5절)</li>
+ <li>폐업 감지 시 강제 청구·강제 정산 트리거 (10·11단계) 즉시 연동</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-INST-002</span>
-          <h3>약정금 마일스톤 검수</h3>
-          <span class="role">검증</span>
-          <ul>
-            <li>전속계약금, 매절 대금, 정액 수당 같은 비정기 약정금을 검수·승인합니다. 승인된 건은 정산 엔진 7단계(비정기 가산)에서 가산합니다.</li>
-            <li>소득 구분이 지정되지 않으면 검수 승인이 <span class="chip-block">차단</span>됩니다. 매절 소득의 기본값은 사업소득 (BUSINESS)입니다.</li>
-            <li>사업자 확인 후 90일이 지났다면 검수 승인 전에 다시 확인해야 합니다.</li>
-          </ul>
-          <div class="ref">근거: 비정기 약정금(01권 5.2절) · 확인 유효기간(03권 17.4절)</div>
-          <a class="go" href="ADMN-INST-002_baseline.html">화면 열기 →</a>
-        </div>
+ <!-- STAGE 3 -->
+ <div class="stage-col">
+ <div class="stage-col-hd">
+ <span class="stage-num" style="color:var(--ok);">STAGE 03 · 연산 · 마감 · 출금</span>
+ <div class="stage-title">월간 정산 · 집행 · 조회</div>
+ <div class="stage-desc">1~11단계 통합 엔진을 돌려 정산서를 확정하고 역발행 증빙·펌뱅킹 이체를 집행합니다.</div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-SETT-006</span>
-          <h3>합격 환급반 관리</h3>
-          <span class="role">운영</span>
-          <ul>
-            <li>환급 조건을 검수하고 환급을 확정합니다.</li>
-            <li>부담 방식: 옵션 A 플랫폼 전액 부담(기본값, 정산 모수 영향 없음) · 옵션 B 비율 공동 부담 · 옵션 C 매출 취소 처리. 옵션 B·C는 4단계(공제)에서 차감합니다.</li>
-            <li>환급 귀속월은 환급 승인 확정일이 속한 달로 고정합니다. 원 결제월로 소급하지 않습니다.</li>
-            <li>MMG 보전금과 옵션 B·C 차감이 같은 달에 함께 생기면 MMG·프로모션 중복 플래그 (mmg_promo_overlap_flag)를 표시합니다. 연산은 차단하지 않습니다.</li>
-          </ul>
-          <div class="ref">근거: 합격 환급반(01권 15.1~15.3절)</div>
-          <a class="go" href="ADMN-SETT-006_baseline.html">화면 열기 →</a>
-        </div>
+ <div class="screen-card" style="border:2px solid var(--pri); background:#f8fbff;" onclick="goScreen('ADMN-SETT-002_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code" style="background:var(--pri);">ADMN-SETT-002</span>
+ <span class="badge b-pri">단일 출금 게이트웨이</span>
+ </div>
+ <div class="screen-name">월간 정산 및 집행 (Core)</div>
+ <div class="screen-role">1~11단계 통합 연산 배치 실행, 정산 마감 확정 (<code>Locked = True</code>), 역발행 및 펌뱅킹 집행</div>
+ <ul class="screen-rules">
+ <li>수취인 리스트 행마다 <strong><code>[🔧 수동 조정]</code> 버튼으로 <code>ADMN-SETT-005</code> 직결</strong></li>
+ <li>세전 이월 계정 (<code>PRE_TAX</code>)·세후 이월 계정 (<code>POST_TAX</code>)·위탁 전용 잔액 모달</li>
+ <li>펌뱅킹 이체 실패 시 예약 해제 후 세전 이월 계정 (<code>PRE_TAX</code>) 적재 (QA D-13)</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-SETT-008</span>
-          <h3>사업자등록 확인 이력</h3>
-          <span class="role">검증</span>
-          <ul>
-            <li>국세청 API 조회 이력 전체, 과세유형 변경 감지 목록, 폐업·휴업 감지 목록, 일괄 재조회, 실패 재시도 큐를 관리합니다. 조회 대상은 권리자·위탁자·매입처 전부입니다.</li>
-            <li>정기 재조회: 매년 6월 15일부터 전수 재조회, 1·4·10월에는 분기별 폐업 감지를 합니다.</li>
-            <li>과세유형 코드가 기존과 다르면 이 화면에 쌓아 두고 담당자가 확인합니다. 반영할 때는 기존 행의 종료일을 설정하고 새 행을 추가합니다. 이미 마감된 달은 정정하지 않습니다.</li>
-            <li>폐업이 감지되면 증빙 발행과 리마인더를 멈추고, 미지급 잔액은 유지합니다.</li>
-          </ul>
-          <div class="ref">근거: 화면 역할(03권 16.1절) · 2차 재조회(03권 17.5절) · 사업자 확인 기준(01권 C.5 거버넌스 8번)</div>
-          <a class="go" href="ADMN-SETT-008_baseline.html">화면 열기 →</a>
-        </div>
-      </div>
-    </div>
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-005_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-005</span>
+ <span class="badge b-warn">마감 후 정정</span>
+ </div>
+ <div class="screen-name">정산 수동 조정</div>
+ <div class="screen-role">정산 마감 확정 (<code>Locked = True</code>) 월의 오류를 미마감 당월에 조정 라인으로 반영</div>
+ <ul class="screen-rules">
+ <li><strong>마감 취소 절대 금지</strong> — 발생 원인 귀속월 (<code>origin_month</code>)과 반영 기준월 (<code>applied_month</code>) 분리</li>
+ <li>100만원 초과 · 계정 간 대체 (<code>ACCOUNT_TRANSFER</code>) · 이행률 비례 정산 (<code>PRO_RATA</code>)은 <strong>재무책임자 2차 승인</strong></li>
+ <li>승인 시 <strong>4채널 증빙·원천세 정정 큐 (10.4절, 1:N 복수 허용)</strong> 자동 분기</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-    <!-- STAGE 3 -->
-    <div class="stage s3">
-      <div class="stage-head">3단계 · 월간 정산 · 집행 · 조회 <small>엔진을 실행하고 마감해 지급을 확정하는 단계</small></div>
-      <div class="cards">
-        <div class="card">
-          <span class="code">ADMN-SETT-002</span>
-          <h3>월간 정산 및 집행</h3>
-          <span class="role">집행</span>
-          <ul>
-            <li>1~11단계 연산 엔진 배치를 돌리고 정산서를 만듭니다.</li>
-            <li>마감 전에는 재연산할 때 대상월 결과를 전부 새로 만들고, 마감 확정 (Locked=True) 이후에는 재생성을 막습니다. 마감 해제 기능은 제공하지 않습니다.</li>
-            <li>증빙 발행 배치도 이 화면에서 실행합니다. 당사 명의 수정 전자세금계산서(TX-13)도 여기서 발행합니다.</li>
-            <li>펌뱅킹·대량이체 결과 파일을 등록하면 지급 지시 식별자로 매핑합니다. 이름으로 자동 매핑하지 않고, 미매핑·불일치·중복 건은 예외 목록으로 보냅니다.</li>
-            <li>이체가 실패하면 예약을 해제(지급 예약 (RESERVED) → 이월 대기 (NONE))해 원래 계정으로 되돌립니다. 이체 실패로 새로 생긴 원천징수 미성립 소득은 세전 (PRE_TAX)에 쌓습니다.</li>
-          </ul>
-          <div class="ref">근거: 화면 역할(03권 16.1절) · 마감·재연산(02권 10.1절) · 결과 연결·실패 이월(01권 7.2절) · 이체 실패 회귀 테스트(04권 D-13)</div>
-          <a class="go" href="ADMN-SETT-002_baseline.html">화면 열기 →</a>
-        </div>
+ <div class="screen-card" onclick="goScreen('ADMN-SETT-009_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-SETT-009</span>
+ <span class="badge b-teal">조회 전용 (View)</span>
+ </div>
+ <div class="screen-name">내부 정산 조회 - 조회 전용</div>
+ <div class="screen-role">자사 권리자 귀속분 (<code>is_internal = true</code>), 일반 상품 판매매출 (<code>Pipeline 2.3</code>), 외부 지급액 통합 대조</div>
+ <ul class="screen-rules">
+ <li><strong>자금 집행 버튼 일체 배제</strong> (<code>ADMN-SETT-002</code>와의 엄격한 권한 분리, 18.4절)</li>
+ <li>매출연동 개발지원금 (<code>Pipeline 5.1</code>) 확정 차감액과 자사 잔여 귀속액 대조</li>
+ <li>제14장 14.1절 <strong>원천세·간이지급명세서·과세/면세 매출 명세 기초자료 조회·추출</strong></li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-SETT-005</span>
-          <h3>정산 수동 조정</h3>
-          <span class="role">등록 · 집행 보조</span>
-          <ul>
-            <li>당월 수동 조정을 등록합니다. 마감 후 발견된 오류는 원 발생 귀속월 (origin_month)과 반영 기준월 (applied_month)을 나눠 정정 라인으로 등록하고, 차월 정산서의 '전월 정산 조정' 라인에 반영합니다.</li>
-            <li>세전·세후 계정 간 대체 전표와 지원금 이행률 정산 (PRO_RATA)도 등록합니다.</li>
-            <li>조정 사유 코드와 소명(20자 이상)은 필수입니다. 조정 금액이 1,000,000원을 넘으면 2차 승인을 받습니다.</li>
-            <li>계정 간 대체와 지원금 한도 수기 조정은 재무 책임자 승인을 받고 감사 로그에 남깁니다.</li>
-          </ul>
-          <div class="ref">근거: 화면 역할(03권 16.1절) · 조정 라인 규격(02권 10.2~10.3절) · 승인 기준액(03권 부록 B) · 계정 전환 예외(01권 7.4절)</div>
-          <a class="go" href="ADMN-SETT-005_baseline.html">화면 열기 →</a>
-        </div>
+ <!-- STAGE 4 -->
+ <div class="stage-col">
+ <div class="stage-col-hd">
+ <span class="stage-num" style="color:var(--purple);">STAGE 04 · 상시 보안/감사</span>
+ <div class="stage-title">보안 및 감사 통제</div>
+ <div class="stage-desc">개인정보 열람 통제(30초 재마스킹), 3계층 분리 파기, 전 화면 변경 이력을 추적합니다.</div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-SETT-009</span>
-          <h3>내부 정산 조회 - 조회 전용</h3>
-          <span class="role">조회 전용</span>
-          <ul>
-            <li>정산 엔진·원장과 같은 체계를 보는 조회 전용 화면입니다. 자사 매출 라인과 권리자 지급 라인을 함께 보여 줍니다.</li>
-            <li>보여 주는 항목: 정산 입력 구분별 매출 합계(온라인 강좌 수익배분 (Pipeline 1.1) · 자사 발행 도서 인세 (Pipeline 2.1) · 위탁 도서 판매대금 (Pipeline 2.2) · 일반 상품 판매매출 (Pipeline 2.3) · 매출연동 개발지원금 (Pipeline 5.1)), 소비재 공급가액·부가세 합계, 권리자 지급액 합계, 마감 잠금 상태</li>
-            <li>지원금 확정 차감액, 자사 잔여 귀속액, 외부 집행 제외 금액을 나눠 보여 줍니다.</li>
-            <li>펌뱅킹 같은 자금 집행 기능과 증빙 발행 기능은 없습니다. ADMN-SETT-002와 권한을 분리했습니다.</li>
-          </ul>
-          <div class="ref">근거: 내부 정산 조회(01권 18.4절) · 화면 역할(03권 16.1절) · TX-13 발행 창구(02권 10.4절)</div>
-          <a class="go" href="ADMN-SETT-009_baseline.html">화면 열기 →</a>
-        </div>
-      </div>
-    </div>
+ <div class="screen-card" onclick="goScreen('ADMN-USER-004_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-USER-004</span>
+ <span class="badge b-bad">AES-256 · TTL 30초</span>
+ </div>
+ <div class="screen-name">민감 정보 열람 통제</div>
+ <div class="screen-role">주민등록번호·계좌번호 마스킹 해제 사유 팝업 및 법정 보존기한 3계층 분리 파기</div>
+ <ul class="screen-rules">
+ <li>열람/임시 서명 URL (<code>Presigned URL</code>) 요청 시 <strong>최소 10자 사유 강제 + 30초 후 자동 재마스킹</strong></li>
+ <li>원천징수 비대상 주체(위탁자·매입처, 개인 위탁자 포함) 주민등록번호 수집 필드 미노출 (3.1절)</li>
+ <li>계층 1(5년) 경과 시 <strong>개인식별 필드만 파기하고 정산 원장 금액은 계층 2(10년) 보존 (3.5절)</strong></li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
 
-    <!-- STAGE 4 -->
-    <div class="stage s4">
-      <div class="stage-head">4단계 · 보안 및 감사 통제 <small>모든 단계에 걸쳐 작동하는 통제</small></div>
-      <div class="cards">
-        <div class="card">
-          <span class="code">ADMN-USER-004</span>
-          <h3>민감 정보 열람 통제</h3>
-          <span class="role">통제 · 팝업</span>
-          <ul>
-            <li>주민등록번호·계좌번호의 마스킹을 풀거나 증빙 사본을 내려받을 때 10자 이상 사유를 입력해야 합니다. 마스킹 해제는 재무 권한(RBAC)에서만 할 수 있습니다.</li>
-            <li>마스킹을 푼 뒤 30초(pii_unmask_ttl_seconds)가 지나면 다시 마스킹합니다.</li>
-            <li>증빙 뷰어는 5분 내외로 만료되는 임시 서명 URL로만 띄웁니다. 30초 재마스킹과는 별개 기준입니다.</li>
-            <li>위탁자·매입처는 원천징수 대상이 아니므로 주민등록번호를 수집하지 않고, 입력 필드도 보여 주지 않습니다.</li>
-          </ul>
-          <div class="ref">근거: 수집 근거·제한(03권 3.1절) · 증빙 보관(03권 3.3절) · 마스킹·감사(03권 3.4절)</div>
-          <a class="go" href="ADMN-USER-004_baseline.html">화면 열기 →</a>
-        </div>
+ <div class="screen-card" onclick="goScreen('ADMN-CONF-008_baseline.html')">
+ <div class="screen-top">
+ <span class="screen-code">ADMN-CONF-008</span>
+ <span class="badge b-dark">WORM 불변 원장</span>
+ </div>
+ <div class="screen-name">정산 감사 로그</div>
+ <div class="screen-role">전 화면 핵심 이벤트의 변경 전·후 (<code>Before/After</code>) JSON 스냅샷 조회 (<code>ADMN_AUDIT_LOG</code>)</div>
+ <ul class="screen-rules">
+ <li><strong>정산월(귀속월)별 · 발생 일자 범위별</strong> 필터링 및 통계 요약</li>
+ <li>1·2계층 지분 변경(변경 사유 필수), 수동 조정, 계정 대체, 지원금 한도 복원(D-12) 전수 기록</li>
+ <li>행 클릭 시 <strong>변경 전·후 (<code>Before/After</code>) JSON 비교 모달</strong> 및 원천 화면 딥링크</li>
+ </ul>
+ <div class="screen-go"><span>화면 열기</span><span>→</span></div>
+ </div>
+ </div>
 
-        <div class="card">
-          <span class="code">ADMN-CONF-008</span>
-          <h3>정산 감사 로그</h3>
-          <span class="role">통제</span>
-          <ul>
-            <li>민감 정보 열람 이력을 남깁니다.</li>
-            <li>1계층·2계층 지분율 변경 이력을 변경 전·후 값, 작업자, 시각, 변경 사유와 함께 남깁니다.</li>
-            <li>수기 검수, 정산 수동 조정 승인, 계정 간 대체 이력을 남깁니다.</li>
-            <li>개인정보 필드 파기 이력(파기 건수, 파기 필드, 남은 원장 건수)을 남깁니다.</li>
-            <li>국세청 API 조회 이력과 과세유형 자동 변경 이력, 도서 공급 형태 변경 이력을 남깁니다.</li>
-            <li>지원금 약정 상태 전이(완료 (COMPLETED) ↔ 진행 중 (ACTIVE))와 한도 복원 이력을 남깁니다.</li>
-          </ul>
-          <div class="ref">근거: 감사 로그 대상(03권 16.1절) · 파기 결과 기록(03권 3.5절)</div>
-          <a class="go" href="ADMN-CONF-008_baseline.html">화면 열기 →</a>
-        </div>
-      </div>
-    </div>
-  </section>
+ </div>
+ </div>
+ </div>
 
-  <!-- ===================== 2. 도서 흐름 ===================== -->
-  <section id="book">
-    <h2>2. 도서 등록부터 정산 인입까지</h2>
-    <p class="lead">도서는 공급 형태에 따라 정산 엔진에 들어갈지가 정해집니다. 공급 형태는 주문 품목에 주문 스냅샷 (book_supply_type_snapshot)으로 남겨, 과거 달을 재연산해도 결과가 같게 합니다.</p>
-    <div class="flow">
-      <div class="step">
-        <div class="no">STEP 1 · ADMN-INST-001</div>
-        <h3>계약 당사자 등록</h3>
-        <ul>
-          <li>자사 발행 도서: 저자(권리자) 계약과 인세 요율을 등록합니다.</li>
-          <li>위탁 판매 도서: 위탁자 계약을 먼저 등록합니다. 위탁 수수료율과 수수료 수취 방식을 여기서 정합니다.</li>
-          <li>사업자인 위탁자는 사업자 확인을 거칩니다. 사업자등록이 없는 개인 도서 공급자(TX-12)는 원칙적으로 등록이 차단됩니다.</li>
-          <li>매입 재판매·부속 도서는 이 단계가 필요 없습니다.</li>
-        </ul>
-      </div>
-      <div class="step">
-        <div class="no">STEP 2 · ADMN-BOOK-001</div>
-        <h3>도서 공급 원장 등록</h3>
-        <ul>
-          <li>공급 형태를 4가지 중 하나로 고르고, 정산 대상 여부가 자동으로 정해지는지 확인합니다.</li>
-          <li>자사 발행이면서 자사 저작권 보유 (own_copyright_yn=true)인 도서는 자사 권리자 100%로 자동 매핑됩니다.</li>
-          <li>매입 재판매 도서는 매입처를 등록합니다. 대금은 정산이 아니라 회계 지급(AP) 경로로 처리합니다.</li>
-        </ul>
-      </div>
-      <div class="step">
-        <div class="no">STEP 3 · ADMN-SETT-001 → SETT-002</div>
-        <h3>지분 매핑과 정산 인입</h3>
-        <ul>
-          <li>자사 발행(자사 저작권 아님) 도서는 권리자 지분 합계 100.00%를 매핑합니다.</li>
-          <li>위탁 판매 도서는 위탁자 1인 100%로 고정합니다.</li>
-          <li>정산은 3PL 출고 완료 후 반품 기한 D+7이 지난 확정 부수만 대상으로 합니다. 그 뒤에 생긴 반품은 승인월에 마이너스 라인으로 처리합니다.</li>
-        </ul>
-      </div>
-    </div>
+ <!-- SECTION 2: 가장 헷갈리기 쉬운 도서(Book) 3단계 라이프사이클 -->
+ <div class="section-card">
+ <div class="section-hd">
+ <h2>2️⃣ 도서(교재) 등록부터 정산 오픈까지의 3단계 여정 (왜 계약 원장에서 가채번이 먼저 시작되는가?)</h2>
+ <span class="badge b-pri">01권 제6장 6.1 ~ 6.6절 기준</span>
+ </div>
+ <div class="section-bd">
+ <div class="flow-track">
+ <div class="flow-node" style="border-left:4px solid var(--pri);">
+ <div style="display:flex; justify-content:space-between; align-items:center;">
+ <span class="badge b-pri">STEP 1 · 출간 전 집필 계약 시점</span>
+ <span class="code">ADMN-INST-001</span>
+ </div>
+ <div style="font-weight:800; font-size:14px; margin-top:4px;">저자 인세 계약 먼저 체결 &amp; 도서 가채번 발급</div>
+ <div style="font-size:12.5px; color:var(--muted);">
+ 실물 책과 ISBN이 아직 없어도 저자와 인세 계약(예: 정가 기준 10%)을 먼저 맺습니다. 이때 <strong>권리자 계약 원장 (<code>ADMN-INST-001</code>)</strong>에서 <strong>도서 가채번 (<code>BK-REQ-2026-0001</code>)</strong>을 선발급해 인세 요율을 먼저 저장해 둡니다.
+ </div>
+ </div>
 
-    <table class="supply">
-      <thead><tr><th>도서 공급 형태</th><th>정산 인입</th><th>지분 매핑</th><th>처리 경로</th></tr></thead>
-      <tbody>
-        <tr><td>자사 발행 (OWN_PUBLISHED) · 자사 저작권 아님</td><td>자사 발행 도서 인세 (Pipeline 2.1)</td><td>권리자 지분 합계 100.00% 필수</td><td>매출 총액 인식, 인세 정산</td></tr>
-        <tr><td>자사 발행 (OWN_PUBLISHED) · 자사 저작권 보유</td><td>외부 인세 지급 대상 아님. 지원금 약정 대상이면 매출연동 개발지원금 (Pipeline 5.1) 모수로 들어감</td><td>자사 권리자 100% 자동 매핑</td><td>자사 귀속분은 펌뱅킹·역발행 생략(Bypass)</td></tr>
-        <tr><td>매입 재판매 (PURCHASED_RESALE)</td><td>들어가지 않음</td><td>자사 권리자 100% 자동 매핑, 지분 검증 면제</td><td>재고자산 취득 원가, 회계 지급(AP) 경로</td></tr>
-        <tr><td>위탁 판매 (CONSIGNMENT)</td><td>위탁 도서 판매대금 정산 (Pipeline 2.2)</td><td>위탁자 1인 100% 고정</td><td>매출 순액 인식 검토. MMG·지원금·선급금 상계·수취인 분할 대상이 아님</td></tr>
-        <tr><td>부속·사은품 (BUNDLED)</td><td>들어가지 않음</td><td>지분 검증 면제</td><td>매출 인식 없이 판촉비로 처리</td></tr>
-      </tbody>
-    </table>
-    <p class="note">근거: 도서 공급 형태(01권 6.1절) · 도서 정산 확정 부수(01권 6.3절) · 위탁 판매(01권 6.6절) · 매입 대금 경로(01권 C.5 거버넌스 11번)</p>
-  </section>
+ <div class="flow-arrow">➔</div>
 
-  <!-- ===================== 3. 엔진 ===================== -->
-  <section id="engine">
-    <h2>3. 1~11단계 통합 연산 엔진과 화면 연결</h2>
-    <p class="lead">정본은 02권 통합 순방향 연산 엔진(8.3절)입니다. 단계 이름과 수식은 이 정본에서 가져왔고, 각 단계가 어느 화면의 데이터를 읽는지 함께 표시했습니다.</p>
-    <div class="engine">
-      <div class="group">
-        <div class="group-head">집계 <small>1~2단계</small></div>
-        <div class="eng">
-          <div class="t">1. 전월 이월 승계<span>CARRY_IN</span></div>
-          <p>다음 세 가지를 한 번에 조회합니다. 세전 이월 (PRE_TAX, 양수·음수), 세후 이월 (POST_TAX, 지급대기액·반환채권), 위탁 전용 잔액. 매출연동 개발지원금 이월은 5단계에서 한도 복원이 끝나므로 다시 넣지 않습니다.</p>
-          <div class="src">원장: 이월 잔액 원장(carryover_ledger) · 01권 7.4절</div>
-        </div>
-        <div class="eng">
-          <div class="t">2. 당월 발생액 집계<span>ACCRUAL</span></div>
-          <p>온라인 강좌 수익배분 (Pipeline 1.1) + 자사 발행 도서 인세 (Pipeline 2.1) + 위탁 도서 판매대금 (Pipeline 2.2) + 매출연동 개발지원금 (Pipeline 5.1). 일반 상품 판매매출 (Pipeline 2.3)은 권리자 지급 대상이 아니라서 넣지 않고, 마감 집계와 ADMN-SETT-009 조회에만 씁니다.</p>
-          <div class="src">입력: ADMN-SETT-001 · ADMN-BOOK-001 · ADMN-INST-001 · ADMN-SETT-004</div>
-        </div>
-      </div>
+ <div class="flow-node" style="border-left:4px solid var(--teal);">
+ <div style="display:flex; justify-content:space-between; align-items:center;">
+ <span class="badge b-teal">STEP 2 · 실물 출간 및 입고 시점</span>
+ <span class="code">ADMN-BOOK-001</span>
+ </div>
+ <div style="font-weight:800; font-size:14px; margin-top:4px;">정식 SKU 생성 · 공급 형태 지정 · 가채번 연결</div>
+ <div style="font-size:12.5px; color:var(--muted);">
+ 책이 출간되면 도서 MD가 <strong>도서 공급 원장 (<code>ADMN-BOOK-001</code>)</strong>에서 정식 상품 식별자(<code>PROD-BK-1001</code>)와 정가를 등록하고 대기 중이던 <strong>도서 가채번 (<code>BK-REQ-*</code>)과 1:1 영구 매핑</strong>합니다. (자사 저작권 보유 도서, 매입 재판매, 위탁 판매, 부속·사은품 도서는 가채번 없이 여기서 바로 SKU를 생성합니다.)
+ </div>
+ </div>
 
-      <div class="group">
-        <div class="group-head">보정 <small>3~5단계</small></div>
-        <div class="eng">
-          <div class="t">3. 월 최저보장 보정<span>MMG_ADJ</span></div>
-          <p>MMG 판정 모수에서는 지원금 라인, 합격 환급반 옵션 B·C 차감액, 세전 이월액을 뺍니다. 프로모션과 겹쳐도 연산은 막지 않고 플래그만 표시합니다.</p>
-          <div class="src">입력: ADMN-INST-001 · ADMN-SETT-006</div>
-        </div>
-        <div class="eng">
-          <div class="t">4. 환불·환급 공제<span>DEDUCT</span></div>
-          <p>환불, 그리고 합격 환급반 옵션 B·C를 공제합니다. 원거래 정산 스냅샷의 요율·지분율·지원금 확정 배분액을 거꾸로 찾아 대칭으로 공제합니다.</p>
-          <div class="src">입력: ADMN-SETT-006 · 정산 라인 스냅샷</div>
-        </div>
-        <div class="eng">
-          <div class="t">5. 지원금 한도 캡<span>SUPPORT_CAP</span></div>
-          <p>순수한 신규 지원금에 한도를 씌우고, 그다음 공제액을 뺍니다. 한도를 넘는 금액은 소멸합니다. 환불 시 한도 복원 (cap_restore_on_refund)의 기본값은 true입니다.</p>
-          <div class="src">원장: 지원금 소진 원장(support_fund_ledger) · 01권 5.2절</div>
-        </div>
-      </div>
+ <div class="flow-arrow">➔</div>
 
-      <div class="group">
-        <div class="group-head">분배 <small>6~8단계</small></div>
-        <div class="eng">
-          <div class="t">6. 선급금 상계<span>PREPAY_OFFSET</span></div>
-          <p>상계 가능액 = 적격 세전액 − 상계 대상 원천세 상당액. 이 한도 안에서 선급금 잔액이 0원이 될 때까지 먼저 상계합니다. 상계 대상은 Pipeline 1.1, Pipeline 2.1, 그리고 상계 허용 (CONDITIONAL) 지원금(매출연동형·일시금·분할형)입니다. MMG 보전금, 비상계 지원금, 7단계 가산금, 위탁 정산액은 상계하지 않습니다.</p>
-          <div class="src">입력: ADMN-INST-001(선급금 세무 유형) · 01권 5.3절</div>
-        </div>
-        <div class="eng">
-          <div class="t">7. 비정기 가산<span>LUMPSUM_ADD</span></div>
-          <p>전속계약금, 일시금·분할형 지원금, 매절 대금, 정액 수당, 종료 일시정산 (LUMP_SETTLE), 오프라인 출강료를 더합니다. 같은 항목을 두 번 반영하지 않습니다.</p>
-          <div class="src">입력: ADMN-INST-002(검수 승인분)</div>
-        </div>
-        <div class="eng">
-          <div class="t">8. 수취인 분할<span>PAYEE_SPLIT</span></div>
-          <p>2계층 비율로 나눕니다. 환불은 원거래 당시 수취인 비율로 되돌리고, 세전 이월액은 다시 나누지 않고 원래 수취인에게 남겨 둡니다.</p>
-          <div class="src">입력: ADMN-SETT-007</div>
-        </div>
-      </div>
+ <div class="flow-node" style="border-left:4px solid var(--ok);">
+ <div style="display:flex; justify-content:space-between; align-items:center;">
+ <span class="badge b-ok">STEP 3 · 판매 오픈 직전</span>
+ <span class="code">ADMN-SETT-001</span>
+ </div>
+ <div style="font-weight:800; font-size:14px; margin-top:4px;">저자 지분율 합계 100.00% 확정 → 판매 차단 해제</div>
+ <div style="font-size:12.5px; color:var(--muted);">
+ <strong>상품별 권리자 매핑 (<code>ADMN-SETT-001</code>)</strong>에서 공동저자 및 자사 지분 합계를 <strong><code>100.00%</code></strong>로 저장하면 즉시 판매 차단이 해제되고, 3PL 출고 완료 후 D+7 확정 판매 부수가 매월 정산 엔진(자사 발행 도서 인세 <code>Pipeline 2.1</code> 및 매출연동 개발지원금 <code>Pipeline 5.1</code>)으로 인입됩니다.
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
 
-      <div class="group">
-        <div class="group-head">과세·집행 <small>9~11단계</small></div>
-        <div class="eng">
-          <div class="t">9. 세무 판정·세액 연산<span>TAX</span></div>
-          <p>권리자 계약 원장의 세무 속성으로 세무 판정 매트릭스(TX-01~TX-13)를 적용합니다. 원천세는 소득세를 내림한 뒤 지방소득세(소득세의 10%)를 다시 내림하는 순차 2단 절사, 부가세는 공급가액 기준 1회 내림입니다. 판정 보류 (PENDING_REVIEW) 라인은 따로 떼어 둡니다.</p>
-          <div class="src">입력: ADMN-INST-001 · 과세유형 변경 반영 경로 ADMN-SETT-008 · 02권 제11장·제13장</div>
-        </div>
-        <div class="eng">
-          <div class="t">10. 청구 전환<span>CLAIM</span></div>
-          <p>음수 순액의 절대값이 100,000원을 넘으면 청구서를 냅니다. 전속계약금 일할 반환은 이 단계에서 한 번만 차감합니다. 만료·해지 시 상계하지 못한 선급금 잔액은 청구 하한과 상관없이 청구로 전환합니다(선급금 상태: 해지 시 청구 전환 (CLAIMED_ON_TERMINATION)).</p>
-          <div class="src">01권 5.2·5.3·7.3절</div>
-        </div>
-        <div class="eng">
-          <div class="t">11. 지급 대상 확정<span>PAYOUT</span></div>
-          <p>판정액은 당월 지급채무 순액 + 세후 지급대기액이고, VAT 포함 기준 (VAT_INCLUDED)으로 봅니다. 하한에 못 미치면 이월하는데, 원천징수가 이미 성립한 금액은 세후 (POST_TAX)에 남습니다. 최초 지급 대상 확정월부터 6개월이 지났거나, 매년 12월이거나, 계약이 만료·해지됐거나, 폐업한 경우에는 하한과 상관없이 강제로 정산합니다. 이 단계는 지급 완료가 아니라 이체 리스트 확정과 지급 예약 (RESERVED)까지입니다.</p>
-          <div class="src">01권 7.3절 · 집행: ADMN-SETT-002</div>
-        </div>
-      </div>
-    </div>
-    <p class="note">소수점 처리: 금액은 DECIMAL(18,4)로 유지하다가 합산 후 한 번 내림합니다. 배분할 때는 앞쪽 항목을 내림하고 마지막 항목에 나머지를 몰아 총액을 맞춥니다(총액 역산). 음수는 절대값을 내림한 뒤 부호를 되돌립니다. 근거: 단수 처리와 총액 역산(02권 13.1~13.3절)</p>
-  </section>
+ <!-- SECTION 3: 8.3절 1~11단계 통합 연산 엔진과 백오피스 화면 매핑 -->
+ <div class="section-card">
+ <div class="section-hd">
+ <h2>3️⃣ 8.3절 통합 연산 엔진(1~11단계)과 백오피스 화면 데이터 연결도</h2>
+ <span class="badge b-dark">SSOT: 02권 제8장 8.3절</span>
+ </div>
+ <div class="section-bd">
+ <div class="engine-grid">
+ <div class="engine-group">
+ <div style="font-weight:800; color:var(--pri); font-size:13.5px;">그룹 A · 기초 이월 및 당월 발생 (1~2단계)</div>
+ <div class="engine-step">
+ <strong>1단계 · 전월 이월 승계 (<code>CARRY_IN</code>)</strong>: 미소멸 세전 이월(<code>PRE_TAX</code>) · 세후 이월(<code>POST_TAX</code>) · 위탁 전용 잔액 분리 1회 조회 (재분할·재투입 금지)<br/>
+ <span class="code" style="color:var(--pri);">← ADMN-SETT-002 (이월 잔액 원장 carryover_ledger)</span>
+ </div>
+ <div class="engine-step">
+ <strong>2단계 · 순 발생액 산출 (<code>ACCRUAL</code>)</strong>: 강좌(<code>Pipeline 1.1</code>) · 인세(<code>Pipeline 2.1</code>) · 위탁(<code>Pipeline 2.2</code>) · 지원금(<code>Pipeline 5.1</code>) 당월 신규 세전 발생액 집계 (일반 소비재 <code>Pipeline 2.3</code>은 권리자 2단계 제외 후 <code>SETT-009</code> 자사 집계)<br/>
+ <span class="code" style="color:var(--pri);">← ADMN-SETT-004 (PG 대사) + ADMN-SETT-001 (1계층 매핑)</span>
+ </div>
+ </div>
 
-  <!-- ===================== 4. 마감 게이트 ===================== -->
-  <section id="gate">
-    <h2>4. 마감 전 확인할 차단 조건</h2>
-    <p class="lead">차단은 권리자 단위와 전사 단위로 나뉩니다. 권리자 단위 조건은 그 권리자만 마감을 막습니다.</p>
-    <div class="gate">
-      <ol>
-        <li><b>PG 대사(권리자 단위)</b>: 미분류 건이 있는 권리자는 마감이 차단됩니다. → ADMN-SETT-004</li>
-        <li><b>PG 대사(전사 단위)</b>: 전사 총액 차액이 1,000원을 넘으면 전사 마감이 차단됩니다. → ADMN-SETT-004</li>
-        <li><b>세무 판정 보류</b>: 판정 보류 (PENDING_REVIEW) 라인이 남아 있으면 재무 담당자가 확정 (DECIDED)할 때까지 마감이 차단됩니다. 국세청 코드 05·06·03이나 매핑할 수 없는 코드가 대표적입니다. → ADMN-SETT-008 · 02권 제11장</li>
-        <li><b>검증 등급 미확인</b>: 검증 등급이 '미확인'인 세무 케이스는 자동 마감을 타지 않습니다. → 02권 제11장</li>
-        <li><b>이월 연속성 등식</b>: 세전·세후 계정마다 "전월 말 잔액 + 당월 신규 − 당월 소멸 = 당월 말 잔액"을 따로 검증하고, 맞지 않으면 마감이 차단됩니다. 위탁 전용 잔액은 별도 등식으로 검증합니다. → 01권 7.4절</li>
-      </ol>
-    </div>
-  </section>
+ <div class="engine-group">
+ <div style="font-weight:800; color:var(--warn); font-size:13.5px;">그룹 B · 최저보장 · 환불 · 한도 (3~5단계)</div>
+ <div class="engine-step">
+ <strong>3단계 · 월 보장액 보정 (<code>MMG_ADJ</code>)</strong>: 온라인 강좌(<code>Pipeline 1.1</code>) 순수 신규 R/S 기준 월 최저보장(<code>MMG</code>) 보전금 산출 및 원장 격리<br/>
+ <span class="code" style="color:var(--warn);">← ADMN-INST-001 (계약 원장 MMG 특약)</span>
+ </div>
+ <div class="engine-step">
+ <strong>4단계 · 환불·프로모션 공제 (<code>DEDUCT</code>)</strong>: 일반 환불 및 합격환급반(옵션 B·C) 원 결제 스냅샷 역참조 차감 + 1단계 위탁 전용 잔액 상쇄<br/>
+ <span class="code" style="color:var(--warn);">← ADMN-SETT-006 (합격 환급반 관리)</span>
+ </div>
+ <div class="engine-step">
+ <strong>5단계 · 지원금 한도 캡 (<code>SUPPORT_CAP</code>)</strong>: 매출연동 개발지원금(<code>Pipeline 5.1</code>) 당월 신규분 한도 캡 선적용 후 4단계 환불·옵션 B·C 공제 차감 및 한도 복원<br/>
+ <span class="code" style="color:var(--warn);">← ADMN-INST-001 + ADMN-SETT-002 (지원금 소진 원장)</span>
+ </div>
+ </div>
 
-  <!-- ===================== 5. 시나리오 ===================== -->
-  <section id="scenario">
-    <h2>5. 대표 업무 시나리오</h2>
+ <div class="engine-group">
+ <div style="font-weight:800; color:var(--purple); font-size:13.5px;">그룹 C · 선급상계 · 가산 · 분할 (6~8단계)</div>
+ <div class="engine-step">
+ <strong>6단계 · 선급금 상한선 상계 (<code>PREPAY_OFFSET</code>)</strong>: MMG 보전금 제외 상계 적격 세전액(<code>P1.1</code> 순수신규 + <code>P2.1</code> + 상계 허용 <code>CONDITIONAL</code> 지원금)에서 예상 원천세 차감 한도 내 상계<br/>
+ <span class="code" style="color:var(--purple);">← ADMN-INST-001 (선급금 원장)</span>
+ </div>
+ <div class="engine-step">
+ <strong>7단계 · 비정기 약정·매절 가산 (<code>LUMPSUM_ADD</code>)</strong>: 검수 승인된 전속계약금 · 일시/분할 지원금 · 매절 대금 · 정액 수당 · 종료 일시정산(<code>LUMP_SETTLE</code>) 가산<br/>
+ <span class="code" style="color:var(--purple);">← ADMN-INST-002 (마일스톤 검수) + ADMN-SETT-005 (수동조정)</span>
+ </div>
+ <div class="engine-step">
+ <strong>8단계 · 수취인 분할 (<code>PAYEE_SPLIT</code>)</strong>: 2계층 공동 서명 수취인 비율 분할 (마지막 수취인 총액 역산, 원귀속 <code>PRE_TAX</code> 및 위탁 순액 별도 배열 전달)<br/>
+ <span class="code" style="color:var(--purple);">← ADMN-SETT-007 (수취인 분할 관리)</span>
+ </div>
+ </div>
 
-    <div class="scn">
-      <h3>시나리오 A · 자사 저작권 도서에 외부 수취인 개발지원금을 연결하는 경우</h3>
-      <p class="desc">자사 권리자 지분이 100%인 도서에서 나온 매출 일부를 외부 수취인에게 매출연동 개발지원금 (Pipeline 5.1)으로 지급합니다.</p>
-      <div class="route">
-        <div class="r"><b>① ADMN-INST-001</b>외부 수취인을 권리자로 등록하고 개발지원금 약정을 만듭니다. 정산 범위는 자사 발행 도서 인세 한정 (PIPELINE_2_1_ONLY) 또는 강좌·도서 합산 (PIPELINE_1_1_2_1)입니다.</div>
-        <div class="r"><b>② ADMN-BOOK-001</b>자사 발행 (OWN_PUBLISHED)이면서 자사 저작권 보유인 SKU를 등록하면 자사 권리자 100%로 자동 매핑됩니다.</div>
-        <div class="r"><b>③ ADMN-INST-001</b>약정 대상에 이 SKU를 지정합니다. 저장할 때 자사 지분이 0보다 큰지 검증하며, 나중에 새로 매핑된 대상은 자동으로 포함되지 않습니다.</div>
-        <div class="r"><b>④ ADMN-SETT-002</b>당월 확정 판매 부수 × 약정 기준가가 지원금 모수로 들어갑니다. 5단계에서 한도 캡을 적용하고, 상계 허용 약정이면 6단계 상계 대상이 됩니다.</div>
-        <div class="r"><b>⑤ ADMN-SETT-009</b>지원금 확정 차감액, 자사 잔여 귀속액, 외부 집행 제외 금액을 확인합니다.</div>
-      </div>
-      <div class="rules">
-        <ul>
-          <li>이 도서는 외부 인세 지급 대상이 아닙니다. 자사 귀속분은 펌뱅킹·역발행을 생략(Bypass)하고, 지원금만 외부 수취인에게 지급합니다.</li>
-          <li>저작자 등록은 요구하지 않습니다. 자사 저작권 보유 (own_copyright_yn=true)여도 대상으로 지정할 수 있습니다.</li>
-          <li>지원금 라인은 MMG 판정 모수에서 빠집니다.</li>
-        </ul>
-        <p class="note">근거: 지원금 약정 대상 검증(01권 5.2절) · 자사 발행 도서(01권 6.1절) · 상계 적격(01권 5.3절)</p>
-      </div>
-    </div>
+ <div class="engine-group">
+ <div style="font-weight:800; color:var(--ok); font-size:13.5px;">그룹 D · 과세 · 청구 · 지급 집행 (9~11단계)</div>
+ <div class="engine-step">
+ <strong>9단계 · 세무 판정 및 세액 (<code>TAX</code>)</strong>: 세무 판정 매트릭스(<code>TX-01~TX-13</code>) 적용 (부가세 별도 <code>VAT_EXCLUDED</code> / 총액 역산 <code>VAT_INCLUDED</code>, 원천세 2단 내림 절사)<br/>
+ <span class="code" style="color:var(--ok);">← ADMN-SETT-008 (국세청 과세유형 확인)</span>
+ </div>
+ <div class="engine-step">
+ <strong>10단계 · 반환 및 최소 청구 검증 (<code>CLAIM</code>)</strong>: 전속계약금 세후 반환 차감 및 만료·해지 미상계 선급금 분리 후 음수 절대값 <code>100,000원</code> 초과 또는 만료·해지·폐업 강제 청구 시 마이너스 청구서 발행<br/>
+ <span class="code" style="color:var(--ok);">← ADMN-SETT-002 (청구 및 반환채권 관리)</span>
+ </div>
+ <div class="engine-step">
+ <strong>11단계 · 최소 지급 검증 및 확정 (<code>PAYOUT</code>)</strong>: 부가세 포함 판정 금액 <code>100,000원</code> 이상 또는 강제 정산(6개월·12월·만료·해지·폐업) 시 펌뱅킹 확정(마감 시 <code>RESERVED</code> 예약) / 미달 시 세무 상태별 이월(<code>PRE_TAX</code> / <code>POST_TAX</code>)<br/>
+ <span class="code" style="color:var(--ok);">← ADMN-SETT-002 (외부 집행) / ADMN-SETT-009 (자사 조회)</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
 
-    <div class="scn">
-      <h3>시나리오 B · 월마감 표준 동선</h3>
-      <p class="desc">사전 검증으로 차단 요인을 먼저 해소한 다음 엔진을 실행하고 마감합니다.</p>
-      <div class="route">
-        <div class="r"><b>① ADMN-SETT-004</b>PG 대사를 하고, 권리자 단위 미분류 건과 전사 차액을 해소합니다.</div>
-        <div class="r"><b>② ADMN-INST-002</b>당월 약정금 마일스톤을 검수·승인합니다.</div>
-        <div class="r"><b>③ ADMN-SETT-006</b>합격 환급을 확정합니다(귀속월은 환급 승인 확정일이 속한 달).</div>
-        <div class="r"><b>④ ADMN-SETT-008</b>과세유형 변경과 폐업을 반영하고, 판정 보류를 해소합니다.</div>
-        <div class="r"><b>⑤ ADMN-SETT-002</b>1~11단계 배치를 돌리고 정산서를 확인한 뒤 마감 확정 (Locked=True)합니다.</div>
-        <div class="r"><b>⑥ ADMN-SETT-002</b>지급 예약 → 펌뱅킹 → 결과 파일 등록 → 예외 건을 처리합니다.</div>
-        <div class="r"><b>⑦ ADMN-SETT-005</b>마감 뒤 발견된 오류는 차월에 정정 라인으로 등록합니다.</div>
-        <div class="r"><b>⑧ ADMN-SETT-009 · CONF-008</b>집계를 조회하고 감사 로그를 확인합니다.</div>
-      </div>
-      <div class="rules">
-        <ul>
-          <li>마감한 달은 고치지 않습니다. 오류는 차월 '전월 정산 조정' 라인으로 반영합니다.</li>
-          <li>무인 배치는 세전·세후 계정을 임의로 바꾸지 못합니다. 예외는 법령상 지급 의제와 재무 책임자가 승인한 수동 대체 전표뿐입니다.</li>
-          <li>결과가 확인되지 않았거나 처리 중인 이체는 다시 송금하지 않습니다.</li>
-        </ul>
-        <p class="note">근거: 마감 원칙(02권 10.1절) · 계정 전환 제한(01권 7.4절) · 지급 상태별 처리(01권 7.2절)</p>
-      </div>
-    </div>
-  </section>
+ <!-- SECTION 4: 실무자 자주 쓰는 시나리오별 화면 이동 치트시트 -->
+ <div class="section-card">
+ <div class="section-hd">
+ <h2>4️⃣ 실무 시나리오별 빠른 화면 이동 치트시트</h2>
+ <span class="badge b-teal">실무 운영자 온보딩 가이드</span>
+ </div>
+ <div class="section-bd" style="padding:0;">
+ <table>
+ <thead>
+ <tr>
+ <th>실무 상황 (언제 쓰는가?)</th>
+ <th>표준 처리 순서 (클릭 동선)</th>
+ <th>핵심 시스템 통제 규칙</th>
+ <th>바로 시작하기</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td><strong>시나리오 A. 신규 강사 영입 후 강좌 + 자사저작권 도서 동시 오픈</strong></td>
+ <td>
+ <code>ADMN-INST-001</code> (계약·R/S·지원금 등록) → <code>ADMN-BOOK-001</code> (도서 SKU·자사 저작권 보유 <code>own_copyright_yn = true</code>) → <code>ADMN-SETT-001</code> (강좌·도서 지분 100.00% 매핑)
+ </td>
+ <td>자사 저작권 보유 도서는 저작자 인세(<code>Pipeline 2.1</code>) 외부 지급을 Bypass하되, 외부 강사 매출연동 개발지원금(<code>Pipeline 5.1</code>) 매핑 시 확정 판매 기준금을 지원금 모수로 정상 인입 및 상계 허용(<code>CONDITIONAL</code>) 시 선급금 상계 연동 (부록 D-15·D-16)</td>
+ <td><button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-INST-001_baseline.html')">INST-001부터 시작 →</button></td>
+ </tr>
+ <tr>
+ <td><strong>시나리오 B. 매월 초(1일~10일) 전월 매출 정산 마감 및 펌뱅킹 이체</strong></td>
+ <td>
+ <code>ADMN-SETT-004</code> (PG 대사 오차 소명) → <code>ADMN-INST-002</code> (당월 약정금 승인) → <code>ADMN-SETT-006</code> (환급반 차감 확정) → <code>ADMN-SETT-002</code> (배치 실행·마감 확정 <code>Locked = True</code>·펌뱅킹)
+ </td>
+ <td>PG 원인 미분류 불일치 (<code>UNKNOWN_MISMATCH</code>) 0건 및 세무 판정 보류 (<code>PENDING_REVIEW</code>) 0건, 이월 원장 3대 연속성 등식 일치 시에만 <code>ADMN-SETT-002</code> 마감 확정 활성화</td>
+ <td><button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-SETT-004_baseline.html')">SETT-004 대사부터 →</button></td>
+ </tr>
+ <tr>
+ <td><strong>시나리오 C. 이미 마감된 전월(Locked) 정산서의 요율·수수료 오류 발견 시</strong></td>
+ <td>
+ <code>ADMN-SETT-002</code> (수취인 행의 <code>[🔧 수동 조정]</code> 클릭) → <code>ADMN-SETT-005</code> (원 정산서 자동 바인딩 모달에서 등록·1/2차 승인)
+ </td>
+ <td>마감 취소 절대 금지 (10.1절). 발생 원인 귀속월 (<code>origin_month</code>)과 반영 기준월 (<code>applied_month</code>)을 분리하고 4채널 증빙·원천세 정정 작업 (10.4절, 1:N 복수 작업 허용) 자동 생성</td>
+ <td><button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-SETT-002_baseline.html')">SETT-002에서 호출 →</button></td>
+ </tr>
+ <tr>
+ <td><strong>시나리오 D. 세무신고일(매월 10일/말일) 원천세·간이지급명세서 추출 및 계좌 진위 대조</strong></td>
+ <td>
+ <code>ADMN-SETT-009</code> (자사/전체 정산 대조 및 제14장 신고 기초자료 추출) → 확인 필요 시 <code>ADMN-USER-004</code> (10자 사유 입력 후 30초간 주민번호·계좌 열람) → <code>ADMN-CONF-008</code> (감사로그 확인)
+ </td>
+ <td>원천세 신고 집계는 실제 지급·적법한 상계·지급 의제 성립 건 (<code>payment_event_date IS NOT NULL</code>)만 포함하며, 민감 정보 열람 후 30초 (<code>pii_unmask_ttl_seconds</code>) 경과 시 자동 재마스킹 및 감사 로그 기록</td>
+ <td><button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-SETT-009_baseline.html')">SETT-009 조회센터 →</button></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
 
-  <footer>
-    산준모 정산시스템 · 00_WORKFLOW_GUIDE_baseline.html · v4.0.0 기준선(00 INDEX ~ 04 QA) 기반 · 결번 ADMN-SETT-003은 영구 제외하며 재사용하지 않습니다.
-  </footer>
-</main>
+ </div>
+ </main>
+</div>
 
 <script>
-  // SNB 현재 파일 활성화 표시
-  (function () {
-    var current = location.pathname.split("/").pop() || "00_WORKFLOW_GUIDE_baseline.html";
-    document.querySelectorAll(".snb a.item").forEach(function (a) {
-      if (a.getAttribute("href") === current) a.classList.add("active");
-    });
-  })();
+ function goScreen(filename) {
+ window.location.href = filename;
+ }
 </script>
 </body>
 </html>
