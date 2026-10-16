@@ -388,6 +388,20 @@
       border-left: 4px solid var(--primary);
     }
     .hidden { display: none !important; }
+  
+    /* Modal Backdrop & Card */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+      display: none; align-items: center; justify-content: center; z-index: 2000;
+      backdrop-filter: blur(2px);
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-card {
+      background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border);
+      width: min(780px, 95vw); max-height: 85vh; display: flex; flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25); overflow: hidden;
+    }
+
   </style>
 
   
@@ -1061,6 +1075,8 @@
     renderDetail();
   }
 
+  let pendingTaxChangeId = null;
+
   function approveTaxTypeChange(id) {
     const r = state.records.find(x => x.id === id);
     if (!r) return;
@@ -1069,15 +1085,43 @@
       alert("[17.5절 효력일 통제]\n전환 효력 시작일자가 비어 있습니다. 국세청 응답에 전환일이 없는 경우 임의로 7월 1일을 기본값으로 넣지 않으며, 정정된 사업자등록증에서 실제 효력일을 확인하여 입력해야 합니다.");
       return;
     }
+    pendingTaxChangeId = id;
+    document.getElementById("mdl-partner-name").textContent = r.partnerName;
+    document.getElementById("mdl-biz-no").textContent = r.bizNo;
+    document.getElementById("mdl-prev-tax").textContent = r.ledgerTaxTypeLabel;
+    document.getElementById("mdl-new-tax").textContent = r.apiTaxTypeLabel + " (TX-07)";
+
+    const eff = new Date(effDate);
+    eff.setDate(eff.getDate() - 1);
+    const prevEndStr = eff.toISOString().split('T')[0];
+
+    document.getElementById("mdl-prev-period").textContent = `2026-01-01 ~ ${prevEndStr}`;
+    document.getElementById("mdl-new-period").textContent = `${effDate} ~ 9999-12-31`;
+
+    document.getElementById("modal-tax-transition").classList.add("open");
+  }
+
+  function closeTaxTransitionModal() {
+    document.getElementById("modal-tax-transition").classList.remove("open");
+    pendingTaxChangeId = null;
+  }
+
+  function confirmTaxTypeTransition() {
+    if (!pendingTaxChangeId) return;
+    const r = state.records.find(x => x.id === pendingTaxChangeId);
+    if (!r) return;
+    const effDate = document.getElementById("inputEffDate").value;
+
     r.taxTypeChangeDt = effDate;
     r.ledgerTaxTypeLabel = r.apiTaxTypeLabel;
     r.controlStatus = "NORMAL";
     r.controlStatusLabel = `전환 승인 완료 (효력일: ${effDate})`;
 
+    closeTaxTransitionModal();
     updateKpis();
     renderTable();
     renderDetail();
-    showToast(`✔ [${r.partnerName}] 기존 과세유형 행이 종료되고 ${effDate}자 신규 유효일자 행이 생성되었습니다.`);
+    showToast(`✔ [17.5절 행분할 승인] [${r.partnerName}] 기존 행 종료 및 ${effDate}자 신규 유효일자 버전 행 생성이 확정되었습니다.`);
   }
 
   function resolvePendingReview(id) {
@@ -1140,4 +1184,69 @@
   updateKpis();
   renderTable();
   renderDetail();
-</script></body></html>
+</script>
+  <!-- [ADMN-SETT-008-P1] 과세유형 전환 승인 및 행 분할 확인 모달 -->
+  <div id="modal-tax-transition" class="modal-backdrop">
+    <div class="modal-card">
+      <div style="padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:15px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
+            <span>[ADMN-SETT-008-P1] 과세유형 전환 승인 및 유효일자 행 분할 확정</span>
+            <span class="badge badge-primary">17.5절 하드락</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
+            국세청 API 과세유형 전환 감지 건에 대해 기존 행을 종료하고 신규 유효일자 행을 분할 생성합니다.
+          </div>
+        </div>
+        <button type="button" class="btn btn-sm" onclick="closeTaxTransitionModal()">✕</button>
+      </div>
+      <div style="padding:18px 20px; overflow-y:auto; max-height:calc(85vh - 130px);">
+        <!-- 17.5절 하드락 안내 박스 -->
+        <div style="background:#FEF2F2; border:1.5px solid #FECACA; border-radius:8px; padding:12px 14px; margin-bottom:16px; font-size:12px; color:#991B1B; line-height:1.55;">
+          <strong>⚠️ 17.5절 하드락 규칙:</strong> 국세청 API 응답의 <code>tax_type_change_dt</code>가 빈값("")일 때 7월 1일 등으로 일괄 가정하는 것을 엄격히 금지하며, 수취한 정정 사업자등록증상 실제 전환 효력일을 기준으로 기존 행 종료 및 신규 행을 분할 생성합니다.
+        </div>
+
+        <div style="margin-bottom:14px; font-size:12.5px;">
+          대상 거래처: <strong id="mdl-partner-name">-</strong> (사업자번호: <code id="mdl-biz-no" class="mono">-</code>)
+        </div>
+
+        <!-- Before / After 행 분할 프리뷰 테이블 -->
+        <div class="table-wrap" style="margin-bottom:14px;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px;">
+            <thead>
+              <tr style="background:var(--bg); border-bottom:1px solid var(--border); text-align:left;">
+                <th style="padding:8px 10px; width:130px;">버전 구분</th>
+                <th style="padding:8px 10px;">과세유형 (세무 매트릭스)</th>
+                <th style="padding:8px 10px; width:190px;">유효 기간 (start ~ end)</th>
+                <th style="padding:8px 10px; width:140px;">원장 상태 (Status)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border); background:#FFFDF7;">
+                <td style="padding:10px;"><strong>[기존 행 종료]</strong></td>
+                <td style="padding:10px;" id="mdl-prev-tax">간이과세자 (세금계산서 발급불가, TX-08)</td>
+                <td style="padding:10px;"><code class="mono" id="mdl-prev-period">2026-01-01 ~ 2026-06-30</code></td>
+                <td style="padding:10px;"><span class="badge badge-warn">CLOSED_BY_TRANSITION</span></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border); background:#F0FDF4;">
+                <td style="padding:10px;"><strong>[신규 행 생성]</strong></td>
+                <td style="padding:10px;"><strong style="color:var(--primary);" id="mdl-new-tax">일반과세자 (부가세 10% 별도, TX-07)</strong></td>
+                <td style="padding:10px;"><code class="mono" id="mdl-new-period" style="font-weight:700; color:var(--success);">2026-07-01 ~ 9999-12-31</code></td>
+                <td style="padding:10px;"><span class="badge badge-success">ACTIVE · DECIDED</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
+          ※ 승인 즉시 기 마감 정산월은 소급 변경되지 않으며, 효력일 이후 인입되는 정산 라인부터 신규 과세유형(TX-07)으로 세금계산서 역발행이 적용됩니다.
+        </div>
+      </div>
+      <div style="padding:12px 20px; background:var(--bg); border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px;">
+        <button type="button" class="btn" onclick="closeTaxTransitionModal()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmTaxTypeTransition()">✔ 17.5절 행 분할 승인 및 PENDING_REVIEW 해제 확정</button>
+      </div>
+    </div>
+  </div>
+
+</body></html>

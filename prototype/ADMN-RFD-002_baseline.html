@@ -370,7 +370,47 @@
     }
   </style>
     <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
-  <script id="v4-common-snb" src="common-snb.js" defer></script>
+  <script id="v4-common-snb" src="common-snb.js" defer>
+  function openRfdAdjustModal() {
+    document.getElementById('modal-rfd-adjust').classList.add('open');
+  }
+
+  function closeRfdAdjustModal() {
+    document.getElementById('modal-rfd-adjust').classList.remove('open');
+  }
+
+  function submitRfdAdjustment() {
+    const reason = document.getElementById('adj-reason').value.trim();
+    if (reason.length < 10) {
+      alert("보정 사유를 10자 이상 구체적으로 입력해 주세요.");
+      return;
+    }
+    const rfdNo = document.getElementById('adj-target-rfd').value;
+    const amount = document.getElementById('adj-amount').value;
+    const type = document.getElementById('adj-type').value;
+
+    closeRfdAdjustModal();
+
+    const tbody = document.querySelector('#view-done tbody');
+    if (tbody) {
+      const newTr = document.createElement('tr');
+      newTr.style.background = "#EFF6FF";
+      newTr.innerHTML = `
+        <td><strong style="color:var(--primary);">ADJ-2026-0001</strong> (사후보정)<br><span class="badge badge-purple">RFD-003-S2</span></td>
+        <td>원거래: <strong>${rfdNo}</strong><br><span class="mono" style="font-size:11px;color:var(--text-muted);">${type}</span></td>
+        <td>박영희 (사후정산)</td>
+        <td class="num">-</td>
+        <td class="num"><strong style="color:var(--danger);">${Number(amount).toLocaleString()}원</strong></td>
+        <td><span class="badge badge-amber">보정 처리: 수취계좌 환수/상계</span></td>
+        <td><span class="badge badge-blue">차월 전기오류수정 대기 (SETT-005)</span></td>
+      `;
+      tbody.insertBefore(newTr, tbody.firstChild);
+    }
+
+    alert(`✅ [ADMN-RFD-003-S2 등록 완료]\n대상 원환불: ${rfdNo}\n보정금액: ${Number(amount).toLocaleString()}원\n\n원거래 불변 원칙에 따라 별도 사후 보정 거래 행(ADJ-2026-0001)이 완료 내역에 적재되었으며, 차월 정산 수동 조정(ADMN-SETT-005) 큐로 자동 연계되었습니다.`);
+  }
+
+</script>
 </head>
 <body>
 
@@ -893,7 +933,7 @@
               <span class="badge badge-green">PG 정산 대사(ADMN-SETT-004) 연동</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button class="btn btn-sm btn-outline" onclick="alert('완료 건에 대한 추가 환불/회수 보정 거래 등록 모달(ADMN-RFD-003-S2)을 호출합니다.')">➕ 사후 보정 거래 등록 (003-S2)</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openRfdAdjustModal()">➕ 사후 보정 거래 등록 (003-S2)</button>
               <button class="btn btn-sm btn-outline">📥 PG 대사용 엑셀 다운로드</button>
             </div>
           </div>
@@ -964,6 +1004,71 @@
       <div class="modal-footer">
         <button class="btn btn-outline" onclick="document.getElementById('modal-p1').classList.remove('open')">취소</button>
         <button class="btn btn-danger" onclick="confirmP1()">⚡ 마이너스 전환 확정 및 PG 취소</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- [ADMN-RFD-003-S2] 기 완료 환불 건 사후 보정 거래 등록 모달 -->
+  <div class="modal-overlay" id="modal-rfd-adjust">
+    <div class="modal-box" style="max-width:640px;">
+      <div class="modal-header" style="background:#EFF6FF; color:var(--primary); display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-weight:800; font-size:13.5px;">➕ [ADMN-RFD-003-S2] 기 완료 환불 건 사후 보정 거래 등록 (원거래 불변 원칙)</span>
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeRfdAdjustModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:14px; font-size:12px; color:var(--text-muted); line-height:1.5;">
+          기 완료된 환불 건의 원거래는 수정하지 않고, 사후 추가 차감·환수·환불 차액을 <strong>독립된 사후 보정 라인으로 분리 인서트</strong>합니다. (정산 4단계 차감 및 차월 전기오류수정 연동)
+        </p>
+
+        <div class="form-group" style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">대상 원환불 번호 선택</label>
+          <select class="form-select" id="adj-target-rfd" style="width:100%; height:34px;">
+            <option value="RFD-2026-001120">RFD-2026-001120 | 박영희 | 2026 산안기 필기+실기 올패스 | 기환불액 297,111원</option>
+            <option value="RFD-2026-001098">RFD-2026-001098 | 이민호 | 단과 정종대 1차 기본 | 기환불액 22,933원</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div class="form-group">
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">보정 거래 유형</label>
+            <select class="form-select" id="adj-type" style="width:100%; height:34px;">
+              <option value="SHIPPING_DEDUCT">SHIPPING_DEDUCT (실물 교재 반품 회수택배비 3,000원 사후 추가 차감)</option>
+              <option value="PG_DIFF_ADJ">PG_DIFF_ADJ (연동 PG사 부분취소 정산 차액 보정)</option>
+              <option value="LECTURE_PRORATE_ADJ">LECTURE_PRORATE_ADJ (강좌 수강일수/가중평균 진도율 재산정 차액 보정)</option>
+              <option value="MINUS_POINT_ADJ">MINUS_POINT_ADJ (환불 복원 LIFO / 마이너스 포인트 부채 사후 보정)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">보정 금액 (원, ± 입력)</label>
+            <input type="number" class="form-control" id="adj-amount" value="-3000" style="width:100%; height:34px; font-weight:700;" />
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:12px;">
+          <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">환불 수단 처리 방식</label>
+          <select class="form-select" id="adj-method" style="width:100%; height:34px;">
+            <option value="ACCT">고객 수취계좌 추가 입금/환수 (ADMN-USER-007 마스킹 통제 대상)</option>
+            <option value="SETT">정산 차감 반영 (차월 강사료/출판사 정산 라인에서 상계 차감)</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom:12px;">
+          <label style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; cursor:pointer; color:var(--primary);">
+            <input type="checkbox" id="chk-adj-sett" checked />
+            <span>기 마감된 정산월 귀속분인 경우 차월 전기오류수정(origin_month / applied_month) 조정 라인 자동 생성 요청</span>
+          </label>
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px;">
+          <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">보정 사유 (필수, 10자 이상 · 감사 로그 영구 보존)</label>
+          <textarea class="form-control" id="adj-reason" rows="2" style="width:100%; font-size:12px;">3PL 반품 입고 검수 결과 고객 변심 반품 배송비 3,000원 누락 확인되어 사후 보정 거래 등록함</textarea>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:12px 20px; background:var(--bg-subtle); display:flex; justify-content:flex-end; gap:8px;">
+        <button type="button" class="btn btn-outline" onclick="closeRfdAdjustModal()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="submitRfdAdjustment()">✔ 사후 보정 거래 등록 확정</button>
       </div>
     </div>
   </div>
@@ -1178,6 +1283,46 @@
         document.getElementById('bank-mask-txt').innerHTML = '신한은행 <code>110-482-998291</code> (예금주: 홍길동 · 🔓 해제됨)';
       }
     }
-  </script>
+  
+  function openRfdAdjustModal() {
+    document.getElementById('modal-rfd-adjust').classList.add('open');
+  }
+
+  function closeRfdAdjustModal() {
+    document.getElementById('modal-rfd-adjust').classList.remove('open');
+  }
+
+  function submitRfdAdjustment() {
+    const reason = document.getElementById('adj-reason').value.trim();
+    if (reason.length < 10) {
+      alert("보정 사유를 10자 이상 구체적으로 입력해 주세요.");
+      return;
+    }
+    const rfdNo = document.getElementById('adj-target-rfd').value;
+    const amount = document.getElementById('adj-amount').value;
+    const type = document.getElementById('adj-type').value;
+
+    closeRfdAdjustModal();
+
+    const tbody = document.querySelector('#view-done tbody');
+    if (tbody) {
+      const newTr = document.createElement('tr');
+      newTr.style.background = "#EFF6FF";
+      newTr.innerHTML = `
+        <td><strong style="color:var(--primary);">ADJ-2026-0001</strong> (사후보정)<br><span class="badge badge-purple">RFD-003-S2</span></td>
+        <td>원거래: <strong>${rfdNo}</strong><br><span class="mono" style="font-size:11px;color:var(--text-muted);">${type}</span></td>
+        <td>박영희 (사후정산)</td>
+        <td class="num">-</td>
+        <td class="num"><strong style="color:var(--danger);">${Number(amount).toLocaleString()}원</strong></td>
+        <td><span class="badge badge-amber">보정 처리: 수취계좌 환수/상계</span></td>
+        <td><span class="badge badge-blue">차월 전기오류수정 대기 (SETT-005)</span></td>
+      `;
+      tbody.insertBefore(newTr, tbody.firstChild);
+    }
+
+    alert(`✅ [ADMN-RFD-003-S2 등록 완료]\n대상 원환불: ${rfdNo}\n보정금액: ${Number(amount).toLocaleString()}원\n\n원거래 불변 원칙에 따라 별도 사후 보정 거래 행(ADJ-2026-0001)이 완료 내역에 적재되었으며, 차월 정산 수동 조정(ADMN-SETT-005) 큐로 자동 연계되었습니다.`);
+  }
+
+</script>
 </body>
 </html>

@@ -832,6 +832,108 @@
   </div>
 </div>
 
+<!-- [ADMN-SETT-002-P1] 당월 정산 마감 확정 사전 게이트 확인 모달 (16.1절 · 7.4절) -->
+<div id="modal-sett-gate" class="modal-backdrop hidden">
+  <div class="modal-card" style="max-width:980px;">
+    <div class="card-header" style="padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div class="card-title" style="font-size:15px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
+          <span>[ADMN-SETT-002-P1] 당월 정산 마감 확정 사전 게이트(Gate) 검증</span>
+          <span class="badge badge-primary">16.1절 · 7.4절 필수 규격</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
+          정산 원장 비가역 마감(Locked=True) 전 3대 선행 조건(PG 미대사 0건, 세무 판정 보류 0건, 이월 등식 일치)을 강제 검증합니다.
+        </div>
+      </div>
+      <button class="btn btn-sm" onclick="closeSettGateModal()">✕ 닫기</button>
+    </div>
+    <div class="modal-body" style="padding:18px 22px; max-height:calc(85vh - 130px); overflow-y:auto;">
+      <!-- 시연 토글 바 -->
+      <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:16px;">
+        <span style="font-weight:700; font-size:12px; color:var(--text-secondary);">시연 케이스 선택:</span>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-sm btn-outline active" id="btnGateCaseA" onclick="switchGateCase('A')">🔴 시연 케이스 A: 선행 조건 미충족 (마감 하드락 차단)</button>
+          <button type="button" class="btn btn-sm btn-outline" id="btnGateCaseB" onclick="switchGateCase('B')">🟢 시연 케이스 B: 3대 게이트 전 항목 통과 (마감 확정 활성화)</button>
+        </div>
+      </div>
+
+      <!-- 3대 게이트 검증 테이블 -->
+      <div class="table-wrap">
+        <table style="width:100%; border-collapse:collapse; font-size:12.5px;">
+          <thead>
+            <tr style="background:var(--bg); border-bottom:1px solid var(--border); text-align:left;">
+              <th style="padding:10px 12px; width:220px;">게이트 항목 및 검증 대상</th>
+              <th style="padding:10px 12px; width:220px;">검증 기준선 (SSOT 규격)</th>
+              <th style="padding:10px 12px; width:250px;">현재 검증 상태</th>
+              <th style="padding:10px 12px;">조치 링크 / 소명 상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:12px;">
+                <strong>Gate 1. PG 정산 원장 대사</strong><br>
+                <span class="mono" style="font-size:11px; color:var(--text-muted);">ADMN-SETT-004 연동</span>
+              </td>
+              <td style="padding:12px;">
+                원인 미분류 불일치<br>
+                <code>UNKNOWN_MISMATCH = 0건</code> (7.4절)
+              </td>
+              <td style="padding:12px;" id="gate1StatusCell">
+                <!-- 동적 렌더링 -->
+              </td>
+              <td style="padding:12px;" id="gate1ActionCell">
+                <!-- 동적 렌더링 -->
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:12px;">
+                <strong>Gate 2. 세무 판정 매트릭스 바인딩</strong><br>
+                <span class="mono" style="font-size:11px; color:var(--text-muted);">ADMN-SETT-008 연동</span>
+              </td>
+              <td style="padding:12px;">
+                세무 판정 보류<br>
+                <code>PENDING_REVIEW = 0건</code> (전 수취인 DECIDED)
+              </td>
+              <td style="padding:12px;" id="gate2StatusCell">
+                <!-- 동적 렌더링 -->
+              </td>
+              <td style="padding:12px;" id="gate2ActionCell">
+                <!-- 동적 렌더링 -->
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:12px;">
+                <strong>Gate 3. 이월 원장 마감 연속성 등식</strong><br>
+                <span class="mono" style="font-size:11px; color:var(--text-muted);">7.4절 carryover_ledger</span>
+              </td>
+              <td style="padding:12px;">
+                전월 마감잔액 - 당월 소진액 + 신규적재액 = 당월 마감잔액
+              </td>
+              <td style="padding:12px;">
+                <span class="badge badge-success">통과 (등식 100% 일치)</span>
+                <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">세전 이월 1,420,000원 / 세후 보류 0원 / 위탁 잔액 0원 (차액 0원 일치)</div>
+              </td>
+              <td style="padding:12px;">
+                <span style="color:var(--text-muted); font-size:12px;">오차 0원 일치 확인됨</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 동적 알림 배너 -->
+      <div id="gateAlertBox"></div>
+    </div>
+    <div style="padding:14px 22px; background:var(--bg); border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:11.5px; color:var(--text-muted);">※ 비가역 잠금 실행 시 해당 월 정산 원장 수정이 차단되며 차월 수기조정(SETT-005)으로만 정정 가능합니다.</span>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="btn" onclick="closeSettGateModal()">취소</button>
+        <button type="button" class="btn btn-primary" id="btnGateConfirmLock" onclick="confirmFinalLockFromGate()">🔒 당월 정산 최종 마감 확정 (비가역 잠금)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- 이월 잔액 원장(carryover_ledger) 상세 모달 (16.1절 필수 규격) -->
 <div id="carryModal" class="modal-backdrop hidden">
   <div class="modal-card">
@@ -1285,11 +1387,55 @@
     renderDetail();
   }
 
-  document.getElementById("btnLockSettlement").addEventListener("click", () => {
-    if (state.isLocked) {
-      showToast("이미 2026-10 정산 마감이 확정(Locked = True)된 상태입니다.");
-      return;
+  let currentGateCase = 'A';
+
+  function openSettGateModal() {
+    renderGateCase();
+    document.getElementById("modal-sett-gate").classList.remove("hidden");
+  }
+
+  function closeSettGateModal() {
+    document.getElementById("modal-sett-gate").classList.add("hidden");
+  }
+
+  function switchGateCase(caseType) {
+    currentGateCase = caseType;
+    document.getElementById("btnGateCaseA").classList.toggle("active", caseType === 'A');
+    document.getElementById("btnGateCaseB").classList.toggle("active", caseType === 'B');
+    renderGateCase();
+  }
+
+  function renderGateCase() {
+    const g1Status = document.getElementById("gate1StatusCell");
+    const g1Action = document.getElementById("gate1ActionCell");
+    const g2Status = document.getElementById("gate2StatusCell");
+    const g2Action = document.getElementById("gate2ActionCell");
+    const alertBox = document.getElementById("gateAlertBox");
+    const btnLock = document.getElementById("btnGateConfirmLock");
+
+    if (currentGateCase === 'A') {
+      g1Status.innerHTML = '<span class="badge badge-danger">미통과 (UNKNOWN_MISMATCH 2건 미소명)</span>';
+      g1Action.innerHTML = '<a href="ADMN-SETT-004_baseline.html" class="btn btn-sm btn-outline">ADMN-SETT-004 대사 화면으로 이동 ↗</a>';
+      g2Status.innerHTML = '<span class="badge badge-danger">미통과 (PENDING_REVIEW 1건)</span><div style="font-size:11px; color:var(--danger); margin-top:2px;">사단법인 한국소방안전학회 TX-09/TX-07 미확정</div>';
+      g2Action.innerHTML = '<a href="ADMN-SETT-008_baseline.html" class="btn btn-sm btn-outline">ADMN-SETT-008 확인 이력으로 이동 ↗</a>';
+      alertBox.innerHTML = '<div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px; margin-top:14px; font-size:12.5px; color:#991b1b;"><strong>🚨 [마감 차단 하드락 작동]</strong> Gate 1(PG 불일치 2건) 및 Gate 2(세무보류 1건) 미통과 항목이 존재하므로 비가역 마감 확정(Locked=True)이 시스템적으로 차단되었습니다. 관련 화면에서 미소명/미확정 건을 해결한 후 마감을 진행하십시오.</div>';
+      btnLock.disabled = true;
+      btnLock.style.opacity = "0.5";
+      btnLock.style.cursor = "not-allowed";
+    } else {
+      g1Status.innerHTML = '<span class="badge badge-success">통과 (UNKNOWN_MISMATCH 0건)</span>';
+      g1Action.innerHTML = '<span style="color:var(--text-muted); font-size:12px;">전수 소명 완료</span>';
+      g2Status.innerHTML = '<span class="badge badge-success">통과 (PENDING_REVIEW 0건, 전 수취인 DECIDED)</span>';
+      g2Action.innerHTML = '<span style="color:var(--text-muted); font-size:12px;">전 수취인 DECIDED 완료</span>';
+      alertBox.innerHTML = '<div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:12px; margin-top:14px; font-size:12.5px; color:#065f46;"><strong>✅ [3대 게이트 전 항목 통과]</strong> PG 대사·세무 판정·이월 등식 검증이 모두 통과되었습니다. 지금 마감 확정 시 원장 잠금(Locked=True) 및 권리자 지급 예약(RESERVED)이 비가역적으로 집행됩니다.</div>';
+      btnLock.disabled = false;
+      btnLock.style.opacity = "1";
+      btnLock.style.cursor = "pointer";
     }
+  }
+
+  function confirmFinalLockFromGate() {
+    closeSettGateModal();
     state.isLocked = true;
     document.getElementById("lockStatusBadge").className = "badge badge-success";
     document.getElementById("lockStatusBadge").textContent = "2026-10 마감 확정됨 (Locked = True · 선급금 상계/한도소진 확정)";
@@ -1305,7 +1451,15 @@
 
     renderDetail();
     renderFirmbanking();
-    showToast("🔒 2026-10 정산 마감이 확정(Locked = True)되었습니다. 선급금 차감 및 지원금 한도 소진이 원장에 영구 반영되었습니다.");
+    showToast("🔒 [ADMN-CONF-010 감사로그 기록] 2026-10 당월 정산 마감 확정(Locked=True) 및 권리자 지급 예약(RESERVED)이 비가역 원장에 영구 반영되었습니다.");
+  }
+
+  document.getElementById("btnLockSettlement").addEventListener("click", () => {
+    if (state.isLocked) {
+      showToast("이미 2026-10 정산 마감이 확정(Locked = True)된 상태입니다.");
+      return;
+    }
+    openSettGateModal();
   });
 
   function simulateBankFailure() {

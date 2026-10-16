@@ -521,6 +521,109 @@
   </div>
 </div>
 
+<!-- [ADMN-USER-007-P2] 개인정보 3계층 필드 분리 파기 배치 실행 결과 보고서 모달 (3.5절) -->
+<div class="modal-backdrop" id="modal-pii-destruction-result">
+  <div class="modal" style="width:min(880px, 95vw);">
+    <div class="modal-hd" style="background:#0f172a; color:#fff; border-bottom:2px solid #ef4444;">
+      <h3 style="color:#fff; display:flex; align-items:center; gap:8px;">
+        <span>🛡️</span> [ADMN-USER-007-P2] 개인정보 3계층 필드 분리 파기 배치 실행 결과 보고서 (3.5절)
+      </h3>
+      <button class="btn btn-sm" style="background:#334155; color:#fff;" onclick="closeDestructionResultModal()">✕ 닫기</button>
+    </div>
+    <div class="modal-bd" style="padding:20px; font-size:13px; line-height:1.6; max-height:75vh; overflow-y:auto;">
+      <!-- 실행 요약 -->
+      <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:14px 18px; margin-bottom:18px;">
+        <div style="font-weight:700; color:#0f172a; font-size:14px; margin-bottom:6px;">📋 파기 배치 작업 실행 요약</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; font-size:12.5px;">
+          <div>• <strong>배치 작업 ID:</strong> <code style="color:#0284c7; font-weight:700;">BATCH-PII-202610-001</code></div>
+          <div>• <strong>실행 일시:</strong> 2026-10-15 17:25:00 KST</div>
+          <div>• <strong>실행 승인자:</strong> admin_settle_mgr (박정산 / ROLE_FINANCE_ADMIN)</div>
+          <div>• <strong>처리 결과:</strong> 대상 1건 정상 처리, 예외 보류(<code style="color:#e11d48; font-weight:700;">destruction_hold</code>) 1건 안전 격리(미파기 유지)</div>
+        </div>
+      </div>
+
+      <!-- 3계층 데이터 분리 파기 대조표 (3.5절) -->
+      <div style="margin-bottom:18px;">
+        <div style="font-weight:700; color:#0f172a; font-size:14px; margin-bottom:10px;">⚖️ 3계층 데이터 분리 파기 대조표 (기획서 3.5절 · 개인정보보호법 제21조 & 상법 제33조)</div>
+        <table style="width:100%; border-collapse:collapse; font-size:12.5px;">
+          <thead>
+            <tr style="background:#f1f5f9; border-bottom:2px solid #cbd5e1; text-align:left;">
+              <th style="padding:8px 10px; width:170px;">데이터 계층 구분</th>
+              <th style="padding:8px 10px; width:220px;">대상 데이터 필드</th>
+              <th style="padding:8px 10px;">파기 및 보존 조치 상세</th>
+              <th style="padding:8px 10px; width:95px; text-align:center;">상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #e2e8f0; background:#fff1f2;">
+              <td style="padding:10px; font-weight:700; color:#be123c; vertical-align:top;">
+                계층 1. 개인식별정보<br/>
+                <span style="font-size:11px; font-weight:normal; color:#e11d48;">(5년 경과 즉시 파기 대상)</span>
+              </td>
+              <td style="padding:10px; vertical-align:top;">
+                • 주민등록번호 / 외국인등록번호<br/>
+                • 신분증 사본 / 통장 사본 파일<br/>
+                • 실명 / 휴대폰번호 / 자택주소
+              </td>
+              <td style="padding:10px; vertical-align:top; color:#475569;">
+                - 주민/외국인번호: <strong>복구 불가능한 영구 암호학적 파기(Crypto-shredding 완료)</strong><br/>
+                - 신분증/통장 사본: <strong>Object Storage S3/GCS 버킷에서 영구 삭제(File Unlink)</strong><br/>
+                - 실명/연락처/주소: <strong>NULL 마스킹 및 영구 덮어쓰기 완료</strong>
+              </td>
+              <td style="padding:10px; text-align:center; vertical-align:top;">
+                <span style="background:#f43f5e; color:#fff; font-size:11px; font-weight:700; padding:3px 7px; border-radius:4px; display:inline-block;">파기완료</span>
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #e2e8f0; background:#f0f9ff;">
+              <td style="padding:10px; font-weight:700; color:#0369a1; vertical-align:top;">
+                계층 2. 정산 원장·거래<br/>
+                <span style="font-size:11px; font-weight:normal; color:#0284c7;">(10년 법정 의무 보존)</span>
+              </td>
+              <td style="padding:10px; vertical-align:top;">
+                • 계약번호 / 거래내역 / 주문원장<br/>
+                • 월별 정산 집행액 / 지급 원장<br/>
+                • 권리자 대체 식별자 (<code style="font-size:11.5px;">settlement_recipient_id</code>)
+              </td>
+              <td style="padding:10px; vertical-align:top; color:#475569;">
+                - 계약·정산원장: <strong>원형 100% 보존 유지 (상법 제33조 · 국세기본법 제85조의3 준수)</strong><br/>
+                - 수취인 식별자: <strong>비식별 가명 대체키(RECP-ANON-7701) 매핑 유지</strong> (정산 이력 무결성 확보)
+              </td>
+              <td style="padding:10px; text-align:center; vertical-align:top;">
+                <span style="background:#0284c7; color:#fff; font-size:11px; font-weight:700; padding:3px 7px; border-radius:4px; display:inline-block;">10년 보존</span>
+              </td>
+            </tr>
+            <tr style="border-bottom:1px solid #e2e8f0; background:#f0fdf4;">
+              <td style="padding:10px; font-weight:700; color:#15803d; vertical-align:top;">
+                계층 3. 세무증빙·감사로그<br/>
+                <span style="font-size:11px; font-weight:normal; color:#16a34a;">(5년 법정 보존)</span>
+              </td>
+              <td style="padding:10px; vertical-align:top;">
+                • 원천징수영수증 / 세금계산서 승인번호<br/>
+                • 파기 작업 감사 로그 (ADMN-CONF-010)
+              </td>
+              <td style="padding:10px; vertical-align:top; color:#475569;">
+                - 세무 증빙: <strong>국세청 전송 원천 데이터 보존 (소득세법 제164조 준수)</strong><br/>
+                - 불변 감사 기록: <strong>CONF-010 감사 로그 적재 완료 (<code style="font-size:11.5px;">LOG-SEC-202610-0982</code>)</strong>
+              </td>
+              <td style="padding:10px; text-align:center; vertical-align:top;">
+                <span style="background:#16a34a; color:#fff; font-size:11px; font-weight:700; padding:3px 7px; border-radius:4px; display:inline-block;">5년 보존</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background:#fefce8; border:1px solid #fef08a; border-radius:6px; padding:10px 14px; font-size:12px; color:#854d0e;">
+        ⚠️ <strong>보존 안내:</strong> 상기 파기 조치는 국세기본법 제85조의3 및 개인정보 보호법 제21조 제3항(다른 법령에 따른 보존)을 엄격히 준수하여 정산 회계 감사 원장의 금액·수량·가명식별자는 보존하되 식별정보만 선별 파기되었습니다.
+      </div>
+    </div>
+    <div class="modal-ft" style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; border-top:1px solid #e2e8f0; padding:12px 20px;">
+      <button class="btn btn-outline" style="border:1px solid #cbd5e1; font-size:12px;" onclick="alert('[국세청 감사 증빙 다운로드] 국세기본법 제85조의3 준수 개인정보 파기 확인서(증빙 PDF) 발급이 요청되었습니다. (배치 ID: BATCH-PII-202610-001)')">📥 국세청 감사 증빙 다운로드 (PDF)</button>
+      <button class="btn btn-pri" onclick="closeDestructionResultModal()">확인 및 닫기</button>
+    </div>
+  </div>
+</div>
+
 <div id="toast"></div>
 
 
@@ -975,6 +1078,15 @@
 
     renderRetentionTable();
     showToast(`[3.5절 분리 파기 완료] ${item.id}의 개인식별 필드만 복구불능 파기되었으며, 정산 원장 금액은 비식별 표시명(${item.afterAlias})으로 10년 보존됩니다.`);
+    openDestructionResultModal();
+  }
+
+  function openDestructionResultModal() {
+    document.getElementById("modal-pii-destruction-result").classList.add("open");
+  }
+
+  function closeDestructionResultModal() {
+    document.getElementById("modal-pii-destruction-result").classList.remove("open");
   }
 
   function renderAccessLogs() {
