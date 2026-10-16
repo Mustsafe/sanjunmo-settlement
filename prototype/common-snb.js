@@ -84,8 +84,8 @@
     <div class="snb-brand" onclick="window.location.href='00_WORKFLOW_GUIDE_baseline.html'">
       <div class="snb-brand-top">
         <div class="snb-brand-title">
-          <span class="snb-brand-dot"></span>
-          <span>산준모 백오피스</span>
+          <img class="snb-brand-logo" src="img/sjm_logo-horizontal-white.png" alt="산준모">
+          <span>백오피스</span>
         </div>
         <span class="snb-version-pill">v4.0.0</span>
       </div>

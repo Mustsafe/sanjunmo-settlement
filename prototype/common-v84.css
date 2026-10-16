@@ -5,7 +5,9 @@
          본문 여백 평탄화(#v4-root-shell) 및 공통 카드·버튼·배지·테이블 스타일 통합
    ============================================================================ */
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+/* Pretendard — 레포 내 로컬 폰트 (CDN 미사용, file:// 대응) */
+@font-face { font-family: "Pretendard Variable"; src: url("fonts/PretendardVariable.woff2") format("woff2-variations"), url("fonts/PretendardVariable.woff2") format("woff2"); font-weight: 45 920; font-style: normal; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("fonts/PretendardVariable.woff2") format("woff2-variations"), url("fonts/PretendardVariable.woff2") format("woff2"); font-weight: 45 920; font-style: normal; font-display: swap; }
 
 :root {
   --navy-950: #0B1120;
@@ -674,3 +676,7 @@ header.top-bar.v4-gen3-topbar .crumb-title {
   color: #0F172A !important;
   letter-spacing: -0.02em !important;
 }
+
+
+/* SNB 브랜드 로고 (img/sjm_logo-horizontal-white.png) */
+#v4-master-snb .snb-brand-logo { height: 17px !important; width: auto !important; display: block !important; }

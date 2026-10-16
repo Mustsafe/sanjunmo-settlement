@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>환불 요청 관리 (ADMN-RFD-004 / 002) — 산준모닷컴 백오피스 v8.4 Final</title>
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
       --bg-body: #F3F5F9;
@@ -977,14 +976,18 @@
     // 1. 좌측 SNB 메뉴 전환 (목록 vs 완료내역)
     function showMainView(viewName) {
       document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll(' else if (viewName === 'done') {
+      const code = document.getElementById('topbar-code');
+      const title = document.getElementById('topbar-breadcrumb');
+      if (viewName === 'list') {
+        document.getElementById('view-list').classList.add('active');
+        code.textContent = 'ADMN-RFD-004';
+        title.textContent = '환불 요청 관리 (통합 목록 · 상세)';
+      } else if (viewName === 'done') {
         document.getElementById('view-done').classList.add('active');
-        document.getElementById('snb-rfd-done').classList.add('active');
-        document.getElementById('topbar-code').textContent = 'ADMN-RFD-003';
-        document.getElementById('topbar-breadcrumb').textContent = '환불 완료 내역 (조회 전용)';
+        code.textContent = 'ADMN-RFD-003';
+        title.textContent = '환불 완료 내역 (조회 전용)';
       } else if (viewName === 'detail') {
         document.getElementById('view-detail').classList.add('active');
-        document.getElementById('snb-rfd-req').classList.add('active');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
