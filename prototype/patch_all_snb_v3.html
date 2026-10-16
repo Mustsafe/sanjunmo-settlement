@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>산준모 v4.0.0 — 20개 전 화면 본문 여백 28px 통일 패치기 (v8.1 Final)</title>
+  <title>산준모 v4.0.0 — SNB 줄간격 1px 오차 제로 고정 패치기 (v8.4 Final)</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -136,11 +136,11 @@
   <div class="wrap">
     <div class="hero">
       <div class="badge-row">
-        <span class="badge">✔ v8.1 핫픽스 — main.main (SETT-004 등 10개 화면) 본문 좌우 여백 28px 완전 통일</span>
+        <span class="badge">✔ v8.4 픽셀 고정 — SNB 그룹 제목/아이템 간격 · margin · line-height · letter-spacing 20개 화면 100% 동일 고정</span>
       </div>
-      <h1>산준모 백오피스 v4.0.0 — 본문 좌우 여백(28px) 통일 패치기 (v8.1 Final)</h1>
+      <h1>산준모 백오피스 v4.0.0 — SNB 줄간격 완전 통일 패치기 (v8.4 Final)</h1>
       <p class="sub">
-        <code>ADMN-SETT-004</code>, <code>SETT-002</code>, <code>INST-002</code> 등 <code>&lt;main class="main"&gt;</code> 구조를 사용하는 화면들이 SNB에 딱 붙던 현상을 해결하여, 20개 전 화면을 <code>ADMN-INST-001</code>과 동일한 상하좌우 여백(<code>padding: 22px 28px</code>)으로 통일합니다.
+        <code>PROD-003~007</code> 등 일부 화면의 원본 CSS에 남아 있던 <code>.snb-group-title { margin-bottom: 6px }</code>, <code>.snb-group { margin-bottom: 16px }</code> 및 <code>letter-spacing</code> 상속 차이를 모두 <code>0px</code> 단위로 초기화하여 화면 전환 시 SNB 줄간격이 1px도 흔들리지 않도록 고정합니다.
       </p>
     </div>
 
@@ -302,8 +302,8 @@ function buildMasterSnbHtml(activeCode) {
   </aside>`;
 }
 
-const MASTER_V8_1_CSS = `
-/* === [SANJUNMO v4.0.0 MASTER SNB & GEN-3 TOPBAR LOCK v8.1 FINAL] === */
+const MASTER_V8_4_CSS = `
+/* === [SANJUNMO v4.0.0 MASTER SNB & GEN-3 TOPBAR LOCK v8.4 FINAL] === */
 html {
   margin: 0 !important;
   padding: 0 !important;
@@ -334,7 +334,7 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
 }
 
 /* ============================================================================
-   1. 고정 픽셀 마스터 SNB (좌측 260px · 단일 스크롤 · 좌측 정렬 100% 고정)
+   1. 고정 픽셀 마스터 SNB (20개 전 화면 1px 오차 없는 줄간격 · 마진 완전 고정)
    ============================================================================ */
 #v4-master-snb {
   position: fixed !important;
@@ -357,21 +357,32 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   padding: 0 !important;
   overflow: hidden !important;
   text-align: left !important;
+  line-height: 18px !important;
+  letter-spacing: -0.01em !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 #v4-master-snb * {
   box-sizing: border-box !important;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  letter-spacing: -0.01em !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 #v4-master-snb .snb-brand {
+  margin: 0 !important;
   padding: 18px 18px 14px 18px !important;
   border-bottom: 1px solid #1E293B !important;
   flex: 0 0 auto !important;
+  height: 71px !important;
+  min-height: 71px !important;
+  max-height: 71px !important;
 }
 #v4-master-snb .snb-brand-top {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  margin-bottom: 4px !important;
+  margin: 0 0 4px 0 !important;
+  padding: 0 !important;
+  height: 20px !important;
 }
 #v4-master-snb .snb-brand-title {
   font-size: 15px !important;
@@ -383,6 +394,8 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   align-items: center !important;
   justify-content: flex-start !important;
   gap: 7px !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 #v4-master-snb .snb-brand-dot {
   width: 8px !important;
@@ -391,11 +404,14 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   background: #3B82F6 !important;
   display: inline-block !important;
   flex-shrink: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 #v4-master-snb .snb-version-pill {
   font-size: 10px !important;
   font-weight: 700 !important;
   padding: 2px 7px !important;
+  margin: 0 !important;
   border-radius: 999px !important;
   background: rgba(59, 130, 246, 0.18) !important;
   color: #60A5FA !important;
@@ -407,33 +423,52 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   color: #64748B !important;
   font-weight: 500 !important;
   line-height: 15px !important;
+  height: 15px !important;
   text-align: left !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 #v4-master-snb .snb-scroll-area {
   flex: 1 1 auto !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   padding: 12px 10px 20px 10px !important;
+  margin: 0 !important;
 }
 #v4-master-snb .snb-scroll-area::-webkit-scrollbar { width: 5px !important; }
 #v4-master-snb .snb-scroll-area::-webkit-scrollbar-track { background: #0F172A !important; }
 #v4-master-snb .snb-scroll-area::-webkit-scrollbar-thumb { background: #334155 !important; border-radius: 3px !important; }
-#v4-master-snb .snb-group { margin-bottom: 14px !important; }
+
+/* 그룹 및 그룹 타이틀의 margin/padding을 1px 단위로 고정하여 PROD-003~007 원본 CSS 간섭 완벽 차단 */
+#v4-master-snb .snb-group {
+  margin: 0 0 14px 0 !important;
+  padding: 0 !important;
+}
+#v4-master-snb .snb-group:last-child {
+  margin-bottom: 0 !important;
+}
 #v4-master-snb .snb-group-title {
   font-size: 10.5px !important;
   font-weight: 700 !important;
   color: #64748B !important;
-  padding: 0 8px 6px 8px !important;
+  margin: 0 0 5px 0 !important;
+  padding: 0 8px !important;
+  height: 16px !important;
+  min-height: 16px !important;
+  max-height: 16px !important;
+  line-height: 16px !important;
   letter-spacing: 0.02em !important;
-  line-height: 14px !important;
   text-transform: uppercase !important;
   text-align: left !important;
+  display: block !important;
 }
 #v4-master-snb .snb-item-list {
   display: flex !important;
   flex-direction: column !important;
   align-items: stretch !important;
   gap: 2px !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 #v4-master-snb .snb-item,
 #v4-master-snb a.snb-item {
@@ -444,11 +479,13 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   text-align: left !important;
   gap: 8px !important;
   width: 100% !important;
-  height: 36px !important;
-  min-height: 36px !important;
-  max-height: 36px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  margin: 0 !important;
   padding: 0 10px !important;
   border-radius: 7px !important;
+  border: none !important;
   text-decoration: none !important;
   color: #CBD5E1 !important;
   font-size: 12.5px !important;
@@ -472,13 +509,19 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
   font-size: 10px !important;
   font-weight: 700 !important;
-  padding: 2px 5px !important;
+  padding: 0 5px !important;
+  margin: 0 !important;
+  height: 18px !important;
+  min-height: 18px !important;
+  max-height: 18px !important;
+  line-height: 18px !important;
   border-radius: 4px !important;
   background: rgba(148, 163, 184, 0.14) !important;
   color: #94A3B8 !important;
-  line-height: 13px !important;
   flex: 0 0 auto !important;
-  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 #v4-master-snb .snb-item.active .snb-code {
   background: rgba(255, 255, 255, 0.22) !important;
@@ -488,17 +531,25 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   flex: 1 1 auto !important;
   margin: 0 !important;
   padding: 0 !important;
+  height: 18px !important;
+  line-height: 18px !important;
   text-align: left !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
 #v4-master-snb .snb-footer {
-  padding: 10px 16px !important;
+  margin: 0 !important;
+  padding: 0 16px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
   border-top: 1px solid #1E293B !important;
   font-size: 10.5px !important;
+  line-height: 36px !important;
   color: #475569 !important;
   display: flex !important;
+  align-items: center !important;
   justify-content: space-between !important;
   flex: 0 0 auto !important;
 }
@@ -549,7 +600,7 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   box-sizing: border-box !important;
 }
 
-/* 실제 컨텐츠 컨테이너(.content, .main-container, main.main 등)는 모두 동일하게 상하 22px, 좌우 28px 여백 부여! */
+/* .content, .main-container, main.main에는 display: block !important를 걸지 않음 (flex gap 및 display:none 보존) */
 #v4-root-shell main.content,
 #v4-root-shell .content,
 #v4-root-shell main.main-container,
@@ -558,7 +609,6 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
 #v4-root-shell .layout > .main,
 #v4-root-shell .app-layout > .main,
 #v4-page-body > .main {
-  display: block !important;
   padding: 22px 28px 96px 28px !important;
   margin: 0 !important;
   max-width: none !important;
@@ -569,9 +619,14 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   box-sizing: border-box !important;
 }
 
-/* 단, ADMN-INST-001 및 ADMN-SETT-001처럼 main.content 안쪽에 div.main이 한 번 더 중첩된 경우에는 이중 패딩 방지 */
+/* 이중 패딩 방지 1: ADMN-PROD-001, ADMN-PROD-002 (<main class="main"><div class="content">) */
+#v4-root-shell main.main:has(> .content),
+#v4-page-body > .main:has(> .content) {
+  padding: 0 !important;
+}
+
+/* 이중 패딩 방지 2: ADMN-INST-001, ADMN-SETT-001 (<main class="content"><div class="main">) */
 #v4-root-shell .content .main {
-  display: block !important;
   padding: 0 !important;
   margin: 0 !important;
   max-width: none !important;
@@ -588,7 +643,6 @@ aside.snb, nav.snb, .snb:not(#v4-master-snb), .sidebar, #sidebar,
   padding: 0 !important;
   box-sizing: border-box !important;
 }
-/* 만약 .ptabs가 .content 바깥(상단)에 단독으로 있는 경우(ADMN-SETT-001) 좌우 28px 맞춤 */
 #v4-page-body > .ptabs,
 #v4-root-shell .layout > .ptabs {
   padding: 18px 28px 0 28px !important;
@@ -787,11 +841,18 @@ function patchSingleHtmlDocument(fileName, rawHtml) {
     "function renderMasterSnb() { if (true) return;"
   );
 
+  if (screenCode === "ADMN-PROD-002") {
+    cleanedHtml = cleanedHtml
+      .replace(/document\.getElementById\("topBannerText"\)\.innerHTML\s*=/g, '(document.getElementById("topBannerText") || {}).innerHTML =')
+      .replace(/document\.getElementById\("pageMainHeading"\)\.innerHTML\s*=/g, '(document.getElementById("pageMainHeading") || {}).innerHTML =')
+      .replace(/document\.getElementById\("pageBreadcrumb"\)\.innerHTML\s*=/g, '(document.getElementById("pageBreadcrumb") || {}).innerHTML =');
+  }
+
   const parser = new DOMParser();
   const doc = parser.parseFromString(cleanedHtml, "text/html");
 
   doc.querySelectorAll(
-    "#v4-master-snb-style, #v4-patch-v7-style, #v4-patch-v8-style, #v4-patch-v8-1-style, #v4-patch-v7-enforcer, #v4-patch-v8-enforcer"
+    "#v4-master-snb-style, #v4-patch-v7-style, #v4-patch-v8-style, #v4-patch-v8-1-style, #v4-patch-v8-2-style, #v4-patch-v8-3-style, #v4-patch-v8-4-style, #v4-patch-v7-enforcer, #v4-patch-v8-enforcer"
   ).forEach(el => el.remove());
 
   if (!doc.querySelector('link[href*="pretendard"]')) {
@@ -812,10 +873,10 @@ function patchSingleHtmlDocument(fileName, rawHtml) {
   if (screenCode === "ADMN-PROD-002") {
     rightControlsHtml = `
       <div class="subview-switcher">
-        <button type="button" class="subview-btn active" id="btn-view-list" onclick="if(window.backToList) backToList()">
+        <button type="button" class="subview-btn active" id="btn-view-list" onclick="window.backToList && window.backToList()">
           <span class="code-pill">002</span> 강의 목록
         </button>
-        <button type="button" class="subview-btn" id="btn-view-form" onclick="if(window.openFormView) openFormView(128)">
+        <button type="button" class="subview-btn" id="btn-view-form" onclick="window.openFormView && window.openFormView(null)">
           <span class="code-pill">002-S1</span> 강의 등록/수정
         </button>
       </div>`;
@@ -840,6 +901,13 @@ function patchSingleHtmlDocument(fileName, rawHtml) {
   doc.querySelectorAll(
     "#v4-master-snb, aside.v4-master-snb, aside.snb, nav.snb, .snb, .sidebar, #sidebar, .page-top-banner, .wb-header, #v4-gen3-topbar"
   ).forEach(el => el.remove());
+
+  if (screenCode === "ADMN-PROD-002") {
+    const vList = doc.getElementById("viewList");
+    const vForm = doc.getElementById("viewForm");
+    if (vList) vList.style.display = "flex";
+    if (vForm) vForm.style.display = "none";
+  }
 
   const bodyChildren = Array.from(doc.body.childNodes);
   const rootShell = doc.createElement("div");
@@ -880,8 +948,8 @@ function patchSingleHtmlDocument(fileName, rawHtml) {
   doc.body.insertBefore(snbEl, doc.body.firstChild);
 
   const styleEl = doc.createElement("style");
-  styleEl.id = "v4-patch-v8-1-style";
-  styleEl.textContent = MASTER_V8_1_CSS;
+  styleEl.id = "v4-patch-v8-4-style";
+  styleEl.textContent = MASTER_V8_4_CSS;
   doc.head.appendChild(styleEl);
 
   const enforcerScript = doc.createElement("script");
@@ -898,25 +966,52 @@ function patchSingleHtmlDocument(fileName, rawHtml) {
   } else {
     enforceCleanLayout();
   }
+
   if ("${meta.code}" === "ADMN-PROD-002") {
     var origOpen = window.openFormView;
     var origBack = window.backToList;
+
     if (typeof origOpen === "function") {
       window.openFormView = function(no) {
-        try { origOpen(no); } catch(e) {}
+        try { origOpen(no); } catch(e) { console.error(e); }
+        var vList = document.getElementById("viewList");
+        var vForm = document.getElementById("viewForm");
+        if (vList) vList.style.display = "none";
+        if (vForm) vForm.style.display = "flex";
+
         var bL = document.getElementById("btn-view-list");
         var bF = document.getElementById("btn-view-form");
         if (bL) bL.classList.remove("active");
         if (bF) bF.classList.add("active");
+
+        var hCode = document.getElementById("header-screen-code");
+        var hTitle = document.getElementById("header-screen-title");
+        if (hCode) hCode.textContent = "ADMN-PROD-002-S1";
+        if (hTitle) hTitle.textContent = no
+          ? "강의 수정 (영상 단품 · VOD Key · 재생시간)"
+          : "신규 강의 등록 (영상 단품 · VOD Key · 재생시간)";
+        window.scrollTo({ top: 0, behavior: "smooth" });
       };
     }
+
     if (typeof origBack === "function") {
       window.backToList = function() {
-        try { origBack(); } catch(e) {}
+        try { origBack(); } catch(e) { console.error(e); }
+        var vList = document.getElementById("viewList");
+        var vForm = document.getElementById("viewForm");
+        if (vList) vList.style.display = "flex";
+        if (vForm) vForm.style.display = "none";
+
         var bL = document.getElementById("btn-view-list");
         var bF = document.getElementById("btn-view-form");
         if (bL) bL.classList.add("active");
         if (bF) bF.classList.remove("active");
+
+        var hCode = document.getElementById("header-screen-code");
+        var hTitle = document.getElementById("header-screen-title");
+        if (hCode) hCode.textContent = "ADMN-PROD-002";
+        if (hTitle) hTitle.textContent = "강의 관리 (영상 단품 · VOD Key · 재생시간)";
+        window.scrollTo({ top: 0, behavior: "smooth" });
       };
     }
   }
@@ -944,7 +1039,7 @@ function renderResultTable() {
       <td>${idx + 1}</td>
       <td><code>${item.fileName}</code></td>
       <td><strong>${item.screenCode}</strong></td>
-      <td>본문 좌우 여백 28px · 상하 여백 22px 전 화면 표준화 완료</td>
+      <td>SNB 그룹/아이템 줄간격 1px 단위 고정 · 본문 레이아웃 표준화 완료</td>
       <td><span class="pill-ok">✔ 패치 완료</span></td>
       <td>
         <button type="button" class="btn slate" style="height:28px; padding:0 10px; font-size:11.5px;" onclick="downloadSingle(${idx})">다운로드</button>
@@ -980,7 +1075,7 @@ async function patchViaDirectoryPicker() {
 
     patchedFilesStore.sort((a, b) => a.fileName.localeCompare(b.fileName));
     renderResultTable();
-    alert(`성공! 선택한 폴더 내 ${count}개의 *_baseline.html 파일 모두 본문 여백(22px 28px)이 동일하게 통일되었습니다.`);
+    alert(`성공! 선택한 폴더 내 ${count}개의 *_baseline.html 파일의 SNB 줄간격이 1px 오차 없이 통일되었습니다.`);
   } catch (err) {
     if (err.name !== "AbortError") {
       alert("폴더 패치 중 오류가 발생했습니다: " + err.message);
