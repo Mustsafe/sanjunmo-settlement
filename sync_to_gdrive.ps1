@@ -82,6 +82,22 @@ if (-not (Test-Path $gdriveDocs)) {
     $gdriveDocs = $targetRoot
 }
 
+# 구버전 기획서 파일(*_v4.0.0.md) 정리
+$obsoleteDocs = @(
+    "00_INDEX_라우팅맵_및_거버넌스_v4.0.0.md",
+    "01_비즈니스정책_계약_도서_이월_기획서_v4.0.0.md",
+    "02_SSOT_정산연산엔진_및_세무증빙_명세서_v4.0.0.md",
+    "03_백오피스화면_외부연동_및_데이터사전_v4.0.0.md",
+    "04_QA_정산케이스스펙_및_회귀테스트_법령근거_v4.0.0.md"
+)
+foreach ($obsDoc in $obsoleteDocs) {
+    $obsDocPath = Join-Path $gdriveDocs $obsDoc
+    if (Test-Path -LiteralPath $obsDocPath) {
+        Remove-Item -LiteralPath $obsDocPath -Force
+        Write-Host " [구버전 기획서 삭제] $obsDoc"
+    }
+}
+
 $docs = Get-ChildItem -Path "d:\Work\Settlement\docs\*.md"
 foreach ($doc in $docs) {
     $targetName = $doc.Name -replace "^\[산준모 정산시스템\]_", ""
