@@ -14,7 +14,8 @@
       items: [
         { code: "ORD-001", label: "주문 · 배송 · 3PL 관리", href: "ADMN-ORD-001_baseline.html" },
         { code: "RFD-002", label: "환불 요청 · 심사 관리", href: "ADMN-RFD-002_baseline.html" },
-        { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" }
+        { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" },
+        { code: "MKT-001", label: "쿠폰 · 포인트 혜택 관리", href: "ADMN-MKT-001_baseline.html", screenCode: "ADMN-MKT-001" }
       ]
     },
     {
