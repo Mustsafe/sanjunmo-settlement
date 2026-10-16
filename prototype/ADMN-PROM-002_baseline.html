@@ -76,21 +76,6 @@
     }
     .card-body { padding: 16px 18px; }
 
-    /* 번호 마커 배지 (화면설계서 1~14번 매핑용) */
-    .spec-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #1E293B;
-      color: #FFFFFF;
-      font-size: 11px;
-      font-weight: 800;
-      flex: 0 0 auto;
-    }
-
     /* 검색 테이블 (영역 1) */
     .search-table {
       width: 100%;
@@ -389,16 +374,16 @@
     <div id="v4-page-body" class="main-container">
 
       <!-- ===================================================================
-           SUBVIEW 1: 쿠폰 마스터 목록 (화면설계서 영역 ① 검색필터 + ② 스코어카드 + ③ 마스터 그리드)
+           SUBVIEW 1: 쿠폰 마스터 목록 (검색필터 + 스코어카드 + 마스터 그리드)
            =================================================================== -->
       <section id="view-list" class="view-section active">
 
-        <!-- 영역 ② 발급·사용 현황 스코어카드 (4층 고정 라인 규격) -->
+        <!-- 발급·사용 현황 스코어카드 (4층 고정 라인 규격) -->
         <div class="kpi-grid">
           <button type="button" class="kpi-card" onclick="quickFilterStatus('ACTIVE')">
             <div class="k-title">
               <span>운영중 쿠폰 (발급중)</span>
-              <span class="badge">② 현황집계</span>
+              <span class="badge">현황집계</span>
             </div>
             <div class="k-num" style="color:var(--primary);">9종</div>
             <div class="k-sub">전체 등록 마스터 14건 중 현재 발급 가능 9건</div>
@@ -432,11 +417,10 @@
           </button>
         </div>
 
-        <!-- 영역 ① 검색 필터 -->
+        <!-- 검색 필터 -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span class="spec-num">1</span>
               <span>쿠폰 마스터 검색 필터</span>
             </div>
             <div style="display:flex; gap:6px;">
@@ -497,11 +481,10 @@
           </div>
         </div>
 
-        <!-- 영역 ③ 쿠폰 마스터 그리드 -->
+        <!-- 쿠폰 마스터 그리드 -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span class="spec-num">3</span>
               <span>쿠폰 마스터 목록</span>
               <span class="badge badge-slate" id="grid-total-cnt">전체 14건 (시연 4건)</span>
             </div>
@@ -536,7 +519,7 @@
       </section>
 
       <!-- ===================================================================
-           SUBVIEW 2: 쿠폰 마스터 등록 · 수정 폼 (화면설계서 ④~⑭ + P1 Cap 초과 경고)
+           SUBVIEW 2: 쿠폰 마스터 등록 · 수정 폼 (쿠폰 마스터 등록·수정 + P1 Cap 초과 경고)
            =================================================================== -->
       <section id="view-form" class="view-section">
         <!-- 상단 컨텍스트 안내 바 -->
@@ -566,9 +549,9 @@
         </div>
 
         <div class="form-workspace">
-          <!-- 좌측: 화면설계서 ④~⑭ 등록/수정 폼 -->
+          <!-- 좌측: 쿠폰 마스터 등록/수정 폼 -->
           <div>
-            <!-- 섹션 1: 기본 정보 (④~⑦) -->
+            <!-- 섹션 1: 기본 정보 -->
             <div class="card">
               <div class="card-header">
                 <div class="card-title">기본 정보 (할인 상한 · 감면 한도 Cap · 도서정가제 자동 바인딩)</div>
@@ -577,14 +560,9 @@
               <div class="card-body">
                 <table class="form-table">
                   <tbody>
-                    <!-- ④ 쿠폰명 -->
+                    <!-- 쿠폰명 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">4</span>
-                          <span>쿠폰명<span class="req">*</span></span>
-                        </div>
-                      </th>
+                      <th>쿠폰명<span class="req">*</span></th>
                       <td>
                         <div style="display:flex; gap:8px; align-items:center;">
                           <input type="text" id="f-name" class="form-input" style="flex:1;" maxlength="30" value="가을 얼리버드 15% 쿠폰" />
@@ -594,14 +572,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑤ 쿠폰 종류 & 할인값 -->
+                    <!-- 쿠폰 종류 & 할인값 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">5</span>
-                          <span>쿠폰 종류 · 할인값<span class="req">*</span></span>
-                        </div>
-                      </th>
+                      <th>쿠폰 종류 · 할인값<span class="req">*</span></th>
                       <td>
                         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
                           <div class="seg-group">
@@ -620,14 +593,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑥ 감면 한도(Cap) -->
+                    <!-- 감면 한도(Cap) -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">6</span>
-                          <span>감면 한도(Cap)</span>
-                        </div>
-                      </th>
+                      <th>감면 한도(Cap)</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:8px;">
                           <input type="text" class="form-input" style="width:190px; font-weight:800; color:var(--text-primary);" readonly value="200,000 원 🔒" />
@@ -642,14 +610,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑦ 도서정가제 자동 바인딩 -->
+                    <!-- 도서정가제 자동 바인딩 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">7</span>
-                          <span>도서정가제</span>
-                        </div>
-                      </th>
+                      <th>도서정가제</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:8px; opacity:0.88;">
                           <input type="checkbox" checked disabled style="width:15px; height:15px;" />
@@ -666,7 +629,7 @@
               </div>
             </div>
 
-            <!-- 섹션 2: 사용 조건 (⑧~⑫) -->
+            <!-- 섹션 2: 사용 조건 -->
             <div class="card">
               <div class="card-header">
                 <div class="card-title">사용 조건 (최소 결제금액 · 유효기간 · 수량 한도 · 중복 사용 · 적용 대상)</div>
@@ -674,14 +637,9 @@
               <div class="card-body">
                 <table class="form-table">
                   <tbody>
-                    <!-- ⑧ 최소 결제금액 -->
+                    <!-- 최소 결제금액 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">8</span>
-                          <span>최소 결제금액</span>
-                        </div>
-                      </th>
+                      <th>최소 결제금액</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:6px;">
                           <input type="number" id="f-min-order" class="form-input" style="width:140px; font-weight:700;" value="50000" />
@@ -691,14 +649,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑨ 유효기간 -->
+                    <!-- 유효기간 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">9</span>
-                          <span>유효기간<span class="req">*</span></span>
-                        </div>
-                      </th>
+                      <th>유효기간<span class="req">*</span></th>
                       <td>
                         <div style="display:flex; flex-direction:column; gap:8px;">
                           <div class="seg-group" style=" align-self:flex-start;">
@@ -724,14 +677,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑩ 발급 수량 한도 -->
+                    <!-- 발급 수량 한도 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">10</span>
-                          <span>발급 수량 한도</span>
-                        </div>
-                      </th>
+                      <th>발급 수량 한도</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
                           <div style="display:flex; align-items:center; gap:6px;">
@@ -752,14 +700,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑪ 중복 사용 -->
+                    <!-- 중복 사용 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">11</span>
-                          <span>중복 사용</span>
-                        </div>
-                      </th>
+                      <th>중복 사용</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
                           <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
@@ -775,14 +718,9 @@
                       </td>
                     </tr>
 
-                    <!-- ⑫ 적용 대상 -->
+                    <!-- 적용 대상 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">12</span>
-                          <span>적용 대상<span class="req">*</span></span>
-                        </div>
-                      </th>
+                      <th>적용 대상<span class="req">*</span></th>
                       <td>
                         <div style="display:flex; flex-direction:column; gap:8px;">
                           <div class="seg-group" style="align-self:flex-start;">
@@ -799,7 +737,7 @@
                             <button type="button" class="btn btn-sm" onclick="showToast('적용 대상 카테고리가 추가되었습니다.')">+ 추가</button>
                           </div>
                         </div>
-                        <div class="help-txt">• [전체 상품]을 선택하더라도 실물 교재 카테고리(<code>BOK-*</code>)는 ⑦번 도서정가제 규칙에 의해 자동 제외됩니다.</div>
+                        <div class="help-txt">• [전체 상품]을 선택하더라도 실물 교재 카테고리(<code>BOK-*</code>)는 도서정가제 자동 바인딩 규칙에 의해 자동 제외됩니다.</div>
                       </td>
                     </tr>
                   </tbody>
@@ -807,7 +745,7 @@
               </div>
             </div>
 
-            <!-- 섹션 3: 발급 방식 및 하단 저장 버튼 (⑬~⑭) -->
+            <!-- 섹션 3: 발급 방식 및 하단 저장 버튼 -->
             <div class="card">
               <div class="card-header">
                 <div class="card-title">발급 방식 및 타겟 예약 (자동 발급 · 수동 대량 발급 · 코드 입력형)</div>
@@ -815,14 +753,9 @@
               <div class="card-body">
                 <table class="form-table">
                   <tbody>
-                    <!-- ⑬ 발급 방식 -->
+                    <!-- 발급 방식 -->
                     <tr>
-                      <th>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                          <span class="spec-num">13</span>
-                          <span>발급 방식<span class="req">*</span></span>
-                        </div>
-                      </th>
+                      <th>발급 방식<span class="req">*</span></th>
                       <td>
                         <div class="seg-group">
                           <button type="button" class="seg-btn" id="seg-mth-auto" onclick="setIssueMethod('AUTO')">자동 발급 (가입 웰컴)</button>
@@ -886,10 +819,9 @@
                   <button type="button" class="btn btn-sm btn-danger" onclick="focusBackToDiscountInput()">확인 (할인값 입력칸으로 포커스 이동)</button>
                 </div>
 
-                <!-- ⑭ 하단 저장 · 발급 중지 버튼 -->
+                <!-- 하단 저장 · 발급 중지 버튼 -->
                 <div style="display:flex; justify-content:space-between; align-items:center; padding-top:8px;">
-                  <div style="display:flex; align-items:center; gap:8px;">
-                    <span class="spec-num">14</span>
+                  <div>
                     <span style="font-size:12px; color:var(--text-muted);">할인값을 한도(정률 40% / 정액 200,000원) 이하로 입력한 뒤 [저장 · 발급 예약]을 누르세요.</span>
                   </div>
                   <div style="display:flex; gap:8px;">
@@ -1569,15 +1501,15 @@
           <b>${currentType === "RATE" ? "정률 " + val + "%" : "정액 " + val.toLocaleString() + "원"} (Cap 200,000원)</b>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-          <span style="color:#94A3B8;">① 실물 교재 라인 (${book.toLocaleString()}원):</span>
+          <span style="color:#94A3B8;">실물 교재 라인 (${book.toLocaleString()}원):</span>
           <b style="color:#F87171;">할인 0원 (도서정가제 하드락) → ${book.toLocaleString()}원</b>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-          <span style="color:#94A3B8;">② 강좌 라인 산출 감면액:</span>
+          <span style="color:#94A3B8;">강좌 라인 산출 감면액:</span>
           <span>${rawDisc.toLocaleString()}원</span>
         </div>
         <div style="display:flex; justify-content:space-between; margin-bottom:6px; padding-bottom:6px; border-bottom:1px dashed #334155;">
-          <span style="color:#93C5FD; font-weight:700;">③ 실감면액 (Cap 20만원 적용):</span>
+          <span style="color:#93C5FD; font-weight:700;">실감면액 (Cap 20만원 적용):</span>
           <b style="color:#60A5FA;">-${realDisc.toLocaleString()}원 ${capHit ? "(Cap 작동 · cap_applied=1)" : "(전액 적용)"}</b>
         </div>
         <div style="display:flex; justify-content:space-between; font-size:13px;">
