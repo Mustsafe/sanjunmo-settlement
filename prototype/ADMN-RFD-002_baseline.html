@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>환불 요청 관리 (ADMN-RFD-004 / 002) — 산준모닷컴 백오피스 v8.4 Final</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-body: #F3F5F9;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F8FAFC;
+      --text-primary: #0F172A;
+      --text-secondary: #334155;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --primary: #2563EB;
+      --primary-hover: #1D4ED8;
+      --primary-light: #EFF6FF;
+      --primary-border: #BFDBFE;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --success-border: #A7F3D0;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --warning-border: #FDE68A;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --danger-border: #FECACA;
+      --purple: #7C3AED;
+      --purple-light: #F5F3FF;
+      --purple-border: #DDD6FE;
+      --snb-width: 260px;
+      --topbar-height: 60px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.16);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    #v4-root-shell {
+      margin-left: var(--snb-width);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header.top-bar.v4-gen3-topbar {
+      height: var(--topbar-height);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      box-shadow: var(--shadow-sm);
+    }
+    .topbar-left { display: flex; align-items: center; gap: 10px; }
+    .screen-id-pill {
+      background: #1E293B;
+      color: #F8FAFC;
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .breadcrumb strong { color: var(--text-primary); font-weight: 700; font-size: 14px; }
+
+    /* ==================== MAIN CONTENT ==================== */
+    .page-container {
+      padding: 20px 24px 48px;
+      max-width: 1620px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* Cards */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFBFD;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-body { padding: 16px 18px; }
+
+    /* Badges & Buttons */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-blue { background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-border); }
+    .badge-green { background: var(--success-light); color: var(--success); border: 1px solid var(--success-border); }
+    .badge-amber { background: var(--warning-light); color: var(--warning); border: 1px solid var(--warning-border); }
+    .badge-red { background: var(--danger-light); color: var(--danger); border: 1px solid var(--danger-border); }
+    .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
+    .badge-gray { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-sm { padding: 4px 9px; font-size: 11.5px; }
+    .btn-lg { padding: 11px 18px; font-size: 13.5px; font-weight: 700; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-warning { background: var(--warning); color: #fff; }
+    .btn-outline { background: #fff; border-color: var(--border-strong); color: var(--text-secondary); }
+    .btn-outline:hover { background: var(--bg-subtle); color: var(--text-primary); }
+
+    /* Tables */
+    .table-wrap { width: 100%; overflow-x: auto; }
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    table.data-table th {
+      background: #F8FAFC;
+      color: var(--text-secondary);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-strong);
+      white-space: nowrap;
+      font-size: 12px;
+    }
+    table.data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+    table.data-table tbody tr.clickable-row { cursor: pointer; }
+    table.data-table tbody tr.clickable-row:hover td { background: #F1F5F9; }
+    table.data-table tr.sla-overdue td { background: #FEF2F2; }
+    table.data-table tr.sla-overdue:hover td { background: #FEE2E2 !important; }
+    table.data-table tr.row-disabled td { opacity: 0.45; background: #F8FAFC; }
+    .num { text-align: right !important; font-variant-numeric: tabular-nums; font-family: 'Pretendard', monospace; }
+
+    /* Status Filter Tabs */
+    .status-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+    .status-tab {
+      padding: 8px 14px;
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .status-tab .cnt {
+      background: #F1F5F9;
+      color: #334155;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-tab.active .cnt { background: rgba(255,255,255,0.22); color: #fff; }
+
+    /* Filter Form */
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 7px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      font-size: 12.5px;
+      background: #fff;
+      color: var(--text-primary);
+    }
+
+    /* ==================== UNIFIED DETAIL VIEW LAYOUT ==================== */
+    .detail-split {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 1240px) {
+      .detail-split { grid-template-columns: 1fr; }
+    }
+
+    /* Left Panel Inner Tabs (신청 사유 원문 vs 1:1 문의) */
+    .comm-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border-color);
+      background: #F8FAFC;
+    }
+    .comm-tab {
+      flex: 1;
+      padding: 13px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .comm-tab:hover { color: var(--text-primary); background: rgba(255,255,255,0.6); }
+    .comm-tab.active {
+      color: var(--primary);
+      background: #FFFFFF;
+      border-bottom-color: var(--primary);
+    }
+    .comm-pane { display: none; padding: 18px; }
+    .comm-pane.active { display: block; }
+
+    .reason-box {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-left: 4px solid #D97706;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .inquiry-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border-strong);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    /* Right Calculator Lock Overlay (상담필요 시) */
+    .calc-lock-container { position: relative; }
+    .calc-lock-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(2px);
+      z-index: 30;
+      border-radius: var(--radius-md);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 28px;
+      text-align: center;
+    }
+    .calc-lock-overlay.show { display: flex; }
+
+    .calc-step-row td { padding: 7.5px 12px !important; }
+    .calc-step-row.sub td { background: #F8FAFC; font-weight: 700; }
+    .calc-step-row.final td {
+      background: #EFF6FF;
+      font-weight: 800;
+      font-size: 13.5px;
+      color: var(--primary);
+      border-top: 2px solid var(--primary);
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 620px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    .modal-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 14.5px;
+    }
+    .modal-body { padding: 18px 20px; max-height: 75vh; overflow-y: auto; }
+    .modal-footer {
+      padding: 12px 20px;
+      background: #F8FAFC;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  </style>
+    <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+
+  <!-- ==================== LEFT FIXED SNB (실제 운영 메뉴만 깔끔하게 노출) ==================== -->
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
+  <!-- ==================== ROOT SHELL ==================== -->
+  <div id="v4-root-shell">
+
+    <!-- TOP BAR -->
+    <header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
+      <div class="top-bar-left">
+        <span class="crumb-group">주문 · 배송 · 환불 관리 (ORD/RFD)</span>
+        <span class="crumb-sep">›</span>
+        <span class="crumb-code" id="topbar-code">ADMN-RFD-004</span>
+        <h1 class="crumb-title" id="topbar-breadcrumb">환불 요청 관리 (통합 목록 · 상세)</h1>
+      </div>
+      <div class="top-bar-right" id="v4-topbar-right-slot">
+        <span class="badge badge-blue">PG 연동: 토스페이먼츠(TossPayments)</span>
+        <a class="btn btn-sm btn-outline" href="ADMN-SETT-002_baseline.html">정산 원장(ADMN-SETT-002) ↗</a>
+        <a class="btn btn-sm btn-outline" href="ADMN-CONF-010_baseline.html">감사 로그(ADMN-CONF-010) ↗</a>
+      </div>
+    </header>
+
+    <main class="page-container">
+
+      <!-- ========================================================================= -->
+      <!-- [화면 1] 환불 요청 관리 목록 (ADMN-RFD-004) — 첫 진입 화면                  -->
+      <!-- ========================================================================= -->
+      <section class="view-section active" id="view-list">
+
+        <!-- 7개 상태 탭 -->
+        <div class="status-tabs">
+          <div class="status-tab active" onclick="filterListByStatus('ALL', this)">전체 <span class="cnt">48</span></div>
+          <div class="status-tab" onclick="filterListByStatus('접수', this)">접수 <span class="cnt">6</span></div>
+          <div class="status-tab" onclick="filterListByStatus('상담필요', this)">상담필요 (1:1 문의) <span class="cnt">9</span></div>
+          <div class="status-tab" onclick="filterListByStatus('환불진행', this)">환불진행 (검수중) <span class="cnt">14</span></div>
+          <div class="status-tab" onclick="filterListByStatus('환불보류', this)">환불보류 <span class="cnt">3</span></div>
+          <div class="status-tab" onclick="filterListByStatus('환불완료', this)">환불완료 <span class="cnt">12</span></div>
+          <div class="status-tab" onclick="filterListByStatus('거절기각', this)">환불거절 · 반품기각 <span class="cnt">4</span></div>
+        </div>
+
+        <!-- 검색 필터 -->
+        <div class="card">
+          <div class="card-body">
+            <div class="filter-grid">
+              <div class="form-group">
+                <label>접수일자</label>
+                <input type="text" class="form-control" value="2026-10-01 ~ 2026-10-16" />
+              </div>
+              <div class="form-group">
+                <label>유입 경로</label>
+                <select class="form-control">
+                  <option>전체 (주문목록 직접신청 + 1:1 문의)</option>
+                  <option>마이페이지 주문목록 직접 신청</option>
+                  <option>1:1 결제/환불 문의 접수</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>상품 구분</label>
+                <select class="form-control">
+                  <option>전체 (인강 / 교재 / 패키지)</option>
+                  <option>패키지 복합 (인강 + 교재)</option>
+                  <option>인강 단과</option>
+                  <option>실물 교재 포함</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>검색어 (주문번호 / 회원명 / 접수번호)</label>
+                <input type="text" class="form-control" placeholder="주문번호 또는 이름 입력" />
+              </div>
+              <div style="display:flex; gap:6px;">
+                <button class="btn btn-primary" style="flex:1;">🔍 조회</button>
+                <button class="btn btn-outline">📥 엑셀 다운로드</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 목록 테이블 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>환불 요청 목록</span>
+              <span class="badge badge-red">🚨 처리 기한(5영업일) 임박·초과 건 상단 고정</span>
+            </div>
+            <span style="font-size:12px; color:var(--text-muted);">
+              ※ 행을 클릭하면 <strong>환불 처리 상세 화면</strong>으로 이동합니다.
+            </span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table" id="rfd-list-table">
+              <thead>
+                <tr>
+                  <th>접수번호 / 접수일시</th>
+                  <th>처리기한 (5영업일)</th>
+                  <th>유입 경로</th>
+                  <th>주문번호</th>
+                  <th>회원명</th>
+                  <th>주문 상품명</th>
+                  <th>고객 작성 내용 (환불 사유 / 1:1 문의 요약)</th>
+                  <th>연관 문의</th>
+                  <th class="num">원 결제금액</th>
+                  <th>상태</th>
+                  <th>처리</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 케이스 1: 홍길동 (마이페이지 직접 환불 신청 + 연관 문의 있음) -->
+                <tr class="clickable-row sla-overdue" data-status="환불진행" onclick="openDetailView('HONG')">
+                  <td><strong>RFD-2026-001173</strong><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-09 14:22</span></td>
+                  <td><span class="badge badge-red">🚨 D+5일 초과 (+1일)</span></td>
+                  <td><span class="badge badge-blue">주문목록 직접신청</span></td>
+                  <td><strong>SJM-20260810-004821</strong></td>
+                  <td><strong>홍길동</strong> (hong88)</td>
+                  <td>[패키지] 2026 산재보험법 1·2차 올인원 (인강+교재)</td>
+                  <td style="max-width:260px;">
+                    <strong>[단순 변심]</strong> "지방 발령으로 시험 준비를 중단하게 되어 인강과 미개봉 교재 모두 환불 신청합니다."
+                  </td>
+                  <td><span class="badge badge-purple">💬 1:1 문의 2건</span></td>
+                  <td class="num"><strong>385,000원</strong></td>
+                  <td><span class="badge badge-amber">환불진행 (입고완료)</span></td>
+                  <td><button class="btn btn-sm btn-primary">상세 열기 ➔</button></td>
+                </tr>
+
+                <!-- 케이스 2: 김철수 (1:1 문의로 들어온 건 - 패키지 중 교재만 반품 문의) -->
+                <tr class="clickable-row sla-overdue" data-status="상담필요" onclick="openDetailView('KIM')">
+                  <td><strong>INQ-2026-008912</strong><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-10 09:15</span></td>
+                  <td><span class="badge badge-red">🚨 오늘 마감 (D-Day)</span></td>
+                  <td><span class="badge badge-amber">1:1 문의 인입</span></td>
+                  <td><strong>SJM-20261004-009102</strong></td>
+                  <td><strong>김철수</strong> (cskim91)</td>
+                  <td>[패키지] 산업안전기사 필기+실기 패스 (인강+교재)</td>
+                  <td style="max-width:260px;">
+                    <strong>[1:1 문의]</strong> "패키지로 결제했는데 책은 이미 가지고 있어서 교재(41,000원)만 따로 반품 가능한가요?"
+                  </td>
+                  <td><span class="badge badge-amber">현재 1:1 문의</span></td>
+                  <td class="num"><strong>385,000원</strong></td>
+                  <td><span class="badge badge-purple">상담필요 (답변대기)</span></td>
+                  <td><button class="btn btn-sm btn-primary">상세 열기 ➔</button></td>
+                </tr>
+
+                <!-- 케이스 3: 최민아 (적립금 선사용 부족분 초과 -> 마이너스 포인트 P1 모달 케이스) -->
+                <tr class="clickable-row" data-status="접수" onclick="openDetailView('CHOI')">
+                  <td><strong>RFD-2026-001189</strong><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-15 11:40</span></td>
+                  <td><span class="badge badge-green">D-3일 여유</span></td>
+                  <td><span class="badge badge-blue">주문목록 직접신청</span></td>
+                  <td><strong>SJM-20260918-006310</strong></td>
+                  <td><strong>최민아</strong> (mina_c)</td>
+                  <td>[단과] 2026 노동경제학 핵심요약 (인강 단독)</td>
+                  <td style="max-width:260px;">
+                    <strong>[일정 변경]</strong> "진도율 82%까지 들었는데 남은 기간 수강이 어려워 환불 신청합니다. 적립 포인트는 이미 썼어요."
+                  </td>
+                  <td><span class="badge badge-gray">없음 (0건)</span></td>
+                  <td class="num"><strong>180,000원</strong><br/><span style="font-size:11px; color:var(--danger);">⚠️ 마이너스 포인트 대상</span></td>
+                  <td><span class="badge badge-blue">접수</span></td>
+                  <td><button class="btn btn-sm btn-primary">상세 열기 ➔</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================================= -->
+      <!-- [화면 2] 단일 통합 환불 상세 화면 (ADMN-RFD-002 & 002-S1 통합 템플릿)      -->
+      <!-- ========================================================================= -->
+      <section class="view-section" id="view-detail">
+
+        <!-- 상단 바: 목록 돌아가기 + 시나리오 빠른 전환 버튼 -->
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="btn btn-outline" onclick="showMainView('list')">← 환불 요청 목록으로 돌아가기</button>
+            <span class="badge badge-blue" id="detail-channel-badge" style="font-size:12px; padding:5px 10px;">
+              유입 경로: 마이페이지 주문목록 직접 신청
+            </span>
+          </div>
+
+          <!-- 검수용 샘플 전환 버튼 -->
+          <div style="display:flex; align-items:center; gap:6px; background:#E2E8F0; padding:4px; border-radius:8px;">
+            <span style="font-size:11.5px; font-weight:700; color:#475569; padding:0 6px;">샘플 건 전환:</span>
+            <button class="btn btn-sm btn-primary" id="sample-btn-hong" onclick="openDetailView('HONG')">① 홍길동 (직접신청 · 패키지)</button>
+            <button class="btn btn-sm btn-outline" id="sample-btn-kim" onclick="openDetailView('KIM')">② 김철수 (1:1문의 인입 · 교재만 환불)</button>
+            <button class="btn btn-sm btn-outline" id="sample-btn-choi" onclick="openDetailView('CHOI')">③ 최민아 (마이너스 포인트 P1 모달)</button>
+          </div>
+        </div>
+
+        <!-- [상단 공통] 주문 기본 정보 & 주문 품목(order_item_id) 환불 대상 체크박스 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>① 주문 기본 정보 및 환불 대상 품목(<code>order_item_id</code>) 선택</span>
+              <span class="badge badge-gray" id="detail-order-meta">주문번호: SJM-20260810-004821 · 원 결제월: 2026-08 (마감 Locked)</span>
+            </div>
+            <span style="font-size:12px; color:var(--text-muted);">
+              💡 패키지 주문이라도 아래 체크박스(☑)를 조정해 <strong>인강만</strong> 또는 <strong>교재만</strong> 부분환불 처리할 수 있습니다.
+            </span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:85px;">환불 체크</th>
+                  <th>품목코드 (<code>order_item_id</code>)</th>
+                  <th>유형 · 정산 파이프라인</th>
+                  <th>상품명</th>
+                  <th class="num">정가</th>
+                  <th class="num">실결제 안분액</th>
+                  <th>수강 진도율 / 배송·반품 상태</th>
+                  <th>전액환불 요건 (7일 & 2강 이하)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="row-lec">
+                  <td>
+                    <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:700;">
+                      <input type="checkbox" id="chk-lec" checked onchange="recalcDetail()" style="width:16px; height:16px;" />
+                      <span>환불</span>
+                    </label>
+                  </td>
+                  <td><code>OI-01</code></td>
+                  <td><span class="badge badge-blue">인강 (Pipeline 1.1)</span></td>
+                  <td><strong id="lec-title">[강좌] 2026 산재보험법 1·2차 올인원 정규과정</strong></td>
+                  <td class="num">400,000원</td>
+                  <td class="num"><strong id="lec-paid">344,000원</strong></td>
+                  <td id="lec-usage">수강 4일 경과 / 진도율 20% (12/60강)</td>
+                  <td><span class="badge badge-amber">부분환불 (위약금 10% + 이용분 공제)</span></td>
+                </tr>
+                <tr id="row-book">
+                  <td>
+                    <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-weight:700;">
+                      <input type="checkbox" id="chk-book" checked onchange="recalcDetail()" style="width:16px; height:16px;" />
+                      <span>환불</span>
+                    </label>
+                  </td>
+                  <td><code>OI-02</code></td>
+                  <td><span class="badge badge-purple">교재 (Pipeline 2.1)</span></td>
+                  <td><strong>[교재] 2026 산재보험법 핵심요약집 (도서정가제 할인 0%)</strong></td>
+                  <td class="num">41,000원</td>
+                  <td class="num"><strong>41,000원</strong></td>
+                  <td>출고완료 ➔ 3PL 반품 입고완료 (수령 후 5일 이내)</td>
+                  <td><span class="badge badge-green">검수 합격 시 환불 가능</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ==================== [중단 좌·우 2분할 통합 영역] ==================== -->
+        <div class="detail-split">
+
+          <!-- ========== [좌측 영역] 고객이 남긴 글 (탭 1: 환불 신청 사유 원문 / 탭 2: 1:1 문의 & 답변) ========== -->
+          <div class="card">
+            <div class="comm-tabs">
+              <button class="comm-tab active" id="left-tab-btn-reason" onclick="switchLeftTab('reason')">
+                <span>📝 고객 환불 신청서 원문 (<code>ADMN-RFD-002</code>)</span>
+                <span class="badge badge-blue" id="badge-reason-state">작성됨</span>
+              </button>
+              <button class="comm-tab" id="left-tab-btn-inquiry" onclick="switchLeftTab('inquiry')">
+                <span>💬 연관 1:1 문의 원문 & 답변 (<code>ADMN-RFD-002-S1</code>)</span>
+                <span class="badge badge-purple" id="badge-inquiry-cnt">2건</span>
+              </button>
+            </div>
+
+            <!-- [좌측 탭 1] 고객이 주문목록에서 직접 환불 신청하며 적은 상세 사유 원문 -->
+            <div class="comm-pane active" id="left-pane-reason">
+              <div class="reason-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                  <span class="badge badge-amber" id="reason-cat-badge">고객 선택 사유: 단순 변심 (수강 중도포기)</span>
+                  <span style="font-size:11.5px; color:#78350F;" id="reason-date-txt">신청일시: 2026-10-09 14:22:18</span>
+                </div>
+                <div style="font-weight:700; color:#78350F; margin-bottom:4px;">[고객 직접 입력 상세 사유 원문]</div>
+                <div style="background:#fff; border:1px solid #FCD34D; border-radius:6px; padding:12px; font-size:13px; line-height:1.6;" id="reason-body-txt">
+                  "회사 업무가 갑자기 지방 발령이 나면서 올해 시험 준비를 부득이하게 중단하게 되었습니다. 인터넷 강의는 12강 정도까지만 들었고, 같이 배송받은 산재보험법 핵심요약집 교재는 비닐 래핑도 안 뜯은 완전 새 책 상태입니다. 택배 수거해 가시면 검수 후 환불 부탁드립니다."
+                </div>
+              </div>
+
+              <table class="data-table">
+                <tbody>
+                  <tr>
+                    <th style="width:140px;">고객 첨부 사진</th>
+                    <td>
+                      <a href="javascript:void(0)" onclick="alert('S3 비공개 버킷 Presigned URL(5분 유효)로 고객 첨부 사진을 열람합니다.')" style="color:var(--primary); font-weight:600;">
+                        📎 교재_미개봉_정면사진.jpg (1.8MB) [열람]
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>환불 수취 계좌<br/><span style="font-size:10.5px; font-weight:400; color:var(--text-muted);">(가상계좌·폴백용)</span></th>
+                    <td>
+                      <span id="bank-mask-txt">신한은행 <code>110-***-**8291</code> (예금주: 홍길동)</span>
+                      <button class="btn btn-sm btn-outline" style="margin-left:6px;" onclick="unmaskBank()">🔓 마스킹 해제(ADMN-USER-007)</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- [좌측 탭 2] 이 주문/회원의 1:1 결제·환불 문의 원문 및 CS 답변창 (ADMN-RFD-002-S1 통합) -->
+            <div class="comm-pane" id="left-pane-inquiry">
+
+              <!-- 1:1 문의 상단 컨트롤 (부서 이관 & 하위 분류 라디오) -->
+              <div style="background:#F1F5F9; border-radius:8px; padding:10px 12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <div style="display:flex; align-items:center; gap:6px;">
+                  <span style="font-size:12px; font-weight:700;">문의 분류:</span>
+                  <select class="form-control" style="width:145px; padding:4px 8px;">
+                    <option selected>[결제·환불]</option>
+                    <option>[배송·교재 일반]</option>
+                    <option>[수강·시스템]</option>
+                  </select>
+                  <button class="btn btn-sm btn-outline" onclick="alert('선택한 담당 부서 게시판 큐(ADMN-BRD-002)로 실시간 이관합니다.')">타 부서 이관</button>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
+                  <strong>처리 방식:</strong>
+                  <label style="cursor:pointer; font-weight:700; color:var(--warning);">
+                    <input type="radio" name="inq_mode" id="radio-mode-consult" value="CONSULT" onchange="setInquiryMode('CONSULT')" /> 상담만 진행(계산기 잠금)
+                  </label>
+                  <label style="cursor:pointer; font-weight:700; color:var(--primary);">
+                    <input type="radio" name="inq_mode" id="radio-mode-refund" value="REFUND" checked onchange="setInquiryMode('REFUND')" /> 환불 즉시 실행(잠금 해제)
+                  </label>
+                </div>
+              </div>
+
+              <!-- 1순위 매칭 문의글 -->
+              <div class="inquiry-box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <div>
+                    <span class="badge badge-blue">🎯 동일 주문번호(SJM-20260810-004821) 지정 문의</span>
+                    <strong style="margin-left:6px;" id="inq-title-txt">Q. 패키지 중 교재만 반품하고 부분환불 가능한가요?</strong>
+                  </div>
+                  <span class="badge badge-purple" id="inq-status-badge">답변대기</span>
+                </div>
+                <div style="background:#fff; border:1px solid var(--border-color); border-radius:6px; padding:11px; font-size:12.5px; line-height:1.6; margin-bottom:10px;" id="inq-body-txt">
+                  "패키지로 결제했는데 교재는 지난달에 이미 서점에서 산 책이랑 똑같아서 비닐도 안 뜯었습니다. 강의는 계속 듣고 교재(41,000원)만 반품 환불 가능한지 문의드립니다."
+                </div>
+
+                <!-- 2순위(주문번호 미지정) 보조 매칭 알림바 -->
+                <div style="background:#FFFBEB; border:1px dashed #F59E0B; border-radius:6px; padding:8px 10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; font-size:11.5px;" id="unlinked-inq-bar">
+                  <span>🔍 <strong>주문번호 미지정 최근 문의 1건 추가 발견:</strong> "어제 택배 기사님이 책 수거해 가셨는데 언제 환불되나요?" (10/12)</span>
+                  <button class="btn btn-sm btn-outline" onclick="this.parentElement.innerHTML='✅ <strong>현재 주문번호(SJM-20260810-004821)로 통합 귀속 연결 완료</strong>'">🔗 이 주문에 연결</button>
+                </div>
+
+                <div class="form-group" style="margin-bottom:10px;">
+                  <label>1:1 문의 CS 답변 작성 (저장 시 고객 알림톡 자동 발송)</label>
+                  <textarea class="form-control" rows="4" id="inq-reply-textarea">안녕하세요, 산준모닷컴 고객센터입니다.
+문의하신 주문 건 확인 결과, 미개봉 교재(41,000원)에서 단순변심 왕복 반품배송비 6,000원을 공제한 금액으로 환불 처리가 가능합니다. 우측 환불 계산기를 통해 즉시 처리 도와드리겠습니다.</textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between;">
+                  <button class="btn btn-sm btn-warning" onclick="alert('환불보류 탭으로 이동합니다.')">⏸️ 환불 보류 전환</button>
+                  <button class="btn btn-sm btn-primary" onclick="alert('1:1 문의 답변이 등록되었으며 고객에게 알림톡이 발송되었습니다.')">📨 문의 답변 저장</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ========== [우측 영역] 환불 검수 · 적립금 검증 · 13단계 계산기 · PG 취소 실행 ========== -->
+          <div class="calc-lock-container">
+
+            <!-- 1:1 문의가 '상담필요(단순 안내)' 상태일 때만 덮이는 잠금 막 -->
+            <div class="calc-lock-overlay" id="right-calc-lock">
+              <div style="font-size:26px; margin-bottom:8px;">🔒</div>
+              <div style="font-size:15px; font-weight:800; margin-bottom:6px;">현재 '단순 상담' 모드로 계산기가 잠겨 있습니다</div>
+              <p style="font-size:12.5px; color:#CBD5E1; margin-bottom:16px;">
+                1:1 문의에 답변만 남기고 환불은 진행하지 않는 경우 오조작을 막기 위해 잠금 유지됩니다.<br/>
+                지금 바로 환불까지 처리하려면 아래 버튼을 눌러 잠금을 해제하세요.
+              </p>
+              <button class="btn btn-primary" onclick="setInquiryMode('REFUND')">
+                🔓 계산기 잠금 해제하고 환불 처리 진행하기
+              </button>
+            </div>
+
+            <!-- ② 3PL 교재 반품 검수 & ③ 적립금 A/B 검증 (컴팩트 통합 카드) -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">② 교재 반품 검수 & ③ 적립금(A−B) 선소진 검증</div>
+                <span class="badge badge-purple" id="point-summary-badge">부족분 32,200원 현금 차감</span>
+              </div>
+              <div class="card-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+                  <div class="form-group">
+                    <label>3PL 실물 교재 입고·검수 판정</label>
+                    <select class="form-control" id="sel-book-inspect" onchange="recalcDetail()">
+                      <option value="PASS" selected>✅ 검수 합격 (미개봉 정상 ➔ 재고 +1)</option>
+                      <option value="DAMAGED">⚠️ 파본/불량 합격 (재고 미산입·폐기)</option>
+                      <option value="REJECT">❌ 검수 불합격 (고객 훼손 ➔ 교재 기각)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>반품 배송비 귀책 판정</label>
+                    <select class="form-control" id="sel-fault" onchange="recalcDetail()">
+                      <option value="CUSTOMER" selected>고객 귀책 (단순변심 ➔ 왕복 6,000원 공제)</option>
+                      <option value="COMPANY">당사 귀책 (파본/오배송 ➔ 배송비 0원)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- 적립금 A vs B 한 줄 요약 테이블 -->
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>(A) 원 결제 적립금 회수액</th>
+                      <th>(B) 현재 보유 가용 포인트</th>
+                      <th>선소진 부족분 (A − B)</th>
+                      <th>적용 규칙</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong id="pt-a-txt">34,400 P</strong></td>
+                      <td><strong id="pt-b-txt">2,200 P</strong></td>
+                      <td><strong style="color:var(--danger);" id="pt-diff-txt">32,200 원</strong></td>
+                      <td id="pt-rule-txt" style="font-size:11.5px;">환불 예정액 ≥ 부족분이므로 현금에서 선차감</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- ④ 13단계 환불 계산기 + ⑤ 최종 승인 버튼 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>④ 환불금 계산 명세 (법정 13단계) & ⑤ 토스페이먼츠 취소 실행</span>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="window.print()">🖨️ 명세서 인쇄</button>
+              </div>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <tbody>
+                    <tr class="calc-step-row">
+                      <td style="width:65px;">Step 1~2</td>
+                      <td>선택 품목 실결제 모수 (인강 <span id="c-lec-base">344,000</span>원 + 교재 <span id="c-book-base">41,000</span>원)</td>
+                      <td class="num"><strong id="c-total-base">385,000원</strong></td>
+                    </tr>
+                    <tr class="calc-step-row">
+                      <td>Step 3~4</td>
+                      <td>인강 위약금(10%) 및 이용일수/진도율 공제액</td>
+                      <td class="num" style="color:var(--danger);" id="c-lec-deduct">−49,689원</td>
+                    </tr>
+                    <tr class="calc-step-row">
+                      <td>Step 5~7</td>
+                      <td>인강 환불 산출액 (<span id="c-lec-net">294,311</span>원) + 교재 환불 산출액 (<span id="c-book-net">41,000</span>원)</td>
+                      <td class="num" id="c-sub-sum">335,311원</td>
+                    </tr>
+                    <tr class="calc-step-row">
+                      <td>Step 8</td>
+                      <td>실물 교재 반품 배송비 공제 (주문당 1회)</td>
+                      <td class="num" style="color:var(--danger);" id="c-ship-deduct">−6,000원</td>
+                    </tr>
+                    <tr class="calc-step-row sub">
+                      <td>Step 9</td>
+                      <td>1차 환불 예정 합계액</td>
+                      <td class="num" id="c-step9">329,311원</td>
+                    </tr>
+                    <tr class="calc-step-row">
+                      <td>Step 10</td>
+                      <td>적립금 선소진 부족분(A − B) 현금 차감</td>
+                      <td class="num" style="color:var(--danger);" id="c-step10">−32,200원</td>
+                    </tr>
+                    <tr class="calc-step-row">
+                      <td>Step 11</td>
+                      <td>마이너스(−) 포인트 강제 전환 적재 (부족분이 환불액 초과 시)</td>
+                      <td class="num" id="c-step11">0 P</td>
+                    </tr>
+                    <tr class="calc-step-row">
+                      <td>Step 12</td>
+                      <td>
+                        관리자 수동 보정 (사유 입력 시 <code>ADMN-CONF-010</code> 감사 로그 기록)
+                        <div style="display:flex; gap:6px; margin-top:4px;">
+                          <input type="number" class="form-control" id="c-admin-adj" value="0" style="width:110px; padding:3px 6px;" oninput="recalcDetail()" />
+                          <input type="text" class="form-control" placeholder="보정 사유 입력 (최소 10자)" style="padding:3px 6px;" />
+                        </div>
+                      </td>
+                      <td class="num" id="c-step12">0원</td>
+                    </tr>
+                    <tr class="calc-step-row final">
+                      <td>Step 13</td>
+                      <td>최종 토스페이먼츠 PG 취소 확정 금액</td>
+                      <td class="num" id="c-step13">297,111원</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- 정산 엔진 4단계(DEDUCT) 연동 요약 배지 + 최종 실행 버튼 -->
+              <div class="card-body" style="background:#F8FAFC; border-top:1px solid var(--border-color);">
+                <div style="font-size:12px; color:#1E3A8A; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:6px; padding:8px 12px; margin-bottom:12px;">
+                  🔗 <strong>정산 자동 연동(제2권 8.3절 4단계 DEDUCT):</strong> 원 결제월(<code>2026-08</code>) 스냅샷 역참조 ➔ 당월(<code>2026-10</code>) 정산에서 강사 R/S 대칭 공제 및 도서 확정 판매량(<code>-1권</code>) 차감 자동 반영
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                  <div style="display:flex; gap:6px;">
+                    <button class="btn btn-outline" onclick="showMainView('list')">목록</button>
+                    <button class="btn btn-danger" onclick="alert('환불 거절 / 반품 기각 사유 입력 팝업을 호출합니다.')">🚫 환불 거절·기각</button>
+                  </div>
+                  <button class="btn btn-lg btn-primary" id="btn-final-submit" onclick="submitFinalRefund()">
+                    ⚡ 환불 승인 · 토스페이먼츠 PG 취소 실행 (297,111원)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ========================================================================= -->
+      <!-- [화면 3] 환불 완료 내역 조회 (ADMN-RFD-003)                                -->
+      <!-- ========================================================================= -->
+      <section class="view-section" id="view-done">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>환불 완료 내역 및 포인트 LIFO 복원 이력 (<code>ADMN-RFD-003</code> · 조회 전용)</span>
+              <span class="badge badge-green">PG 정산 대사(ADMN-SETT-004) 연동</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-sm btn-outline" onclick="alert('완료 건에 대한 추가 환불/회수 보정 거래 등록 모달(ADMN-RFD-003-S2)을 호출합니다.')">➕ 사후 보정 거래 등록 (003-S2)</button>
+              <button class="btn btn-sm btn-outline">📥 PG 대사용 엑셀 다운로드</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>환불완료번호 / 완료일시</th>
+                  <th>주문번호 / 토스 취소 TID</th>
+                  <th>회원명</th>
+                  <th class="num">원 결제금액</th>
+                  <th class="num">최종 PG 취소액</th>
+                  <th>포인트 처리 결과 (LIFO 복원 / 마이너스 전환)</th>
+                  <th>정산 4단계(DEDUCT) 반영월</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>RFD-2026-001120</strong> (2026-10-07)</td>
+                  <td><strong>SJM-20261001-002190</strong> (<code>TOSS-998120</code>)</td>
+                  <td>박영희</td>
+                  <td class="num">385,000원</td>
+                  <td class="num"><strong>297,111원</strong></td>
+                  <td><span class="badge badge-purple">유상 15,000P LIFO 복원 (만료분 D+7 유예 부여)</span></td>
+                  <td><span class="badge badge-green">2026-10 정산 반영</span></td>
+                </tr>
+                <tr>
+                  <td><strong>RFD-2026-001098</strong> (2026-10-03)</td>
+                  <td><strong>SJM-20260822-003110</strong> (<code>TOSS-994011</code>)</td>
+                  <td>이민호</td>
+                  <td class="num">180,000원</td>
+                  <td class="num"><strong>22,933원</strong></td>
+                  <td><span class="badge badge-red">−32,200 P 마이너스 전환 (탈퇴 차단 USER-MYPAGE-003)</span></td>
+                  <td><span class="badge badge-blue">원귀속 2026-08 ➔ 2026-10 공제</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- [모달] ADMN-RFD-002-P1 : 마이너스(−) 포인트 강제 전환 확인 모달             -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modal-p1">
+    <div class="modal-box">
+      <div class="modal-header" style="background:#FEF2F2; color:var(--danger);">
+        <span>🚨 [ADMN-RFD-002-P1] 마이너스(−) 포인트 강제 전환 확인</span>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:12px; font-size:12.5px; line-height:1.6;">
+          고객이 이미 사용한 적립금 부족분(<strong>32,200원</strong>)이 1차 환불 예정액(<strong>22,933원</strong>)보다 큽니다.<br/>
+          규정에 따라 <strong>환불 예정액 22,933원은 100% 현금 환불</strong>하고, 부족분은 <strong>보유 포인트 마이너스(−32,200 P)로 적재 및 회원 탈퇴를 자동 차단</strong>합니다.
+        </p>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>강제 전환 사유 입력 (필수 · 최소 10자 이상 · 감사 로그 기록)</label>
+          <textarea class="form-control" id="p1-reason" rows="2" placeholder="사유를 10자 이상 입력해 주세요."></textarea>
+        </div>
+        <label style="display:flex; align-items:center; gap:6px; font-weight:700; color:var(--danger); cursor:pointer;">
+          <input type="checkbox" id="p1-chk" />
+          <span>마이너스 포인트(−32,200P) 전환 및 회원 탈퇴 차단 연동을 확인했습니다.</span>
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="document.getElementById('modal-p1').classList.remove('open')">취소</button>
+        <button class="btn btn-danger" onclick="confirmP1()">⚡ 마이너스 전환 확정 및 PG 취소</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    let currentMember = 'HONG'; // 'HONG' | 'KIM' | 'CHOI'
+
+    // 1. 좌측 SNB 메뉴 전환 (목록 vs 완료내역)
+    function showMainView(viewName) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll(' else if (viewName === 'done') {
+        document.getElementById('view-done').classList.add('active');
+        document.getElementById('snb-rfd-done').classList.add('active');
+        document.getElementById('topbar-code').textContent = 'ADMN-RFD-003';
+        document.getElementById('topbar-breadcrumb').textContent = '환불 완료 내역 (조회 전용)';
+      } else if (viewName === 'detail') {
+        document.getElementById('view-detail').classList.add('active');
+        document.getElementById('snb-rfd-req').classList.add('active');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 2. 목록에서 행 클릭 시 단일 상세 화면으로 진입 (유입 경로에 따라 좌측 기본 탭만 자동 선택)
+    function openDetailView(memberKey) {
+      currentMember = memberKey;
+      showMainView('detail');
+
+      ['hong', 'kim', 'choi'].forEach(k => {
+        document.getElementById('sample-btn-' + k).className =
+          (k.toUpperCase() === memberKey) ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline';
+      });
+
+      if (memberKey === 'HONG') {
+        // ① 홍길동: 마이페이지 직접신청 -> 좌측 [고객 환불 신청서 원문] 탭이 먼저 열림
+        document.getElementById('detail-channel-badge').className = 'badge badge-blue';
+        document.getElementById('detail-channel-badge').textContent = '유입 경로: 마이페이지 주문목록 직접 신청 ( 홍길동 )';
+        document.getElementById('chk-lec').checked = true;
+        document.getElementById('chk-book').checked = true;
+        setInquiryMode('REFUND');
+        switchLeftTab('reason');
+      } else if (memberKey === 'KIM') {
+        // ② 김철수: 1:1 문의 인입 -> 좌측 [1:1 문의 원문 & 답변] 탭이 먼저 열림 + 교재만 체크 시뮬레이션
+        document.getElementById('detail-channel-badge').className = 'badge badge-amber';
+        document.getElementById('detail-channel-badge').textContent = '유입 경로: 1:1 결제/환불 문의 인입 ( 김철수 · 교재 단독 반품 문의 )';
+        document.getElementById('chk-lec').checked = false;
+        document.getElementById('chk-book').checked = true;
+        setInquiryMode('CONSULT'); // 처음엔 상담필요 잠금 상태 시연
+        switchLeftTab('inquiry');
+      } else if (memberKey === 'CHOI') {
+        // ③ 최민아: 마이너스 포인트 전환(P1) 케이스
+        document.getElementById('detail-channel-badge').className = 'badge badge-red';
+        document.getElementById('detail-channel-badge').textContent = '유입 경로: 마이페이지 직접 신청 ( 최민아 · 적립금 부족분 초과 P1 케이스 )';
+        document.getElementById('chk-lec').checked = true;
+        document.getElementById('chk-book').checked = false;
+        setInquiryMode('REFUND');
+        switchLeftTab('reason');
+      }
+      recalcDetail();
+    }
+
+    // 3. 상세 화면 좌측 탭 전환 (탭 1: 환불 신청 사유 원문 <-> 탭 2: 1:1 문의 원문 & 답변)
+    function switchLeftTab(tabKey) {
+      const btnReason = document.getElementById('left-tab-btn-reason');
+      const btnInquiry = document.getElementById('left-tab-btn-inquiry');
+      const paneReason = document.getElementById('left-pane-reason');
+      const paneInquiry = document.getElementById('left-pane-inquiry');
+
+      if (tabKey === 'reason') {
+        btnReason.classList.add('active');
+        btnInquiry.classList.remove('active');
+        paneReason.classList.add('active');
+        paneInquiry.classList.remove('active');
+        document.getElementById('topbar-code').textContent = 'ADMN-RFD-002';
+        document.getElementById('topbar-breadcrumb').textContent = '환불 처리 상세 (고객 신청서 원문)';
+      } else {
+        btnInquiry.classList.add('active');
+        btnReason.classList.remove('active');
+        paneInquiry.classList.add('active');
+        paneReason.classList.remove('active');
+        document.getElementById('topbar-code').textContent = 'ADMN-RFD-002-S1';
+        document.getElementById('topbar-breadcrumb').textContent = '환불 처리 상세 (1:1 결제/환불 문의 연동)';
+      }
+    }
+
+    // 4. 1:1 문의 모드 (상담만 진행 시 우측 계산기 잠금 / 환불 실행 시 잠금 해제)
+    function setInquiryMode(mode) {
+      const lockEl = document.getElementById('right-calc-lock');
+      if (mode === 'CONSULT') {
+        document.getElementById('radio-mode-consult').checked = true;
+        lockEl.classList.add('show');
+      } else {
+        document.getElementById('radio-mode-refund').checked = true;
+        lockEl.classList.remove('show');
+      }
+    }
+
+    // 5. 실시간 환불 금액 재계산
+    function recalcDetail() {
+      const lecOn = document.getElementById('chk-lec').checked;
+      const bookOn = document.getElementById('chk-book').checked;
+      const inspect = document.getElementById('sel-book-inspect').value;
+      const fault = document.getElementById('sel-fault').value;
+      const adminAdj = parseInt(document.getElementById('c-admin-adj').value || '0', 10);
+
+      document.getElementById('row-lec').classList.toggle('row-disabled', !lecOn);
+      document.getElementById('row-book').classList.toggle('row-disabled', !bookOn);
+
+      let lecBase = 0, lecDed = 0, lecNet = 0;
+      if (lecOn) {
+        if (currentMember === 'CHOI') {
+          lecBase = 180000; lecDed = 157067; lecNet = 22933;
+        } else {
+          lecBase = 344000; lecDed = 49689; lecNet = 294311;
+        }
+      }
+
+      let bookBase = 0, bookNet = 0, shipDed = 0;
+      if (bookOn && inspect !== 'REJECT') {
+        bookBase = 41000;
+        bookNet = 41000;
+        shipDed = (fault === 'CUSTOMER' && inspect === 'PASS') ? 6000 : 0;
+      }
+
+      const step9 = Math.max(0, lecNet + bookNet - shipDed);
+      // 교재 단독 환불(인강 미체크)이면 적립금 회수 대상 0원, 인강 포함이면 부족분 32,200원
+      const pointShortage = lecOn ? 32200 : 0;
+
+      let step10CashDed = 0;
+      let step11MinusPt = 0;
+      let step13Final = 0;
+
+      if (step9 >= pointShortage) {
+        step10CashDed = pointShortage;
+        step11MinusPt = 0;
+        step13Final = step9 - step10CashDed + adminAdj;
+        document.getElementById('point-summary-badge').className = 'badge badge-purple';
+        document.getElementById('point-summary-badge').textContent =
+          pointShortage > 0 ? `부족분 ${pointShortage.toLocaleString()}원 현금 차감` : '교재 단독 (적립금 회수 없음)';
+        document.getElementById('pt-rule-txt').textContent = '1차 환불 예정액 ≥ 부족분이므로 현금에서 차감';
+      } else {
+        step10CashDed = 0;
+        step11MinusPt = -pointShortage;
+        step13Final = step9 + adminAdj;
+        document.getElementById('point-summary-badge').className = 'badge badge-red';
+        document.getElementById('point-summary-badge').textContent = '🚨 부족분 초과 ➔ −32,200P 마이너스 전환(P1)';
+        document.getElementById('pt-rule-txt').innerHTML = '<strong style="color:var(--danger);">현금 100% 지급 + −32,200P 마이너스 적재</strong>';
+      }
+
+      document.getElementById('c-lec-base').textContent = lecBase.toLocaleString();
+      document.getElementById('c-book-base').textContent = bookBase.toLocaleString();
+      document.getElementById('c-total-base').textContent = (lecBase + bookBase).toLocaleString() + '원';
+      document.getElementById('c-lec-deduct').textContent = '−' + lecDed.toLocaleString() + '원';
+      document.getElementById('c-lec-net').textContent = lecNet.toLocaleString();
+      document.getElementById('c-book-net').textContent = bookNet.toLocaleString();
+      document.getElementById('c-sub-sum').textContent = (lecNet + bookNet).toLocaleString() + '원';
+      document.getElementById('c-ship-deduct').textContent = '−' + shipDed.toLocaleString() + '원';
+      document.getElementById('c-step9').textContent = step9.toLocaleString() + '원';
+      document.getElementById('c-step10').textContent = '−' + step10CashDed.toLocaleString() + '원';
+      document.getElementById('c-step11').textContent = step11MinusPt.toLocaleString() + ' P';
+      document.getElementById('c-step12').textContent = (adminAdj >= 0 ? '+' : '') + adminAdj.toLocaleString() + '원';
+      document.getElementById('c-step13').textContent = step13Final.toLocaleString() + '원';
+
+      const btn = document.getElementById('btn-final-submit');
+      if (step11MinusPt < 0) {
+        btn.className = 'btn btn-lg btn-danger';
+        btn.textContent = `🚨 마이너스 포인트 확인(P1) 후 PG 취소 (${step13Final.toLocaleString()}원)`;
+      } else {
+        btn.className = 'btn btn-lg btn-primary';
+        btn.textContent = `⚡ 환불 승인 · 토스페이먼츠 PG 취소 실행 (${step13Final.toLocaleString()}원)`;
+      }
+    }
+
+    // 6. 최종 승인 실행
+    function submitFinalRefund() {
+      const minusText = document.getElementById('c-step11').textContent;
+      if (minusText.includes('-')) {
+        document.getElementById('modal-p1').classList.add('open');
+      } else {
+        const amt = document.getElementById('c-step13').textContent;
+        alert(`[토스페이먼츠 결제 취소 완료]\n• 취소 금액: ${amt}\n• 정산 4단계(DEDUCT) 역참조 공제 대기열 반영 완료\n• 환불 완료 내역(ADMN-RFD-003)으로 이동합니다.`);
+        showMainView('done');
+      }
+    }
+
+    function confirmP1() {
+      const r = document.getElementById('p1-reason').value.trim();
+      const c = document.getElementById('p1-chk').checked;
+      if (r.length < 10) { alert('전환 사유를 10자 이상 입력해 주세요.'); return; }
+      if (!c) { alert('확인 체크박스를 선택해 주세요.'); return; }
+      document.getElementById('modal-p1').classList.remove('open');
+      alert('마이너스 포인트(−32,200P) 강제 전환 및 토스페이먼츠 취소(22,933원)가 완료되었습니다.');
+      showMainView('done');
+    }
+
+    function filterListByStatus(st, el) {
+      document.querySelectorAll('#view-list .status-tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('#rfd-list-table tbody tr').forEach(row => {
+        row.style.display = (st === 'ALL' || row.dataset.status === st) ? '' : 'none';
+      });
+    }
+
+    function unmaskBank() {
+      const reason = prompt('[ADMN-USER-007] 환불 계좌 마스킹 해제 사유 입력 (최소 10자):', '환불 계좌 예금주 일치 확인');
+      if (reason && reason.length >= 10) {
+        document.getElementById('bank-mask-txt').innerHTML = '신한은행 <code>110-482-998291</code> (예금주: 홍길동 · 🔓 해제됨)';
+      }
+    }
+  </script>
+</body>
+</html>
