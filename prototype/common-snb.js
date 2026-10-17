@@ -14,7 +14,8 @@
       items: [
         { code: "USER-001", label: "일반 회원 관리 (목록·상세)", href: "ADMN-USER-001_baseline.html?view=list", screenCode: "ADMN-USER-001" },
         { code: "USER-003", label: "회원 수강 · 기간 · 기기 제어", href: "ADMN-USER-001_baseline.html?view=course", screenCode: "ADMN-USER-003" },
-        { code: "USER-006", label: "회원 그룹 · 태그 관리", href: "ADMN-USER-001_baseline.html?view=tags", screenCode: "ADMN-USER-006" }
+        { code: "USER-006", label: "회원 그룹 · 다중 태그 관리", href: "ADMN-USER-001_baseline.html?view=tags", screenCode: "ADMN-USER-006" },
+        { code: "USER-007", label: "민감 정보 열람 · 파기 통제", href: "ADMN-USER-007_baseline.html", screenCode: "ADMN-USER-007" }
       ]
     },
     {
@@ -98,7 +99,7 @@
       }).join("");
       return `
       <div class="snb-group">
-        <div class="snb-group-title">${group.title}</div>
+        <div class="snb-group-title">${group.title || group.groupTitle}</div>
         <div class="snb-item-list">${itemsHtml}</div>
       </div>`;
     }).join("");

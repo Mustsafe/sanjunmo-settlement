@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-USER-001~006] 일반 회원 · 상세 CS · 수강 · 태그 통합 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
+  <title>[ADMN-USER-001] 일반 회원 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
   <script id="v4-common-snb" src="common-snb.js" defer></script>
@@ -76,8 +76,6 @@
       border-radius: 5px;
     }
 
-
-
     .main-container {
       padding: 22px 28px 60px;
       max-width: 1640px;
@@ -129,7 +127,6 @@
     .card-title { font-size: 14px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
     .card-body { padding: 18px; }
 
-    /* Search Table */
     .search-tbl { width: 100%; border-collapse: collapse; }
     .search-tbl th {
       width: 120px;
@@ -201,7 +198,7 @@
     .btn-outline:hover { background: #F8FAFC; }
     .btn-danger { background: var(--danger-soft); border-color: var(--danger-border); color: var(--danger); }
     .btn-warning { background: var(--warning-soft); border-color: var(--warning-border); color: #B45309; }
-    .btn:disabled, .btn-off {
+    .btn:disabled {
       background: #E2E8F0 !important;
       color: #94A3B8 !important;
       border-color: #CBD5E1 !important;
@@ -261,7 +258,6 @@
       background: #FFFFFF;
     }
 
-    /* Summary Strip in Detail View */
     .sum-strip {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -278,7 +274,6 @@
     .sum-lbl { font-size: 11.5px; color: var(--text-muted); font-weight: 600; display: block; }
     .sum-val { font-size: 18px; font-weight: 800; color: var(--text-main); margin-top: 2px; display: block; }
 
-    /* CS 6 Tabs */
     .cs-tabs {
       display: flex;
       border-bottom: 2px solid var(--border);
@@ -318,7 +313,6 @@
       color: #78350F;
     }
 
-    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -394,14 +388,13 @@
     <header class="top-bar v4-gen3-topbar">
       <div class="crumb">
         <span class="crumb-code" id="top-crumb-code">ADMN-USER-001</span>
-        <span>회원관리 &gt; 일반 회원 관리 &gt;</span>
-        <strong style="color:var(--text-main);" id="top-crumb-title">회원 목록 조회</strong>
+        <span id="top-crumb-path">회원관리 &gt; 일반 회원 관리 &gt;</span>
+        <strong id="top-crumb-title" style="color:var(--text-main);">회원 목록 조회</strong>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
-        <button type="button" class="btn btn-sm btn-outline" id="top-btn-point" onclick="openPointModal()">＋ 수동 무상 포인트 지급/차감 (002-P1)</button>
-        <button type="button" class="btn btn-sm btn-dark" id="top-btn-excel" onclick="openExcelModal()">🔒 엑셀 다운로드 (001-P1)</button>
-        <span class="badge badge-blue">개인정보 기본 마스킹 (10분 후 자동 재마스킹)</span>
-        <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">감사·보안 로그 ↗</a>
+        <span class="badge badge-blue">개인정보 기본 마스킹 (상세에서 해제 시 10분 후 자동 재마스킹)</span>
+        <span class="badge badge-purple">유상 P(LIFO 부활) / 무상 P(환불 회수) 분리</span>
+        <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">감사·보안 로그 (ADMN-CONF-006/010) ↗</a>
       </div>
     </header>
 
@@ -412,7 +405,6 @@
       <!-- ================================================================= -->
       <section id="view-list" class="view-panel active">
 
-        <!-- 상태 스코어카드 (5칸) -->
         <div class="kpi-grid">
           <div class="kpi-card" onclick="filterByStatus('ALL')">
             <div class="k-top"><span class="k-title">전체 회원</span><span class="badge badge-blue">ALL</span></div>
@@ -441,7 +433,6 @@
           </div>
         </div>
 
-        <!-- 다중 조건 검색 -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">다중 조건 검색 (원본 DB 조회 후 응답만 마스킹 · 2자 미만 검색 거부)</div>
@@ -545,7 +536,6 @@
           </div>
         </div>
 
-        <!-- 툴바 & 목록 그리드 -->
         <div class="card">
           <div class="card-header">
             <div style="display:flex; align-items:center; gap:10px;">
@@ -695,8 +685,8 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')" style="font-weight:700;">← 회원 목록으로 (ADMN-USER-001)</button>
-              <span>회원 상세 정보 (ADMN-USER-002)</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로 (ADMN-USER-001)</button>
+              <span style="margin-left:6px;">회원 상세 정보 (ADMN-USER-002)</span>
               <span id="dt-header-sub" style="font-size:12.5px; font-weight:500; color:var(--text-muted);">회원번호 100482 · 홍*동 · 가입 2026.08.19</span>
             </div>
             <div style="display:flex; gap:8px;">
@@ -790,7 +780,6 @@
               </tbody>
             </table>
 
-            <!-- 보유 포인트 · 쿠폰 · 누적 거래 요약 -->
             <div style="margin-top:18px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div style="font-size:13px; font-weight:800;">보유 포인트 · 쿠폰 · 누적 거래 요약 <span style="font-size:11.5px; font-weight:500; color:var(--text-muted);">(유상 P: 강좌 실결제 1% 올림·LIFO 부활 / 무상 P: 웰컴·이벤트·CS 보상·환불 시 우선 회수)</span></div>
@@ -830,7 +819,6 @@
               </div>
             </div>
 
-            <!-- CS 원스톱 6대 이력 탭 -->
             <div style="margin-top:22px;">
               <div class="cs-tabs">
                 <button type="button" class="cs-tab active" data-tab="orders" onclick="switchCsTab('orders')">주문 내역 <span class="badge badge-gray">4</span></button>
@@ -841,7 +829,6 @@
                 <button type="button" class="cs-tab" data-tab="logs" onclick="switchCsTab('logs')">관리 이력 (감사 타임라인)</button>
               </div>
 
-              <!-- 탭 1: 주문 내역 (최근 5건) -->
               <div id="cs-pane-orders" class="cs-pane active">
                 <table class="data-table">
                   <thead>
@@ -888,7 +875,6 @@
                 </div>
               </div>
 
-              <!-- 탭 2: 환불 내역 (최근 5건) -->
               <div id="cs-pane-refunds" class="cs-pane">
                 <table class="data-table">
                   <thead>
@@ -912,7 +898,6 @@
                 </div>
               </div>
 
-              <!-- 탭 3: 1:1 문의 (최근 5건) -->
               <div id="cs-pane-inquiries" class="cs-pane">
                 <table class="data-table">
                   <thead>
@@ -941,7 +926,6 @@
                 </div>
               </div>
 
-              <!-- 탭 4: 수강 현황 (계약 전체) -->
               <div id="cs-pane-courses" class="cs-pane">
                 <table class="data-table">
                   <thead>
@@ -983,7 +967,6 @@
                 </div>
               </div>
 
-              <!-- 탭 5: 포인트 원장 (최근 10건) -->
               <div id="cs-pane-points" class="cs-pane">
                 <table class="data-table" id="dt-point-ledger">
                   <thead>
@@ -1030,7 +1013,6 @@
                 </div>
               </div>
 
-              <!-- 탭 6: 관리 이력 (최근 10건 · 단일 감사 타임라인) -->
               <div id="cs-pane-logs" class="cs-pane">
                 <table class="data-table" id="dt-audit-timeline">
                   <thead>
@@ -1066,15 +1048,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- 상세 하단 액션 바 -->
-            <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
-              <button type="button" class="btn btn-outline" onclick="switchView('list')">← 회원 목록으로 (ADMN-USER-001)</button>
-              <div style="display:flex; gap:8px;">
-                <button type="button" class="btn btn-outline" onclick="switchView('course')">이 회원의 수강 · 기기 제어 (ADMN-USER-003) 이동 →</button>
-                <a href="ADMN-PROM-002_baseline.html" class="btn btn-outline">쿠폰 마스터 · 포인트 전역 설정 (PROM-002) ↗</a>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -1086,9 +1059,8 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')" style="font-weight:700;">← 회원 목록</button>
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('detail')" style="font-weight:700;">← 회원 상세</button>
-              <span>회원 수강 계약 · 기간 강제 조정 · 동시접속/기기 제어 (ADMN-USER-003 / 004)</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('detail')">← 회원 상세로 (ADMN-USER-002)</button>
+              <span style="margin-left:6px;">회원 수강 계약 · 기간 강제 조정 · 동시접속/기기 제어 (ADMN-USER-003 / 004)</span>
             </div>
             <div style="display:flex; gap:8px;">
               <input type="text" class="f-input" style="width:240px;" value="hon***@naver.com (100482)" placeholder="이메일(ID) / 회원번호 / 휴대폰 뒤 4자리" />
@@ -1096,7 +1068,6 @@
             </div>
           </div>
           <div class="card-body">
-            <!-- 3번 영역: 수강 중인 강좌 계약 목록 -->
             <div style="font-size:13px; font-weight:800; margin-bottom:8px;">1. 수강 중인 강좌 계약 목록 (잔여일 30일 이하 D-N 배지 · 환불 종료 계약은 연장 불가)</div>
             <table class="data-table" style="margin-bottom:20px;">
               <thead>
@@ -1145,7 +1116,6 @@
               </tbody>
             </table>
 
-            <!-- 4번 & 5번 영역: 좌우 2단 (기간 강제 조정 + 동시접속/기기 제어) -->
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px;">
               <div class="card" style="margin-bottom:0;">
                 <div class="card-header">
@@ -1215,10 +1185,7 @@
       <section id="view-tags" class="view-panel">
         <div class="card">
           <div class="card-header">
-            <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')" style="font-weight:700;">← 회원 목록</button>
-              <span>수평적 다중 태그(N:M) 그룹 관리 (ADMN-USER-006 — ADMN-PROM-002 쿠폰 대량 발급 타겟 연동)</span>
-            </div>
+            <div class="card-title">수평적 다중 태그(N:M) 그룹 관리 (ADMN-USER-006 — ADMN-PROM-002 쿠폰 대량 발급 타겟 연동)</div>
             <button type="button" class="btn btn-sm btn-primary" onclick="showToast('신규 커스텀 태그가 생성되었습니다.')">＋ 신규 태그 생성</button>
           </div>
           <div class="card-body">
@@ -1260,9 +1227,7 @@
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 1: ADMN-USER-001-P1 개인정보 엑셀 다운로드 사유 입력 팝업        -->
-  <!-- ===================================================================== -->
+  <!-- MODAL 1: ADMN-USER-001-P1 개인정보 엑셀 다운로드 사유 입력 팝업 -->
   <div class="modal-backdrop" id="modal-excel-p1">
     <div class="modal-box">
       <div class="modal-head">
@@ -1315,9 +1280,7 @@
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 2: ADMN-USER-002-P1 포인트 수동 지급 / 차감 팝업                 -->
-  <!-- ===================================================================== -->
+  <!-- MODAL 2: ADMN-USER-002-P1 포인트 수동 지급 / 차감 팝업 -->
   <div class="modal-backdrop" id="modal-point-p1">
     <div class="modal-box">
       <div class="modal-head">
@@ -1342,7 +1305,7 @@
           </div>
         </div>
 
-        <div style="grid-template-columns: 1fr 1fr; display:grid; gap:12px; margin-bottom:12px;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
           <div>
             <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">포인트 수량 (1회 상한 30,000P)</label>
             <input type="number" id="pt-amount" class="f-input" style="width:100%;" value="3000" min="1" max="30000" oninput="updatePointPreview()" />
@@ -1374,7 +1337,6 @@
           </label>
         </div>
 
-        <!-- 지급 전/후 비교 박스 -->
         <div class="pair-box">
           <div>
             <div style="font-size:11px; color:var(--text-muted); font-weight:700;">조작 전 잔액</div>
@@ -1397,9 +1359,7 @@
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 3: 회원 상태 변경 / 블랙리스트 등재 (ADMN-USER-005)              -->
-  <!-- ===================================================================== -->
+  <!-- MODAL 3: 회원 상태 변경 / 블랙리스트 등재 (ADMN-USER-005) -->
   <div class="modal-backdrop" id="modal-status">
     <div class="modal-box" style="max-width:480px;">
       <div class="modal-head">
@@ -1433,6 +1393,13 @@
   <div class="toast-msg" id="toast-box"></div>
 
   <script>
+    const VIEW_META = {
+      list:   { code: 'ADMN-USER-001', path: '회원관리 > 일반 회원 관리 >', title: '회원 목록 조회' },
+      detail: { code: 'ADMN-USER-002', path: '회원관리 > 일반 회원 관리 > 회원 목록 >', title: '회원 상세 정보 (CS 원스톱 창구)' },
+      course: { code: 'ADMN-USER-003 / 004', path: '회원관리 > 수강 및 기기 관리 >', title: '회원 수강 · 기간 · 기기 제어' },
+      tags:   { code: 'ADMN-USER-006', path: '회원관리 > 그룹 및 태그 관리 >', title: '회원 그룹 · 다중 태그 관리' }
+    };
+
     const MEMBERS = {
       '100482': {
         no: '100482', maskedName: '홍*동', realName: '홍길동',
@@ -1505,67 +1472,23 @@
     let currentMemberId = '100482';
     let isUnmasked = false;
 
-    const VIEW_META = {
-      'list': {
-        code: 'ADMN-USER-001',
-        title: '회원 목록 조회',
-        crumb: '회원 목록 조회'
-      },
-      'detail': {
-        code: 'ADMN-USER-002',
-        title: '회원 상세 정보 (CS 원스톱 창구)',
-        crumb: '회원 상세 정보 (CS 원스톱 창구)'
-      },
-      'course': {
-        code: 'ADMN-USER-003 / 004',
-        title: '회원 수강 · 기간 · 기기 제어',
-        crumb: '회원 수강 · 기간 · 기기 제어'
-      },
-      'tags': {
-        code: 'ADMN-USER-006',
-        title: '회원 그룹 · 다중 태그 관리',
-        crumb: '회원 그룹 · 다중 태그 관리'
-      }
-    };
-
-    function switchView(view, pushState = true) {
+    function switchView(view) {
       if (!VIEW_META[view]) view = 'list';
       document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-      const targetPanel = document.getElementById('view-' + view);
-      if (targetPanel) targetPanel.classList.add('active');
+      document.getElementById('view-' + view).classList.add('active');
 
       const meta = VIEW_META[view];
-      const crumbCode = document.getElementById('top-crumb-code');
-      const crumbTitle = document.getElementById('top-crumb-title');
-      if (crumbCode) crumbCode.textContent = meta.code;
-      if (crumbTitle) crumbTitle.textContent = meta.title;
-
-      document.title = `[${meta.code}] ${meta.title} — 산준모닷컴 백오피스 v8.4 Final`;
-
-      if (pushState && window.history && window.history.replaceState) {
-        const newUrl = window.location.pathname + '?view=' + view;
-        window.history.replaceState({ view: view }, '', newUrl);
-      }
-
-      // SNB 활성 메뉴 동기화
-      if (window.location.search) {
-        document.querySelectorAll('#v4-master-snb .snb-item').forEach(item => {
-          const href = item.getAttribute('href') || '';
-          if (href.indexOf('view=' + view) !== -1) {
-            item.classList.add('active');
-          } else if (href.indexOf('ADMN-USER-001_baseline.html') !== -1) {
-            item.classList.remove('active');
-          }
-        });
-      }
-
+      document.getElementById('top-crumb-code').textContent = meta.code;
+      document.getElementById('top-crumb-path').textContent = meta.path;
+      document.getElementById('top-crumb-title').textContent = meta.title;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
-      const initialView = params.get('view') || 'list';
-      switchView(initialView, false);
+      const v = params.get('view') || 'list';
+      switchView(v);
+      renderMemberDetail();
     });
 
     function selectMember(id, trEl) {
@@ -1696,7 +1619,6 @@
       showToast('단체 메시지 발송(ADMN-CONF-004)으로 이동합니다. (marketing_agree 미동의자는 자동 제외 후 사전 고지)');
     }
 
-    /* ADMN-USER-001-P1 Excel Modal */
     function openExcelModal() {
       document.getElementById('excel-reason').value = '';
       document.getElementById('ex-pledge-1').checked = false;
@@ -1729,7 +1651,6 @@
       showToast('admin_access_log 적재 완료 → 1행 워터마크 삽입 파일(members_20261017_1407_adminkim.xlsx) 다운로드가 시작되었습니다.');
     }
 
-    /* ADMN-USER-002-P1 Manual Point Modal */
     function openPointModal() {
       const m = MEMBERS[currentMemberId];
       document.getElementById('pt-target-name').textContent = `${m.maskedName} (${m.no} · ${m.maskedEmail})`;
@@ -1781,7 +1702,6 @@
       showToast(`무상 포인트 ${mode === 'PLUS' ? '+' : '-'}${amt.toLocaleString()}P 처리가 원장 및 관리 이력에 기록되었습니다.`);
     }
 
-    /* Status Modal */
     function openStatusModal(targetSt) {
       document.getElementById('modal-st-val').value = targetSt || 'BLOCKED';
       document.getElementById('modal-st-reason').value = '';
@@ -1805,7 +1725,6 @@
       showToast('SUPER_ADMIN 전용 수동 비밀번호 초기화: 유선 본인확인 후 임시값을 설정하고 감사 로그에 사유를 적재합니다.');
     }
 
-    /* Course & Device Control (ADMN-USER-003) */
     function setExtendDays(d) {
       document.getElementById('ext-days-input').value = d;
     }
