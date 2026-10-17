@@ -62,7 +62,8 @@
       items: [
         { code: "SETT-002", label: "월간 정산 및 집행", href: "ADMN-SETT-002_baseline.html", screenCode: "ADMN-SETT-002" },
         { code: "SETT-005", label: "정산 수동 조정", href: "ADMN-SETT-005_baseline.html", screenCode: "ADMN-SETT-005" },
-        { code: "SETT-009", label: "내부 정산 조회 - 조회 전용", href: "ADMN-SETT-009_baseline.html", screenCode: "ADMN-SETT-009" }
+        { code: "SETT-009", label: "내부 정산 조회 - 조회 전용", href: "ADMN-SETT-009_baseline.html", screenCode: "ADMN-SETT-009" },
+        { code: "SETT-011", label: "택배 대리점 운임 · 배송비 대사", href: "ADMN-SETT-011_baseline.html", screenCode: "ADMN-SETT-011" }
       ]
     },
     {

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[ADMN-SETT-011] 택배 대리점 운임 · 배송비 대사 — 산준모닷컴 백오피스 v8.4 Final</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="stylesheet" href="common-v84.css">
+  <script src="common-snb.js" defer></script>
+  <style>
+    :root {
+      --bg-main: #f4f6f9;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --primary: #2563eb;
+      --primary-bg: #eff6ff;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-bg: #fffbeb;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+    }
+    body { margin: 0; font-family: 'Pretendard', sans-serif; background: var(--bg-main); color: var(--text-primary); }
+    .card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 12px; flex-wrap: wrap; }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; margin: 0; }
+    .filter-grid { display: grid; grid-template-columns: repeat(5, minmax(150px, 1fr)); gap: 12px; align-items: end; }
+    .f-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; }
+    .f-ctrl { width: 100%; height: 34px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 0 10px; font-size: 13px; box-sizing: border-box; background: #fff; }
+    .btn { height: 34px; padding: 0 13px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid #cbd5e1; background: #fff; color: #1e293b; display: inline-flex; align-items: center; gap: 6px; }
+    .btn:hover { background: #f8fafc; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-danger { background: var(--danger-bg); color: #b91c1c; border-color: #fecaca; }
+    .btn-success { background: var(--success); color: #fff; border-color: var(--success); }
+    .btn-sm { height: 26px; padding: 0 9px; font-size: 11px; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th { background: #f8fafc; color: #475569; font-weight: 700; text-align: left; padding: 10px 10px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .data-table td { padding: 10px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    .data-table tr:hover td { background: #f8fafc; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .b-ok { background: var(--success-bg); color: #047857; border: 1px solid #a7f3d0; }
+    .b-warn { background: var(--warning-bg); color: #b45309; border: 1px solid #fde68a; }
+    .b-err { background: var(--danger-bg); color: #b91c1c; border: 1px solid #fecaca; }
+    .b-info { background: var(--primary-bg); color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .b-gray { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+    .notice-bar { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 11px 14px; font-size: 12.5px; color: #1e3a8a; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .recon-summary-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 14px; }
+    .rs-item { border-right: 1px solid #e2e8f0; padding-right: 12px; }
+    .rs-item:last-child { border-right: none; }
+    .rs-label { font-size: 11.5px; color: #64748b; font-weight: 600; margin-bottom: 4px; }
+    .rs-val { font-size: 17px; font-weight: 800; color: #0f172a; }
+    .rs-sub { font-size: 11px; color: #64748b; margin-top: 3px; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); display: none; align-items: center; justify-content: center; z-index: 2000; }
+    .modal-backdrop.open { display: flex; }
+    .modal-box { background: #fff; width: 640px; max-width: 94vw; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 20px 35px rgba(0,0,0,0.18); }
+    .modal-hd { padding: 15px 20px; background: #f8fafc; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 14px; }
+    .modal-bd { padding: 18px 20px; font-size: 13px; max-height: 72vh; overflow-y: auto; }
+    .modal-ft { padding: 12px 20px; background: #f8fafc; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+    .toast-msg { position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #fff; padding: 12px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; display: none; z-index: 3000; box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+  </style>
+</head>
+<body>
+  <aside id="v4-master-snb"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="topbar-left">
+        <span class="crumb-domain">정산 · 세무 · 대사 관리</span>
+        <span class="crumb-sep">/</span>
+        <span class="crumb-code" id="top-screen-code">ADMN-SETT-011</span>
+        <h1 class="top-title" id="top-screen-title">택배 대리점 운임 · 배송비 정산 대사</h1>
+      </div>
+      <div class="topbar-right" style="display:flex; align-items:center; gap:8px;">
+        <span class="badge b-info">계약 택배 대리점 연동 (송장 기준 대사)</span>
+        <a class="btn btn-sm" href="ADMN-ORD-001_baseline.html">📦 주문·출고지시 (ADMN-ORD-001/002)</a>
+        <a class="btn btn-sm" href="ADMN-SETT-009_baseline.html">📊 월간 재무 손익 리포트 (ADMN-SETT-009)</a>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container content-wrap">
+
+      <!-- ========================================================= -->
+      <!-- VIEW 1: ADMN-SETT-011 월별 택배 대리점 운임 정산·대사 목록 -->
+      <!-- ========================================================= -->
+      <section id="view-list">
+        <div class="notice-bar">
+          <div>
+            <strong>[실무 운영 기준 — 택배 대리점 운임 및 고객 수취 배송비 대사]</strong>
+            백오피스 출고 원장(<code>ADMN-ORD-002</code> 송장번호 <code>tracking_no</code>, <code>ship_ordered_at</code> 확정분)과 계약 택배 대리점의 월간 운임 청구서(엑셀)를 대조합니다.
+            고객이 결제한 유료 배송비(교재·일반상품 실물 합계 30,000원 미만 시 3,000원) 및 환불 시 차감 회수한 반품 왕복 배송비(6,000원)를 함께 집계하여 대리점 지급액을 확정합니다.
+          </div>
+          <div style="display:flex; gap:8px; flex-shrink:0;">
+            <button class="btn btn-primary" onclick="openUploadModal()">📤 택배 대리점 정산서(Excel) 업로드</button>
+          </div>
+        </div>
+
+        <!-- 4층 표준 스코어카드 -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="k-top"><span class="k-title">당월(2026-10) 출고 완료 송장</span><span class="k-badge b-info">ADMN-ORD-002</span></div>
+            <div class="k-num">1,284건</div>
+            <div class="k-sub">정상 출고 1,246건 · 반품 회수 38건</div>
+            <div class="k-foot">출고지시 회수(발송 전 취소) 19건 청구 제외 대상</div>
+          </div>
+          <div class="kpi-card">
+            <div class="k-top"><span class="k-title">고객 수취 배송비 총액 (A)</span><span class="k-badge b-ok">수익 보전</span></div>
+            <div class="k-num">1,452,000원</div>
+            <div class="k-sub">주문 유료배송비 1,224,000원 (408건 × 3,000원)</div>
+            <div class="k-foot">환불 반품 배송비 차감 회수액 228,000원 (38건)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="k-top"><span class="k-title">택배 대리점 청구 운임 합계 (B)</span><span class="k-badge b-gray">VAT 포함</span></div>
+            <div class="k-num">3,649,300원</div>
+            <div class="k-sub">계약 단가: 기본 출고 2,750원 / 반품 회수 3,300원</div>
+            <div class="k-foot">백오피스 산출 기준액: 3,591,500원 (차액 +57,800원)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="k-top"><span class="k-title">송장 대사 불일치 (검토 필요)</span><span class="k-badge b-err">조정 대상</span></div>
+            <div class="k-num" id="kpi-mismatch-cnt">14건 (+57,800원)</div>
+            <div class="k-sub">출고지시 회수건 중복청구 9건 · 단가차이 5건</div>
+            <div class="k-foot">불일치 소명/조정 완료 시 [정산 확정] 활성화</div>
+          </div>
+        </div>
+
+        <!-- 검색 필터 -->
+        <div class="card">
+          <div class="filter-grid">
+            <div class="f-group">
+              <label>정산 귀속연월</label>
+              <select class="f-ctrl" id="f-month">
+                <option value="ALL">전체 (최근 6개월)</option>
+                <option value="2026-10" selected>2026년 10월 (진행중)</option>
+                <option value="2026-09">2026년 09월 (확정완료)</option>
+                <option value="2026-08">2026년 08월 (확정완료)</option>
+              </select>
+            </div>
+            <div class="f-group">
+              <label>계약 택배 대리점</label>
+              <select class="f-ctrl" id="f-agency">
+                <option value="ALL">전체 대리점</option>
+                <option value="CJ-GIMPO" selected>CJ대한통운 (수도권 북부 지정대리점)</option>
+                <option value="HANJIN-SUB">한진택배 (교재 특화 대리점)</option>
+              </select>
+            </div>
+            <div class="f-group">
+              <label>대사 상태</label>
+              <select class="f-ctrl" id="f-status">
+                <option value="ALL">전체 상태</option>
+                <option value="MISMATCH">불일치 검토 필요 (MISMATCH)</option>
+                <option value="READY">대사 일치 · 확정 대기 (READY)</option>
+                <option value="CONFIRMED">정산 확정 완료 (CONFIRMED)</option>
+              </select>
+            </div>
+            <div class="f-group">
+              <label>송장번호 / 주문번호 검색</label>
+              <input type="text" class="f-ctrl" placeholder="송장번호 또는 ORD-번호 입력">
+            </div>
+            <div class="f-group" style="display:flex; gap:6px;">
+              <button class="btn btn-primary" style="flex:1;" onclick="showToast('조회 조건이 적용되었습니다.')">조회</button>
+              <button class="btn" onclick="showToast('검색 조건이 초기화되었습니다.')">초기화</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 월별 택배 대리점 정산서 목록 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">월별 택배 대리점 운임 · 배송비 대사 목록 (ADMN-SETT-011)</h2>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-sm" onclick="showToast('월별 택배 운임 및 고객 수취 배송비 요약표가 다운로드되었습니다.')">📥 월간 운임 정산 요약 다운로드</button>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>정산월</th>
+                <th>계약 택배 대리점 (코드)</th>
+                <th class="num">출고/반품 송장수</th>
+                <th class="num">고객 수취 배송비 (A)</th>
+                <th class="num">백오피스 산출 운임</th>
+                <th class="num">대리점 청구 운임 (B)</th>
+                <th class="num">대사 차액</th>
+                <th class="num">조정 후 확정 지급액</th>
+                <th>대사 상태</th>
+                <th>관리</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>2026-10</strong></td>
+                <td>
+                  <strong>CJ대한통운 수도권북부 대리점</strong>
+                  <div style="font-size:11px; color:#64748b;">AGY-CJ-01 · 건당 기본 2,750원 / 반품 3,300원</div>
+                </td>
+                <td class="num">1,284건<br><span style="font-size:11px; color:#64748b;">(출고 1,246 / 반품 38)</span></td>
+                <td class="num" style="color:#047857; font-weight:700;">1,452,000원</td>
+                <td class="num">3,551,900원</td>
+                <td class="num" style="font-weight:700;">3,609,700원</td>
+                <td class="num" style="color:#b91c1c; font-weight:700;" id="row-oct-diff">+57,800원 (14건)</td>
+                <td class="num" style="font-weight:700;" id="row-oct-final">3,551,900원 (예정)</td>
+                <td id="row-oct-status"><span class="badge b-err">불일치 14건 검토필요</span></td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="openDetailView('2026-10')">🔍 송장별 상세 대사 (011-S1)</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>2026-09</strong></td>
+                <td>
+                  <strong>CJ대한통운 수도권북부 대리점</strong>
+                  <div style="font-size:11px; color:#64748b;">AGY-CJ-01 · 세금계산서 수취 완료 (2026-10-05)</div>
+                </td>
+                <td class="num">1,190건<br><span style="font-size:11px; color:#64748b;">(출고 1,158 / 반품 32)</span></td>
+                <td class="num" style="color:#047857; font-weight:700;">1,314,000원</td>
+                <td class="num">3,290,100원</td>
+                <td class="num">3,312,100원</td>
+                <td class="num" style="color:#64748b;">+22,000원 (8건 차감조정)</td>
+                <td class="num" style="font-weight:800; color:#1d4ed8;">3,290,100원</td>
+                <td><span class="badge b-ok">정산 확정 완료</span></td>
+                <td>
+                  <button class="btn btn-sm" onclick="openDetailView('2026-09')">상세 열람</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>2026-08</strong></td>
+                <td>
+                  <strong>CJ대한통운 수도권북부 대리점</strong>
+                  <div style="font-size:11px; color:#64748b;">AGY-CJ-01 · 세금계산서 수취 완료 (2026-09-04)</div>
+                </td>
+                <td class="num">1,042건<br><span style="font-size:11px; color:#64748b;">(출고 1,015 / 반품 27)</span></td>
+                <td class="num" style="color:#047857; font-weight:700;">1,146,000원</td>
+                <td class="num">2,880,350원</td>
+                <td class="num">2,880,350원</td>
+                <td class="num" style="color:#047857;">0원 (완전일치)</td>
+                <td class="num" style="font-weight:800; color:#1d4ed8;">2,880,350원</td>
+                <td><span class="badge b-ok">정산 확정 완료</span></td>
+                <td>
+                  <button class="btn btn-sm" onclick="openDetailView('2026-08')">상세 열람</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================================= -->
+      <!-- VIEW 2: ADMN-SETT-011-S1 송장별 운임 · 배송비 상세 대사 -->
+      <!-- ========================================================= -->
+      <section id="view-detail" style="display:none;">
+        <div class="card-header" style="margin-bottom:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="btn" onclick="backToList()">← 월별 목록으로 (ADMN-SETT-011)</button>
+            <h2 class="card-title" style="font-size:16px;">[ADMN-SETT-011-S1] 2026년 10월 택배 대리점 송장별 운임 대사 및 조정</h2>
+            <span class="badge b-info">CJ대한통운 수도권북부 대리점 (AGY-CJ-01)</span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" onclick="autoAdjustCancelled()">⚡ 출고지시 회수(미발송) 중복청구건 일괄 0원 조정</button>
+            <button class="btn btn-success" id="btn-confirm-settlement" onclick="confirmMonthlyLogistics()">🔒 당월 택배비 대사 최종 확정</button>
+          </div>
+        </div>
+
+        <!-- 대사 요약 박스 -->
+        <div class="recon-summary-box">
+          <div class="rs-item">
+            <div class="rs-label">① 고객 결제 · 환불차감 배송비 수취액</div>
+            <div class="rs-val" style="color:#047857;">1,452,000원</div>
+            <div class="rs-sub">유료배송 408건(122.4만) + 반품차감 38건(22.8만)</div>
+          </div>
+          <div class="rs-item">
+            <div class="rs-label">② 백오피스 출고원장 기준 운임 (ADMN-ORD-002)</div>
+            <div class="rs-val">3,551,900원</div>
+            <div class="rs-sub">출고 1,246건(342.65만) + 반품회수 38건(12.54만)</div>
+          </div>
+          <div class="rs-item">
+            <div class="rs-label">③ 택배 대리점 청구 원장 합계 (업로드 원본)</div>
+            <div class="rs-val">3,609,700원</div>
+            <div class="rs-sub">청구 송장 1,293건 (미발송 취소 9건 포함됨)</div>
+          </div>
+          <div class="rs-item">
+            <div class="rs-label">④ 대사 차액 및 조정 후 최종 지급 확정액</div>
+            <div class="rs-val" style="color:#1d4ed8;" id="detail-final-payable">3,551,900원 <span style="font-size:12px; color:#b91c1c;" id="detail-unres-tag">(미조정 4건 남음)</span></div>
+            <div class="rs-sub">자사 순수 물류비 부담액(④ - ①): <strong>2,099,900원</strong></div>
+          </div>
+        </div>
+
+        <!-- 상세 필터 탭 -->
+        <div class="card">
+          <div class="card-header">
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn btn-sm btn-primary" onclick="filterInvoiceRows('ALL')">전체 송장 (시연 6건 / 총 1,293건)</button>
+              <button class="btn btn-sm btn-danger" onclick="filterInvoiceRows('MISMATCH')">⚠️ 불일치 · 검토 필요 (4건)</button>
+              <button class="btn btn-sm" onclick="filterInvoiceRows('MATCHED')">✅ 정상 일치 (1,279건)</button>
+            </div>
+            <div style="font-size:12px; color:#475569;">
+              * 도서·일반상품 실물 합계 <strong>30,000원 이상 무료배송(자사 부담)</strong>, 30,000원 미만 고객 3,000원 부과 / 출고 이후 단순변심 반품 시 왕복 6,000원 차감(`ADMN-RFD-002` 연동)
+            </div>
+          </div>
+
+          <table class="data-table" id="invoice-recon-table">
+            <thead>
+              <tr>
+                <th>송장번호 (tracking_no)</th>
+                <th>주문번호 / 출고일시</th>
+                <th>구분 / 상품 요약</th>
+                <th>고객 배송비 구분</th>
+                <th class="num">백오피스 기준운임</th>
+                <th class="num">대리점 청구운임</th>
+                <th class="num">차액</th>
+                <th>대사 판정 사유</th>
+                <th class="num">조정 확정액</th>
+                <th>소명 메모 / 액션</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- 불일치 1: 출고지시 회수건 청구 -->
+              <tr data-row-type="MISMATCH" id="inv-row-1">
+                <td><strong>6842-9102-3319</strong></td>
+                <td>
+                  <a href="ADMN-ORD-001_baseline.html" style="color:#2563eb; font-weight:600;">ORD-20261014-0082</a>
+                  <div style="font-size:11px; color:#b91c1c;">출고지시 회수 (2026-10-14 13:20)</div>
+                </td>
+                <td>[출고취소] 2026 산업안전기사 필기 교재 1권</td>
+                <td><span class="badge b-gray">발송 전 전액환불</span></td>
+                <td class="num">0원</td>
+                <td class="num" style="color:#b91c1c; font-weight:700;">2,750원</td>
+                <td class="num" style="color:#b91c1c; font-weight:700;">+2,750원</td>
+                <td><span class="badge b-err">출고지시 회수건 청구 (CANCELLED_BILLED)</span></td>
+                <td class="num"><input type="number" class="f-ctrl" style="width:95px; text-align:right; height:28px;" value="0" id="adj-val-1"></td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="resolveInvoiceRow(1, '송장 가발급 후 집하 전 회수건 — 대리점 0원 차감 합의')">조정 반영</button>
+                </td>
+              </tr>
+
+              <!-- 불일치 2: 도서산간/중량 할증 단가 차이 -->
+              <tr data-row-type="MISMATCH" id="inv-row-2">
+                <td><strong>6842-9104-1108</strong></td>
+                <td>
+                  <a href="ADMN-ORD-001_baseline.html" style="color:#2563eb; font-weight:600;">ORD-20261015-0119</a>
+                  <div style="font-size:11px; color:#64748b;">2026-10-15 16:40 출고완료</div>
+                </td>
+                <td>[정상출고] 필기+실기 5권 풀세트 (중량 6.2kg)</td>
+                <td><span class="badge b-info">무료배송 (실물 142,000원)</span></td>
+                <td class="num">2,750원</td>
+                <td class="num" style="color:#b45309; font-weight:700;">3,850원</td>
+                <td class="num" style="color:#b45309; font-weight:700;">+1,100원</td>
+                <td><span class="badge b-warn">중량 구간 할증 (5kg 초과 +1,100원)</span></td>
+                <td class="num"><input type="number" class="f-ctrl" style="width:95px; text-align:right; height:28px;" value="3850" id="adj-val-2"></td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="resolveInvoiceRow(2, '5권 세트 5kg 초과 약정 할증단가(3,850원) 인정')">할증 인정</button>
+                </td>
+              </tr>
+
+              <!-- 불일치 3: 반품 회수 송장 중복 청구 -->
+              <tr data-row-type="MISMATCH" id="inv-row-3">
+                <td><strong>6842-9108-7741</strong></td>
+                <td>
+                  <a href="ADMN-RFD-002_baseline.html" style="color:#2563eb; font-weight:600;">ORD-20261011-0034</a>
+                  <div style="font-size:11px; color:#64748b;">2026-10-13 반품회수 완료</div>
+                </td>
+                <td>[반품회수] 건설안전기사 필기 교재 (래핑 미개봉)</td>
+                <td><span class="badge b-ok">고객 환불차감 +6,000원</span></td>
+                <td class="num">3,300원</td>
+                <td class="num" style="color:#b91c1c; font-weight:700;">6,600원</td>
+                <td class="num" style="color:#b91c1c; font-weight:700;">+3,300원</td>
+                <td><span class="badge b-err">반품 회수운임 2회 중복 청구</span></td>
+                <td class="num"><input type="number" class="f-ctrl" style="width:95px; text-align:right; height:28px;" value="3300" id="adj-val-3"></td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="resolveInvoiceRow(3, '동일 반품건 회수 송장 2중 청구분 3,300원 차감')">조정 반영</button>
+                </td>
+              </tr>
+
+              <!-- 불일치 4: 백오피스 미매핑 송장 (수기 발송건) -->
+              <tr data-row-type="MISMATCH" id="inv-row-4">
+                <td><strong>6842-9110-9920</strong></td>
+                <td>
+                  <span style="color:#b91c1c; font-weight:700;">주문번호 미매핑 (UNMAPPED)</span>
+                  <div style="font-size:11px; color:#64748b;">2026-10-16 대리점 수기 접수</div>
+                </td>
+                <td>[파본교환 재발송] 산업위생관리기사 교재 교환출고</td>
+                <td><span class="badge b-gray">자사 귀책 (파본 무상교환)</span></td>
+                <td class="num">0원 (미등록)</td>
+                <td class="num" style="color:#b45309; font-weight:700;">2,750원</td>
+                <td class="num" style="color:#b45309; font-weight:700;">+2,750원</td>
+                <td><span class="badge b-warn">CS 파본교환 수기 송장 (ORD-20261009-0018 연결)</span></td>
+                <td class="num"><input type="number" class="f-ctrl" style="width:95px; text-align:right; height:28px;" value="2750" id="adj-val-4"></td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="resolveInvoiceRow(4, 'CS 파본 무상교환 출고건 원주문(ORD-20261009-0018) 매핑 승인')">매핑 승인</button>
+                </td>
+              </tr>
+
+              <!-- 정상 일치 5: 유료배송 (고객 3,000원 결제) -->
+              <tr data-row-type="MATCHED">
+                <td><strong>6842-9101-1004</strong></td>
+                <td>
+                  <a href="ADMN-ORD-001_baseline.html" style="color:#2563eb; font-weight:600;">ORD-20261012-0019</a>
+                  <div style="font-size:11px; color:#64748b;">2026-10-12 15:10 출고완료</div>
+                </td>
+                <td>[정상출고] 안전보건 실무 포켓북 (판매가 18,000원)</td>
+                <td><span class="badge b-ok">고객 유료배송 +3,000원</span></td>
+                <td class="num">2,750원</td>
+                <td class="num">2,750원</td>
+                <td class="num">0원</td>
+                <td><span class="badge b-ok">정상 일치 (MATCHED)</span></td>
+                <td class="num" style="font-weight:700;">2,750원</td>
+                <td><span style="font-size:11.5px; color:#64748b;">자동 대사 통과</span></td>
+              </tr>
+
+              <!-- 정상 일치 6: 조건부 무료배송 (실물 38,000원) -->
+              <tr data-row-type="MATCHED">
+                <td><strong>6842-9101-1005</strong></td>
+                <td>
+                  <a href="ADMN-ORD-001_baseline.html" style="color:#2563eb; font-weight:600;">ORD-20261012-0041</a>
+                  <div style="font-size:11px; color:#64748b;">2026-10-12 15:10 출고완료</div>
+                </td>
+                <td>[정상출고] 2026 산업안전기사 필기 기본서 (정가 38,000원)</td>
+                <td><span class="badge b-info">무료배송 (실물 30,000원↑)</span></td>
+                <td class="num">2,750원</td>
+                <td class="num">2,750원</td>
+                <td class="num">0원</td>
+                <td><span class="badge b-ok">정상 일치 (MATCHED)</span></td>
+                <td class="num" style="font-weight:700;">2,750원</td>
+                <td><span style="font-size:11.5px; color:#64748b;">자동 대사 통과</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- 택배 대리점 정산서 엑셀 업로드 모달 -->
+  <div class="modal-backdrop" id="modal-upload">
+    <div class="modal-box">
+      <div class="modal-hd">
+        <span>📤 택배 대리점 월간 운임 정산서(Excel/CSV) 업로드</span>
+        <button class="btn btn-sm" onclick="closeUploadModal()">✕</button>
+      </div>
+      <div class="modal-bd">
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:700; margin-bottom:5px;">정산 귀속연월 및 계약 대리점</label>
+          <div style="display:grid; grid-template-columns: 1fr 1.5fr; gap:8px;">
+            <input type="text" class="f-ctrl" value="2026년 10월" readonly>
+            <input type="text" class="f-ctrl" value="CJ대한통운 수도권북부 대리점 (AGY-CJ-01)" readonly>
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:700; margin-bottom:5px;">대리점 운임 청구 파일 선택 (.xlsx, .csv)</label>
+          <input type="file" class="f-ctrl" style="padding-top:5px;">
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; font-size:12px; color:#334155; line-height:1.6;">
+          <strong>[자동 대사 매칭 규칙]</strong><br>
+          1. 업로드 파일의 <code>운송장번호</code>와 백오피스 출고 원장(<code>ADMN-ORD-002.tracking_no</code>)을 1:1 대조합니다.<br>
+          2. 발송 전 <strong>출고지시 회수(취소)</strong> 처리된 주문에 발급되었던 가송장이 청구된 경우 <code>CANCELLED_BILLED</code>로 자동 분류하여 과오청구를 차단합니다.<br>
+          3. 대사 확정 시 당월 택배 운임 지급액과 고객 수취 배송비 상계 내역이 <code>ADMN-SETT-009</code>(월간 재무 손익 리포트)에 자동 반영됩니다.
+        </div>
+      </div>
+      <div class="modal-ft">
+        <button class="btn" onclick="closeUploadModal()">취소</button>
+        <button class="btn btn-primary" onclick="closeUploadModal(); openDetailView('2026-10'); showToast('택배 대리점 정산서 1,293건 업로드 및 자동 대사가 완료되었습니다.');">업로드 및 자동 대사 실행</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-msg" id="toast-box"></div>
+
+  <script>
+    let unresolvedCount = 4;
+
+    function showToast(msg) {
+      const t = document.getElementById('toast-box');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = 'none'; }, 2800);
+    }
+
+    function openDetailView(month) {
+      document.getElementById('view-list').style.display = 'none';
+      document.getElementById('view-detail').style.display = 'block';
+      document.getElementById('top-screen-code').textContent = 'ADMN-SETT-011-S1';
+      document.getElementById('top-screen-title').textContent = month + ' 택배 대리점 송장별 운임 대사 및 조정';
+      window.scrollTo(0, 0);
+    }
+
+    function backToList() {
+      document.getElementById('view-detail').style.display = 'none';
+      document.getElementById('view-list').style.display = 'block';
+      document.getElementById('top-screen-code').textContent = 'ADMN-SETT-011';
+      document.getElementById('top-screen-title').textContent = '택배 대리점 운임 · 배송비 정산 대사';
+      window.scrollTo(0, 0);
+    }
+
+    function filterInvoiceRows(type) {
+      const rows = document.querySelectorAll('#invoice-recon-table tbody tr');
+      rows.forEach(r => {
+        if (type === 'ALL') r.style.display = '';
+        else r.style.display = (r.getAttribute('data-row-type') === type) ? '' : 'none';
+      });
+    }
+
+    function resolveInvoiceRow(idx, memo) {
+      const row = document.getElementById('inv-row-' + idx);
+      if (!row || row.getAttribute('data-resolved') === '1') return;
+      row.setAttribute('data-resolved', '1');
+      row.setAttribute('data-row-type', 'MATCHED');
+      const valInput = document.getElementById('adj-val-' + idx);
+      const valNum = Number(valInput.value || 0).toLocaleString();
+      row.cells[7].innerHTML = '<span class="badge b-ok">소명 · 조정 완료</span>';
+      row.cells[8].innerHTML = '<strong>' + valNum + '원</strong>';
+      row.cells[9].innerHTML = '<span style="font-size:11px; color:#047857; font-weight:600;">✔ ' + memo + '</span>';
+
+      unresolvedCount = Math.max(0, unresolvedCount - 1);
+      const tag = document.getElementById('detail-unres-tag');
+      if (unresolvedCount === 0) {
+        tag.style.color = '#047857';
+        tag.textContent = '(전체 불일치 조정 완료)';
+      } else {
+        tag.textContent = '(미조정 ' + unresolvedCount + '건 남음)';
+      }
+      showToast('송장 조정 내역이 반영되었습니다. (' + memo + ')');
+    }
+
+    function autoAdjustCancelled() {
+      resolveInvoiceRow(1, '송장 가발급 후 집하 전 회수건 — 대리점 0원 차감 일괄 합의');
+      showToast('출고지시 회수(미발송) 중복청구 송장이 일괄 0원 조정되었습니다.');
+    }
+
+    function confirmMonthlyLogistics() {
+      if (unresolvedCount > 0) {
+        for (let i = 1; i <= 4; i++) {
+          const r = document.getElementById('inv-row-' + i);
+          if (r && r.getAttribute('data-resolved') !== '1') {
+            resolveInvoiceRow(i, '관리자 일괄 확인 및 조정 승인');
+          }
+        }
+      }
+      document.getElementById('row-oct-diff').innerHTML = '<span style="color:#047857;">조정 완료 (-54,000원 차감)</span>';
+      document.getElementById('row-oct-final').innerHTML = '<span style="color:#1d4ed8; font-weight:800;">3,555,750원</span>';
+      document.getElementById('row-oct-status').innerHTML = '<span class="badge b-ok">정산 확정 완료</span>';
+      document.getElementById('kpi-mismatch-cnt').textContent = '0건 (조정 완료)';
+      showToast('2026년 10월 택배 대리점 운임 정산(3,555,750원)이 최종 확정되어 재무 리포트(ADMN-SETT-009)에 반영되었습니다.');
+    }
+
+    function openUploadModal() {
+      document.getElementById('modal-upload').classList.add('open');
+    }
+    function closeUploadModal() {
+      document.getElementById('modal-upload').classList.remove('open');
+    }
+  </script>
+</body>
+</html>
