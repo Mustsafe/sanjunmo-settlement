@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-CONF-004 / 004-S1] 메시지 템플릿 관리 및 타겟 단체 알림톡·LMS 예약 발송</title>
+  <style>
+    :root {
+      --bg-body: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F8FAFC;
+      --text-primary: #0F172A;
+      --text-secondary: #334155;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --primary: #2563EB;
+      --primary-hover: #1D4ED8;
+      --primary-light: #EFF6FF;
+      --primary-border: #BFDBFE;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --success-border: #A7F3D0;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --warning-border: #FDE68A;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --danger-border: #FECACA;
+      --purple: #7C3AED;
+      --purple-light: #F5F3FF;
+      --purple-border: #DDD6FE;
+      --radius-md: 10px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFBFD;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-body { padding: 16px 18px; }
+
+    .search-table, .form-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .search-table th, .form-table th {
+      width: 145px;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 12px;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    .search-table td, .form-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border-color);
+      background: #FFFFFF;
+      vertical-align: middle;
+    }
+    .search-table tr:last-child th, .search-table tr:last-child td,
+    .form-table tr:last-child th, .form-table tr:last-child td { border-bottom: none; }
+
+    .form-input, .form-select, .form-textarea {
+      padding: 7px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      font-size: 12.5px;
+      color: var(--text-primary);
+      background: #FFFFFF;
+      font-family: inherit;
+    }
+    .form-input, .form-select { height: 34px; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
+    }
+    .form-input[readonly], .form-input:disabled, .form-select:disabled {
+      background: #F1F5F9;
+      color: #64748B;
+      cursor: not-allowed;
+    }
+    .fld--err {
+      border: 2px solid var(--danger) !important;
+      background: #FEF2F2 !important;
+      color: #991B1B !important;
+      font-weight: 700 !important;
+    }
+
+    .seg-group {
+      display: inline-flex;
+      background: #F1F5F9;
+      border: 1px solid var(--border-color);
+      border-radius: 7px;
+      padding: 3px;
+      gap: 3px;
+    }
+    .seg-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .seg-btn.active {
+      background: #FFFFFF;
+      color: var(--primary);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn {
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border-strong);
+      background: #FFFFFF;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.12s;
+    }
+    .btn:hover { background: var(--bg-subtle); }
+    .btn-primary { background: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-dark { background: #0F172A; color: #FFFFFF; border-color: #0F172A; }
+    .btn-danger { background: var(--danger); color: #FFFFFF; border-color: var(--danger); }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-blue { background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-border); }
+    .badge-green { background: var(--success-light); color: var(--success); border: 1px solid var(--success-border); }
+    .badge-amber { background: var(--warning-light); color: var(--warning); border: 1px solid var(--warning-border); }
+    .badge-red { background: var(--danger-light); color: var(--danger); border: 1px solid var(--danger-border); }
+    .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
+    .badge-slate { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th {
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 11.5px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-strong);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+    .data-table tbody tr { cursor: pointer; transition: background 0.12s; }
+    .data-table tbody tr:hover { background: #F8FAFC; }
+    .data-table tbody tr.selected-row { background: #EFF6FF; }
+    .data-table th.num, .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .data-table th.ct, .data-table td.ct { text-align: center; }
+
+    /* 템플릿 편집 + 카카오톡 모바일 미리보기 2단 워크스페이스 */
+    .workspace-2col {
+      display: grid;
+      grid-template-columns: 1.4fr 0.85fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    /* 카카오톡 알림톡 모바일 프리뷰 프레임 */
+    .kakao-phone {
+      background: #BACEE0;
+      border-radius: 16px;
+      padding: 16px;
+      border: 3px solid #334155;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+    }
+    .kakao-header {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #1E293B;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .kakao-bubble {
+      background: #FFFFFF;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .kakao-bubble-top {
+      background: #FEE500;
+      padding: 9px 12px;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #191919;
+      display: flex;
+      justify-content: space-between;
+    }
+    .kakao-bubble-body {
+      padding: 14px;
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #1E293B;
+      white-space: pre-line;
+    }
+    .kakao-bubble-btn {
+      margin: 0 14px 14px;
+      padding: 8px 0;
+      text-align: center;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .chip-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: 700;
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+      cursor: pointer;
+    }
+    .chip-btn:hover { background: #DBEAFE; }
+
+    .tag-pill-chk {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      background: #FFFFFF;
+      transition: all 0.12s;
+    }
+    .tag-pill-chk.active {
+      background: #EFF6FF;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      backdrop-filter: blur(2px);
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-dialog {
+      background: #FFFFFF;
+      width: 560px;
+      max-width: 94vw;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .modal-body { padding: 20px; }
+    .modal-footer {
+      padding: 12px 20px;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: none;
+      z-index: 3000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+    }
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="top-bar-left">
+        <span class="crumb-code" id="top-crumb-code">ADMN-CONF-004</span>
+        <span class="crumb-title" id="top-crumb-title">메시지 템플릿 관리 (발송 조건별 치환코드 템플릿 · SENS 알림톡/LMS 폴백)</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="subview-switcher">
+          <button type="button" class="subview-btn active" id="nav-btn-template" onclick="switchView('template')">
+            <span>메시지 템플릿 관리</span>
+            <span class="code-pill">ADMN-CONF-004</span>
+          </button>
+          <button type="button" class="subview-btn" id="nav-btn-send" onclick="switchView('send')">
+            <span>타겟 단체 알림톡/LMS 예약 발송</span>
+            <span class="code-pill">ADMN-CONF-004-S1</span>
+          </button>
+          <a href="ADMN-CONF-002_baseline.html" class="subview-btn" style="text-decoration:none;">
+            <span>약관 · 개인정보처리방침 관리</span>
+            <span class="code-pill">ADMN-CONF-002</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+
+      <!-- ===================================================================
+           VIEW 1: 메시지 템플릿 관리 (ADMN-CONF-004)
+           =================================================================== -->
+      <section id="view-template" class="view-section active">
+        <!-- 4단 KPI 스코어카드 -->
+        <div class="kpi-grid">
+          <div class="kpi-card" onclick="filterTemplatesByStatus('ALL')" style="cursor:pointer;">
+            <div class="k-title">
+              <span>등록 템플릿 (SENS 연동)</span>
+              <span class="badge">전체 17종</span>
+            </div>
+            <div class="k-num" style="color:var(--primary);">14종 운영중</div>
+            <div class="k-sub">법정 필수 거래/공지 15종 + 마케팅 광고성 2종</div>
+          </div>
+
+          <div class="kpi-card" onclick="filterTemplatesByStatus('PENDING')" style="cursor:pointer;">
+            <div class="k-title">
+              <span>카카오 심사 대기</span>
+              <span class="badge">검수 1~3일 소요</span>
+            </div>
+            <div class="k-num" style="color:var(--warning);">2건</div>
+            <div class="k-sub">심사 대기 템플릿은 승인 완료 전까지 발송 예약 불가</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="k-title">
+              <span>당월 알림톡 발송 (성공)</span>
+              <span class="badge">SENS 후불정산</span>
+            </div>
+            <div class="k-num" style="color:var(--success);">24,180건</div>
+            <div class="k-sub">카카오톡 채널 우선 발송 (실패 시 LMS 자동 폴백)</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="k-title">
+              <span>당월 LMS 대체 발송 · 실패</span>
+              <span class="badge">대시보드 연동</span>
+            </div>
+            <div class="k-num">7,500건 <span style="font-size:14px; color:var(--danger);">(실패 2건)</span></div>
+            <div class="k-sub">당월 누적 총 31,682건 발송 · 발송 실패 큐 모니터링</div>
+          </div>
+        </div>
+
+        <!-- 검색 필터 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">메시지 템플릿 검색 필터</div>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="btn btn-sm" onclick="resetTplFilter()">초기화</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="renderTemplateGrid()">조회</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="search-table">
+              <tbody>
+                <tr>
+                  <th>발송 조건</th>
+                  <td>
+                    <select id="q-tpl-cat" class="form-select" style="width:220px;" onchange="renderTemplateGrid()">
+                      <option value="ALL">전체 (회원가입/결제/배송/포인트/문의/환불/약관/마케팅)</option>
+                      <option value="JOIN">회원가입 (웰컴 혜택 지급 / 재가입 미지급)</option>
+                      <option value="PAY">결제 · 가상계좌 (입금확인 / 기한연장 / 만료)</option>
+                      <option value="DLV">배송 (3PL 송장 등록 · 출고 안내)</option>
+                      <option value="POINT">포인트 (소멸 15일 전 사전 고지)</option>
+                      <option value="QNA">문의 (1:1 문의 답변 등록)</option>
+                      <option value="RFD">환불 · 반품 (완료 / 반품불가 / 사후보정 / 환급승인)</option>
+                      <option value="TERMS">약관 개정 (법정 사전 고지)</option>
+                      <option value="MKT">마케팅 광고 (장바구니 리마인드 / 신규 특강)</option>
+                    </select>
+                  </td>
+                  <th>발송 채널</th>
+                  <td>
+                    <select id="q-tpl-ch" class="form-select" style="width:190px;" onchange="renderTemplateGrid()">
+                      <option value="ALL">전체 (알림톡 + LMS 폴백)</option>
+                      <option value="ALIM">알림톡 (실패 시 LMS 폴백)</option>
+                      <option value="ALIM_MAIL">알림톡 + LMS + 이메일</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <th>템플릿명 · 코드</th>
+                  <td>
+                    <input type="text" id="q-tpl-kw" class="form-input" style="width:100%;" placeholder="템플릿 코드(TPL_*) 또는 템플릿명 검색" oninput="renderTemplateGrid()" />
+                  </td>
+                  <th>심사 · 운영 상태</th>
+                  <td>
+                    <select id="q-tpl-st" class="form-select" style="width:190px;" onchange="renderTemplateGrid()">
+                      <option value="ALL">전체 상태</option>
+                      <option value="APPROVED">카카오 승인 (사용중)</option>
+                      <option value="STANDBY">검수 완료 (미사용 대기)</option>
+                      <option value="PENDING">심사중 (발송 불가)</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 템플릿 목록 그리드 (17건 전체) -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>발송 조건별 메시지 템플릿 목록</span>
+              <span class="badge badge-slate" id="tpl-count-badge">전체 15건</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-sm" onclick="showToast('네이버 클라우드 SENS 승인 템플릿 상태와 동기화되었습니다.')">🔄 SENS 승인 상태 동기화</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="switchView('send')">📢 타겟 단체 알림톡/LMS 발송으로 이동 →</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:185px;">템플릿 코드 (고정 🔒)</th>
+                  <th>템플릿명 · 발송 시점 및 트리거</th>
+                  <th class="ct" style="width:120px;">채널 우선순위</th>
+                  <th class="ct" style="width:125px;">수신 동의 기준</th>
+                  <th class="ct" style="width:105px;">카카오 심사</th>
+                  <th class="ct" style="width:95px;">운영 상태</th>
+                  <th class="ct" style="width:90px;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="tpl-grid-tbody">
+                <!-- JS 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 템플릿 편집 및 모바일 미리보기 워크스페이스 -->
+        <div class="workspace-2col" id="tpl-edit-workspace">
+          <!-- 좌측: 템플릿 상세 편집 -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <span id="ed-tpl-header">템플릿 편집 · <code id="ed-tpl-code-txt">TPL_JOIN_WELCOME</code></span>
+              </div>
+              <span class="badge badge-green" id="ed-tpl-approval-badge">카카오 승인 완료</span>
+            </div>
+            <div class="card-body">
+              <!-- 회원가입 2종 자동 분기 안내 박스 -->
+              <div id="join-split-notice" style="padding:11px 14px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; margin-bottom:14px; font-size:12px; color:#92400E;">
+                <strong>💡 회원가입 템플릿 2종 분리 원칙 (오안내 CS 방지):</strong><br/>
+                • 최초 가입자(<code>benefit_granted = 'Y'</code>)는 <strong>TPL_JOIN_WELCOME</strong>(웰컴 5,000P + 10% 쿠폰 지급 안내)이 발송되며, 과거 가입 이력이 있는 재가입자(<code>benefit_granted = 'N'</code>, DI 기준 생애 1회 제한)는 <strong>TPL_JOIN_REJOIN</strong>(혜택 미지급 안내)으로 서버가 자동 분기합니다.
+              </div>
+
+              <table class="form-table" style="margin-bottom:14px;">
+                <tbody>
+                  <tr>
+                    <th>템플릿 코드</th>
+                    <td>
+                      <input type="text" id="ed-tpl-code" class="form-input" style="width:230px; font-family:monospace; font-weight:800;" readonly value="TPL_JOIN_WELCOME 🔒" />
+                    </td>
+                    <th>발송 조건</th>
+                    <td>
+                      <span id="ed-tpl-cond" style="font-weight:700;">회원가입 완료 (혜택 지급 · 최초 가입)</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>채널 우선순위</th>
+                    <td>
+                      <span class="badge badge-blue">① 알림톡(카카오)</span> → 실패 시 <span class="badge badge-slate">② LMS 대체 발송 사용</span>
+                    </td>
+                    <th>광고성 · 수신동의</th>
+                    <td id="ed-tpl-ad-info">
+                      <span class="badge badge-slate">거래·정보성 (법정 필수)</span> — 마케팅 미동의자도 발송
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- 치환코드 삽입 칩 -->
+              <div style="margin-bottom:10px;">
+                <div style="font-size:12px; font-weight:700; color:var(--text-secondary); margin-bottom:6px;">
+                  본문 치환코드 (클릭 시 커서 위치에 삽입 · 미정의 치환코드 입력 시 저장 차단)
+                </div>
+                <div id="ed-var-chips" style="display:flex; gap:6px; flex-wrap:wrap;">
+                  <!-- JS 렌더링 -->
+                </div>
+              </div>
+
+              <!-- 알림톡 본문 입력 -->
+              <div style="margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                  <label style="font-weight:800; font-size:12.5px;">알림톡 / LMS 대체 발송 본문</label>
+                  <span style="font-size:11.5px; color:var(--text-muted);" id="ed-char-counter">현재 142자 / 알림톡 1,000자 · LMS 2,000byte</span>
+                </div>
+                <textarea id="ed-tpl-body" class="form-textarea" style="width:100%; height:155px; line-height:1.6;" oninput="updateLivePreview()"></textarea>
+              </div>
+
+              <!-- 알림톡 하단 버튼 설정 -->
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+                <span style="font-size:12px; font-weight:700; width:110px;">알림톡 링크 버튼:</span>
+                <input type="text" id="ed-tpl-btn-label" class="form-input" style="width:180px;" value="내 쿠폰함 바로가기" oninput="updateLivePreview()" />
+                <input type="text" id="ed-tpl-btn-url" class="form-input" style="flex:1;" value="https://www.sanjunmo.com/my/coupons" />
+              </div>
+
+              <!-- 하단 저장 및 테스트 발송 -->
+              <div style="padding-top:12px; border-top:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <button type="button" class="btn btn-sm" onclick="showToast('관리자 본인 번호(010-****-1234)로 테스트 알림톡이 발송되었습니다.')">📱 관리자 번호로 테스트 발송</button>
+                <div style="display:flex; gap:8px;">
+                  <button type="button" class="btn" onclick="saveTemplateChange()">저장 (본문 변경 시 심사중 전환)</button>
+                  <button type="button" class="btn btn-primary" onclick="requestKakaoReview()">📤 카카오 알림톡 심사 요청</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측: 샘플 데이터 치환 모바일 미리보기 -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">발송 미리보기 (샘플 회원 데이터 실시간 치환)</div>
+              <span class="badge badge-blue">SENS 모바일 뷰</span>
+            </div>
+            <div class="card-body">
+              <div class="kakao-phone">
+                <div class="kakao-header">
+                  <span>산준모닷컴 공식 알림톡</span>
+                  <span>오전 10:00</span>
+                </div>
+                <div class="kakao-bubble">
+                  <div class="kakao-bubble-top">
+                    <span>알림톡 도착</span>
+                    <span>kakao</span>
+                  </div>
+                  <div class="kakao-bubble-body" id="preview-bubble-body"></div>
+                  <div class="kakao-bubble-btn" id="preview-bubble-btn">▸ 내 쿠폰함 바로가기</div>
+                </div>
+              </div>
+              <div style="margin-top:12px; padding:10px 12px; background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; font-size:11.5px; color:var(--text-secondary);">
+                <strong>치환 샘플 기준:</strong> <code>users.name = 홍길동</code> · <code>point = 5,000</code> · <code>coupon = 10% 할인쿠폰</code> · <code>order_no = SJM-20261017-0042</code><br/>
+                ※ LMS 대체 발송 시에는 알림톡 버튼 대신 본문 하단에 연결 URL이 자동으로 포함됩니다.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 2: 타겟 단체 알림톡/LMS 예약 발송 (ADMN-CONF-004-S1)
+           =================================================================== -->
+      <section id="view-send" class="view-section">
+        <!-- 약관 개정 연동 진입 배너 (URL 파라미터 진입 시 활성화) -->
+        <div id="terms-link-banner" style="display:none; background:#EFF6FF; border:2px solid #2563EB; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#1E3A8A;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <span class="badge badge-blue" style="margin-bottom:4px;">ADMN-CONF-002 약관 개정 고지 연동됨</span>
+              <div style="font-size:13.5px; font-weight:800;" id="terms-link-title">
+                [법정 필수 고지] T04 환불·청약철회 규정(v1.5) 개정 사전 고지 단체 발송 세팅이 자동으로 적용되었습니다.
+              </div>
+              <div style="font-size:12px; margin-top:3px;">
+                • 법정 필수 고지이므로 <strong>마케팅 수신 미동의자(<code>is_marketing_agreed = 'N'</code>)를 포함한 전체 대상 회원(8,412명)</strong>에게 예외 발송되며, 야간 발송 제한(21~08시)만 제외하고 즉시/예약 발송이 가능합니다.
+              </div>
+            </div>
+            <a href="ADMN-CONF-002_baseline.html" class="btn btn-sm">← 약관 관리(ADMN-CONF-002)로 돌아가기</a>
+          </div>
+        </div>
+
+        <!-- 야간 발송 제한 에러 배너 (광고성 메시지 21:00~08:00 예약 시 노출) -->
+        <div id="night-restriction-alert" style="display:none; background:#FEF2F2; border:2px solid #DC2626; border-radius:10px; padding:13px 18px; margin-bottom:16px; color:#991B1B; font-size:12.5px;">
+          <strong>⛔ 정보통신망법 제50조 야간 광고성 정보 발송 제한 차단:</strong>
+          광고성 메시지(<code>TPL_MKT_*</code>)는 <strong>21:00 ~ 익일 08:00</strong> 사이에 발송하거나 예약할 수 없습니다. 예약 시각을 <strong>08:00 ~ 20:59</strong> 사이로 변경해 주세요.
+        </div>
+
+        <div class="workspace-2col">
+          <!-- 좌측: 발송 템플릿 · ADMN-USER-006 타겟 선택 · 발송 일시 설정 -->
+          <div>
+            <!-- 1. 발송 템플릿 및 채널 설정 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">1. 발송 템플릿 및 발송 방식 설정</div>
+                <div style="display:flex; gap:6px;">
+                  <button type="button" class="btn btn-sm" onclick="presetSendScenario('MKT_CART')">🎯 [시나리오 1] 마케팅 장바구니 리마인드</button>
+                  <button type="button" class="btn btn-sm" onclick="presetSendScenario('TERMS_T04')">⚖️ [시나리오 2] 약관 개정 법정 전체 고지</button>
+                  <button type="button" class="btn btn-sm" style="border-color:#FECACA; color:#DC2626;" onclick="testNightTimeBlock()">🌙 [정책 시연] 야간 22:00 광고 예약 차단</button>
+                </div>
+              </div>
+              <div class="card-body">
+                <table class="form-table">
+                  <tbody>
+                    <tr>
+                      <th>발송 템플릿<span class="req">*</span></th>
+                      <td>
+                        <select id="s-tpl-select" class="form-select" style="width:100%; font-weight:700;" onchange="onSendTemplateChange()">
+                          <option value="TPL_MKT_CART">[TPL_MKT_CART] (광고) 미결제 장바구니 리마인드 · 카카오 승인</option>
+                          <option value="TPL_MKT_EVENT">[TPL_MKT_EVENT] (광고) 신규 특강 · 기획전 오픈 안내 · 카카오 승인</option>
+                          <option value="TPL_NOTICE_TERMS">[TPL_NOTICE_TERMS] [법정고지] 필수 약관 · 환불규정 개정 사전 안내 · 카카오 승인</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>광고성 · 수신동의 기준</th>
+                      <td id="s-ad-policy-box">
+                        <span class="badge badge-purple">(광고) 마케팅 템플릿</span>
+                        <span style="font-size:12px; font-weight:700; color:var(--primary); margin-left:6px;">
+                          마케팅 수신 동의자(<code>is_marketing_agreed = 'Y'</code>)만 자동 필터링 🔒
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>발송 채널</th>
+                      <td>
+                        <span class="badge badge-blue">① SENS 알림톡 우선</span> → 미수신·채널 미추가 시 <span class="badge badge-slate">② LMS 자동 대체 발송</span>
+                        <span id="s-channel-mail-addon" style="display:none; margin-left:6px;" class="badge badge-green">+ ③ 이메일 동시 발송</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>발송 방식 · 예약 일시<span class="req">*</span></th>
+                      <td>
+                        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                          <div class="seg-group">
+                            <button type="button" class="seg-btn" id="seg-send-now" onclick="setSendTiming('NOW')">즉시 발송</button>
+                            <button type="button" class="seg-btn active" id="seg-send-resv" onclick="setSendTiming('RESV')">예약 발송 (권장)</button>
+                          </div>
+                          <input type="datetime-local" id="s-resv-dt" class="form-input" value="2026-08-21T10:00" onchange="validateSendDateTime()" />
+                          <span id="s-time-badge" class="badge badge-green">발송 가능 시간대 (08:00~21:00)</span>
+                        </div>
+                        <div class="help-txt">• 예약 발송은 발송 <strong>30분 전까지</strong> 하단 이력 목록에서 [예약 취소]가 가능합니다.</div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>발송 사유 (내부 감사용)<span class="req">*</span></th>
+                      <td>
+                        <input type="text" id="s-send-reason" class="form-input" style="width:100%;" value="8월 3주차 장바구니 미결제 회원 쿠폰 만료 전 리마인드 캠페인" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 2. 발송 대상 선택 (ADMN-USER-006 그룹/태그 연동 + 수신동의 필터) -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>2. 발송 대상 선택 — 회원 그룹 · 다중 태그(ADMN-USER-006) 필터</span>
+                </div>
+                <button type="button" class="btn btn-sm" onclick="openExcelReasonModalSend()">📥 최종 발송 대상 명단 엑셀 (사유 로깅)</button>
+              </div>
+              <div class="card-body">
+                <div style="margin-bottom:12px;">
+                  <div style="font-size:12px; font-weight:700; color:var(--text-secondary); margin-bottom:7px;">
+                    그룹 / 다중 태그 선택 (복수 선택 시 OR 합집합 추출 · <code>ADMN-USER-006</code> 연동)
+                  </div>
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;" id="tag-selector-box">
+                    <label class="tag-pill-chk active" onclick="toggleTagPill(this, 3184)">
+                      <input type="checkbox" checked style="display:none;" /> 🛒 미결제 장바구니 보유 (3,184명)
+                    </label>
+                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 1420)">
+                      <input type="checkbox" style="display:none;" /> 💤 7일 이상 미접속 휴면예고 (1,420명)
+                    </label>
+                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 890)">
+                      <input type="checkbox" style="display:none;" /> ⏳ 수강 종료 D-7 이내 (890명)
+                    </label>
+                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 2150)">
+                      <input type="checkbox" style="display:none;" /> 🪙 포인트 소멸 예정자 (2,150명)
+                    </label>
+                    <label class="tag-pill-chk" id="tag-all-terms" onclick="toggleTagPill(this, 8412)">
+                      <input type="checkbox" style="display:none;" /> ⚖️ 필수 약관(v1.4 이하) 구버전 동의 회원 전체 (8,412명)
+                    </label>
+                  </div>
+                </div>
+
+                <table class="form-table">
+                  <tbody>
+                    <tr>
+                      <th>가입일 범위</th>
+                      <td>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                          <input type="date" class="form-input" value="2026-01-01" />
+                          <span>~</span>
+                          <input type="date" class="form-input" value="2026-10-17" />
+                        </div>
+                      </td>
+                      <th>마케팅 수신 동의</th>
+                      <td id="s-mkt-filter-cell">
+                        <span class="badge badge-blue">동의(is_marketing_agreed = 'Y')만 발송 🔒</span>
+                        <div class="help-txt">광고성 템플릿은 관리자가 임의로 미동의자를 포함시킬 수 없습니다.</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- 대상 인원 필터링 브레이크다운 바 -->
+                <div style="margin-top:14px; padding:13px 16px; background:#F8FAFC; border:1px solid var(--border-strong); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                  <div style="font-size:12.5px;" id="target-breakdown-txt">
+                    선택 태그 대상 <strong>3,184명</strong>
+                    &nbsp;·&nbsp; <span style="color:var(--danger);">마케팅 수신 미동의 제외 <strong>1,902명</strong></span>
+                    &nbsp;·&nbsp; <span style="color:var(--warning);">080 수신거부·휴대폰 미인증 제외 <strong>46명</strong></span>
+                  </div>
+                  <div style="font-size:14px; font-weight:900; color:var(--primary);" id="target-final-txt">
+                    ➔ 최종 발송 대상: 1,236명
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측: 예상 발송량 산출표 + 발송 문구 최종 확인 및 실행 -->
+          <div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">3. 발송 예상 산출 및 법정 필수 표기 검증</div>
+                <span class="badge badge-green" id="compliance-badge">법정 표기 검증 통과</span>
+              </div>
+              <div class="card-body">
+                <table class="data-table" style="border:1px solid var(--border-color); margin-bottom:12px;">
+                  <thead>
+                    <tr>
+                      <th>발송 구분</th>
+                      <th class="num">예상 건수</th>
+                      <th class="ct">차감 가중치</th>
+                      <th class="num">예상 소요량</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>카카오 알림톡 (1차)</strong></td>
+                      <td class="num" id="est-alim-cnt">1,236건</td>
+                      <td class="ct">1</td>
+                      <td class="num" id="est-alim-cost">1,236건</td>
+                    </tr>
+                    <tr>
+                      <td><strong>LMS 대체 발송 (예상 폴백 8%)</strong></td>
+                      <td class="num" id="est-lms-cnt">99건</td>
+                      <td class="ct">3</td>
+                      <td class="num" id="est-lms-cost">297건</td>
+                    </tr>
+                    <tr style="background:#EFF6FF; font-weight:800;">
+                      <td>합계 (SENS 후불 정산)</td>
+                      <td class="num" id="est-total-cnt">1,236명</td>
+                      <td class="ct">—</td>
+                      <td class="num" style="color:var(--primary);" id="est-total-cost">1,533건</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- 모바일 프리뷰 -->
+                <div class="kakao-phone" style="margin-bottom:12px;">
+                  <div class="kakao-header">
+                    <span>발송 문구 최종 확인</span>
+                    <span id="send-preview-tag">(광고) 표기 · 080 포함</span>
+                  </div>
+                  <div class="kakao-bubble">
+                    <div class="kakao-bubble-top">
+                      <span>산준모닷컴 알림톡</span>
+                      <span>kakao</span>
+                    </div>
+                    <div class="kakao-bubble-body" id="send-preview-body">(광고) [산준모닷컴] 장바구니에 담아두신 강의가 있습니다
+홍길동님, 장바구니에 담아두신 2026 산업안전기사 필기 올패스가 기다리고 있습니다.
+보유 쿠폰 10% 할인쿠폰은 2026.09.09 자정에 만료됩니다.
+
+무료수신거부 080-880-1234</div>
+                    <div class="kakao-bubble-btn" id="send-preview-btn">▸ 장바구니 바로가기</div>
+                  </div>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding-top:10px; border-top:1px solid var(--border-color);">
+                  <button type="button" class="btn btn-sm" onclick="showToast('관리자 본인 번호로 리허설 알림톡 1건이 발송되었습니다.')">📱 내 번호로 테스트 발송</button>
+                  <button type="button" class="btn btn-primary" id="btn-submit-send" onclick="openSendConfirmModal()">🚀 예약 발송 등록 (1,236명)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 하단: 예약 · 단체 발송 이력 그리드 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>예약 · 단체 발송 이력</span>
+              <span class="badge badge-slate">발송 30분 전까지 예약 취소 가능</span>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="ct" style="width:140px;">예약 · 발송 일시</th>
+                  <th style="width:165px;">템플릿 코드</th>
+                  <th>발송 사유 (내부 감사용)</th>
+                  <th class="num" style="width:100px;">발송 대상</th>
+                  <th class="num" style="width:100px;">성공 (알림톡/LMS)</th>
+                  <th class="num" style="width:85px;">실패</th>
+                  <th class="ct" style="width:95px;">상태</th>
+                  <th class="ct" style="width:110px;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="send-history-tbody">
+                <tr>
+                  <td class="ct"><strong>2026.08.21 10:00</strong></td>
+                  <td><code>TPL_MKT_CART</code></td>
+                  <td>8월 3주차 장바구니 미결제 회원 리마인드</td>
+                  <td class="num">1,236명</td>
+                  <td class="num">—</td>
+                  <td class="num">—</td>
+                  <td class="ct"><span class="badge badge-blue">예약대기</span></td>
+                  <td class="ct">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="cancelScheduledSend(this)">예약 취소</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ct">2026.08.14 10:00</td>
+                  <td><code>TPL_MKT_CART</code></td>
+                  <td>8월 2주차 장바구니 미결제 회원 리마인드</td>
+                  <td class="num">1,411명</td>
+                  <td class="num" style="color:var(--success); font-weight:700;">1,382명</td>
+                  <td class="num" style="color:var(--danger); font-weight:700;">29명</td>
+                  <td class="ct"><span class="badge badge-green">발송완료</span></td>
+                  <td class="ct">
+                    <button type="button" class="btn btn-sm" onclick="openSendDetailModal('8월 2주차 장바구니 미결제 리마인드', 1411, 1382, 29)">상세 결과</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ct">2026.08.06 09:00</td>
+                  <td><code>TPL_NOTICE_TERMS</code></td>
+                  <td>[법정고지] 환불·청약철회 규정(T04 v1.4) 개정 사전 고지</td>
+                  <td class="num">8,412명</td>
+                  <td class="num" style="color:var(--success); font-weight:700;">8,390명</td>
+                  <td class="num" style="color:var(--danger); font-weight:700;">22명</td>
+                  <td class="ct"><span class="badge badge-green">발송완료</span></td>
+                  <td class="ct">
+                    <button type="button" class="btn btn-sm" onclick="openSendDetailModal('환불·청약철회 규정 v1.4 개정 사전 고지', 8412, 8390, 22)">상세 결과</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- 모달 1: 단체 발송 최종 확인 모달 -->
+  <div class="modal-backdrop" id="modal-send-confirm">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span>🚀 타겟 단체 알림톡/LMS 발송 확인</span>
+        <button type="button" class="btn btn-sm" onclick="closeModal('modal-send-confirm')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13.5px; font-weight:800; margin-bottom:10px;" id="modal-send-summary-title">
+          최종 1,236명에게 예약 발송을 등록하시겠습니까?
+        </p>
+        <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px 14px; font-size:12px; line-height:1.65;">
+          • <strong>선택 템플릿:</strong> <span id="m-conf-tpl">TPL_MKT_CART</span><br/>
+          • <strong>발송 일시:</strong> <span id="m-conf-dt">2026-08-21 10:00</span><br/>
+          • <strong>최종 발송 대상:</strong> <span id="m-conf-cnt">1,236명</span> (예상 소요량 1,533건)<br/>
+          • <strong>감사 로그:</strong> 실행 즉시 이력/보안 로그(<code>ADMN-CONF-006</code>)에 발송 사유와 관리자 ID가 기록됩니다.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" onclick="closeModal('modal-send-confirm')">취소</button>
+        <button type="button" class="btn btn-primary" onclick="executeScheduleSend()">확인 및 발송 등록</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 2: 발송 실패 사유별 상세 모달 -->
+  <div class="modal-backdrop" id="modal-send-detail">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span id="detail-modal-title">📊 단체 발송 결과 및 실패 사유 상세</span>
+        <button type="button" class="btn btn-sm" onclick="closeModal('modal-send-detail')">✕</button>
+      </div>
+      <div class="modal-body">
+        <table class="data-table" style="border:1px solid var(--border-color);">
+          <thead>
+            <tr>
+              <th>구분 / 실패 사유</th>
+              <th class="num">건수</th>
+              <th>비고</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color:var(--success);">카카오 알림톡 발송 성공</strong></td>
+              <td class="num" id="det-alim-ok">1,290건</td>
+              <td>정상 수신 완료</td>
+            </tr>
+            <tr>
+              <td><strong style="color:var(--primary);">알림톡 미수신 → LMS 대체 발송 성공</strong></td>
+              <td class="num" id="det-lms-ok">92건</td>
+              <td>카카오톡 미설치·채널 차단 회원 LMS 폴백 완료</td>
+            </tr>
+            <tr>
+              <td><strong style="color:var(--danger);">최종 발송 실패 (결번 · 단말기 전원꺼짐 · 스팸차단)</strong></td>
+              <td class="num" id="det-fail-cnt">29건</td>
+              <td>통신사 결과코드 수신 완료</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeModal('modal-send-detail')">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    const TEMPLATES = [
+      {
+        code: 'TPL_JOIN_WELCOME', cat: 'JOIN', name: '회원가입 완료 (혜택 지급) · 가입 완료 즉시',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{email}', '#{point}', '#{coupon}', '#{expire_date}'],
+        btnLabel: '내 쿠폰함 바로가기', btnUrl: 'https://www.sanjunmo.com/my/coupons',
+        body: '[산준모닷컴] 가입을 환영합니다\n#{name}님, 산준모닷컴 가입을 환영합니다.\n웰컴 포인트 #{point}P와 #{coupon}이 즉시 발급되었습니다.\n쿠폰 유효기간: #{expire_date} 자정까지'
+      },
+      {
+        code: 'TPL_JOIN_REJOIN', cat: 'JOIN', name: '회원가입 완료 (혜택 미지급 · 재가입) · 가입 완료 즉시',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{email}'],
+        btnLabel: '강의 둘러보기', btnUrl: 'https://www.sanjunmo.com/courses',
+        body: '[산준모닷컴] 재가입이 완료되었습니다\n#{name}님(#{email}), 산준모닷컴 서비스에 다시 가입해 주셔서 감사합니다.\n※ 신규 가입 웰컴 혜택(포인트·쿠폰)은 본인인증(DI) 기준 최초 1회에 한해 제공되어 이번 가입에서는 지급되지 않습니다.'
+      },
+      {
+        code: 'TPL_PAY_DONE', cat: 'PAY', name: '결제 완료 · PG 승인 / 가상계좌 입금 확인 즉시',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{order_no}', '#{amount}', '#{product}'],
+        btnLabel: '내 강의실 바로가기', btnUrl: 'https://www.sanjunmo.com/my/classroom',
+        body: '[산준모닷컴] 결제가 완료되었습니다\n#{name}님, 주문(#{order_no}) 결제가 정상 완료되었습니다.\n· 주문상품: #{product}\n· 결제금액: #{amount}원'
+      },
+      {
+        code: 'TPL_VBANK_ISSUED', cat: 'PAY', name: '가상계좌 입금 안내 · 계좌 발급 즉시 (24시간 기한)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        vars: ['#{name}', '#{order_no}', '#{amount}', '#{bank}', '#{account_no}', '#{due_at}'],
+        btnLabel: '주문내역 확인', btnUrl: 'https://www.sanjunmo.com/my/orders',
+        body: '[산준모닷컴] 가상계좌 발급 안내\n#{name}님, 아래 계좌로 입금 기한 내 입금해 주시면 수강이 자동 승인됩니다.\n· 입금계좌: #{bank} #{account_no}\n· 입금금액: #{amount}원\n· 입금기한: #{due_at}까지'
+      },
+      {
+        code: 'TPL_VBANK_DUE_EXTENDED', cat: 'PAY', name: '입금 기한 연장 안내 · 관리자 기한 연장 시 (ADMN-ORD-001-S1)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        vars: ['#{name}', '#{order_no}', '#{due_at}'],
+        btnLabel: '주문내역 확인', btnUrl: 'https://www.sanjunmo.com/my/orders',
+        body: '[산준모닷컴] 가상계좌 입금 기한 연장 안내\n#{name}님, 주문(#{order_no})의 가상계좌 입금 기한이 #{due_at}까지 연장되었습니다.'
+      },
+      {
+        code: 'TPL_VBANK_EXPIRED', cat: 'PAY', name: '미입금 자동 취소 · 입금 기한 만료 시 (쿠폰·포인트 복구 안내)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        vars: ['#{name}', '#{order_no}'],
+        btnLabel: '다시 주문하기', btnUrl: 'https://www.sanjunmo.com',
+        body: '[산준모닷컴] 가상계좌 미입금 자동 취소 안내\n#{name}님, 입금 기한 만료로 주문(#{order_no})이 자동 취소되었으며 사용하신 쿠폰·포인트는 전액 복구되었습니다.'
+      },
+      {
+        code: 'TPL_DLV_START', cat: 'DLV', name: '교재 배송 시작 · 3PL 송장 등록 시',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{courier}', '#{invoice_no}'],
+        btnLabel: '배송 조회하기', btnUrl: 'https://www.sanjunmo.com/my/delivery',
+        body: '[산준모닷컴] 교재가 출고되었습니다\n#{name}님, 주문하신 교재가 #{courier}(운송장번호: #{invoice_no})로 발송되었습니다.'
+      },
+      {
+        code: 'TPL_POINT_EXPIRE', cat: 'POINT', name: '포인트 소멸 예정 안내 · 소멸일 15일 전 09:00 배치',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{point}', '#{expire_date}'],
+        btnLabel: '포인트 내역 확인', btnUrl: 'https://www.sanjunmo.com/my/points',
+        body: '[산준모닷컴] 포인트 소멸 예정 안내\n#{name}님, 보유하신 포인트 중 #{point}P가 #{expire_date} 자정에 소멸될 예정입니다.'
+      },
+      {
+        code: 'TPL_QNA_REPLY', cat: 'QNA', name: '문의 답변 등록 · 1:1 문의 답변 저장 즉시 (ADMN-BRD-002)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{qna_title}'],
+        btnLabel: '답변 확인하기', btnUrl: 'https://www.sanjunmo.com/my/qna',
+        body: '[산준모닷컴] 1:1 문의 답변이 등록되었습니다\n#{name}님, 남겨주신 문의(#{qna_title})에 대한 답변이 등록되었습니다.'
+      },
+      {
+        code: 'TPL_RFD_DONE', cat: 'RFD', name: '환불 완료 · PG 취소 완료 수신 시 (ADMN-RFD-002)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{order_no}', '#{amount}', '#{point}'],
+        btnLabel: '환불 내역 확인', btnUrl: 'https://www.sanjunmo.com/my/refunds',
+        body: '[산준모닷컴] 환불 처리가 완료되었습니다\n#{name}님, 주문(#{order_no})의 환불 금액 #{amount}원 취소 및 포인트(#{point}P) 정산 처리가 완료되었습니다.'
+      },
+      {
+        code: 'TPL_RFD_RETURN_REJECT', cat: 'RFD', name: '반품 기각 · 환불 불가 통보 · 검수 불합격 확정 즉시 (ADMN-RFD-002)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        vars: ['#{name}', '#{order_no}', '#{reject_reason}'],
+        btnLabel: '반품 상세 확인', btnUrl: 'https://www.sanjunmo.com/my/refunds',
+        body: '[산준모닷컴] 교재 반품 검수 결과 안내\n#{name}님, 주문(#{order_no}) 교재 검수 결과 아래 사유로 환불이 불가하여 착불 반송될 예정입니다.\n· 사유: #{reject_reason}'
+      },
+      {
+        code: 'TPL_RFD_ADJUST', cat: 'RFD', name: '환불 사후 보정 안내 · 보정 전표 등록 즉시 (ADMN-RFD-003-S2)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        vars: ['#{name}', '#{order_no}', '#{amount}', '#{point}'],
+        btnLabel: '보정 내역 확인', btnUrl: 'https://www.sanjunmo.com/my/refunds',
+        body: '[산준모닷컴] 환불 정산 사후 보정 안내\n#{name}님, 주문(#{order_no}) 관련 추가 환불액 #{amount}원 및 포인트 #{point}P 보정 처리가 완료되었습니다.'
+      },
+      {
+        code: 'TPL_CLAIM_APPROVED', cat: 'RFD', name: '합격 환급 승인 · 환급 심사 승인 즉시 (ADMN-SETT-006)',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        vars: ['#{name}', '#{amount}'],
+        btnLabel: '환급 일정 확인', btnUrl: 'https://www.sanjunmo.com/my/claims',
+        body: '[산준모닷컴] 합격 환급금 승인이 완료되었습니다\n#{name}님, 축하드립니다! 합격 환급금(실지급액 #{amount}원, 제세공과금 22% 공제 후) 승인이 완료되었습니다.'
+      },
+      {
+        code: 'TPL_NOTICE_TERMS', cat: 'TERMS', name: '[법정고지] 약관 · 환불규정 개정 사전 고지 (ADMN-CONF-002 연동)',
+        channel: '알림톡+LMS+메일', consent: '불필요 (전체 발송 예외)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{terms_name}', '#{effective_date}'],
+        btnLabel: '신·구 대조표 확인', btnUrl: 'https://www.sanjunmo.com/info/terms',
+        body: '[산준모닷컴] 약관 개정 사전 안내\n#{name}님, 항상 산준모닷컴을 이용해 주셔서 감사합니다.\n#{terms_name}이 #{effective_date}자로 개정 시행될 예정이오니 변경 조문(신·구 대조표)을 확인해 주시기 바랍니다.'
+      },
+      {
+        code: 'TPL_MKT_CART', cat: 'MKT', name: '(광고) 미결제 장바구니 리마인드 · 수동 예약 (ADMN-CONF-004-S1)',
+        channel: '알림톡+LMS', consent: '마케팅 동의자만 (Y)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{product}', '#{coupon}', '#{expire_date}'],
+        btnLabel: '장바구니 바로가기', btnUrl: 'https://www.sanjunmo.com/cart',
+        body: '(광고) [산준모닷컴] 장바구니에 담아두신 강의가 있습니다\n#{name}님, 장바구니에 담아두신 #{product}가 기다리고 있습니다.\n보유 쿠폰 #{coupon}은 #{expire_date} 자정에 만료됩니다.\n\n무료수신거부 080-880-1234'
+      },
+      {
+        code: 'TPL_MKT_EVENT', cat: 'MKT', name: '(광고) 신규 특강 · 기획전 오픈 안내 · 수동 예약',
+        channel: '알림톡+LMS', consent: '마케팅 동의자만 (Y)', approval: 'PENDING', status: '심사대기',
+        vars: ['#{name}', '#{product}'],
+        btnLabel: '기획전 보러가기', btnUrl: 'https://www.sanjunmo.com/events',
+        body: '(광고) [산준모닷컴] #{name}님 맞춤 신규 특강 오픈 안내\n#{product} 과정이 새롭게 오픈되었습니다.\n\n무료수신거부 080-880-1234'
+      }
+    ];
+
+    const SAMPLE_MAP = {
+      '#{name}': '홍길동',
+      '#{email}': 'hong***@naver.com',
+      '#{point}': '5,000',
+      '#{coupon}': '10% 할인쿠폰',
+      '#{expire_date}': '2026.09.09',
+      '#{order_no}': 'SJM-20261017-0042',
+      '#{amount}': '189,000',
+      '#{product}': '2026 산업안전기사 필기+실기 올패스',
+      '#{bank}': '신한은행',
+      '#{account_no}': '110-482-991023',
+      '#{due_at}': '2026.10.18 14:22',
+      '#{courier}': 'CJ대한통운',
+      '#{invoice_no}': '6482-9102-3318',
+      '#{qna_title}': '교재 배송 일정 문의드립니다',
+      '#{reject_reason}': '래핑 개봉 및 본문 필기 흔적 확인',
+      '#{terms_name}': '환불·청약철회 규정(제15조 v1.5)',
+      '#{effective_date}': '2026.09.03'
+    };
+
+    let currentTpl = TEMPLATES[0];
+
+    function switchView(viewName) {
+      document.getElementById('view-template').classList.toggle('active', viewName === 'template');
+      document.getElementById('view-send').classList.toggle('active', viewName === 'send');
+      document.getElementById('nav-btn-template').classList.toggle('active', viewName === 'template');
+      document.getElementById('nav-btn-send').classList.toggle('active', viewName === 'send');
+
+      if (viewName === 'send') {
+        document.getElementById('top-crumb-code').textContent = 'ADMN-CONF-004-S1';
+        document.getElementById('top-crumb-title').textContent = '타겟 단체 알림톡/LMS 예약 발송 (ADMN-USER-006 태그 연동 · 야간 발송 차단 · 법정고지 예외)';
+      } else {
+        document.getElementById('top-crumb-code').textContent = 'ADMN-CONF-004';
+        document.getElementById('top-crumb-title').textContent = '메시지 템플릿 관리 (발송 조건별 치환코드 템플릿 · SENS 알림톡/LMS 폴백)';
+      }
+    }
+
+    function renderTemplateGrid() {
+      const cat = document.getElementById('q-tpl-cat').value;
+      const kw = document.getElementById('q-tpl-kw').value.trim().toLowerCase();
+      const st = document.getElementById('q-tpl-st').value;
+
+      const filtered = TEMPLATES.filter(t => {
+        if (cat !== 'ALL' && t.cat !== cat) return false;
+        if (st !== 'ALL' && t.approval !== st) return false;
+        if (kw && !(t.code.toLowerCase().includes(kw) || t.name.toLowerCase().includes(kw))) return false;
+        return true;
+      });
+
+      document.getElementById('tpl-count-badge').textContent = '조회 ' + filtered.length + '건';
+
+      const tbody = document.getElementById('tpl-grid-tbody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="ct" style="padding:28px; color:var(--text-muted);">조건에 해당하는 메시지 템플릿이 없습니다.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(t => {
+        const isSel = (t.code === currentTpl.code);
+        const consentBadge = t.consent.includes('마케팅')
+          ? '<span class="badge badge-purple">' + t.consent + '</span>'
+          : (t.consent.includes('전체 발송') ? '<span class="badge badge-blue">' + t.consent + '</span>' : '<span class="badge badge-slate">' + t.consent + '</span>');
+
+        let appBadge = '<span class="badge badge-green">승인</span>';
+        if (t.approval === 'STANDBY') appBadge = '<span class="badge badge-slate">검수 대기</span>';
+        if (t.approval === 'PENDING') appBadge = '<span class="badge badge-amber">심사중</span>';
+
+        const stBadge = t.status === '사용중'
+          ? '<span class="badge badge-green">사용중</span>'
+          : '<span class="badge badge-slate">' + t.status + '</span>';
+
+        return `
+          <tr class="${isSel ? 'selected-row' : ''}" onclick="selectTemplate('${t.code}')">
+            <td><code style="font-weight:800; color:var(--text-primary);">${t.code}</code></td>
+            <td><strong>${t.name}</strong></td>
+            <td class="ct">${t.channel}</td>
+            <td class="ct">${consentBadge}</td>
+            <td class="ct">${appBadge}</td>
+            <td class="ct">${stBadge}</td>
+            <td class="ct" onclick="event.stopPropagation();">
+              <button type="button" class="btn btn-sm" onclick="selectTemplate('${t.code}')">편집</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterTemplatesByStatus(st) {
+      document.getElementById('q-tpl-st').value = st;
+      renderTemplateGrid();
+    }
+
+    function resetTplFilter() {
+      document.getElementById('q-tpl-cat').value = 'ALL';
+      document.getElementById('q-tpl-ch').value = 'ALL';
+      document.getElementById('q-tpl-kw').value = '';
+      document.getElementById('q-tpl-st').value = 'ALL';
+      renderTemplateGrid();
+    }
+
+    function selectTemplate(code) {
+      const found = TEMPLATES.find(x => x.code === code);
+      if (!found) return;
+      currentTpl = found;
+      renderTemplateGrid();
+
+      document.getElementById('ed-tpl-code-txt').textContent = found.code;
+      document.getElementById('ed-tpl-code').value = found.code + ' 🔒';
+      document.getElementById('ed-tpl-cond').textContent = found.name;
+      document.getElementById('ed-tpl-body').value = found.body;
+      document.getElementById('ed-tpl-btn-label').value = found.btnLabel;
+      document.getElementById('ed-tpl-btn-url').value = found.btnUrl;
+
+      document.getElementById('join-split-notice').style.display =
+        (found.code === 'TPL_JOIN_WELCOME' || found.code === 'TPL_JOIN_REJOIN') ? 'block' : 'none';
+
+      const adInfoEl = document.getElementById('ed-tpl-ad-info');
+      if (found.cat === 'MKT') {
+        adInfoEl.innerHTML = '<span class="badge badge-purple">광고성 (정보통신망법 제50조)</span> — <code>is_marketing_agreed = 'Y'</code> 필수 · (광고) 및 080 수신거부 필수';
+      } else if (found.cat === 'TERMS') {
+        adInfoEl.innerHTML = '<span class="badge badge-blue">법정 필수 고지 (약관 개정)</span> — 마케팅 미동의자 포함 전체 발송 예외 적용';
+      } else {
+        adInfoEl.innerHTML = '<span class="badge badge-slate">거래·정보성 (법정 필수)</span> — 마케팅 수신 동의 여부와 무관하게 발송';
+      }
+
+      const chipsBox = document.getElementById('ed-var-chips');
+      chipsBox.innerHTML = found.vars.map(v =>
+        `<button type="button" class="chip-btn" onclick="insertVarChip('${v}')">${v}</button>`
+      ).join('');
+
+      updateLivePreview();
+    }
+
+    function insertVarChip(v) {
+      const ta = document.getElementById('ed-tpl-body');
+      const start = ta.selectionStart || ta.value.length;
+      const end = ta.selectionEnd || ta.value.length;
+      ta.value = ta.value.substring(0, start) + v + ta.value.substring(end);
+      ta.focus();
+      updateLivePreview();
+    }
+
+    function updateLivePreview() {
+      const raw = document.getElementById('ed-tpl-body').value;
+      document.getElementById('ed-char-counter').textContent =
+        '현재 ' + raw.length + '자 / 알림톡 1,000자 · LMS 2,000byte';
+
+      let replaced = raw;
+      Object.keys(SAMPLE_MAP).forEach(k => {
+        replaced = replaced.split(k).join(SAMPLE_MAP[k]);
+      });
+      document.getElementById('preview-bubble-body').textContent = replaced;
+      document.getElementById('preview-bubble-btn').textContent =
+        '▸ ' + (document.getElementById('ed-tpl-btn-label').value || '상세 확인하기');
+    }
+
+    function saveTemplateChange() {
+      const body = document.getElementById('ed-tpl-body').value;
+      if (currentTpl.cat === 'MKT' && (!body.includes('(광고)') || !body.includes('080-'))) {
+        showToast('⛔ 광고성 템플릿은 본문에 "(광고)" 표기와 무료수신거부 번호(080-)가 반드시 포함되어야 합니다.');
+        return;
+      }
+      document.getElementById('ed-tpl-approval-badge').className = 'badge badge-amber';
+      document.getElementById('ed-tpl-approval-badge').textContent = '본문 수정됨 · 카카오 재심사 필요';
+      showToast('템플릿 본문이 저장되었습니다. 카카오 알림톡 재승인 완료 전까지는 기존 승인본 또는 LMS로 발송됩니다.');
+    }
+
+    function requestKakaoReview() {
+      showToast('네이버 클라우드 SENS API를 통해 카카오 알림톡 템플릿 심사 요청이 접수되었습니다 (영업일 1~3일 소요).');
+    }
+
+    // =========================================================================
+    // VIEW 2 (ADMN-CONF-004-S1) 단체·예약 발송 인터랙션
+    // =========================================================================
+    function onSendTemplateChange() {
+      const code = document.getElementById('s-tpl-select').value;
+      const adBox = document.getElementById('s-ad-policy-box');
+      const mktCell = document.getElementById('s-mkt-filter-cell');
+      const mailAddon = document.getElementById('s-channel-mail-addon');
+
+      if (code === 'TPL_NOTICE_TERMS') {
+        adBox.innerHTML = '<span class="badge badge-blue">[법정 필수 고지] 비광고성</span> <span style="font-size:12px; font-weight:700; color:var(--success); margin-left:6px;">마케팅 수신 미동의자 포함 전체 발송 예외 적용 (야간 제한 없음)</span>';
+        mktCell.innerHTML = '<span class="badge badge-green">전체 회원 발송 (마케팅 미동의자 포함 예외)</span><div class="help-txt">약관·환불규정 개정은 법정 의무 고지 사항이므로 마케팅 미동의자도 제외하지 않습니다.</div>';
+        mailAddon.style.display = 'inline-flex';
+        document.getElementById('s-send-reason').value = '[법정고지] 환불·청약철회 규정(제15조 v1.5) 개정 사전 고지 단체 발송';
+        document.getElementById('send-preview-tag').textContent = '[법정 필수 고지] 전체 회원 발송';
+        document.getElementById('send-preview-body').textContent =
+          '[산준모닷컴] 약관 개정 사전 안내\n홍길동님, 항상 산준모닷컴을 이용해 주셔서 감사합니다.\n환불·청약철회 규정(제15조 v1.5)이 2026.09.03자로 개정 시행될 예정이오니 변경 조문(신·구 대조표)을 확인해 주시기 바랍니다.';
+        document.getElementById('send-preview-btn').textContent = '▸ 신·구 대조표 확인';
+        updateTargetCalculation(8412, true);
+      } else {
+        adBox.innerHTML = '<span class="badge badge-purple">(광고) 마케팅 템플릿</span> <span style="font-size:12px; font-weight:700; color:var(--primary); margin-left:6px;">마케팅 수신 동의자(<code>is_marketing_agreed = 'Y'</code>)만 자동 필터링 🔒</span>';
+        mktCell.innerHTML = '<span class="badge badge-blue">동의(is_marketing_agreed = 'Y')만 발송 🔒</span><div class="help-txt">광고성 템플릿은 관리자가 임의로 미동의자를 포함시킬 수 없습니다.</div>';
+        mailAddon.style.display = 'none';
+        document.getElementById('s-send-reason').value = '8월 3주차 장바구니 미결제 회원 쿠폰 만료 전 리마인드 캠페인';
+        document.getElementById('send-preview-tag').textContent = '(광고) 표기 · 080 포함';
+        document.getElementById('send-preview-body').textContent =
+          '(광고) [산준모닷컴] 장바구니에 담아두신 강의가 있습니다\n홍길동님, 장바구니에 담아두신 2026 산업안전기사 필기 올패스가 기다리고 있습니다.\n보유 쿠폰 10% 할인쿠폰은 2026.09.09 자정에 만료됩니다.\n\n무료수신거부 080-880-1234';
+        document.getElementById('send-preview-btn').textContent = '▸ 장바구니 바로가기';
+        updateTargetCalculation(3184, false);
+      }
+      validateSendDateTime();
+    }
+
+    function updateTargetCalculation(rawTotal, isLegalMandatory) {
+      let finalCnt = rawTotal;
+      if (isLegalMandatory) {
+        document.getElementById('target-breakdown-txt').innerHTML =
+          '구버전 약관 동의 대상 <strong>' + rawTotal.toLocaleString() + '명</strong> &nbsp;·&nbsp; <span style="color:var(--success); font-weight:700;">법정 필수 고지 예외 (마케팅 미동의자 0명 제외)</span>';
+      } else {
+        const unagreed = Math.round(rawTotal * 0.597);
+        const optout = Math.round(rawTotal * 0.014);
+        finalCnt = Math.max(0, rawTotal - unagreed - optout);
+        document.getElementById('target-breakdown-txt').innerHTML =
+          '선택 태그 대상 <strong>' + rawTotal.toLocaleString() + '명</strong> &nbsp;·&nbsp; <span style="color:var(--danger);">마케팅 수신 미동의 제외 <strong>' + unagreed.toLocaleString() + '명</strong></span> &nbsp;·&nbsp; <span style="color:var(--warning);">080 수신거부·미인증 제외 <strong>' + optout.toLocaleString() + '명</strong></span>';
+      }
+
+      document.getElementById('target-final-txt').textContent = '➔ 최종 발송 대상: ' + finalCnt.toLocaleString() + '명';
+      const lmsCnt = Math.round(finalCnt * 0.08);
+      const lmsCost = lmsCnt * 3;
+      const totalCost = finalCnt + lmsCost;
+
+      document.getElementById('est-alim-cnt').textContent = finalCnt.toLocaleString() + '건';
+      document.getElementById('est-alim-cost').textContent = finalCnt.toLocaleString() + '건';
+      document.getElementById('est-lms-cnt').textContent = lmsCnt.toLocaleString() + '건';
+      document.getElementById('est-lms-cost').textContent = lmsCost.toLocaleString() + '건';
+      document.getElementById('est-total-cnt').textContent = finalCnt.toLocaleString() + '명';
+      document.getElementById('est-total-cost').textContent = totalCost.toLocaleString() + '건';
+      document.getElementById('btn-submit-send').textContent = '🚀 예약 발송 등록 (' + finalCnt.toLocaleString() + '명)';
+    }
+
+    function toggleTagPill(labelEl, headcount) {
+      document.querySelectorAll('#tag-selector-box .tag-pill-chk').forEach(el => el.classList.remove('active'));
+      labelEl.classList.add('active');
+      const isLegal = (document.getElementById('s-tpl-select').value === 'TPL_NOTICE_TERMS');
+      updateTargetCalculation(headcount, isLegal);
+    }
+
+    function setSendTiming(mode) {
+      document.getElementById('seg-send-now').classList.toggle('active', mode === 'NOW');
+      document.getElementById('seg-send-resv').classList.toggle('active', mode === 'RESV');
+      document.getElementById('s-resv-dt').disabled = (mode === 'NOW');
+    }
+
+    function validateSendDateTime() {
+      const dtVal = document.getElementById('s-resv-dt').value;
+      const tplCode = document.getElementById('s-tpl-select').value;
+      const isAd = tplCode.startsWith('TPL_MKT_');
+      const inputEl = document.getElementById('s-resv-dt');
+      const alertEl = document.getElementById('night-restriction-alert');
+      const badgeEl = document.getElementById('s-time-badge');
+      const submitBtn = document.getElementById('btn-submit-send');
+
+      if (!dtVal) return true;
+      const hour = new Date(dtVal).getHours();
+
+      if (isAd && (hour >= 21 || hour < 8)) {
+        inputEl.classList.add('fld--err');
+        alertEl.style.display = 'block';
+        badgeEl.className = 'badge badge-red';
+        badgeEl.textContent = '야간 광고 제한 시간대 (21:00~08:00 차단 ⛔)';
+        submitBtn.disabled = true;
+        return false;
+      } else {
+        inputEl.classList.remove('fld--err');
+        alertEl.style.display = 'none';
+        badgeEl.className = 'badge badge-green';
+        badgeEl.textContent = isAd ? '광고 발송 가능 시간대 (08:00~21:00)' : '법정 필수 고지 (시간 제한 없음)';
+        submitBtn.disabled = false;
+        return true;
+      }
+    }
+
+    function testNightTimeBlock() {
+      document.getElementById('s-tpl-select').value = 'TPL_MKT_CART';
+      onSendTemplateChange();
+      document.getElementById('s-resv-dt').value = '2026-08-21T22:00';
+      validateSendDateTime();
+      showToast('광고성 템플릿에 야간 시간(22:00)을 입력하여 정보통신망법 제50조 야간 발송 차단 경고가 활성화되었습니다.');
+    }
+
+    function presetSendScenario(type) {
+      if (type === 'TERMS_T04') {
+        document.getElementById('s-tpl-select').value = 'TPL_NOTICE_TERMS';
+        document.getElementById('s-resv-dt').value = '2026-08-20T09:30';
+        onSendTemplateChange();
+        document.querySelectorAll('#tag-selector-box .tag-pill-chk').forEach(el => el.classList.remove('active'));
+        document.getElementById('tag-all-terms').classList.add('active');
+        showToast('약관 개정 법정 필수 고지 시나리오(마케팅 미동의자 포함 전체 8,412명 발송)가 적용되었습니다.');
+      } else {
+        document.getElementById('s-tpl-select').value = 'TPL_MKT_CART';
+        document.getElementById('s-resv-dt').value = '2026-08-21T10:00';
+        document.getElementById('terms-link-banner').style.display = 'none';
+        onSendTemplateChange();
+        showToast('마케팅 장바구니 리마인드 시나리오(마케팅 수신 동의자 1,236명 필터링)가 적용되었습니다.');
+      }
+    }
+
+    function openSendConfirmModal() {
+      if (!validateSendDateTime()) return;
+      const tpl = document.getElementById('s-tpl-select').value;
+      const dt = document.getElementById('s-resv-dt').value.replace('T', ' ');
+      const cntTxt = document.getElementById('est-total-cnt').textContent;
+
+      document.getElementById('modal-send-summary-title').textContent =
+        '최종 ' + cntTxt + '에게 단체 알림톡/LMS 발송을 등록하시겠습니까?';
+      document.getElementById('m-conf-tpl').textContent = tpl;
+      document.getElementById('m-conf-dt').textContent = dt;
+      document.getElementById('m-conf-cnt').textContent = cntTxt;
+      document.getElementById('modal-send-confirm').classList.add('show');
+    }
+
+    function executeScheduleSend() {
+      closeModal('modal-send-confirm');
+      const tpl = document.getElementById('s-tpl-select').value;
+      const dt = document.getElementById('s-resv-dt').value.replace('T', ' ').replace(/-/g, '.');
+      const reason = document.getElementById('s-send-reason').value;
+      const cntTxt = document.getElementById('est-total-cnt').textContent;
+
+      const tbody = document.getElementById('send-history-tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="ct"><strong>${dt}</strong></td>
+        <td><code>${tpl}</code></td>
+        <td>${reason}</td>
+        <td class="num">${cntTxt}</td>
+        <td class="num">—</td>
+        <td class="num">—</td>
+        <td class="ct"><span class="badge badge-blue">예약대기</span></td>
+        <td class="ct"><button type="button" class="btn btn-sm btn-danger" onclick="cancelScheduledSend(this)">예약 취소</button></td>
+      `;
+      tbody.insertBefore(tr, tbody.firstChild);
+      showToast('단체 발송 예약이 등록되었습니다. 발송 30분 전까지 예약 취소가 가능합니다.');
+    }
+
+    function cancelScheduledSend(btnEl) {
+      const row = btnEl.closest('tr');
+      row.querySelector('td:nth-child(7)').innerHTML = '<span class="badge badge-slate">예약취소됨</span>';
+      btnEl.disabled = true;
+      btnEl.textContent = '취소 완료';
+      showToast('예약 발송이 취소되었으며 이력/보안 로그(ADMN-CONF-006)에 기록되었습니다.');
+    }
+
+    function openSendDetailModal(title, total, okCnt, failCnt) {
+      document.getElementById('detail-modal-title').textContent = '📊 [' + title + '] 발송 결과 상세';
+      const lmsOk = Math.round(okCnt * 0.07);
+      const alimOk = okCnt - lmsOk;
+      document.getElementById('det-alim-ok').textContent = alimOk.toLocaleString() + '건';
+      document.getElementById('det-lms-ok').textContent = lmsOk.toLocaleString() + '건';
+      document.getElementById('det-fail-cnt').textContent = failCnt.toLocaleString() + '건';
+      document.getElementById('modal-send-detail').classList.add('show');
+    }
+
+    function openExcelReasonModalSend() {
+      showToast('개인정보 열람 사유 및 워터마크가 이력/보안 로그(ADMN-CONF-006)에 적재되고 발송 대상 명단 엑셀이 다운로드됩니다.');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { t.style.display = 'none'; }, 3200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTemplateGrid();
+      selectTemplate('TPL_JOIN_WELCOME');
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'send') {
+        switchView('send');
+      }
+      if (params.get('type') === 'terms_notice') {
+        const termCode = params.get('term') || 'T04';
+        const cnt = parseInt(params.get('cnt') || '8412', 10);
+        switchView('send');
+        document.getElementById('terms-link-banner').style.display = 'block';
+        document.getElementById('terms-link-title').textContent =
+          '[법정 필수 고지] ' + termCode + ' 약관 개정 사전 고지 단체 발송 세팅이 자동으로 적용되었습니다 (' + cnt.toLocaleString() + '명).';
+        document.getElementById('s-tpl-select').value = 'TPL_NOTICE_TERMS';
+        onSendTemplateChange();
+        updateTargetCalculation(cnt, true);
+      }
+    });
+  </script>
+</body>
+</html>
