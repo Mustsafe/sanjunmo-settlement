@@ -17,3 +17,6 @@ Desktop.ini
 # Prototype temporary scripts
 prototype/*.py
 prototype/*.txt
+
+# Playwright test outputs
+tests/output/
