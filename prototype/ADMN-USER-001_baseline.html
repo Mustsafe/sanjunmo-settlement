@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-USER-001 ~ 006] 일반 회원 · 수강이력 · 그룹태그 통합 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
+  <style>
+    :root {
+      --bg-body: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F8FAFC;
+      --text-primary: #0F172A;
+      --text-secondary: #334155;
+      --text-muted: #64748B;
+      --border-color: #E2E8F0;
+      --border-strong: #CBD5E1;
+      --primary: #2563EB;
+      --primary-hover: #1D4ED8;
+      --primary-light: #EFF6FF;
+      --primary-border: #BFDBFE;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --success-border: #A7F3D0;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --warning-border: #FDE68A;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --danger-border: #FECACA;
+      --purple: #7C3AED;
+      --purple-light: #F5F3FF;
+      --purple-border: #DDD6FE;
+      --teal: #0D9488;
+      --teal-light: #F0FDFA;
+      --teal-border: #99F6E4;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* 공통 카드 */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFBFD;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-body { padding: 16px 18px; }
+
+    /* 검색 테이블 */
+    .search-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .search-table th {
+      width: 135px;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 12px;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+    .search-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border-color);
+      background: #FFFFFF;
+      vertical-align: middle;
+    }
+    .search-table tr:last-child th,
+    .search-table tr:last-child td { border-bottom: none; }
+
+    /* 입력 컨트롤 */
+    .form-input, .form-select, .form-textarea {
+      height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      font-size: 12.5px;
+      color: var(--text-primary);
+      background: #FFFFFF;
+      font-family: inherit;
+    }
+    .form-textarea {
+      height: auto;
+      min-height: 76px;
+      padding: 10px;
+      width: 100%;
+      resize: vertical;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
+    }
+
+    /* 버튼 & 배지 */
+    .btn {
+      height: 34px;
+      padding: 0 13px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid var(--border-strong);
+      background: #FFFFFF;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.12s;
+    }
+    .btn:hover { background: var(--bg-subtle); }
+    .btn-primary { background: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-dark { background: #0F172A; color: #FFFFFF; border-color: #0F172A; }
+    .btn-danger { background: var(--danger); color: #FFFFFF; border-color: var(--danger); }
+    .btn-warning { background: var(--warning); color: #FFFFFF; border-color: var(--warning); }
+    .btn-success { background: var(--success); color: #FFFFFF; border-color: var(--success); }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-blue { background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-border); }
+    .badge-green { background: var(--success-light); color: var(--success); border: 1px solid var(--success-border); }
+    .badge-amber { background: var(--warning-light); color: var(--warning); border: 1px solid var(--warning-border); }
+    .badge-red { background: var(--danger-light); color: var(--danger); border: 1px solid var(--danger-border); }
+    .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
+    .badge-teal { background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal-border); }
+    .badge-slate { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    /* 데이터 그리드 */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th {
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 11.5px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-strong);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .data-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+    .data-table tbody tr { cursor: pointer; transition: background 0.12s; }
+    .data-table tbody tr:hover { background: #F8FAFC; }
+    .data-table th.num, .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .data-table th.ct, .data-table td.ct { text-align: center; }
+
+    /* 상세 워크스페이스 (뷰 2: 좌측 프로필·보안·혜택 / 우측 수강·진도율·동시접속 제어) */
+    .detail-workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .kv-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .kv-table th {
+      width: 145px;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+    }
+    .kv-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+      background: #FFFFFF;
+      font-size: 12.5px;
+    }
+    .kv-table tr:last-child th, .kv-table tr:last-child td { border-bottom: none; }
+
+    /* 진도율 프로그레스 바 */
+    .prog-wrap {
+      width: 100%;
+      height: 8px;
+      background: #E2E8F0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .prog-bar {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 999px;
+    }
+    .prog-bar.pass { background: var(--success); }
+
+    /* 모달 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      backdrop-filter: blur(2px);
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal-dialog {
+      background: #FFFFFF;
+      width: 560px;
+      max-width: 94vw;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .modal-body { padding: 20px; }
+    .modal-footer {
+      padding: 12px 20px;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: none;
+      z-index: 3000;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+    }
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb"></aside>
+
+  <div id="v4-root-shell">
+    <!-- 3세대 표준 상단 Top Bar -->
+    <header class="top-bar v4-gen3-topbar">
+      <div class="top-bar-left">
+        <span class="crumb-code" id="top-crumb-code">ADMN-USER-001</span>
+        <span class="crumb-title" id="top-crumb-title">일반 회원 · 수강이력 · 수평적 그룹/태그 통합 관리</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="subview-switcher">
+          <button type="button" class="subview-btn active" id="nav-btn-list" onclick="switchSubView('list')">
+            <span>회원 통합 목록</span>
+            <span class="code-pill">ADMN-USER-001</span>
+          </button>
+          <button type="button" class="subview-btn" id="nav-btn-detail" onclick="switchSubView('detail')">
+            <span>회원 상세 · 수강 · 잠금 제어</span>
+            <span class="code-pill">USER-002 / 004 / 005</span>
+          </button>
+          <button type="button" class="subview-btn" id="nav-btn-tag" onclick="switchSubView('tag')">
+            <span>수평적 그룹 · 태그 관리</span>
+            <span class="code-pill">ADMN-USER-006</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 본문 루트 컨테이너 (#v4-page-body 필수) -->
+    <div id="v4-page-body" class="main-container">
+
+      <!-- ===================================================================
+           SUBVIEW 1: 일반 회원 통합 목록 (ADMN-USER-001)
+           =================================================================== -->
+      <section id="view-list" class="view-section active">
+
+        <!-- 4층 고정 스코어카드 -->
+        <div class="kpi-grid">
+          <button type="button" class="kpi-card" onclick="quickFilterMember('ALL')">
+            <div class="k-title">
+              <span>전체 활성 회원 (정상)</span>
+              <span class="badge">ADMN-USER-001</span>
+            </div>
+            <div class="k-num" style="color:var(--primary);">14,820명</div>
+            <div class="k-sub">네이버 소셜 연동 78.4% / 이메일 가입 21.6%</div>
+          </button>
+
+          <button type="button" class="kpi-card" onclick="quickFilterMember('LOCKED')">
+            <div class="k-title">
+              <span>계정 잠금 · 강제정지</span>
+              <span class="badge">is_locked 분리</span>
+            </div>
+            <div class="k-num" style="color:var(--danger);">19명</div>
+            <div class="k-sub">비밀번호 5회 실패(auto_5fail) 16명 / 관리자 정지 3명</div>
+          </button>
+
+          <button type="button" class="kpi-card" onclick="quickFilterMember('DORMANT')">
+            <div class="k-title">
+              <span>휴면 전환 계정 (1년 미접속)</span>
+              <span class="badge">로그인시 해제강제</span>
+            </div>
+            <div class="k-num" style="color:var(--warning);">312명</div>
+            <div class="k-sub">해제 전 타 메뉴 진입 차단 · 본인인증 즉시 해제</div>
+          </button>
+
+          <button type="button" class="kpi-card" onclick="switchSubView('tag')">
+            <div class="k-title">
+              <span>수평적 그룹 · 태그 (타겟팅)</span>
+              <span class="badge">ADMN-USER-006</span>
+            </div>
+            <div class="k-num" style="color:var(--purple);">12개 태그</div>
+            <div class="k-sub">쿠폰 대량 발급(PROM-002) 타겟 그룹 실시간 연동</div>
+          </button>
+        </div>
+
+        <!-- 검색 필터 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🔍 회원 통합 검색 필터 (계정 잠금 상태와 회원 상태 물리 분리 조회)</div>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="btn btn-sm" onclick="resetMemberFilter()">초기화</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="renderMemberGrid()">조회</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="search-table">
+              <tbody>
+                <tr>
+                  <th>검색어</th>
+                  <td>
+                    <input type="text" id="m-keyword" class="form-input" style="width:100%;" placeholder="이름, 이메일(아이디), 휴대전화 뒷자리, 산준모 네이버 카페 ID 검색" oninput="renderMemberGrid()" />
+                  </td>
+                  <th>가입 경로</th>
+                  <td>
+                    <select id="m-join-type" class="form-select" style="width:190px;" onchange="renderMemberGrid()">
+                      <option value="ALL">전체 (SNS + 이메일)</option>
+                      <option value="NAVER">네이버 간편가입 (최우선)</option>
+                      <option value="KAKAO">카카오 간편가입</option>
+                      <option value="EMAIL">이메일 일반가입</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <th>회원 상태 (member_status)</th>
+                  <td>
+                    <select id="m-status" class="form-select" style="width:220px;" onchange="renderMemberGrid()">
+                      <option value="ALL">전체 (정상 / 휴면 / 정지)</option>
+                      <option value="NORMAL">정상 (NORMAL)</option>
+                      <option value="DORMANT">휴면 (1년 미접속 · DORMANT)</option>
+                      <option value="BLOCKED">관리자 강제정지 (admin_block)</option>
+                    </select>
+                  </td>
+                  <th>계정 잠금 (is_locked)</th>
+                  <td>
+                    <select id="m-locked" class="form-select" style="width:230px;" onchange="renderMemberGrid()">
+                      <option value="ALL">전체</option>
+                      <option value="UNLOCKED">잠금 없음 (is_locked = false)</option>
+                      <option value="AUTO_5FAIL">비밀번호 5회 오류 잠금 (auto_5fail)</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <th>그룹 · 태그 (USER-006)</th>
+                  <td>
+                    <select id="m-tag" class="form-select" style="width:240px;" onchange="renderMemberGrid()">
+                      <option value="ALL">전체 태그</option>
+                      <option value="산준모카페인증">태그: 산준모카페인증</option>
+                      <option value="무료회원">태그: 무료회원</option>
+                      <option value="환급반수강생">태그: 환급반수강생</option>
+                      <option value="마이너스부채">태그: 마이너스부채</option>
+                    </select>
+                  </td>
+                  <th>마케팅 수신 동의</th>
+                  <td>
+                    <select id="m-mkt" class="form-select" style="width:220px;" onchange="renderMemberGrid()">
+                      <option value="ALL">전체 (users.is_marketing_agreed)</option>
+                      <option value="Y">동의 (단일 통합 필드 Y)</option>
+                      <option value="N">미동의 (N)</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 회원 목록 그리드 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>👥 일반 회원 목록</span>
+              <span class="badge badge-slate" id="m-grid-cnt">총 5명 시연 케이스</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-sm" onclick="showToast('선택 회원에게 수평적 태그(ADMN-USER-006)가 일괄 부여되었습니다.')">🏷️ 선택 회원 태그 일괄 부여</button>
+              <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm">🎟️ 쿠폰 수동 대량 발급(PROM-002) 이동 ↗</a>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:110px;">회원번호</th>
+                  <th>회원명 / 이메일(아이디)</th>
+                  <th style="width:140px;">산준모 네이버 카페 ID</th>
+                  <th class="ct" style="width:105px;">가입 경로</th>
+                  <th class="ct" style="width:155px;">회원상태 / 잠금(is_locked)</th>
+                  <th class="num" style="width:135px;">보유 포인트 (무상/유상)</th>
+                  <th>보유 그룹 · 태그 (USER-006)</th>
+                  <th class="ct" style="width:105px;">최근 접속일</th>
+                  <th class="ct" style="width:95px;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="member-tbody">
+                <!-- JS 렌더링 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SUBVIEW 2: 회원 상세 360° 워크스페이스 (ADMN-USER-002 / 004 / 005)
+           =================================================================== -->
+      <section id="view-detail" class="view-section">
+        <!-- 시연 회원 빠른 전환 바 -->
+        <div class="card" style="margin-bottom:14px;">
+          <div style="padding:10px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; background:#F8FAFC;">
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <span style="font-size:12px; font-weight:800; color:var(--text-secondary);">시연 회원 전환:</span>
+              <button type="button" class="btn btn-sm" onclick="openMemberDetail('USR-1082')">① 최산안 (환급반 진도율 92.4% · 정상)</button>
+              <button type="button" class="btn btn-sm" onclick="openMemberDetail('USR-0941')">② 이합격 (동시접속 IP 충돌 · 비밀번호 5회 잠금)</button>
+              <button type="button" class="btn btn-sm" onclick="openMemberDetail('USR-1205')">③ 정재훈 (마이너스 포인트 부채 -3,500P)</button>
+              <button type="button" class="btn btn-sm" onclick="openMemberDetail('USR-1355')">④ 홍길동 (재가입 DI 감지 · 웰컴혜택 SKIP)</button>
+            </div>
+            <button type="button" class="btn btn-sm" onclick="switchSubView('list')">← 회원 목록으로</button>
+          </div>
+        </div>
+
+        <div class="detail-workspace">
+          <!-- 좌측 컬럼: 기본 프로필(USER-002) + 계정 잠금·강제정지 분리 제어(USER-005) + 혜택·포인트 -->
+          <div>
+            <!-- 카드 1: 회원 기본 정보 및 DI 검증 (ADMN-USER-002) -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>👤 회원 기본 정보 및 본인인증(DI) 원장</span>
+                  <span class="badge badge-blue">ADMN-USER-002</span>
+                </div>
+                <span class="badge badge-slate" id="dt-uid-badge">USR-1082</span>
+              </div>
+              <div class="card-body">
+                <table class="kv-table">
+                  <tbody>
+                    <tr>
+                      <th>이름 / 가입경로</th>
+                      <td id="dt-name-join"><b>최산안</b> · 네이버 간편가입 (소셜 전용 비밀번호 미설정)</td>
+                    </tr>
+                    <tr>
+                      <th>이메일 (로그인 ID)</th>
+                      <td id="dt-email" style="font-family:monospace; font-weight:700;">choi_san@naver.com</td>
+                    </tr>
+                    <tr>
+                      <th>휴대전화 (마스킹)</th>
+                      <td>
+                        <span id="dt-phone">010-****-7741</span>
+                        <a href="ADMN-USER-007_baseline.html" class="badge badge-slate" style="margin-left:6px; text-decoration:none;">🔒 마스킹 해제(USER-007) ↗</a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>산준모 네이버 카페 ID</th>
+                      <td>
+                        <b id="dt-cafe-id" style="color:var(--primary);">choi_san</b>
+                        <span style="font-size:11px; color:var(--text-muted); margin-left:6px;">(항목명 'ID' 고정 · @ 이메일 형식 검사 제외 일반 텍스트)</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>DI 중복가입확인정보</th>
+                      <td id="dt-di-info">
+                        <code>DI_HASH_8f92a1...c301</code> · <span class="badge badge-green">생애 최초 가입 (웰컴 혜택 지급완료)</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>응시 예정 자격증</th>
+                      <td id="dt-certs">
+                        <span class="badge badge-slate">산업안전기사</span>
+                        <span class="badge badge-slate">건설안전기사</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>마케팅 정보 수신 동의</th>
+                      <td id="dt-mkt">
+                        <span class="badge badge-green">동의 (users.is_marketing_agreed = true)</span>
+                        <span style="font-size:11px; color:var(--text-muted); margin-left:4px;">단일 필드 수집 (2026-07-15)</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 카드 2: 계정 잠금(is_locked) vs 회원 상태(member_status) 분리 제어 (ADMN-USER-005) -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>🛡️ 계정 잠금(is_locked) · 회원 상태 분리 제어</span>
+                  <span class="badge badge-red">ADMN-USER-005</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px 14px; margin-bottom:12px; font-size:12px; color:var(--text-secondary);">
+                  • <b>설계서 분리 원칙:</b> 비밀번호 5회 연속 실패로 인한 <b>계정 잠금(<code>users.is_locked</code>)</b>과 <b>회원 상태(<code>member_status</code>: 정상/휴면/정지)</b>를 물리적으로 분리 저장하며, <code>lock_reason</code>에 <code>auto_5fail</code> / <code>admin_block</code>을 구분합니다.
+                </div>
+
+                <table class="kv-table">
+                  <tbody>
+                    <tr>
+                      <th>비밀번호 5회 잠금<br/>(users.is_locked)</th>
+                      <td>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                          <div id="dt-lock-status">
+                            <span class="badge badge-green">잠금 없음 (is_locked = false · 실패 0/5회)</span>
+                          </div>
+                          <button type="button" class="btn btn-sm btn-primary" id="btn-unlock-5fail" onclick="unlockPasswordFail()">🔓 5회 오류 잠금 즉시 해제</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>회원 계정 상태<br/>(member_status)</th>
+                      <td>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                          <div id="dt-member-status">
+                            <span class="badge badge-green">정상 (NORMAL)</span>
+                          </div>
+                          <div style="display:flex; gap:6px;">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="openBlockModal()">🚫 관리자 강제 정지 (admin_block)</button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>SMS 본인인증 하드캡<br/>(롤링 24시간 5회)</th>
+                      <td>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                          <span style="font-size:12px;">금일 발송 <b>1 / 5회</b> (롤링 24시간 기준 · 자정 리셋 미사용)</span>
+                          <button type="button" class="btn btn-sm" onclick="showToast('해당 회원(DI)의 롤링 24시간 SMS 인증 카운트가 0/5회로 수동 초기화되었습니다.')">카운트 초기화 (CONF-008)</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 카드 3: 보유 포인트(유/무상) · 마이너스 부채 · 쿠폰 요약 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>🪙 보유 포인트(유/무상 분리) · 쿠폰 원장</span>
+                  <span class="badge badge-purple">PROM-002 연동</span>
+                </div>
+                <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm">쿠폰·포인트 원장 상세 ↗</a>
+              </div>
+              <div class="card-body">
+                <table class="kv-table">
+                  <tbody>
+                    <tr>
+                      <th>무상 포인트 (FREE)</th>
+                      <td id="dt-pt-free"><b>12,500 P</b> <span style="font-size:11.5px; color:var(--text-muted);">(보유 상한 200,000P Cap 이내 · FIFO 차감)</span></td>
+                    </tr>
+                    <tr>
+                      <th>유상 포인트 (PAID)</th>
+                      <td id="dt-pt-paid"><b>0 P</b> <span style="font-size:11.5px; color:var(--text-muted);">(환불·전환 원장 분리)</span></td>
+                    </tr>
+                    <tr>
+                      <th>보유 쿠폰 (user_coupon)</th>
+                      <td id="dt-coupons">
+                        <span class="badge badge-blue">가을 얼리버드 15% (~2026.09.30)</span>
+                        <span class="badge badge-slate">웰컴 10% (사용완료)</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 우측 컬럼: 수강 이력 · 가중평균 진도율 · 수강기간 연장 + 동시접속 IP 세션 제어 (ADMN-USER-004) -->
+          <div>
+            <!-- 카드 4: 실시간 동시 접속 IP/세션 제어 (11/16 1차 오픈 스펙) -->
+            <div class="card" style="border-color:var(--primary-border);">
+              <div class="card-header" style="background:#EFF6FF;">
+                <div class="card-title">
+                  <span>🖥️ 수강 플레이어 동시 접속 IP · 활성 세션 제어</span>
+                  <span class="badge badge-blue">11/16 1차 오픈 스펙</span>
+                </div>
+                <span class="badge badge-slate" title="단말기 UUID 등록 제어(ADMN-USER-003)는 2차 고도화 슬롯으로 이관">기기등록(UUID) 2차 이관</span>
+              </div>
+              <div class="card-body">
+                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">
+                  • 동일 계정으로 서로 다른 IP/브라우저에서 동시 강의 재생 시도 시 기존 미종료(Ghost) 세션을 강제 로그아웃시켜 즉시 재생 차단을 해제합니다.
+                </div>
+                <table class="data-table" style="border:1px solid var(--border-color); margin-bottom:10px;">
+                  <thead>
+                    <tr>
+                      <th>세션 구분 / 브라우저</th>
+                      <th>접속 IP 대역</th>
+                      <th>최근 하트비트 시각</th>
+                      <th class="ct">상태</th>
+                      <th class="ct">제어</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dt-session-tbody">
+                    <tr>
+                      <td><b>Windows 11 · Chrome</b> (데스크톱)</td>
+                      <td><code>211.36.***.104</code></td>
+                      <td>2026-10-16 11:38:10</td>
+                      <td class="ct"><span class="badge badge-green">재생 활성 (1/1)</span></td>
+                      <td class="ct">
+                        <button type="button" class="btn btn-sm btn-danger" onclick="killUserSession(this)">강제 로그아웃</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>iPadOS · Safari</b> (모바일 웹)</td>
+                      <td><code>175.223.***.88</code></td>
+                      <td>2026-10-16 11:40:02</td>
+                      <td class="ct"><span class="badge badge-red">동시접속 차단됨</span></td>
+                      <td class="ct">
+                        <button type="button" class="btn btn-sm" onclick="killAllSessions()">전체 세션 초기화</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 카드 5: 수강 중인 강좌 · 재생시간 가중평균 진도율 · 수강기간 제어 (ADMN-USER-004) -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <span>📚 수강 이력 · 재생시간 가중평균 진도율 · 기간 제어</span>
+                  <span class="badge badge-blue">ADMN-USER-004</span>
+                </div>
+                <button type="button" class="btn btn-sm btn-primary" onclick="openExtendModal('2026 산안기 0원 합격환급반')">+ 수강기간 연장 / 일시정지 제어</button>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>강좌 / 패키지명 (주문번호)</th>
+                      <th style="width:155px;">수강 기간 (잔여일)</th>
+                      <th style="width:210px;">재생시간 가중평균 진도율</th>
+                      <th class="ct" style="width:110px;">환급/환불 기준</th>
+                      <th class="ct" style="width:105px;">기간 제어</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dt-course-tbody">
+                    <tr>
+                      <td>
+                        <div style="font-weight:800; color:var(--text-primary);">2026 산안기 0원 합격환급반 (필기+실기)</div>
+                        <div style="font-size:11px; color:var(--text-muted);">ORD-20260715-0088 · 정종대 / 안창훈</div>
+                      </td>
+                      <td>
+                        <div>2026.07.15 ~ 2027.01.15</div>
+                        <div style="font-size:11px; color:var(--primary); font-weight:700;">잔여 91일 (수강중)</div>
+                      </td>
+                      <td>
+                        <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;">
+                          <span style="color:var(--success);">92.4% (3,326분 / 3,600분)</span>
+                          <span class="badge badge-green">90% 충족 ✓</span>
+                        </div>
+                        <div class="prog-wrap"><div class="prog-bar pass" style="width:92.4%;"></div></div>
+                      </td>
+                      <td class="ct">
+                        <a href="ADMN-SETT-006_baseline.html" class="badge badge-purple" style="text-decoration:none;">환급심사 대상 ↗</a>
+                      </td>
+                      <td class="ct">
+                        <button type="button" class="btn btn-sm" onclick="openExtendModal('2026 산안기 0원 합격환급반')">기간 연장</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div style="font-weight:800; color:var(--text-primary);">안창훈 실기 작업형 빈출 마스터 단과</div>
+                        <div style="font-size:11px; color:var(--text-muted);">ORD-20261002-0112 · 안창훈</div>
+                      </td>
+                      <td>
+                        <div>2026.10.02 ~ 2026.12.31</div>
+                        <div style="font-size:11px; color:var(--text-secondary); font-weight:700;">잔여 76일 (수강중)</div>
+                      </td>
+                      <td>
+                        <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:800;">
+                          <span>18.5% (222분 / 1,200분)</span>
+                          <span class="badge badge-slate">수강중</span>
+                        </div>
+                        <div class="prog-wrap"><div class="prog-bar" style="width:18.5%;"></div></div>
+                      </td>
+                      <td class="ct">
+                        <span style="font-size:11px; color:var(--text-muted);">환불시 MIN(기간,진도)</span>
+                      </td>
+                      <td class="ct">
+                        <button type="button" class="btn btn-sm" onclick="openExtendModal('안창훈 실기 작업형 빈출 마스터 단과')">기간 연장</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-body" style="background:#F8FAFC; border-top:1px solid var(--border-color); font-size:11.5px; color:var(--text-secondary);">
+                • <b>진도율 산식(IA v4.0.0 확정):</b> 단순 차수 개수가 아닌 <b>전체 강의 재생시간 가중 평균</b>으로 계산합니다.<br/>
+                • <b>인강 부분 환불 공제 기준:</b> <code>MIN(경과 기간 기준, 가중평균 진도율 기준)</code>을 적용합니다(<code>ADMN-RFD-002</code> 연동).
+              </div>
+            </div>
+
+            <!-- 카드 6: 최근 주문 · 1:1 문의 내역 퀵링크 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">🔗 연결된 주문 · 환불 · 1:1 문의 바로가기</div>
+              </div>
+              <div class="card-body" style="display:flex; gap:8px; flex-wrap:wrap;">
+                <a href="ADMN-ORD-001_baseline.html" class="btn btn-sm">📦 주문·3PL 배송 내역 조회 (ADMN-ORD-001) ↗</a>
+                <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm">💳 환불 심사 내역 조회 (ADMN-RFD-002) ↗</a>
+                <a href="ADMN-BRD-002_baseline.html" class="btn btn-sm">💬 1:1 문의 내역 조회 (ADMN-BRD-002) ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           SUBVIEW 3: 수평적 그룹 · 태그 관리 (ADMN-USER-006 — 쿠폰 대량 발급 타겟팅)
+           =================================================================== -->
+      <section id="view-tag" class="view-section">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🏷️ 수평적 회원 그룹 · 태그 마스터 관리 (쿠폰 수동 대량 발급 타겟팅 원천)</span>
+              <span class="badge badge-purple">ADMN-USER-006</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openNewTagModal()">+ 신규 그룹·태그 생성</button>
+          </div>
+          <div class="card-body" style="background:#F8FAFC; border-bottom:1px solid var(--border-color); font-size:12px; color:var(--text-secondary);">
+            • 계층형 등급제 대신 <b>수평적 다중 태그(N:M)</b> 구조로 회원을 분류하며, <b>쿠폰 마스터 등록(<code>ADMN-PROM-002</code>)의 수동 대량 발급 타겟 그룹</b>과 즉시 연동됩니다.
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:140px;">태그 코드</th>
+                  <th style="width:200px;">그룹 · 태그명</th>
+                  <th>부여 조건 및 타겟팅 설명</th>
+                  <th class="num" style="width:130px;">매칭 회원 수</th>
+                  <th class="ct" style="width:130px;">부여 방식</th>
+                  <th class="ct" style="width:150px;">타겟 쿠폰 발급 연동</th>
+                </tr>
+              </thead>
+              <tbody id="tag-tbody">
+                <tr>
+                  <td><code>TAG-FREE-30D</code></td>
+                  <td><span class="badge badge-blue">무료회원 × 최근 30일 로그인</span></td>
+                  <td>유료 결제 이력이 없고 최근 30일 이내 로그인한 전환 유망 수험생</td>
+                  <td class="num"><b>4,208명</b></td>
+                  <td class="ct"><span class="badge badge-green">동적 조건 자동</span></td>
+                  <td class="ct"><a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-primary">쿠폰 대량발급 타겟 ↗</a></td>
+                </tr>
+                <tr>
+                  <td><code>TAG-CAFE-AUTH</code></td>
+                  <td><span class="badge badge-teal">산준모카페인증</span></td>
+                  <td>가입/마이페이지에서 산준모 네이버 카페 ID를 기입 완료한 회원</td>
+                  <td class="num"><b>8,940명</b></td>
+                  <td class="ct"><span class="badge badge-green">동적 조건 자동</span></td>
+                  <td class="ct"><a href="ADMN-PROM-002_baseline.html" class="btn btn-sm">쿠폰 대량발급 타겟 ↗</a></td>
+                </tr>
+                <tr>
+                  <td><code>TAG-PASS-CLASS</code></td>
+                  <td><span class="badge badge-purple">환급반수강생</span></td>
+                  <td>0원 합격환급반 패키지 수강 중이며 환급 심사(ADMN-SETT-006) 대상인 회원</td>
+                  <td class="num"><b>1,450명</b></td>
+                  <td class="ct"><span class="badge badge-green">주문 연동 자동</span></td>
+                  <td class="ct"><a href="ADMN-SETT-006_baseline.html" class="btn btn-sm">환급반 심사 열기 ↗</a></td>
+                </tr>
+                <tr>
+                  <td><code>TAG-WRITTEN-DONE</code></td>
+                  <td><span class="badge badge-amber">필기수강 × 실기미결제</span></td>
+                  <td>정종대 필기 강좌 수강 중이나 안창훈 실기 작업형 강좌를 아직 구매하지 않은 회원</td>
+                  <td class="num"><b>1,120명</b></td>
+                  <td class="ct"><span class="badge badge-slate">관리자 수동/배치</span></td>
+                  <td class="ct"><a href="ADMN-PROM-002_baseline.html" class="btn btn-sm">실기 할인쿠폰 발급 ↗</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- MODAL 1: 수강기간 수동 연장 / 일시정지 제어 모달 (ADMN-USER-004) -->
+  <div class="modal-backdrop" id="modal-extend">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span>📅 수강기간 수동 연장 · 일시정지 제어 (ADMN-USER-004)</span>
+        <button type="button" class="btn btn-sm" onclick="closeExtendModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">대상 강좌 / 패키지</label>
+            <input type="text" id="ext-course-name" class="form-input" style="width:100%;" readonly value="2026 산안기 0원 합격환급반" />
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div>
+              <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">제어 구분</label>
+              <select class="form-select" style="width:100%;">
+                <option>수강 종료일 연장 (+N일)</option>
+                <option>수강 일시정지 부여</option>
+                <option>수강 강제 종료 (환불 연동)</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">연장 일수 (일)</label>
+              <input type="number" id="ext-days" class="form-input" style="width:100%; font-weight:800;" value="15" />
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">연장/변경 사유 (감사 로그 필수 기록)</label>
+            <textarea class="form-textarea" id="ext-reason">병원 입원 진단서 제출 확인에 따른 CS 예외 수강기간 15일 연장 처리</textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" onclick="closeExtendModal()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmExtendCourse()">적용 및 로그 기록</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: 관리자 강제 정지 모달 (ADMN-USER-005) -->
+  <div class="modal-backdrop" id="modal-block">
+    <div class="modal-dialog">
+      <div class="modal-header" style="background:#FEF2F2; color:#991B1B;">
+        <span>🚫 회원 계정 관리자 강제 정지 (ADMN-USER-005 · admin_block)</span>
+        <button type="button" class="btn btn-sm" onclick="closeBlockModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:12.5px; color:var(--text-secondary); margin-bottom:12px;">
+          • 강제 정지 시 해당 회원의 모든 활성 세션이 즉시 파기되며, 로그인 시 <code>USER-LOGI-001-P1 (E. 관리자 강제 정지 안내)</code>가 노출됩니다.
+        </div>
+        <div>
+          <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">강제 정지 사유 (필수)</label>
+          <textarea class="form-textarea" id="block-reason">아이디 불법 공유 및 강의 영상 무단 녹화 배포 어뷰징 적발에 따른 계정 영구 정지</textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" onclick="closeBlockModal()">취소</button>
+        <button type="button" class="btn btn-danger" onclick="confirmAdminBlock()">강제 정지 확정</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: 신규 수평적 그룹·태그 생성 모달 (ADMN-USER-006) -->
+  <div class="modal-backdrop" id="modal-new-tag">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span>🏷️ 신규 수평적 그룹 · 태그 생성 (ADMN-USER-006)</span>
+        <button type="button" class="btn btn-sm" onclick="closeNewTagModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">그룹 · 태그명</label>
+            <input type="text" id="new-tag-name" class="form-input" style="width:100%;" value="2026년 3회차 실기 응시예정자" />
+          </div>
+          <div>
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">타겟 설명</label>
+            <input type="text" id="new-tag-desc" class="form-input" style="width:100%;" value="3회차 실기 파이널 특강 쿠폰 타겟 발송용 그룹" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" onclick="closeNewTagModal()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmNewTag()">태그 생성</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    const MEMBERS = [
+      {
+        uid: "USR-1082",
+        name: "최산안",
+        email: "choi_san@naver.com",
+        phone: "010-****-7741",
+        cafeId: "choi_san",
+        joinType: "NAVER",
+        joinLabel: "네이버 간편",
+        status: "NORMAL",
+        statusLabel: "정상",
+        locked: "UNLOCKED",
+        lockedLabel: "잠금없음 (0/5)",
+        ptFree: 12500,
+        ptPaid: 0,
+        tags: ["산준모카페인증", "환급반수강생"],
+        mkt: "Y",
+        lastLogin: "2026-10-16 14:20",
+        diInfo: "생애 최초 가입 (웰컴 5,000P + 10%쿠폰 지급완료)"
+      },
+      {
+        uid: "USR-0941",
+        name: "이합격",
+        email: "pass_lee@gmail.com",
+        phone: "010-****-3310",
+        cafeId: "pass_lee",
+        joinType: "EMAIL",
+        joinLabel: "이메일 가입",
+        status: "NORMAL",
+        statusLabel: "정상",
+        locked: "AUTO_5FAIL",
+        lockedLabel: "🔒 5회오류 잠금",
+        ptFree: 6600,
+        ptPaid: 0,
+        tags: ["산준모카페인증"],
+        mkt: "Y",
+        lastLogin: "2026-10-16 11:40",
+        diInfo: "생애 최초 가입 (웰컴 혜택 지급완료)"
+      },
+      {
+        uid: "USR-1205",
+        name: "정재훈",
+        email: "jung_jh@kakao.com",
+        phone: "010-****-8820",
+        cafeId: "jung_safety",
+        joinType: "KAKAO",
+        joinLabel: "카카오 간편",
+        status: "NORMAL",
+        statusLabel: "정상",
+        locked: "UNLOCKED",
+        lockedLabel: "잠금없음 (0/5)",
+        ptFree: -3500,
+        ptPaid: 14000,
+        tags: ["마이너스부채"],
+        mkt: "N",
+        lastLogin: "2026-10-15 19:05",
+        diInfo: "적립 포인트 선사용 후 환불로 마이너스 부채(-3,500P) 보유"
+      },
+      {
+        uid: "USR-1355",
+        name: "홍길동",
+        email: "hong_rejoin@naver.com",
+        phone: "010-****-5519",
+        cafeId: "hong_sjm",
+        joinType: "NAVER",
+        joinLabel: "네이버 간편",
+        status: "NORMAL",
+        statusLabel: "정상",
+        locked: "UNLOCKED",
+        lockedLabel: "잠금없음 (0/5)",
+        ptFree: 0,
+        ptPaid: 0,
+        tags: ["무료회원"],
+        mkt: "Y",
+        lastLogin: "2026-10-14 20:11",
+        diInfo: "⚠ 탈퇴 30일 경과 후 재가입 (DI 이력 감지로 웰컴 혜택 자동 SKIP)"
+      },
+      {
+        uid: "USR-0410",
+        name: "박휴면",
+        email: "dormant_park@daum.net",
+        phone: "010-****-1092",
+        cafeId: "-",
+        joinType: "EMAIL",
+        joinLabel: "이메일 가입",
+        status: "DORMANT",
+        statusLabel: "휴면 (1년 미접속)",
+        locked: "UNLOCKED",
+        lockedLabel: "잠금없음",
+        ptFree: 5000,
+        ptPaid: 0,
+        tags: ["무료회원"],
+        mkt: "N",
+        lastLogin: "2025-09-10 08:12",
+        diInfo: "1년 이상 미접속 휴면 전환 (로그인 시 본인인증 해제 강제)"
+      }
+    ];
+
+    let currentMemberUid = "USR-1082";
+
+    function switchSubView(viewKey) {
+      document.querySelectorAll(".view-section").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".subview-btn").forEach(el => el.classList.remove("active"));
+
+      if (viewKey === "list") {
+        document.getElementById("view-list").classList.add("active");
+        document.getElementById("nav-btn-list").classList.add("active");
+        document.getElementById("top-crumb-code").textContent = "ADMN-USER-001";
+      } else if (viewKey === "detail") {
+        document.getElementById("view-detail").classList.add("active");
+        document.getElementById("nav-btn-detail").classList.add("active");
+        document.getElementById("top-crumb-code").textContent = "ADMN-USER-002 / 004 / 005";
+      } else if (viewKey === "tag") {
+        document.getElementById("view-tag").classList.add("active");
+        document.getElementById("nav-btn-tag").classList.add("active");
+        document.getElementById("top-crumb-code").textContent = "ADMN-USER-006";
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderMemberGrid() {
+      const kw = (document.getElementById("m-keyword").value || "").trim().toLowerCase();
+      const jt = document.getElementById("m-join-type").value;
+      const st = document.getElementById("m-status").value;
+      const lk = document.getElementById("m-locked").value;
+      const tg = document.getElementById("m-tag").value;
+      const mk = document.getElementById("m-mkt").value;
+
+      const rows = MEMBERS.filter(m => {
+        if (kw && !m.name.toLowerCase().includes(kw) && !m.email.toLowerCase().includes(kw) && !m.cafeId.toLowerCase().includes(kw) && !m.uid.toLowerCase().includes(kw)) return false;
+        if (jt !== "ALL" && m.joinType !== jt) return false;
+        if (st !== "ALL" && m.status !== st) return false;
+        if (lk !== "ALL" && m.locked !== lk) return false;
+        if (tg !== "ALL" && !m.tags.includes(tg)) return false;
+        if (mk !== "ALL" && m.mkt !== mk) return false;
+        return true;
+      });
+
+      const tbody = document.getElementById("member-tbody");
+      tbody.innerHTML = rows.map(m => {
+        let stBadge = '<span class="badge badge-green">정상</span>';
+        if (m.status === "DORMANT") stBadge = '<span class="badge badge-amber">휴면(1년)</span>';
+        if (m.status === "BLOCKED") stBadge = '<span class="badge badge-red">강제정지</span>';
+
+        let lkBadge = '<span class="badge badge-slate">잠금없음</span>';
+        if (m.locked === "AUTO_5FAIL") lkBadge = '<span class="badge badge-red">🔒 5회오류 잠금</span>';
+
+        const freeColor = m.ptFree < 0 ? "var(--danger)" : "var(--text-primary)";
+
+        return `
+          <tr onclick="openMemberDetail('${m.uid}')">
+            <td><b style="color:var(--primary); font-family:monospace;">${m.uid}</b></td>
+            <td>
+              <div style="font-weight:800;">${m.name}</div>
+              <div style="font-size:11.5px; color:var(--text-muted);">${m.email} · ${m.phone}</div>
+            </td>
+            <td><b style="color:var(--teal);">${m.cafeId}</b></td>
+            <td class="ct"><span class="badge badge-slate">${m.joinLabel}</span></td>
+            <td class="ct">${stBadge} ${lkBadge}</td>
+            <td class="num">
+              <div style="font-weight:800; color:${freeColor};">무상 ${m.ptFree.toLocaleString()} P</div>
+              <div style="font-size:11px; color:var(--purple);">유상 ${m.ptPaid.toLocaleString()} P</div>
+            </td>
+            <td>${m.tags.map(t => `<span class="badge badge-blue" style="margin-right:4px;">${t}</span>`).join("")}</td>
+            <td class="ct" style="font-size:11.5px; color:var(--text-secondary);">${m.lastLogin}</td>
+            <td class="ct" onclick="event.stopPropagation();">
+              <button type="button" class="btn btn-sm" onclick="openMemberDetail('${m.uid}')">상세 제어</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function quickFilterMember(mode) {
+      resetMemberFilter();
+      if (mode === "LOCKED") {
+        document.getElementById("m-locked").value = "AUTO_5FAIL";
+      } else if (mode === "DORMANT") {
+        document.getElementById("m-status").value = "DORMANT";
+      }
+      renderMemberGrid();
+    }
+
+    function resetMemberFilter() {
+      document.getElementById("m-keyword").value = "";
+      document.getElementById("m-join-type").value = "ALL";
+      document.getElementById("m-status").value = "ALL";
+      document.getElementById("m-locked").value = "ALL";
+      document.getElementById("m-tag").value = "ALL";
+      document.getElementById("m-mkt").value = "ALL";
+      renderMemberGrid();
+    }
+
+    function openMemberDetail(uid) {
+      const m = MEMBERS.find(x => x.uid === uid);
+      if (!m) return;
+      currentMemberUid = uid;
+
+      document.getElementById("dt-uid-badge").textContent = m.uid;
+      document.getElementById("dt-name-join").innerHTML = `<b>${m.name}</b> · ${m.joinLabel}`;
+      document.getElementById("dt-email").textContent = m.email;
+      document.getElementById("dt-phone").textContent = m.phone;
+      document.getElementById("dt-cafe-id").textContent = m.cafeId;
+      document.getElementById("dt-di-info").innerHTML = `<code>DI_HASH_${m.uid}</code> · <span class="badge ${m.uid === 'USR-1355' ? 'badge-amber' : 'badge-green'}">${m.diInfo}</span>`;
+      document.getElementById("dt-pt-free").innerHTML = `<b style="color:${m.ptFree < 0 ? 'var(--danger)' : 'var(--text-primary)'};">${m.ptFree.toLocaleString()} P</b> <span style="font-size:11.5px; color:var(--text-muted);">(200,000P Cap 이내)</span>`;
+      document.getElementById("dt-pt-paid").innerHTML = `<b>${m.ptPaid.toLocaleString()} P</b>`;
+
+      const lockBox = document.getElementById("dt-lock-status");
+      if (m.locked === "AUTO_5FAIL") {
+        lockBox.innerHTML = `<span class="badge badge-red">🔒 계정 잠금됨 (is_locked = true · lock_reason = auto_5fail)</span>`;
+      } else {
+        lockBox.innerHTML = `<span class="badge badge-green">잠금 없음 (is_locked = false · 실패 0/5회)</span>`;
+      }
+
+      const stBox = document.getElementById("dt-member-status");
+      if (m.status === "BLOCKED") {
+        stBox.innerHTML = `<span class="badge badge-red">🚫 관리자 강제 정지 (admin_block)</span>`;
+      } else if (m.status === "DORMANT") {
+        stBox.innerHTML = `<span class="badge badge-amber">휴면 상태 (1년 미접속 · 로그인 시 해제 강제)</span>`;
+      } else {
+        stBox.innerHTML = `<span class="badge badge-green">정상 (NORMAL)</span>`;
+      }
+
+      switchSubView("detail");
+    }
+
+    function unlockPasswordFail() {
+      const m = MEMBERS.find(x => x.uid === currentMemberUid);
+      if (m) m.locked = "UNLOCKED";
+      document.getElementById("dt-lock-status").innerHTML = `<span class="badge badge-green">잠금 해제 완료 (is_locked = false · 실패 카운트 0/5 초기화)</span>`;
+      renderMemberGrid();
+      showToast("✓ 비밀번호 5회 오류 잠금(is_locked)이 해제되었습니다.");
+    }
+
+    function killUserSession(btnEl) {
+      const tr = btnEl.closest("tr");
+      if (tr) tr.remove();
+      showToast("⚡ 선택한 접속 세션(IP)을 강제 로그아웃 처리하여 동시접속 차단을 해제했습니다.");
+    }
+
+    function killAllSessions() {
+      document.getElementById("dt-session-tbody").innerHTML = `
+        <tr>
+          <td colspan="5" class="ct" style="color:var(--text-muted); padding:16px;">모든 활성 세션이 초기화되었습니다. 수험생이 새 기기에서 즉시 재생할 수 있습니다.</td>
+        </tr>
+      `;
+      showToast("⚡ 해당 회원의 모든 활성 스트리밍 세션(IP)이 초기화되었습니다.");
+    }
+
+    function openExtendModal(courseTitle) {
+      document.getElementById("ext-course-name").value = courseTitle;
+      document.getElementById("modal-extend").classList.add("show");
+    }
+    function closeExtendModal() {
+      document.getElementById("modal-extend").classList.remove("show");
+    }
+    function confirmExtendCourse() {
+      const d = document.getElementById("ext-days").value;
+      closeExtendModal();
+      showToast(`✓ 수강기간 +${d}일 연장이 반영되었으며 감사 로그에 사유가 기록되었습니다.`);
+    }
+
+    function openBlockModal() {
+      document.getElementById("modal-block").classList.add("show");
+    }
+    function closeBlockModal() {
+      document.getElementById("modal-block").classList.remove("show");
+    }
+    function confirmAdminBlock() {
+      const m = MEMBERS.find(x => x.uid === currentMemberUid);
+      if (m) m.status = "BLOCKED";
+      document.getElementById("dt-member-status").innerHTML = `<span class="badge badge-red">🚫 관리자 강제 정지 (admin_block 적용됨)</span>`;
+      closeBlockModal();
+      renderMemberGrid();
+      showToast("🚫 해당 계정이 관리자 강제 정지(admin_block) 처리되었습니다.");
+    }
+
+    function openNewTagModal() {
+      document.getElementById("modal-new-tag").classList.add("show");
+    }
+    function closeNewTagModal() {
+      document.getElementById("modal-new-tag").classList.remove("show");
+    }
+    function confirmNewTag() {
+      const name = document.getElementById("new-tag-name").value.trim();
+      const desc = document.getElementById("new-tag-desc").value.trim();
+      if (!name) return;
+      const tbody = document.getElementById("tag-tbody");
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><code>TAG-CUSTOM-01</code></td>
+        <td><span class="badge badge-blue">${name}</span></td>
+        <td>${desc}</td>
+        <td class="num"><b>0명</b></td>
+        <td class="ct"><span class="badge badge-slate">관리자 수동</span></td>
+        <td class="ct"><a href="ADMN-PROM-002_baseline.html" class="btn btn-sm">쿠폰 대량발급 타겟 ↗</a></td>
+      `;
+      tbody.prepend(tr);
+      closeNewTagModal();
+      showToast(`✓ 신규 그룹·태그 [${name}]가 생성되어 쿠폰 발급 타겟 목록에 연동되었습니다.`);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.style.display = "block";
+      setTimeout(() => { t.style.display = "none"; }, 3200);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      renderMemberGrid();
+    });
+  </script>
+</body>
+</html>

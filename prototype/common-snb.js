@@ -12,6 +12,7 @@
     {
       title: "주문 · 배송 · 환불 · CS 관리 (ORD/RFD/BRD)",
       items: [
+        { code: "USER-001", label: "일반 회원 · 수강 · 태그 관리", href: "ADMN-USER-001_baseline.html", screenCode: "ADMN-USER-001" },
         { code: "ORD-001", label: "주문 · 배송 · 3PL 관리", href: "ADMN-ORD-001_baseline.html" },
         { code: "RFD-002", label: "환불 요청 · 심사 관리", href: "ADMN-RFD-002_baseline.html" },
         { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" },
