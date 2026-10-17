@@ -10,9 +10,16 @@
       ]
     },
     {
+      title: "회원 · 수강 · 태그 관리 (USER)",
+      items: [
+        { code: "USER-001", label: "일반 회원 관리 (목록·상세)", href: "ADMN-USER-001_baseline.html?view=list", screenCode: "ADMN-USER-001" },
+        { code: "USER-003", label: "회원 수강 · 기간 · 기기 제어", href: "ADMN-USER-001_baseline.html?view=course", screenCode: "ADMN-USER-003" },
+        { code: "USER-006", label: "회원 그룹 · 태그 관리", href: "ADMN-USER-001_baseline.html?view=tags", screenCode: "ADMN-USER-006" }
+      ]
+    },
+    {
       title: "주문 · 배송 · 환불 · CS 관리 (ORD/RFD/BRD)",
       items: [
-        { code: "USER-001", label: "일반 회원 · 수강 · 태그 관리", href: "ADMN-USER-001_baseline.html", screenCode: "ADMN-USER-001" },
         { code: "ORD-001", label: "주문 · 배송 · 3PL 관리", href: "ADMN-ORD-001_baseline.html" },
         { code: "RFD-002", label: "환불 요청 · 심사 관리", href: "ADMN-RFD-002_baseline.html" },
         { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" },
@@ -66,10 +73,23 @@
     }
   ];
 
-  function buildSnbHtml(currentFile) {
+  function buildSnbHtml(currentFileWithQuery, currentFileOnly) {
     const groupsHtml = SNB_GROUPS.map(group => {
       const itemsHtml = group.items.map(item => {
-        const isActive = currentFile === item.href || currentFile.indexOf(item.screenCode) !== -1;
+        // 1순위: 파일명 + 쿼리스트링 완전 일치 (?view=course 등)
+        // 2순위: 쿼리가 없는 일반 페이지의 경우 파일명 일치
+        // 3순위: screenCode 부분 일치
+        let isActive = false;
+        if (item.href.indexOf("?") !== -1) {
+          isActive = (currentFileWithQuery === item.href);
+          // 쿼리 없이 들어온 경우 list 기본 매칭
+          if (!isActive && currentFileWithQuery === item.href.split("?")[0] && item.href.indexOf("view=list") !== -1) {
+            isActive = true;
+          }
+        } else {
+          isActive = (currentFileOnly === item.href || (currentFileOnly && currentFileOnly.indexOf(item.screenCode) !== -1));
+        }
+
         return `
         <a href="${item.href}" class="snb-item${isActive ? ' active' : ''}" data-screen-code="${item.screenCode}">
           <span class="snb-code">${item.code}</span>
@@ -103,7 +123,8 @@
 
   function initMasterSnb() {
     const pathParts = window.location.pathname.replace(/\\/g, "/").split("/");
-    const currentFile = decodeURIComponent(pathParts[pathParts.length - 1] || "");
+    const currentFileOnly = decodeURIComponent(pathParts[pathParts.length - 1] || "");
+    const currentFileWithQuery = currentFileOnly + window.location.search;
 
     let snbEl = document.getElementById("v4-master-snb");
     if (!snbEl) {
@@ -113,7 +134,7 @@
       snbEl.setAttribute("aria-label", "산준모 마스터 사이드바");
       document.body.insertBefore(snbEl, document.body.firstChild);
     }
-    snbEl.innerHTML = buildSnbHtml(currentFile);
+    snbEl.innerHTML = buildSnbHtml(currentFileWithQuery, currentFileOnly);
   }
 
   if (document.readyState === "loading") {
