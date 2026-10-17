@@ -748,9 +748,10 @@
                   </td>
                   <th>마케팅 수신 동의</th>
                   <td>
-                    <label style="margin-right:10px;"><input type="checkbox" checked /> SMS/알림톡 동의</label>
-                    <label><input type="checkbox" /> 이메일 동의</label>
-                    <span style="font-size:11px; color:var(--text-muted); margin-left:6px;">(<code>users.is_marketing_agreed</code> · 2026.08.19 동의)</span>
+                    <label style="font-weight:700; cursor:pointer;">
+                      <input type="checkbox" id="dt-mkt-agree" checked /> 마케팅 및 이벤트 알림 수신 동의 (통합 단일)
+                    </label>
+                    <span id="dt-mkt-meta" style="font-size:11px; color:var(--text-muted); margin-left:8px;">(<code>users.is_marketing_agreed = true</code> · 2026.08.19 동의 · 하단 [변경사항 저장] 시 반영)</span>
                   </td>
                 </tr>
                 <tr>
@@ -771,14 +772,19 @@
                   </td>
                   <th>관리자 내부 메모</th>
                   <td>
-                    <div style="display:flex; gap:6px;">
-                      <input type="text" class="f-input" style="flex:1;" placeholder="내부 메모 — 고객 화면·알림톡에 노출되지 않으며 수정 이력이 보존됩니다." value="산업안전기사 필기+실기 올패스 수강생. 교재 배송지 확인 완료." />
-                      <button type="button" class="btn btn-sm btn-dark" onclick="showToast('관리자 내부 메모 및 수정 가능 필드가 저장되었습니다.')">저장</button>
-                    </div>
+                    <input type="text" id="dt-admin-memo" class="f-input" style="width:100%;" placeholder="내부 메모 — 고객 화면·알림톡에 노출되지 않으며 수정 시 이전 내용이 이력으로 남습니다." value="산업안전기사 필기+실기 올패스 수강생. 교재 배송지 확인 완료." />
                   </td>
                 </tr>
               </tbody>
             </table>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding:10px 14px; background:#F8FAFC; border:1px solid var(--border); border-radius:8px;">
+              <span style="font-size:11.5px; color:var(--text-sub);">
+                ※ <strong>즉시 반영 항목(모달 확인):</strong> 회원 상태 변경, 비밀번호 잠금 해제/초기화, 소셜 연동 해제, 수동 포인트 지급 &nbsp;|&nbsp;
+                <strong>일괄 저장 항목:</strong> 산준모 카페 ID, 마케팅 수신 동의, 관리자 내부 메모
+              </span>
+              <button type="button" class="btn btn-primary" onclick="saveMemberProfile()">💾 일반 정보 변경사항 저장</button>
+            </div>
 
             <div style="margin-top:18px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -1046,6 +1052,15 @@
                   <span>최근 <strong>10</strong>건만 표시 · 수정/삭제 불가(Append-only, 5년 보존)</span>
                   <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">보안 감사 로그 전체 보기 (ADMN-CONF-006/010) ↗</a>
                 </div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+              <button type="button" class="btn btn-outline" onclick="switchView('list')">← 회원 목록 (ADMN-USER-001)</button>
+              <div style="display:flex; gap:8px;">
+                <button type="button" class="btn btn-outline" onclick="switchView('course')">수강 · 기기 제어 (ADMN-USER-003)</button>
+                <button type="button" class="btn btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 등재 (ADMN-USER-005)</button>
+                <button type="button" class="btn btn-dark" onclick="saveMemberProfile()">💾 변경사항 저장</button>
               </div>
             </div>
           </div>
@@ -1540,6 +1555,28 @@
 
       document.getElementById('dt-paid-amt').textContent = m.paidAmt;
       document.getElementById('dt-rfd-amt').textContent = m.rfdAmt;
+    }
+
+    function saveMemberProfile() {
+      const m = MEMBERS[currentMemberId];
+      const cafeVal = document.getElementById('dt-cafe').value.trim();
+      const mktAgreed = document.getElementById('dt-mkt-agree').checked;
+      m.cafeId = cafeVal;
+      document.getElementById('dt-mkt-meta').innerHTML = `(<code>users.is_marketing_agreed = ${mktAgreed}</code> · 2026.10.17 관리자 수정 반영)`;
+
+      const tbody = document.querySelector('#dt-audit-timeline tbody');
+      if (tbody) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>2026.10.17 14:22</td>
+          <td>CS 김상담 (admin_kim)</td>
+          <td><span class="badge badge-blue">회원정보 저장</span></td>
+          <td>카페 ID(<code>${cafeVal || '미입력'}</code>) · 마케팅 수신 동의(<code>${mktAgreed ? '동의' : '거부'}</code>) · 내부 메모 저장</td>
+          <td><code>121.***.7.90</code></td>
+        `;
+        tbody.prepend(tr);
+      }
+      showToast('산준모 카페 ID, 마케팅 수신 동의(단일 필드), 관리자 내부 메모가 저장되고 관리 이력에 기록되었습니다.');
     }
 
     function unmaskMemberDetail() {
