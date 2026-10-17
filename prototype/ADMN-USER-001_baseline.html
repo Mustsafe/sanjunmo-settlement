@@ -630,7 +630,7 @@
               </div>
               <div class="card-body">
                 <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:10px 12px; margin-bottom:12px; font-size:11.5px; color:var(--text-secondary); line-height:1.55;">
-                  • <b>포인트 회수 원칙:</b> 환불 회수 시 <b>무상(FREE) 우선 차감 → 부족분 유상(PAID) 차감 → 전액 소진 후 부족분만 마이너스(-) 부채 전환 (DI 해시 기반 재가입 시 승계)</b>을 엄격 준수합니다.
+                  • <b>포인트 회수 원칙:</b> 기적립(구매 1%) 포인트 환불 회수 시 <b>무상(FREE) 포인트를 0P까지 먼저 차감한 뒤 유상(PAID) 포인트를 차감</b>하므로, 최종 부족분은 <b>유상 포인트 마이너스(-3,500P) 부채</b>로 기록되며 DI 해시 기반 재가입 시에도 복원·승계됩니다.
                 </div>
                 <table class="kv-table">
                   <tbody>
@@ -988,12 +988,12 @@
         statusLabel: "정상",
         locked: "AUTO_5FAIL",
         lockedLabel: "🔒 5회오류 잠금",
-        ptFree: 6600,
+        ptFree: 12000,
         ptPaid: 14000,
         tags: ["산준모카페인증"],
         mkt: "Y",
         lastLogin: "2026-10-16 11:40",
-        diInfo: "생애 최초 가입 (웰컴 혜택 지급완료 · 유상 14,000P 보유)"
+        diInfo: "생애 최초 가입 (웰컴 혜택 지급완료 · 유상 14,000P / 무상 12,000P 보유)"
       },
       {
         uid: "USR-1205",
@@ -1007,12 +1007,12 @@
         statusLabel: "정상",
         locked: "UNLOCKED",
         lockedLabel: "잠금없음 (0/5)",
-        ptFree: -3500,
-        ptPaid: 0,
+        ptFree: 0,
+        ptPaid: -3500,
         tags: ["마이너스부채"],
         mkt: "N",
         lastLogin: "2026-10-15 19:05",
-        diInfo: "환불 회수 시 무상 우선 차감 → 부족분 유상 차감 → 전액 소진 후 부족분만 마이너스 부채(-3,500P) 전환 (DI 해시 승계)"
+        diInfo: "환불 회수 시 무상(0P) 전액 소진 후 부족분 유상 포인트 마이너스(-3,500P) 부채 전환 (DI 해시 승계)"
       },
       {
         uid: "USR-1355",
@@ -1104,6 +1104,8 @@
         if (m.locked === "AUTO_5FAIL") lkBadge = '<span class="badge badge-red">🔒 5회오류 잠금</span>';
 
         const freeColor = m.ptFree < 0 ? "var(--danger)" : "var(--text-primary)";
+        const paidColor = m.ptPaid < 0 ? "var(--danger)" : "var(--purple)";
+        const paidLabel = m.ptPaid < 0 ? `유상 ${m.ptPaid.toLocaleString()} P (환불 회수 부채)` : `유상 ${m.ptPaid.toLocaleString()} P`;
 
         return `
           <tr onclick="openMemberDetail('${m.uid}')">
@@ -1116,8 +1118,8 @@
             <td class="ct"><span class="badge badge-slate">${m.joinLabel}</span></td>
             <td class="ct">${stBadge} ${lkBadge}</td>
             <td class="num">
-              <div style="font-weight:800; color:${freeColor};">무상 ${m.ptFree.toLocaleString()} P</div>
-              <div style="font-size:11px; color:var(--purple);">유상 ${m.ptPaid.toLocaleString()} P</div>
+              <div style="font-weight:800; color:${paidColor};">${paidLabel}</div>
+              <div style="font-size:11px; color:${freeColor};">무상 ${m.ptFree.toLocaleString()} P</div>
             </td>
             <td>${m.tags.map(t => `<span class="badge badge-blue" style="margin-right:4px;">${t}</span>`).join("")}</td>
             <td class="ct" style="font-size:11.5px; color:var(--text-secondary);">${m.lastLogin}</td>
@@ -1161,7 +1163,8 @@
       document.getElementById("dt-cafe-id").textContent = m.cafeId;
       document.getElementById("dt-di-info").innerHTML = `<code>DI_HASH_${m.uid}</code> · <span class="badge ${m.uid === 'USR-1355' ? 'badge-amber' : 'badge-green'}">${m.diInfo}</span>`;
       document.getElementById("dt-pt-free").innerHTML = `<b style="color:${m.ptFree < 0 ? 'var(--danger)' : 'var(--text-primary)'};">${m.ptFree.toLocaleString()} P</b> <span style="font-size:11.5px; color:var(--text-muted);">(200,000P Cap 이내)</span>`;
-      document.getElementById("dt-pt-paid").innerHTML = `<b>${m.ptPaid.toLocaleString()} P</b>`;
+      const paidDetailStr = m.ptPaid < 0 ? `<b style="color:var(--danger);">${m.ptPaid.toLocaleString()} P (환불 회수 미차감 부채)</b>` : `<b>${m.ptPaid.toLocaleString()} P</b>`;
+      document.getElementById("dt-pt-paid").innerHTML = paidDetailStr;
 
       const lockBox = document.getElementById("dt-lock-status");
       if (m.locked === "AUTO_5FAIL") {
