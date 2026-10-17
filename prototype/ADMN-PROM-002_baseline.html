@@ -939,6 +939,9 @@
             </div>
             <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal()">+ 관리자 포인트 수동 지급/차감</button>
           </div>
+          <div class="card-body" style="background:#F8FAFC; border-bottom:1px solid var(--border-color); font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            • <b>환불 시 적립 포인트 회수 순서:</b> <b>① 무상 포인트 우선 회수 → ② 부족 시 유상 포인트 회수 → ③ 유·무상 잔액(0P) 모두 소진 후 초과분만 마이너스(-) 부채 전환</b> (DI 해시 기반 재가입 시에도 부채 복원).
+          </div>
           <div style="overflow-x:auto;">
             <table class="data-table">
               <thead>
@@ -974,11 +977,11 @@
                 <tr>
                   <td><b>TX-PT-0750</b><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-12 11:05</span></td>
                   <td><b>정재훈</b> (USR-1205)</td>
-                  <td class="ct"><span class="badge badge-green">무상 (FREE)</span></td>
+                  <td class="ct"><span class="badge badge-purple">통합 원장</span></td>
                   <td class="ct"><span class="badge badge-red">DEBT (부채)</span></td>
                   <td class="num"><b style="color:var(--danger);">-3,500 P</b></td>
-                  <td class="num"><b style="color:var(--danger);">-3,500 P</b></td>
-                  <td>적립 포인트 선사용 후 강좌 환불(<code>ADMN-RFD-002-P1</code>) 발생 — 마이너스 포인트 부채 기록 (재가입 시에도 복원)</td>
+                  <td class="num"><b style="color:var(--danger);">-3,500 P</b><br/><span style="font-size:10.5px; color:var(--text-muted);">유상 0P / 무상 0P</span></td>
+                  <td>적립 포인트 선사용 후 강좌 환불(<code>ADMN-RFD-002-P1</code>) 회수 — 무상(0P)·유상(0P) 전액 소진 후 미회수 부채 <b>-3,500P</b> 기록 (DI 해시 승계)</td>
                 </tr>
               </tbody>
             </table>
