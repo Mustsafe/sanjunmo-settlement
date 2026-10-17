@@ -830,7 +830,7 @@
                   <th>판매 상태 / 노출 여부</th>
                   <td id="d-status-display">판매중 / 프론트 노출 (Y)</td>
                   <th>수강배수 / 기기제한</th>
-                  <td>무제한 배수 (재생수단: Kollus 보안 플레이어 / 등록기기 최대 2대)</td>
+                  <td>무제한 배수 (재생수단: StarPlayer+ 보안 플레이어 / PC 동시 재생 1세션 제어 (모바일 기기 등록 2차))</td>
                 </tr>
                 <tr>
                   <th>정산 1계층 매핑 상태</th>
@@ -915,7 +915,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">단과 강좌 등록 / 수정 (ADMN-PROD-003-S1)</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">단과 강좌 등록 / 수정 (ADMN-PROD-003-S2 · 커리큘럼 구성 003-S1 포함)</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
@@ -1390,12 +1390,12 @@
        2. 샘플 원장 데이터 (단과 강좌 / 강의 마스터 / 교재 마스터)
        ========================================================================= */
     const LECTURE_MASTER_POOL = [
-      { code: "LEC-2601", title: "[1강] 안전관리론 핵심 개념 및 재해발생 메커니즘", instructor: "김안전", player: "Kollus", durationSec: 2550, pdf: "1강_안전관리론_핵심교안.pdf" },
-      { code: "LEC-2602", title: "[2강] 하인리히 & 버드 재해연쇄성 이론과 빈출 계산문제", instructor: "김안전", player: "Kollus", durationSec: 2820, pdf: "2강_재해통계지수_공식집.pdf" },
-      { code: "LEC-2603", title: "[3강] 인간공학 및 시스템안전공학 FTA/ETA 위험성평가", instructor: "김안전", player: "Kollus", durationSec: 2460, pdf: "3강_FTA_실전예제.pdf" },
-      { code: "LEC-2604", title: "[4강] 기계위험방지기술 프레스·전단기·크레인 방호장치", instructor: "김안전", player: "Kollus", durationSec: 2610, pdf: "4강_기계방호장치_요약.pdf" },
-      { code: "LEC-2605", title: "[5강] 전기 및 화학설비 위험방지 폭발한계 계산 특강", instructor: "김안전", player: "Kollus", durationSec: 2310, pdf: "5강_폭발한계_기출모음.pdf" },
-      { code: "LEC-2606", title: "[6강] 건설안전기술 가설공사·비계·거푸집 동바리 안전기준", instructor: "이건설", player: "Kollus", durationSec: 2700, pdf: "6강_가설공사_기준표.pdf" },
+      { code: "LEC-2601", title: "[1강] 안전관리론 핵심 개념 및 재해발생 메커니즘", instructor: "김안전", player: "StarPlayer+", durationSec: 2550, pdf: "1강_안전관리론_핵심교안.pdf" },
+      { code: "LEC-2602", title: "[2강] 하인리히 & 버드 재해연쇄성 이론과 빈출 계산문제", instructor: "김안전", player: "StarPlayer+", durationSec: 2820, pdf: "2강_재해통계지수_공식집.pdf" },
+      { code: "LEC-2603", title: "[3강] 인간공학 및 시스템안전공학 FTA/ETA 위험성평가", instructor: "김안전", player: "StarPlayer+", durationSec: 2460, pdf: "3강_FTA_실전예제.pdf" },
+      { code: "LEC-2604", title: "[4강] 기계위험방지기술 프레스·전단기·크레인 방호장치", instructor: "김안전", player: "StarPlayer+", durationSec: 2610, pdf: "4강_기계방호장치_요약.pdf" },
+      { code: "LEC-2605", title: "[5강] 전기 및 화학설비 위험방지 폭발한계 계산 특강", instructor: "김안전", player: "StarPlayer+", durationSec: 2310, pdf: "5강_폭발한계_기출모음.pdf" },
+      { code: "LEC-2606", title: "[6강] 건설안전기술 가설공사·비계·거푸집 동바리 안전기준", instructor: "이건설", player: "StarPlayer+", durationSec: 2700, pdf: "6강_가설공사_기준표.pdf" },
       { code: "LEC-2607", title: "[7강] 산업안전보건법령 핵심 조문 및 벌칙 기준 총정리", instructor: "박보건", player: "Vimeo", durationSec: 2400, pdf: "7강_산안법_개정비교표.pdf" }
     ];
 
