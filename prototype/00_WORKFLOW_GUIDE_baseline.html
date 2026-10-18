@@ -50,8 +50,7 @@
         }
 
         .layout {
-            display: grid;
-            grid-template-columns: 272px 1fr;
+            display: block;
             min-height: 100vh;
         }
 
@@ -965,6 +964,63 @@
                     </div>
                 </div>
 
+                            <!-- SECTION 5: 백오피스 11개 전 도메인 프로토타입 전체 바로가기 디렉터리 -->
+                <div class="section-card">
+                    <div class="section-hd">
+                        <h2>5️⃣ 산준모닷컴 백오피스 11개 전 도메인 화면 디렉터리 (11/16 1차 오픈 완결)</h2>
+                        <span class="badge b-pri">전체 36개 프로토타입 100% 연결</span>
+                    </div>
+                    <div class="section-bd">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>도메인 구분</th>
+                                    <th>수록 화면 코드 및 한글 화면명</th>
+                                    <th>바로가기 링크</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>01~02. 로그인 · 대시보드 · 통계</strong></td>
+                                    <td><code>ADMN-LOGIN-001~003</code> 관리자·파트너 로그인/아이디·비번 찾기 · <code>ADMN-DASH-001</code> 대시보드 홈 · <code>ADMN-STAT-001~002</code> 매출·상품 통계</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-DASH-001_baseline.html?view=dash')">대시보드 홈 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-DASH-001_baseline.html?view=stat-sales')">매출·상품통계 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-LOGIN-001_baseline.html')">로그인 게이트 →</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>03. 회원 · 수강 · 태그 · 블랙리스트</strong></td>
+                                    <td><code>ADMN-USER-001~006</code> 회원 목록·상세·1:1 발송·수강/기기·진도율(004)·블랙리스트(005)·태그(006) · <code>ADMN-USER-007</code> 민감정보 통제</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-USER-001_baseline.html?view=list')">일반회원 관리 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-USER-001_baseline.html?view=course')">수강·진도(003/004) →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-USER-001_baseline.html?view=blacklist')">블랙리스트(005) →</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>05·07·09·10. 주문 · 환불 · 마케팅 · 게시판</strong></td>
+                                    <td><code>ADMN-ORD-001~002</code> 주문/3PL · <code>ADMN-RFD-002~004</code> 환불심사 · <code>ADMN-PROM-001~003</code> 이벤트/쿠폰/포인트 · <code>ADMN-BRD-001~010</code> 게시판/CS</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-BRD-001_baseline.html?view=notice')">공지·FAQ·당첨 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-BRD-005_baseline.html?view=review')">후기·무료특강 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-PROM-001_baseline.html')">이벤트·기획전 →</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>11. 사이트 · 약관 · 메시지 · 권한 · 감사</strong></td>
+                                    <td><code>ADMN-CONF-001~S2</code> 배너/띠배너/팝업 · <code>CONF-002</code> 약관 5종 · <code>CONF-003/008</code> 플레이어/인증 · <code>CONF-004/S1/007</code> 3채널 템플릿/발송 · <code>CONF-005</code> RBAC</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-CONF-001_baseline.html?view=banner')">전시·배너·팝업 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-CONF-002_baseline.html')">약관 관리 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-CONF-004_baseline.html?view=template')">메시지·발송 →</button>
+                                        <button class="btn btn-sm" onclick="goScreen('ADMN-CONF-005_baseline.html')">권한(RBAC) →</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </main>
     

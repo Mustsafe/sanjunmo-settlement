@@ -18,6 +18,7 @@
         { code: "USER-001", label: "일반 회원 관리 (목록·상세)", href: "ADMN-USER-001_baseline.html?view=list", screenCode: "ADMN-USER-001" },
         { code: "USER-003", label: "회원 수강 · 기간 · 기기 제어", href: "ADMN-USER-001_baseline.html?view=course", screenCode: "ADMN-USER-003" },
         { code: "USER-006", label: "회원 그룹 · 다중 태그 관리", href: "ADMN-USER-001_baseline.html?view=tags", screenCode: "ADMN-USER-006" },
+        { code: "USER-005", label: "블랙리스트 · 부정사용 제재 관리", href: "ADMN-USER-001_baseline.html?view=blacklist", screenCode: "ADMN-USER-005" },
         { code: "USER-007", label: "민감 정보 열람 · 파기 통제", href: "ADMN-USER-007_baseline.html", screenCode: "ADMN-USER-007" }
       ]
     },
@@ -58,6 +59,7 @@
       title: "2단계 · 월마감 전 검증 (Gate)",
       items: [
         { code: "SETT-004", label: "PG 정산 원장 대사", href: "ADMN-SETT-004_baseline.html", screenCode: "ADMN-SETT-004" },
+        { code: "SETT-003", label: "도서 정산 · 위탁/인세 재고 대사", href: "ADMN-SETT-003_baseline.html", screenCode: "ADMN-SETT-003" },
         { code: "INST-002", label: "약정금 마일스톤 검수", href: "ADMN-INST-002_baseline.html", screenCode: "ADMN-INST-002" },
         { code: "SETT-006", label: "합격 환급반 관리", href: "ADMN-SETT-006_baseline.html", screenCode: "ADMN-SETT-006" },
         { code: "SETT-008", label: "사업자등록 확인 이력", href: "ADMN-SETT-008_baseline.html", screenCode: "ADMN-SETT-008" }
@@ -69,6 +71,7 @@
         { code: "SETT-002", label: "월간 정산 및 집행", href: "ADMN-SETT-002_baseline.html", screenCode: "ADMN-SETT-002" },
         { code: "SETT-005", label: "정산 수동 조정", href: "ADMN-SETT-005_baseline.html", screenCode: "ADMN-SETT-005" },
         { code: "SETT-009", label: "내부 정산 조회 - 조회 전용", href: "ADMN-SETT-009_baseline.html", screenCode: "ADMN-SETT-009" },
+        { code: "SETT-010", label: "원천세 · 지급명세서 신고 산출물", href: "ADMN-SETT-010_baseline.html", screenCode: "ADMN-SETT-010" },
         { code: "SETT-011", label: "택배 대리점 운임 · 배송비 대사", href: "ADMN-SETT-011_baseline.html", screenCode: "ADMN-SETT-011" }
       ]
     },
@@ -76,7 +79,8 @@
       title: "4단계 · 보안 및 감사 통제",
       items: [
         { code: "USER-007", label: "민감 정보 열람 통제", href: "ADMN-USER-007_baseline.html", screenCode: "ADMN-USER-007" },
-        { code: "CONF-010", label: "정산 감사 로그", href: "ADMN-CONF-010_baseline.html", screenCode: "ADMN-CONF-010" }
+        { code: "CONF-010", label: "정산 감사 로그", href: "ADMN-CONF-010_baseline.html", screenCode: "ADMN-CONF-010" },
+        { code: "CONF-006", label: "운영 · 보안 통합 감사 로그", href: "ADMN-CONF-006_baseline.html", screenCode: "ADMN-CONF-006" }
       ]
     },
     {
