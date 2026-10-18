@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-LOGIN-001~003] 관리자 · 파트너 로그인 및 계정 찾기 — 산준모 백오피스</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --danger: #dc2626;
+      --warning: #d97706;
+      --success: #059669;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0f172a 100%);
+      color: var(--text-primary);
+      font-size: 13px;
+    }
+    #v4-root-shell {
+      margin-left: 260px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .top-bar.v4-gen3-topbar {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .screen-id-badge {
+      background: #1e293b;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .main-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+    }
+    .auth-shell {
+      width: 100%;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+    .auth-brand-pane {
+      background: linear-gradient(160deg, #1e3a8a 0%, #0f172a 100%);
+      color: #ffffff;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .brand-pill {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .brand-title { font-size: 24px; font-weight: 800; line-height: 1.35; margin-bottom: 12px; }
+    .brand-desc { font-size: 13px; color: #cbd5e1; line-height: 1.6; }
+    .security-policy-list {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.65;
+    }
+
+    .auth-form-pane {
+      padding: 34px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .mode-switcher {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 7px 8px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .mode-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 6px; color: var(--text-primary); }
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .form-input:focus { outline: 2px solid #93c5fd; border-color: var(--primary); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 11px 16px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .btn-submit:hover { background: var(--primary-hover); }
+
+    .alert-box {
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .alert-warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+    .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .alert-ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+
+    .helper-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+      font-size: 12px;
+    }
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <aside id="v4-master-snb"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="screen-id-badge" id="login-screen-badge">ADMN-LOGIN-001</span>
+        <strong style="font-size:15px;" id="login-screen-title">관리자 로그인 — 사내 운영자 및 강사/출판사 파트너 통합 게이트웨이</strong>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #cbd5e1; border-radius:6px;" onclick="triggerSessionExpiredBanner()">⏱️ 30분 세션만료 배너 시연</button>
+        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #fecaca; color:#dc2626; border-radius:6px;" onclick="triggerLockoutState()">🔒 5회 실패 잠금(ADMN-LOGIN-001-P1) 시연</button>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+      <div class="auth-shell">
+        <!-- 좌측 브랜드 & 보안 정책 안내 -->
+        <div class="auth-brand-pane">
+          <div>
+            <span class="brand-pill">admin.sanjunmo.com · v4.0.0 SSOT</span>
+            <div class="brand-title">산준모닷컴 백오피스<br/>통합 어드민 &amp; 파트너 센터</div>
+            <div class="brand-desc">
+              사내 운영자(최고관리자·운영·CS·물류·정산)와 외부 권리자(강사·출판사 파트너)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
+            </div>
+            <div class="security-policy-list">
+              <div>• 모든 로그인 성공 · 실패 · 잠금 이력은 보안 감사 로그(<strong>ADMN-CONF-010</strong>)에 자동 기록됩니다.</div>
+              <div>• 비밀번호 <strong>5회 연속 실패 시</strong> 계정이 즉시 잠금 처리됩니다.</div>
+              <div>• SMS 본인인증은 24시간 내 <strong>최대 5회</strong>, 재발송 쿨다운 <strong>30초</strong>, 유효시간 <strong>3분</strong>이 적용됩니다 (<strong>ADMN-CONF-003</strong>).</div>
+              <div>• 계정 발급 · 잠금 해제 문의: 운영팀 <strong>ops@sanjunmo.com</strong></div>
+            </div>
+          </div>
+          <div style="font-size:11px; color:#94a3b8;">
+            ※ 사용자 프론트(sanjunmo.com) 계정은 백오피스에 로그인할 수 없습니다.
+          </div>
+        </div>
+
+        <!-- 우측 폼 영역 -->
+        <div class="auth-form-pane">
+          <div class="mode-switcher">
+            <button type="button" class="mode-btn active" id="mode-btn-login" onclick="switchAuthMode('login')">🔐 로그인 (001)</button>
+            <button type="button" class="mode-btn" id="mode-btn-find-id" onclick="switchAuthMode('find-id')">🔎 아이디 찾기 (002)</button>
+            <button type="button" class="mode-btn" id="mode-btn-reset-pw" onclick="switchAuthMode('reset-pw')">🔑 비밀번호 재설정 (003)</button>
+          </div>
+
+          <!-- 세션 만료 배너 -->
+          <div id="banner-session-expired" class="alert-box alert-warn" style="display:none;">
+            ⏳ <strong>장시간(30분) 조작이 없어 자동 로그아웃되었습니다.</strong> 다시 로그인해 주세요.
+          </div>
+
+          <!-- =========================================================
+               MODE 1: 로그인 (ADMN-LOGIN-001 & 001-P1)
+               ========================================================= -->
+          <div id="panel-login" class="view-panel active">
+            <!-- 5회 실패 잠금 안내 (ADMN-LOGIN-001-P1) -->
+            <div id="box-lockout-p1" class="alert-box alert-danger" style="display:none;">
+              <strong>🔒 계정이 잠겼습니다 (비밀번호 5회 연속 불일치 · ADMN-LOGIN-001-P1)</strong><br/>
+              보안 정책에 따라 해당 계정(<strong>cs.kim@sanjunmo.com</strong>)의 로그인이 차단되었습니다.<br/>
+              • 본인 휴대폰 SMS 인증 후 <strong>[비밀번호 재설정]</strong>을 완료하면 즉시 잠금이 해제됩니다.<br/>
+              • 또는 최고관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">접속 역할 프리셋 (시연용 빠른 선택)</label>
+              <select id="sel-demo-account" class="form-input" onchange="fillDemoAccount(this.value)">
+                <option value="ops@sanjunmo.com|SUPER">최고관리자 (ops@sanjunmo.com → 대시보드 ADMN-DASH-001 이동)</option>
+                <option value="cs.kim@sanjunmo.com|CS">CS담당자 (cs.kim@sanjunmo.com → 1:1 문의 ADMN-BRD-002 이동)</option>
+                <option value="inst.jung@sanjunmo.com|PARTNER">강사 파트너 (inst.jung@sanjunmo.com → 정산 조회 ADMN-SETT-009 이동)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">관리자 아이디 (이메일) *</label>
+              <input type="email" id="inp-login-email" class="form-input" value="ops@sanjunmo.com" placeholder="사내 업무용 이메일 또는 파트너 계정" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">비밀번호 * <span id="lbl-fail-cnt" style="color:var(--danger); font-weight:700; margin-left:6px;"></span></label>
+              <input type="password" id="inp-login-pw" class="form-input" value="Sanjunmo!2026" onkeyup="checkCapsLock(event)" placeholder="비밀번호 입력 (오류 시연: wrong 입력)" />
+              <div id="caps-lock-warn" style="display:none; color:var(--warning); font-size:11px; font-weight:700; margin-top:4px;">
+                ⚠️ Caps Lock이 켜져 있습니다.
+              </div>
+            </div>
+
+            <button type="button" class="btn-submit" id="btn-do-login" onclick="handleAdminLogin()">로그인</button>
+
+            <div class="helper-links">
+              <button type="button" class="link-btn" onclick="switchAuthMode('find-id')">아이디 찾기 (ADMN-LOGIN-002)</button>
+              <button type="button" class="link-btn" onclick="switchAuthMode('reset-pw')">비밀번호 찾기 · 잠금 해제 (ADMN-LOGIN-003)</button>
+            </div>
+          </div>
+
+          <!-- =========================================================
+               MODE 2: 아이디 찾기 (ADMN-LOGIN-002)
+               ========================================================= -->
+          <div id="panel-find-id" class="view-panel">
+            <div class="alert-box alert-warn">
+              운영자 계정 관리(<strong>ADMN-CONF-005</strong>)에 등록된 <strong>이름 + 휴대폰 번호 SMS 본인인증</strong>을 거쳐 로그인 이메일을 조회합니다.
+            </div>
+            <div class="form-group">
+              <label class="form-label">이름 *</label>
+              <input type="text" id="inp-find-name" class="form-input" value="김산준" placeholder="등록된 실명 입력" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">휴대폰 번호 *</label>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="inp-find-phone" class="form-input" value="010-2345-6789" placeholder="010-0000-0000" />
+                <button type="button" class="btn-submit" style="width:140px; margin-top:0; font-size:12px;" onclick="sendSmsOtp('find')">인증번호 발송</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">SMS 인증번호 (6자리 · 유효시간 <span id="timer-find" style="color:var(--danger);">03:00</span>)</label>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="inp-find-otp" class="form-input" value="482910" maxlength="6" />
+                <button type="button" class="btn-submit" style="width:140px; margin-top:0; font-size:12px; background:#059669;" onclick="verifyFindIdOtp()">인증 확인</button>
+              </div>
+            </div>
+            <div id="box-found-id-result" class="alert-box alert-ok" style="display:none;">
+              ✅ <strong>본인인증 완료 — 등록된 관리자 아이디</strong><br/>
+              • 전체 이메일: <strong style="font-size:14px;">cs.kim@sanjunmo.com</strong> (CS담당자 · 계정상태: 정상)<br/>
+              <div style="margin-top:8px;">
+                <button type="button" class="link-btn" onclick="applyFoundEmailAndGoLogin('cs.kim@sanjunmo.com')">→ 이 계정으로 즉시 로그인하기</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- =========================================================
+               MODE 3: 비밀번호 재설정 (ADMN-LOGIN-003)
+               ========================================================= -->
+          <div id="panel-reset-pw" class="view-panel">
+            <div class="alert-box alert-warn">
+              이메일 아이디와 휴대폰 SMS 본인인증 완료 후 화면에서 새 비밀번호를 즉시 설정합니다. 재설정 즉시 <strong>5회 실패 잠금도 자동 해제</strong>됩니다.
+            </div>
+            <div class="form-group">
+              <label class="form-label">관리자 아이디 (이메일) *</label>
+              <input type="email" id="inp-reset-email" class="form-input" value="cs.kim@sanjunmo.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">등록 휴대폰 번호 *</label>
+              <div style="display:flex; gap:8px;">
+                <input type="text" id="inp-reset-phone" class="form-input" value="010-2345-6789" />
+                <button type="button" class="btn-submit" style="width:140px; margin-top:0; font-size:12px;" onclick="sendSmsOtp('reset')">인증번호 발송</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">SMS 인증번호 (6자리) *</label>
+              <input type="text" id="inp-reset-otp" class="form-input" value="839104" maxlength="6" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">새 비밀번호 (영문+숫자+특수문자 조합 8~20자) *</label>
+              <input type="password" id="inp-reset-pw1" class="form-input" value="NewSanjun!2026" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">새 비밀번호 확인 *</label>
+              <input type="password" id="inp-reset-pw2" class="form-input" value="NewSanjun!2026" />
+            </div>
+            <button type="button" class="btn-submit" onclick="submitPasswordReset()">비밀번호 변경 및 계정 잠금 해제</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let loginFailCount = 0;
+
+    function switchAuthMode(mode) {
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+
+      const badge = document.getElementById("login-screen-badge");
+      const title = document.getElementById("login-screen-title");
+
+      if (mode === "find-id") {
+        document.getElementById("panel-find-id").classList.add("active");
+        document.getElementById("mode-btn-find-id").classList.add("active");
+        badge.textContent = "ADMN-LOGIN-002";
+        title.textContent = "아이디 찾기 — 이름 · 휴대폰 본인인증(SMS) 기반 관리자 계정 조회";
+      } else if (mode === "reset-pw") {
+        document.getElementById("panel-reset-pw").classList.add("active");
+        document.getElementById("mode-btn-reset-pw").classList.add("active");
+        badge.textContent = "ADMN-LOGIN-003";
+        title.textContent = "비밀번호 재설정 — 이메일 · SMS 본인인증 후 화면 내 즉시 변경";
+      } else {
+        document.getElementById("panel-login").classList.add("active");
+        document.getElementById("mode-btn-login").classList.add("active");
+        badge.textContent = "ADMN-LOGIN-001";
+        title.textContent = "관리자 로그인 — 사내 운영자 및 강사/출판사 파트너 통합 게이트웨이";
+      }
+    }
+
+    function fillDemoAccount(val) {
+      const [email] = val.split("|");
+      document.getElementById("inp-login-email").value = email;
+      document.getElementById("inp-login-pw").value = "Sanjunmo!2026";
+      loginFailCount = 0;
+      document.getElementById("lbl-fail-cnt").textContent = "";
+      document.getElementById("box-lockout-p1").style.display = "none";
+      document.getElementById("btn-do-login").disabled = false;
+    }
+
+    function checkCapsLock(e) {
+      const warn = document.getElementById("caps-lock-warn");
+      if (e.getModifierState && e.getModifierState("CapsLock")) {
+        warn.style.display = "block";
+      } else {
+        warn.style.display = "none";
+      }
+    }
+
+    function handleAdminLogin() {
+      const email = document.getElementById("inp-login-email").value.trim();
+      const pw = document.getElementById("inp-login-pw").value;
+
+      if (!email || !pw) {
+        alert("아이디(이메일)와 비밀번호를 모두 입력해 주세요.");
+        return;
+      }
+
+      if (pw === "wrong") {
+        loginFailCount += 1;
+        document.getElementById("lbl-fail-cnt").textContent = `(비밀번호 불일치 ${loginFailCount}/5회)`;
+        if (loginFailCount >= 5) {
+          triggerLockoutState();
+        }
+        return;
+      }
+
+      if (email.indexOf("inst.") === 0) {
+        window.location.href = "ADMN-SETT-009_baseline.html";
+      } else if (email.indexOf("cs.") === 0) {
+        window.location.href = "ADMN-BRD-002_baseline.html";
+      } else {
+        window.location.href = "ADMN-DASH-001_baseline.html?view=dash";
+      }
+    }
+
+    function triggerLockoutState() {
+      switchAuthMode("login");
+      loginFailCount = 5;
+      document.getElementById("login-screen-badge").textContent = "ADMN-LOGIN-001-P1";
+      document.getElementById("lbl-fail-cnt").textContent = "(5/5회 실패 · 계정 잠금)";
+      document.getElementById("box-lockout-p1").style.display = "block";
+      document.getElementById("btn-do-login").disabled = true;
+    }
+
+    function triggerSessionExpiredBanner() {
+      const el = document.getElementById("banner-session-expired");
+      el.style.display = el.style.display === "none" ? "block" : "none";
+    }
+
+    function sendSmsOtp(target) {
+      alert("[SENS SMS 발송] 등록된 휴대폰 번호로 6자리 인증번호가 발송되었습니다. (유효시간 3분 · 일 최대 5회)");
+    }
+
+    function verifyFindIdOtp() {
+      document.getElementById("box-found-id-result").style.display = "block";
+    }
+
+    function applyFoundEmailAndGoLogin(email) {
+      switchAuthMode("login");
+      document.getElementById("inp-login-email").value = email;
+    }
+
+    function submitPasswordReset() {
+      const p1 = document.getElementById("inp-reset-pw1").value;
+      const p2 = document.getElementById("inp-reset-pw2").value;
+      if (p1.length < 8 || p1 !== p2) {
+        alert("새 비밀번호(영문+숫자+특수문자 8~20자)가 일치하지 않습니다.");
+        return;
+      }
+      loginFailCount = 0;
+      document.getElementById("box-lockout-p1").style.display = "none";
+      document.getElementById("btn-do-login").disabled = false;
+      document.getElementById("lbl-fail-cnt").textContent = "";
+      alert("[감사 로그 기록 완료] 새 비밀번호 변경 및 계정 잠금 해제가 완료되었습니다. 로그인 화면으로 이동합니다.");
+      switchAuthMode("login");
+    }
+  </script>
+</body>
+</html>
