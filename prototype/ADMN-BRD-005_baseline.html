@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-BRD-005 · 010] 수강·합격후기 검수 및 무료특강(기출·매일1문제) 관리 — 산준모닷컴 백오피스 v8.4 FINAL</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-body: #F3F5F9; --bg-card: #FFFFFF; --bg-subtle: #F8FAFC;
+      --text-main: #0F172A; --text-sub: #475569; --text-muted: #64748B;
+      --border: #E2E8F0; --border-strong: #CBD5E1;
+      --primary: #2563EB; --primary-hover: #1D4ED8;
+      --success: #16A34A; --warning: #D97706; --danger: #DC2626;
+      --radius-md: 8px; --radius-lg: 12px; --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 13px; line-height: 1.5; min-width: 1440px; }
+    #v4-root-shell { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar.v4-gen3-topbar { height: 60px; background: #FFF; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 100; }
+    .crumb-wrap { display: flex; align-items: center; gap: 10px; }
+    .crumb-code { background: #1E293B; color: #F8FAFC; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+    .crumb-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .crumb-sub { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+    .main-container { padding: 24px 28px 60px; max-width: 1640px; width: 100%; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+    .kpi-card .k-title { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px; }
+    .kpi-card .k-num { font-family: "Pretendard", sans-serif; font-size: 22px; font-weight: 800; color: var(--text-main); text-align: left; margin-bottom: 6px; }
+    .kpi-card .k-sub { font-size: 11.5px; color: var(--text-muted); }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 20px; overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #FAFBFD; }
+    .card-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .card-body { padding: 18px 20px; }
+
+    .policy-banner { background: #EFF6FF; border: 1px solid #BFDBFE; border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 18px; font-size: 12px; color: #1E3A8A; line-height: 1.6; }
+    .f-input, .f-select, .f-textarea { height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 12.5px; font-family: inherit; color: var(--text-main); background: #FFF; }
+    .f-textarea { height: auto; padding: 10px; }
+    .btn { height: 34px; padding: 0 14px; border-radius: 6px; font-size: 12.5px; font-weight: 700; border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+    .btn-primary { background: var(--primary); color: #FFF; }
+    .btn-outline { background: #FFF; border-color: var(--border-strong); color: var(--text-main); }
+
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+    .badge-green { background: #DCFCE7; color: #15803D; }
+    .badge-amber { background: #FEF3C7; color: #B45309; }
+    .badge-purple { background: #F3E8FF; color: #7E22CE; }
+    .badge-gray { background: #F1F5F9; color: #475569; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th { background: #F8FAFC; color: var(--text-sub); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .data-table tbody tr:hover { background: #F8FAFC; cursor: pointer; }
+    .kv-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .kv-table th { width: 160px; background: var(--bg-subtle); padding: 10px 14px; border: 1px solid var(--border); text-align: left; font-weight: 700; color: var(--text-sub); font-size: 12px; }
+    .kv-table td { padding: 10px 14px; border: 1px solid var(--border); font-size: 12.5px; }
+
+    .inner-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--border); margin-bottom: 18px; }
+    .inner-tab { padding: 10px 18px; font-size: 13px; font-weight: 800; color: var(--text-sub); border: none; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+    .inner-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+    #toast-box { position: fixed; bottom: 24px; right: 24px; background: #0F172A; color: #FFF; padding: 12px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: none; z-index: 2000; }
+    code { background: #F1F5F9; padding: 2px 5px; border-radius: 4px; font-size: 11.5px; }
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="crumb-wrap">
+        <span class="crumb-code" id="top-crumb-code">ADMN-BRD-005</span>
+        <h1 class="crumb-title">수강·합격후기 검수 및 무료특강(기출문제 · 매일 1문제) 관리</h1>
+        <span class="crumb-sub">게시판 관리 &gt; 합격증빙·카페 공유 검수 및 리워드 포인트(BRD-005) · 기출문제 PDF 및 정오표 매일 1문제(BRD-010)</span>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="k-title"><span>합격수기 · 수강후기 검수 대기</span><span class="badge badge-amber">ADMN-BRD-005</span></div>
+          <div class="k-num" id="kpi-rev-wait">2 건</div>
+          <div class="k-sub">검수 완료 208건 · 합격환급반(RFD-001) 연동 41건</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>베스트 후기 선정 (메인·강좌홈)</span><span class="badge badge-purple">최대 12건</span></div>
+          <div class="k-num">10 / 12 건</div>
+          <div class="k-sub">네이버 카페 공유 인증 완료 건 우선 노출</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>기출문제 자료실 (PDF 배포)</span><span class="badge badge-blue">ADMN-BRD-010</span></div>
+          <div class="k-num" id="kpi-exam-cnt">3 건</div>
+          <div class="k-sub">로그인 회원 전용 다운로드 (워터마크 제외)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>정오표 · 매일 1문제</span><span class="badge badge-green">ADMN-BRD-010</span></div>
+          <div class="k-num">2 건</div>
+          <div class="k-sub">1Depth 자격종목별 데일리 학습 콘텐츠</div>
+        </div>
+      </div>
+
+      <div class="inner-tabs">
+        <button type="button" class="inner-tab active" id="tab-btn-review" onclick="switchBrd005Tab('review')">🏆 수강후기 · 합격수기 검수 관리 (ADMN-BRD-005 · 005-S1)</button>
+        <button type="button" class="inner-tab" id="tab-btn-free" onclick="switchBrd005Tab('free')">📚 무료특강 관리 — 기출문제 · 정오표 매일 1문제 (ADMN-BRD-010 · 010-S1)</button>
+      </div>
+
+      <!-- 탭 1: 수강후기 / 합격수기 검수 (목록 뷰 <-> 상세 검수 뷰) -->
+      <section id="panel-review-list" class="view-panel active">
+        <div class="policy-banner">
+          <strong>[수강·합격후기(ADMN-BRD-005) 검수 및 합격환급반 연동 원칙]</strong>
+          합격환급반 수험생이 작성한 합격수기는 <strong>합격증빙 첨부 여부, 글자수(1,000자 이상), 산준모 네이버 카페 공유 인증(O/X)</strong>을 검수하며, 검수 승인 결과는 합격환급 심사(<code>ADMN-RFD-001</code>)의 필수 요건 충족 상태와 자동 연동됩니다. 우수 후기 선정 시 무상 리워드 포인트(<code>5,000P</code>)를 1회 지급할 수 있습니다.
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🏆 수강후기 · 합격수기 목록 (ADMN-BRD-005)</span>
+              <span class="badge badge-gray">행을 클릭하면 [후기 상세 검수 · 카페 인증 · 포인트 지급(ADMN-BRD-005-S1)] 화면으로 이동합니다</span>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>작성일</th>
+                  <th>수강 강좌 / 응시 회차</th>
+                  <th>제목</th>
+                  <th>작성자</th>
+                  <th>합격증빙</th>
+                  <th>글자수</th>
+                  <th>카페 공유</th>
+                  <th>리워드 포인트</th>
+                  <th>검수 상태</th>
+                  <th style="text-align:right;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="review-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-review-detail" class="view-panel">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchBrd005Tab('review')">← 후기 목록으로 (ADMN-BRD-005)</button>
+              <span id="rv-detail-title" style="margin-left:6px; font-weight:800;">수강·합격후기 상세 검수 (ADMN-BRD-005-S1)</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="kv-table">
+              <tbody>
+                <tr>
+                  <th>작성자 / 수강 강좌</th>
+                  <td id="rv-meta-user">홍*동 (100482) · 2026 산업안전기사 필기+실기 합격환급반</td>
+                  <th>합격증빙 / 글자수</th>
+                  <td id="rv-meta-cert"><span class="badge badge-green">큐넷 합격확인서 첨부 (검증대상)</span> · <strong>1,420자</strong> (1,000자 기준 충족)</td>
+                </tr>
+                <tr>
+                  <th>산준모 카페 공유 URL</th>
+                  <td><code>https://cafe.naver.com/sanjunmo/994812</code> <span class="badge badge-blue">카페 ID 일치(sanjun_hong88)</span></td>
+                  <th>베스트 후기 / 노출 상태</th>
+                  <td>
+                    <label style="font-weight:800; margin-right:12px;"><input type="checkbox" id="rv-best-chk" checked /> 🌟 베스트 후기 지정 (메인·강좌홈 노출)</label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>후기 본문</th>
+                  <td colspan="3">
+                    <div id="rv-body-box" style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:14px; line-height:1.7;">
+                      비전공자로 시작해서 막막했는데 박안전 교수님 커리큘럼대로 필기 기출 7개년과 실기 필답형+작업형 빈출 특강만 3회독하고 동차 합격했습니다! 합격환급반 덕분에 끝까지 동기부여 유지할 수 있었습니다.
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>검수 판정 및 포인트 지급 *</th>
+                  <td colspan="3">
+                    <select id="rv-judge-sel" class="f-select" style="width:220px;">
+                      <option value="검수완료">검수 승인 (노출 + 합격환급 요건 인정)</option>
+                      <option value="반려">검수 반려 (증빙 식별불가 / 글자수 미달)</option>
+                    </select>
+                    <label style="font-weight:800; margin-left:14px; color:var(--primary); cursor:pointer;">
+                      <input type="checkbox" id="rv-grant-point" checked /> 🎁 우수 합격수기 무상 포인트 5,000P 즉시 지급 (중복 지급 자동 차단)
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+              <button type="button" class="btn btn-outline" onclick="switchBrd005Tab('review')">취소</button>
+              <button type="button" class="btn btn-primary" onclick="saveReviewJudge()">💾 검수 결과 및 포인트 지급 확정</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 탭 2: 무료특강 관리 (기출문제 EXAM / 정오표 매일 1문제 DAILY — ADMN-BRD-010 / 010-S1) -->
+      <section id="panel-free-list" class="view-panel">
+        <div class="policy-banner">
+          <strong>[무료특강 관리(ADMN-BRD-010) — 기출문제 · 정오표 매일 1문제 운영 규칙]</strong>
+          정본 설계서 제4.8절·제5.2절 기준 본 메뉴는 <strong>① 기출문제(EXAM, 연도·회차·기출 PDF 첨부)</strong>와 <strong>② 정오표 매일 1문제(DAILY, 일일 학습 문제·정오표)</strong>를 통합 관리합니다. (무료 영상 강의는 강의 관리 <code>ADMN-PROD-002</code>의 맛보기 설정과 자동 연동되며, 기출 PDF는 로그인 회원만 워터마크 없이 다운로드 가능합니다.)
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>📚 무료특강 (기출문제 · 정오표 매일 1문제) 목록 (ADMN-BRD-010)</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openFreeDetail(null)">+ 무료특강 (기출 · 매일1문제) 등록</button>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>콘텐츠 구분</th>
+                  <th>자격종목 (1Depth)</th>
+                  <th>연도 / 회차</th>
+                  <th>제목</th>
+                  <th>첨부 PDF (회원전용)</th>
+                  <th>연관 유료 강좌 매핑</th>
+                  <th>등록일</th>
+                  <th>노출</th>
+                  <th style="text-align:right;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="free-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-free-detail" class="view-panel">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchBrd005Tab('free')">← 무료특강 목록으로 (ADMN-BRD-010)</button>
+              <span style="margin-left:6px; font-weight:800;">무료특강 (기출문제 · 정오표 매일 1문제) 등록 · 수정 (ADMN-BRD-010-S1)</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="kv-table">
+              <tbody>
+                <tr>
+                  <th>콘텐츠 구분 (<code>content_type</code>) *</th>
+                  <td>
+                    <select id="fr-type" class="f-select" style="width:220px;" onchange="toggleFreeTypeFields()">
+                      <option value="기출문제 (EXAM)">기출문제 (EXAM · 연도/회차/PDF)</option>
+                      <option value="매일 1문제 (DAILY)">정오표 · 매일 1문제 (DAILY)</option>
+                    </select>
+                  </td>
+                  <th>자격종목 (1Depth 카테고리) *</th>
+                  <td>
+                    <select id="fr-cert" class="f-select" style="width:220px;">
+                      <option value="산업안전기사">산업안전기사</option>
+                      <option value="건설안전기사">건설안전기사</option>
+                      <option value="위험물산업기사">위험물산업기사</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr id="fr-row-exam-meta">
+                  <th>기출 연도 / 회차 *</th>
+                  <td>
+                    연도: <input type="number" id="fr-year" class="f-input" style="width:90px;" value="2026" /> 년 &nbsp;·&nbsp;
+                    회차: <input type="number" id="fr-round" class="f-input" style="width:70px;" value="2" min="1" max="4" /> 회차
+                  </td>
+                  <th>첨부 기출 PDF (로그인 전용)</th>
+                  <td><input type="text" id="fr-pdf" class="f-input" style="width:100%;" value="2026_제2회_산업안전기사_필기_복원기출해설.pdf (4.2MB)" /></td>
+                </tr>
+                <tr>
+                  <th>제목 *</th>
+                  <td colspan="3"><input type="text" id="fr-title" class="f-input" style="width:100%;" value="2026년 제2회 산업안전기사 필기 기출문제 및 정답 해설집" /></td>
+                </tr>
+                <tr>
+                  <th>연관 유료 강좌 매핑 (수강 유도)</th>
+                  <td colspan="3">
+                    <select id="fr-course" class="f-select" style="width:460px;">
+                      <option value="2026 산업안전기사 필기+실기 합격환급반">2026 산업안전기사 필기+실기 합격환급반 (상세 하단 '관련 강좌' 카드 노출)</option>
+                      <option value="2026 건설안전기사 필기 단기완성반">2026 건설안전기사 필기 단기완성반</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <th>본문 / 문제 및 해설 *</th>
+                  <td colspan="3"><textarea id="fr-body" class="f-textarea" style="width:100%; min-height:150px;">2026년 제2회 산업안전기사 필기 복원 기출문제 및 과목별 상세 해설 자료입니다. 첨부된 PDF는 로그인 회원에 한해 무료로 다운로드 가능합니다.</textarea></td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+              <button type="button" class="btn btn-outline" onclick="switchBrd005Tab('free')">취소</button>
+              <button type="button" class="btn btn-primary" onclick="saveFreePost()">💾 무료특강 자료 저장</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    const REVIEWS = [
+      { idx: 0, dt: '2026.10.18', course: '산업안전기사 합격환급반 (2026 2회차)', title: '비전공자 3개월 만에 산업안전기사 필기+실기 동차 합격수기!', author: '홍*동 (100482)', cert: 'O (큐넷확인서)', len: 1420, cafe: 'O (공유완료)', point: '미지급', status: '검수대기' },
+      { idx: 1, dt: '2026.10.17', course: '건설안전기사 필기 단과 (2026 2회차)', title: '하루 2시간 직장인 건설안전기사 필기 1회독 합격 노하우', author: '김*연 (100479)', cert: 'O (큐넷확인서)', len: 2041, cafe: 'O (공유완료)', point: '5,000P 지급완료', status: '검수완료 (베스트)' },
+      { idx: 2, dt: '2026.10.15', course: '산업안전기사 실기 작업형 특강', title: '작업형 동영상 30선 특강에서 시험문제 그대로 나왔습니다', author: '최*훈 (100418)', cert: 'X (일반수강후기)', len: 680, cafe: 'X', point: '—', status: '검수대기' }
+    ];
+
+    const FREE_POSTS = [
+      { type: '기출문제 (EXAM)', cert: '산업안전기사', yrRound: '2026년 · 2회차', title: '2026년 제2회 산업안전기사 필기 복원 기출문제 및 해설집', pdf: '2026_2회_산안기_기출.pdf (4.2MB)', course: '2026 산업안전기사 합격환급반', dt: '2026.10.10', status: '노출중' },
+      { type: '기출문제 (EXAM)', cert: '건설안전기사', yrRound: '2026년 · 2회차', title: '2026년 제2회 건설안전기사 실기 필답형 기출 복원 해설', pdf: '2026_2회_건안기_실기.pdf (3.8MB)', course: '2026 건설안전기사 단기완성반', dt: '2026.10.08', status: '노출중' },
+      { type: '매일 1문제 (DAILY)', cert: '산업안전기사', yrRound: '—', title: '[10/18 매일 1문제] 안전보건관리체제 재해예방 4원칙 빈출 OX 퀴즈', pdf: '—', course: '2026 산업안전기사 합격환급반', dt: '2026.10.18', status: '노출중' },
+      { type: '매일 1문제 (DAILY)', cert: '건설안전기사', yrRound: '—', title: '[정오표 안내] 2026 건설안전기사 필기 기본서 p.214 산식 보정 안내', pdf: '정오표_2026_건안기.pdf (310KB)', course: '2026 건설안전기사 단기완성반', dt: '2026.10.12', status: '노출중' }
+    ];
+
+    let currentRevIdx = 0;
+
+    function renderBrd005All() {
+      const waitCnt = REVIEWS.filter(r => r.status.includes('대기')).length;
+      document.getElementById('kpi-rev-wait').textContent = waitCnt + ' 건';
+
+      document.getElementById('review-tbody').innerHTML = REVIEWS.map((r, i) => `
+        <tr onclick="openReviewDetail(${i})">
+          <td>${r.dt}</td>
+          <td>${r.course}</td>
+          <td><strong>${r.title}</strong></td>
+          <td>${r.author}</td>
+          <td><span class="badge ${r.cert.startsWith('O') ? 'badge-blue' : 'badge-gray'}">${r.cert}</span></td>
+          <td>${r.len.toLocaleString()}자</td>
+          <td><span class="badge ${r.cafe.startsWith('O') ? 'badge-green' : 'badge-gray'}">${r.cafe}</span></td>
+          <td><strong>${r.point}</strong></td>
+          <td><span class="badge ${r.status.includes('대기') ? 'badge-amber' : 'badge-green'}">${r.status}</span></td>
+          <td style="text-align:right;" onclick="event.stopPropagation();">
+            <button type="button" class="btn btn-sm btn-primary" onclick="openReviewDetail(${i})">검수 · 상세</button>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('free-tbody').innerHTML = FREE_POSTS.map((p, i) => `
+        <tr onclick="openFreeDetail(${i})">
+          <td><span class="badge ${p.type.includes('EXAM') ? 'badge-blue' : 'badge-purple'}">${p.type}</span></td>
+          <td><strong>${p.cert}</strong></td>
+          <td>${p.yrRound}</td>
+          <td><strong>${p.title}</strong></td>
+          <td><code>${p.pdf}</code></td>
+          <td>${p.course}</td>
+          <td>${p.dt}</td>
+          <td><span class="badge badge-green">${p.status}</span></td>
+          <td style="text-align:right;" onclick="event.stopPropagation();">
+            <button type="button" class="btn btn-sm btn-outline" onclick="openFreeDetail(${i})">상세 · 수정</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function switchBrd005Tab(tab) {
+      document.getElementById('tab-btn-review').classList.toggle('active', tab === 'review');
+      document.getElementById('tab-btn-free').classList.toggle('active', tab === 'free');
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(`panel-${tab}-list`).classList.add('active');
+      document.getElementById('top-crumb-code').textContent = (tab === 'review') ? 'ADMN-BRD-005' : 'ADMN-BRD-010';
+      renderBrd005All();
+    }
+
+    function openReviewDetail(idx) {
+      currentRevIdx = idx;
+      const r = REVIEWS[idx] || REVIEWS[0];
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-review-detail').classList.add('active');
+      document.getElementById('rv-detail-title').textContent = `[후기 검수] ${r.title}`;
+      document.getElementById('rv-meta-user').textContent = `${r.author} · ${r.course}`;
+    }
+
+    function saveReviewJudge() {
+      const r = REVIEWS[currentRevIdx];
+      const judge = document.getElementById('rv-judge-sel').value;
+      const best = document.getElementById('rv-best-chk').checked;
+      const grantPt = document.getElementById('rv-grant-point').checked;
+      if (r) {
+        r.status = judge + (best ? ' (베스트)' : '');
+        if (grantPt) r.point = '5,000P 지급완료';
+      }
+      switchBrd005Tab('review');
+      showToast('수강·합격후기 검수 판정 및 리워드 포인트(5,000P) 지급이 완료되었습니다.');
+    }
+
+    function openFreeDetail(idx) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-free-detail').classList.add('active');
+      if (idx !== null && FREE_POSTS[idx]) {
+        document.getElementById('fr-title').value = FREE_POSTS[idx].title;
+      }
+    }
+
+    function toggleFreeTypeFields() {
+      const t = document.getElementById('fr-type').value;
+      document.getElementById('fr-row-exam-meta').style.display = t.includes('EXAM') ? '' : 'none';
+    }
+
+    function saveFreePost() {
+      const t = document.getElementById('fr-type').value;
+      const yr = document.getElementById('fr-year').value;
+      const rd = document.getElementById('fr-round').value;
+      FREE_POSTS.unshift({
+        type: t,
+        cert: document.getElementById('fr-cert').value,
+        yrRound: t.includes('EXAM') ? `${yr}년 · ${rd}회차` : '—',
+        title: document.getElementById('fr-title').value,
+        pdf: t.includes('EXAM') ? document.getElementById('fr-pdf').value : '—',
+        course: document.getElementById('fr-course').value,
+        dt: '2026.10.18',
+        status: '노출중'
+      });
+      switchBrd005Tab('free');
+      showToast('무료특강(기출문제 · 매일 1문제) 콘텐츠가 저장되었습니다.');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      box.textContent = msg;
+      box.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBrd005All();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'free') switchBrd005Tab('free');
+    });
+  </script>
+</body>
+</html>

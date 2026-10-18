@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-PROM-001] 이벤트 · 기획전 관리 (Slug · 대상상품 매핑 · 중복할인 일괄차단) — 산준모닷컴 백오피스 v8.4 FINAL</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-body: #F3F5F9; --bg-card: #FFFFFF; --bg-subtle: #F8FAFC;
+      --text-main: #0F172A; --text-sub: #475569; --text-muted: #64748B;
+      --border: #E2E8F0; --border-strong: #CBD5E1;
+      --primary: #2563EB; --primary-hover: #1D4ED8;
+      --success: #16A34A; --warning: #D97706; --danger: #DC2626;
+      --radius-md: 8px; --radius-lg: 12px; --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 13px; line-height: 1.5; min-width: 1440px; }
+    #v4-root-shell { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar.v4-gen3-topbar { height: 60px; background: #FFF; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 100; }
+    .crumb-wrap { display: flex; align-items: center; gap: 10px; }
+    .crumb-code { background: #1E293B; color: #F8FAFC; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+    .crumb-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .crumb-sub { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+    .main-container { padding: 24px 28px 60px; max-width: 1640px; width: 100%; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+    .kpi-card .k-title { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px; }
+    .kpi-card .k-num { font-family: "Pretendard", sans-serif; font-size: 22px; font-weight: 800; color: var(--text-main); text-align: left; margin-bottom: 6px; }
+    .kpi-card .k-sub { font-size: 11.5px; color: var(--text-muted); }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 20px; overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #FAFBFD; }
+    .card-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .card-body { padding: 18px 20px; }
+
+    .policy-banner { background: #EFF6FF; border: 1px solid #BFDBFE; border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 18px; font-size: 12px; color: #1E3A8A; line-height: 1.6; }
+    .f-input, .f-select, .f-textarea { height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 12.5px; font-family: inherit; color: var(--text-main); background: #FFF; }
+    .f-textarea { height: auto; padding: 10px; }
+    .btn { height: 34px; padding: 0 14px; border-radius: 6px; font-size: 12.5px; font-weight: 700; border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; text-decoration: none; }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+    .btn-primary { background: var(--primary); color: #FFF; }
+    .btn-outline { background: #FFF; border-color: var(--border-strong); color: var(--text-main); }
+
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+    .badge-green { background: #DCFCE7; color: #15803D; }
+    .badge-amber { background: #FEF3C7; color: #B45309; }
+    .badge-red { background: #FEE2E2; color: #B91C1C; }
+    .badge-gray { background: #F1F5F9; color: #475569; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th { background: #F8FAFC; color: var(--text-sub); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .data-table tbody tr:hover { background: #F8FAFC; cursor: pointer; }
+    .kv-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .kv-table th { width: 160px; background: var(--bg-subtle); padding: 10px 14px; border: 1px solid var(--border); text-align: left; font-weight: 700; color: var(--text-sub); font-size: 12px; }
+    .kv-table td { padding: 10px 14px; border: 1px solid var(--border); font-size: 12.5px; }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+    #toast-box { position: fixed; bottom: 24px; right: 24px; background: #0F172A; color: #FFF; padding: 12px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: none; z-index: 2000; }
+    code { background: #F1F5F9; padding: 2px 5px; border-radius: 4px; font-size: 11.5px; }
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="crumb-wrap">
+        <span class="crumb-code" id="top-crumb-code">ADMN-PROM-001</span>
+        <h1 class="crumb-title">이벤트 · 기획전 관리 (Slug · 대상상품 매핑 · 중복할인 제어)</h1>
+        <span class="crumb-sub">마케팅/프로모션 &gt; 기획전 목록(PROM-001) · 중복 할인 일괄 차단 스위치(PROM-001-S1) · 기획전 상세/등록(PROM-001-S2/S3)</span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <a href="ADMN-BRD-001_baseline.html?view=winner" class="btn btn-sm btn-outline">🎉 당첨자 발표 관리 (BRD-009) ↗</a>
+        <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-outline">🎟️ 쿠폰 · 포인트 원장 관리 (PROM-002) ↗</a>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="k-title"><span>전체 등록 기획전 · 이벤트</span><span class="badge badge-blue">ADMN-PROM-001</span></div>
+          <div class="k-num" id="kpi-prom-total">4 건</div>
+          <div class="k-sub">진행중 2건 · 예약 1건 · 종료 1건</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>중복 할인 일괄 차단 (ON)</span><span class="badge badge-red">ADMN-PROM-001-S1</span></div>
+          <div class="k-num">2 건</div>
+          <div class="k-sub">기획전 특가 적용 상품에 추가 쿠폰 중복 적용 차단</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>매핑된 프로모션 대상 상품</span><span class="badge badge-green">단과·패키지·환급반</span></div>
+          <div class="k-num">42 개</div>
+          <div class="k-sub">실물 교재 단독 상품은 도서정가제 준수(최대 10% 한도)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>고유 URL Slug 라우팅</span><span class="badge badge-gray">/event/{slug}</span></div>
+          <div class="k-num">정상</div>
+          <div class="k-sub">메인 배너(CONF-001) 및 알림톡 랜딩 URL 직결</div>
+        </div>
+      </div>
+
+      <!-- VIEW 1: 기획전 목록 뷰 (panel-prom-list) -->
+      <section id="panel-prom-list" class="view-panel active">
+        <div class="policy-banner">
+          <strong>[이벤트 · 기획전(ADMN-PROM-001) 및 중복 할인 일괄 차단(ADMN-PROM-001-S1) 원칙]</strong>
+          기획전별로 고유 <strong>URL Slug(<code>/event/{slug}</code>)</strong>가 부여되며, 이미 큰 폭의 특가가 적용된 기획전 상품에 일반 할인쿠폰이 중복 적용되어 정산 단가가 무너지는 사고를 막기 위해 <strong>[중복 할인 일괄 차단(Bulk Disable) ON/OFF 스위치]</strong>를 제공합니다.
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>🎪 이벤트 · 기획전 목록 (ADMN-PROM-001)</span>
+              <span class="badge badge-gray">행을 클릭하면 [기획전 상세 조회 · 등록/수정(ADMN-PROM-001-S2/S3)] 화면으로 전환됩니다</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openPromDetail(null)">+ 신규 기획전 등록 (PROM-001-S3)</button>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>기획전 코드</th>
+                  <th>URL Slug</th>
+                  <th>기획전 · 이벤트 명칭</th>
+                  <th>노출 기간</th>
+                  <th>대상 상품 수</th>
+                  <th>중복 할인 일괄 차단 (S1)</th>
+                  <th>진행 상태</th>
+                  <th style="text-align:right;">관리</th>
+                </tr>
+              </thead>
+              <tbody id="prom-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: 기획전 상세 · 등록/수정 뷰 (panel-prom-detail: PROM-001-S2 & S3 통합) -->
+      <section id="panel-prom-detail" class="view-panel">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchPromView('list')">← 기획전 목록으로 (ADMN-PROM-001)</button>
+              <span id="prm-detail-title" style="margin-left:6px; font-weight:800;">기획전 상세 · 등록 및 수정 (ADMN-PROM-001-S2 · S3)</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <table class="kv-table">
+              <tbody>
+                <tr>
+                  <th>기획전 코드 / URL Slug *</th>
+                  <td>
+                    <input type="text" id="prm-code" class="f-input" style="width:170px; font-weight:800;" value="PRM-2610-ALLPASS" />
+                    <span style="margin-left:8px;"><code>/event/</code></span>
+                    <input type="text" id="prm-slug" class="f-input" style="width:200px;" value="allpass-2026-autumn" />
+                  </td>
+                  <th>진행 기간 / 상태 *</th>
+                  <td>
+                    <input type="text" id="prm-period" class="f-input" style="width:210px;" value="2026.10.01 ~ 2026.11.30" />
+                    <select id="prm-status" class="f-select" style="width:110px; margin-left:6px;">
+                      <option value="진행중">진행중</option>
+                      <option value="예약">예약</option>
+                      <option value="종료">종료</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <th>기획전 명칭 *</th>
+                  <td><input type="text" id="prm-name" class="f-input" style="width:100%;" value="2026 산업안전·건설안전 합격환급반 가을 얼리버드 특가전" /></td>
+                  <th>중복 할인 일괄 차단<br/>(<code>ADMN-PROM-001-S1</code>)</th>
+                  <td>
+                    <label style="font-weight:800; color:var(--danger); cursor:pointer;">
+                      <input type="checkbox" id="prm-bulk-disable" checked /> 🔒 중복 할인 차단 ON (본 기획전 매핑 상품 결제 시 추가 할인쿠폰 적용 차단)
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <th>매핑된 프로모션 대상 상품</th>
+                  <td colspan="3">
+                    <span class="badge badge-blue" style="margin-right:6px;">[환급반] 2026 산업안전기사 필기+실기 합격환급반 (348,000원)</span>
+                    <span class="badge badge-blue" style="margin-right:6px;">[환급반] 2026 건설안전기사 필기+실기 합격환급반 (348,000원)</span>
+                    <span class="badge badge-blue">[패키지] 2026 산업안전기사 실기 필답+작업형 종합반 (189,000원)</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>기획전 상세 HTML / 코드 에디터 *</th>
+                  <td colspan="3">
+                    <textarea id="prm-body" class="f-textarea" style="width:100%; min-height:170px; font-family:monospace; line-height:1.6;"><section class="promo-hero">
+  <h2>2026 산업안전기사 · 건설안전기사 합격환급반 얼리버드</h2>
+  <p>동차 합격 시 수강료 100% 현금 환급 (제세공과금 22% 공제) + 최신 기출 해설집 PDF 무료 증정!</p>
+</section></textarea>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="display:flex; justify-content:flex-end; gap:8px;">
+              <button type="button" class="btn btn-outline" onclick="switchPromView('list')">취소</button>
+              <button type="button" class="btn btn-primary" onclick="savePromItem()">💾 기획전 저장</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    const PROMOS = [
+      { code: 'PRM-2610-ALLPASS', slug: '/event/allpass-2026', name: '2026 산업안전·건설안전 합격환급반 얼리버드 특가전', period: '2026.10.01 ~ 2026.11.30', prodCnt: 12, bulkDisable: true, status: '진행중' },
+      { code: 'PRM-2610-SILGI', slug: '/event/silgi-final', name: '제3회 실기 작업형·필답형 파이널 30% 특가 기획전', period: '2026.10.10 ~ 2026.11.05', prodCnt: 18, bulkDisable: true, status: '진행중' },
+      { code: 'PRM-2611-WINTER', slug: '/event/winter-start', name: '2027 대비 겨울방학 선행학습 얼리버드 기획전', period: '2026.11.15 ~ 2026.12.31', prodCnt: 8, bulkDisable: false, status: '예약' },
+      { code: 'PRM-2608-BOOK', slug: '/event/book-review', name: '수험 교재 구매 인증 스타벅스 기프티콘 증정 이벤트', period: '2026.08.05 ~ 2026.09.05', prodCnt: 4, bulkDisable: false, status: '종료' }
+    ];
+
+    function renderPromList() {
+      document.getElementById('kpi-prom-total').textContent = PROMOS.length + ' 건';
+      document.getElementById('prom-tbody').innerHTML = PROMOS.map((p, idx) => `
+        <tr onclick="openPromDetail(${idx})">
+          <td><code>${p.code}</code></td>
+          <td><code>${p.slug}</code></td>
+          <td><strong>${p.name}</strong></td>
+          <td>${p.period}</td>
+          <td><strong>${p.prodCnt}개 상품</strong></td>
+          <td onclick="event.stopPropagation();">
+            <button type="button" class="btn btn-sm ${p.bulkDisable ? 'btn-primary' : 'btn-outline'}" onclick="toggleBulkDisable(${idx})">
+              ${p.bulkDisable ? '🔒 차단 ON' : '차단 OFF'}
+            </button>
+          </td>
+          <td><span class="badge ${p.status === '진행중' ? 'badge-green' : (p.status === '예약' ? 'badge-amber' : 'badge-gray')}">${p.status}</span></td>
+          <td style="text-align:right;" onclick="event.stopPropagation();">
+            <button type="button" class="btn btn-sm btn-outline" onclick="openPromDetail(${idx})">상세 · 수정</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function toggleBulkDisable(idx) {
+      PROMOS[idx].bulkDisable = !PROMOS[idx].bulkDisable;
+      renderPromList();
+      showToast(`[${PROMOS[idx].code}] 중복 할인 일괄 차단(ADMN-PROM-001-S1) 상태가 ${PROMOS[idx].bulkDisable ? 'ON' : 'OFF'}으로 변경되었습니다.`);
+    }
+
+    function switchPromView(v) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(v === 'detail' ? 'panel-prom-detail' : 'panel-prom-list').classList.add('active');
+      renderPromList();
+    }
+
+    function openPromDetail(idx) {
+      if (idx !== null && PROMOS[idx]) {
+        const p = PROMOS[idx];
+        document.getElementById('prm-code').value = p.code;
+        document.getElementById('prm-slug').value = p.slug.replace('/event/', '');
+        document.getElementById('prm-name').value = p.name;
+        document.getElementById('prm-period').value = p.period;
+        document.getElementById('prm-bulk-disable').checked = p.bulkDisable;
+      }
+      switchPromView('detail');
+    }
+
+    function savePromItem() {
+      PROMOS.unshift({
+        code: document.getElementById('prm-code').value.trim(),
+        slug: '/event/' + document.getElementById('prm-slug').value.trim(),
+        name: document.getElementById('prm-name').value.trim(),
+        period: document.getElementById('prm-period').value.trim(),
+        prodCnt: 6,
+        bulkDisable: document.getElementById('prm-bulk-disable').checked,
+        status: document.getElementById('prm-status').value
+      });
+      switchPromView('list');
+      showToast('기획전 설정이 저장되었습니다.');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      box.textContent = msg;
+      box.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', renderPromList);
+  </script>
+</body>
+</html>

@@ -24,7 +24,10 @@
         { code: "ORD-001", label: "주문 · 배송 · 3PL 관리", href: "ADMN-ORD-001_baseline.html" },
         { code: "RFD-002", label: "환불 요청 · 심사 관리", href: "ADMN-RFD-002_baseline.html" },
         { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" },
-        { code: "PROM-002", label: "쿠폰 마스터 · 포인트 혜택 관리", href: "ADMN-PROM-002_baseline.html", screenCode: "ADMN-PROM-002" }
+        { code: "BRD-001", label: "공지사항 · FAQ · 당첨자 발표", href: "ADMN-BRD-001_baseline.html?view=notice", screenCode: "ADMN-BRD-001" },
+        { code: "BRD-005", label: "수강·합격후기 · 무료특강(기출)", href: "ADMN-BRD-005_baseline.html?view=review", screenCode: "ADMN-BRD-005" },
+        { code: "PROM-001", label: "이벤트 · 기획전 관리 (Slug·특가)", href: "ADMN-PROM-001_baseline.html", screenCode: "ADMN-PROM-001" },
+        { code: "PROM-002", label: "쿠폰 · 포인트 정책 · 원장 관리", href: "ADMN-PROM-002_baseline.html", screenCode: "ADMN-PROM-002" }
       ]
     },
     {
