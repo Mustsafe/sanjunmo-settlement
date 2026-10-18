@@ -219,7 +219,6 @@
     .data-table th.num, .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
     .data-table th.ct, .data-table td.ct { text-align: center; }
 
-    /* 템플릿 편집 + 카카오톡 모바일 미리보기 2단 워크스페이스 */
     .workspace-2col {
       display: grid;
       grid-template-columns: 1.4fr 0.85fr;
@@ -227,7 +226,6 @@
       align-items: start;
     }
 
-    /* 카카오톡 알림톡 모바일 프리뷰 프레임 */
     .kakao-phone {
       background: #BACEE0;
       border-radius: 16px;
@@ -376,13 +374,13 @@
     <header class="top-bar v4-gen3-topbar">
       <div class="top-bar-left">
         <span class="crumb-code" id="top-crumb-code">ADMN-CONF-004</span>
-        <span class="crumb-title" id="top-crumb-title">메시지 템플릿 관리 (발송 조건별 치환코드 템플릿 · SENS 알림톡/LMS 폴백)</span>
+        <span class="crumb-title" id="top-crumb-title">메시지 템플릿 관리 (발송 조건별 치환코드 · SENS DB 매핑 검증 · 알림톡/LMS 폴백)</span>
       </div>
       <div class="top-bar-right">
         <div class="subview-switcher">
           <button type="button" class="subview-btn active" id="nav-btn-template" onclick="switchView('template')">
-            <span>메시지 템플릿 관리</span>
-            <span class="code-pill">ADMN-CONF-004</span>
+            <span>메시지 템플릿 · SENS 검증</span>
+            <span class="code-pill">ADMN-CONF-004 / 007</span>
           </button>
           <button type="button" class="subview-btn" id="nav-btn-send" onclick="switchView('send')">
             <span>타겟 단체 알림톡/LMS 예약 발송</span>
@@ -399,18 +397,17 @@
     <div id="v4-page-body" class="main-container">
 
       <!-- ===================================================================
-           VIEW 1: 메시지 템플릿 관리 (ADMN-CONF-004)
+           VIEW 1: 메시지 템플릿 관리 및 SENS 치환변수 검증 (ADMN-CONF-004 + 007)
            =================================================================== -->
       <section id="view-template" class="view-section active">
-        <!-- 4단 KPI 스코어카드 -->
         <div class="kpi-grid">
           <div class="kpi-card" onclick="filterTemplatesByStatus('ALL')" style="cursor:pointer;">
             <div class="k-title">
               <span>등록 템플릿 (SENS 연동)</span>
-              <span class="badge">전체 17종</span>
+              <span class="badge">전체 18종</span>
             </div>
-            <div class="k-num" style="color:var(--primary);">14종 운영중</div>
-            <div class="k-sub">법정 필수 거래/공지 15종 + 마케팅 광고성 2종</div>
+            <div class="k-num" style="color:var(--primary);">15종 운영중</div>
+            <div class="k-sub">법정 필수 거래/공지 16종 + 마케팅 광고성 2종</div>
           </div>
 
           <div class="kpi-card" onclick="filterTemplatesByStatus('PENDING')" style="cursor:pointer;">
@@ -456,14 +453,14 @@
                 <tr>
                   <th>발송 조건</th>
                   <td>
-                    <select id="q-tpl-cat" class="form-select" style="width:220px;" onchange="renderTemplateGrid()">
-                      <option value="ALL">전체 (회원가입/결제/배송/포인트/문의/환불/약관/마케팅)</option>
-                      <option value="JOIN">회원가입 (웰컴 혜택 지급 / 재가입 미지급)</option>
-                      <option value="PAY">결제 · 가상계좌 (입금확인 / 기한연장 / 만료)</option>
+                    <select id="q-tpl-cat" class="form-select" style="width:250px;" onchange="renderTemplateGrid()">
+                      <option value="ALL">전체 (가입·탈퇴·휴면/결제/배송/포인트/문의/환불/약관/마케팅)</option>
+                      <option value="JOIN">회원 인증 (웰컴 지급 / 재가입 미지급 / 탈퇴 / 휴면사전통지)</option>
+                      <option value="PAY">결제 · 가상계좌 (결제완료 / 입금안내 / 기한연장 / 만료)</option>
                       <option value="DLV">배송 (3PL 송장 등록 · 출고 안내)</option>
                       <option value="POINT">포인트 (소멸 15일 전 사전 고지)</option>
                       <option value="QNA">문의 (1:1 문의 답변 등록)</option>
-                      <option value="RFD">환불 · 반품 (완료 / 반품불가 / 사후보정 / 환급승인)</option>
+                      <option value="RFD">환불 · 반품 (완료 / 반품기각 / 사후보정 / 환급승인)</option>
                       <option value="TERMS">약관 개정 (법정 사전 고지)</option>
                       <option value="MKT">마케팅 광고 (장바구니 리마인드 / 신규 특강)</option>
                     </select>
@@ -497,12 +494,12 @@
           </div>
         </div>
 
-        <!-- 템플릿 목록 그리드 (17건 전체) -->
+        <!-- 템플릿 목록 그리드 -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span>발송 조건별 메시지 템플릿 목록</span>
-              <span class="badge badge-slate" id="tpl-count-badge">전체 15건</span>
+              <span>발송 조건별 메시지 템플릿 목록 (message_template)</span>
+              <span class="badge badge-slate" id="tpl-count-badge">전체 18건</span>
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-sm" onclick="showToast('네이버 클라우드 SENS 승인 템플릿 상태와 동기화되었습니다.')">🔄 SENS 승인 상태 동기화</button>
@@ -513,10 +510,10 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th style="width:185px;">템플릿 코드 (고정 🔒)</th>
+                  <th style="width:195px;">템플릿 코드 (고정 🔒)</th>
                   <th>템플릿명 · 발송 시점 및 트리거</th>
                   <th class="ct" style="width:120px;">채널 우선순위</th>
-                  <th class="ct" style="width:125px;">수신 동의 기준</th>
+                  <th class="ct" style="width:135px;">수신 동의 기준</th>
                   <th class="ct" style="width:105px;">카카오 심사</th>
                   <th class="ct" style="width:95px;">운영 상태</th>
                   <th class="ct" style="width:90px;">관리</th>
@@ -529,18 +526,16 @@
           </div>
         </div>
 
-        <!-- 템플릿 편집 및 모바일 미리보기 워크스페이스 -->
+        <!-- 템플릿 편집 + SENS DB 치환변수 크로스체크(ADMN-CONF-007) + 모바일 프리뷰 -->
         <div class="workspace-2col" id="tpl-edit-workspace">
-          <!-- 좌측: 템플릿 상세 편집 -->
           <div class="card">
             <div class="card-header">
               <div class="card-title">
-                <span id="ed-tpl-header">템플릿 편집 · <code id="ed-tpl-code-txt">TPL_JOIN_WELCOME</code></span>
+                <span>템플릿 편집 및 치환변수 DB 매핑 검증 · <code id="ed-tpl-code-txt">TPL_JOIN_WELCOME</code></span>
               </div>
               <span class="badge badge-green" id="ed-tpl-approval-badge">카카오 승인 완료</span>
             </div>
             <div class="card-body">
-              <!-- 회원가입 2종 자동 분기 안내 박스 -->
               <div id="join-split-notice" style="padding:11px 14px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; margin-bottom:14px; font-size:12px; color:#92400E;">
                 <strong>💡 회원가입 템플릿 2종 분리 원칙 (오안내 CS 방지):</strong><br/>
                 • 최초 가입자(<code>benefit_granted = 'Y'</code>)는 <strong>TPL_JOIN_WELCOME</strong>(웰컴 5,000P + 10% 쿠폰 지급 안내)이 발송되며, 과거 가입 이력이 있는 재가입자(<code>benefit_granted = 'N'</code>, DI 기준 생애 1회 제한)는 <strong>TPL_JOIN_REJOIN</strong>(혜택 미지급 안내)으로 서버가 자동 분기합니다.
@@ -571,33 +566,48 @@
                 </tbody>
               </table>
 
-              <!-- 치환코드 삽입 칩 -->
               <div style="margin-bottom:10px;">
                 <div style="font-size:12px; font-weight:700; color:var(--text-secondary); margin-bottom:6px;">
-                  본문 치환코드 (클릭 시 커서 위치에 삽입 · 미정의 치환코드 입력 시 저장 차단)
+                  본문 치환코드 (클릭 시 커서 위치에 삽입 · 미정의 치환코드 입력 시 발송 차단)
                 </div>
-                <div id="ed-var-chips" style="display:flex; gap:6px; flex-wrap:wrap;">
-                  <!-- JS 렌더링 -->
-                </div>
+                <div id="ed-var-chips" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
               </div>
 
-              <!-- 알림톡 본문 입력 -->
               <div style="margin-bottom:12px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
                   <label style="font-weight:800; font-size:12.5px;">알림톡 / LMS 대체 발송 본문</label>
                   <span style="font-size:11.5px; color:var(--text-muted);" id="ed-char-counter">현재 142자 / 알림톡 1,000자 · LMS 2,000byte</span>
                 </div>
-                <textarea id="ed-tpl-body" class="form-textarea" style="width:100%; height:155px; line-height:1.6;" oninput="updateLivePreview()"></textarea>
+                <textarea id="ed-tpl-body" class="form-textarea" style="width:100%; height:145px; line-height:1.6;" oninput="updateLivePreview()"></textarea>
               </div>
 
-              <!-- 알림톡 하단 버튼 설정 -->
+              <!-- ADMN-CONF-007 통합: 치환 변수 ↔ DB 컬럼 1:1 매핑 크로스체크 테이블 -->
+              <div style="margin-bottom:14px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                  <strong style="font-size:12px; color:var(--text-secondary);">🔍 SENS 치환 변수 ↔ DB 컬럼 1:1 매핑 검증 (ADMN-CONF-007)</strong>
+                  <span class="badge badge-green" id="var-check-badge">모든 치환변수 DB 매핑 일치</span>
+                </div>
+                <table class="data-table" style="border:1px solid var(--border-color); font-size:12px;">
+                  <thead>
+                    <tr>
+                      <th>본문 치환 변수</th>
+                      <th>매핑 DB 테이블 · 컬럼</th>
+                      <th class="ct">검증 상태</th>
+                      <th>포맷팅 규칙</th>
+                    </tr>
+                  </thead>
+                  <tbody id="var-mapping-tbody">
+                    <!-- JS 렌더링 -->
+                  </tbody>
+                </table>
+              </div>
+
               <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
                 <span style="font-size:12px; font-weight:700; width:110px;">알림톡 링크 버튼:</span>
                 <input type="text" id="ed-tpl-btn-label" class="form-input" style="width:180px;" value="내 쿠폰함 바로가기" oninput="updateLivePreview()" />
                 <input type="text" id="ed-tpl-btn-url" class="form-input" style="flex:1;" value="https://www.sanjunmo.com/my/coupons" />
               </div>
 
-              <!-- 하단 저장 및 테스트 발송 -->
               <div style="padding-top:12px; border-top:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                 <button type="button" class="btn btn-sm" onclick="showToast('관리자 본인 번호(010-****-1234)로 테스트 알림톡이 발송되었습니다.')">📱 관리자 번호로 테스트 발송</button>
                 <div style="display:flex; gap:8px;">
@@ -608,7 +618,6 @@
             </div>
           </div>
 
-          <!-- 우측: 샘플 데이터 치환 모바일 미리보기 -->
           <div class="card">
             <div class="card-header">
               <div class="card-title">발송 미리보기 (샘플 회원 데이터 실시간 치환)</div>
@@ -631,7 +640,7 @@
               </div>
               <div style="margin-top:12px; padding:10px 12px; background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; font-size:11.5px; color:var(--text-secondary);">
                 <strong>치환 샘플 기준:</strong> <code>users.name = 홍길동</code> · <code>point = 5,000</code> · <code>coupon = 10% 할인쿠폰</code> · <code>order_no = SJM-20261017-0042</code><br/>
-                ※ LMS 대체 발송 시에는 알림톡 버튼 대신 본문 하단에 연결 URL이 자동으로 포함됩니다.
+                ※ 정본 제2.2절 원칙에 따라 결제 완료 알림톡·영수증 메일 본문 어디에도 면세 관련 문구를 표기하지 않습니다.
               </div>
             </div>
           </div>
@@ -642,32 +651,28 @@
            VIEW 2: 타겟 단체 알림톡/LMS 예약 발송 (ADMN-CONF-004-S1)
            =================================================================== -->
       <section id="view-send" class="view-section">
-        <!-- 약관 개정 연동 진입 배너 (URL 파라미터 진입 시 활성화) -->
         <div id="terms-link-banner" style="display:none; background:#EFF6FF; border:2px solid #2563EB; border-radius:10px; padding:14px 18px; margin-bottom:16px; color:#1E3A8A;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <div>
-              <span class="badge badge-blue" style="margin-bottom:4px;">ADMN-CONF-002 약관 개정 고지 연동됨</span>
+              <span class="badge badge-blue" style="margin-bottom:4px;">ADMN-CONF-002 약관 개정 사전 고지 연동됨</span>
               <div style="font-size:13.5px; font-weight:800;" id="terms-link-title">
-                [법정 필수 고지] T04 환불·청약철회 규정(v1.5) 개정 사전 고지 단체 발송 세팅이 자동으로 적용되었습니다.
+                [법정 필수 고지] 약관 개정 사전 고지 단체 발송 세팅이 자동으로 적용되었습니다.
               </div>
               <div style="font-size:12px; margin-top:3px;">
-                • 법정 필수 고지이므로 <strong>마케팅 수신 미동의자(<code>is_marketing_agreed = 'N'</code>)를 포함한 전체 대상 회원(8,412명)</strong>에게 예외 발송되며, 야간 발송 제한(21~08시)만 제외하고 즉시/예약 발송이 가능합니다.
+                • 약관 개정 사전 고지는 법정 의무 안내이므로 <strong>마케팅 수신 미동의자(<code>is_marketing_agreed = 'N'</code>)를 포함한 전체 활성 회원(12,530명)</strong>에게 예외 발송됩니다.
               </div>
             </div>
             <a href="ADMN-CONF-002_baseline.html" class="btn btn-sm">← 약관 관리(ADMN-CONF-002)로 돌아가기</a>
           </div>
         </div>
 
-        <!-- 야간 발송 제한 에러 배너 (광고성 메시지 21:00~08:00 예약 시 노출) -->
         <div id="night-restriction-alert" style="display:none; background:#FEF2F2; border:2px solid #DC2626; border-radius:10px; padding:13px 18px; margin-bottom:16px; color:#991B1B; font-size:12.5px;">
           <strong>⛔ 정보통신망법 제50조 야간 광고성 정보 발송 제한 차단:</strong>
           광고성 메시지(<code>TPL_MKT_*</code>)는 <strong>21:00 ~ 익일 08:00</strong> 사이에 발송하거나 예약할 수 없습니다. 예약 시각을 <strong>08:00 ~ 20:59</strong> 사이로 변경해 주세요.
         </div>
 
         <div class="workspace-2col">
-          <!-- 좌측: 발송 템플릿 · ADMN-USER-006 타겟 선택 · 발송 일시 설정 -->
           <div>
-            <!-- 1. 발송 템플릿 및 채널 설정 -->
             <div class="card">
               <div class="card-header">
                 <div class="card-title">1. 발송 템플릿 및 발송 방식 설정</div>
@@ -686,7 +691,7 @@
                         <select id="s-tpl-select" class="form-select" style="width:100%; font-weight:700;" onchange="onSendTemplateChange()">
                           <option value="TPL_MKT_CART">[TPL_MKT_CART] (광고) 미결제 장바구니 리마인드 · 카카오 승인</option>
                           <option value="TPL_MKT_EVENT">[TPL_MKT_EVENT] (광고) 신규 특강 · 기획전 오픈 안내 · 카카오 승인</option>
-                          <option value="TPL_NOTICE_TERMS">[TPL_NOTICE_TERMS] [법정고지] 필수 약관 · 환불규정 개정 사전 안내 · 카카오 승인</option>
+                          <option value="TPL_NOTICE_TERMS">[TPL_NOTICE_TERMS] [법정고지] 약관 · 개인정보처리방침 · 환불규정 개정 사전 안내 · 카카오 승인</option>
                         </select>
                       </td>
                     </tr>
@@ -731,7 +736,6 @@
               </div>
             </div>
 
-            <!-- 2. 발송 대상 선택 (ADMN-USER-006 그룹/태그 연동 + 수신동의 필터) -->
             <div class="card">
               <div class="card-header">
                 <div class="card-title">
@@ -742,23 +746,23 @@
               <div class="card-body">
                 <div style="margin-bottom:12px;">
                   <div style="font-size:12px; font-weight:700; color:var(--text-secondary); margin-bottom:7px;">
-                    그룹 / 다중 태그 선택 (복수 선택 시 OR 합집합 추출 · <code>ADMN-USER-006</code> 연동)
+                    그룹 / 다중 태그 선택 (<code>ADMN-USER-006</code> 연동 · 부정관리자 및 080 수신거부자는 상시 자동 제외 🔒)
                   </div>
                   <div style="display:flex; gap:8px; flex-wrap:wrap;" id="tag-selector-box">
                     <label class="tag-pill-chk active" onclick="toggleTagPill(this, 3184)">
                       <input type="checkbox" checked style="display:none;" /> 🛒 미결제 장바구니 보유 (3,184명)
                     </label>
-                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 1420)">
-                      <input type="checkbox" style="display:none;" /> 💤 7일 이상 미접속 휴면예고 (1,420명)
+                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 4920)">
+                      <input type="checkbox" style="display:none;" /> 🎓 유료결제회원 [시스템 태그] (4,920명)
+                    </label>
+                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 7610)">
+                      <input type="checkbox" style="display:none;" /> 🌱 무료회원 [시스템 태그] (7,610명)
                     </label>
                     <label class="tag-pill-chk" onclick="toggleTagPill(this, 890)">
                       <input type="checkbox" style="display:none;" /> ⏳ 수강 종료 D-7 이내 (890명)
                     </label>
-                    <label class="tag-pill-chk" onclick="toggleTagPill(this, 2150)">
-                      <input type="checkbox" style="display:none;" /> 🪙 포인트 소멸 예정자 (2,150명)
-                    </label>
-                    <label class="tag-pill-chk" id="tag-all-terms" onclick="toggleTagPill(this, 8412)">
-                      <input type="checkbox" style="display:none;" /> ⚖️ 필수 약관(v1.4 이하) 구버전 동의 회원 전체 (8,412명)
+                    <label class="tag-pill-chk" id="tag-all-terms" onclick="toggleTagPill(this, 12530)">
+                      <input type="checkbox" style="display:none;" /> ⚖️ 전체 활성 회원 (약관 개정 법정 고지용 · 12,530명)
                     </label>
                   </div>
                 </div>
@@ -769,9 +773,9 @@
                       <th>가입일 범위</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:6px;">
-                          <input type="date" class="form-input" value="2026-01-01" />
+                          <input type="date" class="form-input" value="2025-11-01" />
                           <span>~</span>
-                          <input type="date" class="form-input" value="2026-10-17" />
+                          <input type="date" class="form-input" value="2026-10-18" />
                         </div>
                       </td>
                       <th>마케팅 수신 동의</th>
@@ -783,12 +787,11 @@
                   </tbody>
                 </table>
 
-                <!-- 대상 인원 필터링 브레이크다운 바 -->
                 <div style="margin-top:14px; padding:13px 16px; background:#F8FAFC; border:1px solid var(--border-strong); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                   <div style="font-size:12.5px;" id="target-breakdown-txt">
                     선택 태그 대상 <strong>3,184명</strong>
                     &nbsp;·&nbsp; <span style="color:var(--danger);">마케팅 수신 미동의 제외 <strong>1,902명</strong></span>
-                    &nbsp;·&nbsp; <span style="color:var(--warning);">080 수신거부·휴대폰 미인증 제외 <strong>46명</strong></span>
+                    &nbsp;·&nbsp; <span style="color:var(--warning);">080 수신거부·부정관리자 제외 <strong>46명</strong></span>
                   </div>
                   <div style="font-size:14px; font-weight:900; color:var(--primary);" id="target-final-txt">
                     ➔ 최종 발송 대상: 1,236명
@@ -798,7 +801,6 @@
             </div>
           </div>
 
-          <!-- 우측: 예상 발송량 산출표 + 발송 문구 최종 확인 및 실행 -->
           <div>
             <div class="card">
               <div class="card-header">
@@ -837,7 +839,6 @@
                   </tbody>
                 </table>
 
-                <!-- 모바일 프리뷰 -->
                 <div class="kakao-phone" style="margin-bottom:12px;">
                   <div class="kakao-header">
                     <span>발송 문구 최종 확인</span>
@@ -866,7 +867,6 @@
           </div>
         </div>
 
-        <!-- 하단: 예약 · 단체 발송 이력 그리드 -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
@@ -882,7 +882,7 @@
                   <th style="width:165px;">템플릿 코드</th>
                   <th>발송 사유 (내부 감사용)</th>
                   <th class="num" style="width:100px;">발송 대상</th>
-                  <th class="num" style="width:100px;">성공 (알림톡/LMS)</th>
+                  <th class="num" style="width:110px;">성공 (알림톡/LMS)</th>
                   <th class="num" style="width:85px;">실패</th>
                   <th class="ct" style="width:95px;">상태</th>
                   <th class="ct" style="width:110px;">관리</th>
@@ -917,12 +917,12 @@
                   <td class="ct">2026.08.06 09:00</td>
                   <td><code>TPL_NOTICE_TERMS</code></td>
                   <td>[법정고지] 환불·청약철회 규정(T04 v1.4) 개정 사전 고지</td>
-                  <td class="num">8,412명</td>
-                  <td class="num" style="color:var(--success); font-weight:700;">8,390명</td>
-                  <td class="num" style="color:var(--danger); font-weight:700;">22명</td>
+                  <td class="num">12,530명</td>
+                  <td class="num" style="color:var(--success); font-weight:700;">12,498명</td>
+                  <td class="num" style="color:var(--danger); font-weight:700;">32명</td>
                   <td class="ct"><span class="badge badge-green">발송완료</span></td>
                   <td class="ct">
-                    <button type="button" class="btn btn-sm" onclick="openSendDetailModal('환불·청약철회 규정 v1.4 개정 사전 고지', 8412, 8390, 22)">상세 결과</button>
+                    <button type="button" class="btn btn-sm" onclick="openSendDetailModal('환불·청약철회 규정 v1.4 개정 사전 고지', 12530, 12498, 32)">상세 결과</button>
                   </td>
                 </tr>
               </tbody>
@@ -934,7 +934,7 @@
     </div>
   </div>
 
-  <!-- 모달 1: 단체 발송 최종 확인 모달 -->
+  <!-- 모달 1: 단체 발송 최종 확인 -->
   <div class="modal-backdrop" id="modal-send-confirm">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -948,7 +948,7 @@
         <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px 14px; font-size:12px; line-height:1.65;">
           • <strong>선택 템플릿:</strong> <span id="m-conf-tpl">TPL_MKT_CART</span><br/>
           • <strong>발송 일시:</strong> <span id="m-conf-dt">2026-08-21 10:00</span><br/>
-          • <strong>최종 발송 대상:</strong> <span id="m-conf-cnt">1,236명</span> (예상 소요량 1,533건)<br/>
+          • <strong>최종 발송 대상:</strong> <span id="m-conf-cnt">1,236명</span><br/>
           • <strong>감사 로그:</strong> 실행 즉시 이력/보안 로그(<code>ADMN-CONF-006</code>)에 발송 사유와 관리자 ID가 기록됩니다.
         </div>
       </div>
@@ -959,7 +959,7 @@
     </div>
   </div>
 
-  <!-- 모달 2: 발송 실패 사유별 상세 모달 -->
+  <!-- 모달 2: 발송 상세 결과 -->
   <div class="modal-backdrop" id="modal-send-detail">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -987,7 +987,7 @@
               <td>카카오톡 미설치·채널 차단 회원 LMS 폴백 완료</td>
             </tr>
             <tr>
-              <td><strong style="color:var(--danger);">최종 발송 실패 (결번 · 단말기 전원꺼짐 · 스팸차단)</strong></td>
+              <td><strong style="color:var(--danger);">최종 발송 실패 (결번 · 전원꺼짐 · 스팸차단)</strong></td>
               <td class="num" id="det-fail-cnt">29건</td>
               <td>통신사 결과코드 수신 완료</td>
             </tr>
@@ -1003,10 +1003,33 @@
   <div id="toast"></div>
 
   <script>
+    const DB_COLUMN_MAP = {
+      '#{name}': { col: 'users.name', fmt: '실명 문자열' },
+      '#{email}': { col: 'users.email', fmt: '이메일 ID' },
+      '#{point}': { col: 'point_ledger.amount', fmt: '천 단위 콤마 숫자' },
+      '#{coupon}': { col: 'coupons.coupon_name', fmt: '쿠폰명' },
+      '#{expire_date}': { col: 'coupons.expires_at', fmt: 'YYYY.MM.DD' },
+      '#{withdrawn_at}': { col: 'users.withdrawn_at', fmt: 'YYYY.MM.DD HH:mm' },
+      '#{void_points}': { col: 'users.void_points', fmt: '천 단위 콤마 숫자' },
+      '#{dormant_date}': { col: 'users.dormant_scheduled_at', fmt: 'YYYY.MM.DD' },
+      '#{order_no}': { col: 'orders.order_no', fmt: '주문번호' },
+      '#{amount}': { col: 'orders.paid_amount', fmt: '천 단위 콤마 숫자' },
+      '#{product}': { col: 'order_items.product_title', fmt: '상품명 요약' },
+      '#{bank}': { col: 'payments.vbank_name', fmt: '은행명' },
+      '#{account_no}': { col: 'payments.vbank_account', fmt: '가상계좌번호' },
+      '#{due_at}': { col: 'payments.vbank_due_at', fmt: 'YYYY.MM.DD HH:mm' },
+      '#{courier}': { col: 'shipments.courier_name', fmt: '택배사명' },
+      '#{invoice_no}': { col: 'shipments.invoice_no', fmt: '운송장번호' },
+      '#{qna_title}': { col: 'board_qna.title', fmt: '문의 제목' },
+      '#{reject_reason}': { col: 'refund_requests.reject_reason', fmt: '반려/기각 사유' },
+      '#{terms_name}': { col: 'terms_master.terms_name', fmt: '약관명 및 버전' },
+      '#{effective_date}': { col: 'terms_versions.effective_date', fmt: 'YYYY.MM.DD' }
+    };
+
     const TEMPLATES = [
       {
         code: 'TPL_JOIN_WELCOME', cat: 'JOIN', name: '회원가입 완료 (혜택 지급) · 가입 완료 즉시',
-        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        channel: '알림톡+LMS+메일', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{email}', '#{point}', '#{coupon}', '#{expire_date}'],
         btnLabel: '내 쿠폰함 바로가기', btnUrl: 'https://www.sanjunmo.com/my/coupons',
         body: '[산준모닷컴] 가입을 환영합니다\n#{name}님, 산준모닷컴 가입을 환영합니다.\n웰컴 포인트 #{point}P와 #{coupon}이 즉시 발급되었습니다.\n쿠폰 유효기간: #{expire_date} 자정까지'
@@ -1019,29 +1042,43 @@
         body: '[산준모닷컴] 재가입이 완료되었습니다\n#{name}님(#{email}), 산준모닷컴 서비스에 다시 가입해 주셔서 감사합니다.\n※ 신규 가입 웰컴 혜택(포인트·쿠폰)은 본인인증(DI) 기준 최초 1회에 한해 제공되어 이번 가입에서는 지급되지 않습니다.'
       },
       {
-        code: 'TPL_PAY_DONE', cat: 'PAY', name: '결제 완료 · PG 승인 / 가상계좌 입금 확인 즉시',
-        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        code: 'TPL_USER_WITHDRAWN', cat: 'JOIN', name: '회원 탈퇴 처리 완료 · 탈퇴 처리(Withdrawn) 즉시 (정본 2.2절)',
+        channel: '알림톡+LMS+메일', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{withdrawn_at}', '#{void_points}'],
+        btnLabel: '홈페이지 이동', btnUrl: 'https://www.sanjunmo.com',
+        body: '[산준모닷컴] 회원 탈퇴 처리가 정상적으로 완료되었습니다.\n#{name}님(탈퇴일시: #{withdrawn_at}), 그동안 함께해 주셔서 감사드립니다.\n탈퇴 즉시 소멸된 #{void_points}P 포인트는 약관에 따라 재복구가 불가능합니다.'
+      },
+      {
+        code: 'TPL_USER_DORMANT', cat: 'JOIN', name: '휴면 전환 사전 통지 · 1년 미접속 만료 30일 전 / 14일 전 2회 (정본 5.3절)',
+        channel: '알림톡+LMS+메일', consent: '불필요 (법정 필수)', approval: 'APPROVED', status: '사용중',
+        vars: ['#{name}', '#{email}', '#{dormant_date}'],
+        btnLabel: '로그인하여 휴면 해제', btnUrl: 'https://www.sanjunmo.com/login',
+        body: '[산준모닷컴] 장기 미접속 휴면 전환 사전 안내\n#{name}님(#{email}), 최근 1년간 접속 이력이 없어 #{dormant_date}자로 계정이 휴면 전환될 예정입니다.'
+      },
+      {
+        code: 'TPL_PAY_DONE', cat: 'PAY', name: '주문/결제 완료 · PG 승인 / 가상계좌 입금 완료 즉시 (면세 문구 미표기)',
+        channel: '알림톡+LMS+메일', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{order_no}', '#{amount}', '#{product}'],
         btnLabel: '내 강의실 바로가기', btnUrl: 'https://www.sanjunmo.com/my/classroom',
-        body: '[산준모닷컴] 결제가 완료되었습니다\n#{name}님, 주문(#{order_no}) 결제가 정상 완료되었습니다.\n· 주문상품: #{product}\n· 결제금액: #{amount}원'
+        body: '[산준모닷컴] 주문하신 상품의 결제가 완료되었습니다.\n· 주문번호: #{order_no}\n· 결제금액: #{amount}원\n· 상품명: #{product}\n지금 바로 [내 강의실]에서 수강을 시작하실 수 있습니다.'
       },
       {
         code: 'TPL_VBANK_ISSUED', cat: 'PAY', name: '가상계좌 입금 안내 · 계좌 발급 즉시 (24시간 기한)',
-        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{order_no}', '#{amount}', '#{bank}', '#{account_no}', '#{due_at}'],
         btnLabel: '주문내역 확인', btnUrl: 'https://www.sanjunmo.com/my/orders',
         body: '[산준모닷컴] 가상계좌 발급 안내\n#{name}님, 아래 계좌로 입금 기한 내 입금해 주시면 수강이 자동 승인됩니다.\n· 입금계좌: #{bank} #{account_no}\n· 입금금액: #{amount}원\n· 입금기한: #{due_at}까지'
       },
       {
         code: 'TPL_VBANK_DUE_EXTENDED', cat: 'PAY', name: '입금 기한 연장 안내 · 관리자 기한 연장 시 (ADMN-ORD-001-S1)',
-        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{order_no}', '#{due_at}'],
         btnLabel: '주문내역 확인', btnUrl: 'https://www.sanjunmo.com/my/orders',
         body: '[산준모닷컴] 가상계좌 입금 기한 연장 안내\n#{name}님, 주문(#{order_no})의 가상계좌 입금 기한이 #{due_at}까지 연장되었습니다.'
       },
       {
         code: 'TPL_VBANK_EXPIRED', cat: 'PAY', name: '미입금 자동 취소 · 입금 기한 만료 시 (쿠폰·포인트 복구 안내)',
-        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{order_no}'],
         btnLabel: '다시 주문하기', btnUrl: 'https://www.sanjunmo.com',
         body: '[산준모닷컴] 가상계좌 미입금 자동 취소 안내\n#{name}님, 입금 기한 만료로 주문(#{order_no})이 자동 취소되었으며 사용하신 쿠폰·포인트는 전액 복구되었습니다.'
@@ -1090,17 +1127,17 @@
       },
       {
         code: 'TPL_CLAIM_APPROVED', cat: 'RFD', name: '합격 환급 승인 · 환급 심사 승인 즉시 (ADMN-SETT-006)',
-        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'STANDBY', status: '미사용',
+        channel: '알림톡 → LMS', consent: '불필요 (법정/거래)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{amount}'],
         btnLabel: '환급 일정 확인', btnUrl: 'https://www.sanjunmo.com/my/claims',
         body: '[산준모닷컴] 합격 환급금 승인이 완료되었습니다\n#{name}님, 축하드립니다! 합격 환급금(실지급액 #{amount}원, 제세공과금 22% 공제 후) 승인이 완료되었습니다.'
       },
       {
-        code: 'TPL_NOTICE_TERMS', cat: 'TERMS', name: '[법정고지] 약관 · 환불규정 개정 사전 고지 (ADMN-CONF-002 연동)',
+        code: 'TPL_NOTICE_TERMS', cat: 'TERMS', name: '[법정고지] 약관 · 개인정보처리방침 · 환불규정 개정 사전 고지 (ADMN-CONF-002 연동)',
         channel: '알림톡+LMS+메일', consent: '불필요 (전체 발송 예외)', approval: 'APPROVED', status: '사용중',
         vars: ['#{name}', '#{terms_name}', '#{effective_date}'],
-        btnLabel: '신·구 대조표 확인', btnUrl: 'https://www.sanjunmo.com/info/terms',
-        body: '[산준모닷컴] 약관 개정 사전 안내\n#{name}님, 항상 산준모닷컴을 이용해 주셔서 감사합니다.\n#{terms_name}이 #{effective_date}자로 개정 시행될 예정이오니 변경 조문(신·구 대조표)을 확인해 주시기 바랍니다.'
+        btnLabel: '개정 내용 확인', btnUrl: 'https://www.sanjunmo.com/info/terms',
+        body: '[산준모닷컴] 약관 개정 사전 안내\n#{name}님, 항상 산준모닷컴을 이용해 주셔서 감사합니다.\n#{terms_name}이 #{effective_date}자로 개정 시행될 예정입니다. 시행일까지 별도의 거부 의사를 표시하지 않으실 경우 개정 내용에 동의하신 것으로 간주됩니다.'
       },
       {
         code: 'TPL_MKT_CART', cat: 'MKT', name: '(광고) 미결제 장바구니 리마인드 · 수동 예약 (ADMN-CONF-004-S1)',
@@ -1124,6 +1161,9 @@
       '#{point}': '5,000',
       '#{coupon}': '10% 할인쿠폰',
       '#{expire_date}': '2026.09.09',
+      '#{withdrawn_at}': '2026.10.18 15:20',
+      '#{void_points}': '3,500',
+      '#{dormant_date}': '2026.11.18',
       '#{order_no}': 'SJM-20261017-0042',
       '#{amount}': '189,000',
       '#{product}': '2026 산업안전기사 필기+실기 올패스',
@@ -1151,7 +1191,7 @@
         document.getElementById('top-crumb-title').textContent = '타겟 단체 알림톡/LMS 예약 발송 (ADMN-USER-006 태그 연동 · 야간 발송 차단 · 법정고지 예외)';
       } else {
         document.getElementById('top-crumb-code').textContent = 'ADMN-CONF-004';
-        document.getElementById('top-crumb-title').textContent = '메시지 템플릿 관리 (발송 조건별 치환코드 템플릿 · SENS 알림톡/LMS 폴백)';
+        document.getElementById('top-crumb-title').textContent = '메시지 템플릿 관리 (발송 조건별 치환코드 · SENS DB 매핑 검증 · 알림톡/LMS 폴백)';
       }
     }
 
@@ -1265,6 +1305,48 @@
       document.getElementById('ed-char-counter').textContent =
         '현재 ' + raw.length + '자 / 알림톡 1,000자 · LMS 2,000byte';
 
+      // 본문 내 #{...} 추출하여 DB 컬럼 매핑 검증 (ADMN-CONF-007)
+      const matches = raw.match(/#\{[a-zA-Z0-9_]+\}/g) || [];
+      const uniqueVars = Array.from(new Set(matches));
+      let hasUnmapped = false;
+
+      const mapTbody = document.getElementById('var-mapping-tbody');
+      if (uniqueVars.length === 0) {
+        mapTbody.innerHTML = '<tr><td colspan="4" class="ct" style="color:var(--text-muted);">본문에 사용된 치환 변수가 없습니다.</td></tr>';
+      } else {
+        mapTbody.innerHTML = uniqueVars.map(v => {
+          const info = DB_COLUMN_MAP[v];
+          if (!info) {
+            hasUnmapped = true;
+            return `
+              <tr style="background:#FEF2F2;">
+                <td><code>${v}</code></td>
+                <td style="color:var(--danger); font-weight:700;">매핑 없음 (미정의 변수)</td>
+                <td class="ct"><span class="badge badge-red">불일치 (발송 차단)</span></td>
+                <td>치환 불가 — 변수명을 수정해 주세요</td>
+              </tr>
+            `;
+          }
+          return `
+            <tr>
+              <td><code>${v}</code></td>
+              <td><code>${info.col}</code></td>
+              <td class="ct"><span class="badge badge-green">일치</span></td>
+              <td>${info.fmt}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      const chkBadge = document.getElementById('var-check-badge');
+      if (hasUnmapped) {
+        chkBadge.className = 'badge badge-red';
+        chkBadge.textContent = '미정의 치환변수 존재 (SENS 발송 차단 ⛔)';
+      } else {
+        chkBadge.className = 'badge badge-green';
+        chkBadge.textContent = '모든 치환변수 DB 매핑 일치';
+      }
+
       let replaced = raw;
       Object.keys(SAMPLE_MAP).forEach(k => {
         replaced = replaced.split(k).join(SAMPLE_MAP[k]);
@@ -1280,6 +1362,10 @@
         showToast('⛔ 광고성 템플릿은 본문에 "(광고)" 표기와 무료수신거부 번호(080-)가 반드시 포함되어야 합니다.');
         return;
       }
+      if (currentTpl.code === 'TPL_PAY_DONE' && body.includes('면세')) {
+        showToast('⛔ 정본 제2.2절 원칙에 따라 결제 완료 메시지 본문에는 면세 관련 문구를 표기할 수 없습니다.');
+        return;
+      }
       document.getElementById('ed-tpl-approval-badge').className = 'badge badge-amber';
       document.getElementById('ed-tpl-approval-badge').textContent = '본문 수정됨 · 카카오 재심사 필요';
       showToast('템플릿 본문이 저장되었습니다. 카카오 알림톡 재승인 완료 전까지는 기존 승인본 또는 LMS로 발송됩니다.');
@@ -1289,9 +1375,6 @@
       showToast('네이버 클라우드 SENS API를 통해 카카오 알림톡 템플릿 심사 요청이 접수되었습니다 (영업일 1~3일 소요).');
     }
 
-    // =========================================================================
-    // VIEW 2 (ADMN-CONF-004-S1) 단체·예약 발송 인터랙션
-    // =========================================================================
     function onSendTemplateChange() {
       const code = document.getElementById('s-tpl-select').value;
       const adBox = document.getElementById('s-ad-policy-box');
@@ -1305,9 +1388,9 @@
         document.getElementById('s-send-reason').value = '[법정고지] 환불·청약철회 규정(제15조 v1.5) 개정 사전 고지 단체 발송';
         document.getElementById('send-preview-tag').textContent = '[법정 필수 고지] 전체 회원 발송';
         document.getElementById('send-preview-body').textContent =
-          '[산준모닷컴] 약관 개정 사전 안내\n홍길동님, 항상 산준모닷컴을 이용해 주셔서 감사합니다.\n환불·청약철회 규정(제15조 v1.5)이 2026.09.03자로 개정 시행될 예정이오니 변경 조문(신·구 대조표)을 확인해 주시기 바랍니다.';
-        document.getElementById('send-preview-btn').textContent = '▸ 신·구 대조표 확인';
-        updateTargetCalculation(8412, true);
+          '[산준모닷컴] 약관 개정 사전 안내\n홍길동님, 항상 산준모닷컴을 이용해 주셔서 감사합니다.\n환불·청약철회 규정(제15조 v1.5)이 2026.09.03자로 개정 시행될 예정입니다. 시행일까지 별도의 거부 의사를 표시하지 않으실 경우 개정 내용에 동의하신 것으로 간주됩니다.';
+        document.getElementById('send-preview-btn').textContent = '▸ 개정 내용 확인';
+        updateTargetCalculation(12530, true);
       } else {
         adBox.innerHTML = '<span class="badge badge-purple">(광고) 마케팅 템플릿</span> <span style="font-size:12px; font-weight:700; color:var(--primary); margin-left:6px;">마케팅 수신 동의자(<code>is_marketing_agreed = 'Y'</code>)만 자동 필터링 🔒</span>';
         mktCell.innerHTML = '<span class="badge badge-blue">동의(is_marketing_agreed = 'Y')만 발송 🔒</span><div class="help-txt">광고성 템플릿은 관리자가 임의로 미동의자를 포함시킬 수 없습니다.</div>';
@@ -1326,13 +1409,13 @@
       let finalCnt = rawTotal;
       if (isLegalMandatory) {
         document.getElementById('target-breakdown-txt').innerHTML =
-          '구버전 약관 동의 대상 <strong>' + rawTotal.toLocaleString() + '명</strong> &nbsp;·&nbsp; <span style="color:var(--success); font-weight:700;">법정 필수 고지 예외 (마케팅 미동의자 0명 제외)</span>';
+          '전체 활성 회원 대상 <strong>' + rawTotal.toLocaleString() + '명</strong> &nbsp;·&nbsp; <span style="color:var(--success); font-weight:700;">법정 필수 고지 예외 (마케팅 미동의자 제외 안 함)</span>';
       } else {
         const unagreed = Math.round(rawTotal * 0.597);
         const optout = Math.round(rawTotal * 0.014);
         finalCnt = Math.max(0, rawTotal - unagreed - optout);
         document.getElementById('target-breakdown-txt').innerHTML =
-          '선택 태그 대상 <strong>' + rawTotal.toLocaleString() + '명</strong> &nbsp;·&nbsp; <span style="color:var(--danger);">마케팅 수신 미동의 제외 <strong>' + unagreed.toLocaleString() + '명</strong></span> &nbsp;·&nbsp; <span style="color:var(--warning);">080 수신거부·미인증 제외 <strong>' + optout.toLocaleString() + '명</strong></span>';
+          '선택 태그 대상 <strong>' + rawTotal.toLocaleString() + '명</strong> &nbsp;·&nbsp; <span style="color:var(--danger);">마케팅 수신 미동의 제외 <strong>' + unagreed.toLocaleString() + '명</strong></span> &nbsp;·&nbsp; <span style="color:var(--warning);">080 수신거부·부정관리자 제외 <strong>' + optout.toLocaleString() + '명</strong></span>';
       }
 
       document.getElementById('target-final-txt').textContent = '➔ 최종 발송 대상: ' + finalCnt.toLocaleString() + '명';
@@ -1406,7 +1489,7 @@
         onSendTemplateChange();
         document.querySelectorAll('#tag-selector-box .tag-pill-chk').forEach(el => el.classList.remove('active'));
         document.getElementById('tag-all-terms').classList.add('active');
-        showToast('약관 개정 법정 필수 고지 시나리오(마케팅 미동의자 포함 전체 8,412명 발송)가 적용되었습니다.');
+        showToast('약관 개정 법정 필수 고지 시나리오(마케팅 미동의자 포함 전체 12,530명 발송)가 적용되었습니다.');
       } else {
         document.getElementById('s-tpl-select').value = 'TPL_MKT_CART';
         document.getElementById('s-resv-dt').value = '2026-08-21T10:00';
@@ -1497,7 +1580,7 @@
       }
       if (params.get('type') === 'terms_notice') {
         const termCode = params.get('term') || 'T04';
-        const cnt = parseInt(params.get('cnt') || '8412', 10);
+        const cnt = parseInt(params.get('cnt') || '12530', 10);
         switchView('send');
         document.getElementById('terms-link-banner').style.display = 'block';
         document.getElementById('terms-link-title').textContent =
