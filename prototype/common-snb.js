@@ -77,8 +77,8 @@
       title: "사이트 · 약관 · 메시지 관리 (CONF)",
       items: [
         { code: "CONF-002", label: "약관 · 개인정보처리방침 관리", href: "ADMN-CONF-002_baseline.html", screenCode: "ADMN-CONF-002" },
-        { code: "CONF-004", label: "메시지 템플릿 관리 (알림톡/LMS)", href: "ADMN-CONF-004_baseline.html?view=template", screenCode: "ADMN-CONF-004" },
-        { code: "CONF-004-S1", label: "타겟 단체 알림톡/LMS 예약 발송", href: "ADMN-CONF-004_baseline.html?view=send", screenCode: "ADMN-CONF-004-S1" }
+        { code: "CONF-004", label: "메시지 템플릿 관리 (알림톡·문자·메일)", href: "ADMN-CONF-004_baseline.html?view=template", screenCode: "ADMN-CONF-004" },
+        { code: "CONF-004-S1", label: "타겟 메시지 발송 · 내역 (알림톡·문자·메일)", href: "ADMN-CONF-004_baseline.html?view=send", screenCode: "ADMN-CONF-004-S1" }
       ]
     }
   ];

@@ -545,7 +545,7 @@
             </div>
             <div style="display:flex; gap:6px;">
               <button type="button" class="btn btn-sm btn-outline" onclick="openBulkTagModal()">선택 회원 그룹·태그 부여 (ADMN-USER-006)</button>
-              <button type="button" class="btn btn-sm btn-outline" onclick="sendBulkMsg()">선택 회원 메시지 발송 (ADMN-CONF-004)</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="sendBulkMsg()">💬 선택 회원 메시지 · 이메일 발송 (ADMN-CONF-004-S1)</button>
               <button type="button" class="btn btn-sm btn-dark" onclick="openExcelModal()">🔒 엑셀 다운로드</button>
             </div>
           </div>
@@ -690,6 +690,7 @@
               <span id="dt-header-sub" style="font-size:12.5px; font-weight:500; color:var(--text-muted);">회원번호 100482 · 홍*동 · 가입 2026.08.19</span>
             </div>
             <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="openDirectMsgModal('ALIMTALK')">💬 1:1 메시지 · 이메일 발송 (ADMN-USER-002-P3)</button>
               <button type="button" class="btn btn-sm btn-outline" id="btn-unmask" onclick="unmaskMemberDetail()">🔓 마스킹 해제 (10분 후 자동 재마스킹)</button>
               <button type="button" class="btn btn-sm btn-outline" onclick="switchView('course')">수강 · 기기 제어 (ADMN-USER-003) →</button>
               <button type="button" class="btn btn-sm btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 · 정지 등재 (ADMN-USER-005)</button>
@@ -721,7 +722,7 @@
                 </tr>
                 <tr>
                   <th>이메일(ID)</th>
-                  <td id="dt-email">hon***@naver.com</td>
+                  <td><span id="dt-email">hon***@naver.com</span> <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px; padding:2px 8px; font-size:11px;" onclick="openDirectMsgModal('EMAIL')">✉️ 개별 메일 발송</button></td>
                   <th>가입 방식 · 연동 소셜</th>
                   <td>
                     <span class="badge badge-gray">email 직접 가입</span> · 연동 소셜:
@@ -735,7 +736,7 @@
                   <td>
                     <span id="dt-phone">010-****-5678</span>
                     <span class="badge badge-green">본인인증 완료</span>
-                    <span class="badge badge-gray">24h SMS 인증 1/5회 (CONF-008)</span>
+                    <span class="badge badge-gray">24h SMS 인증 1/5회 (CONF-008)</span> <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px; padding:2px 8px; font-size:11px;" onclick="openDirectMsgModal('SMS')">📱 1:1 문자/알림톡 발송</button>
                   </td>
                   <th>최종 접속</th>
                   <td>2026.10.17 09:41 · 접속 IP <code>121.***.7.90</code></td>
@@ -1405,6 +1406,98 @@
     </div>
   </div>
 
+  <!-- MODAL 5: ADMN-USER-002-P3 회원 상세 1:1 개별 메시지(알림톡/SMS·LMS/이메일) 즉시 발송 팝업 -->
+  <div class="modal-backdrop" id="modal-direct-msg">
+    <div class="modal-box" style="max-width:640px;">
+      <div class="modal-head">
+        <span>💬 1:1 개별 메시지 · 이메일 즉시 발송 (ADMN-USER-002-P3)</span>
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-direct-msg')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            수신 대상 회원: <strong id="dm-target-info" style="color:var(--text-main);">홍*동 (100482 · 010-****-5678 · hon***@naver.com)</strong>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">※ 1:1 CS/운영 안내는 정보성 메시지로 발송되며, 발송 내역은 회원 상세 CS 타임라인 및 발송 이력(ADMN-CONF-004-S1)에 자동 기록됩니다.</div>
+          </div>
+          <span class="badge badge-blue">단건 즉시발송</span>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:6px;">발송 채널 선택</label>
+          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:8px;">
+            <label id="dm-tab-ALIMTALK" style="border:2px solid var(--primary); background:#EFF6FF; border-radius:8px; padding:10px 12px; cursor:pointer; font-size:12.5px; font-weight:800; display:flex; align-items:center; gap:6px;">
+              <input type="radio" name="dm_channel" value="ALIMTALK" checked onchange="switchDirectMsgChannel('ALIMTALK')" />
+              <span>🟡 카카오 알림톡 (+LMS 폴백)</span>
+            </label>
+            <label id="dm-tab-SMS" style="border:1px solid var(--border); background:#FFFFFF; border-radius:8px; padding:10px 12px; cursor:pointer; font-size:12.5px; font-weight:700; display:flex; align-items:center; gap:6px;">
+              <input type="radio" name="dm_channel" value="SMS" onchange="switchDirectMsgChannel('SMS')" />
+              <span>📱 문자 단독 (SMS / LMS)</span>
+            </label>
+            <label id="dm-tab-EMAIL" style="border:1px solid var(--border); background:#FFFFFF; border-radius:8px; padding:10px 12px; cursor:pointer; font-size:12.5px; font-weight:700; display:flex; align-items:center; gap:6px;">
+              <input type="radio" name="dm_channel" value="EMAIL" onchange="switchDirectMsgChannel('EMAIL')" />
+              <span>✉️ 이메일 (HTML 메일)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 채널 1: 알림톡 설정 영역 -->
+        <div id="dm-box-ALIMTALK" style="margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">SENS 승인 알림톡 템플릿 선택 (ADMN-CONF-004 연동)</label>
+          <select id="dm-alim-tpl" class="f-select" style="width:100%;" onchange="applyDirectMsgTemplate()">
+            <option value="TPL_CS_GUIDE">[TPL_CS_GUIDE] 1:1 고객센터 안내 및 처리 결과 통지 (SENS 승인완료)</option>
+            <option value="TPL_VBANK_ISSUED">[TPL_VBANK_ISSUED] 가상계좌 입금 계좌 및 기한 재안내 (SENS 승인완료)</option>
+            <option value="TPL_DLV_START">[TPL_DLV_START] 교재 출고 및 송장번호 개별 안내 (SENS 승인완료)</option>
+            <option value="TPL_RFD_DONE">[TPL_RFD_DONE] 환불 처리 완료 안내 (SENS 승인완료)</option>
+          </select>
+          <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">※ 카카오 알림톡은 사전 검수 승인된 템플릿 본문 내 <code>#{변수}</code>만 치환하여 발송되며, 카카오톡 미수신 시 동일 문구가 LMS로 자동 대체 발송됩니다.</div>
+        </div>
+
+        <!-- 채널 2: 문자(SMS/LMS) 설정 영역 -->
+        <div id="dm-box-SMS" style="display:none; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <label style="font-size:12px; font-weight:800;">문자 상용구 불러오기 (선택)</label>
+            <span id="dm-sms-byte-badge" class="badge badge-blue">단문 SMS (48 / 90 byte) · 90byte 초과 시 LMS 자동 전환</span>
+          </div>
+          <select id="dm-sms-preset" class="f-select" style="width:100%; margin-bottom:6px;" onchange="applyDirectSmsPreset()">
+            <option value="">직접 입력 (자유 작성)</option>
+            <option value="[산준모닷컴] 안녕하세요 #{name} 회원님, 문의하신 수강 기간 연장 처리가 완료되었습니다. 내 강의실에서 확인해 주세요.">수강 기간 연장 처리 완료 안내</option>
+            <option value="[산준모닷컴] 안녕하세요 #{name} 회원님, 요청하신 환불 계좌 확인이 필요하여 연락드렸습니다. 고객센터 1:1 문의 확인 부탁드립니다.">환불 계좌 확인 요청 안내</option>
+            <option value="[산준모닷컴] 안녕하세요 #{name} 회원님, 동시접속 세션 초기화가 완료되었습니다. 재로그인 후 정상 수강 가능합니다.">동시접속 세션 초기화 완료 안내</option>
+          </select>
+        </div>
+
+        <!-- 채널 3: 이메일 설정 영역 -->
+        <div id="dm-box-EMAIL" style="display:none; margin-bottom:12px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">이메일 제목 *</label>
+          <input type="text" id="dm-email-subject" class="f-input" style="width:100%; margin-bottom:8px;" value="[산준모닷컴] 회원님께서 문의하신 사항에 대한 안내 메일입니다." />
+        </div>
+
+        <!-- 공통 메시지 본문 -->
+        <div style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <label style="font-size:12px; font-weight:800;">발송 메시지 본문 *</label>
+            <span style="font-size:11px; color:var(--text-muted);">발신번호: <code>1588-0000</code> · 발신이메일: <code>cs@sanjunmo.com</code></span>
+          </div>
+          <textarea id="dm-content" class="f-textarea" style="width:100%; min-height:110px; line-height:1.6;" oninput="updateDirectMsgByte()">[산준모닷컴] 안녕하세요 홍길동 회원님.
+요청하신 사항에 대한 확인 및 처리가 완료되어 안내드립니다.
+추가 문의사항은 고객센터 1:1 문의 게시판을 이용해 주시기 바랍니다.</textarea>
+        </div>
+
+        <div style="margin-bottom:6px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">발송 사유 (내부 CS 이력 기록용 *)</label>
+          <input type="text" id="dm-reason" class="f-input" style="width:100%;" value="회원 상세 확인 중 CS 처리 결과 1:1 개별 안내 발송" placeholder="발송 사유를 입력하세요 (회원 상세 CS 이력 타임라인에 자동 기록)" />
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="window.location.href='ADMN-CONF-004_baseline.html?view=send&target=selected&ids=' + currentMemberId">대량/예약 발송 화면(CONF-004-S1)에서 열기 ↗</button>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-direct-msg')">취소</button>
+          <button type="button" class="btn btn-primary" onclick="submitDirectMsg()">🚀 즉시 발송 실행</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="toast-msg" id="toast-box"></div>
 
   <script>
@@ -1653,7 +1746,253 @@
     }
 
     function sendBulkMsg() {
-      showToast('단체 메시지 발송(ADMN-CONF-004)으로 이동합니다. (marketing_agree 미동의자는 자동 제외 후 사전 고지)');
+
+      const checkedRows = Array.from(document.querySelectorAll('.row-chk:checked'));
+
+      if (checkedRows.length === 0) {
+
+        if (confirm('선택된 회원이 없습니다. 현재 검색된 회원 전체(12,480명)를 대상으로 타겟 메시지 발송(ADMN-CONF-004-S1) 화면으로 이동하시겠습니까?')) {
+
+          window.location.href = 'ADMN-CONF-004_baseline.html?view=send&target=search_all&cnt=12480';
+
+        }
+
+        return;
+
+      }
+
+      const ids = [];
+
+      checkedRows.forEach(chk => {
+
+        const tr = chk.closest('tr');
+
+        if (tr) {
+
+          const strongEl = tr.querySelector('strong');
+
+          if (strongEl) ids.push(strongEl.textContent.trim());
+
+        }
+
+      });
+
+      // 단건이든 복수건이든 목록에서 [선택 회원 메시지·이메일 발송] 클릭 시 선택된 회원 ID 리스트를 들고 CONF-004-S1로 이동
+
+      window.location.href = 'ADMN-CONF-004_baseline.html?view=send&target=selected&ids=' + encodeURIComponent(ids.join(','));
+
+    }
+
+
+
+    let currentDirectChannel = 'ALIMTALK';
+
+    function openDirectMsgModal(defaultChannel) {
+
+      const m = MEMBERS[currentMemberId] || MEMBERS['100482'];
+
+      const nameStr = isUnmasked ? m.realName : m.maskedName;
+
+      const phoneStr = isUnmasked ? m.realPhone : m.maskedPhone;
+
+      const emailStr = isUnmasked ? m.realEmail : m.maskedEmail;
+
+      document.getElementById('dm-target-info').textContent = `${nameStr} (${m.no} · ${phoneStr} · ${emailStr})`;
+
+      switchDirectMsgChannel(defaultChannel || 'ALIMTALK');
+
+      document.getElementById('modal-direct-msg').classList.add('show');
+
+    }
+
+
+
+    function switchDirectMsgChannel(ch) {
+
+      currentDirectChannel = ch;
+
+      ['ALIMTALK', 'SMS', 'EMAIL'].forEach(c => {
+
+        const tab = document.getElementById('dm-tab-' + c);
+
+        const box = document.getElementById('dm-box-' + c);
+
+        const radio = tab ? tab.querySelector('input[type="radio"]') : null;
+
+        if (c === ch) {
+
+          if (tab) { tab.style.border = '2px solid var(--primary)'; tab.style.background = '#EFF6FF'; tab.style.fontWeight = '800'; }
+
+          if (box) box.style.display = 'block';
+
+          if (radio) radio.checked = true;
+
+        } else {
+
+          if (tab) { tab.style.border = '1px solid var(--border)'; tab.style.background = '#FFFFFF'; tab.style.fontWeight = '700'; }
+
+          if (box) box.style.display = 'none';
+
+        }
+
+      });
+
+      const m = MEMBERS[currentMemberId] || MEMBERS['100482'];
+
+      const contentEl = document.getElementById('dm-content');
+
+      if (ch === 'ALIMTALK') {
+
+        applyDirectMsgTemplate();
+
+        contentEl.readOnly = true;
+
+        contentEl.style.background = '#F8FAFC';
+
+      } else if (ch === 'SMS') {
+
+        contentEl.readOnly = false;
+
+        contentEl.style.background = '#FFFFFF';
+
+        contentEl.value = `[산준모닷컴] 안녕하세요 ${m.realName} 회원님, 문의하신 사항에 대해 안내드립니다.`;
+
+        updateDirectMsgByte();
+
+      } else {
+
+        contentEl.readOnly = false;
+
+        contentEl.style.background = '#FFFFFF';
+
+        contentEl.value = `안녕하세요 ${m.realName} 회원님, 산준모닷컴 고객센터입니다.
+
+문의하신 내용에 대한 처리 결과를 안내해 드립니다.
+감사합니다.`;
+
+      }
+
+    }
+
+
+
+    function applyDirectMsgTemplate() {
+
+      const m = MEMBERS[currentMemberId] || MEMBERS['100482'];
+
+      const tpl = document.getElementById('dm-alim-tpl').value;
+
+      const map = {
+
+        'TPL_CS_GUIDE': `[산준모닷컴] 안녕하세요 ${m.realName} 회원님.
+요청하신 CS 문의 사항에 대한 확인 및 처리가 완료되었습니다.
+내 강의실 또는 1:1 문의 내역에서 상세 내용을 확인해 주세요.`,
+
+        'TPL_VBANK_ISSUED': `[산준모닷컴] ${m.realName} 회원님, 가상계좌 입금 기한 및 계좌번호를 재안내드립니다.
+입금 기한 내 입금이 완료되면 즉시 수강 권한이 부여됩니다.`,
+
+        'TPL_DLV_START': `[산준모닷컴] ${m.realName} 회원님께서 주문하신 수험 교재가 출고되었습니다.
+택배사: CJ대한통운 / 내 강의실 > 주문내역에서 배송조회가 가능합니다.`,
+
+        'TPL_RFD_DONE': `[산준모닷컴] ${m.realName} 회원님의 환불 처리가 정상 완료되었습니다.
+결제수단에 따라 영업일 기준 1~3일 내 반영됩니다.`
+
+      };
+
+      document.getElementById('dm-content').value = map[tpl] || map['TPL_CS_GUIDE'];
+
+    }
+
+
+
+    function applyDirectSmsPreset() {
+
+      const m = MEMBERS[currentMemberId] || MEMBERS['100482'];
+
+      const val = document.getElementById('dm-sms-preset').value;
+
+      if (val) {
+
+        document.getElementById('dm-content').value = val.replace(/#\{name\}/g, m.realName);
+
+        updateDirectMsgByte();
+
+      }
+
+    }
+
+
+
+    function updateDirectMsgByte() {
+
+      if (currentDirectChannel !== 'SMS') return;
+
+      const txt = document.getElementById('dm-content').value || '';
+
+      let bytes = 0;
+
+      for (let i = 0; i < txt.length; i++) {
+
+        bytes += (txt.charCodeAt(i) > 127) ? 2 : 1;
+
+      }
+
+      const badge = document.getElementById('dm-sms-byte-badge');
+
+      if (bytes <= 90) {
+
+        badge.className = 'badge badge-blue';
+
+        badge.textContent = `단문 SMS (${bytes} / 90 byte) · 1건 차감`;
+
+      } else {
+
+        badge.className = 'badge badge-amber';
+
+        badge.textContent = `장문 LMS 자동 전환 (${bytes} / 2,000 byte) · LMS 발송`;
+
+      }
+
+    }
+
+
+
+    function submitDirectMsg() {
+
+      const m = MEMBERS[currentMemberId] || MEMBERS['100482'];
+
+      const reason = document.getElementById('dm-reason').value.trim() || '1:1 개별 메시지 안내 발송';
+
+      const chLabel = currentDirectChannel === 'ALIMTALK' ? '카카오 알림톡(+LMS폴백)' : (currentDirectChannel === 'SMS' ? '문자(SMS/LMS)' : '이메일(Email)');
+
+      const tbody = document.querySelector('#dt-audit-timeline tbody');
+
+      if (tbody) {
+
+        const tr = document.createElement('tr');
+
+        tr.innerHTML = `
+
+          <td>2026.10.18 15:10</td>
+
+          <td>CS 김상담 (admin_kim)</td>
+
+          <td><span class="badge badge-blue">1:1 메시지발송</span></td>
+
+          <td><strong>[${chLabel}]</strong> ${reason} (SENS 발송 성공 · <code>ADMN-CONF-004-S1</code> 이력 동기화)</td>
+
+          <td><code>121.***.7.90</code></td>
+
+        `;
+
+        tbody.prepend(tr);
+
+      }
+
+      closeModal('modal-direct-msg');
+
+      showToast(`[${chLabel}] 회원번호 ${m.no}(${m.maskedName}) 님에게 1:1 발송이 완료되었으며 CS 감사 이력에 기록되었습니다.`);
+
     }
 
     function openExcelModal() {
