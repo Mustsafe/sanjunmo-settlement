@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-CONF-005] 운영자 계정 · 역할 권한(RBAC) 관리 — 산준모닷컴 백오피스 v8.4 FINAL</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-body: #F3F5F9; --bg-card: #FFFFFF; --bg-subtle: #F8FAFC;
+      --text-main: #0F172A; --text-sub: #475569; --text-muted: #64748B;
+      --border: #E2E8F0; --border-strong: #CBD5E1;
+      --primary: #2563EB; --primary-hover: #1D4ED8;
+      --success: #16A34A; --warning: #D97706; --danger: #DC2626;
+      --radius-md: 8px; --radius-lg: 12px; --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 13px; line-height: 1.5; min-width: 1440px; }
+    #v4-root-shell { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar.v4-gen3-topbar { height: 60px; background: #FFF; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 100; }
+    .crumb-wrap { display: flex; align-items: center; gap: 10px; }
+    .crumb-code { background: #1E293B; color: #F8FAFC; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+    .crumb-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .crumb-sub { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+    .main-container { padding: 24px 28px 60px; max-width: 1640px; width: 100%; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+    .kpi-card .k-title { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px; }
+    .kpi-card .k-num { font-family: "Pretendard", sans-serif; font-size: 22px; font-weight: 800; color: var(--text-main); text-align: left; margin-bottom: 6px; }
+    .kpi-card .k-sub { font-size: 11.5px; color: var(--text-muted); }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 20px; overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #FAFBFD; }
+    .card-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .card-body { padding: 18px 20px; }
+
+    .policy-banner { background: #EFF6FF; border: 1px solid #BFDBFE; border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 18px; font-size: 12px; color: #1E3A8A; line-height: 1.6; }
+    .f-input, .f-select { height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 12.5px; font-family: inherit; color: var(--text-main); background: #FFF; }
+    .btn { height: 34px; padding: 0 14px; border-radius: 6px; font-size: 12.5px; font-weight: 700; border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+    .btn-primary { background: var(--primary); color: #FFF; }
+    .btn-outline { background: #FFF; border-color: var(--border-strong); color: var(--text-main); }
+
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+    .badge-green { background: #DCFCE7; color: #15803D; }
+    .badge-amber { background: #FEF3C7; color: #B45309; }
+    .badge-red { background: #FEE2E2; color: #B91C1C; }
+    .badge-purple { background: #F3E8FF; color: #7E22CE; }
+    .badge-gray { background: #F1F5F9; color: #475569; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th { background: #F8FAFC; color: var(--text-sub); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); }
+    .inner-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--border); margin-bottom: 18px; }
+    .inner-tab { padding: 10px 18px; font-size: 13px; font-weight: 800; color: var(--text-sub); border: none; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+    .inner-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .modal-backdrop.show { display: flex; }
+    .modal-box { background: #FFF; border-radius: 12px; width: 100%; max-width: 560px; overflow: hidden; }
+    .modal-head { padding: 16px 20px; background: #0F172A; color: #FFF; display: flex; justify-content: space-between; font-weight: 800; }
+    .modal-body { padding: 20px; }
+    .modal-foot { padding: 14px 20px; background: #F8FAFC; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+
+    #toast-box { position: fixed; bottom: 24px; right: 24px; background: #0F172A; color: #FFF; padding: 12px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: none; z-index: 2000; }
+    code { background: #F1F5F9; padding: 2px 5px; border-radius: 4px; font-size: 11.5px; }
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="crumb-wrap">
+        <span class="crumb-code">ADMN-CONF-005</span>
+        <h1 class="crumb-title">운영자 계정 · 역할 권한(RBAC) 관리</h1>
+        <span class="crumb-sub">사이트 관리 &gt; 사내 운영자 및 외부 파트너(강사·조교) 6대 역할 그룹 · 메뉴별 읽기(R)/쓰기(W)/엑셀(X) 매트릭스</span>
+      </div>
+      <div>
+        <button type="button" class="btn btn-sm btn-primary" onclick="openAdminModal()">+ 신규 운영자 · 파트너 계정 생성</button>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="k-title"><span>전체 등록 운영자 · 파트너 계정</span><span class="badge badge-blue">RBAC</span></div>
+          <div class="k-num" id="kpi-admin-total">6 명</div>
+          <div class="k-sub">사내 운영자 4명 · 외부 파트너(강사·조교) 2명</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>표준 역할 그룹 (Role Group)</span><span class="badge badge-green">6대 역할</span></div>
+          <div class="k-num">6 종</div>
+          <div class="k-sub">최고관리자 · 일반운영 · CS · 물류 · 정산 · 강사/조교</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>복수 역할 부여 (OR 합집합)</span><span class="badge badge-purple">다중 역할 지원</span></div>
+          <div class="k-num">활성</div>
+          <div class="k-sub">겸직자(예: CS + 물류) 복수 역할 지정 시 권한 합집합 적용</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>민감정보 열람 · 파기 권한</span><span class="badge badge-red">ADMN-USER-007</span></div>
+          <div class="k-num">2 명</div>
+          <div class="k-sub">최고관리자(SUPER_ADMIN) 및 정산 책임자 전용 제한</div>
+        </div>
+      </div>
+
+      <div class="policy-banner">
+        <strong>[운영자 권한(ADMN-CONF-005) 설계 원칙]</strong>
+        운영자 계정은 1인당 <strong>1개 이상의 역할 그룹(최고관리자 / 일반운영 / CS상담 / 물류3PL / 정산세무 / 외부파트너 강사·조교)</strong>을 부여받으며, 겸직 시 각 역할의 메뉴별 권한(<code>읽기 R</code> · <code>쓰기 W</code> · <code>엑셀다운로드 X</code>)이 <strong>합집합(OR)</strong>으로 적용됩니다. 외부 파트너(강사·조교)는 본인 담당 강좌 및 정산 내역만 열람 가능하며 회원·주문·전체 정산 메뉴 접근이 원천 차단됩니다.
+      </div>
+
+      <div class="inner-tabs">
+        <button type="button" class="inner-tab active" id="tab-admin-list" onclick="switchRbacTab('list')">👥 운영자 · 파트너 계정 목록</button>
+        <button type="button" class="inner-tab" id="tab-admin-matrix" onclick="switchRbacTab('matrix')">🔐 6대 역할 그룹 × 메뉴별 권한 매트릭스 (R / W / X)</button>
+      </div>
+
+      <!-- 탭 1: 운영자 계정 목록 -->
+      <section id="panel-admin-list" class="view-panel active">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>👥 등록 운영자 및 외부 파트너 계정 목록</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openAdminModal()">+ 신규 운영자 계정 등록</button>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>관리자 ID</th>
+                  <th>이름 / 부서(소속)</th>
+                  <th>부여된 역할 그룹 (복수 가능)</th>
+                  <th>연락처 / 이메일</th>
+                  <th>최근 접속 일시 / IP</th>
+                  <th>계정 상태</th>
+                  <th style="text-align:right;">권한 · 계정 관리</th>
+                </tr>
+              </thead>
+              <tbody id="admin-list-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 탭 2: 역할별 메뉴 권한 매트릭스 -->
+      <section id="panel-admin-matrix" class="view-panel">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>🔐 6대 역할 그룹별 백오피스 도메인 접근 권한 매트릭스</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="showToast('역할 그룹별 권한 매트릭스 변경사항이 저장되었으며 보안 감사 로그(CONF-006)에 기록되었습니다.')">💾 권한 매트릭스 저장</button>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>백오피스 메뉴 도메인</th>
+                  <th>최고관리자<br/>(SUPER_ADMIN)</th>
+                  <th>일반·상품운영<br/>(OP_ADMIN)</th>
+                  <th>CS·환불상담<br/>(CS_ADMIN)</th>
+                  <th>물류·3PL담당<br/>(LOGIS_ADMIN)</th>
+                  <th>정산·세무담당<br/>(SETT_ADMIN)</th>
+                  <th>외부 파트너<br/>(강사·조교)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>회원 관리 (ADMN-USER-001~006)</strong></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-blue">R · W</span></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-gray">R (조회전용)</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                </tr>
+                <tr>
+                  <td><strong>민감정보 열람·파기 통제 (ADMN-USER-007)</strong></td>
+                  <td><span class="badge badge-red">R · W · 파기승인</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-amber">R · 열람요청</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                </tr>
+                <tr>
+                  <td><strong>상품 · 강좌 · 교재 관리 (ADMN-PROD-001~007)</strong></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-gray">R (조회전용)</span></td>
+                  <td><span class="badge badge-blue">R · 재고조정(W)</span></td>
+                  <td><span class="badge badge-gray">R (조회전용)</span></td>
+                  <td><span class="badge badge-purple">본인 강좌 R</span></td>
+                </tr>
+                <tr>
+                  <td><strong>주문 · 배송 · 3PL 관리 (ADMN-ORD-001~002)</strong></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-blue">R · W</span></td>
+                  <td><span class="badge badge-blue">R · 주소변경(W)</span></td>
+                  <td><span class="badge badge-green">R · W · X(송장)</span></td>
+                  <td><span class="badge badge-gray">R (조회전용)</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                </tr>
+                <tr>
+                  <td><strong>환불 심사 · 1:1 문의 CS (ADMN-RFD / BRD-002)</strong></td>
+                  <td><span class="badge badge-green">R · W · 최종승인</span></td>
+                  <td><span class="badge badge-blue">R · W</span></td>
+                  <td><span class="badge badge-green">R · W · 1차심사</span></td>
+                  <td><span class="badge badge-blue">반품검수(W)</span></td>
+                  <td><span class="badge badge-blue">환불정산 대사(R)</span></td>
+                  <td><span class="badge badge-purple">배정 질문 답변(W)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>권리자 계약 · 월간 정산 · 세무 (ADMN-SETT / INST)</strong></td>
+                  <td><span class="badge badge-green">R · W · 마감확정</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-blue">운임대사(SETT-011)</span></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-purple">본인 정산서 열람</span></td>
+                </tr>
+                <tr>
+                  <td><strong>사이트 · 약관 · 메시지 · 권한 관리 (ADMN-CONF)</strong></td>
+                  <td><span class="badge badge-green">R · W · X</span></td>
+                  <td><span class="badge badge-blue">배너·메시지(R·W)</span></td>
+                  <td><span class="badge badge-blue">메시지발송(R·W)</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                  <td><span class="badge badge-blue">감사로그(CONF-010)</span></td>
+                  <td><span class="badge badge-gray">접근 불가</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 신규 운영자 등록 모달 -->
+  <div class="modal-backdrop" id="modal-admin-add">
+    <div class="modal-box">
+      <div class="modal-head">
+        <span>+ 신규 운영자 · 파트너 계정 등록</span>
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-admin-add')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom:10px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">관리자 로그인 ID *</label>
+          <input type="text" id="ma-id" class="f-input" style="width:100%;" placeholder="예: admin_lee" />
+        </div>
+        <div style="margin-bottom:10px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">이름 / 소속 부서 *</label>
+          <input type="text" id="ma-name" class="f-input" style="width:100%;" placeholder="예: 이지훈 (물류·3PL 운영팀)" />
+        </div>
+        <div style="margin-bottom:10px;">
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">부여할 역할 그룹 *</label>
+          <select id="ma-role" class="f-select" style="width:100%;">
+            <option value="CS상담 (CS_ADMIN) + 물류3PL (LOGIS_ADMIN)">겸직: CS상담 (CS_ADMIN) + 물류3PL (LOGIS_ADMIN)</option>
+            <option value="일반·상품운영 (OP_ADMIN)">일반·상품운영 (OP_ADMIN)</option>
+            <option value="정산·세무담당 (SETT_ADMIN)">정산·세무담당 (SETT_ADMIN)</option>
+            <option value="외부 파트너 (강사·조교)">외부 파트너 (강사·조교)</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">휴대폰 번호 (2차 SMS 인증용) *</label>
+          <input type="text" id="ma-phone" class="f-input" style="width:100%;" placeholder="010-0000-0000" value="010-5512-8890" />
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-admin-add')">취소</button>
+        <button type="button" class="btn btn-primary" onclick="saveNewAdmin()">계정 생성 및 임시 비밀번호 발송</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    const ADMINS = [
+      { id: 'admin_root', name: '김영호 (총괄 PO · 대표)', roles: ['최고관리자 (SUPER_ADMIN)'], contact: '010-****-0001 · root@sanjunmo.com', lastLogin: '2026.10.18 15:02 (203.241.12.5)', status: 'ACTIVE' },
+      { id: 'admin_kim', name: '김상담 (CS·수강지원팀)', roles: ['CS상담 (CS_ADMIN)', '일반운영 (OP_ADMIN)'], contact: '010-****-1204 · cs_kim@sanjunmo.com', lastLogin: '2026.10.18 14:50 (203.241.12.18)', status: 'ACTIVE' },
+      { id: 'admin_park', name: '박정산 (재무·정산팀)', roles: ['정산·세무담당 (SETT_ADMIN)'], contact: '010-****-8821 · sett@sanjunmo.com', lastLogin: '2026.10.18 11:20 (203.241.12.22)', status: 'ACTIVE' },
+      { id: 'admin_logis', name: '최물류 (3PL·교재출고팀)', roles: ['물류·3PL담당 (LOGIS_ADMIN)'], contact: '010-****-4490 · logis@sanjunmo.com', lastLogin: '2026.10.18 09:15 (203.241.12.40)', status: 'ACTIVE' },
+      { id: 'inst_safety01', name: '박안전 교수 (산업안전 대표강사)', roles: ['외부 파트너 (강사·조교)'], contact: '010-****-7711 · safety01@partner.com', lastLogin: '2026.10.17 18:30 (121.160.**.**)', status: 'ACTIVE' },
+      { id: 'ta_helper02', name: '정조교 (학습연구실 조교)', roles: ['외부 파트너 (강사·조교)'], contact: '010-****-3309 · ta02@partner.com', lastLogin: '2026.10.12 16:00 (5회 오입력 잠금)', status: 'LOCKED' }
+    ];
+
+    function renderAdminList() {
+      document.getElementById('kpi-admin-total').textContent = ADMINS.length + ' 명';
+      document.getElementById('admin-list-tbody').innerHTML = ADMINS.map((a, idx) => {
+        const roleHtml = a.roles.map(r => `<span class="badge ${r.includes('SUPER') ? 'badge-red' : (r.includes('파트너') ? 'badge-purple' : 'badge-blue')}" style="margin-right:4px;">${r}</span>`).join('');
+        const stBadge = a.status === 'ACTIVE'
+          ? '<span class="badge badge-green">정상 (ACTIVE)</span>'
+          : '<span class="badge badge-red">잠금 (PW 5회 실패)</span>';
+
+        return `
+          <tr>
+            <td><code>${a.id}</code></td>
+            <td><strong>${a.name}</strong></td>
+            <td>${roleHtml}</td>
+            <td>${a.contact}</td>
+            <td>${a.lastLogin}</td>
+            <td>${stBadge}</td>
+            <td style="text-align:right;">
+              ${a.status === 'LOCKED' ? `<button type="button" class="btn btn-sm btn-primary" onclick="unlockAdmin(${idx})">🔓 잠금 해제</button>` : ''}
+              <button type="button" class="btn btn-sm btn-outline" onclick="showToast('[${a.id}] 임시 비밀번호 재발급 안내가 등록된 이메일/SMS로 발송되었습니다.')">PW 초기화</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function switchRbacTab(tab) {
+      document.getElementById('tab-admin-list').classList.toggle('active', tab === 'list');
+      document.getElementById('tab-admin-matrix').classList.toggle('active', tab === 'matrix');
+      document.getElementById('panel-admin-list').classList.toggle('active', tab === 'list');
+      document.getElementById('panel-admin-matrix').classList.toggle('active', tab === 'matrix');
+    }
+
+    function unlockAdmin(idx) {
+      ADMINS[idx].status = 'ACTIVE';
+      renderAdminList();
+      showToast(`[${ADMINS[idx].id}] 계정의 로그인 5회 실패 잠금이 해제되었습니다.`);
+    }
+
+    function openAdminModal() {
+      document.getElementById('modal-admin-add').classList.add('show');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('show');
+    }
+
+    function saveNewAdmin() {
+      const id = document.getElementById('ma-id').value.trim() || 'admin_new';
+      const name = document.getElementById('ma-name').value.trim() || '신규 운영자';
+      const role = document.getElementById('ma-role').value;
+      const phone = document.getElementById('ma-phone').value.trim();
+
+      ADMINS.unshift({
+        id, name, roles: [role],
+        contact: `${phone} · ${id}@sanjunmo.com`,
+        lastLogin: '신규 발급 (미접속)',
+        status: 'ACTIVE'
+      });
+      closeModal('modal-admin-add');
+      renderAdminList();
+      showToast(`[${id}] 운영자 계정이 생성되었으며 권한 부여 내역이 감사 로그(CONF-006)에 기록되었습니다.`);
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      box.textContent = msg;
+      box.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', renderAdminList);
+  </script>
+</body>
+</html>
