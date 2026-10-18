@@ -1,728 +1,1356 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-CONF-002] 약관 관리 — 서비스 이용약관 · 개인정보처리방침 · 환불 규정 관리</title>
+
+  <title>[ADMN-CONF-002] 약관 및 개인정보처리방침 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+
   <style>
+
     :root {
-      --bg-body: #F8FAFC;
-      --bg-surface: #FFFFFF;
+
+      --bg-main: #F3F5F9;
+
+      --bg-card: #FFFFFF;
+
       --bg-subtle: #F8FAFC;
-      --text-primary: #0F172A;
-      --text-secondary: #334155;
+
+      --text-main: #0F172A;
+
+      --text-sub: #475569;
+
       --text-muted: #64748B;
-      --border-color: #E2E8F0;
+
+      --border: #E2E8F0;
+
       --border-strong: #CBD5E1;
+
       --primary: #2563EB;
+
       --primary-hover: #1D4ED8;
-      --primary-light: #EFF6FF;
+
+      --primary-soft: #EFF6FF;
+
       --primary-border: #BFDBFE;
+
       --success: #059669;
-      --success-light: #ECFDF5;
+
+      --success-soft: #ECFDF5;
+
       --success-border: #A7F3D0;
+
       --warning: #D97706;
-      --warning-light: #FFFBEB;
+
+      --warning-soft: #FFFBEB;
+
       --warning-border: #FDE68A;
+
       --danger: #DC2626;
-      --danger-light: #FEF2F2;
+
+      --danger-soft: #FEF2F2;
+
       --danger-border: #FECACA;
+
       --purple: #7C3AED;
-      --purple-light: #F5F3FF;
+
+      --purple-soft: #F5F3FF;
+
       --purple-border: #DDD6FE;
+
       --radius-md: 10px;
-      --radius-lg: 12px;
-      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+
+      --radius-lg: 14px;
+
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+
     }
+
+
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-body);
-      color: var(--text-primary);
+
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      background: var(--bg-main);
+
+      color: var(--text-main);
+
       font-size: 13px;
+
       line-height: 1.5;
+
     }
+
+
+
+    #v4-root-shell {
+
+      margin-left: 260px;
+
+      min-height: 100vh;
+
+      display: flex;
+
+      flex-direction: column;
+
+    }
+
+
+
+    header.top-bar.v4-gen3-topbar {
+
+      height: 60px;
+
+      background: #FFFFFF;
+
+      border-bottom: 1px solid var(--border);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 28px;
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 900;
+
+    }
+
+    .crumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-sub); }
+
+    .crumb-code {
+
+      background: #1E293B;
+
+      color: #F8FAFC;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      padding: 3px 8px;
+
+      border-radius: 5px;
+
+    }
+
+
+
+    .main-container {
+
+      padding: 22px 28px 60px;
+
+      max-width: 1640px;
+
+      width: 100%;
+
+      margin: 0 auto;
+
+    }
+
+    .view-panel { display: none; }
+
+    .view-panel.active { display: block; }
+
+
+
+    .kpi-grid {
+
+      display: grid;
+
+      grid-template-columns: repeat(4, 1fr);
+
+      gap: 14px;
+
+      margin-bottom: 18px;
+
+    }
+
+    .kpi-card {
+
+      background: var(--bg-card);
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius-md);
+
+      padding: 16px 18px;
+
+      box-shadow: var(--shadow-sm);
+
+      cursor: pointer;
+
+      transition: border-color 0.15s;
+
+    }
+
+    .kpi-card:hover { border-color: var(--primary); }
+
+    .kpi-card .k-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+
+    .kpi-card .k-title { font-size: 12px; font-weight: 700; color: var(--text-sub); }
+
+    .kpi-card .k-num { font-size: 22px; font-weight: 800; color: var(--text-main); margin: 2px 0 4px; }
+
+    .kpi-card .k-sub { font-size: 11.5px; color: var(--text-muted); }
+
+
 
     .card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-color);
+
+      background: var(--bg-card);
+
+      border: 1px solid var(--border);
+
       border-radius: var(--radius-md);
+
       box-shadow: var(--shadow-sm);
-      margin-bottom: 16px;
+
+      margin-bottom: 18px;
+
       overflow: hidden;
+
     }
+
     .card-header {
+
       padding: 13px 18px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+
       background: #FAFBFD;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .card-title {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--text-primary);
+
+      border-bottom: 1px solid var(--border);
+
       display: flex;
+
       align-items: center;
-      gap: 8px;
-    }
-    .card-body { padding: 16px 18px; }
 
-    .form-input, .form-select, .form-textarea {
-      padding: 7px 10px;
-      border: 1px solid var(--border-strong);
-      border-radius: 6px;
-      font-size: 12.5px;
-      color: var(--text-primary);
-      background: #FFFFFF;
-      font-family: inherit;
-    }
-    .form-input, .form-select { height: 34px; }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.14);
-    }
-    .form-input[readonly], .form-input:disabled, .form-select:disabled {
-      background: #F1F5F9;
-      color: #64748B;
-      cursor: not-allowed;
-    }
-    .fld--err {
-      border: 2px solid var(--danger) !important;
-      background: #FEF2F2 !important;
-      color: #991B1B !important;
-      font-weight: 700 !important;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
     }
 
-    .seg-group {
-      display: inline-flex;
-      background: #F1F5F9;
-      border: 1px solid var(--border-color);
-      border-radius: 7px;
-      padding: 3px;
-      gap: 3px;
-    }
-    .seg-btn {
-      border: none;
-      background: transparent;
-      padding: 5px 12px;
-      border-radius: 5px;
-      font-size: 12px;
+    .card-title { font-size: 14px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+
+    .card-body { padding: 18px; }
+
+
+
+    .kv-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 16px; }
+
+    .kv-table th {
+
+      width: 150px;
+
+      background: #F8FAFC;
+
+      padding: 10px 14px;
+
+      text-align: left;
+
       font-weight: 700;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.12s;
+
+      color: var(--text-sub);
+
+      border: 1px solid var(--border);
+
+      white-space: nowrap;
+
     }
-    .seg-btn.active {
+
+    .kv-table td {
+
+      padding: 10px 14px;
+
+      border: 1px solid var(--border);
+
       background: #FFFFFF;
-      color: var(--primary);
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+
     }
+
+
+
+    .f-input, .f-select, .f-textarea {
+
+      height: 32px;
+
+      padding: 0 10px;
+
+      border: 1px solid var(--border-strong);
+
+      border-radius: 6px;
+
+      font-size: 12.5px;
+
+      font-family: inherit;
+
+      color: var(--text-main);
+
+      background: #FFFFFF;
+
+    }
+
+    .f-textarea {
+
+      height: auto;
+
+      padding: 14px;
+
+      width: 100%;
+
+      min-height: 300px;
+
+      line-height: 1.75;
+
+      font-size: 13px;
+
+      resize: vertical;
+
+    }
+
+    .f-input:focus, .f-select:focus, .f-textarea:focus {
+
+      outline: none;
+
+      border-color: var(--primary);
+
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+
+    }
+
+    .fld-err {
+
+      border: 2px solid var(--danger) !important;
+
+      background: #FEF2F2 !important;
+
+      color: #991B1B !important;
+
+      font-weight: 700 !important;
+
+    }
+
+
+
+    .chip-group { display: inline-flex; gap: 4px; flex-wrap: wrap; vertical-align: middle; }
+
+    .chip {
+
+      padding: 5px 11px;
+
+      border: 1px solid var(--border-strong);
+
+      border-radius: 6px;
+
+      background: #FFFFFF;
+
+      font-size: 12px;
+
+      font-weight: 600;
+
+      color: var(--text-sub);
+
+      cursor: pointer;
+
+    }
+
+    .chip.active {
+
+      background: var(--primary-soft);
+
+      color: var(--primary);
+
+      border-color: var(--primary-border);
+
+      font-weight: 700;
+
+    }
+
+
 
     .btn {
-      height: 34px;
-      padding: 0 13px;
+
+      height: 32px;
+
+      padding: 0 12px;
+
       border-radius: 6px;
+
       font-size: 12px;
+
       font-weight: 700;
+
       cursor: pointer;
-      border: 1px solid var(--border-strong);
-      background: #FFFFFF;
-      color: var(--text-primary);
+
       display: inline-flex;
+
       align-items: center;
+
       justify-content: center;
-      gap: 6px;
+
+      gap: 5px;
+
+      border: 1px solid transparent;
+
+      font-family: inherit;
+
       text-decoration: none;
-      transition: all 0.12s;
+
+      white-space: nowrap;
+
     }
-    .btn:hover { background: var(--bg-subtle); }
-    .btn-primary { background: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+
+    .btn-sm { height: 27px; padding: 0 9px; font-size: 11.5px; }
+
+    .btn-primary { background: var(--primary); color: #FFFFFF; }
+
     .btn-primary:hover { background: var(--primary-hover); }
-    .btn-dark { background: #0F172A; color: #FFFFFF; border-color: #0F172A; }
-    .btn-dark:hover { background: #1E293B; }
-    .btn-danger { background: var(--danger); color: #FFFFFF; border-color: var(--danger); }
-    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+
+    .btn-dark { background: #0F172A; color: #FFFFFF; }
+
+    .btn-outline { background: #FFFFFF; border-color: var(--border-strong); color: var(--text-main); }
+
+    .btn-outline:hover { background: #F8FAFC; }
+
+    .btn-danger { background: var(--danger-soft); border-color: var(--danger-border); color: var(--danger); }
+
+
 
     .badge {
+
       display: inline-flex;
+
       align-items: center;
+
       gap: 4px;
-      padding: 2px 8px;
+
+      padding: 2px 7px;
+
       border-radius: 5px;
+
       font-size: 11px;
+
       font-weight: 700;
+
       white-space: nowrap;
+
     }
-    .badge-blue { background: var(--primary-light); color: var(--primary); border: 1px solid var(--primary-border); }
-    .badge-green { background: var(--success-light); color: var(--success); border: 1px solid var(--success-border); }
-    .badge-amber { background: var(--warning-light); color: var(--warning); border: 1px solid var(--warning-border); }
-    .badge-red { background: var(--danger-light); color: var(--danger); border: 1px solid var(--danger-border); }
-    .badge-purple { background: var(--purple-light); color: var(--purple); border: 1px solid var(--purple-border); }
-    .badge-slate { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+    .badge-green { background: var(--success-soft); color: var(--success); border: 1px solid var(--success-border); }
+
+    .badge-blue { background: var(--primary-soft); color: var(--primary); border: 1px solid var(--primary-border); }
+
+    .badge-amber { background: var(--warning-soft); color: #B45309; border: 1px solid var(--warning-border); }
+
+    .badge-red { background: var(--danger-soft); color: var(--danger); border: 1px solid var(--danger-border); }
+
+    .badge-purple { background: var(--purple-soft); color: var(--purple); border: 1px solid var(--purple-border); }
+
+    .badge-gray { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+
 
     .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+
     .data-table th {
-      background: var(--bg-subtle);
-      color: var(--text-secondary);
+
+      background: #F8FAFC;
+
+      color: var(--text-sub);
+
       font-weight: 700;
+
       font-size: 11.5px;
+
       padding: 10px 12px;
-      border-bottom: 1px solid var(--border-strong);
+
       text-align: left;
+
+      border-bottom: 1px solid var(--border);
+
       white-space: nowrap;
+
     }
+
     .data-table td {
+
       padding: 11px 12px;
-      border-bottom: 1px solid var(--border-color);
+
+      border-bottom: 1px solid var(--border);
+
       vertical-align: middle;
+
     }
-    .data-table tbody tr { transition: background 0.12s; }
+
+    .data-table tbody tr { cursor: pointer; }
+
     .data-table tbody tr:hover { background: #F8FAFC; }
-    .data-table tbody tr.selected-row { background: #EFF6FF; }
-    .data-table th.num, .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
     .data-table th.ct, .data-table td.ct { text-align: center; }
 
-    .form-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 14px;
-    }
-    .form-table th {
-      width: 155px;
-      background: var(--bg-subtle);
-      color: var(--text-secondary);
-      font-weight: 700;
-      font-size: 12px;
-      text-align: left;
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
-      white-space: nowrap;
-    }
-    .form-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border-color);
-      background: #FFFFFF;
-    }
-    .form-table tr:last-child th, .form-table tr:last-child td { border-bottom: none; }
-    .req { color: var(--danger); margin-left: 3px; font-weight: 800; }
-    .help-txt { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
 
-    /* 와이드 약관 에디터 박스 */
-    .editor-shell {
-      border: 1px solid var(--border-strong);
-      border-radius: 8px;
-      overflow: hidden;
-      background: #FFFFFF;
-    }
-    .editor-toolbar {
-      padding: 8px 14px;
-      background: #F1F5F9;
-      border-bottom: 1px solid var(--border-color);
+
+    .cs-tabs {
+
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .tool-btn {
-      padding: 4px 10px;
-      font-size: 11.5px;
-      font-weight: 700;
-      border: 1px solid var(--border-strong);
-      border-radius: 5px;
-      background: #FFFFFF;
-      color: var(--text-secondary);
-      cursor: pointer;
-    }
-    .tool-btn:hover { background: #EFF6FF; color: var(--primary); border-color: var(--primary-border); }
 
-    .wide-editor-textarea {
-      width: 100%;
-      min-height: 290px;
-      padding: 16px;
-      border: none;
+      border-bottom: 2px solid var(--border);
+
+      gap: 4px;
+
+      margin-bottom: 16px;
+
+    }
+
+    .cs-tab {
+
+      padding: 10px 18px;
+
       font-size: 13px;
-      line-height: 1.75;
-      font-family: inherit;
-      color: var(--text-primary);
-      background: #FFFFFF;
-      resize: vertical;
-      outline: none;
-    }
-    .wide-editor-textarea:focus {
-      background: #FEFEFF;
-      box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.2);
-    }
 
-    /* 모달 */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.58);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      backdrop-filter: blur(2px);
-    }
-    .modal-backdrop.show { display: flex; }
-    .modal-dialog {
-      background: #FFFFFF;
-      width: 720px;
-      max-width: 94vw;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
-      overflow: hidden;
-    }
-    .modal-header {
-      padding: 15px 20px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 800;
-      font-size: 14px;
-    }
-    .modal-body { padding: 20px; max-height: 75vh; overflow-y: auto; }
-    .modal-footer {
-      padding: 12px 20px;
-      background: var(--bg-subtle);
-      border-top: 1px solid var(--border-color);
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    #toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #0F172A;
-      color: #FFFFFF;
-      padding: 11px 18px;
-      border-radius: 8px;
-      font-size: 12.5px;
       font-weight: 700;
-      display: none;
-      z-index: 3000;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+
+      color: var(--text-sub);
+
+      background: #F8FAFC;
+
+      border: 1px solid var(--border);
+
+      border-bottom: none;
+
+      border-radius: 8px 8px 0 0;
+
+      cursor: pointer;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 6px;
+
     }
+
+    .cs-tab.active {
+
+      background: #FFFFFF;
+
+      color: var(--primary);
+
+      border-bottom: 2px solid #FFFFFF;
+
+      margin-bottom: -2px;
+
+    }
+
+    .cs-pane { display: none; }
+
+    .cs-pane.active { display: block; }
+
+
+
+    .policy-banner {
+
+      background: #FFFBEB;
+
+      border: 1px solid #FDE68A;
+
+      border-left: 4px solid #D97706;
+
+      border-radius: 8px;
+
+      padding: 11px 15px;
+
+      font-size: 12px;
+
+      color: #78350F;
+
+    }
+
+
+
+    .modal-backdrop {
+
+      position: fixed;
+
+      inset: 0;
+
+      background: rgba(15, 23, 42, 0.6);
+
+      backdrop-filter: blur(2px);
+
+      z-index: 2000;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 20px;
+
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal-box {
+
+      background: #FFFFFF;
+
+      border-radius: 12px;
+
+      width: 100%;
+
+      max-width: 720px;
+
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+
+      border: 1px solid var(--border);
+
+      overflow: hidden;
+
+    }
+
+    .modal-head {
+
+      padding: 15px 20px;
+
+      background: #0F172A;
+
+      color: #FFFFFF;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      font-size: 14px;
+
+      font-weight: 800;
+
+    }
+
+    .modal-body { padding: 18px 20px; max-height: 78vh; overflow-y: auto; }
+
+    .modal-foot {
+
+      padding: 13px 20px;
+
+      background: #F8FAFC;
+
+      border-top: 1px solid var(--border);
+
+      display: flex;
+
+      justify-content: flex-end;
+
+      gap: 8px;
+
+    }
+
+
+
+    .toast-msg {
+
+      position: fixed;
+
+      bottom: 26px;
+
+      right: 26px;
+
+      background: #0F172A;
+
+      color: #FFFFFF;
+
+      padding: 13px 20px;
+
+      border-radius: 10px;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25);
+
+      z-index: 3000;
+
+      display: none;
+
+    }
+
   </style>
-  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
-  <script id="v4-common-snb" src="common-snb.js" defer></script>
+
 </head>
+
 <body>
+
   <aside id="v4-master-snb"></aside>
 
+
+
   <div id="v4-root-shell">
+
     <header class="top-bar v4-gen3-topbar">
-      <div class="top-bar-left">
-        <span class="crumb-code">ADMN-CONF-002</span>
-        <span class="crumb-title">약관 및 개인정보처리방침 관리 (서비스 이용약관 · 개인정보처리방침 · 환불규정 버전 및 이력 관리)</span>
+
+      <div class="crumb">
+
+        <span class="crumb-code" id="top-crumb-code">ADMN-CONF-002</span>
+
+        <span id="top-crumb-path">사이트 관리 &gt; 약관 및 개인정보처리방침 관리 &gt;</span>
+
+        <strong id="top-crumb-title" style="color:var(--text-main);">약관 및 방침 마스터 목록</strong>
+
       </div>
-      <div class="top-bar-right">
-        <a href="ADMN-CONF-004_baseline.html?view=send&type=terms_notice&term=T04" class="btn btn-sm btn-primary">
-          📢 타겟 단체 알림톡/LMS 예약 발송 (ADMN-CONF-004-S1) 바로가기
-        </a>
+
+      <div style="display:flex; align-items:center; gap:8px;">
+
+        <span class="badge badge-blue">일반 개정 최소 7일 전 · 불리/중대 개정 최소 30일 전 사전 공고</span>
+
+        <a href="ADMN-CONF-004_baseline.html?view=send" class="btn btn-sm btn-outline">타겟 단체 알림톡/LMS 발송 (ADMN-CONF-004-S1) ↗</a>
+
       </div>
+
     </header>
 
+
+
     <div id="v4-page-body" class="main-container">
-      <!-- 4단 KPI 카드 -->
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="k-title">
-            <span>운영 약관 · 방침 마스터</span>
-            <span class="badge">T01 ~ T05 고정</span>
+
+
+
+      <!-- =================================================================
+
+           VIEW 1: 약관 및 방침 마스터 목록 (view-list)
+
+           ================================================================= -->
+
+      <section id="view-list" class="view-panel active">
+
+        <div class="kpi-grid">
+
+          <div class="kpi-card" onclick="filterTerms('ALL')">
+
+            <div class="k-top"><span class="k-title">운영 약관 · 방침 마스터</span><span class="badge badge-blue">T01 ~ T05</span></div>
+
+            <div class="k-num">5종</div>
+
+            <div class="k-sub">필수 동의 3종 · 법정 상시공시 1종 · 선택 동의 1종</div>
+
           </div>
-          <div class="k-num">5종</div>
-          <div class="k-sub">필수 동의 3종 · 법정 상시 공시 1종(T03) · 선택 동의 1종(T05)</div>
+
+          <div class="kpi-card" onclick="filterTerms('ACTIVE')">
+
+            <div class="k-top"><span class="k-title">현재 시행중</span><span class="badge badge-green">ACTIVE</span></div>
+
+            <div class="k-num" id="kpi-active-num">4종</div>
+
+            <div class="k-sub">회원가입 · 주문서 결제 · 하단 푸터 실시간 노출</div>
+
+          </div>
+
+          <div class="kpi-card" onclick="filterTerms('ANNOUNCED')">
+
+            <div class="k-top"><span class="k-title">공시중 (시행 예정)</span><span class="badge badge-blue">ANNOUNCED</span></div>
+
+            <div class="k-num" style="color:var(--primary);" id="kpi-ann-num">1종</div>
+
+            <div class="k-sub">개인정보처리방침 v3.0 (2026.09.01 시행 예정)</div>
+
+          </div>
+
+          <div class="kpi-card">
+
+            <div class="k-top"><span class="k-title">누적 보관 버전 이력</span><span class="badge badge-gray">HISTORY</span></div>
+
+            <div class="k-num" id="kpi-hist-num">11개 버전</div>
+
+            <div class="k-sub">사용자 푸터 [이전 버전 보기] 드롭다운 자동 연동</div>
+
+          </div>
+
         </div>
 
-        <div class="kpi-card">
-          <div class="k-title">
-            <span>현재 시행중 약관</span>
-            <span class="badge">프론트 실시간 노출</span>
-          </div>
-          <div class="k-num" style="color:var(--success);" id="kpi-active-cnt">4종</div>
-          <div class="k-sub">회원가입(USER-JOIN-002) · 주문서(USER-PAY-001) · 푸터 연동</div>
-        </div>
 
-        <div class="kpi-card">
-          <div class="k-title">
-            <span>공시중 (시행 대기 버전)</span>
-            <span class="badge">사전 공고 기간</span>
-          </div>
-          <div class="k-num" style="color:var(--primary);" id="kpi-announced-cnt">1건 (T03 v3.0)</div>
-          <div class="k-sub">일반 개정 최소 7일 전 · 회원 불리 개정 최소 30일 전 공고</div>
-        </div>
 
-        <div class="kpi-card">
-          <div class="k-title">
-            <span>보관 중인 누적 버전 이력</span>
-            <span class="badge">푸터 이전버전 보기</span>
-          </div>
-          <div class="k-num" id="kpi-history-cnt">12개 버전</div>
-          <div class="k-sub">개정 시 구버전 자동 보관 · 사용자 화면 버전 드롭다운 제공</div>
-        </div>
-      </div>
+        <div class="card">
 
-      <!-- 1. 약관 및 방침 5종 목록 그리드 -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">
-            <span>1. 약관 및 방침 마스터 목록 (5종)</span>
-            <span class="badge badge-blue">항목을 클릭하면 하단 에디터와 변경 이력 리스트에 로드됩니다</span>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">
-            ※ 신규 약관 종류 추가는 회원가입(<code>USER-JOIN-002</code>) 및 주문서(<code>USER-PAY-001</code>) UI 체크박스 연동 배포 사항입니다.
-          </span>
-        </div>
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th class="ct" style="width:75px;">코드</th>
-                <th>약관 · 방침명</th>
-                <th class="ct" style="width:120px;">동의 · 고지 구분</th>
-                <th>프론트 노출 위치</th>
-                <th class="ct" style="width:90px;">현행 버전</th>
-                <th class="ct" style="width:105px;">공고 일자</th>
-                <th class="ct" style="width:105px;">시행 일자</th>
-                <th class="ct" style="width:120px;">상태</th>
-                <th class="ct" style="width:180px;">관리</th>
-              </tr>
-            </thead>
-            <tbody id="terms-master-tbody">
-              <!-- JS 렌더링 -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+          <div class="card-header">
 
-      <!-- 2. 선택 약관 등록 · 개정 · 직접 수정 와이드 에디터 -->
-      <div class="card" id="editor-workspace" style="border:2px solid var(--primary);">
-        <div class="card-header" style="background:#EFF6FF;">
-          <div class="card-title">
-            <span id="ed-header-title">2. 약관 내용 편집 및 개정 등록 — [T04] 환불 · 청약철회 규정 (이용약관 제15조)</span>
-            <span class="badge badge-blue" id="ed-status-badge">신규 개정 버전 등록 모드 (v1.4 → v1.5)</span>
-          </div>
-          <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-sm" onclick="testDatePolicyViolation()">🧪 [정책 검증 시연] 공고 기간(30일) 미달 테스트</button>
-            <button type="button" class="btn btn-sm" onclick="openDiffPreviewModal()">🔍 이전 버전과 비교(Diff) 보기</button>
-          </div>
-        </div>
+            <div class="card-title">
 
-        <div class="card-body">
-          <!-- 법정 공고 기간 위반 경고 배너 -->
-          <div id="date-policy-alert" style="display:none; background:#FEF2F2; border:2px solid #DC2626; border-radius:8px; padding:12px 16px; margin-bottom:14px; color:#991B1B; font-size:12.5px;">
-            <strong>⛔ 법정 사전 공고 기간 미달 (저장 차단):</strong>
-            <span id="date-policy-msg">회원에게 불리한 중대 개정은 시행일 최소 30일 전(일반 개정은 최소 7일 전)에 공고되어야 합니다. 시행 일자를 조정해 주세요.</span>
-          </div>
+              <span>약관 및 개인정보처리방침 목록</span>
 
-          <table class="form-table">
-            <tbody>
-              <tr>
-                <th>선택 약관 · 노출 위치</th>
-                <td>
-                  <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                    <select id="ed-term-select" class="form-select" style="width:290px; font-weight:700;" onchange="selectTerm(this.value, false)">
-                      <!-- JS 렌더링 -->
-                    </select>
-                    <span class="badge badge-slate" id="ed-exposure-label">주문서 결제 동의 (USER-PAY-001) · 푸터 약관 탭</span>
-                  </div>
-                </td>
-                <th>사용(노출) 여부</th>
-                <td>
-                  <div style="display:flex; align-items:center; gap:12px;">
-                    <label style="display:inline-flex; align-items:center; gap:5px; font-weight:700; cursor:pointer;">
-                      <input type="radio" name="use_yn" value="Y" checked /> 사용함 (프론트 노출)
-                    </label>
-                    <label style="display:inline-flex; align-items:center; gap:5px; color:var(--text-muted); cursor:pointer;">
-                      <input type="radio" name="use_yn" value="N" /> 사용 안 함
-                    </label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>등록 · 수정 방식<span class="req">*</span></th>
-                <td>
-                  <div class="seg-group">
-                    <button type="button" class="seg-btn active" id="seg-mode-rev" onclick="setSaveMode('REVISION')">
-                      ➕ 신규 개정 버전 생성 (이전 버전 이력 보관)
-                    </button>
-                    <button type="button" class="seg-btn" id="seg-mode-edit" onclick="setSaveMode('DIRECT_EDIT')">
-                      ✏️ 현재 선택 버전 내용 직접 수정 (버전 유지)
-                    </button>
-                  </div>
-                </td>
-                <th>개정 유형 · 버전명<span class="req">*</span></th>
-                <td>
-                  <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                    <div class="seg-group" id="rev-type-group">
-                      <button type="button" class="seg-btn active" id="seg-rev-minor" onclick="setRevisionType('MINOR')">일반 개정 (+0.1 / 7일 전)</button>
-                      <button type="button" class="seg-btn" id="seg-rev-major" onclick="setRevisionType('MAJOR')">중대·불리 개정 (+1.0 / 30일 전)</button>
-                    </div>
-                    <input type="text" id="ed-ver-input" class="form-input" style="width:95px; font-weight:800; color:var(--primary); text-align:center;" readonly value="v1.5" />
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>공고일자 / 시행일자<span class="req">*</span></th>
-                <td colspan="3">
-                  <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                    <span style="font-size:12px; font-weight:700;">공고일:</span>
-                    <input type="date" id="ed-announce-date" class="form-input" value="2026-08-19" onchange="validateNoticePeriod()" />
-                    <span style="font-size:12px; font-weight:700; margin-left:8px;">시행일(실행일):</span>
-                    <input type="date" id="ed-effective-date" class="form-input" value="2026-09-03" onchange="validateNoticePeriod()" />
-                    <span class="badge badge-green" id="ed-period-badge">공고 후 15일 뒤 시행 (적합)</span>
-                    <span style="font-size:11.5px; color:var(--text-muted);" id="ed-period-guide">
-                      ※ 일반 변경은 시행 7일 전, 회원에게 불리한 변경은 시행 30일 전 공고 필수 (시행일까지 거부 의사 미표시 시 동의 간주)
-                    </span>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>변경 사유 및 주요 개정내용<span class="req">*</span></th>
-                <td colspan="3">
-                  <input type="text" id="ed-reason" class="form-input" style="width:100%;" value="교재 반품 왕복 배송비 실비 6,000원 기준 명문화 및 도서정가제(실물 교재 쿠폰 할인 제외) 안내 조항 보완" />
-                  <div class="help-txt">• 하단 약관 변경 이력 리스트 및 전체 회원 사전 고지 알림톡/LMS·이메일(<code>TPL_NOTICE_TERMS</code>)의 개정 사유 요약으로 사용됩니다.</div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              <span class="badge badge-gray">행을 클릭하거나 우측 [상세 · 개정/수정] 버튼을 누르면 편집 화면으로 이동합니다</span>
 
-          <!-- 와이드 에디터 본문 -->
-          <div class="editor-shell">
-            <div class="editor-toolbar">
-              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-                <strong style="font-size:12px; color:var(--text-primary); margin-right:6px;">약관 본문 편집:</strong>
-                <button type="button" class="tool-btn" onclick="insertSnippet('ARTICLE')">+ 조항(제N조) 추가</button>
-                <button type="button" class="tool-btn" onclick="insertSnippet('CLAUSE')">+ ① ② ③ 항 번호</button>
-                <button type="button" class="tool-btn" onclick="insertSnippet('ADDENDUM')">+ 부칙(시행일) 삽입</button>
-                <button type="button" class="tool-btn" onclick="loadCurrentVersionBody()">↺ 현행 시행중 본문 다시 불러오기</button>
-              </div>
-              <div style="display:flex; gap:8px; align-items:center;">
-                <span class="badge badge-slate" id="ed-char-counter">0자</span>
-                <button type="button" class="tool-btn" onclick="openDiffPreviewModal()">🔍 이전 버전 대비 변경점(Diff) 확인</button>
-              </div>
             </div>
-            <textarea id="ed-body-textarea" class="wide-editor-textarea" oninput="updateCharCounter()"></textarea>
+
           </div>
 
-          <!-- 약관 개정 사전 고지 옵션 & 저장 액션바 -->
-          <div style="margin-top:14px; padding:12px 16px; background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-            <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
-              <label style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; cursor:pointer;">
-                <input type="checkbox" id="chk-auto-notice-board" checked />
-                저장 시 공지사항 게시판(ADMN-BRD-001)에 개정 사전 공고문 자동 등록
-              </label>
-              <button type="button" class="btn btn-sm" style="border-color:var(--primary); color:var(--primary);" onclick="goToTermsNoticeSend()">
-                📢 전체 회원 개정 고지 알림톡/LMS·메일 발송 예약 (ADMN-CONF-004-S1 연동)
-              </button>
+          <div style="overflow-x:auto;">
+
+            <table class="data-table">
+
+              <thead>
+
+                <tr>
+
+                  <th class="ct" style="width:80px;">약관 코드</th>
+
+                  <th>약관 · 방침명</th>
+
+                  <th class="ct" style="width:125px;">동의 · 공시 구분</th>
+
+                  <th>사용자 화면 노출 위치</th>
+
+                  <th class="ct" style="width:95px;">현행 버전</th>
+
+                  <th class="ct" style="width:110px;">공고 일자</th>
+
+                  <th class="ct" style="width:110px;">시행 일자</th>
+
+                  <th class="ct" style="width:110px;">상태</th>
+
+                  <th class="ct" style="width:100px;">최종 수정자</th>
+
+                  <th class="ct" style="width:190px;">관리</th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="terms-list-tbody">
+
+                <!-- JS 렌더링 -->
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <div style="padding:12px 18px; border-top:1px solid var(--border);">
+
+            <div class="policy-banner">
+
+              <strong>약관 운영 및 개정 고지 거버넌스:</strong>
+
+              신규 약관 종류 추가는 회원가입(<code>USER-JOIN-002</code>) 및 주문서(<code>USER-PAY-001</code>) 체크박스 UI 배포가 수반되므로 개발 배포로 관리합니다.
+
+              약관 개정 시에는 시행일 최소 7일 전(회원에게 불리하거나 중대한 사항은 30일 전) 공고 후 <strong>타겟 단체 알림톡/LMS 예약 발송(<code>ADMN-CONF-004-S1</code>)</strong>을 통해 전체 회원에게 사전 고지합니다.
+
             </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+
+      <!-- =================================================================
+
+           VIEW 2: 선택한 약관 상세 · 개정 등록 · 본문 수정 · 변경 이력 (view-detail)
+
+           ================================================================= -->
+
+      <section id="view-detail" class="view-panel">
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div class="card-title">
+
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 약관 목록으로 (ADMN-CONF-002)</button>
+
+              <span style="margin-left:6px;" id="dt-head-title">[T04] 환불 · 청약철회 규정 (이용약관 제15조)</span>
+
+              <span class="badge badge-green" id="dt-head-badge">현행 v1.4 시행중</span>
+
+            </div>
+
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn" onclick="openDiffPreviewModal()">사용자 화면 미리보기</button>
-              <button type="button" class="btn btn-primary" id="btn-save-term" onclick="openSaveConfirmModal()">💾 약관 저장 및 반영</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- 3. 선택한 약관의 버전별 변경 이력 리스트 (약관변경리스트) -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">
-            <span id="history-card-title">3. 약관 변경 이력 리스트 — [T04] 환불 · 청약철회 규정</span>
-            <span class="badge badge-slate">사용자 프론트 하단 [이전 버전 보기] 드롭다운에 자동 연동됩니다</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="openDiffModal()">🔍 이전 버전과 신·구 비교(Diff) 미리보기</button>
+
+              <button type="button" class="btn btn-sm btn-primary" onclick="goToTermsNoticeSend()">📢 전체 회원 개정 고지 발송 (ADMN-CONF-004-S1) →</button>
+
+            </div>
+
           </div>
+
+
+
+          <div class="card-body">
+
+            <!-- 상세 내부 탭: [1] 약관 개정 등록 · 본문 수정 / [2] 버전별 변경 이력 리스트 -->
+
+            <div class="cs-tabs">
+
+              <button type="button" class="cs-tab active" id="tab-btn-edit" onclick="switchDetailTab('edit')">
+
+                ✏️ 약관 본문 수정 · 신규 개정 버전 등록
+
+              </button>
+
+              <button type="button" class="cs-tab" id="tab-btn-history" onclick="switchDetailTab('history')">
+
+                📜 버전별 변경 이력 리스트 (푸터 이전버전 보기 연동)
+
+                <span class="badge badge-gray" id="tab-hist-cnt">2건</span>
+
+              </button>
+
+            </div>
+
+
+
+            <!-- 탭 1: 약관 본문 수정 및 개정 등록 폼 -->
+
+            <div id="pane-edit" class="cs-pane active">
+
+              <div id="date-policy-alert" style="display:none; background:#FEF2F2; border:2px solid #DC2626; border-radius:8px; padding:12px 16px; margin-bottom:14px; color:#991B1B; font-size:12.5px;">
+
+                <strong>⛔ 법정 사전 공고 기간 미달 (저장 차단):</strong>
+
+                <span id="date-policy-msg">회원에게 불리한 중대 개정은 시행일 최소 30일 전(일반 개정은 최소 7일 전)에 공고되어야 합니다.</span>
+
+              </div>
+
+
+
+              <table class="kv-table">
+
+                <tbody>
+
+                  <tr>
+
+                    <th>약관 코드 · 명칭</th>
+
+                    <td>
+
+                      <strong id="f-term-title" style="font-size:13.5px;">[T04] 환불 · 청약철회 규정 (이용약관 제15조)</strong>
+
+                      <span class="badge badge-red" id="f-term-req" style="margin-left:6px;">필수 동의(결제)</span>
+
+                    </td>
+
+                    <th>프론트 노출 위치</th>
+
+                    <td id="f-term-exposure" style="color:var(--text-sub);">주문서 결제 동의 (USER-PAY-001) · 푸터 약관 탭</td>
+
+                  </tr>
+
+                  <tr>
+
+                    <th>작업 방식 선택</th>
+
+                    <td>
+
+                      <div class="chip-group">
+
+                        <span class="chip active" id="chip-mode-rev" onclick="setEditMode('REVISION')">+ 신규 개정 버전 등록 (기존 버전 이력 보관)</span>
+
+                        <span class="chip" id="chip-mode-direct" onclick="setEditMode('DIRECT')">✏️ 현행 버전 내용 직접 수정 (버전 유지)</span>
+
+                      </div>
+
+                    </td>
+
+                    <th>개정 유형 · 적용 버전</th>
+
+                    <td>
+
+                      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+
+                        <div class="chip-group" id="rev-type-chips">
+
+                          <span class="chip active" id="chip-rev-minor" onclick="setRevType('MINOR')">일반 개정 (+0.1 / 7일 전)</span>
+
+                          <span class="chip" id="chip-rev-major" onclick="setRevType('MAJOR')">불리·중대 개정 (+1.0 / 30일 전)</span>
+
+                        </div>
+
+                        <input type="text" id="f-ver-input" class="f-input" style="width:90px; font-weight:800; color:var(--primary); text-align:center;" readonly value="v1.5" />
+
+                        <button type="button" class="btn btn-sm btn-outline" onclick="testViolation30Days()">🧪 30일 미달 시연</button>
+
+                      </div>
+
+                    </td>
+
+                  </tr>
+
+                  <tr>
+
+                    <th>공고일 / 시행일</th>
+
+                    <td>
+
+                      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+
+                        <span>공고일:</span>
+
+                        <input type="date" id="f-ann-date" class="f-input" value="2026-08-19" onchange="validatePeriod()" />
+
+                        <span style="margin-left:6px;">시행일:</span>
+
+                        <input type="date" id="f-eff-date" class="f-input" value="2026-09-03" onchange="validatePeriod()" />
+
+                        <span class="badge badge-green" id="f-period-badge">공고 후 15일 뒤 시행 (적합)</span>
+
+                      </div>
+
+                    </td>
+
+                    <th>사용(노출) 여부</th>
+
+                    <td>
+
+                      <label style="margin-right:14px; font-weight:700; cursor:pointer;"><input type="radio" name="use_yn" checked /> 사용함 (프론트 노출)</label>
+
+                      <label style="color:var(--text-muted); cursor:pointer;"><input type="radio" name="use_yn" /> 사용 안 함</label>
+
+                    </td>
+
+                  </tr>
+
+                  <tr>
+
+                    <th>개정 · 수정 사유 요약</th>
+
+                    <td colspan="3">
+
+                      <input type="text" id="f-reason" class="f-input" style="width:100%;" value="교재 반품 왕복 배송비 실비 6,000원 기준 명문화 및 도서정가제(실물 교재 쿠폰 할인 제외) 안내 조항 보완" />
+
+                    </td>
+
+                  </tr>
+
+                  <tr>
+
+                    <th>
+
+                      약관 본문 편집
+
+                      <div style="margin-top:8px; display:flex; flex-direction:column; gap:4px;">
+
+                        <button type="button" class="btn btn-sm btn-outline" onclick="insertTextSnippet('ARTICLE')">+ 조항(제N조) 추가</button>
+
+                        <button type="button" class="btn btn-sm btn-outline" onclick="insertTextSnippet('ADDENDUM')">+ 부칙(시행일) 추가</button>
+
+                        <button type="button" class="btn btn-sm btn-outline" onclick="resetToCurrentBody()">↺ 현행 원본 불러오기</button>
+
+                      </div>
+
+                    </th>
+
+                    <td colspan="3">
+
+                      <textarea id="f-body-text" class="f-textarea"></textarea>
+
+                    </td>
+
+                  </tr>
+
+                </tbody>
+
+              </table>
+
+
+
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid var(--border);">
+
+                <label style="display:inline-flex; align-items:center; gap:6px; font-weight:700; cursor:pointer;">
+
+                  <input type="checkbox" checked /> 저장 시 공지사항(ADMN-BRD-001)에 약관 개정 사전 안내문 자동 등록
+
+                </label>
+
+                <div style="display:flex; gap:8px;">
+
+                  <button type="button" class="btn btn-outline" onclick="switchView('list')">목록으로 취소</button>
+
+                  <button type="button" class="btn btn-outline" onclick="openDiffModal()">🔍 신·구 대조 미리보기</button>
+
+                  <button type="button" class="btn btn-primary" onclick="openSaveModal()">💾 약관 저장 및 반영</button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- 탭 2: 버전별 변경 이력 리스트 -->
+
+            <div id="pane-history" class="cs-pane">
+
+              <div style="margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+
+                <span style="font-size:12.5px; color:var(--text-sub);">
+
+                  • 개정 시 이전 버전은 삭제되지 않고 보관되며, 사용자 화면 하단 푸터(<code>USER-INFO-001</code>)의 <strong>[이전 버전 보기]</strong> 드롭다운에 자동 노출됩니다.
+
+                </span>
+
+              </div>
+
+              <table class="data-table" style="border:1px solid var(--border);">
+
+                <thead>
+
+                  <tr>
+
+                    <th class="ct" style="width:90px;">버전</th>
+
+                    <th class="ct" style="width:110px;">개정 구분</th>
+
+                    <th>주요 개정 · 변경 사유 요약</th>
+
+                    <th class="ct" style="width:110px;">공고 일자</th>
+
+                    <th class="ct" style="width:110px;">시행 일자</th>
+
+                    <th class="ct" style="width:105px;">등록자</th>
+
+                    <th class="ct" style="width:120px;">상태</th>
+
+                    <th class="ct" style="width:150px;">관리</th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody id="dt-history-tbody">
+
+                  <!-- JS 렌더링 -->
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+
+
+          </div>
+
         </div>
-        <div style="overflow-x:auto;">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th class="ct" style="width:90px;">버전</th>
-                <th class="ct" style="width:110px;">개정 구분</th>
-                <th>주요 개정 사유 요약</th>
-                <th class="ct" style="width:110px;">공고 일자</th>
-                <th class="ct" style="width:110px;">시행 일자</th>
-                <th class="ct" style="width:105px;">등록/수정자</th>
-                <th class="ct" style="width:120px;">상태</th>
-                <th class="ct" style="width:160px;">이력 본문 열람 · 불러오기</th>
-              </tr>
-            </thead>
-            <tbody id="version-history-tbody">
-              <!-- JS 렌더링 -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+
+      </section>
+
+
 
     </div>
+
   </div>
 
-  <!-- 모달 1: 이전 버전과 비교(Diff) 및 사용자 화면 미리보기 -->
-  <div class="modal-backdrop" id="modal-diff-preview">
-    <div class="modal-dialog" style="width:760px;">
-      <div class="modal-header">
-        <span id="diff-modal-title">🔍 이전 버전 대비 변경 내용 비교 및 사용자 화면 미리보기</span>
-        <button type="button" class="btn btn-sm" onclick="closeModal('modal-diff-preview')">✕</button>
+
+
+  <!-- 모달 1: 이전 버전 대비 신·구 비교 미리보기 -->
+
+  <div class="modal-backdrop" id="modal-diff">
+
+    <div class="modal-box">
+
+      <div class="modal-head">
+
+        <span>🔍 이전 버전 대비 변경 내용 비교 (신·구 대조표)</span>
+
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-diff')">✕</button>
+
       </div>
+
       <div class="modal-body">
+
         <div style="padding:10px 14px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:6px; margin-bottom:12px; font-size:12px; color:#1E3A8A;">
-          <strong id="diff-banner-head">[산준모닷컴 약관 개정 사전 안내]</strong><br/>
-          • <strong>변경 사유:</strong> <span id="diff-banner-reason"></span><br/>
-          • 시행일 전까지 별도의 거부 의사를 표시하지 않으실 경우 개정 약관에 동의하신 것으로 간주됩니다.
+
+          <strong id="m-diff-title">[약관 개정 안내]</strong><br/>
+
+          개정 사유: <span id="m-diff-reason"></span>
+
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-          <div style="border:1px solid var(--border-color); border-radius:8px; padding:14px; background:#F8FAFC;">
-            <div style="font-weight:800; font-size:12px; color:var(--text-secondary); margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--border-color);">
-              현행 시행중 본문 (<span id="diff-old-ver"></span>)
-            </div>
-            <div id="diff-old-text" style="font-size:12px; line-height:1.65; white-space:pre-line; color:#475569;"></div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+
+          <div style="border:1px solid var(--border); border-radius:8px; padding:12px; background:#F8FAFC;">
+
+            <div style="font-weight:800; margin-bottom:6px; color:var(--text-sub);">현행 조문 (<span id="m-diff-old-ver"></span>)</div>
+
+            <div id="m-diff-old-body" style="font-size:12px; line-height:1.65; white-space:pre-line;"></div>
+
           </div>
-          <div style="border:2px solid var(--primary); border-radius:8px; padding:14px; background:#FFFFFF;">
-            <div style="font-weight:800; font-size:12px; color:var(--primary); margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--border-color);">
-              현재 편집 본문 (<span id="diff-new-ver"></span>)
-            </div>
-            <div id="diff-new-text" style="font-size:12px; line-height:1.65; white-space:pre-line; color:#0F172A;"></div>
+
+          <div style="border:2px solid var(--primary); border-radius:8px; padding:12px; background:#FFFFFF;">
+
+            <div style="font-weight:800; margin-bottom:6px; color:var(--primary);">편집/개정 조문 (<span id="m-diff-new-ver"></span>)</div>
+
+            <div id="m-diff-new-body" style="font-size:12px; line-height:1.65; white-space:pre-line;"></div>
+
           </div>
+
         </div>
+
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeModal('modal-diff-preview')">확인</button>
+
+      <div class="modal-foot">
+
+        <button type="button" class="btn btn-primary" onclick="closeModal('modal-diff')">확인</button>
+
       </div>
+
     </div>
+
   </div>
 
-  <!-- 모달 2: 약관 저장 확인 모달 -->
-  <div class="modal-backdrop" id="modal-save-confirm">
-    <div class="modal-dialog" style="width:540px;">
-      <div class="modal-header">
-        <span>💾 약관 저장 및 반영 확인</span>
-        <button type="button" class="btn btn-sm" onclick="closeModal('modal-save-confirm')">✕</button>
+
+
+  <!-- 모달 2: 저장 확인 모달 -->
+
+  <div class="modal-backdrop" id="modal-save">
+
+    <div class="modal-box" style="max-width:520px;">
+
+      <div class="modal-head">
+
+        <span>💾 약관 저장 확인</span>
+
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-save')">✕</button>
+
       </div>
+
       <div class="modal-body">
-        <p style="font-size:13.5px; font-weight:800; margin-bottom:10px;" id="save-confirm-headline">
-          입력하신 약관 내용을 저장하시겠습니까?
-        </p>
-        <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px 14px; font-size:12px; line-height:1.65;">
-          • <strong>대상 약관:</strong> <span id="sc-term-name"></span><br/>
-          • <strong>반영 방식:</strong> <span id="sc-save-mode"></span><br/>
-          • <strong>적용 버전:</strong> <span id="sc-ver" style="color:var(--primary); font-weight:800;"></span><br/>
-          • <strong>공고일 / 시행일:</strong> <span id="sc-dates"></span><br/>
-          • <strong>변경 사유:</strong> <span id="sc-reason"></span>
+
+        <p style="font-weight:800; font-size:13.5px; margin-bottom:10px;">입력하신 약관 내용을 저장하시겠습니까?</p>
+
+        <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:12px; font-size:12px; line-height:1.65;">
+
+          • <strong>약관명:</strong> <span id="m-save-name"></span><br/>
+
+          • <strong>반영 버전:</strong> <span id="m-save-ver" style="color:var(--primary); font-weight:800;"></span><br/>
+
+          • <strong>공고일 / 시행일:</strong> <span id="m-save-dates"></span><br/>
+
+          • <strong>변경 사유:</strong> <span id="m-save-reason"></span>
+
         </div>
+
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" onclick="closeModal('modal-save-confirm')">취소</button>
-        <button type="button" class="btn btn-dark" onclick="executeSaveTerm(false)">저장 완료 (현재 화면 유지)</button>
-        <button type="button" class="btn btn-primary" onclick="executeSaveTerm(true)">저장 후 개정 고지 발송(CONF-004-S1)으로 이동 →</button>
+
+      <div class="modal-foot">
+
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-save')">취소</button>
+
+        <button type="button" class="btn btn-dark" onclick="commitSave(false)">저장 후 목록으로 이동</button>
+
+        <button type="button" class="btn btn-primary" onclick="commitSave(true)">저장 후 전체 회원 고지 발송(CONF-004-S1) 이동 →</button>
+
       </div>
+
     </div>
+
   </div>
 
-  <div id="toast"></div>
+
+
+  <div id="toast" class="toast-msg"></div>
+
+
 
   <script>
-    const TERMS_DATA = [
+
+    const TERMS = [
+
       {
-        code: 'T01',
-        name: '서비스 이용약관',
-        typeBadge: '필수 동의',
-        typeClass: 'badge-red',
-        exposure: '회원가입 STEP1 (USER-JOIN-002) · 푸터 이용약관 탭 (USER-INFO-001)',
-        curVer: 'v2.1',
-        baseMajor: 2,
-        baseMinor: 1,
-        annDate: '2026-07-20',
-        effDate: '2026-08-01',
-        status: 'ACTIVE',
-        editor: 'admin_kim',
+
+        code: 'T01', name: '서비스 이용약관', reqLabel: '필수 동의', reqClass: 'badge-red',
+
+        exposure: '회원가입 STEP1 (USER-JOIN-002) · 하단 푸터 이용약관 탭',
+
+        curVer: 'v2.1', major: 2, minor: 1, annDate: '2026-07-20', effDate: '2026-08-01', status: 'ACTIVE', editor: 'admin_kim',
+
         reason: '단말기 등록 최대 2대(UUID 기준) 제한 및 동시 접속 차단 기준 명문화',
+
         curBody: `제1조 (목적)
 본 약관은 산준모닷컴(이하 "회사")이 제공하는 온라인 강좌(VOD), 합격환급반 및 수험 교재 판매 서비스의 이용 조건과 절차를 규정함을 목적으로 합니다.
 
 제11조 (수강 기기 등록 및 부정 수강 방지)
 ① 회원은 강좌 수강을 위해 최대 2대의 기기(UUID 기준)를 등록할 수 있습니다.
 ② 1개의 계정으로 2대 이상의 기기 또는 다른 IP에서 동시에 강의를 재생하는 경우 기존 세션은 자동 차단됩니다.`,
-        editBody: `제1조 (목적)
-본 약관은 산준모닷컴(이하 "회사")이 제공하는 온라인 강좌(VOD), 합격환급반 및 수험 교재 판매 서비스의 이용 조건과 절차를 규정함을 목적으로 합니다.
 
-제11조 (수강 기기 등록 및 부정 수강 방지)
-① 회원은 강좌 수강을 위해 최대 2대의 기기(UUID 기준)를 등록할 수 있으며, 기기 변경 초기화는 수강 기간 중 1회 직접 가능하며 이후에는 고객센터(1:1 문의)를 통해 처리됩니다.
-② 동일 계정으로 동시 접속(IP/세션 중복) 시 먼저 접속한 기기는 즉시 강제 로그아웃 처리됩니다.
-
-부칙
-본 약관은 2026년 9월 3일부터 시행합니다.`,
         histories: [
-          { ver: 'v2.1', revType: '일반 개정', reason: '단말기 등록 2대 제한 및 동시 접속 차단 기준 명문화', annDate: '2026.07.20', effDate: '2026.08.01', editor: 'admin_kim', status: '시행중' },
-          { ver: 'v2.0', revType: '중대 개정', reason: '합격환급반 운영 및 제세공과금(22%) 공제 기준 신설', annDate: '2026.02.01', effDate: '2026.03.05', editor: 'admin_kim', status: '이전버전(보관)' },
-          { ver: 'v1.0', revType: '최초 제정', reason: '산준모닷컴 플랫폼 최초 오픈 서비스 이용약관 제정', annDate: '2025.11.01', effDate: '2025.11.01', editor: 'admin_kim', status: '이전버전(보관)' }
+
+          { ver: 'v2.1', type: '일반 개정', reason: '단말기 등록 2대 제한 및 동시 접속 차단 기준 명문화', ann: '2026.07.20', eff: '2026.08.01', editor: 'admin_kim', st: '시행중' },
+
+          { ver: 'v2.0', type: '중대 개정', reason: '합격환급반 운영 및 제세공과금(22%) 공제 기준 신설', ann: '2026.02.01', eff: '2026.03.05', editor: 'admin_kim', st: '이전버전(보관)' },
+
+          { ver: 'v1.0', type: '최초 제정', reason: '산준모닷컴 서비스 이용약관 최초 제정', ann: '2025.11.01', eff: '2025.11.01', editor: 'admin_kim', st: '이전버전(보관)' }
+
         ]
+
       },
+
       {
-        code: 'T02',
-        name: '개인정보 수집 · 이용 동의',
-        typeBadge: '필수 동의',
-        typeClass: 'badge-red',
+
+        code: 'T02', name: '개인정보 수집 · 이용 동의', reqLabel: '필수 동의', reqClass: 'badge-red',
+
         exposure: '회원가입 STEP1 (USER-JOIN-002)',
-        curVer: 'v1.8',
-        baseMajor: 1,
-        baseMinor: 8,
-        annDate: '2026-05-10',
-        effDate: '2026-05-25',
-        status: 'ACTIVE',
-        editor: 'admin_kim',
+
+        curVer: 'v1.8', major: 1, minor: 8, annDate: '2026-05-10', effDate: '2026-05-25', status: 'ACTIVE', editor: 'admin_kim',
+
         reason: '합격환급금 지급 시 소득세법 원천징수 신고용 고유식별정보 별도 수집 안내 명확화',
+
         curBody: `1. 수집하는 개인정보 항목
 - 필수항목: 성명, 이메일(ID), 비밀번호, 휴대전화번호, 본인인증 연계정보(CI/DI)
 - 교재 배송 시: 수령인 성명, 배송지 주소, 연락처
 
 2. 보유 및 이용기간
-- 회원 탈퇴 시까지 (단, 관계 법령에 따른 계약·결제 기록은 5년간 별도 보관)`,
-        editBody: `1. 수집하는 개인정보 항목
-- 필수항목: 성명, 이메일(ID), 비밀번호, 휴대전화번호, 본인인증 연계정보(CI/DI)
-- 교재 배송 시: 수령인 성명, 배송지 주소, 연락처
-- 합격환급금 신청 시(별도 동의): 주민등록번호(소득세법 제127조 제세공과금 22% 원천징수 신고 목적에 한함), 본인 명의 계좌번호
+- 회원 탈퇴 시 즉시 파기 (단, 재가입 제한 및 웰컴 혜택 중복 지급 방지용 DI 해시는 30일간 보관, 전자상거래법 대금결제 기록은 5년간 보관)`,
 
-2. 보유 및 이용기간
-- 회원 탈퇴 시 즉시 파기 (단, 재가입 어뷰징 방지용 DI 해시는 30일, 전자상거래법 대금결제 기록은 5년간 분리 보관)`,
         histories: [
-          { ver: 'v1.8', revType: '일반 개정', reason: '탈퇴 후 재가입 제한(30일) 및 웰컴 혜택 중복 방지용 DI 보관 명시', annDate: '2026.05.10', effDate: '2026.05.25', editor: 'admin_kim', status: '시행중' },
-          { ver: 'v1.0', revType: '최초 제정', reason: '최초 서비스 오픈 수집·이용 동의서 제정', annDate: '2025.11.01', effDate: '2025.11.01', editor: 'admin_kim', status: '이전버전(보관)' }
+
+          { ver: 'v1.8', type: '일반 개정', reason: '탈퇴 후 30일 재가입 제한 및 DI 해시 보관 기준 명시', ann: '2026.05.10', eff: '2026.05.25', editor: 'admin_kim', st: '시행중' },
+
+          { ver: 'v1.0', type: '최초 제정', reason: '개인정보 수집·이용 동의서 최초 제정', ann: '2025.11.01', eff: '2025.11.01', editor: 'admin_kim', st: '이전버전(보관)' }
+
         ]
+
       },
+
       {
-        code: 'T03',
-        name: '개인정보처리방침',
-        typeBadge: '법정 상시공시',
-        typeClass: 'badge-blue',
+
+        code: 'T03', name: '개인정보처리방침', reqLabel: '법정 상시공시', reqClass: 'badge-blue',
+
         exposure: '사이트 하단 푸터 상시 공시 (USER-INFO-001 · 볼드 강조 표기)',
-        curVer: 'v3.0',
-        baseMajor: 3,
-        baseMinor: 0,
-        annDate: '2026-08-05',
-        effDate: '2026-09-01',
-        status: 'ANNOUNCED',
-        editor: 'admin_lee',
-        reason: '개인정보 처리 수탁사(토스페이먼츠, 3PL 물류센터, 네이버클라우드 SENS) 현행화',
+
+        curVer: 'v3.0', major: 3, minor: 0, annDate: '2026-08-05', effDate: '2026-09-01', status: 'ANNOUNCED', editor: 'admin_lee',
+
+        reason: '개인정보 처리 위탁 수탁사(토스페이먼츠, 3PL 물류센터, 네이버클라우드 SENS) 현행화',
+
         curBody: `제4조 (개인정보 처리의 위탁)
-회사는 원활한 서비스 이행을 위해 아래와 같이 개인정보 처리 업무를 위탁하고 있습니다.
-- 결제처리: 토스페이먼츠(주)
-- 물류배송: CJ대한통운`,
-        editBody: `제4조 (개인정보 처리의 위탁)
 회사는 원활한 서비스 이행을 위해 아래와 같이 개인정보 처리 업무를 위탁하고 있습니다.
 - 전자결제 대행(PG): 토스페이먼츠(주)
 - 교재 출고 및 3PL 물류대행: 산준모 지정 3PL 물류센터 및 CJ대한통운
@@ -730,391 +1358,635 @@
 
 부칙
 본 방침은 2026년 9월 1일부터 시행합니다.`,
+
         histories: [
-          { ver: 'v3.0', revType: '일반 개정', reason: '개인정보 처리 위탁 수탁사(토스페이먼츠, 3PL, SENS) 현행화', annDate: '2026.08.05', effDate: '2026.09.01', editor: 'admin_lee', status: '공시중(시행 예정)' },
-          { ver: 'v2.0', revType: '일반 개정', reason: '휴면 회원 전환(1년 미접속) 및 분리보관 기준 반영', annDate: '2026.03.10', effDate: '2026.03.20', editor: 'admin_kim', status: '시행중' },
-          { ver: 'v1.0', revType: '최초 제정', reason: '최초 개인정보처리방침 제정', annDate: '2025.11.01', effDate: '2025.11.01', editor: 'admin_kim', status: '이전버전(보관)' }
+
+          { ver: 'v3.0', type: '일반 개정', reason: '개인정보 처리 위탁 수탁사(토스페이먼츠, 3PL, SENS) 현행화', ann: '2026.08.05', eff: '2026.09.01', editor: 'admin_lee', st: '공시중(시행 예정)' },
+
+          { ver: 'v2.0', type: '일반 개정', reason: '1년 미접속 휴면 전환 및 분리보관 기준 반영', ann: '2026.03.10', eff: '2026.03.20', editor: 'admin_kim', st: '시행중' },
+
+          { ver: 'v1.0', type: '최초 제정', reason: '개인정보처리방침 최초 제정', ann: '2025.11.01', eff: '2025.11.01', editor: 'admin_kim', st: '이전버전(보관)' }
+
         ]
+
       },
+
       {
-        code: 'T04',
-        name: '환불 · 청약철회 규정 (이용약관 제15조)',
-        typeBadge: '필수 동의(결제)',
-        typeClass: 'badge-red',
+
+        code: 'T04', name: '환불 · 청약철회 규정 (이용약관 제15조)', reqLabel: '필수 동의(결제)', reqClass: 'badge-red',
+
         exposure: '주문서 결제 동의 (USER-PAY-001) · 환불 신청 (USER-MY-011) · 푸터',
-        curVer: 'v1.4',
-        baseMajor: 1,
-        baseMinor: 4,
-        annDate: '2026-06-15',
-        effDate: '2026-07-01',
-        status: 'ACTIVE',
-        editor: 'admin_park',
+
+        curVer: 'v1.4', major: 1, minor: 4, annDate: '2026-06-15', effDate: '2026-07-01', status: 'ACTIVE', editor: 'admin_park',
+
         reason: '교재 반품 왕복 배송비 실비 6,000원 기준 명문화 및 도서정가제(실물 교재 쿠폰 할인 제외) 안내 조항 보완',
+
         curBody: `제15조 (청약철회 및 환불 규정)
 ① 회원은 구매한 강좌의 수강 시작 전 또는 결제일로부터 7일 이내(맛보기 강의 제외 2강 이하 수강 시) 전액 환불을 요청할 수 있습니다.
-② 실물 교재는 출고 지시(ship_ordered_at) 전까지 전액 환불되며, 출고 후 반품에 소요되는 배송비는 회원이 부담합니다.
-③ 쿠폰 및 무상 포인트가 적용된 주문의 환불 시, 당사 정산 및 환불 차감 기준에 따라 환불 금액이 산정됩니다.`,
-        editBody: `제15조 (청약철회 및 환불 규정)
-① 회원은 구매한 강좌의 수강 시작 전 또는 결제일로부터 7일 이내(맛보기 강의 제외 2강 이하 수강 시) 전액 환불을 요청할 수 있습니다.
-② 실물 교재는 출고 지시(ship_ordered_at) 전까지 전액 환불되며, 출고 이후에는 배송 완료일로부터 7일 이내에 미사용·미훼손 상태인 경우에 한해 반품 도착 및 검수 완료 후 환불합니다. 단순 변심 등 회원 귀책인 경우 실비 왕복 배송비 6,000원을 공제하며, 오배송·파본 등 회사 귀책인 경우 공제하지 않습니다.
-③ 출판문화산업 진흥법(도서정가제)에 따라 실물 교재(정가·판매가·공급률 고정)에는 할인 쿠폰이 적용되지 않으며, 환불 시 포인트 차감은 무상 포인트 우선 회수 후 유상 포인트를 차감합니다.
+② 실물 교재는 출고 지시(ship_ordered_at) 전까지 전액 환불되며, 출고 이후에는 배송 완료일로부터 7일 이내에 미사용·미훼손 상태인 경우에 한해 반품 도착 및 검수 완료 후 환불합니다. 단순 변심 등 회원 귀책인 경우 실비 왕복 배송비 6,000원을 공제합니다.
+③ 출판문화산업 진흥법(도서정가제)에 따라 실물 교재에는 할인 쿠폰이 적용되지 않으며, 환불 시 포인트 차감은 무상 포인트 우선 회수 후 유상 포인트를 차감합니다.`,
 
-부칙
-본 규정은 2026년 9월 3일부터 시행합니다.`,
         histories: [
-          { ver: 'v1.4', revType: '일반 개정', reason: '환불 시 무상 포인트 우선 회수 및 유상 포인트 차감 기준 명문화', annDate: '2026.06.15', effDate: '2026.07.01', editor: 'admin_park', status: '시행중' },
-          { ver: 'v1.0', revType: '최초 제정', reason: '강좌 및 교재 청약철회·환불 기준 최초 제정', annDate: '2025.11.01', effDate: '2025.11.01', editor: 'admin_kim', status: '이전버전(보관)' }
+
+          { ver: 'v1.4', type: '일반 개정', reason: '무상 포인트 우선 회수 및 유상 포인트 차감 기준 명문화', ann: '2026.06.15', eff: '2026.07.01', editor: 'admin_park', st: '시행중' },
+
+          { ver: 'v1.0', type: '최초 제정', reason: '강좌 및 교재 청약철회·환불 규정 최초 제정', ann: '2025.11.01', eff: '2025.11.01', editor: 'admin_kim', st: '이전버전(보관)' }
+
         ]
+
       },
+
       {
-        code: 'T05',
-        name: '마케팅 정보 수신 동의',
-        typeBadge: '선택 동의',
-        typeClass: 'badge-slate',
+
+        code: 'T05', name: '마케팅 정보 수신 동의', reqLabel: '선택 동의', reqClass: 'badge-gray',
+
         exposure: '회원가입 STEP1 (USER-JOIN-002) · 마이페이지 회원정보 수정 (users.is_marketing_agreed)',
-        curVer: 'v1.1',
-        baseMajor: 1,
-        baseMinor: 1,
-        annDate: '2026-03-02',
-        effDate: '2026-03-10',
-        status: 'ACTIVE',
-        editor: 'admin_kim',
+
+        curVer: 'v1.1', major: 1, minor: 1, annDate: '2026-03-02', effDate: '2026-03-10', status: 'ACTIVE', editor: 'admin_kim',
+
         reason: '알림톡·문자·이메일 통합 마케팅 수신 동의(is_marketing_agreed) 및 야간 발송 제한 안내 문구 보완',
+
         curBody: `[선택] 마케팅 및 광고성 정보 수신 동의
-회사가 제공하는 신규 특강, 할인 쿠폰, 이벤트 안내를 알림톡·문자(LMS)·이메일로 수신하는 것에 동의합니다.`,
-        editBody: `[선택] 마케팅 및 광고성 정보 수신 동의
 ① 회사가 제공하는 신규 특강, 장바구니 쿠폰 리마인드, 기획전 혜택을 알림톡·문자(LMS)·이메일로 수신합니다.
 ② 동의 여부는 마이페이지 > 회원정보 수정에서 언제든 변경(users.is_marketing_agreed 단일 설정)할 수 있으며, 미동의 시에도 약관 개정·결제·배송 등 법정 필수 안내는 정상 발송됩니다.`,
+
         histories: [
-          { ver: 'v1.1', revType: '일반 개정', reason: '알림톡/SMS/이메일 단일 동의 필드(is_marketing_agreed) 안내 문구 정비', annDate: '2026.03.02', effDate: '2026.03.10', editor: 'admin_kim', status: '시행중' },
-          { ver: 'v1.0', revType: '최초 제정', reason: '최초 마케팅 정보 수신 동의문 제정', annDate: '2025.11.01', effDate: '2025.11.01', editor: 'admin_kim', status: '이전버전(보관)' }
+
+          { ver: 'v1.1', type: '일반 개정', reason: '단일 동의 필드(is_marketing_agreed) 안내 문구 정비', ann: '2026.03.02', eff: '2026.03.10', editor: 'admin_kim', st: '시행중' },
+
+          { ver: 'v1.0', type: '최초 제정', reason: '마케팅 정보 수신 동의문 최초 제정', ann: '2025.11.01', eff: '2025.11.01', editor: 'admin_kim', st: '이전버전(보관)' }
+
         ]
+
       }
+
     ];
 
-    let selectedTerm = TERMS_DATA[3]; // 기본 T04 선택
-    let saveMode = 'REVISION';        // 'REVISION'(신규 개정 버전 생성) | 'DIRECT_EDIT'(현재 버전 내용 직접 수정)
-    let revType = 'MINOR';            // 'MINOR'(+0.1, 7일) | 'MAJOR'(+1.0, 30일)
 
-    function renderSelectOptions() {
-      const sel = document.getElementById('ed-term-select');
-      sel.innerHTML = TERMS_DATA.map(t =>
-        `<option value="${t.code}" ${t.code === selectedTerm.code ? 'selected' : ''}>[${t.code}] ${t.name} (현행 ${t.curVer})</option>`
-      ).join('');
+
+    let curFilter = 'ALL';
+
+    let selTerm = TERMS[3];
+
+    let editMode = 'REVISION'; // 'REVISION' | 'DIRECT'
+
+    let revType = 'MINOR';     // 'MINOR' | 'MAJOR'
+
+
+
+    function switchView(v) {
+
+      document.getElementById('view-list').classList.toggle('active', v === 'list');
+
+      document.getElementById('view-detail').classList.toggle('active', v === 'detail');
+
+      document.getElementById('top-crumb-title').textContent =
+
+        v === 'list' ? '약관 및 방침 마스터 목록' : `[${selTerm.code}] ${selTerm.name} 상세 · 개정 관리`;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
     }
 
-    function renderTermsMasterTable() {
-      const tbody = document.getElementById('terms-master-tbody');
-      tbody.innerHTML = TERMS_DATA.map(t => {
-        const isSel = (t.code === selectedTerm.code);
+
+
+    function switchDetailTab(tab) {
+
+      document.getElementById('tab-btn-edit').classList.toggle('active', tab === 'edit');
+
+      document.getElementById('tab-btn-history').classList.toggle('active', tab === 'history');
+
+      document.getElementById('pane-edit').classList.toggle('active', tab === 'edit');
+
+      document.getElementById('pane-history').classList.toggle('active', tab === 'history');
+
+    }
+
+
+
+    function filterTerms(st) {
+
+      curFilter = st;
+
+      renderListTable();
+
+    }
+
+
+
+    function renderListTable() {
+
+      const tbody = document.getElementById('terms-list-tbody');
+
+      const rows = TERMS.filter(t => curFilter === 'ALL' || t.status === curFilter);
+
+      tbody.innerHTML = rows.map(t => {
+
         const stBadge = t.status === 'ACTIVE'
+
           ? '<span class="badge badge-green">시행중</span>'
+
           : '<span class="badge badge-blue">공시중(시행 예정)</span>';
 
         return `
-          <tr class="${isSel ? 'selected-row' : ''}" onclick="selectTerm('${t.code}', false)" style="cursor:pointer;">
-            <td class="ct"><span class="badge badge-slate">${t.code}</span></td>
+
+          <tr onclick="openTermDetail('${t.code}', 'edit')">
+
+            <td class="ct"><strong>${t.code}</strong></td>
+
             <td><strong>${t.name}</strong></td>
-            <td class="ct"><span class="badge ${t.typeClass}">${t.typeBadge}</span></td>
-            <td style="font-size:12px; color:var(--text-secondary);">${t.exposure}</td>
+
+            <td class="ct"><span class="badge ${t.reqClass}">${t.reqLabel}</span></td>
+
+            <td style="font-size:12px; color:var(--text-sub);">${t.exposure}</td>
+
             <td class="ct"><strong>${t.curVer}</strong></td>
+
             <td class="ct">${t.annDate.replace(/-/g, '.')}</td>
+
             <td class="ct">${t.effDate.replace(/-/g, '.')}</td>
+
             <td class="ct">${stBadge}</td>
+
+            <td class="ct">${t.editor}</td>
+
             <td class="ct" onclick="event.stopPropagation();">
+
               <div style="display:inline-flex; gap:5px;">
-                <button type="button" class="btn btn-sm btn-primary" onclick="selectTerm('${t.code}', true, 'REVISION')">+ 개정 등록</button>
-                <button type="button" class="btn btn-sm" onclick="selectTerm('${t.code}', true, 'DIRECT_EDIT')">✏️ 내용 수정</button>
+
+                <button type="button" class="btn btn-sm btn-primary" onclick="openTermDetail('${t.code}', 'edit')">상세 · 개정/수정</button>
+
+                <button type="button" class="btn btn-sm btn-outline" onclick="openTermDetail('${t.code}', 'history')">이력(${t.histories.length})</button>
+
               </div>
+
             </td>
+
           </tr>
+
         `;
+
       }).join('');
+
     }
 
-    function renderVersionHistoryTable() {
-      document.getElementById('history-card-title').textContent =
-        `3. 약관 변경 이력 리스트 — [${selectedTerm.code}] ${selectedTerm.name}`;
-      const tbody = document.getElementById('version-history-tbody');
-      tbody.innerHTML = selectedTerm.histories.map((h, idx) => {
-        let badge = '<span class="badge badge-slate">' + h.status + '</span>';
-        if (h.status.includes('시행중')) badge = '<span class="badge badge-green">' + h.status + '</span>';
-        if (h.status.includes('공시중')) badge = '<span class="badge badge-blue">' + h.status + '</span>';
 
-        return `
-          <tr>
-            <td class="ct"><strong>${h.ver}</strong></td>
-            <td class="ct"><span class="badge badge-slate">${h.revType}</span></td>
-            <td>${h.reason}</td>
-            <td class="ct">${h.annDate}</td>
-            <td class="ct">${h.effDate}</td>
-            <td class="ct">${h.editor}</td>
-            <td class="ct">${badge}</td>
-            <td class="ct">
-              <button type="button" class="btn btn-sm" onclick="loadHistoryVersionToEditor(${idx})">에디터로 불러오기</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
 
-    function selectTerm(code, scrollToEditor, forcedMode) {
-      const found = TERMS_DATA.find(x => x.code === code);
+    function openTermDetail(code, initialTab) {
+
+      const found = TERMS.find(x => x.code === code);
+
       if (!found) return;
-      selectedTerm = found;
 
-      if (forcedMode) {
-        saveMode = forcedMode;
-      } else {
-        saveMode = (found.status === 'ANNOUNCED') ? 'DIRECT_EDIT' : 'REVISION';
-      }
+      selTerm = found;
 
-      document.getElementById('ed-exposure-label').textContent = found.exposure;
-      document.getElementById('ed-reason').value = found.reason;
-      document.getElementById('ed-body-textarea').value =
-        (saveMode === 'DIRECT_EDIT') ? found.curBody : found.editBody;
 
-      renderSelectOptions();
-      renderTermsMasterTable();
-      renderVersionHistoryTable();
-      setSaveMode(saveMode);
-      updateCharCounter();
 
-      if (scrollToEditor) {
-        document.getElementById('editor-workspace').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        setTimeout(() => document.getElementById('ed-body-textarea').focus(), 300);
-      }
+      document.getElementById('dt-head-title').textContent = `[${found.code}] ${found.name}`;
+
+      document.getElementById('dt-head-badge').className = found.status === 'ACTIVE' ? 'badge badge-green' : 'badge badge-blue';
+
+      document.getElementById('dt-head-badge').textContent =
+
+        found.status === 'ACTIVE' ? `현행 ${found.curVer} 시행중` : `${found.curVer} 공시중 (${found.effDate} 시행 예정)`;
+
+
+
+      document.getElementById('f-term-title').textContent = `[${found.code}] ${found.name}`;
+
+      document.getElementById('f-term-req').className = 'badge ' + found.reqClass;
+
+      document.getElementById('f-term-req').textContent = found.reqLabel;
+
+      document.getElementById('f-term-exposure').textContent = found.exposure;
+
+      document.getElementById('f-reason').value = found.reason;
+
+      document.getElementById('f-body-text').value = found.curBody;
+
+      document.getElementById('tab-hist-cnt').textContent = found.histories.length + '건';
+
+
+
+      setEditMode(found.status === 'ANNOUNCED' ? 'DIRECT' : 'REVISION');
+
+      renderHistoryTable();
+
+      switchDetailTab(initialTab || 'edit');
+
+      switchView('detail');
+
     }
 
-    function setSaveMode(mode) {
-      saveMode = mode;
-      document.getElementById('seg-mode-rev').classList.toggle('active', mode === 'REVISION');
-      document.getElementById('seg-mode-edit').classList.toggle('active', mode === 'DIRECT_EDIT');
-      document.getElementById('rev-type-group').style.display = (mode === 'REVISION') ? 'inline-flex' : 'none';
-      updateVersionAndHeader();
-      validateNoticePeriod();
+
+
+    function setEditMode(mode) {
+
+      editMode = mode;
+
+      document.getElementById('chip-mode-rev').classList.toggle('active', mode === 'REVISION');
+
+      document.getElementById('chip-mode-direct').classList.toggle('active', mode === 'DIRECT');
+
+      document.getElementById('rev-type-chips').style.display = mode === 'REVISION' ? 'inline-flex' : 'none';
+
+      updateVersionCalc();
+
+      validatePeriod();
+
     }
 
-    function setRevisionType(type) {
+
+
+    function setRevType(type) {
+
       revType = type;
-      document.getElementById('seg-rev-minor').classList.toggle('active', type === 'MINOR');
-      document.getElementById('seg-rev-major').classList.toggle('active', type === 'MAJOR');
-      updateVersionAndHeader();
-      validateNoticePeriod();
+
+      document.getElementById('chip-rev-minor').classList.toggle('active', type === 'MINOR');
+
+      document.getElementById('chip-rev-major').classList.toggle('active', type === 'MAJOR');
+
+      updateVersionCalc();
+
+      validatePeriod();
+
     }
 
-    function updateVersionAndHeader() {
-      let targetVer = selectedTerm.curVer;
-      if (saveMode === 'REVISION') {
-        targetVer = (revType === 'MINOR')
-          ? 'v' + selectedTerm.baseMajor + '.' + (selectedTerm.baseMinor + 1)
-          : 'v' + (selectedTerm.baseMajor + 1) + '.0';
-        document.getElementById('ed-status-badge').className = 'badge badge-blue';
-        document.getElementById('ed-status-badge').textContent = `신규 개정 버전 생성 (${selectedTerm.curVer} → ${targetVer})`;
-      } else {
-        document.getElementById('ed-status-badge').className = 'badge badge-amber';
-        document.getElementById('ed-status-badge').textContent = `현재 버전(${targetVer}) 본문 직접 수정`;
+
+
+    function updateVersionCalc() {
+
+      let v = selTerm.curVer;
+
+      if (editMode === 'REVISION') {
+
+        v = revType === 'MINOR'
+
+          ? `v${selTerm.major}.${selTerm.minor + 1}`
+
+          : `v${selTerm.major + 1}.0`;
+
       }
 
-      document.getElementById('ed-header-title').textContent =
-        `2. 약관 내용 편집 및 개정 등록 — [${selectedTerm.code}] ${selectedTerm.name}`;
-      document.getElementById('ed-ver-input').value = targetVer;
+      document.getElementById('f-ver-input').value = v;
+
     }
 
-    function validateNoticePeriod() {
-      const annVal = document.getElementById('ed-announce-date').value;
-      const effVal = document.getElementById('ed-effective-date').value;
-      const effInput = document.getElementById('ed-effective-date');
+
+
+    function validatePeriod() {
+
+      const ann = document.getElementById('f-ann-date').value;
+
+      const eff = document.getElementById('f-eff-date').value;
+
+      const effEl = document.getElementById('f-eff-date');
+
       const alertBox = document.getElementById('date-policy-alert');
-      const badgeEl = document.getElementById('ed-period-badge');
 
-      if (saveMode === 'DIRECT_EDIT') {
-        effInput.classList.remove('fld--err');
+      const badge = document.getElementById('f-period-badge');
+
+
+
+      if (editMode === 'DIRECT') {
+
+        effEl.classList.remove('fld-err');
+
         alertBox.style.display = 'none';
-        badgeEl.className = 'badge badge-slate';
-        badgeEl.textContent = '기존 버전 문구 직접 수정 (버전 유지)';
+
+        badge.className = 'badge badge-gray';
+
+        badge.textContent = '현행 버전 문구 직접 수정 (버전 유지)';
+
         return true;
+
       }
 
-      if (!annVal || !effVal) return true;
-      const d1 = new Date(annVal);
-      const d2 = new Date(effVal);
-      const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
-      const minDays = (revType === 'MAJOR') ? 30 : 7;
 
-      if (diffDays < minDays) {
-        effInput.classList.add('fld--err');
+
+      const diff = Math.round((new Date(eff) - new Date(ann)) / (1000 * 60 * 60 * 24));
+
+      const minDays = revType === 'MAJOR' ? 30 : 7;
+
+
+
+      if (diff < minDays) {
+
+        effEl.classList.add('fld-err');
+
         alertBox.style.display = 'block';
+
         document.getElementById('date-policy-msg').textContent =
-          (minDays === 30 ? '회원에게 불리한 중대 개정은 최소 30일 전' : '일반 개정은 최소 7일 전') +
-          `에 공고되어야 합니다. (현재 공고~시행 간격: ${diffDays}일 — 기준 미달)`;
-        badgeEl.className = 'badge badge-red';
-        badgeEl.textContent = `공고 후 ${diffDays}일 (최소 ${minDays}일 미달 ⛔)`;
+
+          `${revType === 'MAJOR' ? '불리·중대 개정은 최소 30일 전' : '일반 개정은 최소 7일 전'} 공고 필수입니다. (현재 간격: ${diff}일 — 기준 미달)`;
+
+        badge.className = 'badge badge-red';
+
+        badge.textContent = `공고 후 ${diff}일 (최소 ${minDays}일 미달 ⛔)`;
+
         return false;
+
       } else {
-        effInput.classList.remove('fld--err');
+
+        effEl.classList.remove('fld-err');
+
         alertBox.style.display = 'none';
-        badgeEl.className = 'badge badge-green';
-        badgeEl.textContent = `공고 후 ${diffDays}일 뒤 시행 (최소 ${minDays}일 충족)`;
+
+        badge.className = 'badge badge-green';
+
+        badge.textContent = `공고 후 ${diff}일 뒤 시행 (최소 ${minDays}일 충족)`;
+
         return true;
+
       }
+
     }
 
-    function testDatePolicyViolation() {
-      setSaveMode('REVISION');
-      setRevisionType('MAJOR');
-      document.getElementById('ed-announce-date').value = '2026-08-19';
-      document.getElementById('ed-effective-date').value = '2026-09-03';
-      validateNoticePeriod();
-      showToast('중대·불리 개정(최소 30일 전 공고 필수)에 15일 간격을 입력하여 법정 공고 기간 미달 경고가 활성화되었습니다.');
+
+
+    function testViolation30Days() {
+
+      setEditMode('REVISION');
+
+      setRevType('MAJOR');
+
+      document.getElementById('f-ann-date').value = '2026-08-19';
+
+      document.getElementById('f-eff-date').value = '2026-09-03';
+
+      validatePeriod();
+
+      showToast('불리·중대 개정(30일 전 공고 필수)에 15일 간격을 입력하여 저장 차단 경고가 표시되었습니다.');
+
     }
 
-    function updateCharCounter() {
-      const len = document.getElementById('ed-body-textarea').value.length;
-      document.getElementById('ed-char-counter').textContent = len.toLocaleString() + '자';
-    }
 
-    function loadCurrentVersionBody() {
-      document.getElementById('ed-body-textarea').value = selectedTerm.curBody;
-      updateCharCounter();
-      showToast(`[${selectedTerm.code}] 현행(${selectedTerm.curVer}) 본문을 에디터에 불러왔습니다.`);
-    }
 
-    function loadHistoryVersionToEditor(idx) {
-      const h = selectedTerm.histories[idx];
-      if (!h) return;
-      document.getElementById('ed-body-textarea').value = selectedTerm.curBody;
-      document.getElementById('ed-reason').value = h.reason;
-      updateCharCounter();
-      document.getElementById('editor-workspace').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      showToast(`[${selectedTerm.code} ${h.ver}] 이력 본문을 에디터로 불러왔습니다.`);
-    }
+    function insertTextSnippet(type) {
 
-    function insertSnippet(type) {
-      const ta = document.getElementById('ed-body-textarea');
-      let snippet = '';
-      if (type === 'ARTICLE') {
-        snippet = '
+      const ta = document.getElementById('f-body-text');
+
+      let s = '';
+
+      if (type === 'ARTICLE') s = `
 
 제00조 (조항 제목)
-① 조항 내용을 입력하세요.';
-      } else if (type === 'CLAUSE') {
-        snippet = '
-① 
-② 
-③ ';
-      } else if (type === 'ADDENDUM') {
-        const eff = document.getElementById('ed-effective-date').value.replace(/-/g, '.');
-        snippet = `
+① 내용을 입력하세요.`;
+
+      if (type === 'ADDENDUM') s = `
 
 부칙
-본 약관은 ${eff}부터 시행합니다.`;
-      }
-      const start = ta.selectionStart || ta.value.length;
-      const end = ta.selectionEnd || ta.value.length;
-      ta.value = ta.value.substring(0, start) + snippet + ta.value.substring(end);
+본 약관은 ${document.getElementById('f-eff-date').value.replace(/-/g, '.')}부터 시행합니다.`;
+
+      ta.value += s;
+
       ta.focus();
-      updateCharCounter();
+
     }
 
-    function openDiffPreviewModal() {
-      document.getElementById('diff-banner-head').textContent =
-        `[산준모닷컴] ${selectedTerm.name} (${document.getElementById('ed-ver-input').value}) 개정 안내`;
-      document.getElementById('diff-banner-reason').textContent =
-        document.getElementById('ed-reason').value;
-      document.getElementById('diff-old-ver').textContent = selectedTerm.curVer;
-      document.getElementById('diff-new-ver').textContent = document.getElementById('ed-ver-input').value;
-      document.getElementById('diff-old-text').textContent = selectedTerm.curBody;
-      document.getElementById('diff-new-text').textContent = document.getElementById('ed-body-textarea').value;
-      document.getElementById('modal-diff-preview').classList.add('show');
+
+
+    function resetToCurrentBody() {
+
+      document.getElementById('f-body-text').value = selTerm.curBody;
+
+      showToast('현행 원본 조문을 다시 불러왔습니다.');
+
     }
 
-    function openSaveConfirmModal() {
-      if (!validateNoticePeriod()) {
-        showToast('⛔ 법정 사전 공고 기간 미달 상태에서는 개정을 등록할 수 없습니다.');
+
+
+    function renderHistoryTable() {
+
+      const tbody = document.getElementById('dt-history-tbody');
+
+      tbody.innerHTML = selTerm.histories.map((h, i) => {
+
+        const badge = h.st.includes('시행중')
+
+          ? `<span class="badge badge-green">${h.st}</span>`
+
+          : (h.st.includes('공시중') ? `<span class="badge badge-blue">${h.st}</span>` : `<span class="badge badge-gray">${h.st}</span>`);
+
+        return `
+
+          <tr>
+
+            <td class="ct"><strong>${h.ver}</strong></td>
+
+            <td class="ct"><span class="badge badge-gray">${h.type}</span></td>
+
+            <td>${h.reason}</td>
+
+            <td class="ct">${h.ann}</td>
+
+            <td class="ct">${h.eff}</td>
+
+            <td class="ct">${h.editor}</td>
+
+            <td class="ct">${badge}</td>
+
+            <td class="ct">
+
+              <button type="button" class="btn btn-sm btn-outline" onclick="loadHistoryToEdit(${i})">편집창으로 불러오기</button>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }).join('');
+
+    }
+
+
+
+    function loadHistoryToEdit(idx) {
+
+      const h = selTerm.histories[idx];
+
+      if (!h) return;
+
+      document.getElementById('f-reason').value = h.reason;
+
+      switchDetailTab('edit');
+
+      showToast(`[${selTerm.code} ${h.ver}] 이력을 편집 탭으로 불러왔습니다.`);
+
+    }
+
+
+
+    function openDiffModal() {
+
+      document.getElementById('m-diff-title').textContent = `[${selTerm.code}] ${selTerm.name} 신·구 조문 비교`;
+
+      document.getElementById('m-diff-reason').textContent = document.getElementById('f-reason').value;
+
+      document.getElementById('m-diff-old-ver').textContent = selTerm.curVer;
+
+      document.getElementById('m-diff-new-ver').textContent = document.getElementById('f-ver-input').value;
+
+      document.getElementById('m-diff-old-body').textContent = selTerm.curBody;
+
+      document.getElementById('m-diff-new-body').textContent = document.getElementById('f-body-text').value;
+
+      document.getElementById('modal-diff').classList.add('show');
+
+    }
+
+
+
+    function openSaveModal() {
+
+      if (!validatePeriod()) {
+
+        showToast('⛔ 법정 사전 공고 기간 미달 상태에서는 저장할 수 없습니다.');
+
         return;
-      }
-      const ver = document.getElementById('ed-ver-input').value;
-      const ann = document.getElementById('ed-announce-date').value;
-      const eff = document.getElementById('ed-effective-date').value;
-      const reason = document.getElementById('ed-reason').value.trim();
 
-      document.getElementById('sc-term-name').textContent = `[${selectedTerm.code}] ${selectedTerm.name}`;
-      document.getElementById('sc-save-mode').textContent =
-        (saveMode === 'REVISION') ? '신규 개정 버전 생성 (기존 버전 이력 보관)' : '현재 버전 본문 직접 수정 (버전 유지)';
-      document.getElementById('sc-ver').textContent = ver;
-      document.getElementById('sc-dates').textContent = `공고 ${ann} / 시행 ${eff}`;
-      document.getElementById('sc-reason').textContent = reason;
-      document.getElementById('modal-save-confirm').classList.add('show');
+      }
+
+      document.getElementById('m-save-name').textContent = `[${selTerm.code}] ${selTerm.name}`;
+
+      document.getElementById('m-save-ver').textContent = document.getElementById('f-ver-input').value;
+
+      document.getElementById('m-save-dates').textContent =
+
+        `공고 ${document.getElementById('f-ann-date').value} / 시행 ${document.getElementById('f-eff-date').value}`;
+
+      document.getElementById('m-save-reason').textContent = document.getElementById('f-reason').value;
+
+      document.getElementById('modal-save').classList.add('show');
+
     }
 
-    function executeSaveTerm(goSendAfter) {
-      closeModal('modal-save-confirm');
-      const newVer = document.getElementById('ed-ver-input').value;
-      const ann = document.getElementById('ed-announce-date').value;
-      const eff = document.getElementById('ed-effective-date').value;
-      const reason = document.getElementById('ed-reason').value.trim();
-      const newBody = document.getElementById('ed-body-textarea').value;
 
-      if (saveMode === 'REVISION') {
-        selectedTerm.curVer = newVer;
-        if (revType === 'MINOR') selectedTerm.baseMinor += 1;
-        else { selectedTerm.baseMajor += 1; selectedTerm.baseMinor = 0; }
-        selectedTerm.annDate = ann;
-        selectedTerm.effDate = eff;
-        selectedTerm.status = 'ANNOUNCED';
-        selectedTerm.reason = reason;
-        selectedTerm.curBody = newBody;
-        selectedTerm.editBody = newBody;
-        selectedTerm.histories.unshift({
-          ver: newVer,
-          revType: revType === 'MINOR' ? '일반 개정' : '중대 개정',
-          reason: reason,
-          annDate: ann.replace(/-/g, '.'),
-          effDate: eff.replace(/-/g, '.'),
+
+    function commitSave(goToSend) {
+
+      closeModal('modal-save');
+
+      const v = document.getElementById('f-ver-input').value;
+
+      const ann = document.getElementById('f-ann-date').value;
+
+      const eff = document.getElementById('f-eff-date').value;
+
+      const rsn = document.getElementById('f-reason').value;
+
+      const body = document.getElementById('f-body-text').value;
+
+
+
+      selTerm.curBody = body;
+
+      selTerm.reason = rsn;
+
+      if (editMode === 'REVISION') {
+
+        selTerm.curVer = v;
+
+        if (revType === 'MINOR') selTerm.minor += 1;
+
+        else { selTerm.major += 1; selTerm.minor = 0; }
+
+        selTerm.annDate = ann;
+
+        selTerm.effDate = eff;
+
+        selTerm.status = 'ANNOUNCED';
+
+        selTerm.histories.unshift({
+
+          ver: v,
+
+          type: revType === 'MINOR' ? '일반 개정' : '중대 개정',
+
+          reason: rsn,
+
+          ann: ann.replace(/-/g, '.'),
+
+          eff: eff.replace(/-/g, '.'),
+
           editor: 'admin_kim',
-          status: '공시중(시행 예정)'
+
+          st: '공시중(시행 예정)'
+
         });
-      } else {
-        selectedTerm.reason = reason;
-        selectedTerm.curBody = newBody;
-        selectedTerm.editBody = newBody;
-        if (selectedTerm.histories.length > 0) {
-          selectedTerm.histories[0].reason = reason;
-        }
+
       }
 
-      renderSelectOptions();
-      renderTermsMasterTable();
-      renderVersionHistoryTable();
 
-      if (goSendAfter) {
+
+      renderListTable();
+
+      if (goToSend) {
+
         goToTermsNoticeSend();
+
       } else {
-        showToast(`[${selectedTerm.code} ${newVer}] 약관 저장 및 변경 이력 반영이 완료되었습니다.`);
+
+        switchView('list');
+
+        showToast(`[${selTerm.code} ${v}] 약관이 저장되어 목록에 반영되었습니다.`);
+
       }
+
     }
+
+
 
     function goToTermsNoticeSend() {
-      const url = `ADMN-CONF-004_baseline.html?view=send&type=terms_notice&term=${selectedTerm.code}&cnt=12530`;
-      window.location.href = url;
+
+      window.location.href = `ADMN-CONF-004_baseline.html?view=send&type=terms_notice&term=${selTerm.code}&cnt=12530`;
+
     }
+
+
 
     function closeModal(id) {
+
       document.getElementById(id).classList.remove('show');
+
     }
+
+
 
     function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.display = 'block';
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => { t.style.display = 'none'; }, 3200);
+
+      const el = document.getElementById('toast');
+
+      el.textContent = msg;
+
+      el.style.display = 'block';
+
+      clearTimeout(window.__tTimer);
+
+      window.__tTimer = setTimeout(() => { el.style.display = 'none'; }, 3000);
+
     }
 
+
+
     document.addEventListener('DOMContentLoaded', () => {
-      selectTerm('T04', false);
+
+      renderListTable();
+
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.get('view') === 'detail') {
+
+        openTermDetail(params.get('term') || 'T04', 'edit');
+
+      }
+
     });
+
   </script>
+
 </body>
+
 </html>
+
