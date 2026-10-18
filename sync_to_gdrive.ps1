@@ -3,9 +3,9 @@
 
 $ErrorActionPreference = "Stop"
 
-# 1. G: 또는 H: 드라이브에서 구글 드라이브 내 드라이브 및 바로가기 탐색
+# 1. G: 드라이브에서 구글 드라이브 내 드라이브 및 바로가기 탐색
 $targetRoot = $null
-$drives = @("G:\", "H:\")
+$drives = @("G:\")
 
 foreach ($d in $drives) {
     if (Test-Path $d) {
