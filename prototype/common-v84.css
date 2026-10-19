@@ -680,3 +680,33 @@ header.top-bar.v4-gen3-topbar .crumb-title {
 
 /* SNB 브랜드 로고 (img/sjm_logo-horizontal-white.png) */
 #v4-master-snb .snb-brand-logo { height: 17px !important; width: auto !important; display: block !important; }
+
+
+/* === [TYPOGRAPHY-PRETENDARD-UNIFICATION-LOCK] === */
+:root {
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif !important;
+  --mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif !important;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif !important;
+  --font-mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif !important;
+}
+
+/* 1. 모든 텍스트·폼 컨트롤·테이블·모달 요소에 Pretendard 강제 상속 (시스템 기본 굴림/바탕 원천 차단) */
+html, body,
+button, input, select, textarea, optgroup, option,
+table, thead, tbody, tfoot, tr, th, td,
+div, span, p, a, li, dl, dt, dd, label, strong, b, em, small,
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* 2. 코드·식별자·금액·모노 클래스: 굴림체(monospace 한글 폴백) 대신 Pretendard + 등폭 숫자(tabular-nums) 적용 */
+code, pre, kbd, samp,
+.mono, .num, .k-num,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .screen-id-badge,
+[style*="monospace"] {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif !important;
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}

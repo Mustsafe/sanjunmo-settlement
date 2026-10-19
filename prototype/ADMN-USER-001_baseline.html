@@ -2462,7 +2462,7 @@
       return `
         <tr onclick="selectBlacklistCandidate('${m.uid}')" style="cursor:pointer; border-bottom:1px solid #f1f5f9;">
           <td style="padding:8px 10px;"><input type="radio" name="bl-cand-radio" ${checked} /></td>
-          <td style="padding:8px 10px; font-weight:700;">${m.name} (<span style="font-family:monospace;">${m.loginId}</span>)</td>
+          <td style="padding:8px 10px; font-weight:700;">${m.name} (<span style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;">${m.loginId}</span>)</td>
           <td style="padding:8px 10px;">${m.phone}</td>
           <td style="padding:8px 10px; color:#b91c1c; font-weight:600;">${m.risk}</td>
         </tr>
@@ -2504,7 +2504,7 @@
     if (tbody) {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="font-family:monospace; font-weight:700;">BL-${Date.now() % 10000}</td>
+        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:700;">BL-${Date.now() % 10000}</td>
         <td style="font-weight:700;">${selectedBlCandidate.name} (${selectedBlCandidate.loginId})<br/><span style="font-size:11px; color:#64748b;">${selectedBlCandidate.phone}</span></td>
         <td><span class="badge badge-red" style="background:#fee2e2; color:#b91c1c; padding:3px 8px; border-radius:99px; font-weight:700;">수동 지정 (${reasonCat})</span></td>
         <td style="font-weight:600;">${memo}<br/><span style="font-size:11px; color:#1d4ed8;">[제재수위: ${scope}]</span></td>

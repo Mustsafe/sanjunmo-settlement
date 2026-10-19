@@ -264,7 +264,7 @@
     .cm-gutter {
       background: #0b1120;
       color: #475569;
-      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;
       font-size: 12px;
       line-height: 1.6;
       padding: 12px 6px;
@@ -279,7 +279,7 @@
       color: #f8fafc;
       border: none;
       padding: 12px 14px;
-      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;
       font-size: 12.5px;
       line-height: 1.6;
       resize: vertical;
@@ -493,10 +493,10 @@
                   <td>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                       <span style="font-size:12px; font-weight:700; color:var(--text-secondary);">코드:</span>
-                      <input type="text" id="f-promo-code" class="form-input" style="width:170px; background:#f8fafc; font-family:monospace; font-weight:800;" value="PRM-2610-ALLPASS" readonly />
+                      <input type="text" id="f-promo-code" class="form-input" style="width:170px; background:#f8fafc; font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:800;" value="PRM-2610-ALLPASS" readonly />
                       <span style="font-size:12px; font-weight:700; color:var(--text-secondary); margin-left:8px;">동적 URL:</span>
-                      <span style="font-family:monospace; color:var(--text-muted);">https://sanjunmo.com/event/</span>
-                      <input type="text" id="f-promo-slug" class="form-input" style="width:190px; font-family:monospace; font-weight:800;" value="2026-autumn-allpass" oninput="onSlugChange(this.value)" />
+                      <span style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; color:var(--text-muted);">https://sanjunmo.com/event/</span>
+                      <input type="text" id="f-promo-slug" class="form-input" style="width:190px; font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:800;" value="2026-autumn-allpass" oninput="onSlugChange(this.value)" />
                       <span class="badge badge-ok" id="slug-valid-badge">✓ 사용 가능 슬러그</span>
                     </div>
                   </td>
@@ -777,7 +777,7 @@
           </td>
           <td>
             <div style="font-weight:800; color:var(--text-primary); cursor:pointer;" onclick="openPromoEdit('${item.code}')">${item.title}</div>
-            <div style="font-size:11px; color:var(--text-muted); font-family:monospace;">https://sanjunmo.com/event/${item.slug}</div>
+            <div style="font-size:11px; color:var(--text-muted); font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;">https://sanjunmo.com/event/${item.slug}</div>
           </td>
           <td>${item.period}</td>
           <td class="text-center"><strong>${item.prodCnt}종</strong></td>
