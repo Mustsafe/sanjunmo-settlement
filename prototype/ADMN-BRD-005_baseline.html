@@ -1243,7 +1243,7 @@
         <div class="form-group">
           <label class="form-label">연결 대상 교재 선택 (ADMN-PROD-003) *</label>
           <select id="er-form-book">
-            <option value="[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장">[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장</option>
+            <option value="[BK-2026-101 / BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장">[BK-2026-101 / BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장</option>
             <option value="[BOOK-2602] 2026 산준모 산업안전기사 실기 필답형+작업형">[BOOK-2602] 2026 산준모 산업안전기사 실기 필답형+작업형</option>
             <option value="[BOOK-2603] 2026 산준모 건설안전기사 필기 빈출문제집">[BOOK-2603] 2026 산준모 건설안전기사 필기 빈출문제집</option>
             <option value="[BOOK-2604] 2026 산준모 위험물산업기사 필기·실기 핵심노트">[BOOK-2604] 2026 산준모 위험물산업기사 필기·실기 핵심노트</option>
@@ -1345,12 +1345,12 @@
     {
       id: 'ANS-404',
       type: '산업안전기사',
-      book: '[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장',
+      book: '[BK-2026-101 / BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장',
       page: '2026년판 / 전 단원 빈출문제',
       title: '[정답지] 2026 산업안전기사 필기 한권끝장 단원별 빈출문제 정답 및 상세해설',
       file: '2026_산안기_필기_정답지_전문.pdf',
       date: '2026-10-18',
-      body: `<table><thead><tr><th>단원</th><th>문항번호</th><th>정답</th><th>핵심 해설</th></tr></thead><tbody><tr><td>1과목 안전관리론</td><td>01번 ~ 05번</td><td>③, ②, ④, ①, ③</td><td>하인리히 법칙 1:29:300 비율 적용</td></tr><tr><td>2과목 인간공학</td><td>01번 ~ 05번</td><td>②, ④, ①, ③, ②</td><td>Fitts의 법칙 및 작업공간 배치 기준</td></tr></tbody></table>`
+      body: `<table><thead><tr><th>단원</th><th>문항번호</th><th>정답</th><th>핵심 해설</th></tr></thead><tbody><tr><td>1과목 안전관리론</td><td>01번 ~ 05번</td><td>[3], [2], [4], [1], [3]</td><td>하인리히 법칙 1:29:300 비율 적용</td></tr><tr><td>2과목 인간공학</td><td>01번 ~ 05번</td><td>[2], [4], [1], [3], [2]</td><td>Fitts의 법칙 및 작업공간 배치 기준</td></tr></tbody></table>`
     },
     {
       id: 'ANS-403',
@@ -1855,7 +1855,7 @@
       ? `[ADMN-BRD-009] 교재 정답지 수정 (${item.id})`
       : '[ADMN-BRD-009] 교재 정답지 신규 등록 (웹 에디터)';
     document.getElementById('er-form-type').value = item ? item.type : '산업안전기사';
-    document.getElementById('er-form-book').value = item ? item.book : '[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장';
+    document.getElementById('er-form-book').value = item ? item.book : '[BK-2026-101 / BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장';
     document.getElementById('er-form-page').value = item ? item.page : '2026년판 / 전 단원 빈출문제';
     document.getElementById('er-form-file').value = item ? item.file : '2026_산안기_정답지_및_해설.pdf';
     document.getElementById('er-form-title').value = item ? item.title : '';
@@ -1877,8 +1877,8 @@
           <tr><th>단원 / 회차</th><th>문항 번호</th><th>정답</th><th>핵심 해설 및 관련 법령 근거</th></tr>
         </thead>
         <tbody>
-          <tr><td>제1과목 안전관리론</td><td>01번 ~ 05번</td><td>③, ②, ④, ①, ③</td><td>산업안전보건법령상 안전보건관리책임자 선임 기준</td></tr>
-          <tr><td>제2과목 인간공학</td><td>06번 ~ 10번</td><td>②, ④, ①, ③, ②</td><td>FTA 결함수와 최소컷셋(Minimal Cut Set) 신뢰도 계산</td></tr>
+          <tr><td>제1과목 안전관리론</td><td>01번 ~ 05번</td><td>[3], [2], [4], [1], [3]</td><td>산업안전보건법령상 안전보건관리책임자 선임 기준</td></tr>
+          <tr><td>제2과목 인간공학</td><td>06번 ~ 10번</td><td>[2], [4], [1], [3], [2]</td><td>FTA 결함수와 최소컷셋(Minimal Cut Set) 신뢰도 계산</td></tr>
         </tbody>
       </table>
     `;
@@ -1892,7 +1892,7 @@
           <tr><th>문항</th><th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>정답</strong></td><td>③</td><td>②</td><td>④</td><td>①</td><td>③</td><td>②</td><td>④</td><td>①</td><td>③</td><td>②</td></tr>
+          <tr><td><strong>정답</strong></td><td>[3]</td><td>[2]</td><td>[4]</td><td>[1]</td><td>[3]</td><td>[2]</td><td>[4]</td><td>[1]</td><td>[3]</td><td>[2]</td></tr>
         </tbody>
       </table>
     `;

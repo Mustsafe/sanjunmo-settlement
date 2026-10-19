@@ -519,7 +519,7 @@
         <div class="routing-flow-grid">
           <div class="route-node" onclick="openCaseDetail('INQ-20261016-091')">
             <div class="route-node-top">
-              <span class="badge badge-red">분기 ① 결제·환불</span>
+              <span class="badge badge-red">분기 [1] 결제·환불</span>
               <span style="color:#93C5FD;">➔ RFD-002</span>
             </div>
             <div class="route-node-title">환불 심사 큐 양방향 이관</div>
@@ -527,7 +527,7 @@
           </div>
           <div class="route-node" onclick="openCaseDetail('INQ-20261016-088')">
             <div class="route-node-top">
-              <span class="badge badge-amber">분기 ② 배송·교재</span>
+              <span class="badge badge-amber">분기 [2] 배송·교재</span>
               <span style="color:#FDE047;">➔ ORD-001/002</span>
             </div>
             <div class="route-node-title">3PL 출고지시 Lock 판별</div>
@@ -535,7 +535,7 @@
           </div>
           <div class="route-node" onclick="openCaseDetail('INQ-20261016-084')">
             <div class="route-node-top">
-              <span class="badge badge-blue">분기 ③ 수강·동시접속</span>
+              <span class="badge badge-blue">분기 [3] 수강·동시접속</span>
               <span style="color:#93C5FD;">➔ 세션 제어</span>
             </div>
             <div class="route-node-title">동시접속 IP 제한 · 세션 초기화</div>
@@ -543,7 +543,7 @@
           </div>
           <div class="route-node" onclick="openCaseDetail('INQ-20261016-079')">
             <div class="route-node-top">
-              <span class="badge badge-purple">분기 ④ 환급·포인트</span>
+              <span class="badge badge-purple">분기 [4] 환급·포인트</span>
               <span style="color:#DDD6FE;">➔ SETT-006</span>
             </div>
             <div class="route-node-title">합격환급 진도율 · 적립금 조회</div>
@@ -551,7 +551,7 @@
           </div>
           <div class="route-node" onclick="openCaseDetail('INQ-20261016-075')">
             <div class="route-node-top">
-              <span class="badge badge-teal">분기 ⑤ 학습질문 오인입</span>
+              <span class="badge badge-teal">분기 [5] 학습질문 오인입</span>
               <span style="color:#99F6E4;">➔ 카페/강사Q&A</span>
             </div>
             <div class="route-node-title">산준모 카페 안내 / 강사 Q&A 분리</div>
@@ -686,7 +686,7 @@
                   </td>
                   <td><span class="badge badge-blue">수강 · 동시접속</span></td>
                   <td>
-                    <div style="font-weight:700;">이합격 (pass_lee)</div>
+                    <div style="font-weight:700;">이서연 (pass_lee · USR-0941)</div>
                     <div style="font-size:11px; color:var(--text-muted);">010-****-3310</div>
                   </td>
                   <td>
@@ -695,7 +695,7 @@
                   </td>
                   <td>
                     <div style="font-weight:700;">ORD-20261002-0112</div>
-                    <div style="font-size:11px; color:var(--text-secondary);">안창훈 실기 작업형 마스터</div>
+                    <div style="font-size:11px; color:var(--text-secondary);">정종대 (RH-0025) 실기 작업형 마스터</div>
                   </td>
                   <td>
                     <span class="badge badge-blue">➔ 동시접속 세션 제어</span>
@@ -779,11 +779,11 @@
           <div style="padding:10px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <span style="font-size:12px; font-weight:800; color:var(--text-secondary);">시연 케이스 빠른 전환:</span>
-              <button type="button" class="btn btn-sm" id="case-btn-091" onclick="openCaseDetail('INQ-20261016-091')">① 결제·환불 (RFD-002 이관)</button>
-              <button type="button" class="btn btn-sm" id="case-btn-088" onclick="openCaseDetail('INQ-20261016-088')">② 배송·교재 (3PL Lock)</button>
-              <button type="button" class="btn btn-sm" id="case-btn-084" onclick="openCaseDetail('INQ-20261016-084')">③ 수강·동시접속 (IP/세션 초기화)</button>
-              <button type="button" class="btn btn-sm" id="case-btn-079" onclick="openCaseDetail('INQ-20261016-079')">④ 합격환급·포인트 (SETT-006)</button>
-              <button type="button" class="btn btn-sm" id="case-btn-075" onclick="openCaseDetail('INQ-20261016-075')">⑤ 학습질문 오인입 (카페 아웃링크)</button>
+              <button type="button" class="btn btn-sm" id="case-btn-091" onclick="openCaseDetail('INQ-20261016-091')">[1] 결제·환불 (RFD-002 이관)</button>
+              <button type="button" class="btn btn-sm" id="case-btn-088" onclick="openCaseDetail('INQ-20261016-088')">[2] 배송·교재 (3PL Lock)</button>
+              <button type="button" class="btn btn-sm" id="case-btn-084" onclick="openCaseDetail('INQ-20261016-084')">[3] 수강·동시접속 (IP/세션 초기화)</button>
+              <button type="button" class="btn btn-sm" id="case-btn-079" onclick="openCaseDetail('INQ-20261016-079')">[4] 합격환급·포인트 (SETT-006)</button>
+              <button type="button" class="btn btn-sm" id="case-btn-075" onclick="openCaseDetail('INQ-20261016-075')">[5] 학습질문 오인입 (카페 아웃링크)</button>
             </div>
             <button type="button" class="btn btn-sm" onclick="switchView('list')">← 목록으로 돌아가기</button>
           </div>
@@ -885,10 +885,10 @@
               </div>
             </div>
 
-            <!-- 2. 동적 분기 패널 ①: 결제·환불 (REFUND -> ADMN-RFD-002-S1) -->
+            <!-- 2. 동적 분기 패널 [1]: 결제·환불 (REFUND -> ADMN-RFD-002-S1) -->
             <div id="branch-REFUND" class="branch-panel active">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span class="badge badge-red">분기 ① 결제 · 환불 라우팅 허브</span>
+                <span class="badge badge-red">분기 [1] 결제 · 환불 라우팅 허브</span>
                 <span style="font-size:11.5px; font-weight:700; color:var(--primary);">연결 화면: ADMN-RFD-002-S1</span>
               </div>
               <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">
@@ -909,10 +909,10 @@
               </div>
             </div>
 
-            <!-- 3. 동적 분기 패널 ②: 배송·교재 (SHIPPING -> ADMN-ORD-001/002) -->
+            <!-- 3. 동적 분기 패널 [2]: 배송·교재 (SHIPPING -> ADMN-ORD-001/002) -->
             <div id="branch-SHIPPING" class="branch-panel warn-theme">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span class="badge badge-amber">분기 ② 배송 · 3PL 출고지시 Lock 허브</span>
+                <span class="badge badge-amber">분기 [2] 배송 · 3PL 출고지시 Lock 허브</span>
                 <span style="font-size:11.5px; font-weight:700; color:var(--warning);">연결 화면: ADMN-ORD-001-S1 / ORD-002</span>
               </div>
               <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">
@@ -928,10 +928,10 @@
               </div>
             </div>
 
-            <!-- 4. 동적 분기 패널 ③: 수강·동시접속 IP 제어 (PLAYER) -->
+            <!-- 4. 동적 분기 패널 [3]: 수강·동시접속 IP 제어 (PLAYER) -->
             <div id="branch-PLAYER" class="branch-panel">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span class="badge badge-blue">분기 ③ 수강 · 동시접속 IP/세션 제어 허브</span>
+                <span class="badge badge-blue">분기 [3] 수강 · 동시접속 IP/세션 제어 허브</span>
                 <span style="font-size:11.5px; font-weight:700; color:var(--primary);">1차 오픈 스펙 (IP/세션 기준)</span>
               </div>
               <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">
@@ -955,10 +955,10 @@
               </div>
             </div>
 
-            <!-- 5. 동적 분기 패널 ④: 합격환급 · 포인트 (BENEFIT -> ADMN-SETT-006) -->
+            <!-- 5. 동적 분기 패널 [4]: 합격환급 · 포인트 (BENEFIT -> ADMN-SETT-006) -->
             <div id="branch-BENEFIT" class="branch-panel purple-theme">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span class="badge badge-purple">분기 ④ 합격환급반 · 포인트 검증 허브</span>
+                <span class="badge badge-purple">분기 [4] 합격환급반 · 포인트 검증 허브</span>
                 <span style="font-size:11.5px; font-weight:700; color:var(--purple);">연결 화면: ADMN-SETT-006</span>
               </div>
               <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">
@@ -975,10 +975,10 @@
               </div>
             </div>
 
-            <!-- 6. 동적 분기 패널 ⑤: 학습질문 오인입 (STUDY_MISROUTE -> 산준모 네이버 카페) -->
+            <!-- 6. 동적 분기 패널 [5]: 학습질문 오인입 (STUDY_MISROUTE -> 산준모 네이버 카페) -->
             <div id="branch-STUDY_MISROUTE" class="branch-panel teal-theme">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span class="badge badge-teal">분기 ⑤ 학습 Q&A 오인입 라우팅</span>
+                <span class="badge badge-teal">분기 [5] 학습 Q&A 오인입 라우팅</span>
                 <span style="font-size:11.5px; font-weight:700; color:var(--teal);">1차: 산준모 카페 아웃링크 / 2차: 강사 전용 메뉴</span>
               </div>
               <div style="font-size:13.5px; font-weight:800; margin-bottom:8px;">
@@ -1085,7 +1085,7 @@
         catClass: 'badge-blue',
         statusLabel: '● 미답변 대기',
         statusClass: 'badge-red',
-        user: '이합격 (네이버 카페 ID: pass_lee)',
+        user: '이서연 (네이버 카페 ID: pass_lee)',
         phone: '010-****-3310',
         date: '접수일시: 2026-10-16 11:40:18',
         title: '독서실 와이파이로 아이패드 접속했는데 동시 접속 IP 제한 뜨면서 플레이어가 꺼져요',
@@ -1093,7 +1093,7 @@
         unlinkedAlert: false,
         orderNo: 'ORD-20261002-0112',
         ctxOrder: 'ORD-20261002-0112 (신용카드 · 160,000원)',
-        ctxLines: '[과세 강좌] 안창훈 실기 작업형 마스터 단과',
+        ctxLines: '[과세 강좌] 정종대 (RH-0025) 실기 작업형 마스터 단과',
         ctxPoints: '무상 6,600P / 유상 0P',
         draft: ''
       },
@@ -1213,7 +1213,7 @@
 
     function resetConcurrentSession() {
       insertMacro('IP_RESET');
-      alert('이합격 회원의 기존 미종료 PC 세션(IP 211.36.***.104)을 강제 로그아웃 처리하였으며, 답변창에 안내 문구를 자동 입력했습니다.');
+      alert('이서연 회원의 기존 미종료 PC 세션(IP 211.36.***.104)을 강제 로그아웃 처리하였으며, 답변창에 안내 문구를 자동 입력했습니다.');
     }
 
     function filterByCategory(cat, tabEl) {
