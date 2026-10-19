@@ -336,6 +336,81 @@ tr.row-alert{background:#fffafa}
 
           <div class="tablewrap" id="contractListTableWrap"></div>
         </div>
+
+        <!-- [화면설계서 마커 8] 선택 권리자 매핑 강의·도서 읽기 전용 목록 및 계약 미지정 경고 -->
+        <div class="card" id="inst001ReadonlyMappingCard">
+          <div class="cardhead">
+            <div>
+              <h2>📌 [읽기 전용] 권리자별 상품(강의 · 도서 SKU) 1계층 매핑 현황 (제4장 4.3절 · 제16장 16.1절)</h2>
+              <div class="note">
+                본 영역은 <strong>조회 전용(Read-Only)</strong>입니다. 상품 기준 합계 <code>100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong> 단일 진입점에서만 수행합니다.
+              </div>
+            </div>
+            <div class="inline">
+              <button class="btn sm" type="button" onclick="openInst001RateLockModalP1()">🔒 요율 잠금 · 상태 동기화 영향 안내 (ADMN-INST-001-P1)</button>
+              <a class="btn sm pr" href="ADMN-SETT-001_baseline.html" style="text-decoration:none; display:inline-flex; align-items:center;">상품별 권리자 매핑(ADMN-SETT-001) 이동 ↗</a>
+            </div>
+          </div>
+
+          <div class="alert warn" style="margin-bottom:10px;">
+            ⚠️ <strong>정산 매핑 미완료(적용 계약 미지정) 1건 감지:</strong> 적용 계약(<code>contract_id</code>)이 미지정된 강의·도서 SKU는 월간 정산 배치(<code>ADMN-SETT-002</code>) 인입이 차단되며 신규 판매가 중단됩니다.
+          </div>
+
+          <div class="tablewrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>권리자 (식별코드)</th>
+                  <th>구분</th>
+                  <th>상품 · 강의 · 도서 SKU 명칭</th>
+                  <th>적용 계약 (contract_id)</th>
+                  <th class="num">1계층 지분율</th>
+                  <th>매핑 종료 기준 (end_basis)</th>
+                  <th>정산 인입 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>정종대</strong> (<code>RH-0025</code>)</td>
+                  <td><span class="chip info">온라인 강의</span></td>
+                  <td>[단과] 2026 산업안전기사 필기 핵심이론 (1~40강)</td>
+                  <td><code>CON-2026-001</code> (전속 R/S 50% + 지원금 15%)</td>
+                  <td class="num"><strong>100.00%</strong></td>
+                  <td><code>CONTRACT_LINKED</code> (계약 종료일 동기화)</td>
+                  <td><span class="chip ok">정상 인입 (Pipeline 1.1)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>정종대</strong> (<code>RH-0025</code>)</td>
+                  <td><span class="chip info">자사발행 도서</span></td>
+                  <td>『2026 정종대 산업안전기사 필기 기본서』 (<code>BK-2026-101</code>)</td>
+                  <td><code>CON-2026-001</code> (인세 10%)</td>
+                  <td class="num"><strong>100.00%</strong></td>
+                  <td><code>CONTRACT_LINKED</code> (계약 종료일 동기화)</td>
+                  <td><span class="chip ok">정상 인입 (Pipeline 2.1)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>주식회사 엘캠퍼스</strong> (<code>RH-INTERNAL</code>)</td>
+                  <td><span class="chip">자사 저작권 도서</span></td>
+                  <td>『산준모 산업안전 실기 빈출문제집』 (<code>PROD-BK-1004</code> · <code>own_copyright_yn=true</code>)</td>
+                  <td><code>CT-INTERNAL-000</code> (자사 100% + 정종대 지원금 Pipeline 5.1 모수 인입)</td>
+                  <td class="num"><strong>100.00%</strong></td>
+                  <td><code>CONTRACT_LINKED</code> (무기한)</td>
+                  <td><span class="chip tx">인세 Bypass · 지원금(5.1) 모수 인입</span></td>
+                </tr>
+                <tr class="row-alert">
+                  <td><strong>정종대</strong> (<code>RH-0025</code>)</td>
+                  <td><span class="chip warn">온라인 강의</span></td>
+                  <td>[특강] 2026 필기 최종 마무리 빈출문제 요약 특강 (1~6강)</td>
+                  <td><strong style="color:#b91c1c;">미지정 (NULL)</strong></td>
+                  <td class="num"><strong>100.00%</strong></td>
+                  <td>미설정</td>
+                  <td><span class="chip ng">🚨 정산 매핑 미완료 (배치 격리)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </section>
 
       <div id="page-contract" role="tabpanel" aria-labelledby="tab-contract" hidden="">
@@ -600,9 +675,9 @@ tr.row-alert{background:#fffafa}
                 <label class="lbl" for="refundBurden">환급 부담 방식</label>
                 <select class="fc" id="refundBurden" data-field="">
                   <option value="">선택</option>
-                  <option value="A">옵션 A · 합의서 방식</option>
-                  <option value="B">옵션 B · 합의서 방식</option>
-                  <option value="C">옵션 C · 합의서 방식</option>
+                  <option value="A">옵션 A · 플랫폼사 100% 부담 (권리자 정산 차감 없음 · 15.1절)</option>
+                  <option value="B">옵션 B · 매출연동 개발지원금(Pipeline 5.1) 4단계 비례차감 + 5단계 한도복원(C-01)</option>
+                  <option value="C">옵션 C · 온라인 강좌 R/S(Pipeline 1.1) 4단계 차감 (MMG 적용월 이중부담 회피)</option>
                 </select>
               </div>
             </div>
@@ -2731,4 +2806,44 @@ document.addEventListener("input", e => {
 
 renderContractList();
 
-</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;4edd5f8ec12a48cfa682ab8261b80a79&quot;,&quot;spa&quot;:2}" crossorigin="anonymous"></script></body></html>
+</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;4edd5f8ec12a48cfa682ab8261b80a79&quot;,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+<!-- [ADMN-INST-001-P1] 결제 이력 발생 계약 요율 잠금(Hard-Lock) 및 상태 변경 영향 확인 모달 -->
+<div class="modalback" id="modalInst001RateLockP1" hidden onclick="if(event.target===this) closeInst001RateLockModalP1()">
+  <div class="modal">
+    <header>
+      <div>
+        <span class="chip info">ADMN-INST-001-P1</span>
+        <strong style="margin-left:6px;">결제 발생 계약 요율 수정 잠금(Hard-Lock) 및 계약 종료 영향 안내</strong>
+      </div>
+      <button class="close" type="button" onclick="closeInst001RateLockModalP1()">×</button>
+    </header>
+    <div class="modalbody">
+      <div class="alert err" style="margin-top:0;">
+        <strong>🔒 1. 결제 이력 1건 이상 발생 시 기존 요율 라인 직접 수정 차단 (제1장 스냅샷 보존 원칙):</strong><br>
+        이미 수강생 결제 또는 도서 출고 정산 이력이 1건이라도 발생한 요율 라인은 과거 원거래 환불 시 역산 정합성을 보호하기 위해 <strong>요율(%) 및 기준 모수 직접 수정(Update)과 물리 삭제(Hard Delete)가 영구 잠금</strong>됩니다. 요율 변경이 필요한 경우 기존 요율 라인의 종료일을 닫고 <strong>신규 유효 시작일을 가진 요율 행을 추가(Insert)</strong>해야 합니다.
+      </div>
+      <div class="alert warn">
+        <strong>⚠️ 2. 계약 만료(EXPIRED) · 중도 해지(TERMINATED) 전환 시 연쇄 통제 (제5장 5.4절 · 통합설계서 Set 2):</strong><br>
+        • <strong>프론트 강사/강좌 자동 숨김:</strong> 계약 상태가 만료 또는 중도 해지로 확정되면 <code>ADMN-PROD-006</code>(강사 노출 관리)의 전시 상태가 즉시 <code>강제 숨김(Blind)</code>으로 전환됩니다.<br>
+        • <strong>매핑 상품 승계 또는 종료 필수 지정:</strong> 해당 계약에 매핑된 강의·도서 SKU마다 승계 계약(<code>SUCCESSION</code>) 또는 매핑 종료를 지정해야 저장이 허용됩니다.<br>
+        • <strong>금전 약정 비승계 및 해지 강제청구:</strong> 선급금 잔액 · 최저보장(MMG) · 전속계약금 · 개발지원금은 승계 계약으로 자동 이전되지 않으며, 중도 해지 시 미상계 선급금 잔액은 당월 10단계(<code>CLAIM</code>)에서 즉시 환수 청구(<code>CLAIMED_ON_TERMINATION</code>)로 전환됩니다.
+      </div>
+    </div>
+    <footer>
+      <span class="sub">※ 정본 근거: 제1권 1.3절 · 5.4절 · 통합 상세 설계서 3.2.2절</span>
+      <button class="btn pr" type="button" onclick="closeInst001RateLockModalP1()">확인</button>
+    </footer>
+  </div>
+</div>
+<script>
+  function openInst001RateLockModalP1() {
+    const m = document.getElementById("modalInst001RateLockP1");
+    if (m) m.hidden = false;
+  }
+  function closeInst001RateLockModalP1() {
+    const m = document.getElementById("modalInst001RateLockP1");
+    if (m) m.hidden = true;
+  }
+</script>
+
+</body></html>

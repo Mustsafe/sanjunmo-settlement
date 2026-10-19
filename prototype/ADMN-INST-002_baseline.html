@@ -663,8 +663,8 @@
       {
         id: "MS-2026-001",
         contractId: "CT-2026-0610",
-        rightsHolderId: "RH-0012",
-        rightsHolderName: "김안전 (프리랜서 저자)",
+        rightsHolderId: "RH-0019",
+        rightsHolderName: "김안전 (프리랜서 저자 · RH-0019)",
         isBusinessEntity: false, // 개인 프리랜서
         category: "BUYOUT",
         categoryLabel: "매절 대금 (판권·문항 양도)",
@@ -695,7 +695,7 @@
         id: "SUP-2026-009",
         contractId: "CT-2026-0501",
         rightsHolderId: "RH-0025",
-        rightsHolderName: "정종대 (개인사업자 · 면세)",
+        rightsHolderName: "정종대 (개인 면세사업자 · PY-0025-A)",
         isBusinessEntity: true,
         category: "SUPPORT_RS_ONCE",
         categoryLabel: "개발지원금 (매출연동 R/S 약정 체결 1회 검수)",
@@ -732,8 +732,8 @@
       {
         id: "SUP-2026-012",
         contractId: "CT-2026-0702",
-        rightsHolderId: "RH-0040",
-        rightsHolderName: "최그래픽 (문항·CG 외주 기여자)",
+        rightsHolderId: "RH-0042",
+        rightsHolderName: "최그래픽 (문항·CG 외주 기여자 · PY-0042)",
         isBusinessEntity: false,
         category: "SUPPORT_RS_ONCE",
         categoryLabel: "개발지원금 (매출연동 R/S · 무한도형 UNLIMITED)",
@@ -769,7 +769,7 @@
         id: "MS-2026-004",
         contractId: "CT-2026-0501",
         rightsHolderId: "RH-0025",
-        rightsHolderName: "정종대 (개인사업자 · 면세)",
+        rightsHolderName: "정종대 (개인 면세사업자 · PY-0025-A)",
         isBusinessEntity: true,
         category: "SUPPORT_LUMP_INST",
         categoryLabel: "개발지원금 (분할형 INSTALLMENT · 2회차)",
@@ -797,7 +797,7 @@
         id: "MS-2026-005",
         contractId: "CT-2026-0501",
         rightsHolderId: "RH-0025",
-        rightsHolderName: "정종대 (개인사업자 · 면세)",
+        rightsHolderName: "정종대 (개인 면세사업자 · PY-0025-A)",
         isBusinessEntity: true,
         category: "EXCLUSIVE_FEE",
         categoryLabel: "전속계약금 (일회성 비상계 · 7단계 가산)",
@@ -1401,4 +1401,35 @@
   renderTable();
   renderDetail();
   renderAudit();
-</script></body></html>
+</script>
+<script>
+  function rejectMilestoneItem(id) {
+    const item = state.items.find(x => x.id === id);
+    if (!item) return;
+    if (item.status === "APPROVED") {
+      alert("이미 검수 승인되어 정산서(7단계)로 이관된 항목은 반려할 수 없습니다.");
+      return;
+    }
+    const reason = prompt("[ADMN-INST-002-P2 마일스톤 검수 반려 · 보완 요청]\n반려 및 증빙 보완 요청 사유를 10자 이상 입력해 주세요:", "납품 문항 검수표 날인 누락 및 소득 구분(사업소득 vs 기타소득) 재확인 필요");
+    if (!reason || reason.trim().length < 10) {
+      alert("반려 사유를 10자 이상 입력해야 합니다.");
+      return;
+    }
+    item.status = "REJECTED";
+    item.memo = `[반려/보완요청] ${reason.trim()}`;
+    if (typeof state.auditLogs !== "undefined") {
+      state.auditLogs.unshift({
+        time: "2026-10-31 19:45:00",
+        actor: "재무팀 김회계",
+        targetId: item.id,
+        mode: item.inspectionMode,
+        action: "검수 반려 (보완 요청)",
+        memo: item.memo
+      });
+    }
+    if (typeof renderAll === "function") renderAll();
+    if (typeof showToast === "function") showToast(`🚨 [${item.id}] 마일스톤 검수 반려 및 계약 운영자 보완 요청이 등록되었습니다.`);
+  }
+</script>
+
+</body></html>
