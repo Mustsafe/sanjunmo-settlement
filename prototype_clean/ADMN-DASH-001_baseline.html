@@ -429,7 +429,7 @@ code, pre, kbd, samp,
       <div class="topbar-right">
         <label style="font-size:12px; font-weight:700; color:var(--text-secondary);">역할(RBAC) 뷰 시뮬레이터:</label>
         <select id="rbac-role-sim" class="form-select" onchange="applyRoleViewSim(this.value)">
-          <option value="최고관리자">최고관리자 (최고관리자 · 전 블록 열람)</option>
+          <option value="SUPER_ADMIN">최고관리자 (SUPER_ADMIN · 전 블록 열람)</option>
           <option value="OP_ADMIN">운영관리자 (OP_ADMIN · 전 블록 열람)</option>
           <option value="CS_ADMIN">CS담당자 (CS_ADMIN · 매출/통계 블록 마스킹)</option>
           <option value="LOGIS_ADMIN">물류담당자 (LOGIS_ADMIN · 출고/3PL 중심)</option>
@@ -570,7 +570,7 @@ code, pre, kbd, samp,
             <div class="card-header">
               <div>
                 <div class="card-title">📈 최근 7일 일 순매출 합계: <span style="color:var(--primary);">91,470,000원</span></div>
-                <div class="card-sub">🔒 매출 열람 권한(최고관리자 / OP_ADMIN / SETT_ADMIN) 보유 역할에만 노출됩니다.</div>
+                <div class="card-sub">🔒 매출 열람 권한(SUPER_ADMIN / OP_ADMIN / SETT_ADMIN) 보유 역할에만 노출됩니다.</div>
               </div>
               <button type="button" class="btn btn-xs btn-primary" onclick="switchView('stat-sales')">매출 통계 상세 (ADMN-STAT-001) →</button>
             </div>

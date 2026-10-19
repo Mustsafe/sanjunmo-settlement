@@ -820,31 +820,33 @@ body.partner-isolated-mode .s2-modal-backdrop {
 }
 
 
-/* === [PROTOTYPE-CLEAN: PRODUCTION ADMIN UI MODE] === */
-/* 1. 기획서/화면설계서 정책 설명 배너 및 시뮬레이션 툴바 숨김 */
+/* === [PROTOTYPE-CLEAN: SAFE CSS PRESENTATION LAYER] === */
 .policy-banner,
 .rule-banner,
+.policy-note,
+.info-callout,
 .routing-architecture-card,
+.book-pipeline-stepper,
 .role-sim-box,
 .snb-version-pill,
 .snb-code,
 .crumb-code,
+.code-badge,
 .screen-id-badge,
 .screen-id-pill,
 .subview-btn .code-tag,
+.subview-btn .code-pill,
 .subview-tab .code-pill,
 .nav-code {
   display: none !important;
 }
 
-/* 2. 좌측 SNB 메뉴 아이템 정렬 보정 (코드 배지 제거 후 깔끔한 좌측 정렬) */
 #v4-master-snb .snb-link {
   justify-content: flex-start !important;
   padding: 9px 14px !important;
   font-size: 13px !important;
 }
 
-/* 3. 폼 필드 하단 기획 힌트(.field-hint, .help-txt) 중 설계서 참조 문구 절제 */
 .field-hint code,
 .help-txt code,
 th code,
@@ -852,26 +854,9 @@ label code {
   display: none !important;
 }
 
-/* 4. 상단 브레드크럼 타이틀 강조 */
 header.top-bar.v4-gen3-topbar .crumb-title,
 header.top-bar.v4-gen3-topbar .topbar-title {
   font-size: 16px !important;
   font-weight: 800 !important;
   color: #0F172A !important;
-}
-
-
-/* === [PROTOTYPE-CLEAN STEP 2: SETTLEMENT & BOOK SPEC BANNER HIDE] === */
-.policy-note,
-.book-pipeline-stepper,
-#inst001ReadonlyMappingCard .note,
-.engine-bar .engine-steps code {
-  display: none !important;
-}
-
-
-/* === [PROTOTYPE-CLEAN FINAL POLISH: HIDE INFO CALLOUT & CODE BADGE] === */
-.info-callout,
-.code-badge {
-  display: none !important;
 }

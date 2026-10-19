@@ -4,7 +4,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-ORD-001] 주문 · 배송 통합 관리 및 3PL 물류 연동 — 산준모 관리자 센터 v4.0.0</title>
+  <title>[ADMN-ORD-001] 주문 · 배송 통합 관리 및 3PL 물류 연동 — 산준모닷컴 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg-body: #F1F5F9;
@@ -537,7 +537,7 @@ code, pre, kbd, samp,
         <!-- 접속 권한/세션 모드 전환 (최고운영자 vs 외부 물류 3PL 파트너 격리) -->
         <div style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #CBD5E1;gap:4px;">
           <button type="button" class="btn btn-sm btn-dark" id="btnRoleAdmin" onclick="setSessionRole('ADMIN')">👑 운영자 전체 권한</button>
-          <button type="button" class="btn btn-sm btn-outline" id="btnRole3pl" onclick="setSessionRole('외부 물류 파트너(3PL)')">🚚 3PL 물류 격리 (외부 물류 파트너(3PL))</button>
+          <button type="button" class="btn btn-sm btn-outline" id="btnRole3pl" onclick="setSessionRole('ROLE_PARTNER_3PL')">🚚 3PL 물류 격리 (ROLE_PARTNER_3PL)</button>
         </div>
 
         <div class="subview-switcher" id="ordViewSwitcher" style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #E2E8F0;gap:4px;">
@@ -576,7 +576,7 @@ code, pre, kbd, samp,
                   <span class="step-light light-amber">🔒 발주 다운로드 = 주소 변경 잠금</span>
                 </div>
                 <div class="step-desc">
-                  [배송 · 3PL 출고 관리] · 3PL 발주 엑셀 다운로드 즉시 출고지시 일시이 기록되며 관리자·고객 양쪽 배송지 수정이 하드락됩니다.
+                  <code>ADMN-ORD-002</code> · 3PL 발주 엑셀 다운로드 즉시 <code>ship_ordered_at</code>이 기록되며 관리자·고객 양쪽 배송지 수정이 하드락됩니다.
                 </div>
               </div>
 
@@ -791,10 +791,10 @@ code, pre, kbd, samp,
              [VIEW 2] ADMN-ORD-002 (+ S1, S2, S3) : 배송 관리 · 3PL 연동
              ===================================================================== -->
         <section id="view-ord002" class="subview-panel">
-          <!-- 외부 물류 파트너(외부 물류 파트너(3PL)) 전용 데이터 격리 배너 -->
+          <!-- 외부 물류 파트너(ROLE_PARTNER_3PL) 전용 데이터 격리 배너 -->
           <div id="partner3plBanner" class="notice-bar warn" style="display:none;margin-bottom:12px;background:#FFFBEB;border:1.5px solid #FDE68A;">
             <div>
-              🔒 <b>외부 물류 파트너(외부 물류 파트너(3PL)) 보안 격리 모드 활성:</b><br>
+              🔒 <b>외부 물류 파트너(ROLE_PARTNER_3PL) 보안 격리 모드 활성:</b><br>
               • <b>데이터 스코프 격리:</b> 개인정보보호법 및 정산 보안 통제에 따라 강좌 결제금액, 매출 및 회원의 결제 수단 정보가 100% 차단/마스킹됩니다.<br>
               • <b>출고 업무 필수 정보만 제한 제공:</b> 실물 교재 피킹 및 배송에 필요한 <b>수취인명, 마스킹 연락처(010-****-5678), 배송지 주소, 도서 SKU(BK-2026-101 등), 수량</b>만 노출됩니다.<br>
               • 3PL 발주 엑셀 다운로드, 송장 벌크 업로드(P1), 단건 등록/정정(P2), 반품 수거 창고 검수(S3) 기능만 안전하게 수행할 수 있습니다.
@@ -980,9 +980,9 @@ code, pre, kbd, samp,
               </div>
               <div style="display:flex;align-items:center;gap:8px;">
                 <select class="form-select" id="detailPresetSelect" onchange="loadOrderDetailPreset(this.value)" style="width:430px;font-weight:700;">
-                  <option value="SJM20260818-0021">[유형 1] SJM20260818-0021 (홍길동 · 복합패키지 · 🔒 3PL 출고지시 완료 Lock 상태)</option>
-                  <option value="SJM20260818-0019">[유형 2] SJM20260818-0019 (김수현 · 교재단독 · 출고지시 전 ➔ 배송지 수정 가능)</option>
-                  <option value="SJM20260817-0132">[유형 3] SJM20260817-0132 (이서준 · 가상계좌 입금대기 ➔ 입금 기한 연장 활성)</option>
+                  <option value="SJM20260818-0021">[케이스 1] SJM20260818-0021 (홍길동 · 복합패키지 · 🔒 3PL 출고지시 완료 Lock 상태)</option>
+                  <option value="SJM20260818-0019">[케이스 2] SJM20260818-0019 (김수현 · 교재단독 · 출고지시 전 ➔ 배송지 수정 가능)</option>
+                  <option value="SJM20260817-0132">[케이스 3] SJM20260817-0132 (이서준 · 가상계좌 입금대기 ➔ 입금 기한 연장 활성)</option>
                 </select>
                 <button type="button" class="btn btn-outline btn-sm" onclick="switchOrdView('ord001')">← 주문 목록으로</button>
               </div>
@@ -1329,7 +1329,7 @@ code, pre, kbd, samp,
       <div class="modal-body">
         <div class="notice-bar warn" style="margin-bottom:12px;">
           <div>
-            ⚠️ <b>출고 지시 확정(Lock) 안내:</b> 발주 엑셀 다운로드와 동시에 대상 주문 라인에 출고지시 일시 및 배치번호(<code>BATCH-20260818-02</code>)가 부여되며, <b>관리자와 수험생(마이페이지) 모두 수령인 정보와 배송지 주소를 수정할 수 없습니다.</b>
+            ⚠️ <b>출고 지시 확정(Lock) 안내:</b> 발주 엑셀 다운로드와 동시에 대상 주문 라인에 <code>ship_ordered_at</code> 및 배치번호(<code>BATCH-20260818-02</code>)가 부여되며, <b>관리자와 수험생(마이페이지) 모두 수령인 정보와 배송지 주소를 수정할 수 없습니다.</b>
           </div>
         </div>
         <p style="margin:0 0 8px;font-size:13px;line-height:1.6;">
@@ -1745,7 +1745,7 @@ code, pre, kbd, samp,
               <td>
                 <textarea class="form-input" id="grantReason" rows="2" style="width:100%;font-size:12px;" placeholder="10자 이상 필수 입력 (예: CS 시스템 일시 장애 수강 지연에 따른 필기 올패스 90일 무료 직권 보상 승인)"></textarea>
                 <div style="margin-top:4px;font-size:11.5px;color:var(--text-muted);">
-                  ※ 사유는 불변 정산 감사 로그 및 수강권 히스토리에 영구 보존됩니다.
+                  ※ 사유는 불변 감사 로그(ADMN-CONF-010) 및 수강권 히스토리에 영구 보존됩니다.
                 </div>
               </td>
             </tr>
@@ -1774,7 +1774,7 @@ code, pre, kbd, samp,
     // =========================================================================
     
     // =========================================================================
-    // 0. 역할(RBAC) 세션 스코프 (ADMIN vs 외부 물류 파트너(3PL))
+    // 0. 역할(RBAC) 세션 스코프 (ADMIN vs ROLE_PARTNER_3PL)
     // =========================================================================
     let currentRole = "ADMIN";
 
@@ -1788,7 +1788,7 @@ code, pre, kbd, samp,
       const codeEl = document.querySelector(".crumb-code");
       const titleEl = document.getElementById("topbar-title");
 
-      if (role === "외부 물류 파트너(3PL)") {
+      if (role === "ROLE_PARTNER_3PL") {
         if (btnAdmin) { btnAdmin.className = "btn btn-sm btn-outline"; }
         if (btn3pl) { btn3pl.className = "btn btn-sm btn-dark"; }
         if (switcher) {
@@ -1796,9 +1796,9 @@ code, pre, kbd, samp,
           document.getElementById("sw-ord001s1").style.display = "none";
         }
         if (banner) banner.style.display = "flex";
-        if (pgBadge) pgBadge.textContent = "Data Scope: 외부 물류 파트너(3PL) (정산·매출 차단)";
+        if (pgBadge) pgBadge.textContent = "Data Scope: ROLE_PARTNER_3PL (정산·매출 차단)";
         if (codeEl) codeEl.textContent = "ADMN-ORD-002";
-        if (titleEl) titleEl.textContent = "배송 관리 · 3PL 물류 연동 — 외부 파트너(외부 물류 파트너(3PL)) 격리 세션";
+        if (titleEl) titleEl.textContent = "배송 관리 · 3PL 물류 연동 — 외부 파트너(ROLE_PARTNER_3PL) 격리 세션";
         switchOrdView("ord002");
       } else {
         if (btnAdmin) { btnAdmin.className = "btn btn-sm btn-dark"; }
@@ -1866,7 +1866,7 @@ code, pre, kbd, samp,
       ORDERS_DATA.unshift(newOrder);
       closeModal("modalDirectGrant");
       renderOrderList();
-      alert(`✅ [수강권 직권 부여 완료 (구 ADMN-ORD-003 통합)]\n• 주문번호: ${newOrder.orderNo}\n• 대상: ${userName} (${userEmail})\n• 상품: ${prodName} (${days}일)\n• 실결제금액: 0원 (정산 모수 0원 확정)\n• 정산 감사 로그에 사유가 기록되었습니다.`);
+      alert(`✅ [수강권 직권 부여 완료 (구 ADMN-ORD-003 통합)]\n• 주문번호: ${newOrder.orderNo}\n• 대상: ${userName} (${userEmail})\n• 상품: ${prodName} (${days}일)\n• 실결제금액: 0원 (정산 모수 0원 확정)\n• 감사 로그(ADMN-CONF-010)에 사유가 기록되었습니다.`);
     }
 
     // 1. 통합 주문 목록 데이터 (ADMN-ORD-001 · 토스페이먼츠 전 수단 반영)
@@ -2232,7 +2232,7 @@ code, pre, kbd, samp,
           </tr>
         `;
         tbody.innerHTML = list.map((r, idx) => {
-          const is3pl = (currentRole === "외부 물류 파트너(3PL)");
+          const is3pl = (currentRole === "ROLE_PARTNER_3PL");
           const maskedName = is3pl ? (r.recv.length > 2 ? r.recv[0] + "*" + r.recv.slice(2) : r.recv[0] + "*") : r.recv;
           const maskedPhone = is3pl ? r.phone.replace(/(\d{3})-(\d{4})-(\d{4})/, "$1-****-$3") : r.phone;
           const orderLink = is3pl 
@@ -2578,7 +2578,7 @@ code, pre, kbd, samp,
 
     function enableAddressEditMode() {
       if (isDetailShipLocked) {
-        alert("출고지시 후 취소 불가: 출고 지시된 주문은 배송지를 수정할 수 없습니다.");
+        alert("409 Conflict: 출고 지시된 주문은 배송지를 수정할 수 없습니다.");
         return;
       }
       document.querySelectorAll(".addr-field").forEach(el => el.disabled = false);
@@ -2690,8 +2690,8 @@ code, pre, kbd, samp,
       const reqRole = urlParams.get("role");
       const reqView = urlParams.get("view");
 
-      if (reqRole === "외부 물류 파트너(3PL)" || (reqView && reqView.includes("3pl"))) {
-        setSessionRole("외부 물류 파트너(3PL)");
+      if (reqRole === "ROLE_PARTNER_3PL" || (reqView && reqView.includes("3pl"))) {
+        setSessionRole("ROLE_PARTNER_3PL");
       } else {
         renderOrderList();
         renderShipTable();

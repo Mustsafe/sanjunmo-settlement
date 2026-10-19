@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>[ADMN-CONF-010] 정산 감사 로그 — 산준모 관리자 센터</title>
+  <title>[ADMN-CONF-010] 정산 감사 로그 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg: #f3f6fb;
@@ -274,7 +274,7 @@ code, pre, kbd, samp,
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
     <div class="top-bar-left">
-      <span class="crumb-group">개인정보 · 보안 감사</span>
+      <span class="crumb-group">4단계 · 보안 및 감사 통제</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-CONF-010</span>
       <h1 class="crumb-title" id="header-screen-title">정산 감사 로그 (전 원장 변경 · 열람 불변 이력)</h1>
@@ -611,7 +611,7 @@ code, pre, kbd, samp,
       eventName: "민감 정보(주민번호·계좌번호) 마스킹 해제 열람 (3.4절 · TTL 30초)",
       targetId: "RH-0025 (정종대)",
       reason: "2026-10 당월 펌뱅킹 대량이체 실행 전 예금주 실명 확인 및 계좌 대조 (10자 이상 사유 검증 통과)",
-      actor: "박정산 (재무/정산 관리자)",
+      actor: "박정산 (ROLE_FINANCE_ADMIN)",
       ip: "10.20.14.88",
       hash: "SHA256:7d12e88a901c4b22f19002de81920c44",
       beforeJson: {
@@ -666,7 +666,7 @@ code, pre, kbd, samp,
       eventName: "2계층 수취인 분할 지분율(payee_splits) 등록 (4.1절 · Case 7)",
       targetId: "CT-2026-0715 (김안전 · RH-0012)",
       reason: "계약서 제8조 공동 서명인 수익 분할 특약에 따른 강사 본인(PY-0012) 70.00% : 소속사 스타에듀(PY-9001) 30.00% 등록",
-      actor: "박정산 (재무/정산 관리자)",
+      actor: "박정산 (ROLE_FINANCE_ADMIN)",
       ip: "10.20.14.88",
       hash: "SHA256:1b44d902e1109a88c32109ff8812a309",
       beforeJson: {
@@ -724,7 +724,7 @@ code, pre, kbd, samp,
       eventName: "국세청 오픈API 과세유형 전환 감지 승인 및 신규 버전 행 추가 (17.5절)",
       targetId: "RH-0028 (박소방교육연구소 · 120-18-99401)",
       reason: "국세청 상태조회 API 응답(tax_type_cd=07) 확인 — 영수증교부 간이과세자(TX-05)에서 세금계산서 발급 간이과세자(TX-06)로 전환 승인",
-      actor: "김세무 (재무/정산 관리자)",
+      actor: "김세무 (ROLE_FINANCE_ADMIN)",
       ip: "10.20.14.91",
       hash: "SHA256:4f00c912b7718d33e10928fa6612b804",
       beforeJson: {
@@ -815,7 +815,7 @@ code, pre, kbd, samp,
       cat: "STATE",
       screenCode: "ADMN-SETT-002",
       screenFile: "ADMN-SETT-002_baseline.html",
-      eventName: "2026-09 월간 정산 마감 확정  및 스냅샷 영구 동결",
+      eventName: "2026-09 월간 정산 마감 확정 (Locked = True) 및 스냅샷 영구 동결",
       targetId: "SETTLEMENT_MONTH: 2026-09",
       reason: "PG 대사 오차 0원 및 세무 판정 보류 0건 검증 통과 후 2026-09 월간 정산 마감 확정 실행",
       actor: "최재무 (ROLE_FINANCE_DIRECTOR)",
@@ -835,7 +835,7 @@ code, pre, kbd, samp,
       eventName: "사망·상속 수취인 권리 승계 및 저작자 지위(payee_is_author) 전환 (16.1절)",
       targetId: "CT-2025-1102 (고 박위생 → 상속인 박승계 외 1명)",
       reason: "상속재산분할협의서 접수에 따른 배우자 60% : 자녀 40% 승계 확정 (승계 확정일 2026-09-01 기준 payee_is_author = false 전환)",
-      actor: "박정산 (재무/정산 관리자)",
+      actor: "박정산 (ROLE_FINANCE_ADMIN)",
       ip: "10.20.14.88",
       hash: "SHA256:5e9012ab44109c88d21093fe7712b104",
       beforeJson: { payee_id: "PY-0018 (고 박위생)", payee_is_author: true, split_ratio: 100.00 },
@@ -858,7 +858,7 @@ code, pre, kbd, samp,
       eventName: "증빙 사본 Presigned URL 발급 열람 (5분 만료 · 3.3절)",
       targetId: "RH-0018 (상속재산분할협의서 및 가족관계증명서)",
       reason: "저작자 사망에 따른 상속인 수취 계좌 및 법정상속인 신분증 진위 대조를 위한 S3 보안 문서 열람",
-      actor: "김세무 (재무/정산 관리자)",
+      actor: "김세무 (ROLE_FINANCE_ADMIN)",
       ip: "10.20.14.91",
       hash: "SHA256:2c0918fa33120b99e41029dc8812a002",
       beforeJson: { s3_object: "s3://sanjunmo-private-pii/2026/RH-0018_inheritance.pdf", presigned_active: false },

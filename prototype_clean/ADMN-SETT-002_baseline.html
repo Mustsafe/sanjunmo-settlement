@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-SETT-002] 월간 정산 및 집행 — 산준모 관리자 센터</title>
+  <title>[ADMN-SETT-002] 월간 정산 및 집행 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg: #f4f6f9;
@@ -952,7 +952,7 @@ code, pre, kbd, samp,
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
     <div class="top-bar-left">
-      <span class="crumb-group">월간 정산 · 지급 · 조회</span>
+      <span class="crumb-group">3단계 · 월간 정산 · 집행 · 조회</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-SETT-002</span>
       <h1 class="crumb-title" id="header-screen-title">월간 정산 산출 · 마감 · 지급 집행 (1~11단계 엔진)</h1>
@@ -962,7 +962,7 @@ code, pre, kbd, samp,
           <option value="2026-10" selected="">데이터 기준 월: 2026-10</option>
           <option value="2026-09">데이터 기준 월: 2026-09 (마감 잠금됨)</option>
         </select> <button class="btn" id="btnRunEngine">⚙️ 1~11단계 통합 연산 배치 재실행</button> <button class="btn btn-primary" id="btnOpenStatementS1" onclick="openStatementModalS1(getSelectedPayeeKey())">📑 통합 정산서 상세·마감 (S1)</button> <button class="btn" id="btnOpenStatementS2" style="border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(getSelectedPayeeKey())">📤 권리자 제공 정산서 (S2)</button>
-        <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 </button>
+        <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장 (ADMN-SETT-002-P1)</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 (Locked = True)</button>
     </div></header><div id="v4-page-body">
   
   
@@ -980,9 +980,9 @@ code, pre, kbd, samp,
       <section class="engine-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div style="font-weight:700; font-size:13px;">
-            ⚙️ 월간 정산 연산 단계별 처리 현황 (1~11단계) &nbsp;
+            🚀 [8.3절 SSOT] 통합 순방향 연산 엔진 (1~11단계) 배치 모니터링 &nbsp;
             <span style="font-weight:400; font-size:11.5px; color:var(--text-muted);">
-              
+              * 모든 단계는 원 단위 내림(Floor) 및 마지막 수취인 총액 역산 원칙(제13장)을 준수하며, 마감 확정 전 재실행 시 기존 당월 행을 삭제 후 멱등 재생성합니다.
             </span>
           </div>
           <span class="badge badge-success">최종 배치 완료: 2026-10-14 15:45:00</span>
@@ -991,16 +991,16 @@ code, pre, kbd, samp,
           <div class="engine-group">
             <div class="engine-group-head"><span>그룹 A. 집계 (1~2단계)</span><span>✔ 완료</span></div>
             <div class="engine-steps">
-              1단계: 전월 이월금 반영<br>
-              2단계: 당월 강좌·도서·지원금 매출 집계
+              1단계: 전월 이월 호출 (<code>CARRY_IN</code>)<br>
+              2단계: 당월 신규 발생 집계 (<code>ACCRUAL</code> · 파이프라인 1.1 / 2.1 / 2.2 / 5.1)
             </div>
           </div>
           <div class="engine-group">
             <div class="engine-group-head"><span>그룹 B. 보정 (3~5단계)</span><span>✔ 완료</span></div>
             <div class="engine-steps">
-              3단계: 월 최저보장액(MMG) 보전 산출<br>
-              4단계: 당월 환불 · 합격환급 분담금 차감<br>
-              5단계: 개발지원금 약정 한도 적용
+              3단계: 월 최저보장 보정 (<code>MMG_ADJ</code>)<br>
+              4단계: 환불·환급반 공제 (<code>DEDUCT</code>)<br>
+              5단계: 지원금 한도 캡 판정 (<code>SUPPORT_CAP</code>)
             </div>
           </div>
           <div class="engine-group">
@@ -1014,9 +1014,9 @@ code, pre, kbd, samp,
           <div class="engine-group">
             <div class="engine-group-head"><span>그룹 D. 과세·집행 (9~11단계)</span><span>✔ 완료</span></div>
             <div class="engine-steps">
-              9단계: 부가세 및 원천징수 세액 산출<br>
-              10단계: 계약 해지 정산 및 미상계 선급금 청구<br>
-              11단계: 최종 실지급액 확정 및 소액 차월 이월
+              9단계: 세무 매트릭스 적용 (<code>TAX</code> · TX-01~13)<br>
+              10단계: 반환 차감·청구 판정 (<code>CLAIM</code>)<br>
+              11단계: 최종 지급·이월 판정 (<code>PAYOUT</code>)
             </div>
           </div>
         </div>
@@ -1100,7 +1100,7 @@ code, pre, kbd, samp,
           <!-- 우측 통합 정산서 상세 (6.5절 규격) -->
           <div class="statement-panel">
             <div class="card-header">
-              <div class="card-title" id="stmtTitle">통합 정산서 요약</div>
+              <div class="card-title" id="stmtTitle">통합 정산서 상세 (6.5절 · 8.3절)</div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <span id="stmtBadge" class="badge badge-primary">선택됨</span>
                 <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(getSelectedPayeeKey())">🔍 상세·마감 워크스페이스 (S1)</button> <button type="button" class="btn btn-sm" id="btnPanelOpenS2" style="margin-right:4px; border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(getSelectedPayeeKey())">📤 권리자 정산서 (S2)</button>
@@ -1822,7 +1822,7 @@ code, pre, kbd, samp,
     document.getElementById("lockStatusBadge").className = "badge badge-success";
     document.getElementById("lockStatusBadge").textContent = "2026-10 마감 확정됨 (Locked = True · 선급금 상계/한도소진 확정)";
     document.getElementById("footerLockBadge").className = "badge badge-success";
-    document.getElementById("footerLockBadge").textContent = "마감 잠금됨 ";
+    document.getElementById("footerLockBadge").textContent = "마감 잠금됨 (Locked = True)";
     document.getElementById("btnRunEngine").disabled = true;
 
     state.statements.forEach(s => {
@@ -1838,7 +1838,7 @@ code, pre, kbd, samp,
 
   document.getElementById("btnLockSettlement").addEventListener("click", () => {
     if (state.isLocked) {
-      showToast("이미 2026-10 정산 마감이 확정된 상태입니다.");
+      showToast("이미 2026-10 정산 마감이 확정(Locked = True)된 상태입니다.");
       return;
     }
     openSettGateModal();
@@ -2261,7 +2261,7 @@ code, pre, kbd, samp,
       holderName: "정종대 (주권리자 80%)",
       contractId: "CON-2026-001 (산업안전 통합계약)",
       originMonth: "2026-09",
-      pipeline: "온라인 강좌 수익배분",
+      pipeline: "Pipeline 1.1 (온라인 강좌 수익배분)",
       accountType: "PRE_TAX",
       accountLabel: "세전 음수 이월 (PRE_TAX)",
       operatorReason: "9월 마감 후 수강 취소·환불 차감액 초과로 발생한 세전 음수 이월분(-120,000원) → 10월 1단계(CARRY_IN)에서 자동 상쇄",
@@ -2303,7 +2303,7 @@ code, pre, kbd, samp,
       holderName: "한국소방학회 (위탁자)",
       contractId: "CON-2026-014 (소방 위탁도서 계약)",
       originMonth: "2026-10 (당월 신규)",
-      pipeline: "위탁 도서 판매대금",
+      pipeline: "Pipeline 2.2 (위탁 도서 판매대금)",
       accountType: "CONSIGNMENT_BAL",
       accountLabel: "위탁 전용 잔액 (CONSIGNMENT_BAL)",
       operatorReason: "10월 위탁 도서 정산 확정액(1,820,000원) 중 수취인 측 면세 계산서 수취 확인 대기 상태로 지급 예약(RESERVED) 관리",
@@ -2402,10 +2402,10 @@ code, pre, kbd, samp,
         { prodCode: "PKG-2026-004", prodName: "[합격환급반] 산업안전 필기+실기 올인원 패키지 (강좌 안분)", pkgType: "패키지 안분 (75.00%)", count: 48, allocBase: "4,760,000.0000", shareRatio: "100.00%", rsRate: "50.00%", refundDeduct: -271250, calcRaw: "2,108,750.0000", finalFloor: 2108750 }
       ],
       bookRows: [
-        { sku: "BK-2026-101", title: "2026 정종대 산업안전기사 필기 기본서", supplyType: "자사발행 도서 (인세)", shipQty: 300, returnQty: 10, netQty: 290, listPrice: 30000, rate: "10.00%", shareRatio: "100.00%", finalFloor: 870000 }
+        { sku: "BK-2026-101", title: "2026 정종대 산업안전기사 필기 기본서", supplyType: "OWN_PUBLISHED (자사발행 인세 · Pipeline 2.1)", shipQty: 300, returnQty: 10, netQty: 290, listPrice: 30000, rate: "10.00%", shareRatio: "100.00%", finalFloor: 870000 }
       ],
       supportRows: [
-        { type: "매출연동 개발지원금 (Pipeline 5.1)", capTotal: 10000000, usedBefore: 8930000, calcCurrent: 1170000, capApplied: 720000, offsetRule: "상계 허용", remainCap: 0, note: "4단계 옵션B 지원금 차감(-325,000원) 후 5단계 잔여 한도 캡 적용 확정액 720,000원" }
+        { type: "매출연동 개발지원금 (Pipeline 5.1)", capTotal: 10000000, usedBefore: 8930000, calcCurrent: 1170000, capApplied: 720000, offsetRule: "CONDITIONAL (상계 허용 · v4.0.0)", remainCap: 0, note: "4단계 옵션B 지원금 차감(-325,000원) 후 5단계 잔여 한도 캡 적용 확정액 720,000원" }
       ],
       prepayRows: [
         { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 7393750, offsetApplied: -1500000, closingBal: 2000000, allocDetail: "계약 전체 상계 -1,500,000원 → 8단계 수취인 분할(80%) 적용 시 정종대 귀속 상계액 -1,200,000원" }

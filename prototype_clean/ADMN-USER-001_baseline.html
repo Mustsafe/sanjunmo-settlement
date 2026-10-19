@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-USER-001] 일반 회원 관리 — 산준모 관리자 센터</title>
+  <title>[ADMN-USER-001] 일반 회원 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
   <script id="v4-common-snb" src="common-snb.js" defer></script>
@@ -778,7 +778,7 @@ code, pre, kbd, samp,
                     <label style="font-weight:700; cursor:pointer;">
                       <input type="checkbox" id="dt-mkt-agree" checked /> 마케팅 및 이벤트 알림 수신 동의 (통합 단일)
                     </label>
-                    <span id="dt-mkt-meta" style="font-size:11px; color:var(--text-muted); margin-left:8px;">(마케팅 수신 동의 · 2026.08.19 동의 · 하단 [변경사항 저장] 시 반영)</span>
+                    <span id="dt-mkt-meta" style="font-size:11px; color:var(--text-muted); margin-left:8px;">(<code>users.is_marketing_agreed = true</code> · 2026.08.19 동의 · 하단 [변경사항 저장] 시 반영)</span>
                   </td>
                 </tr>
                 <tr>
@@ -795,7 +795,7 @@ code, pre, kbd, samp,
                   <td>
                     최종 변경 2026.08.19 ·
                     <button type="button" class="btn btn-sm btn-outline" onclick="showToast('가입 이메일로 8자리 임시 비밀번호(24시간 유효)를 발송했습니다. 화면에는 비밀번호를 노출하지 않습니다.')">임시 비밀번호 메일 발송</button>
-                    <button type="button" class="btn btn-sm btn-warning" onclick="openPwResetModal()">비밀번호 수동 초기화 (최고관리자)</button>
+                    <button type="button" class="btn btn-sm btn-warning" onclick="openPwResetModal()">비밀번호 수동 초기화 (SUPER_ADMIN)</button>
                   </td>
                   <th>관리자 내부 메모</th>
                   <td>
@@ -2182,7 +2182,7 @@ code, pre, kbd, samp,
 
           <td><span class="badge badge-blue">1:1 메시지발송</span></td>
 
-          <td><strong>[${chLabel}]</strong> ${reason} (SENS 발송 성공 · [타겟 메시지 발송 이력] 이력 동기화)</td>
+          <td><strong>[${chLabel}]</strong> ${reason} (SENS 발송 성공 · <code>ADMN-CONF-004-S1</code> 이력 동기화)</td>
 
           <td><code>121.***.7.90</code></td>
 
@@ -2301,7 +2301,7 @@ code, pre, kbd, samp,
     }
 
     function openPwResetModal() {
-      showToast('최고관리자 전용 수동 비밀번호 초기화: 유선 본인확인 후 임시값을 설정하고 감사 로그에 사유를 적재합니다.');
+      showToast('SUPER_ADMIN 전용 수동 비밀번호 초기화: 유선 본인확인 후 임시값을 설정하고 감사 로그에 사유를 적재합니다.');
     }
 
     function setExtendDays(d) {

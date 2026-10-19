@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-PROD-003] 단과 강좌 관리 — 산준모 관리자 센터</title>
+  <title>[ADMN-PROD-003] 단과 강좌 관리 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --navy-950: #0B1120;
@@ -627,7 +627,7 @@ code, pre, kbd, samp,
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
     <div class="top-bar-left">
-      <span class="crumb-group">상품 · 강좌 · 교재 관리</span>
+      <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-PROD-003</span>
       <h1 class="crumb-title" id="header-screen-title">단과 강좌 관리 (커리큘럼 · 수강기간 · 정산 하드락)</h1>
@@ -667,7 +667,7 @@ code, pre, kbd, samp,
           <span class="policy-badge">정산 · 진도 연동 규칙</span>
           <div class="policy-text">
             단과 강좌의 커리큘럼은 <strong>강의 관리(ADMN-PROD-002)</strong> 원장을 호출하여 구성하며, 총 강의시간 합산값은 <strong>합격 환급반(ADMN-SETT-006)</strong> 출석·진도율 산정의 분모가 됩니다.
-            또한 <strong>[상품별 권리자 매핑] 메뉴</strong>의 1계층 지분 합계가 <strong>100.00%</strong>가 아니면 판매 상태를 <strong>[판매중]</strong>으로 전환할 수 없습니다.
+            또한 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong>의 1계층 지분 합계가 <strong>100.00%</strong>가 아니면 판매 상태를 <strong>[판매중]</strong>으로 전환할 수 없습니다.
           </div>
         </div>
         <a class="btn btn-soft btn-sm" href="ADMN-SETT-001_baseline.html">ADMN-SETT-001 지분 매핑 이동 →</a>
@@ -684,7 +684,7 @@ code, pre, kbd, samp,
               <h2 class="card-title">단과 강좌 검색 조건</h2>
               <span class="card-subtitle">카테고리 · 강사 · 판매상태 · 노출여부 복합 조회</span>
             </div>
-            
+            <span class="code-pill">Table: course</span>
           </div>
           <div class="card-body">
             <div class="filter-grid">
@@ -940,7 +940,7 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">단과 강좌 등록 / 수정 (커리큘럼 구성)</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">단과 강좌 등록 / 수정 (ADMN-PROD-003-S2 · 커리큘럼 구성 003-S1 포함)</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
@@ -1341,7 +1341,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "상품 · 강좌 · 교재 관리",
+        groupTitle: "상품 · 강좌 · 교재 관리 (PROD)",
         items: [
           { code: "ADMN-PROD-001", title: "카테고리 관리", file: "ADMN-PROD-001_baseline.html" },
           { code: "ADMN-PROD-002", title: "강의 관리 (영상 단품)", file: "ADMN-PROD-002_baseline.html" },
@@ -1353,7 +1353,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "권리자 계약 · 지분 매핑",
+        groupTitle: "1단계 · 계약 · 상품 · 매핑 설정",
         items: [
           { code: "ADMN-INST-001", title: "권리자 계약 원장", file: "ADMN-INST-001_baseline.html" },
           { code: "ADMN-SETT-007", title: "수취인 분할 관리", file: "ADMN-SETT-007_baseline.html" },
@@ -1362,7 +1362,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "정산 마감 전 사전 대사",
+        groupTitle: "2단계 · 월마감 전 검증 (Gate)",
         items: [
           { code: "ADMN-SETT-004", title: "PG 정산 원장 대사", file: "ADMN-SETT-004_baseline.html" },
           { code: "ADMN-INST-002", title: "약정금 마일스톤 검수", file: "ADMN-INST-002_baseline.html" },
@@ -1371,7 +1371,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "월간 정산 · 지급 · 조회",
+        groupTitle: "3단계 · 월간 정산 · 집행 · 조회",
         items: [
           { code: "ADMN-SETT-002", title: "월간 정산 및 집행", file: "ADMN-SETT-002_baseline.html" },
           { code: "ADMN-SETT-005", title: "정산 수동 조정", file: "ADMN-SETT-005_baseline.html" },
@@ -1379,7 +1379,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "개인정보 · 보안 감사",
+        groupTitle: "4단계 · 보안 및 감사 통제",
         items: [
           { code: "ADMN-USER-007", title: "민감 정보 열람 통제", file: "ADMN-USER-007_baseline.html" },
           { code: "ADMN-CONF-010", title: "정산 감사 로그", file: "ADMN-CONF-010_baseline.html" }

@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-BOOK-001] 도서 공급 원장 — 산준모 관리자 센터</title>
+  <title>[ADMN-BOOK-001] 도서 공급 원장 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --navy-950: #0B1120;
@@ -646,16 +646,16 @@ code, pre, kbd, samp,
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
     <div class="top-bar-left">
-      <span class="crumb-group">권리자 계약 · 지분 매핑</span>
+      <span class="crumb-group">1단계 · 계약 · 상품 · 매핑 설정</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-BOOK-001</span>
       <h1 class="crumb-title" id="header-screen-title">도서 공급 원장 (SKU · 공급원가 · 인세 마스터)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <div class="role-sim-box" title="재무/정산 책임자 전용 공급원가 열람 통제 시뮬레이터">
+      <div class="role-sim-box" title="FIN_MANAGER 전용 공급원가 열람 통제 시뮬레이터">
           <span>열람 권한:</span>
           <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
-            <option value="재무/정산 책임자" selected="">재무/정산 책임자 (원가 표시)</option>
+            <option value="FIN_MANAGER" selected="">재무/정산책임자 (FIN_MANAGER)</option>
             <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
           </select>
         </div>
@@ -701,7 +701,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step1-light">🟢 가채번 완료 (TMP-BK-2601)</span>
             </div>
             <div class="step-desc">
-              [권리자 계약 원장] · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (사입 도서는 생략)
+              <code>ADMN-INST-001</code> · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (사입 도서는 생략)
             </div>
           </a>
 
@@ -719,7 +719,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step3-light">🟢 계약원장 자동상속</span>
             </div>
             <div class="step-desc">
-              [상품별 권리자 매핑] · 가채번 도서는 자동 매핑되며, 계약원장 없이 생성한 도서는 여기서 권리자를 매핑합니다.
+              <code>ADMN-SETT-001</code> · 가채번 도서는 자동 매핑되며, 계약원장 없이 생성한 도서는 여기서 권리자를 매핑합니다.
             </div>
           </a>
 
@@ -740,7 +740,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">도서 공급 원장(SSOT) · 정산 연동 규칙</span>
           <div class="policy-text">
-            <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산([월간 정산 및 집행]) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
+            <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
             상품관리자가 <code>ADMN-PROD-004</code>에서 먼저 선등록한 도서(원가 미입력 건)도 여기서 원가를 확정해야 <strong>[판매중]</strong> 전환 잠금이 해제됩니다.
           </div>
         </div>
@@ -755,12 +755,12 @@ code, pre, kbd, samp,
       <!-- ========================================================================= -->
       <section id="subview-list" class="subview-panel active">
 
-      <!-- [Phase 1-B 정본 보강] 제6장 도서 4대 공급형태 · 자사저작권 · 정가 스냅샷 이력 원장 -->
+      <!-- [Phase 1-B 정본 보강] 제6장 도서 4대 공급형태(book_supply_type) · 자사저작권(own_copyright_yn) · 정가 스냅샷 이력 원장 -->
       <div class="card" id="v4BookCanonicalSpecCard" style="border:1px solid #93c5fd;">
         <div class="card-header" style="background:#eff6ff;">
           <div class="card-title-group">
-            <span class="badge badge-info">도서 공급 및 정산 기준</span>
-            <h2 class="card-title">4대 도서 공급형태 · 자사저작권(Pipeline 5.1) · 정가 이력 정합성 원장</h2>
+            <span class="badge badge-info">제6장 6.1~6.6절 · v4.0.0 SSOT</span>
+            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(Pipeline 5.1) · 정가 이력(book_price_history) 정합성 원장</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal()">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기 (BOOK-001-S1)</button>
@@ -774,8 +774,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>정산 연동 SKU (교재코드)</th>
                   <th>도서명</th>
-                  <th>공급형태 코드 </th>
-                  <th>자사저작권 </th>
+                  <th>공급형태 코드 (book_supply_type)</th>
+                  <th>자사저작권 (own_copyright_yn)</th>
                   <th>정산 파이프라인 라우팅 (SSOT)</th>
                   <th>위탁/매입/인세 핵심 파라미터</th>
                   <th class="text-right">현행 정가 (면세)</th>
@@ -786,7 +786,7 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">BK-2026-101</span><br><span style="font-size:11px; color:#64748b;">(BOOK-2601 호환)</span></td>
                   <td><strong>2026 정종대 산업안전기사 필기 기본서</strong></td>
-                  <td><span class="badge badge-sale">자사 발행 도서</span></td>
+                  <td><span class="badge badge-sale">OWN_PUBLISHED (자사발행)</span></td>
                   <td><code>false</code> (저자 정종대)</td>
                   <td><strong>Pipeline 2.1</strong> (자사발행 도서 인세)</td>
                   <td>인세율 <code>10.00%</code> · 1계층 정종대 100% (<code>CON-2026-001</code>)</td>
@@ -796,7 +796,7 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">PROD-BK-1004</span></td>
                   <td><strong>산준모 산업안전 실기 빈출문제집 (자사저작권)</strong></td>
-                  <td><span class="badge badge-sale">자사 저작권 도서</span></td>
+                  <td><span class="badge badge-sale">OWN_PUBLISHED (자사저작권)</span></td>
                   <td><strong style="color:#2563eb;">true (자사 100%)</strong></td>
                   <td>인세 Bypass → <strong>Pipeline 5.1 (개발지원금 모수 인입 · v4.0.0)</strong></td>
                   <td>1계층 엘캠퍼스(<code>RH-INTERNAL</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
@@ -806,7 +806,7 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">BK-2026-305</span><br><span style="font-size:11px; color:#64748b;">(PROD-BK-3001 호환)</span></td>
                   <td><strong>2026 소방설비기사 위탁 수험서 세트</strong></td>
-                  <td><span class="badge badge-preorder">위탁 판매 도서</span></td>
+                  <td><span class="badge badge-preorder">CONSIGNMENT (위탁판매)</span></td>
                   <td><code>false</code> (위탁자 보유)</td>
                   <td><strong>Pipeline 2.2</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
                   <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 6.6절 등식 적용</td>
@@ -816,7 +816,7 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">PROD-BK-2001</span><br><span style="font-size:11px; color:#64748b;">(BOOK-2603 호환)</span></td>
                   <td><strong>2026 건설안전기사 필기 총정리 (외부 사입)</strong></td>
-                  <td><span class="badge badge-warn">매입 재판매 도서</span></td>
+                  <td><span class="badge badge-warn">PURCHASED_RESALE (사입)</span></td>
                   <td><code>false</code> (외부 출판사)</td>
                   <td>외부 권리자 정산 제외 → <strong>ADMN-SETT-009(자사매출) &amp; SETT-011(매입대사)</strong></td>
                   <td>매입처: 한빛총판(<code>SUP-0003</code>) · 매입공급률 65% · 1계층 자사 100% 자동귀속</td>
@@ -826,10 +826,10 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">PROD-BK-4001</span></td>
                   <td><strong>[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 번들)</strong></td>
-                  <td><span class="badge badge-end">강좌 포함 비매품</span></td>
+                  <td><span class="badge badge-end">BUNDLED (강좌포함 비매품)</span></td>
                   <td><code>true</code> (자사 제작)</td>
                   <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
-                  <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 ([배송 · 3PL 출고 관리] 3PL 출고만 연동)</td>
+                  <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
                   <td class="text-right"><strong>0원 (비매품)</strong></td>
                   <td><span class="badge badge-end">🔒 비매품 고정</span></td>
                 </tr>
@@ -839,11 +839,11 @@ code, pre, kbd, samp,
         </div>
       </div>
 
-      <!-- [ADMN-BOOK-001-S1] 도서 정가 변경 이력 및 위탁 수수료 스냅샷 모달 -->
+      <!-- [ADMN-BOOK-001-S1] 도서 정가 변경 이력(book_price_history) 및 위탁 수수료 스냅샷 모달 -->
       <div class="modal-backdrop" id="modalBookPriceHistory" onclick="if(event.target===this) closeBookPriceHistoryModal()">
         <div class="modal-window" style="max-width:920px;">
           <div class="modal-header">
-            <div class="modal-title">[ADMN-BOOK-001-S1] 도서 정가 변경 이력 및 위탁 수수료 스냅샷 검증</div>
+            <div class="modal-title">[ADMN-BOOK-001-S1] 도서 정가 변경 이력(book_price_history) 및 위탁 수수료 스냅샷 검증</div>
             <button type="button" class="btn btn-sm btn-outline" onclick="closeBookPriceHistoryModal()">✕ 닫기</button>
           </div>
           <div class="modal-body">
@@ -911,14 +911,14 @@ code, pre, kbd, samp,
               <h2 class="card-title">도서 공급 원장 검색 조건</h2>
               <span class="card-subtitle">공급 계약 유형 · 원가 확정 상태 · 출발 경로 · 출판사(공급처) · SKU/ISBN 조회</span>
             </div>
-            
+            <span class="code-pill">Table: book_supply_ledger</span>
           </div>
           <div class="card-body">
             <div class="filter-grid">
               <div class="filter-field">
                 <label>공급 계약 유형</label>
                 <select id="filter-supply-type" class="form-select">
-                  <option value="ALL">전체 4대 공급형태 </option>
+                  <option value="ALL">전체 4대 공급형태 (book_supply_type)</option>
                   <option value="자체출판(인세)">OWN_PUBLISHED · 자사발행 (Pipeline 2.1 인세 / 5.1 지원금)</option>
                   <option value="위탁판매">CONSIGNMENT · 위탁판매 도서 (Pipeline 2.2 수수료 차감/총액)</option>
                   <option value="사입판매">PURCHASED_RESALE · 매입 재판매 (외부정산 비대상 · SETT-009/011)</option>
@@ -1039,7 +1039,7 @@ code, pre, kbd, samp,
                     <span class="badge badge-sale">인세도서 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    권리자 계약 원장([권리자 계약 원장])에서 가채번(<code>TMP-BK-XX</code>)된 도서를 호출하여 <strong>정식 SKU(<code>BOOK-XXXX</code>)를 부여</strong>하고 제조원가를 확정합니다.
+                    권리자 계약 원장(<code>ADMN-INST-001</code>)에서 가채번(<code>TMP-BK-XX</code>)된 도서를 호출하여 <strong>정식 SKU(<code>BOOK-XXXX</code>)를 부여</strong>하고 제조원가를 확정합니다.
                   </div>
                 </div>
                 <div class="entry-mode-foot">
@@ -1351,7 +1351,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "상품 · 강좌 · 교재 관리",
+        groupTitle: "상품 · 강좌 · 교재 관리 (PROD)",
         items: [
           { code: "ADMN-PROD-001", title: "카테고리 관리", file: "ADMN-PROD-001_baseline.html" },
           { code: "ADMN-PROD-002", title: "강의 관리 (영상 단품)", file: "ADMN-PROD-002_baseline.html" },
@@ -1363,7 +1363,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "권리자 계약 · 지분 매핑",
+        groupTitle: "1단계 · 계약 · 상품 · 매핑 설정",
         items: [
           { code: "ADMN-INST-001", title: "권리자 계약 원장", file: "ADMN-INST-001_baseline.html" },
           { code: "ADMN-SETT-007", title: "수취인 분할 관리", file: "ADMN-SETT-007_baseline.html" },
@@ -1372,7 +1372,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "정산 마감 전 사전 대사",
+        groupTitle: "2단계 · 월마감 전 검증 (Gate)",
         items: [
           { code: "ADMN-SETT-004", title: "PG 정산 원장 대사", file: "ADMN-SETT-004_baseline.html" },
           { code: "ADMN-INST-002", title: "약정금 마일스톤 검수", file: "ADMN-INST-002_baseline.html" },
@@ -1381,7 +1381,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "월간 정산 · 지급 · 조회",
+        groupTitle: "3단계 · 월간 정산 · 집행 · 조회",
         items: [
           { code: "ADMN-SETT-002", title: "월간 정산 및 집행", file: "ADMN-SETT-002_baseline.html" },
           { code: "ADMN-SETT-005", title: "정산 수동 조정", file: "ADMN-SETT-005_baseline.html" },
@@ -1389,7 +1389,7 @@ code, pre, kbd, samp,
         ]
       },
       {
-        groupTitle: "개인정보 · 보안 감사",
+        groupTitle: "4단계 · 보안 및 감사 통제",
         items: [
           { code: "ADMN-USER-007", title: "민감 정보 열람 통제", file: "ADMN-USER-007_baseline.html" },
           { code: "ADMN-CONF-010", title: "정산 감사 로그", file: "ADMN-CONF-010_baseline.html" }
@@ -1523,7 +1523,7 @@ code, pre, kbd, samp,
     }
 
     function isFinManagerRole() {
-      return document.getElementById("role-mask-select").value === "재무/정산 책임자";
+      return document.getElementById("role-mask-select").value === "FIN_MANAGER";
     }
 
     function applyRoleCostMasking() {

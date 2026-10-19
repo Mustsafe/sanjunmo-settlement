@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-SETT-011] 택배 대리점 운임 · 배송비 대사 — 산준모 관리자 센터</title>
+  <title>[ADMN-SETT-011] 택배 대리점 운임 · 배송비 대사 — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="common-v84.css">
   <script src="common-snb.js" defer></script>
@@ -116,7 +116,7 @@ code, pre, kbd, samp,
         <div class="notice-bar">
           <div>
             <strong>[실무 운영 기준 — 택배 대리점 운임 및 고객 수취 배송비 대사]</strong>
-            백오피스 출고 원장([배송 · 3PL 출고 관리] 송장번호 <code>tracking_no</code>, 출고지시 일시 확정분)과 계약 택배 대리점의 월간 운임 청구서(엑셀)를 대조합니다.
+            백오피스 출고 원장(<code>ADMN-ORD-002</code> 송장번호 <code>tracking_no</code>, <code>ship_ordered_at</code> 확정분)과 계약 택배 대리점의 월간 운임 청구서(엑셀)를 대조합니다.
             고객이 결제한 유료 배송비(교재·일반상품 실물 합계 30,000원 미만 시 3,000원) 및 환불 시 차감 회수한 반품 왕복 배송비(6,000원)를 함께 집계하여 대리점 지급액을 확정합니다.
           </div>
           <div style="display:flex; gap:8px; flex-shrink:0;">
@@ -482,7 +482,7 @@ code, pre, kbd, samp,
           <strong>[자동 대사 매칭 규칙]</strong><br>
           1. 업로드 파일의 <code>운송장번호</code>와 백오피스 출고 원장(<code>ADMN-ORD-002.tracking_no</code>)을 1:1 대조합니다.<br>
           2. 발송 전 <strong>출고지시 회수(취소)</strong> 처리된 주문에 발급되었던 가송장이 청구된 경우 <code>CANCELLED_BILLED</code>로 자동 분류하여 과오청구를 차단합니다.<br>
-          3. 대사 확정 시 당월 택배 운임 지급액과 고객 수취 배송비 상계 내역이 [내부 정산 조회](월간 재무 손익 리포트)에 자동 반영됩니다.
+          3. 대사 확정 시 당월 택배 운임 지급액과 고객 수취 배송비 상계 내역이 <code>ADMN-SETT-009</code>(월간 재무 손익 리포트)에 자동 반영됩니다.
         </div>
       </div>
       <div class="modal-ft">

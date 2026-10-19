@@ -763,7 +763,7 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 1. 수강후기 관리 (수강후기) ==================== -->
+    <!-- ==================== 1. 수강후기 관리 (COURSE_REVIEW) ==================== -->
 
     <section id="view-courseReview" class="view-section active">
 
@@ -841,7 +841,7 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 2. 합격수기 검수 관리 (합격수기) ==================== -->
+    <!-- ==================== 2. 합격수기 검수 관리 (PASS_ESSAY) ==================== -->
 
     <section id="view-passEssay" class="view-section">
 
@@ -925,7 +925,7 @@ code, pre, kbd, samp,
 
       <div class="info-callout">
 
-        <strong>[ADMN-BRD-006] 무료특강 및 빈출문제 운영 정책:</strong> 사용자 웹 <code>USER-FREE-001 ~ 003</code>에 노출되는 무료 학습 콘텐츠입니다. 콘텐츠 구분은 <strong>[무료특강 영상 (<code>FREE_LECTURE</code>)]</strong>과 <strong>[빈출문제 해설 (<code>빈출문제</code>)]</strong>로 운영하며, 빈출문제 PDF 시험지/해설지 다운로드 및 플레이어 VOD 연동을 지원합니다.
+        <strong>[ADMN-BRD-006] 무료특강 및 빈출문제 운영 정책:</strong> 사용자 웹 <code>USER-FREE-001 ~ 003</code>에 노출되는 무료 학습 콘텐츠입니다. 콘텐츠 구분은 <strong>[무료특강 영상 (<code>FREE_LECTURE</code>)]</strong>과 <strong>[빈출문제 해설 (<code>FREQ_EXAM</code>)]</strong>로 운영하며, 빈출문제 PDF 시험지/해설지 다운로드 및 플레이어 VOD 연동을 지원합니다.
 
       </div>
 
@@ -941,9 +941,9 @@ code, pre, kbd, samp,
 
               <option value="ALL">콘텐츠 구분 전체</option>
 
-              <option value="FREE_LECTURE">무료특강 영상</option>
+              <option value="FREE_LECTURE">무료특강 영상 (FREE_LECTURE)</option>
 
-              <option value="빈출문제">빈출문제 해설</option>
+              <option value="FREQ_EXAM">빈출문제 해설 (FREQ_EXAM)</option>
 
             </select>
 
@@ -1016,7 +1016,7 @@ code, pre, kbd, samp,
     <!-- ==================== 4. 교재 정답지 관리 (ADMN-BRD-009) ==================== -->
     <section id="view-errata" class="view-section">
       <div class="info-callout">
-        <strong>[ADMN-BRD-009] 교재 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[교재 정답지 및 상세 해설 (<code>교재 정답지</code>)]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
+        <strong>[ADMN-BRD-009] 교재 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[교재 정답지 및 상세 해설 (<code>ANSWER_SHEET</code>)]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
       </div>
 
       <div class="card">
@@ -1155,9 +1155,9 @@ code, pre, kbd, samp,
 
           <select id="fl-form-type">
 
-            <option value="FREE_LECTURE">무료특강 영상</option>
+            <option value="FREE_LECTURE">무료특강 영상 (FREE_LECTURE)</option>
 
-            <option value="빈출문제">빈출문제 해설</option>
+            <option value="FREQ_EXAM">빈출문제 해설 (FREQ_EXAM)</option>
 
           </select>
 
@@ -1315,7 +1315,7 @@ code, pre, kbd, samp,
 
 <script>
 
-  // 1. 수강후기 (수강후기) - 합격수기와 완전 분리
+  // 1. 수강후기 (COURSE_REVIEW) - 합격수기와 완전 분리
 
   let COURSE_REVIEWS = [
 
@@ -1331,7 +1331,7 @@ code, pre, kbd, samp,
 
 
 
-  // 2. 합격수기 (합격수기) - 자격증 회차 및 합격증빙 파일 심사 전용
+  // 2. 합격수기 (PASS_ESSAY) - 자격증 회차 및 합격증빙 파일 심사 전용
 
   let PASS_ESSAYS = [
 
@@ -1353,13 +1353,13 @@ code, pre, kbd, samp,
 
   let FREE_LECTURES = [
 
-    { id: 'FL-2604', type: '빈출문제', cert: '산업안전기사', year: '2026 대비', title: '[빈출문제] 2026 산업안전기사 필기 최빈출 핵심 50선 해설특강', vod: 'VOD-FREE-104 (52분)', pdf: '2026_산안기_빈출문제_50선.pdf', views: 2410, visible: true, body: '최근 출제 경향을 반영한 핵심 빈출문제 50선 풀이 특강입니다.' },
+    { id: 'FL-2604', type: 'FREQ_EXAM', cert: '산업안전기사', year: '2026 대비', title: '[빈출문제] 2026 산업안전기사 필기 최빈출 핵심 50선 해설특강', vod: 'VOD-FREE-104 (52분)', pdf: '2026_산안기_빈출문제_50선.pdf', views: 2410, visible: true, body: '최근 출제 경향을 반영한 핵심 빈출문제 50선 풀이 특강입니다.' },
 
     { id: 'FL-2603', type: 'FREE_LECTURE', cert: '산업안전기사', year: '2026 대비', title: '[무료특강] 비전공자를 위한 인간공학·시스템안전 계산공식 기초특강', vod: 'VOD-FREE-103 (38분)', pdf: '계산공식_핵심요약집.pdf', views: 1890, visible: true, body: '필기 과락 방지를 위한 필수 공식 정리 특강입니다.' },
 
-    { id: 'FL-2602', type: '빈출문제', cert: '건설안전기사', year: '2026 대비', title: '[빈출문제] 건설안전기사 실기 필답형+작업형 최빈출 테마 30선', vod: 'VOD-FREE-102 (64분)', pdf: '2026_건안기_실기_빈출문제30선.pdf', views: 1520, visible: true, body: '건설안전기사 실기 빈출문제 핵심 답안 작성법 해설입니다.' },
+    { id: 'FL-2602', type: 'FREQ_EXAM', cert: '건설안전기사', year: '2026 대비', title: '[빈출문제] 건설안전기사 실기 필답형+작업형 최빈출 테마 30선', vod: 'VOD-FREE-102 (64분)', pdf: '2026_건안기_실기_빈출문제30선.pdf', views: 1520, visible: true, body: '건설안전기사 실기 빈출문제 핵심 답안 작성법 해설입니다.' },
 
-    { id: 'FL-2601', type: '빈출문제', cert: '위험물산업기사', year: '2026 대비', title: '[빈출문제] 제1류~제6류 위험물 성상 및 소화방법 빈출문제 총정리', vod: 'VOD-FREE-101 (45분)', pdf: '위험물_빈출문제_요약노트.pdf', views: 980, visible: true, body: '위험물 유별 핵심 빈출문제 해설입니다.' }
+    { id: 'FL-2601', type: 'FREQ_EXAM', cert: '위험물산업기사', year: '2026 대비', title: '[빈출문제] 제1류~제6류 위험물 성상 및 소화방법 빈출문제 총정리', vod: 'VOD-FREE-101 (45분)', pdf: '위험물_빈출문제_요약노트.pdf', views: 980, visible: true, body: '위험물 유별 핵심 빈출문제 해설입니다.' }
 
   ];
 
@@ -1733,9 +1733,9 @@ code, pre, kbd, samp,
 
         <td>
 
-          <span class="badge ${item.type === '빈출문제' ? 'badge-purple' : 'badge-blue'}">
+          <span class="badge ${item.type === 'FREQ_EXAM' ? 'badge-purple' : 'badge-blue'}">
 
-            ${item.type === '빈출문제' ? '📝 빈출문제 해설' : '🎬 무료특강 영상'}
+            ${item.type === 'FREQ_EXAM' ? '📝 빈출문제 해설' : '🎬 무료특강 영상'}
 
           </span>
 
@@ -1775,7 +1775,7 @@ code, pre, kbd, samp,
 
     document.getElementById('fl-modal-title').textContent = item ? `[ADMN-BRD-006] 무료특강 / 빈출문제 수정 (${item.id})` : '[ADMN-BRD-006] 무료특강 / 빈출문제 신규 등록';
 
-    document.getElementById('fl-form-type').value = item ? item.type : '빈출문제';
+    document.getElementById('fl-form-type').value = item ? item.type : 'FREQ_EXAM';
 
     document.getElementById('fl-form-cert').value = item ? item.cert : '산업안전기사';
 

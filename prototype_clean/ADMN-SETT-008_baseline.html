@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-SETT-008] 사업자등록 확인 이력 — 산준모 관리자 센터</title>
+  <title>[ADMN-SETT-008] 사업자등록 확인 이력 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg: #f4f6f9;
@@ -443,7 +443,7 @@ code, pre, kbd, samp,
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
     <div class="top-bar-left">
-      <span class="crumb-group">정산 마감 전 사전 대사</span>
+      <span class="crumb-group">2단계 · 월마감 전 검증 (Gate)</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-SETT-008</span>
       <h1 class="crumb-title" id="header-screen-title">사업자등록 상태 조회 · 확인 이력 (국세청 홈택스 대사)</h1>
@@ -505,8 +505,8 @@ code, pre, kbd, samp,
       <!-- 탭 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabHistory">1. 사업자 상태조회 · 과세유형 전환 감지 및 버전 승인 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabMapping">2. 국세청 과세유형 코드(01~07) ↔ 세무 매트릭스(TX-05~TX-11) 매핑 설정표</button>
-        <button class="tab-btn" data-tab="tabRetry">3. 네트워크 장애 재시도 큐 및 배치 스케줄 파라미터</button>
+        <button class="tab-btn" data-tab="tabMapping">2. 국세청 과세유형 코드(01~07) ↔ 세무 매트릭스(TX-05~TX-11) 매핑 설정표 (17.3절)</button>
+        <button class="tab-btn" data-tab="tabRetry">3. 네트워크 장애 재시도 큐 및 배치 스케줄 파라미터 (17.6절 · 부록 B)</button>
       </div>
 
       <!-- 탭 1: 메인 워크스페이스 -->
@@ -756,7 +756,7 @@ code, pre, kbd, samp,
         ledgerTaxTypeLabel: "간이과세자-영수증발급 (SIMPLIFIED_RECEIPT)",
         apiTaxTypeLabel: "일반과세자 (GENERAL)",
         apiTaxTypeCd: "01",
-        matrixCaseLabel: "일반과세 사업자 (세금계산서 10%)",
+        matrixCaseLabel: "일반과세 사업자 (TX-07)",
         invoiceEligibleText: "발급 가능 (true)",
         taxTypeChangeDt: "", // API 응답에 전환일자가 비어 있는 케이스 시연! (17.5절: 7월 1일 일괄 가정 금지)
         invoiceApplyDt: "",

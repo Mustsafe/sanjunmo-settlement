@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-PROM-001 / S1~S3] 이벤트 · 기획전 관리 — 산준모 관리자 센터</title>
+  <title>[ADMN-PROM-001 / S1~S3] 이벤트 · 기획전 관리 — 산준모닷컴 백오피스</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
   <script id="v4-common-snb" src="common-snb.js" defer></script>
@@ -352,7 +352,7 @@
         <span class="screen-id-badge" id="top-code-badge">ADMN-PROM-001</span>
         <div>
           <div class="topbar-title" id="top-title-txt">이벤트 · 기획전 관리 — 구분(기획전/이벤트) · S3 에셋 · HTML/CSS/JS 에디터 · 중복할인 차단</div>
-          <div class="topbar-sub">프론트 기획전/이벤트 탭(프론트 [이벤트/기획전] 페이지)과 1:1 매핑되며, 특가 상품의 쿠폰·포인트 중복 할인을 스케줄로 통제합니다.</div>
+          <div class="topbar-sub">프론트 기획전/이벤트 탭(USER-PROM-001)과 1:1 매핑되며, 특가 상품의 쿠폰·포인트 중복 할인을 스케줄로 통제합니다.</div>
         </div>
       </div>
       <div style="display:flex; gap:8px;">
@@ -374,12 +374,12 @@
             <div class="kpi-sub">기획전(기획상품) <strong>7건</strong> · 일반 이벤트 <strong>5건</strong></div>
           </div>
           <div class="kpi-card" onclick="setCategoryFilter('PROMO')">
-            <div class="kpi-label"><span>진행중 기획전 (기획상품)</span><span class="badge badge-promo">프론트 [이벤트/기획전] 페이지 [기획전] 탭</span></div>
+            <div class="kpi-label"><span>진행중 기획전 (기획상품)</span><span class="badge badge-promo">USER-PROM-001 [기획전] 탭</span></div>
             <div class="kpi-val" style="color:var(--purple);">4건</div>
             <div class="kpi-sub">올패스/합격환급반 특가 기획전 노출중</div>
           </div>
           <div class="kpi-card" onclick="setCategoryFilter('EVENT')">
-            <div class="kpi-label"><span>진행중 이벤트 (일반이벤트)</span><span class="badge badge-event">프론트 [이벤트/기획전] 페이지 [이벤트] 탭</span></div>
+            <div class="kpi-label"><span>진행중 이벤트 (일반이벤트)</span><span class="badge badge-event">USER-PROM-001 [이벤트] 탭</span></div>
             <div class="kpi-val" style="color:var(--primary);">3건</div>
             <div class="kpi-sub">수험생 응원 · 친구추천 · 출석체크 이벤트</div>
           </div>
@@ -470,11 +470,11 @@
                     <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
                       <label style="display:inline-flex; align-items:center; gap:6px; font-weight:800; color:var(--purple); cursor:pointer;">
                         <input type="radio" name="promo_cat" id="cat-radio-promo" value="PROMO" checked onchange="onChangePromoCat()" />
-                        🟣 기획전 (기획상품 — 프론트 [기획전] 탭 노출 · 특가 패키지/교재 매핑 중심)
+                        🟣 기획전 (기획상품 — 프론트 <code>USER-PROM-001</code> [기획전] 탭 노출 · 특가 패키지/교재 매핑 중심)
                       </label>
                       <label style="display:inline-flex; align-items:center; gap:6px; font-weight:800; color:var(--primary); cursor:pointer;">
                         <input type="radio" name="promo_cat" id="cat-radio-event" value="EVENT" onchange="onChangePromoCat()" />
-                        🔵 이벤트 (일반이벤트 — 프론트 [이벤트] 탭 노출 · 댓글/경품/출석/당첨자 발표 연동)
+                        🔵 이벤트 (일반이벤트 — 프론트 <code>USER-PROM-001</code> [이벤트] 탭 노출 · 댓글/경품/출석/당첨자 발표 연동)
                       </label>
                     </div>
                   </td>
@@ -566,7 +566,7 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
               <div>
                 <span style="font-weight:800; font-size:13.5px;">3. 프로모션 페이지 소스 3단 분리 에디터 (<code>HTML</code> / <code>CSS</code> / <code>JS</code>) 및 실시간 렌더링</span>
-                <span style="font-size:11.5px; color:var(--text-muted); margin-left:8px;">모든 CSS는 프로모션 본문 영역 내부 스코프로 자동 격리되며 <code>z-index: 900</code> 이하만 허용됩니다.</span>
+                <span style="font-size:11.5px; color:var(--text-muted); margin-left:8px;">모든 CSS는 <code>#sanjunmo-promotion-wrapper</code> 내부 스코프로 자동 격리되며 <code>z-index: 900</code> 이하만 허용됩니다.</span>
               </div>
               <div style="display:flex; gap:6px;">
                 <button type="button" class="btn btn-xs" onclick="beautifyCurrentCode()">✨ 코드 자동 정렬 (Beautify)</button>
@@ -876,8 +876,8 @@
     function onChangePromoCat() {
       const isPromo = document.getElementById("cat-radio-promo").checked;
       showToast(isPromo
-        ? "카테고리: [기획전(기획상품)] — 프론트 프론트 [이벤트/기획전] 페이지 [기획전] 탭에 노출됩니다."
-        : "카테고리: [이벤트(일반이벤트)] — 프론트 프론트 [이벤트/기획전] 페이지 [이벤트] 탭에 노출되며 당첨자 발표(ADMN-BRD-009)와 연동됩니다.");
+        ? "카테고리: [기획전(기획상품)] — 프론트 USER-PROM-001 [기획전] 탭에 노출됩니다."
+        : "카테고리: [이벤트(일반이벤트)] — 프론트 USER-PROM-001 [이벤트] 탭에 노출되며 당첨자 발표(ADMN-BRD-009)와 연동됩니다.");
     }
 
     function syncAltText() {
