@@ -442,7 +442,7 @@ const CATEGORIES = [
     numLabel: "01.", name: "필기", order: 1, active: true, isDefault: false, note: "",
     courses: [
       { id: "CRS-2026-0041", title: "2026 산업안전기사 필기 이론 마스터 (정종대)", price: 198000, display: true },
-      { id: "CRS-2026-0039", title: "2026 산업안전기사 필기 7개년 기출 완성 (정종대)", price: 154000, display: true },
+      { id: "CRS-2026-0039", title: "2026 산업안전기사 필기 7개년 빈출문제 완성 (정종대)", price: 154000, display: true },
       { id: "CRS-2026-0035", title: "산업안전기사 필기 핵심 계산문제 특강", price: 88000, display: true },
       { id: "CRS-2026-0031", title: "안전관리론 단기 완성반", price: 66000, display: true },
       { id: "CRS-2026-0029", title: "인간공학 및 시스템안전공학 단과", price: 66000, display: true },
@@ -455,15 +455,15 @@ const CATEGORIES = [
     courses: [
       { id: "CRS-2026-0042", title: "2026 산업안전기사 실기 필답형 (안창훈)", price: 132000, display: true },
       { id: "CRS-2026-0040", title: "2026 산업안전기사 실기 작업형 (안창훈)", price: 110000, display: true },
-      { id: "CRS-2026-0038", title: "실기 기출 10개년 해설 특강", price: 66000, display: true },
+      { id: "CRS-2026-0038", title: "실기 빈출문제 10개년 해설 특강", price: 66000, display: true },
       { id: "CRS-2026-0033", title: "실기 최종 마무리 요약 특강", price: 44000, display: false }
     ]
   },
   {
     id: "CAT-103", code: "SAFE_SPECIAL", depth: 2, parentId: "CAT-100",
-    numLabel: "03.", name: "기출 · 특강", order: 3, active: true, isDefault: false, note: "",
+    numLabel: "03.", name: "빈출 · 특강", order: 3, active: true, isDefault: false, note: "",
     courses: [
-      { id: "CRS-2026-0038", title: "실기 기출 10개년 해설 특강", price: 66000, display: true },
+      { id: "CRS-2026-0038", title: "실기 빈출문제 10개년 해설 특강", price: 66000, display: true },
       { id: "CRS-2026-0036", title: "2026 개정 산안법령 핵심 요약 특강", price: 44000, display: true },
       { id: "CRS-2026-0030", title: "CBT 시험장 실전 모의고사 해설반", price: 55000, display: true }
     ]
@@ -751,7 +751,7 @@ function renderDetail() {
       </tbody>
     </table>
 
-    <!-- ④ 하단 액션 및 삭제 제약 안내 -->
+    <!-- 하단 액션 및 삭제 제약 안내 -->
     <div class="bottom-action-row">
       ${!isNewMode ? `<button class="btn btn-danger-outline" onclick="deleteCategory()">삭제</button>` : ''}
       <button class="btn" onclick="cancelEdit()">취소</button>

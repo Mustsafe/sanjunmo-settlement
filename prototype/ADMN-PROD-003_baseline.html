@@ -685,7 +685,7 @@
                 <label>담당 강사 (권리자)</label>
                 <select id="filter-instructor" class="form-select">
                   <option value="ALL">전체 강사</option>
-                  <option value="김안전">김안전 (INS-0001)</option>
+                  <option value="김안전">김안전 (RH-0019 / INS-0001)</option>
                   <option value="이건설">이건설 (INS-0002)</option>
                   <option value="박보건">박보건 (INS-0003)</option>
                   <option value="최지도">최지도 (INS-0004)</option>
@@ -779,7 +779,7 @@
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
             <span class="code-pill" id="detail-course-code">CRS-2601</span>
-            <h2 style="font-size:16px; font-weight:800;" id="detail-course-title">2026 산업안전기사 필기 한권완성 개념+기출 단과</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="detail-course-title">2026 산업안전기사 필기 한권완성 개념+빈출 단과</h2>
             <span id="detail-course-status-badge" class="badge badge-sale">판매중</span>
           </div>
           <div style="display:flex; gap:8px;">
@@ -808,15 +808,15 @@
                 </tr>
                 <tr>
                   <th>강좌명</th>
-                  <td colspan="3" style="font-weight:700;" id="d-title">2026 산업안전기사 필기 한권완성 개념+기출 단과</td>
+                  <td colspan="3" style="font-weight:700;" id="d-title">2026 산업안전기사 필기 한권완성 개념+빈출 단과</td>
                 </tr>
                 <tr>
                   <th>강좌 한줄 요약</th>
-                  <td colspan="3" id="d-summary">비전공자도 4주 만에 합격권 도달하는 산안기 필기 핵심 이론 + 10개년 빈출 기출풀이</td>
+                  <td colspan="3" id="d-summary">비전공자도 4주 만에 합격권 도달하는 산안기 필기 핵심 이론 + 10개년 핵심 빈출문제 풀이</td>
                 </tr>
                 <tr>
                   <th>담당 강사 (권리자)</th>
-                  <td id="d-instructor">김안전 (권리자코드: INS-0001 / 계약상태: 정상)</td>
+                  <td id="d-instructor">김안전 (권리자코드: RH-0019 · INS-0001 / 계약상태: 정상)</td>
                   <th>과세 구분</th>
                   <td><span class="badge badge-info">과세 (VAT 10% 포함 · 온라인 교육용역)</span></td>
                 </tr>
@@ -855,7 +855,7 @@
               <h3 class="card-title">2. 커리큘럼 구성 및 진도율 산정 시뮬레이터</h3>
               <span class="card-subtitle">ADMN-PROD-002(강의 원장) 연동 · 환급반(ADMN-SETT-006) 출석/진도 판정 분모 기준</span>
             </div>
-            <span class="badge badge-violet">차시 인정 기준: 강의별 재생시간 80% 이상 시청 시 1차시 완료</span>
+            <span class="badge badge-violet">차시 인정 기준: 강의별 재생시간 90% 이상 시청 시 1차시 완료</span>
           </div>
           <div class="card-body">
             <div class="sim-grid">
@@ -978,13 +978,13 @@
                 <tr>
                   <th>강좌명 <span class="req-star">*</span></th>
                   <td colspan="3">
-                    <input type="text" id="f-title" class="form-input" maxlength="100" value="2026 산업안전기사 필기 한권완성 개념+기출 단과" placeholder="강좌명을 입력하세요 (최대 100자)">
+                    <input type="text" id="f-title" class="form-input" maxlength="100" value="2026 산업안전기사 필기 한권완성 개념+빈출 단과" placeholder="강좌명을 입력하세요 (최대 100자)">
                   </td>
                 </tr>
                 <tr>
                   <th>강좌 한줄 요약</th>
                   <td colspan="3">
-                    <input type="text" id="f-summary" class="form-input" maxlength="200" value="비전공자도 4주 만에 합격권 도달하는 산안기 필기 핵심 이론 + 10개년 빈출 기출풀이" placeholder="리스트 및 상세 상단에 노출될 서브 카피 (최대 200자)">
+                    <input type="text" id="f-summary" class="form-input" maxlength="200" value="비전공자도 4주 만에 합격권 도달하는 산안기 필기 핵심 이론 + 10개년 핵심 빈출문제 풀이" placeholder="리스트 및 상세 상단에 노출될 서브 카피 (최대 200자)">
                   </td>
                 </tr>
                 <tr>
@@ -1394,9 +1394,9 @@
       { code: "LEC-2602", title: "[2강] 하인리히 & 버드 재해연쇄성 이론과 빈출 계산문제", instructor: "김안전", player: "StarPlayer+", durationSec: 2820, pdf: "2강_재해통계지수_공식집.pdf" },
       { code: "LEC-2603", title: "[3강] 인간공학 및 시스템안전공학 FTA/ETA 위험성평가", instructor: "김안전", player: "StarPlayer+", durationSec: 2460, pdf: "3강_FTA_실전예제.pdf" },
       { code: "LEC-2604", title: "[4강] 기계위험방지기술 프레스·전단기·크레인 방호장치", instructor: "김안전", player: "StarPlayer+", durationSec: 2610, pdf: "4강_기계방호장치_요약.pdf" },
-      { code: "LEC-2605", title: "[5강] 전기 및 화학설비 위험방지 폭발한계 계산 특강", instructor: "김안전", player: "StarPlayer+", durationSec: 2310, pdf: "5강_폭발한계_기출모음.pdf" },
+      { code: "LEC-2605", title: "[5강] 전기 및 화학설비 위험방지 폭발한계 계산 특강", instructor: "김안전", player: "StarPlayer+", durationSec: 2310, pdf: "5강_폭발한계_빈출모음.pdf" },
       { code: "LEC-2606", title: "[6강] 건설안전기술 가설공사·비계·거푸집 동바리 안전기준", instructor: "이건설", player: "StarPlayer+", durationSec: 2700, pdf: "6강_가설공사_기준표.pdf" },
-      { code: "LEC-2607", title: "[7강] 산업안전보건법령 핵심 조문 및 벌칙 기준 총정리", instructor: "박보건", player: "Vimeo", durationSec: 2400, pdf: "7강_산안법_개정비교표.pdf" }
+      { code: "LEC-2607", title: "[7강] 산업안전보건법령 핵심 조문 및 벌칙 기준 총정리", instructor: "박보건", player: "StarPlayer+", durationSec: 2400, pdf: "7강_산안법_개정비교표.pdf" }
     ];
 
     const TEXTBOOK_MASTER_POOL = [
@@ -1411,8 +1411,8 @@
         code: "CRS-2601",
         cat1: "산업안전기사",
         cat2: "필기 단과",
-        title: "2026 산업안전기사 필기 한권완성 개념+기출 단과",
-        summary: "비전공자도 4주 만에 합격권 도달하는 산안기 필기 핵심 이론 + 10개년 빈출 기출풀이",
+        title: "2026 산업안전기사 필기 한권완성 개념+빈출 단과",
+        summary: "비전공자도 4주 만에 합격권 도달하는 산안기 필기 핵심 이론 + 10개년 핵심 빈출문제 풀이",
         instructor: "김안전",
         periodType: "DAYS",
         periodDays: 90,
@@ -1525,7 +1525,7 @@
         title: "Part 02. 기계·전기·화학설비 위험방지기술",
         lectures: [
           { code: "LEC-2604", title: "[4강] 기계위험방지기술 프레스·전단기·크레인 방호장치", durationSec: 2610, pdf: "4강_기계방호장치_요약.pdf", previewYn: false },
-          { code: "LEC-2605", title: "[5강] 전기 및 화학설비 위험방지 폭발한계 계산 특강", durationSec: 2310, pdf: "5강_폭발한계_기출모음.pdf", previewYn: false }
+          { code: "LEC-2605", title: "[5강] 전기 및 화학설비 위험방지 폭발한계 계산 특강", durationSec: 2310, pdf: "5강_폭발한계_빈출모음.pdf", previewYn: false }
         ]
       }
     ];

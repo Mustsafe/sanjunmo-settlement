@@ -349,7 +349,7 @@
                   <option value="ALL">전체 (필기/실기)</option>
                   <option value="실기">실기</option>
                   <option value="필기">필기</option>
-                  <option value="기출특강">기출특강</option>
+                  <option value="빈출특강">빈출특강 (FREQ_EXAM)</option>
                 </select>
               </div>
             </td>
@@ -358,7 +358,7 @@
               <select id="fInst" style="width:200px;" onchange="applyFilter()">
                 <option value="ALL">전체</option>
                 <option value="안창훈">안창훈</option>
-                <option value="정종대">정종대</option>
+                <option value="정종대">정종대 (RH-0025)</option>
               </select>
             </td>
           </tr>
@@ -448,11 +448,11 @@
             <select id="s1Cat2">
               <option value="실기">실기</option>
               <option value="필기">필기</option>
-              <option value="기출특강">기출특강</option>
+              <option value="빈출특강">빈출특강 (FREQ_EXAM)</option>
             </select>
             <select id="s1Inst">
               <option value="안창훈">안창훈 (계약 유효)</option>
-              <option value="정종대">정종대 (계약 유효)</option>
+              <option value="정종대">정종대 (RH-0025 · 계약 유효)</option>
             </select>
           </div>
         </div>
@@ -586,8 +586,8 @@ const LESSONS = [
     sampleYn: "N", useYn: true, refCourseCount: 4, mappedYn: true
   },
   {
-    no: 124, cat1: "산업안전기사", cat2: "기출특강",
-    title: "[기출] 2025년 1회 필기 전체 해설",
+    no: 124, cat1: "산업안전기사", cat2: "빈출특강",
+    title: "[빈출] 2025년 1회 필기 빈출문제 전체 해설",
     instructor: "정종대", vodKey: "", verifiedAt: "미검증",
     durationSec: null, pdfFile: "",
     sampleYn: "N", useYn: true, refCourseCount: 0, mappedYn: false

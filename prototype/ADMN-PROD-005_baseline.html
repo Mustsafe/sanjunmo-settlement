@@ -750,22 +750,22 @@
           <div class="card-body">
             <div class="price-split-grid" style="margin-top:0; margin-bottom:16px;">
               <div class="price-split-card">
-                <div class="price-split-label">① 포함 강좌 정가 합계 (과세)</div>
+                <div class="price-split-label">(A) 포함 강좌 정가 합계 (과세)</div>
                 <div class="price-split-val" id="d-course-origin-sum">340,000원</div>
                 <div class="price-split-sub">단과 2개 과정 합산</div>
               </div>
               <div class="price-split-card">
-                <div class="price-split-label">② 강좌 할인 적용 후 결제액 (과세)</div>
+                <div class="price-split-label">(B) 강좌 할인 적용 후 결제액 (과세)</div>
                 <div class="price-split-val" style="color:var(--primary);" id="d-course-sale-sum">240,000원</div>
                 <div class="price-split-sub">패키지 강좌 할인 -100,000원 (VAT 10% 포함)</div>
               </div>
               <div class="price-split-card">
-                <div class="price-split-label">③ 포함 교재 결제액 (면세 · 할인 0%)</div>
+                <div class="price-split-label">(C) 포함 교재 결제액 (면세 · 할인 0%)</div>
                 <div class="price-split-val" style="color:var(--emerald);" id="d-book-sale-sum">72,000원</div>
                 <div class="price-split-sub">도서정가제 0% 고정 (환급 대상 제외)</div>
               </div>
               <div class="price-split-card highlight">
-                <div class="price-split-label">④ 수강생 최종 실결제 합계 (②+③)</div>
+                <div class="price-split-label">(D) 수강생 최종 실결제 합계 (B+C)</div>
                 <div class="price-split-val" style="color:var(--primary);" id="d-total-sale-sum">312,000원</div>
                 <div class="price-split-sub">과세 240,000원 + 면세 72,000원 자동 분리</div>
               </div>
@@ -1335,14 +1335,14 @@
        2. 샘플 데이터 풀 (패키지 목록 / 단과 강좌 풀 / 교재 풀)
        ========================================================================= */
     const COURSE_POOL = [
-      { code: "CRS-2601", title: "2026 산업안전기사 필기 한권완성 개념+기출 단과", instructor: "김안전", listPrice: 180000, baseSalePrice: 144000 },
+      { code: "CRS-2601", title: "2026 산업안전기사 필기 한권완성 개념+빈출 단과", instructor: "김안전", listPrice: 180000, baseSalePrice: 144000 },
       { code: "CRS-2602", title: "2026 산업안전기사 실기 필답형 만점 답안 작성 전략반", instructor: "김안전", listPrice: 160000, baseSalePrice: 140000 },
       { code: "CRS-2603", title: "2026 건설안전기사 필기 핵심이론 + 계산문제 특강", instructor: "이건설", listPrice: 170000, baseSalePrice: 144500 },
       { code: "CRS-2604", title: "2026 산업안전기사 실기 작업형 동영상 기출 마스터반", instructor: "박보건", listPrice: 140000, baseSalePrice: 120000 }
     ];
 
     const BOOK_POOL = [
-      { sku: "BOOK-2601", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+기출", isbn: "979-11-98765-01-2", price: 38000, stock: 420 },
+      { sku: "BOOK-2601", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, stock: 420 },
       { sku: "BOOK-2603", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, stock: 310 },
       { sku: "BOOK-2602", role: "부교재", title: "2026 산업안전기사 필기 10개년 과년도 기출해설집", isbn: "979-11-98765-02-9", price: 29000, stock: 185 }
     ];
@@ -1435,12 +1435,12 @@
     ];
 
     let mappedPkgCourses = [
-      { code: "CRS-2601", title: "2026 산업안전기사 필기 한권완성 개념+기출 단과", instructor: "김안전", listPrice: 180000, baseSalePrice: 144000, weight: 50.70 },
+      { code: "CRS-2601", title: "2026 산업안전기사 필기 한권완성 개념+빈출 단과", instructor: "김안전", listPrice: 180000, baseSalePrice: 144000, weight: 50.70 },
       { code: "CRS-2602", title: "2026 산업안전기사 실기 필답형 만점 답안 작성 전략반", instructor: "김안전", listPrice: 160000, baseSalePrice: 140000, weight: 49.30 }
     ];
 
     let mappedPkgBooks = [
-      { sku: "BOOK-2601", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+기출", isbn: "979-11-98765-01-2", price: 38000, stock: 420 },
+      { sku: "BOOK-2601", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, stock: 420 },
       { sku: "BOOK-2603", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, stock: 310 }
     ];
 
