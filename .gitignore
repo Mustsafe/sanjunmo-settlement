@@ -20,3 +20,7 @@ prototype/*.txt
 
 # Playwright test outputs
 tests/output/
+
+# Dependencies
+node_modules/
+
