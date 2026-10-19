@@ -729,6 +729,157 @@
       <!-- [SUBVIEW 1] ADMN-BOOK-001 : 도서 공급 원장 목록                            -->
       <!-- ========================================================================= -->
       <section id="subview-list" class="subview-panel active">
+
+      <!-- [Phase 1-B 정본 보강] 제6장 도서 4대 공급형태(book_supply_type) · 자사저작권(own_copyright_yn) · 정가 스냅샷 이력 원장 -->
+      <div class="card" id="v4BookCanonicalSpecCard" style="border:1px solid #93c5fd;">
+        <div class="card-header" style="background:#eff6ff;">
+          <div class="card-title-group">
+            <span class="badge badge-info">제6장 6.1~6.6절 · v4.0.0 SSOT</span>
+            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(Pipeline 5.1) · 정가 이력(book_price_history) 정합성 원장</h2>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal()">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기 (BOOK-001-S1)</button>
+            <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">1계층 지분 매핑 (ADMN-SETT-001) ↗</a>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>정산 연동 SKU (교재코드)</th>
+                  <th>도서명</th>
+                  <th>공급형태 코드 (book_supply_type)</th>
+                  <th>자사저작권 (own_copyright_yn)</th>
+                  <th>정산 파이프라인 라우팅 (SSOT)</th>
+                  <th>위탁/매입/인세 핵심 파라미터</th>
+                  <th class="text-right">현행 정가 (면세)</th>
+                  <th>공급형태 변경 잠금</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="code-pill">BK-2026-101</span><br><span style="font-size:11px; color:#64748b;">(BOOK-2601 호환)</span></td>
+                  <td><strong>2026 정종대 산업안전기사 필기 기본서</strong></td>
+                  <td><span class="badge badge-sale">OWN_PUBLISHED (자사발행)</span></td>
+                  <td><code>false</code> (저자 정종대)</td>
+                  <td><strong>Pipeline 2.1</strong> (자사발행 도서 인세)</td>
+                  <td>인세율 <code>10.00%</code> · 1계층 정종대 100% (<code>CON-2026-001</code>)</td>
+                  <td class="text-right"><strong>30,000원</strong></td>
+                  <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
+                </tr>
+                <tr>
+                  <td><span class="code-pill">PROD-BK-1004</span></td>
+                  <td><strong>산준모 산업안전 실기 빈출문제집 (자사저작권)</strong></td>
+                  <td><span class="badge badge-sale">OWN_PUBLISHED (자사저작권)</span></td>
+                  <td><strong style="color:#2563eb;">true (자사 100%)</strong></td>
+                  <td>인세 Bypass → <strong>Pipeline 5.1 (개발지원금 모수 인입 · v4.0.0)</strong></td>
+                  <td>1계층 엘캠퍼스(<code>RH-INTERNAL</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
+                  <td class="text-right"><strong>28,000원</strong></td>
+                  <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
+                </tr>
+                <tr>
+                  <td><span class="code-pill">BK-2026-305</span><br><span style="font-size:11px; color:#64748b;">(PROD-BK-3001 호환)</span></td>
+                  <td><strong>2026 소방설비기사 위탁 수험서 세트</strong></td>
+                  <td><span class="badge badge-preorder">CONSIGNMENT (위탁판매)</span></td>
+                  <td><code>false</code> (위탁자 보유)</td>
+                  <td><strong>Pipeline 2.2</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
+                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 6.6절 등식 적용</td>
+                  <td class="text-right"><strong>40,000원</strong></td>
+                  <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
+                </tr>
+                <tr>
+                  <td><span class="code-pill">PROD-BK-2001</span><br><span style="font-size:11px; color:#64748b;">(BOOK-2603 호환)</span></td>
+                  <td><strong>2026 건설안전기사 필기 총정리 (외부 사입)</strong></td>
+                  <td><span class="badge badge-warn">PURCHASED_RESALE (사입)</span></td>
+                  <td><code>false</code> (외부 출판사)</td>
+                  <td>외부 권리자 정산 제외 → <strong>ADMN-SETT-009(자사매출) &amp; SETT-011(매입대사)</strong></td>
+                  <td>매입처: 한빛총판(<code>SUP-0003</code>) · 매입공급률 65% · 1계층 자사 100% 자동귀속</td>
+                  <td class="text-right"><strong>32,000원</strong></td>
+                  <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
+                </tr>
+                <tr>
+                  <td><span class="code-pill">PROD-BK-4001</span></td>
+                  <td><strong>[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 번들)</strong></td>
+                  <td><span class="badge badge-end">BUNDLED (강좌포함 비매품)</span></td>
+                  <td><code>true</code> (자사 제작)</td>
+                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
+                  <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
+                  <td class="text-right"><strong>0원 (비매품)</strong></td>
+                  <td><span class="badge badge-end">🔒 비매품 고정</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- [ADMN-BOOK-001-S1] 도서 정가 변경 이력(book_price_history) 및 위탁 수수료 스냅샷 모달 -->
+      <div class="modal-backdrop" id="modalBookPriceHistory" onclick="if(event.target===this) closeBookPriceHistoryModal()">
+        <div class="modal-window" style="max-width:920px;">
+          <div class="modal-header">
+            <div class="modal-title">[ADMN-BOOK-001-S1] 도서 정가 변경 이력(book_price_history) 및 위탁 수수료 스냅샷 검증</div>
+            <button type="button" class="btn btn-sm btn-outline" onclick="closeBookPriceHistoryModal()">✕ 닫기</button>
+          </div>
+          <div class="modal-body">
+            <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12px; color:#1e3a8a;">
+              💡 <strong>[제6장 6.2절 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>(공급 형태)을 사후 변경할 수 없습니다.
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>이력 ID</th>
+                  <th>도서 SKU / 도서명</th>
+                  <th>적용 시작일 (effective_from)</th>
+                  <th>적용 종료일 (effective_to)</th>
+                  <th class="text-right">적용 정가 (면세)</th>
+                  <th>변경 사유 및 스냅샷 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>BPH-2025-01</code></td>
+                  <td><code>BK-2026-101</code> (정종대 산업안전 필기 기본서)</td>
+                  <td>2025-01-01</td>
+                  <td>2025-12-31</td>
+                  <td class="text-right">28,000원</td>
+                  <td>2025년 초판 정가 (종료 스냅샷 보존 · 2025년 결제건 반품 시 적용)</td>
+                </tr>
+                <tr>
+                  <td><code>BPH-2026-01</code></td>
+                  <td><code>BK-2026-101</code> (정종대 산업안전 필기 기본서)</td>
+                  <td>2026-01-01</td>
+                  <td>2099-12-31</td>
+                  <td class="text-right"><strong>30,000원</strong></td>
+                  <td><span class="badge badge-sale">현재 유효</span> 2026년 개정판 정가 인상</td>
+                </tr>
+                <tr>
+                  <td><code>BPH-2026-05</code></td>
+                  <td><code>BK-2026-305</code> (소방설비 위탁 수험서 · 한국소방학회)</td>
+                  <td>2026-01-01</td>
+                  <td>2099-12-31</td>
+                  <td class="text-right"><strong>40,000원</strong></td>
+                  <td><span class="badge badge-sale">현재 유효</span> 위탁 수수료율 30%(VAT 포함) → 공급가 27.27% + 세액 2.73%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="closeBookPriceHistoryModal()">확인</button>
+          </div>
+        </div>
+      </div>
+      <script>
+        function openBookPriceHistoryModal() {
+          const m = document.getElementById("modalBookPriceHistory");
+          if (m) m.classList.add("open");
+        }
+        function closeBookPriceHistoryModal() {
+          const m = document.getElementById("modalBookPriceHistory");
+          if (m) m.classList.remove("open");
+        }
+      </script>
+
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
@@ -742,10 +893,11 @@
               <div class="filter-field">
                 <label>공급 계약 유형</label>
                 <select id="filter-supply-type" class="form-select">
-                  <option value="ALL">전체 공급유형</option>
-                  <option value="자체출판(인세)">자체출판 (제조원가 + 저자인세)</option>
-                  <option value="위탁판매">출판사 위탁판매 (공급률 정산)</option>
-                  <option value="사입판매">출판사 총판 사입 (매입가 정산)</option>
+                  <option value="ALL">전체 4대 공급형태 (book_supply_type)</option>
+                  <option value="자체출판(인세)">OWN_PUBLISHED · 자사발행 (Pipeline 2.1 인세 / 5.1 지원금)</option>
+                  <option value="위탁판매">CONSIGNMENT · 위탁판매 도서 (Pipeline 2.2 수수료 차감/총액)</option>
+                  <option value="사입판매">PURCHASED_RESALE · 매입 재판매 (외부정산 비대상 · SETT-009/011)</option>
+                  <option value="비매품(번들)">BUNDLED · 강좌 포함 비매품 (정산기준금 0원 고정)</option>
                 </select>
               </div>
               <div class="filter-field">
