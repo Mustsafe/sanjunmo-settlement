@@ -60,7 +60,6 @@
       title: "2단계 · 월마감 전 검증 (Gate)",
       items: [
         { code: "SETT-004", label: "PG 정산 원장 대사", href: "ADMN-SETT-004_baseline.html", screenCode: "ADMN-SETT-004" },
-        { code: "SETT-003", label: "도서 정산 · 위탁/인세 재고 대사", href: "ADMN-SETT-003_baseline.html", screenCode: "ADMN-SETT-003" },
         { code: "INST-002", label: "약정금 마일스톤 검수", href: "ADMN-INST-002_baseline.html", screenCode: "ADMN-INST-002" },
         { code: "SETT-006", label: "합격 환급반 관리", href: "ADMN-SETT-006_baseline.html", screenCode: "ADMN-SETT-006" },
         { code: "SETT-008", label: "사업자등록 확인 이력", href: "ADMN-SETT-008_baseline.html", screenCode: "ADMN-SETT-008" }
