@@ -624,7 +624,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">복합상품 과세·면세 분할 및 환급반 연동</span>
           <div class="policy-text">
-            패키지 상품은 <strong>단과 강좌(과세 VAT 10%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
+            패키지 상품은 <strong>단과 강좌(교육용역 면세 VAT 0%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
             환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리(ADMN-SETT-006)</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
           </div>
         </div>
@@ -710,7 +710,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h2 class="card-title">패키지 · 환급반 상품 목록</h2>
-              <span class="card-subtitle">총 <strong id="pkg-total-count" style="color:var(--primary);">0</strong>건 조회됨 · 과세(강좌) 및 면세(도서) 결제 분할 금액 자동 표시</span>
+              <span class="card-subtitle">총 <strong id="pkg-total-count" style="color:var(--primary);">0</strong>건 조회됨 · 교육면세(강좌) 및 면세(도서) 결제 분할 금액 자동 표시</span>
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="showToast('패키지 상품 목록 엑셀(CSV) 다운로드가 완료되었습니다.')">엑셀 다운로드 (CSV)</button>
@@ -728,7 +728,7 @@ code, pre, kbd, samp,
                     <th style="width:115px;">카테고리</th>
                     <th>패키지 상품명</th>
                     <th class="text-center" style="width:110px;">구성 (강좌/교재)</th>
-                    <th class="text-right" style="width:110px;">강좌 결제액(과세)</th>
+                    <th class="text-right" style="width:110px;">강좌 결제액(교육면세)</th>
                     <th class="text-right" style="width:110px;">교재 결제액(면세)</th>
                     <th class="text-right" style="width:115px;">총 판매가</th>
                     <th class="text-center" style="width:125px;">환급조건 (진도/출석)</th>
@@ -767,7 +767,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">1. 패키지 기본 정보 및 과세(강좌) · 면세(교재) 복합결제 분할 내역</h3>
+              <h3 class="card-title">1. 패키지 기본 정보 및 교육면세(강좌) · 면세(교재) 복합결제 분할 내역</h3>
               <span class="card-subtitle">PG 복합과세 결제 승인 및 정산 원장(ADMN-SETT-002) 매출 분리 기준</span>
             </div>
             <span class="code-pill" id="d-pkg-created">등록일: 2026-01-15</span>
@@ -775,17 +775,17 @@ code, pre, kbd, samp,
           <div class="card-body">
             <div class="price-split-grid" style="margin-top:0; margin-bottom:16px;">
               <div class="price-split-card">
-                <div class="price-split-label">(A) 포함 강좌 정가 합계 (과세)</div>
+                <div class="price-split-label">(A) 포함 강좌 정가 합계 (교육용역 면세 · 할인 적용 대상)</div>
                 <div class="price-split-val" id="d-course-origin-sum">340,000원</div>
                 <div class="price-split-sub">단과 2개 과정 합산</div>
               </div>
               <div class="price-split-card">
-                <div class="price-split-label">(B) 강좌 할인 적용 후 결제액 (과세)</div>
+                <div class="price-split-label">(B) 강좌 할인 적용 후 결제액 (교육용역 면세 · VAT 0%)</div>
                 <div class="price-split-val" style="color:var(--primary);" id="d-course-sale-sum">240,000원</div>
                 <div class="price-split-sub">패키지 강좌 할인 -100,000원 (VAT 10% 포함)</div>
               </div>
               <div class="price-split-card">
-                <div class="price-split-label">(C) 포함 교재 결제액 (면세 · 할인 0%)</div>
+                <div class="price-split-label">(C) 포함 교재 결제액 (도서 면세 · 도서정가제 할인 0%)</div>
                 <div class="price-split-val" style="color:var(--emerald);" id="d-book-sale-sum">72,000원</div>
                 <div class="price-split-sub">도서정가제 0% 고정 (환급 대상 제외)</div>
               </div>
@@ -1021,7 +1021,7 @@ code, pre, kbd, samp,
           </div>
         </div>
 
-        <!-- 4. 복합상품 가격 계산기 (강좌 과세 + 교재 면세) 및 판매상태 하드락 -->
+        <!-- 4. 복합상품 가격 계산기 (강좌 교육면세 + 교재 도서면세) 및 판매상태 하드락 -->
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
@@ -1033,7 +1033,7 @@ code, pre, kbd, samp,
             <table class="spec-form-table">
               <tbody>
                 <tr>
-                  <th>강좌 정가 합계 (과세)</th>
+                  <th>강좌 정가 합계 (교육면세)</th>
                   <td>
                     <div class="input-with-unit" style="width:200px;">
                       <input type="text" id="f-course-origin-sum" class="form-input text-right" value="340,000" readonly="">
@@ -1049,7 +1049,7 @@ code, pre, kbd, samp,
                   </td>
                 </tr>
                 <tr>
-                  <th>강좌 실결제액 (과세 VAT포함)</th>
+                  <th>강좌 실결제액 (교육면세 VAT 0%)</th>
                   <td>
                     <div class="input-with-unit" style="width:210px;">
                       <input type="text" id="f-course-net-price" class="form-input text-right" style="font-weight:800; color:var(--primary);" value="240,000" readonly="">

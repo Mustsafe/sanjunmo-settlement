@@ -563,7 +563,7 @@ code, pre, kbd, samp,
               <div class="step-node current-screen" onclick="switchOrdView('ord001')" style="cursor:pointer;">
                 <div class="step-node-top">
                   <span class="step-num">Step 1. 통합 주문 · 라인 분리 인서트</span>
-                  <span class="step-light light-blue">🔵 강좌(과세) · 교재(면세) 분리</span>
+                  <span class="step-light light-blue">🔵 강좌(교육면세) · 교재(도서면세) · 일반상품(과세) 라인 분리</span>
                 </div>
                 <div class="step-desc">
                   <code>ADMN-ORD-001</code> · 토스페이먼츠 승인 완료(가상계좌는 입금 웹훅 수신) 즉시 강좌는 <b>수강중</b>, 실물 교재는 <b>배송준비중</b>으로 자동 전이됩니다.
@@ -706,10 +706,10 @@ code, pre, kbd, samp,
                     <td>
                       <div class="chip-group" id="typeChipGroup">
                         <button type="button" class="filter-chip active" data-type="ALL" onclick="selectTypeChip(this)">전체</button>
-                        <button type="button" class="filter-chip" data-type="인강" onclick="selectTypeChip(this)">인강 단독 (과세 10%)</button>
+                        <button type="button" class="filter-chip" data-type="인강" onclick="selectTypeChip(this)">인강 단독 (교육용역 면세 0%)</button>
                         <button type="button" class="filter-chip" data-type="교재" onclick="selectTypeChip(this)">교재 단독 (ISBN 면세 0%)</button>
                         <button type="button" class="filter-chip" data-type="복합" onclick="selectTypeChip(this)">복합 패키지 (강좌+교재 안분)</button>
-                        <button type="button" class="filter-chip" data-type="일반상품" onclick="selectTypeChip(this)">일반상품</button>
+                        <button type="button" class="filter-chip" data-type="일반상품" onclick="selectTypeChip(this)">일반상품 (과세 10%)</button>
                       </div>
                     </td>
                     <th>실결제금액 / 배송</th>
@@ -1008,7 +1008,7 @@ code, pre, kbd, samp,
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">💳 1. 주문 · 결제 및 과·면세 안분 정보 (정가 → 쿠폰 → 포인트 → 배송비 → 실결제금액)</h3>
-              <span class="badge b-green" id="detailExemptionBadge">헤더 표기: MIXED (강좌 과세 10% + 도서 면세 0% 복합 분할)</span>
+              <span class="badge b-green" id="detailExemptionBadge">헤더 표기: MIXED (강좌 교육면세 0% + 도서 면세 0% 복합 분할)</span>
             </div>
             <div class="card-body">
               <table class="kv-table">
@@ -1938,7 +1938,7 @@ code, pre, kbd, samp,
       },
       {
         orderNo: "SJM20260817-0148",
-        basis: "LECTURE_TAX (강좌 과세)",
+        basis: "LECTURE_EDU (강좌 교육면세)",
         paidAt: "08.17 21:03",
         buyer: "박민서",
         receiver: "— (배송 없음)",
@@ -1946,7 +1946,7 @@ code, pre, kbd, samp,
         type: "인강",
         hasDelivery: false,
         lines: [
-          { tag: "강좌", cls: "b-blue", name: "산업안전기사 실기 실전 300제", status: "수강중", sCls: "b-green", sub: "과세 10% (공급가 117,273 + VAT 11,727)" }
+          { tag: "강좌", cls: "b-blue", name: "산업안전기사 실기 실전 300제", status: "수강중", sCls: "b-green", sub: "교육용역 면세 0% (부가가치세 면세 129,000원)" }
         ],
         deliverySub: "배송 대상 아님 — 배송지 정보 없음",
         paidAmt: "129,000원",
