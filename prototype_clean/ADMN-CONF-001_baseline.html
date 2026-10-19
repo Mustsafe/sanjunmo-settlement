@@ -107,7 +107,7 @@ code, pre, kbd, samp,
         <span class="crumb-sub">사이트 관리 &gt; 메인 히어로 슬라이드 배너(CONF-001) · 상단 띠배너(CONF-001-S1) · 모달 팝업(CONF-001-S2)</span>
       </div>
       <div style="display:flex; gap:8px;">
-        <button type="button" class="btn btn-sm btn-outline" onclick="showToast('프론트 미리보기 토큰(?preview_token=adm_20261018)으로 예약 배너를 포함한 메인 화면을 새 창에서 검증합니다.')">🖥️ 사용자 메인 미리보기 (?preview_token) ↗</button>
+        <button type="button" class="btn btn-sm btn-outline" onclick="showToast('프론트 미리보기 토큰(?preview_token=adm_20261018)으로 예약 배너를 포함한 메인 화면을 새 창에서 검증합니다.')">🖥️ 사용자 메인 미리보기 (미리보기 전용) ↗</button>
       </div>
     </header>
 
@@ -148,8 +148,8 @@ code, pre, kbd, samp,
       <section id="panel-banner-list" class="view-panel active">
         <div class="policy-banner">
           <strong>[메인 슬라이드 배너(ADMN-CONF-001) 운영 규칙]</strong>
-          PC 이미지(권장 <code>1920×520px</code>)와 모바일 이미지(권장 <code>750×620px</code>)를 <strong>단일 레코드 한 폼에서 함께 등록</strong>하여 노출 기간·이동 URL 불일치 사고를 원천 차단합니다. 이동 URL은 내부 경로(<code>/</code>로 시작) 또는 외부 보안 프로토콜(<code>https://</code>)만 허용됩니다.
-        </div>
+ PC 이미지(권장 <code>1920×520px</code>)와 모바일 이미지(권장 <code>750×620px</code>)를 <strong>단일 레코드 한 폼에서 함께 등록</strong>하여 노출 기간·이동 URL 불일치 사고를 원천 차단합니다. 이동 URL은 내부 경로(<code>/</code>로 시작) 또는 외부 보안 프로토콜(<code>https://</code>)만 허용됩니다.
+ </div>
         <div class="card">
           <div class="card-header">
             <div class="card-title">
@@ -203,7 +203,7 @@ code, pre, kbd, samp,
                       <option value="모바일 전용">모바일 전용</option>
                     </select>
                     <input type="number" id="bd-order" class="f-input" style="width:80px; margin-left:6px;" value="1" min="1" max="10" /> 순위
-                  </td>
+ </td>
                 </tr>
                 <tr>
                   <th>PC 배너 이미지 *<br/><span style="font-size:11px; color:var(--text-muted);">권장 1920×520 · 5MB 이하</span></th>
@@ -220,7 +220,7 @@ code, pre, kbd, samp,
                 <tr>
                   <th>클릭 이동 URL *</th>
                   <td>
-                    <input type="text" id="bd-url" class="f-input" style="width:70%;" value="/course/allpass-2026" oninput="validateBannerUrl()" />
+                    <input type="text" id="bd-url" class="f-input" style="width:70%;" value="/course/allpass-2026" oninput="validateBannerUrl" />
                     <select id="bd-target" class="f-select" style="width:26%; margin-left:4px;">
                       <option value="_self">현재 창 (_self)</option>
                       <option value="_blank">새 창 (_blank)</option>
@@ -241,7 +241,7 @@ code, pre, kbd, samp,
             </table>
             <div style="display:flex; justify-content:flex-end; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="switchDomainTab('banner')">취소</button>
-              <button type="button" class="btn btn-primary" id="btn-save-banner" onclick="saveBannerItem()">💾 배너 저장</button>
+              <button type="button" class="btn btn-primary" id="btn-save-banner" onclick="saveBannerItem">💾 배너 저장</button>
             </div>
           </div>
         </div>
@@ -253,8 +253,8 @@ code, pre, kbd, samp,
       <section id="panel-strip-list" class="view-panel">
         <div class="policy-banner">
           <strong>[띠배너(ADMN-CONF-001-S1) 운영 규칙]</strong>
-          이미지 없이 <strong>텍스트(최대 40자) + 배경색/글자색</strong>으로 렌더링되며, 웹접근성 가독성을 위해 <strong>배경색과 글자색의 명도 대비가 4.5:1 이상</strong>이어야 저장됩니다. 노출 위치(메인 최상단 / 강좌 목록 상단) 및 대상(전체 / 비로그인 / 로그인) 조합별 1건씩 노출됩니다.
-        </div>
+ 이미지 없이 <strong>텍스트(최대 40자) + 배경색/글자색</strong>으로 렌더링되며, 웹접근성 가독성을 위해 <strong>배경색과 글자색의 명도 대비가 4.5:1 이상</strong>이어야 저장됩니다. 노출 위치(메인 최상단 / 강좌 목록 상단) 및 대상(전체 / 비로그인 / 로그인) 조합별 1건씩 노출됩니다.
+ </div>
         <div class="card">
           <div class="card-header">
             <div class="card-title"><span>📏 상단 · 서브 띠배너 목록 (ADMN-CONF-001-S1)</span></div>
@@ -317,15 +317,15 @@ code, pre, kbd, samp,
                 <tr>
                   <th>띠배너 문구 (최대 40자) *</th>
                   <td>
-                    <input type="text" id="sd-text" class="f-input" style="width:100%;" maxlength="40" value="🎁 회원가입 즉시 웰컴 5,000P + 전 강좌 10% 할인쿠폰 즉시 지급!" oninput="updateStripPreview()" />
+                    <input type="text" id="sd-text" class="f-input" style="width:100%;" maxlength="40" value="🎁 회원가입 즉시 웰컴 5,000P + 전 강좌 10% 할인쿠폰 즉시 지급!" oninput="updateStripPreview" />
                   </td>
                   <th>배경색 / 글자색 (HEX) *</th>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
                       <span>배경:</span>
-                      <input type="text" id="sd-bg" class="f-input" style="width:95px;" value="#1E3A8A" oninput="updateStripPreview()" />
+                      <input type="text" id="sd-bg" class="f-input" style="width:95px;" value="#1E3A8A" oninput="updateStripPreview" />
                       <span>글자:</span>
-                      <input type="text" id="sd-fg" class="f-input" style="width:95px;" value="#FFFFFF" oninput="updateStripPreview()" />
+                      <input type="text" id="sd-fg" class="f-input" style="width:95px;" value="#FFFFFF" oninput="updateStripPreview" />
                       <span id="sd-contrast-badge" class="badge badge-green">명도대비 10.4:1 (통과)</span>
                     </div>
                   </td>
@@ -341,7 +341,7 @@ code, pre, kbd, samp,
             </table>
             <div style="display:flex; justify-content:flex-end; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="switchDomainTab('strip')">취소</button>
-              <button type="button" class="btn btn-primary" onclick="saveStripItem()">💾 띠배너 저장</button>
+              <button type="button" class="btn btn-primary" onclick="saveStripItem">💾 띠배너 저장</button>
             </div>
           </div>
         </div>
@@ -353,8 +353,8 @@ code, pre, kbd, samp,
       <section id="panel-popup-list" class="view-panel">
         <div class="policy-banner">
           <strong>[모달 팝업(ADMN-CONF-001-S2) 운영 규칙]</strong>
-          메인 진입 시 동시 노출 팝업은 <strong>최대 2건</strong>으로 제한되며(초과 등록 시 경고), <strong>[1] 공지사항/시험일정 게시글 선택 연결</strong> 또는 <strong>[2] 이동 URL 직접 입력</strong> 방식을 지원합니다. 수험생이 <code>[오늘 하루 보지 않기]</code> 클릭 시 <code>popup_{id}</code> 쿠키가 당일 <code>23:59:59</code>까지 유지됩니다.
-        </div>
+ 메인 진입 시 동시 노출 팝업은 <strong>최대 2건</strong>으로 제한되며(초과 등록 시 경고), <strong>[1] 공지사항/시험일정 게시글 선택 연결</strong> 또는 <strong>[2] 이동 URL 직접 입력</strong> 방식을 지원합니다. 수험생이 <code>[오늘 하루 보지 않기]</code> 클릭 시 <code>popup_{id}</code> 쿠키가 당일 <code>23:59:59</code>까지 유지됩니다.
+ </div>
         <div class="card">
           <div class="card-header">
             <div class="card-title"><span>🪟 모달 팝업 목록 (ADMN-CONF-001-S2)</span></div>
@@ -401,17 +401,17 @@ code, pre, kbd, samp,
                       <option value="PC 전용">PC 전용</option>
                     </select>
                     <input type="number" id="pd-order" class="f-input" style="width:70px; margin-left:6px;" value="1" /> 순위
-                  </td>
+ </td>
                 </tr>
                 <tr>
                   <th>클릭 연결 방식 *</th>
                   <td colspan="3">
                     <label style="font-weight:800; margin-right:16px; cursor:pointer;">
-                      <input type="radio" name="pd_link_mode" value="BOARD" checked onchange="togglePopupLinkMode()" /> 📌 공지사항 · 무료특강 게시글 선택 연동
-                    </label>
+                      <input type="radio" name="pd_link_mode" value="BOARD" checked onchange="togglePopupLinkMode" /> 📌 공지사항 · 무료특강 게시글 선택 연동
+ </label>
                     <label style="font-weight:800; cursor:pointer;">
-                      <input type="radio" name="pd_link_mode" value="URL" onchange="togglePopupLinkMode()" /> 🔗 이동 URL 직접 입력
-                    </label>
+                      <input type="radio" name="pd_link_mode" value="URL" onchange="togglePopupLinkMode" /> 🔗 이동 URL 직접 입력
+ </label>
                     <div id="pd-board-box" style="margin-top:8px;">
                       <select id="pd-board-sel" class="f-select" style="width:480px;">
                         <option value="공지사항 #147 · 추석 연휴 3PL 교재 출고 마감 일정 안내">[공지사항 #147] 추석 연휴 3PL 교재 출고 마감 일정 안내 (게시중)</option>
@@ -441,7 +441,7 @@ code, pre, kbd, samp,
             </table>
             <div style="display:flex; justify-content:flex-end; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="switchDomainTab('popup')">취소</button>
-              <button type="button" class="btn btn-primary" onclick="savePopupItem()">💾 모달 팝업 저장</button>
+              <button type="button" class="btn btn-primary" onclick="savePopupItem">💾 모달 팝업 저장</button>
             </div>
           </div>
         </div>

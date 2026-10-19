@@ -380,20 +380,20 @@ code, pre, kbd, samp,
         <p>카카오 알림톡(솔라피 검수 상태 관리)·문자(SMS/LMS)·이메일 템플릿을 등록/검수하고 타겟 수동 발송(S1) 및 발송 이력(007)을 통합 관리합니다.</p>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn btn-primary" onclick="openTemplateModal()">+ 신규 메시지 템플릿 등록</button>
+        <button class="btn btn-primary" onclick="openTemplateModal">+ 신규 메시지 템플릿 등록</button>
       </div>
     </div>
 
     <div class="domain-switch-bar">
       <div class="sub-tabs">
         <button class="sub-tab-btn active" onclick="switchTab('tpl')" id="tab-btn-tpl">
-          📋 3채널 템플릿 &amp; 카카오 검수 관리 (ADMN-CONF-004) <span class="cnt" id="cnt-tpl">7</span>
+ 📋 3채널 템플릿 &amp; 카카오 검수 관리 (ADMN-CONF-004) <span class="cnt" id="cnt-tpl">7</span>
         </button>
         <button class="sub-tab-btn" onclick="switchTab('send')" id="tab-btn-send">
-          🚀 타겟 메시지 수동/예약 발송 (ADMN-CONF-004-S1)
-        </button>
+ 🚀 타겟 메시지 수동/예약 발송 (ADMN-CONF-004-S1)
+ </button>
         <button class="sub-tab-btn" onclick="switchTab('hist')" id="tab-btn-hist">
-          📊 통합 발송 이력 및 실패 재발송 (ADMN-CONF-007) <span class="cnt" id="cnt-hist">5</span>
+ 📊 통합 발송 이력 및 실패 재발송 (ADMN-CONF-007) <span class="cnt" id="cnt-hist">5</span>
         </button>
       </div>
     </div>
@@ -412,7 +412,7 @@ code, pre, kbd, samp,
           <div class="kpi-sub">즉시/자동 트리거 발송 가능</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">카카오 검수중 (INSPECT_REQ)</div>
+          <div class="kpi-label">카카오 검수중</div>
           <div class="kpi-val" style="color:var(--primary);" id="kpi-tpl-req">1건</div>
           <div class="kpi-sub">솔라피/카카오 심사 대기 (영업일 1~2일)</div>
         </div>
@@ -431,34 +431,34 @@ code, pre, kbd, samp,
       <div class="card">
         <div class="info-callout">
           <strong>[ADMN-CONF-004] 카카오 알림톡 검수 프로세스 및 발송 제어 정책:</strong><br/>
-          • <strong>알림톡(ALIMTALK):</strong> 신규 템플릿 등록 시 <code>작성초안(DRAFT)</code>으로 생성되며, <strong>[카카오 검수 요청]</strong>을 통해 <code>검수중(INSPECT_REQ)</code> → <code>검수승인(APPROVED)</code> 완료 후에만 실제 발송 트리거에 연결됩니다. <code>검수반려(REJECTED)</code> 건은 반려 사유를 확인하고 문구 수정 후 재심사를 요청할 수 있습니다.<br/>
-          • <strong>문자(SMS/LMS) 및 이메일(EMAIL):</strong> 별도 카카오 사전 검수 없이 등록 즉시 <code>발송가능(APPROVED)</code> 상태로 활성화되며, 알림톡 발송 실패 시 대체문자(Fallback) 문구로 자동 활용됩니다.
-        </div>
+ • <strong>알림톡(ALIMTALK):</strong> 신규 템플릿 등록 시 <code>작성초안(DRAFT)</code>으로 생성되며, <strong>[카카오 검수 요청]</strong>을 통해 검수중 → <code>검수승인(APPROVED)</code> 완료 후에만 실제 발송 트리거에 연결됩니다. <code>검수반려(REJECTED)</code> 건은 반려 사유를 확인하고 문구 수정 후 재심사를 요청할 수 있습니다.<br/>
+ • <strong>문자(SMS/LMS) 및 이메일(EMAIL):</strong> 별도 카카오 사전 검수 없이 등록 즉시 <code>발송가능(APPROVED)</code> 상태로 활성화되며, 알림톡 발송 실패 시 대체문자(Fallback) 문구로 자동 활용됩니다.
+ </div>
 
         <div class="filter-grid">
           <div class="filter-left">
-            <select id="tpl-channel-filter" onchange="renderTemplates()">
+            <select id="tpl-channel-filter" onchange="renderTemplates">
               <option value="ALL">발송 채널 전체</option>
               <option value="ALIMTALK">카카오 알림톡 (ALIMTALK)</option>
               <option value="SMS_LMS">문자 SMS/LMS</option>
               <option value="EMAIL">이메일 (EMAIL)</option>
             </select>
-            <select id="tpl-status-filter" onchange="renderTemplates()">
+            <select id="tpl-status-filter" onchange="renderTemplates">
               <option value="ALL">검수/승인 상태 전체</option>
               <option value="APPROVED">검수승인 / 발송가능 (APPROVED)</option>
-              <option value="INSPECT_REQ">카카오 검수중 (INSPECT_REQ)</option>
+              <option value="INSPECT_REQ">카카오 검수중</option>
               <option value="REJECTED">검수반려 (REJECTED)</option>
               <option value="DRAFT">작성초안 (DRAFT)</option>
             </select>
-            <select id="tpl-type-filter" onchange="renderTemplates()">
+            <select id="tpl-type-filter" onchange="renderTemplates">
               <option value="ALL">메시지 성격 전체</option>
               <option value="INFO">정보성 (수신동의 무관 필수안내)</option>
               <option value="AD">광고성 (마케팅 동의자 한정 + 080 의무)</option>
             </select>
-            <input type="text" id="tpl-keyword" placeholder="템플릿 코드, 제목, 본문 변수 검색..." oninput="renderTemplates()" style="width:240px;" />
+            <input type="text" id="tpl-keyword" placeholder="템플릿 코드, 제목, 본문 변수 검색..." oninput="renderTemplates" style="width:240px;" />
           </div>
           <div class="filter-right">
-            <button class="btn btn-primary" onclick="openTemplateModal()">+ 신규 메시지 템플릿 등록</button>
+            <button class="btn btn-primary" onclick="openTemplateModal">+ 신규 메시지 템플릿 등록</button>
           </div>
         </div>
       </div>
@@ -486,21 +486,21 @@ code, pre, kbd, samp,
       <div class="card">
         <div class="info-callout">
           <strong>[ADMN-CONF-004-S1] 타겟 메시지 수동/예약 발송 가드레일:</strong><br/>
-          [1] 알림톡 채널 선택 시 <strong>카카오 검수승인(<code>APPROVED</code>)이 완료된 템플릿만 발송</strong>할 수 있습니다.<br/>
-          [2] <strong>광고성(<code>AD</code>) 메시지</strong>는 야간 시간대(20:50 ~ 익일 08:00) 즉시 발송이 자동 차단되며, <code>is_marketing_agreed = true</code> 수신 동의 회원만 자동 필터링됩니다.
-        </div>
+ [1] 알림톡 채널 선택 시 <strong>카카오 검수승인(<code>APPROVED</code>)이 완료된 템플릿만 발송</strong>할 수 있습니다.<br/>
+ [2] <strong>광고성(<code>AD</code>) 메시지</strong>는 야간 시간대(20:50 ~ 익일 08:00) 즉시 발송이 자동 차단되며, 마케팅 수신 동의 수신 동의 회원만 자동 필터링됩니다.
+ </div>
 
         <div class="form-grid" style="grid-template-columns: 1.3fr 1fr; gap:22px;">
           <div>
             <div class="form-group">
               <label class="form-label">1. 발송할 템플릿 선택 (검수승인 완료 건 권장) *</label>
-              <select id="send-tpl-select" onchange="onSelectSendTemplate()"></select>
+              <select id="send-tpl-select" onchange="onSelectSendTemplate"></select>
             </div>
             <div class="form-group">
               <label class="form-label">2. 수신 타겟 세그먼트 선택 *</label>
-              <select id="send-target-seg" onchange="updateSendTargetCount()">
+              <select id="send-target-seg" onchange="updateSendTargetCount">
                 <option value="SEG_ACTIVE_ALL" data-cnt="1420">전체 정상 수강생 (1,420명)</option>
-                <option value="SEG_MKT_AGREED" data-cnt="985">마케팅 수신동의(is_marketing_agreed=Y) 회원 (985명)</option>
+                <option value="SEG_MKT_AGREED" data-cnt="985">마케팅 수신동의(마케팅 수신 동의) 회원 (985명)</option>
                 <option value="SEG_SANAN_2026" data-cnt="612">2026 산업안전기사 수강생 (612명)</option>
                 <option value="SEG_EXPIRE_7D" data-cnt="84">수강만료 7일 전 도래 회원 (84명)</option>
                 <option value="SEG_WINNERS" data-cnt="6">이벤트 당첨자 명단 (6명)</option>
@@ -519,11 +519,11 @@ code, pre, kbd, samp,
             </div>
             <div class="form-group">
               <label class="form-label">4. 발송 본문 확인 (승인된 알림톡 템플릿은 변수 치환 영역 외 본문 임의 수정 불가)</label>
-              <textarea id="send-body-preview" rows="6" style="width:100%;" oninput="syncPhonePreview()"></textarea>
+              <textarea id="send-body-preview" rows="6" style="width:100%;" oninput="syncPhonePreview"></textarea>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; padding-top:8px;">
               <div id="send-Summary-text" style="font-weight:800; color:var(--primary);">예상 발송 대상: 1,420명 (예상 비용: 12,780원)</div>
-              <button class="btn btn-primary" onclick="executeTargetSend()">🚀 타겟 메시지 발송 실행</button>
+              <button class="btn btn-primary" onclick="executeTargetSend">🚀 타겟 메시지 발송 실행</button>
             </div>
           </div>
 
@@ -582,7 +582,7 @@ code, pre, kbd, samp,
         </div>
         <div class="form-group">
           <label class="form-label">발송 채널 선택 *</label>
-          <select id="tpl-form-channel" onchange="onChangeModalChannel()">
+          <select id="tpl-form-channel" onchange="onChangeModalChannel">
             <option value="ALIMTALK">카카오 알림톡 (ALIMTALK — 솔라피 검수 필수)</option>
             <option value="SMS_LMS">문자 SMS/LMS (즉시 사용 가능)</option>
             <option value="EMAIL">이메일 EMAIL (즉시 사용 가능)</option>
@@ -590,7 +590,7 @@ code, pre, kbd, samp,
         </div>
         <div class="form-group">
           <label class="form-label">메시지 성격 (정보성 / 광고성) *</label>
-          <select id="tpl-form-type" onchange="onChangeModalType()">
+          <select id="tpl-form-type" onchange="onChangeModalType">
             <option value="INFO">정보성 (INFO — 결제/배송/환불/당첨/수강안내)</option>
             <option value="AD">광고성 (AD — 프로모션/쿠폰/특강홍보, (광고)+080 필수)</option>
           </select>
@@ -617,9 +617,9 @@ code, pre, kbd, samp,
               <div style="font-weight:800; color:#854d0e; font-size:12.5px;">💛 카카오 알림톡 딜러사(솔라피) 검수 상태 관리</div>
               <div style="font-size:11.5px; color:#713f12; margin-top:2px;">알림톡은 카카오 검수승인(APPROVED) 상태에서만 발송됩니다. 반려(REJECTED) 시 반려사유를 반영하여 재검수를 요청하세요.</div>
             </div>
-            <select id="tpl-form-status" onchange="toggleRejectReasonInput()" style="font-weight:700;">
+            <select id="tpl-form-status" onchange="toggleRejectReasonInput" style="font-weight:700;">
               <option value="DRAFT">작성초안 (DRAFT)</option>
-              <option value="INSPECT_REQ">카카오 검수중 (INSPECT_REQ)</option>
+              <option value="INSPECT_REQ">카카오 검수중</option>
               <option value="APPROVED">검수승인 완료 (APPROVED)</option>
               <option value="REJECTED">검수반려 (REJECTED)</option>
             </select>
@@ -662,7 +662,7 @@ code, pre, kbd, samp,
     </div>
     <div class="modal-footer">
       <div style="display:flex; gap:6px;">
-        <button class="btn btn-warning" type="button" onclick="saveTemplateWithStatus('INSPECT_REQ')">📤 저장 후 카카오 검수 요청 (INSPECT_REQ)</button>
+        <button class="btn btn-warning" type="button" onclick="saveTemplateWithStatus('INSPECT_REQ')">📤 저장 후 카카오 검수 요청</button>
         <button class="btn btn-success" type="button" onclick="saveTemplateWithStatus('APPROVED')">✓ 검수승인(APPROVED) 즉시 반영</button>
       </div>
       <div style="display:flex; gap:6px;">

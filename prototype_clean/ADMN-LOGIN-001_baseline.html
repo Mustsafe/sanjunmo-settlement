@@ -222,8 +222,8 @@ code, pre, kbd, samp,
         <strong style="font-size:15px;" id="login-screen-title">관리자 로그인 — 사내 운영자 및 강사/출판사 파트너 통합 게이트웨이</strong>
       </div>
       <div style="display:flex; gap:8px;">
-        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #cbd5e1; border-radius:6px;" onclick="triggerSessionExpiredBanner()">⏱️ 30분 세션만료 배너 시연</button>
-        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #fecaca; color:#dc2626; border-radius:6px;" onclick="triggerLockoutState()">🔒 5회 실패 잠금(ADMN-LOGIN-001-P1) 시연</button>
+        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #cbd5e1; border-radius:6px;" onclick="triggerSessionExpiredBanner">⏱️ 30분 세션만료 배너 시연</button>
+        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #fecaca; color:#dc2626; border-radius:6px;" onclick="triggerLockoutState">🔒 5회 실패 잠금(ADMN-LOGIN-001-P1) 시연</button>
       </div>
     </header>
 
@@ -297,7 +297,7 @@ code, pre, kbd, samp,
  </div>
             </div>
 
-            <button type="button" class="btn-submit" id="btn-do-login" onclick="handleAdminLogin()">로그인</button>
+            <button type="button" class="btn-submit" id="btn-do-login" onclick="handleAdminLogin">로그인</button>
 
             <div class="helper-links">
               <button type="button" class="link-btn" onclick="switchAuthMode('find-id')">아이디 찾기 (ADMN-LOGIN-002)</button>
@@ -327,7 +327,7 @@ code, pre, kbd, samp,
               <label class="form-label">SMS 인증번호 (6자리 · 유효시간 <span id="timer-find" style="color:var(--danger);">03:00</span>)</label>
               <div style="display:flex; gap:8px;">
                 <input type="text" id="inp-find-otp" class="form-input" value="482910" maxlength="6" />
-                <button type="button" class="btn-submit" style="width:140px; margin-top:0; font-size:12px; background:#059669;" onclick="verifyFindIdOtp()">인증 확인</button>
+                <button type="button" class="btn-submit" style="width:140px; margin-top:0; font-size:12px; background:#059669;" onclick="verifyFindIdOtp">인증 확인</button>
               </div>
             </div>
             <div id="box-found-id-result" class="alert-box alert-ok" style="display:none;">
@@ -369,7 +369,7 @@ code, pre, kbd, samp,
               <label class="form-label">새 비밀번호 확인 *</label>
               <input type="password" id="inp-reset-pw2" class="form-input" value="NewSanjun!2026" />
             </div>
-            <button type="button" class="btn-submit" onclick="submitPasswordReset()">비밀번호 변경 및 계정 잠금 해제</button>
+            <button type="button" class="btn-submit" onclick="submitPasswordReset">비밀번호 변경 및 계정 잠금 해제</button>
           </div>
         </div>
       </div>

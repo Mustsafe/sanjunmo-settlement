@@ -429,10 +429,10 @@ code, pre, kbd, samp,
       <div class="topbar-right">
         <label style="font-size:12px; font-weight:700; color:var(--text-secondary);">역할(RBAC) 뷰 시뮬레이터:</label>
         <select id="rbac-role-sim" class="form-select" onchange="applyRoleViewSim(this.value)">
-          <option value="SUPER_ADMIN">최고관리자 (SUPER_ADMIN · 전 블록 열람)</option>
-          <option value="OP_ADMIN">운영관리자 (OP_ADMIN · 전 블록 열람)</option>
-          <option value="CS_ADMIN">CS담당자 (CS_ADMIN · 매출/통계 블록 마스킹)</option>
-          <option value="LOGIS_ADMIN">물류담당자 (LOGIS_ADMIN · 출고/3PL 중심)</option>
+          <option value="SUPER_ADMIN">최고관리자 (전 블록 열람)</option>
+          <option value="OP_ADMIN">운영관리자 (전 블록 열람)</option>
+          <option value="CS_ADMIN">CS담당자 (매출/통계 블록 마스킹)</option>
+          <option value="LOGIS_ADMIN">물류담당자 (출고/3PL 중심)</option>
         </select>
         <a href="ADMN-LOGIN-001_baseline.html" class="btn btn-xs">🔐 로그인 화면(ADMN-LOGIN-001)</a>
       </div>
@@ -454,7 +454,7 @@ code, pre, kbd, samp,
         </div>
         <div class="refresh-meta">
           <span>기준 시각: <strong id="lbl-last-sync">2026.10.18 14:32:05</strong> (60초 자동 갱신)</span>
-          <button type="button" class="btn btn-xs" onclick="manualRefreshDash()">🔄 지금 새로고침</button>
+          <button type="button" class="btn btn-xs" onclick="manualRefreshDash">🔄 지금 새로고침</button>
         </div>
       </div>
 
@@ -500,7 +500,7 @@ code, pre, kbd, samp,
             <span class="ch-pill">📱 SMS/LMS 480건</span>
             <span class="ch-pill">✉️ 이메일(SES) 1,240건</span>
             <span class="ch-pill" style="background:#ffe4e6; border-color:#f43f5e; color:#be123c;">🚨 최종 실패 12건</span>
-            <button type="button" class="btn btn-danger btn-xs" onclick="openFailQueueModal()">발송 실패 큐 12건 보기 · 재발송</button>
+            <button type="button" class="btn btn-danger btn-xs" onclick="openFailQueueModal">발송 실패 큐 12건 보기 · 재발송</button>
           </div>
         </div>
 
@@ -570,7 +570,7 @@ code, pre, kbd, samp,
             <div class="card-header">
               <div>
                 <div class="card-title">📈 최근 7일 일 순매출 합계: <span style="color:var(--primary);">91,470,000원</span></div>
-                <div class="card-sub">🔒 매출 열람 권한(SUPER_ADMIN / OP_ADMIN / SETT_ADMIN) 보유 역할에만 노출됩니다.</div>
+                <div class="card-sub">🔒 매출 열람 권한(최고·운영·정산 관리자) 보유 역할에만 노출됩니다.</div>
               </div>
               <button type="button" class="btn btn-xs btn-primary" onclick="switchView('stat-sales')">매출 통계 상세 (ADMN-STAT-001) →</button>
             </div>
@@ -605,7 +605,7 @@ code, pre, kbd, samp,
                 <div class="card-title">🔌 외부 연동 인프라 상태 (6종) · 최종 점검 <span id="lbl-api-check">14:30:12</span></div>
                 <div class="card-sub">CDN 트래픽 80% 초과 시 주의 배지가 점등되며, 수동 점검 시 admin_action_log에 기록됩니다.</div>
               </div>
-              <button type="button" class="btn btn-xs" id="btn-api-ping" onclick="runApiHealthCheck()">⚡ API 상태 수동 점검</button>
+              <button type="button" class="btn btn-xs" id="btn-api-ping" onclick="runApiHealthCheck">⚡ API 상태 수동 점검</button>
             </div>
             <table class="data-table">
               <thead>
@@ -726,26 +726,26 @@ code, pre, kbd, samp,
           <span>~</span>
           <input type="date" id="stat-sales-to" class="form-input" value="2026-10-18" />
           <strong>단위:</strong>
-          <select id="stat-sales-unit" class="form-select" onchange="renderSalesStat()">
+          <select id="stat-sales-unit" class="form-select" onchange="renderSalesStat">
             <option value="DAY">일별 집계</option>
             <option value="WEEK">주별 집계</option>
             <option value="MONTH">월별 집계</option>
           </select>
           <strong>상품 유형:</strong>
-          <select id="stat-sales-type" class="form-select" onchange="renderSalesStat()">
+          <select id="stat-sales-type" class="form-select" onchange="renderSalesStat">
             <option value="ALL">전체 (강좌+패키지+교재)</option>
             <option value="COURSE">단과 강좌</option>
             <option value="PKG">패키지 · 합격환급반</option>
             <option value="BOOK">수험 교재</option>
           </select>
           <strong>결제 수단:</strong>
-          <select id="stat-sales-method" class="form-select" onchange="renderSalesStat()">
+          <select id="stat-sales-method" class="form-select" onchange="renderSalesStat">
             <option value="ALL">전체 수단</option>
             <option value="CARD">신용·체크카드</option>
             <option value="VBANK">가상계좌(무통장)</option>
             <option value="EASY">간편결제(토스·카카오)</option>
           </select>
-          <button type="button" class="btn btn-primary btn-xs" onclick="renderSalesStat()">🔍 조건 조회</button>
+          <button type="button" class="btn btn-primary btn-xs" onclick="renderSalesStat">🔍 조건 조회</button>
           <button type="button" class="btn btn-xs" style="margin-left:auto;" onclick="openStatExcelModal('ADMN-STAT-001 매출 통계')">📥 엑셀 다운로드</button>
         </div>
 
@@ -817,14 +817,14 @@ code, pre, kbd, samp,
           <button type="button" class="btn btn-xs" onclick="showToast('최근 14일 상품 판매 순위를 조회했습니다.')">14일</button>
           <button type="button" class="btn btn-xs btn-primary">30일 (2026.09.19 ~ 2026.10.18)</button>
           <strong>상품 유형:</strong>
-          <select id="stat-prod-type" class="form-select" onchange="renderProdStat()">
+          <select id="stat-prod-type" class="form-select" onchange="renderProdStat">
             <option value="ALL">전체 상품군 (29종)</option>
             <option value="패키지">패키지 · 환급반</option>
             <option value="단과">단과 강좌</option>
             <option value="교재">수험 교재</option>
           </select>
           <strong>정렬 기준:</strong>
-          <select id="stat-prod-sort" class="form-select" onchange="renderProdStat()">
+          <select id="stat-prod-sort" class="form-select" onchange="renderProdStat">
             <option value="NET_AMT">일 순매출액 높은순</option>
             <option value="NET_CNT">순결제건수 많은순</option>
           </select>
@@ -895,7 +895,7 @@ code, pre, kbd, samp,
               <td>14:12</td>
               <td>🟡 알림톡→LMS</td>
               <td>박O훈 (100451)</td>
-              <td>TPL_PAY_DONE</td>
+              <td>결제완료 알림톡</td>
               <td><span class="badge badge-warn">발송사 일시 지연 (504)</span></td>
               <td class="text-center"><button class="btn btn-xs btn-primary" onclick="retrySingleFail(this, '박O훈')">재발송</button></td>
             </tr>
@@ -903,7 +903,7 @@ code, pre, kbd, samp,
               <td>12:48</td>
               <td>✉️ 이메일(SES)</td>
               <td>최O영 (100419)</td>
-              <td>EML_TERMS_NOTICE</td>
+              <td>약관개정 안내 메일</td>
               <td><span class="badge badge-danger">수신 메일함 용량 초과</span></td>
               <td class="text-center"><button class="btn btn-xs btn-primary" onclick="retrySingleFail(this, '최O영')">재발송</button></td>
             </tr>
@@ -911,7 +911,7 @@ code, pre, kbd, samp,
               <td>10:05</td>
               <td>📱 문자(LMS)</td>
               <td>김O수 (100388)</td>
-              <td>TPL_DLV_START</td>
+              <td>출고·송장 안내 알림톡</td>
               <td><span class="badge badge-gray">결번/착신정지 번호</span></td>
               <td class="text-center"><a href="ADMN-USER-001_baseline.html?view=list" class="btn btn-xs">회원확인</a></td>
             </tr>
@@ -920,7 +920,7 @@ code, pre, kbd, samp,
       </div>
       <div class="modal-footer">
         <a href="ADMN-CONF-004_baseline.html?view=send" class="btn">발송 내역 전체 화면(ADMN-CONF-004-S1) 이동</a>
-        <button type="button" class="btn btn-primary" onclick="retryAllTransientFails()">일시 오류 건(9건) 일괄 재발송 실행</button>
+        <button type="button" class="btn btn-primary" onclick="retryAllTransientFails">일시 오류 건(9건) 일괄 재발송 실행</button>
       </div>
     </div>
   </div>
@@ -939,7 +939,7 @@ code, pre, kbd, samp,
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" onclick="closeModal('modal-stat-excel')">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmStatExcelDownload()">감사 로그 기록 및 다운로드</button>
+        <button type="button" class="btn btn-primary" onclick="confirmStatExcelDownload">감사 로그 기록 및 다운로드</button>
       </div>
     </div>
   </div>

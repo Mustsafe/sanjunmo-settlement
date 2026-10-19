@@ -383,7 +383,7 @@ code, pre, kbd, samp,
             <span>쿠폰 마스터 목록</span>
             <span class="code-pill">ADMN-PROM-002</span>
           </button>
-          <button type="button" class="subview-btn" id="nav-btn-form" onclick="openFormNew()">
+          <button type="button" class="subview-btn" id="nav-btn-form" onclick="openFormNew">
             <span>쿠폰 등록 · 수정 폼</span>
             <span class="code-pill">PROM-002 / P1</span>
           </button>
@@ -417,7 +417,7 @@ code, pre, kbd, samp,
           <button type="button" class="kpi-card" onclick="quickFilterStatus('ALL')">
             <div class="k-title">
               <span>총 발급 매수 (누적)</span>
-              <span class="badge">user_coupon</span>
+              <span class="badge">회원 발급 쿠폰</span>
             </div>
             <div class="k-num">18,402매</div>
             <div class="k-sub">웰컴 자동 발급 12,480매 + 수동/코드형 5,922매</div>
@@ -449,8 +449,8 @@ code, pre, kbd, samp,
               <span>쿠폰 마스터 검색 필터</span>
             </div>
             <div style="display:flex; gap:6px;">
-              <button type="button" class="btn btn-sm" onclick="resetSearchFilter()">초기화</button>
-              <button type="button" class="btn btn-sm btn-primary" onclick="renderMasterGrid()">조회</button>
+              <button type="button" class="btn btn-sm" onclick="resetSearchFilter">초기화</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="renderMasterGrid">조회</button>
             </div>
           </div>
           <div class="card-body">
@@ -459,11 +459,11 @@ code, pre, kbd, samp,
                 <tr>
                   <th>쿠폰명 / 코드</th>
                   <td>
-                    <input type="text" id="q-keyword" class="form-input" style="width:100%;" placeholder="쿠폰명 또는 쿠폰 코드(CPN-YYMM-XXXX) 입력" oninput="renderMasterGrid()" />
+                    <input type="text" id="q-keyword" class="form-input" style="width:100%;" placeholder="쿠폰명 또는 쿠폰 코드(CPN-YYMM-XXXX) 입력" oninput="renderMasterGrid" />
                   </td>
                   <th>쿠폰 종류</th>
                   <td>
-                    <select id="q-type" class="form-select" style="width:180px;" onchange="renderMasterGrid()">
+                    <select id="q-type" class="form-select" style="width:180px;" onchange="renderMasterGrid">
                       <option value="ALL">전체 (정률 / 정액)</option>
                       <option value="RATE">정률 (%)</option>
                       <option value="FIXED">정액 (원)</option>
@@ -473,7 +473,7 @@ code, pre, kbd, samp,
                 <tr>
                   <th>발급 방식</th>
                   <td>
-                    <select id="q-method" class="form-select" style="width:240px;" onchange="renderMasterGrid()">
+                    <select id="q-method" class="form-select" style="width:240px;" onchange="renderMasterGrid">
                       <option value="ALL">전체 (자동 / 수동 대량 / 코드 입력형)</option>
                       <option value="AUTO">자동 발급 (회원가입 웰컴 등)</option>
                       <option value="BULK">수동 대량 발급 (그룹·태그 타겟)</option>
@@ -482,7 +482,7 @@ code, pre, kbd, samp,
                   </td>
                   <th>사용 상태</th>
                   <td>
-                    <select id="q-status" class="form-select" style="width:220px;" onchange="renderMasterGrid()">
+                    <select id="q-status" class="form-select" style="width:220px;" onchange="renderMasterGrid">
                       <option value="ALL">전체 (발급중 / 발급중지 / 기간종료)</option>
                       <option value="ACTIVE">발급중 (기간 내 발급 가능)</option>
                       <option value="PAUSED">발급중지 (신규 차단·기발급분 사용가능)</option>
@@ -514,8 +514,8 @@ code, pre, kbd, samp,
               <span class="badge badge-slate" id="grid-total-cnt">전체 14건 (시연 4건)</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-sm" onclick="downloadExcelReport()">📥 발급·사용 현황 엑셀 (2시트·마스킹 로깅)</button>
-              <button type="button" class="btn btn-sm btn-dark" onclick="openFormNew()">+ 쿠폰 등록</button>
+              <button type="button" class="btn btn-sm" onclick="downloadExcelReport">📥 발급·사용 현황 엑셀 (2시트·마스킹 로깅)</button>
+              <button type="button" class="btn btn-sm btn-dark" onclick="openFormNew">+ 쿠폰 등록</button>
             </div>
           </div>
           <div style="overflow-x:auto;">
@@ -567,9 +567,9 @@ code, pre, kbd, samp,
           <div style="padding:12px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px; color:#92400E; font-size:12.5px;">
             <div>
               <strong>🔒 기 발급 쿠폰 조건 변경 잠금 (기대 이익 침해 방지 원칙):</strong>
-              이미 회원에게 발급된 이력(<span id="lock-issued-cnt">12,480</span>매)이 존재하므로 <strong>[쿠폰 종류 · 할인값 · Cap · 유효기간]</strong>은 수정할 수 없습니다(회색 잠금). 조건을 변경하려면 <strong>[발급 중지]</strong> 후 새 쿠폰을 등록하세요.
-            </div>
-            <button type="button" class="btn btn-sm" onclick="openFormNew()">+ 새 쿠폰 등록으로 전환</button>
+ 이미 회원에게 발급된 이력(<span id="lock-issued-cnt">12,480</span>매)이 존재하므로 <strong>[쿠폰 종류 · 할인값 · Cap · 유효기간]</strong>은 수정할 수 없습니다(회색 잠금). 조건을 변경하려면 <strong>[발급 중지]</strong> 후 새 쿠폰을 등록하세요.
+ </div>
+            <button type="button" class="btn btn-sm" onclick="openFormNew">+ 새 쿠폰 등록으로 전환</button>
           </div>
         </div>
 
@@ -580,7 +580,7 @@ code, pre, kbd, samp,
             <div class="card">
               <div class="card-header">
                 <div class="card-title">기본 정보 (할인 상한 · 감면 한도 Cap · 도서정가제 자동 바인딩)</div>
-                <span class="badge badge-slate">저장 테이블: coupon · user_coupon</span>
+                <span class="badge badge-slate">쿠폰 마스터 및 회원 발급 원장 연동</span>
               </div>
               <div class="card-body">
                 <table class="form-table">
@@ -607,14 +607,14 @@ code, pre, kbd, samp,
                             <button type="button" class="seg-btn" id="seg-type-fixed" onclick="setCouponType('FIXED')">정액(원)</button>
                           </div>
                           <div style="display:flex; align-items:center; gap:6px;">
-                            <input type="number" id="f-val" class="form-input" style="width:140px; font-weight:800; font-size:14px;" value="15" oninput="clearFieldError()" />
+                            <input type="number" id="f-val" class="form-input" style="width:140px; font-weight:800; font-size:14px;" value="15" oninput="clearFieldError" />
                             <strong id="f-val-unit" style="font-size:13.5px;">%</strong>
                             <span id="f-val-max-guide" style="font-size:11.5px; color:var(--text-muted); margin-left:4px;">(최대 입력 가능: <b>40%</b> 정수)</span>
                           </div>
                         </div>
                         <div class="help-txt warn" id="f-val-help">
-                          • 정률 최대 <b>40%</b>(1~40 정수) / 정액 최대 <b>200,000원</b>(1,000원 단위) — 시스템 하드코딩 상한. 초과 입력 시 <b>ADMN-PROM-002-P1</b> 경고 후 저장 차단.
-                        </div>
+ • 정률 최대 <b>40%</b>(1~40 정수) / 정액 최대 <b>200,000원</b>(1,000원 단위) — 시스템 하드코딩 상한. 초과 입력 시 <b>ADMN-PROM-002-P1</b> 경고 후 저장 차단.
+ </div>
                       </td>
                     </tr>
 
@@ -627,11 +627,11 @@ code, pre, kbd, samp,
                           <span class="badge badge-slate">읽기 전용 · 코드 배포 상수</span>
                         </div>
                         <div class="help-txt err">
-                          • 정률 쿠폰이라도 <b>실제 감면액은 200,000원을 넘지 못합니다</b> — 결제 시 <code>FLOOR(MIN(base × rate, 200000, base))</code> 강제 연산 및 <code>order_discount.cap_applied = 1</code> 기록.
-                        </div>
+ • 정률 쿠폰이라도 <b>실제 감면액은 200,000원을 넘지 못합니다</b> — 결제 시 <code>최대 할인 한도(200,000원) 자동 절사</code> 강제 연산 및 최대 할인 한도(Cap) 적용 이력 기록.
+ </div>
                         <div style="margin-top:6px; padding:8px 12px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:6px; font-size:12px; color:#1E3A8A;">
                           <b>Cap 연산 예시</b> · 40% 쿠폰 × 800,000원 강좌 = 산출 320,000원 → <b>실감면 200,000원</b> (결제 600,000원 · 주문서 <code>USER-PAY-001</code>에 한도 적용 문구 필수 노출)
-                        </div>
+ </div>
                       </td>
                     </tr>
 
@@ -642,11 +642,11 @@ code, pre, kbd, samp,
                         <div style="display:flex; align-items:center; gap:8px; opacity:0.88;">
                           <input type="checkbox" checked disabled style="width:15px; height:15px;" />
                           <strong style="color:#991B1B;">실물 교재 카테고리 적용 불가 🔒</strong>
-                          <span class="badge badge-red">시스템 강제 (coupon.exclude_book = 1)</span>
+                          <span class="badge badge-red">시스템 강제 (도서 상품 쿠폰 적용 제외 강제)</span>
                         </div>
                         <div class="help-txt err">
-                          • 모든 쿠폰에 <b>자동 바인딩</b>되며 관리자가 해제할 수 없습니다(체크 고정 · 비활성). 패키지에 교재가 묶여 있어도 장바구니 분할(<code>ADMN-PROD-005</code>)을 통해 <b>강좌 라인 합계에만</b> 적용됩니다.
-                        </div>
+ • 모든 쿠폰에 <b>자동 바인딩</b>되며 관리자가 해제할 수 없습니다(체크 고정 · 비활성). 패키지에 교재가 묶여 있어도 장바구니 분할(<code>ADMN-PROD-005</code>)을 통해 <b>강좌 라인 합계에만</b> 적용됩니다.
+ </div>
                       </td>
                     </tr>
                   </tbody>
@@ -689,7 +689,7 @@ code, pre, kbd, samp,
                             <span>일</span>
                             <label style="display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:700; color:var(--primary); margin-left:6px;">
                               <input type="checkbox" checked disabled /> 만료일 <b>자정(23:59:59 KST)</b> 기준 고정
-                            </label>
+ </label>
                           </div>
                           <div id="exp-abs-box" style="display:none; align-items:center; gap:8px;">
                             <input type="date" id="f-exp-start" class="form-input" value="2026-08-01" />
@@ -714,7 +714,7 @@ code, pre, kbd, samp,
                           </div>
                           <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; font-weight:600;">
                             <input type="checkbox" id="f-limit-unlim" onchange="document.getElementById('f-limit-total').disabled = this.checked;" /> 무제한 (웰컴 자동발급 등)
-                          </label>
+ </label>
                           <div style="display:flex; align-items:center; gap:6px; margin-left:8px;">
                             <span>1인당 발급 한도:</span>
                             <input type="number" id="f-limit-per" class="form-input" style="width:70px; font-weight:700;" value="1" />
@@ -732,14 +732,14 @@ code, pre, kbd, samp,
                         <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
                           <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
                             <input type="checkbox" id="f-dup-coupon" /> 다른 쿠폰과 중복 사용 허용 (기본 1주문 1쿠폰)
-                          </label>
+ </label>
                           <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; font-weight:700;">
                             <input type="checkbox" id="f-dup-point" checked /> 포인트와 함께 사용 허용 (쿠폰 선적용 후 잔액에 포인트 차감)
-                          </label>
+ </label>
                         </div>
                         <div class="help-txt warn">
-                          • 기획전 차단(<code>ADMN-PROM-001-S1</code> Bulk Disable)이 걸린 상품에서는 이 설정과 <b>무관하게 사용 불가</b> — 차단이 항상 우선합니다.
-                        </div>
+ • 기획전 차단(<code>ADMN-PROM-001-S1</code> Bulk Disable)이 걸린 상품에서는 이 설정과 <b>무관하게 사용 불가</b> — 차단이 항상 우선합니다.
+ </div>
                       </td>
                     </tr>
 
@@ -788,8 +788,8 @@ code, pre, kbd, samp,
                           <button type="button" class="seg-btn" id="seg-mth-code" onclick="setIssueMethod('CODE')">코드 입력형</button>
                         </div>
                         <div class="help-txt" id="method-desc-txt">
-                          • <b>수동 대량 발급:</b> <code>ADMN-USER-006</code> 수평적 그룹·태그로 타겟팅하여 예약 시각에 배치 발급 및 알림톡을 동시 발송합니다.
-                        </div>
+ • <b>수동 대량 발급:</b> <code>ADMN-USER-006</code> 수평적 그룹·태그로 타겟팅하여 예약 시각에 배치 발급 및 알림톡을 동시 발송합니다.
+ </div>
                       </td>
                     </tr>
 
@@ -828,7 +828,7 @@ code, pre, kbd, samp,
                           <input type="datetime-local" class="form-input" value="2026-08-25T10:00" />
                           <label style="display:inline-flex; align-items:center; gap:5px; cursor:pointer; font-weight:700;">
                             <input type="checkbox" checked /> 발급 알림톡 동시 발송 (<code>ADMN-CONF-004</code> 메시지 템플릿 연동)
-                          </label>
+ </label>
                         </div>
                       </td>
                     </tr>
@@ -839,9 +839,9 @@ code, pre, kbd, samp,
                 <div class="p1-inline-alert" id="p1-inline-box">
                   <div style="font-weight:800; font-size:14px; margin-bottom:4px;">⚠ [ADMN-PROM-002-P1] 감면 한도(Cap)를 초과했습니다</div>
                   <div id="p1-inline-msg" style="font-size:12.5px; line-height:1.5; margin-bottom:10px;">
-                    정액 쿠폰의 감면 한도액은 <b>200,000원</b>입니다. 입력값 <b>250,000원</b>은 저장할 수 없습니다. 200,000원 이하로 다시 입력해 주세요.
-                  </div>
-                  <button type="button" class="btn btn-sm btn-danger" onclick="focusBackToDiscountInput()">확인 (할인값 입력칸으로 포커스 이동)</button>
+ 정액 쿠폰의 감면 한도액은 <b>200,000원</b>입니다. 입력값 <b>250,000원</b>은 저장할 수 없습니다. 200,000원 이하로 다시 입력해 주세요.
+ </div>
+                  <button type="button" class="btn btn-sm btn-danger" onclick="focusBackToDiscountInput">확인 (할인값 입력칸으로 포커스 이동)</button>
                 </div>
 
                 <!-- 하단 저장 · 발급 중지 버튼 -->
@@ -850,8 +850,8 @@ code, pre, kbd, samp,
                     <span style="font-size:12px; color:var(--text-muted);">할인값을 한도(정률 40% / 정액 200,000원) 이하로 입력한 뒤 [저장 · 발급 예약]을 누르세요.</span>
                   </div>
                   <div style="display:flex; gap:8px;">
-                    <button type="button" class="btn" onclick="pauseCurrentCoupon()">발급 중지</button>
-                    <button type="button" class="btn btn-dark" onclick="saveCouponMaster()">저장 · 발급 예약</button>
+                    <button type="button" class="btn" onclick="pauseCurrentCoupon">발급 중지</button>
+                    <button type="button" class="btn btn-dark" onclick="saveCouponMaster">저장 · 발급 예약</button>
                   </div>
                 </div>
               </div>
@@ -919,9 +919,9 @@ code, pre, kbd, samp,
                 </table>
               </div>
               <div class="card-body" style="background:#F8FAFC; border-top:1px solid var(--border-color); font-size:11.5px; color:var(--text-secondary);">
-                • <b>수식:</b> <code>discount = FLOOR(MIN(base × rate, 200000, base))</code><br />
-                • Cap이 작동해 감면액이 깎인 주문은 <code>order_discount.cap_applied = 1</code> 기록 및 정산(<code>ADMN-SETT-002</code>) 시 <b>실감면액 기준</b>으로 배분됩니다.
-              </div>
+ • <b>수식:</b> <code>discount = 최대 할인 한도(200,000원) 자동 절사</code><br />
+ • Cap이 작동해 감면액이 깎인 주문은 최대 할인 한도(Cap) 적용 이력 기록 및 정산(<code>ADMN-SETT-002</code>) 시 <b>실감면액 기준</b>으로 배분됩니다.
+ </div>
             </div>
 
             <!-- 카드 B: 복합 패키지(강좌+교재) 쿠폰 적용 실시간 시뮬레이터 -->
@@ -936,11 +936,11 @@ code, pre, kbd, samp,
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
                   <div>
                     <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:3px;">강좌 라인 합계 (과세)</label>
-                    <input type="number" id="sim-lec" class="form-input" style="width:100%;" value="800000" oninput="updateLiveSim()" />
+                    <input type="number" id="sim-lec" class="form-input" style="width:100%;" value="800000" oninput="updateLiveSim" />
                   </div>
                   <div>
                     <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:3px;">실물 교재 라인 (면세)</label>
-                    <input type="number" id="sim-book" class="form-input" style="width:100%;" value="38000" oninput="updateLiveSim()" />
+                    <input type="number" id="sim-book" class="form-input" style="width:100%;" value="38000" oninput="updateLiveSim" />
                   </div>
                 </div>
                 <div id="live-sim-box" style="background:#0F172A; color:#F8FAFC; border-radius:8px; padding:12px 14px; font-size:12px; line-height:1.6;">
@@ -1024,7 +1024,7 @@ code, pre, kbd, samp,
               <span>📋 전체 회원 포인트 적립 · 사용 · 환불차감 · 소멸 내역 원장 (ADMN-PROM-003)</span>
               <span class="badge badge-green">차감 순서: 무상(FREE) 우선 → 유상(PAID) 차감 → 환불 부족분 유상 마이너스(-) 부채 기록</span>
             </div>
-            <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal()">＋ 관리자 수동 무상포인트 지급 · 차감</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal">＋ 관리자 수동 무상포인트 지급 · 차감</button>
           </div>
           <div style="overflow-x:auto;">
             <table class="data-table">
@@ -1083,19 +1083,19 @@ code, pre, kbd, samp,
     <div class="modal-dialog">
       <div class="modal-header" style="background:#FEF2F2; color:#991B1B; border-bottom:1px solid #FECACA;">
         <span>⚠ [ADMN-PROM-002-P1] 감면 한도(Cap)를 초과했습니다</span>
-        <button type="button" class="btn btn-sm" onclick="focusBackToDiscountInput()">✕</button>
+        <button type="button" class="btn btn-sm" onclick="focusBackToDiscountInput">✕</button>
       </div>
       <div class="modal-body">
         <div id="modal-p1-body" style="font-size:13.5px; line-height:1.65; color:var(--text-primary); margin-bottom:14px;">
-          정액 쿠폰의 감면 한도액은 <b>200,000원</b>입니다.<br/>
-          입력값 <b style="color:var(--danger);">250,000원</b>은 저장할 수 없습니다. 200,000원 이하로 다시 입력해 주세요.
-        </div>
+ 정액 쿠폰의 감면 한도액은 <b>200,000원</b>입니다.<br/>
+ 입력값 <b style="color:var(--danger);">250,000원</b>은 저장할 수 없습니다. 200,000원 이하로 다시 입력해 주세요.
+ </div>
         <div style="background:#F8FAFC; border:1px solid var(--border-color); border-radius:8px; padding:12px; font-size:12px; color:var(--text-secondary);">
-          • <b>설계서 P1 처리 규칙 (피드백 #492):</b> [확인] 클릭 시 등록 화면에 그대로 머물며(나머지 입력값 전부 보존), 할인값 입력칸(<code>#f-val</code>)으로 <b>자동 포커스 이동 + 입력값 전체 선택</b>됩니다.
-        </div>
+ • <b>설계서 P1 처리 규칙 (피드백 #492):</b> [확인] 클릭 시 등록 화면에 그대로 머물며(나머지 입력값 전부 보존), 할인값 입력칸(<code>#f-val</code>)으로 <b>자동 포커스 이동 + 입력값 전체 선택</b>됩니다.
+ </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-dark" onclick="focusBackToDiscountInput()">확인</button>
+        <button type="button" class="btn btn-dark" onclick="focusBackToDiscountInput">확인</button>
       </div>
     </div>
   </div>
@@ -1105,27 +1105,27 @@ code, pre, kbd, samp,
     <div class="modal-dialog">
       <div class="modal-header">
         <span>💸 관리자 무상(FREE) 포인트 수동 지급 · 차감 (1회 최대 30,000P · 감사 사유 필수)</span>
-        <button type="button" class="btn btn-sm" onclick="closePointModal()">✕</button>
+        <button type="button" class="btn btn-sm" onclick="closePointModal">✕</button>
       </div>
       <div class="modal-body">
         <div style="display:flex; flex-direction:column; gap:12px;">
           <div>
             <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">대상 회원</label>
-            <select id="pt-member" class="form-select" style="width:100%;" onchange="validatePtCap()">
+            <select id="pt-member" class="form-select" style="width:100%;" onchange="validatePtCap">
               <option value="192000">최산안 (USR-1082) — 현재 무상 잔액: 192,000 P (잔여 한도 8,000 P)</option>
               <option value="7100">김산준 (USR-0701) — 현재 무상 잔액: 7,100 P (잔여 한도 192,900 P)</option>
             </select>
           </div>
           <div>
             <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">지급할 무상 포인트 (P)</label>
-            <input type="number" id="pt-amt" class="form-input" style="width:100%; font-weight:800;" value="15000" oninput="validatePtCap()" />
+            <input type="number" id="pt-amt" class="form-input" style="width:100%; font-weight:800;" value="15000" oninput="validatePtCap" />
           </div>
           <div id="pt-cap-msg" style="padding:10px 12px; border-radius:8px; font-size:12px;"></div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" onclick="closePointModal()">취소</button>
-        <button type="button" class="btn btn-primary" id="pt-submit-btn" onclick="confirmPointGrant()">지급 확정</button>
+        <button type="button" class="btn" onclick="closePointModal">취소</button>
+        <button type="button" class="btn btn-primary" id="pt-submit-btn" onclick="confirmPointGrant">지급 확정</button>
       </div>
     </div>
   </div>

@@ -666,9 +666,9 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">정산 · 진도 연동 규칙</span>
           <div class="policy-text">
-            단과 강좌의 커리큘럼은 <strong>강의 관리(ADMN-PROD-002)</strong> 원장을 호출하여 구성하며, 총 강의시간 합산값은 <strong>합격 환급반(ADMN-SETT-006)</strong> 출석·진도율 산정의 분모가 됩니다.
-            또한 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong>의 1계층 지분 합계가 <strong>100.00%</strong>가 아니면 판매 상태를 <strong>[판매중]</strong>으로 전환할 수 없습니다.
-          </div>
+ 단과 강좌의 커리큘럼은 <strong>강의 관리(ADMN-PROD-002)</strong> 원장을 호출하여 구성하며, 총 강의시간 합산값은 <strong>합격 환급반(ADMN-SETT-006)</strong> 출석·진도율 산정의 분모가 됩니다.
+ 또한 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong>의 1계층 지분 합계가 <strong>100.00%</strong>가 아니면 판매 상태를 <strong>[판매중]</strong>으로 전환할 수 없습니다.
+ </div>
         </div>
         <a class="btn btn-soft btn-sm" href="ADMN-SETT-001_baseline.html">ADMN-SETT-001 지분 매핑 이동 →</a>
       </div>
@@ -690,7 +690,7 @@ code, pre, kbd, samp,
             <div class="filter-grid">
               <div class="filter-field">
                 <label>카테고리 (1차 분류)</label>
-                <select id="filter-cat1" class="form-select" onchange="syncCat2Filter()">
+                <select id="filter-cat1" class="form-select" onchange="syncCat2Filter">
                   <option value="ALL">전체 (1차 분류)</option>
                   <option value="산업안전기사">산업안전기사</option>
                   <option value="건설안전기사">건설안전기사</option>
@@ -750,8 +750,8 @@ code, pre, kbd, samp,
             </div>
 
             <div class="filter-actions">
-              <button type="button" class="btn btn-outline" onclick="resetCourseFilters()">검색 초기화</button>
-              <button type="button" class="btn btn-primary" onclick="renderCourseList()">조건 검색</button>
+              <button type="button" class="btn btn-outline" onclick="resetCourseFilters">검색 초기화</button>
+              <button type="button" class="btn btn-primary" onclick="renderCourseList">조건 검색</button>
             </div>
           </div>
         </div>
@@ -764,8 +764,8 @@ code, pre, kbd, samp,
               <span class="card-subtitle">총 <strong id="course-total-count" style="color:var(--primary);">0</strong>건 조회됨 · 등록일 컬럼 기본 노출</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-outline" onclick="exportCourseCsv()">엑셀 다운로드 (CSV)</button>
-              <button type="button" class="btn btn-primary" onclick="openNewCourseForm()">+ 단과 강좌 등록</button>
+              <button type="button" class="btn btn-outline" onclick="exportCourseCsv">엑셀 다운로드 (CSV)</button>
+              <button type="button" class="btn btn-primary" onclick="openNewCourseForm">+ 단과 강좌 등록</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -809,7 +809,7 @@ code, pre, kbd, samp,
           </div>
           <div style="display:flex; gap:8px;">
             <a class="btn btn-soft" href="ADMN-SETT-001_baseline.html">정산 지분 매핑 (ADMN-SETT-001)</a>
-            <button type="button" class="btn btn-primary" onclick="editCurrentDetailCourse()">강좌 정보 수정 (003-S1)</button>
+            <button type="button" class="btn btn-primary" onclick="editCurrentDetailCourse">강좌 정보 수정 (003-S1)</button>
           </div>
         </div>
 
@@ -863,7 +863,7 @@ code, pre, kbd, samp,
                     <div id="d-settlement-box" class="settlement-gate-box ok" style="padding:10px 14px;">
                       <div>
                         <strong>[ADMN-SETT-001 검증 통과]</strong> 1계층 권리자 배분 합계 <strong>100.00%</strong> (김안전 강사 RS 35.00% + 산준모 플랫폼 귀속 65.00%)
-                      </div>
+ </div>
                       <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">매핑 원장 열기</a>
                     </div>
                   </td>
@@ -944,7 +944,7 @@ code, pre, kbd, samp,
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="saveCourseForm()">단과 강좌 저장</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="saveCourseForm">단과 강좌 저장</button>
           </div>
         </div>
 
@@ -1038,20 +1038,20 @@ code, pre, kbd, samp,
                   <th>정가 <span class="req-star">*</span></th>
                   <td>
                     <div class="input-with-unit" style="width:200px;">
-                      <input type="number" id="f-list-price" class="form-input text-right" value="180000" min="0" step="1000" oninput="recalcCoursePrice()">
+                      <input type="number" id="f-list-price" class="form-input text-right" value="180000" min="0" step="1000" oninput="recalcCoursePrice">
                       <span class="input-unit">원</span>
                     </div>
                   </td>
                   <th>할인 설정</th>
                   <td>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                      <select id="f-discount-type" class="form-select" style="width:130px;" onchange="recalcCoursePrice()">
+                      <select id="f-discount-type" class="form-select" style="width:130px;" onchange="recalcCoursePrice">
                         <option value="NONE">할인 없음</option>
                         <option value="RATE" selected="">정률 할인 (%)</option>
                         <option value="AMOUNT">정액 할인 (원)</option>
                       </select>
                       <div class="input-with-unit" style="width:150px;">
-                        <input type="number" id="f-discount-val" class="form-input text-right" value="20" min="0" oninput="recalcCoursePrice()">
+                        <input type="number" id="f-discount-val" class="form-input text-right" value="20" min="0" oninput="recalcCoursePrice">
                         <span class="input-unit" id="f-discount-unit">%</span>
                       </div>
                     </div>
@@ -1075,7 +1075,7 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
                       <label class="option-label">
-                        <input type="radio" name="f-period-type" value="DAYS" checked="" onchange="togglePeriodInput()">
+                        <input type="radio" name="f-period-type" value="DAYS" checked="" onchange="togglePeriodInput">
                         <span>결제일로부터 일수 지정</span>
                       </label>
                       <div class="input-with-unit" id="period-days-wrap" style="width:140px;">
@@ -1084,7 +1084,7 @@ code, pre, kbd, samp,
                       </div>
 
                       <label class="option-label" style="margin-left:12px;">
-                        <input type="radio" name="f-period-type" value="FIXED_DATE" onchange="togglePeriodInput()">
+                        <input type="radio" name="f-period-type" value="FIXED_DATE" onchange="togglePeriodInput">
                         <span>수강 만료일 고정 (시험일 기준)</span>
                       </label>
                       <div id="period-date-wrap" style="width:180px; display:none;">
@@ -1119,7 +1119,7 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
                       <span style="font-size:12px; font-weight:700; color:var(--slate-600);">시뮬레이션 지분 상태 전환:</span>
-                      <select id="f-settlement-sim" class="form-select" style="width:320px;" onchange="applySettlementHardLock()">
+                      <select id="f-settlement-sim" class="form-select" style="width:320px;" onchange="applySettlementHardLock">
                         <option value="100">[정상] ADMN-SETT-001 1계층 지분 합계 100.00% 완료</option>
                         <option value="70">[미완성] ADMN-SETT-001 1계층 지분 합계 70.00% (30% 미배분)</option>
                         <option value="0">[미등록] ADMN-SETT-001 권리자 지분 매핑 내역 없음 (0%)</option>
@@ -1129,8 +1129,8 @@ code, pre, kbd, samp,
                       <div>
                         <strong id="f-settlement-title">[검증 통과] 1계층 지분 합계 100.00%</strong>
                         <div style="font-size:12px; margin-top:2px;" id="f-settlement-desc">
-                          김안전(INS-0001) 35.00% + 산준모 플랫폼 65.00% = 100.00% 매핑 완료. [판매중] 상태 설정이 가능합니다.
-                        </div>
+ 김안전(INS-0001) 35.00% + 산준모 플랫폼 65.00% = 100.00% 매핑 완료. [판매중] 상태 설정이 가능합니다.
+ </div>
                       </div>
                       <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">ADMN-SETT-001 지분 편집 →</a>
                     </div>
@@ -1187,7 +1187,7 @@ code, pre, kbd, samp,
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
               <span class="badge badge-info" id="form-curriculum-summary">총 2개 섹션 · 5강 · 합계 212분 30초</span>
-              <button type="button" class="btn btn-outline btn-sm" onclick="addCurriculumSection()">+ 섹션(대단원) 추가</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="addCurriculumSection">+ 섹션(대단원) 추가</button>
             </div>
           </div>
           <div class="card-body">
@@ -1202,7 +1202,7 @@ code, pre, kbd, samp,
               <h3 class="card-title">4. 연계 교재 매핑 (주교재 · 부교재)</h3>
               <span class="card-subtitle">ADMN-PROD-004(교재 관리) SKU를 연결하여 수강신청 시 함께 구매하도록 구성합니다.</span>
             </div>
-            <button type="button" class="btn btn-soft btn-sm" onclick="openTextbookModal()">+ 교재 검색 및 추가 (ADMN-PROD-004)</button>
+            <button type="button" class="btn btn-soft btn-sm" onclick="openTextbookModal">+ 교재 검색 및 추가 (ADMN-PROD-004)</button>
           </div>
           <div class="card-body" style="padding:0;">
             <table class="data-table">
@@ -1265,12 +1265,12 @@ code, pre, kbd, samp,
     <div class="modal-window">
       <div class="modal-header">
         <div class="modal-title">강의(영상 단품) 검색 및 차시 추가 — ADMN-PROD-002 연동</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeLectureModal()">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeLectureModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <div style="display:flex; gap:8px; margin-bottom:12px;">
-          <input type="text" id="modal-lec-keyword" class="form-input" placeholder="강의명 또는 강의코드(LEC-XXXX) 검색" oninput="renderLectureModalRows()">
-          <button type="button" class="btn btn-primary" onclick="renderLectureModalRows()">검색</button>
+          <input type="text" id="modal-lec-keyword" class="form-input" placeholder="강의명 또는 강의코드(LEC-XXXX) 검색" oninput="renderLectureModalRows">
+          <button type="button" class="btn btn-primary" onclick="renderLectureModalRows">검색</button>
         </div>
         <table class="data-table">
           <thead>
@@ -1288,8 +1288,8 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeLectureModal()">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmAddLecturesToSection()">선택한 강의를 섹션에 추가</button>
+        <button type="button" class="btn btn-outline" onclick="closeLectureModal">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmAddLecturesToSection">선택한 강의를 섹션에 추가</button>
       </div>
     </div>
   </div>
@@ -1299,7 +1299,7 @@ code, pre, kbd, samp,
     <div class="modal-window">
       <div class="modal-header">
         <div class="modal-title">연계 교재 검색 및 매핑 — ADMN-PROD-004 연동</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeTextbookModal()">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeTextbookModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <table class="data-table">
@@ -1318,8 +1318,8 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeTextbookModal()">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmAddTextbooks()">선택 교재 매핑 적용</button>
+        <button type="button" class="btn btn-outline" onclick="closeTextbookModal">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmAddTextbooks">선택 교재 매핑 적용</button>
       </div>
     </div>
   </div>

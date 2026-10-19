@@ -505,13 +505,13 @@ code, pre, kbd, samp,
           <div class="gate-card-head">
             <div class="gate-card-title">
               <span>[Gate 1] 권리자 단위 마감 차단 판정</span>
-              <span class="mono" style="color:var(--text-muted);">(pg_recon_unclassified_max = 0건)</span>
+              <span class="mono" style="color:var(--text-muted);">(미분류 허용 건수 0건)</span>
             </div>
             <span id="gateBadgeRH" class="badge badge-danger">차단 중</span>
           </div>
           <div class="gate-card-desc">
-            미분류(<code>원인 미분류 불일치 (UNKNOWN_MISMATCH)</code>) 상태의 거래가 1건이라도 존재하면 금액(1원 여부)과 무관하게 해당 거래 귀속 권리자의 정산 마감을 차단합니다.
-          </div>
+ 미분류(원인 미분류 불일치) 상태의 거래가 1건이라도 존재하면 금액(1원 여부)과 무관하게 해당 거래 귀속 권리자의 정산 마감을 차단합니다.
+ </div>
           <div class="gate-metrics">
             <span>현재 미분류 건수: <strong id="metricUnclassifiedCount" style="color:var(--danger);">2건</strong> (허용: 0건)</span>
             <span>마감 차단 권리자: <strong id="metricBlockedHolders">정종대 (RH-0025), 한국소방학회 (RH-0031)</strong></span>
@@ -522,13 +522,13 @@ code, pre, kbd, samp,
           <div class="gate-card-head">
             <div class="gate-card-title">
               <span>[Gate 2] 전사 총액 대사 허용 오차 판정</span>
-              <span class="mono" style="color:var(--text-muted);">(pg_recon_tolerance_company = 1,000원)</span>
+              <span class="mono" style="color:var(--text-muted);">(단수차 허용 오차 1,000원)</span>
             </div>
             <span id="gateBadgeComp" class="badge badge-danger">임계값 초과</span>
           </div>
           <div class="gate-card-desc">
-            미소명 상태인 전사 대사 차액 절대값 합계가 <code>1,000원</code>을 초과하면 전체 마감을 차단합니다. 원인 코드를 지정하고 소명 승인된 차이는 차단 모수에서 제외됩니다.
-          </div>
+ 미소명 상태인 전사 대사 차액 절대값 합계가 <code>1,000원</code>을 초과하면 전체 마감을 차단합니다. 원인 코드를 지정하고 소명 승인된 차이는 차단 모수에서 제외됩니다.
+ </div>
           <div class="gate-metrics">
             <span>미소명 차액 절대값 합계: <strong id="metricUnresolvedDiff" style="color:var(--danger);">135,020원</strong></span>
             <span>소명 승인 완료 차액: <strong id="metricApprovedDiff" style="color:var(--success);">48,000원</strong></span>
@@ -540,8 +540,8 @@ code, pre, kbd, samp,
       <div class="policy-note">
         <div>
           <strong>📌 [제8장 8.2절 · 통합설계서 표 5.1-A 토스페이먼츠 5대 결제수단(신용/체크·계좌이체·가상계좌 DONE·간편결제 5종·휴대폰) 1:1 대사 및 이원화 임계값 통제]</strong>
-          매입 재판매 도서(<code>매입 재판매 도서 (PURCHASED_RESALE)</code>) 및 사은품(<code>강좌 부속·사은품 (BUNDLED)</code>), 배송비(<code>SHIPPING_FEE</code>)는 정산 엔진 비인입 대상이므로 <strong>정산서 총액과 전사 결제 매출 총액은 구조적으로 일치하지 않습니다.</strong> 본 화면은 오직 <strong>자체 결제 DB(<code>payments / order_items</code>)와 PG사 정산 원장 간의 1:1 대사</strong>만 수행합니다.
-        </div>
+ 매입 재판매 도서(매입 재판매 도서) 및 사은품(<code>강좌 부속·사은품 (BUNDLED)</code>), 배송비는 정산 엔진 비인입 대상이므로 <strong>정산서 총액과 전사 결제 매출 총액은 구조적으로 일치하지 않습니다.</strong> 본 화면은 오직 <strong>자체 결제 DB(payments / 주문 품목)와 PG사 정산 원장 간의 1:1 대사</strong>만 수행합니다.
+ </div>
         <span class="badge badge-neutral">3계층 과·면세 분할 승인 연동됨</span>
       </div>
 
@@ -577,7 +577,7 @@ code, pre, kbd, samp,
       <!-- 탭 네비게이션 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabRecon">1. PG 원장 1:1 대사 및 소명 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabTaxSplit">2. 복합 결제 3계층 과·면세 분할 및 도서정가제 안분 검증 (8.1절)</button>
+        <button class="tab-btn" data-tab="tabTaxSplit">2. 복합 결제 3계층 과·면세 분할 및 도서정가제 안분 검증 </button>
         <button class="tab-btn" data-tab="tabVbank">3. 가상계좌 · 실시간 계좌이체 복구 시차 점검 (8.2절)</button>
         <button class="tab-btn" data-tab="tabAudit">4. 대사 · 소명 감사 로그 (ADMN-CONF-010)</button>
       </div>
@@ -595,11 +595,11 @@ code, pre, kbd, samp,
               <input type="text" id="searchInput" class="input" placeholder="PG TID, 주문번호, 권리자명 검색..." style="width:220px;">
               <select id="reasonFilter" class="select">
                 <option value="ALL">전체 차이 원인 코드</option>
-                <option value="UNKNOWN_MISMATCH">UNKNOWN_MISMATCH (미분류)</option>
-                <option value="TIMING_GAP">TIMING_GAP (기간 귀속차)</option>
-                <option value="PARTIAL_CANCEL_PENDING">PARTIAL_CANCEL_PENDING (부분취소 대기)</option>
-                <option value="PG_FEE_DIFF">PG_FEE_DIFF (PG 수수료 차감차)</option>
-                <option value="REFUND_TIMING_DIFF">REFUND_TIMING_DIFF (환불 처리 시차)</option>
+                <option value="UNKNOWN_MISMATCH">원인 미분류 불일치</option>
+                <option value="TIMING_GAP">기간 귀속 시차</option>
+                <option value="PARTIAL_CANCEL_PENDING">부분취소 처리 대기</option>
+                <option value="PG_FEE_DIFF">PG 수수료 차감 차액</option>
+                <option value="REFUND_TIMING_DIFF">환불 처리 시차</option>
               </select>
               <select id="methodFilter" class="select">
                 <option value="ALL">전체 결제수단</option>
@@ -644,10 +644,10 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">주문 품목(order_item_id) 단위 3계층 과·면세 분할 승인 및 도서정가제 안분 대사 (8.1절)</div>
+              <div class="card-title">주문 품목 단위 3계층 과·면세 분할 승인 및 도서정가제 안분 대사 </div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                복합 결제(MIXED) 시 교재 정가 할인 0% 고정(`book_discount_rate_limit = 0%`) → 순수 강좌 결제 풀 안분 → 마지막 강좌 잔여 차액 배정 규칙 검증
-              </div>
+ 복합 결제(MIXED) 시 교재 정가 할인 0% 고정(`도서정가제 0% 할인 고정`) → 순수 강좌 결제 풀 안분 → 마지막 강좌 잔여 차액 배정 규칙 검증
+ </div>
             </div>
             <span class="badge badge-success">전 품목 분할 검증 통과</span>
           </div>
@@ -655,8 +655,8 @@ code, pre, kbd, samp,
             <table>
               <thead>
                 <tr>
-                  <th>주문번호 / 품목 ID (order_item_id)</th>
-                  <th>품목명 / 유형 (item_type)</th>
+                  <th>주문번호 / 품목 ID</th>
+                  <th>품목명 / 유형</th>
                   <th>1층 공급유형</th>
                   <th>2층 카테고리</th>
                   <th>3층 부가세 (법령 근거)</th>
@@ -676,7 +676,7 @@ code, pre, kbd, samp,
                   <td class="num">150,000원</td>
                   <td class="num" style="color:var(--danger);">-16,666원</td>
                   <td class="num"><strong>133,334원</strong></td>
-                  <td>Pipeline 1.1 (정종대 외)</td>
+                  <td>(정종대 외)</td>
                 </tr>
                 <tr>
                   <td class="mono">ORD-202610-001<br><strong>OI-9001-2</strong></td>
@@ -687,33 +687,33 @@ code, pre, kbd, samp,
                   <td class="num">120,000원</td>
                   <td class="num" style="color:var(--danger);">-13,334원<br><span style="font-size:10px; color:var(--text-muted);">(잔여 1원 배정)</span></td>
                   <td class="num"><strong>106,666원</strong></td>
-                  <td>Pipeline 1.1 (정종대)</td>
+                  <td>(정종대)</td>
                 </tr>
                 <tr>
                   <td class="mono">ORD-202610-001<br><strong>OI-9001-3</strong></td>
-                  <td>[자사저작권] 정종대 산업안전 필기 기출문제집<br><span class="badge badge-neutral">BOOK (OWN_PUBLISHED)</span></td>
+                  <td>[자사저작권] 정종대 산업안전 필기 빈출문제집<br><span class="badge badge-neutral">자사발행 도서</span></td>
                   <td class="mono">GOODS (재화)</td>
                   <td class="mono">BOOK (도서)</td>
                   <td><span class="badge badge-primary">면세</span> 부가세법 제26조 제1항 제8호</td>
                   <td class="num">35,000원</td>
                   <td class="num">0원 (할인차단 0%)</td>
                   <td class="num"><strong>35,000원</strong></td>
-                  <td>인세 Bypass → Pipeline 5.1 모수</td>
+                  <td>인세 Bypass → 모수</td>
                 </tr>
                 <tr>
                   <td class="mono">ORD-202610-001<br><strong>OI-9001-4</strong></td>
-                  <td>산준모 합격 타이머 스톱워치<br><span class="badge badge-neutral">GOODS_ITEM</span></td>
+                  <td>산준모 합격 타이머 스톱워치<br><span class="badge badge-neutral">일반상품(굿즈)</span></td>
                   <td class="mono">GOODS (재화)</td>
                   <td class="mono">GENERAL (일반소비재)</td>
                   <td><span class="badge badge-warn">과세 10%</span> (공급가 10,000 / 세액 1,000)</td>
                   <td class="num">11,000원</td>
                   <td class="num">0원</td>
                   <td class="num"><strong>11,000원</strong></td>
-                  <td>Pipeline 2.3 (자사 매출 전용)</td>
+                  <td>(자사 매출 전용)</td>
                 </tr>
                 <tr>
                   <td class="mono">ORD-202610-001<br><strong>OI-9001-5</strong></td>
-                  <td>도서·굿즈 묶음 배송비<br><span class="badge badge-neutral">SHIPPING_FEE</span></td>
+                  <td>도서·굿즈 묶음 배송비<br><span class="badge badge-neutral">배송비</span></td>
                   <td class="mono">SERVICE (부수용역)</td>
                   <td class="mono">BOOK 부수 / 혼합</td>
                   <td><span class="badge badge-neutral">플랫폼 물류비 귀속</span> (제14조 부수공급)</td>
@@ -735,8 +735,8 @@ code, pre, kbd, samp,
             <div>
               <div class="card-title">가상계좌 입금 대기 스냅샷 및 월말/월초 귀속월 분리 대사 (8.2절)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                가상계좌 발급일과 PG 웹훅 입금완료 시점이 월 경계를 넘는 건은 매출 귀속월과 정산 반영월을 분리하여 추적합니다.
-              </div>
+ 가상계좌 발급일과 PG 웹훅 입금완료 시점이 월 경계를 넘는 건은 매출 귀속월과 정산 반영월을 분리하여 추적합니다.
+ </div>
             </div>
           </div>
           <div class="table-wrap">
@@ -768,7 +768,7 @@ code, pre, kbd, samp,
                   <td>2026-10-31 23:58:10</td>
                   <td>2026-11-01 00:04:12 (복구 전문)</td>
                   <td><span class="badge badge-warn">2026-10</span></td>
-                  <td><span class="badge badge-primary">2026-10 (TIMING_GAP 소명)</span></td>
+                  <td><span class="badge badge-primary">2026-10 (기간 귀속 시차 소명)</span></td>
                   <td>PG 익영업일 정산 원장 시차 발생 → 기간귀속차 소명 대상</td>
                 </tr>
               </tbody>
@@ -807,8 +807,8 @@ code, pre, kbd, samp,
       <div class="savebar-status">
         <span id="footerGateIcon" class="badge badge-danger">마감 게이트 차단 중</span>
         <span id="footerGateText">
-          미분류 불일치 <strong>2건</strong> 및 전사 미소명 차액 <strong>135,020원</strong>(한도 1,000원 초과)으로 인해 [ADMN-SETT-002 월간 정산 마감] 실행이 잠겨 있습니다.
-        </span>
+ 미분류 불일치 <strong>2건</strong> 및 전사 미소명 차액 <strong>135,020원</strong>(한도 1,000원 초과)으로 인해 [ADMN-SETT-002 월간 정산 마감] 실행이 잠겨 있습니다.
+ </span>
       </div>
       <div style="display:flex; gap:8px;">
         <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행(SETT-002) 이동 →</button>

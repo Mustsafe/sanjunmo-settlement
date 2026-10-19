@@ -495,9 +495,9 @@ code, pre, kbd, samp,
       <div class="policy-banner">
         <div>
           <strong>📌 [UX 진입 경로 및 마감 불변성 원칙 (제10장)]</strong>
-          ① <strong>월간 정산 및 집행(<code>ADMN-SETT-002</code>)</strong>에서 특정 정산서를 선택해 <strong>[수동 조정 등록]</strong>으로 진입하면 해당 정산서가 자동 바인딩되며, ② 우측 상단 <strong>[+ 신규 수동 조정 · 계정 대체 등록]</strong> 버튼으로 직접 등록할 수도 있습니다.<br>
-          마감 확정(<code>Locked = True</code>)된 월은 해제하지 않으며, <strong>원 발생 귀속월(<code>origin_month</code>)과 반영 기준월(<code>applied_month</code>)을 분리</strong>해 미마감 당월 조정 라인으로 반영합니다.
-        </div>
+ <strong>월간 정산 및 집행(<code>ADMN-SETT-002</code>)</strong>에서 특정 정산서를 선택해 <strong>[수동 조정 등록]</strong>으로 진입하면 해당 정산서가 자동 바인딩되며, 우측 상단 <strong>[+ 신규 수동 조정 · 계정 대체 등록]</strong> 버튼으로 직접 등록할 수도 있습니다.<br>
+ 마감 확정(<code>Locked = True</code>)된 월은 해제하지 않으며, <strong>원 발생 귀속월과 반영 기준월을 분리</strong>해 미마감 당월 조정 라인으로 반영합니다.
+ </div>
         <span class="badge badge-neutral">최소 20자 이상 소명 필수</span>
       </div>
 
@@ -544,20 +544,20 @@ code, pre, kbd, samp,
           <div class="card">
             <div class="card-header">
               <div class="card-title">정산 수동 조정 및 계정 대체 전표 목록</div>
-              <button class="btn btn-sm btn-primary" onclick="openNewAdjModal()">+ 신규 수동 조정 등록</button>
+              <button class="btn btn-sm btn-primary" onclick="openNewAdjModal">+ 신규 수동 조정 등록</button>
             </div>
             <div class="filter-bar">
               <input type="text" id="searchInput" class="input" placeholder="조정ID, 수취인명, 원 정산서ID 검색..." style="width:220px;">
               <select id="reasonFilter" class="select">
                 <option value="ALL">전체 조정 사유 구분 (13종)</option>
-                <option value="RATE_ERR">요율 오류 (RATE_ERR)</option>
-                <option value="SHARE_ERR">지분율 오류 (SHARE_ERR)</option>
-                <option value="REFUND_OMIT">환불 반영 누락 (REFUND_OMIT)</option>
-                <option value="ACCOUNT_TRANSFER">계정 간 대체 (ACCOUNT_TRANSFER)</option>
-                <option value="BOOK_SUPPLY_ERR">도서 공급 형태 오등록 (BOOK_SUPPLY_ERR)</option>
-                <option value="PRO_RATA_SETTLE">지원금 이행률 정산 (PRO_RATA)</option>
-                <option value="CONSIGN_FEE_ERR">위탁 수수료율 오류 (CONSIGN_FEE_ERR)</option>
-                <option value="TAX_TYPE_ERR">과세유형 오인 (TAX_TYPE_ERR)</option>
+                <option value="RATE_ERR">요율 오류</option>
+                <option value="SHARE_ERR">지분율 오류</option>
+                <option value="REFUND_OMIT">환불 반영 누락</option>
+                <option value="ACCOUNT_TRANSFER">계정 간 대체</option>
+                <option value="BOOK_SUPPLY_ERR">도서 공급 형태 오등록</option>
+                <option value="PRO_RATA_SETTLE">지원금 이행률 정산</option>
+                <option value="CONSIGN_FEE_ERR">위탁 수수료율 오류</option>
+                <option value="TAX_TYPE_ERR">과세유형 오인</option>
               </select>
             </div>
             <div class="table-wrap">
@@ -596,8 +596,8 @@ code, pre, kbd, samp,
             <div>
               <div class="card-title">[10.4절 정본] 수동 조정에 따른 4채널 증빙·원천세 정정 작업 목록 (1:N 복수 연결 지원)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                부가가치세 증빙 정정(채널 1·2·4)과 원천세·지급명세서 수정신고(채널 3-a)는 독립 판정하여 동일 조정 건에 복수 작업을 동시 생성합니다.
-              </div>
+ 부가가치세 증빙 정정(채널 1·2·4)과 원천세·지급명세서 수정신고(채널 3-a)는 독립 판정하여 동일 조정 건에 복수 작업을 동시 생성합니다.
+ </div>
             </div>
           </div>
           <div class="table-wrap">
@@ -698,60 +698,60 @@ code, pre, kbd, samp,
       <div>
         <div class="card-title">🔧 [ADMN-SETT-005-S1] 조정 라인 등록 · 수정 — 원 발생월/반영월 · 사유 · 4채널 증빙 정정</div>
         <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-          원 정산서(<code>origin_settlement_id</code>)를 선택하면 수취인 세무 유형과 원 발생 귀속월(<code>origin_month</code>)이 자동 바인딩되며, 마감된 월은 미마감 당월(<code>2026-10</code>)로만 반영됩니다.
-        </div>
+ 원 정산서를 선택하면 수취인 세무 유형과 원 발생 귀속월이 자동 바인딩되며, 마감된 월은 미마감 당월(<code>2026-10</code>)로만 반영됩니다.
+ </div>
       </div>
-      <button class="btn btn-sm" onclick="closeNewAdjModal()">✕ 닫기</button>
+      <button class="btn btn-sm" onclick="closeNewAdjModal">✕ 닫기</button>
     </div>
     <div class="modal-body">
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">참조 원 정산서 선택 (origin_settlement_id · 필수)</label>
-          <select id="newOriginStmt" class="select" onchange="onNewOriginStmtChange()">
+          <label class="form-label">참조 원 정산서 선택 (필수)</label>
+          <select id="newOriginStmt" class="select" onchange="onNewOriginStmtChange">
             <option value="STMT-202609-014" data-payee-id="RH-0025" data-payee-name="정종대 (개인사업자 · 면세)" data-origin-month="2026-09" data-matrix="면세사업자 역발행 + 원천징수 (TX-08)">
-              STMT-202609-014 | 2026-09 마감 | 정종대 (면세사업자 TX-08)
-            </option>
+ STMT-202609-014 | 2026-09 마감 | 정종대 (면세사업자 TX-08)
+ </option>
             <option value="STMT-202609-008" data-payee-id="RH-0012" data-payee-name="(주)산준교육 에이전시 (법인 · 과세 · PY-0025-B)" data-origin-month="2026-09" data-matrix="법인 일반과세자 세금계산서 역발행 (TX-07)">
-              STMT-202609-008 | 2026-09 마감 | 산준교육 주식회사 (법인 과세 TX-07)
-            </option>
+ STMT-202609-008 | 2026-09 마감 | 산준교육 주식회사 (법인 과세 TX-07)
+ </option>
             <option value="STMT-202609-022" data-payee-id="RH-0019" data-payee-name="김안전 (프리랜서 저자 · RH-0019)" data-origin-month="2026-09" data-matrix="개인 저자 사업소득 인세 (TX-03)">
-              STMT-202609-022 | 2026-09 마감 | 김안전 (프리랜서 인세 TX-03)
-            </option>
+ STMT-202609-022 | 2026-09 마감 | 김안전 (프리랜서 인세 TX-03)
+ </option>
             <option value="STMT-202609-031" data-payee-id="RH-0031" data-payee-name="한국소방학회 (위탁 출판사)" data-origin-month="2026-09" data-matrix="위탁 도서 공급 면세 + 수수료 과세 (TX-11)">
-              STMT-202609-031 | 2026-09 마감 | 한국소방학회 (위탁출판사 TX-11)
-            </option>
+ STMT-202609-031 | 2026-09 마감 | 한국소방학회 (위탁출판사 TX-11)
+ </option>
             <option value="STMT-202610-001" data-payee-id="RH-0025" data-payee-name="정종대 (개인사업자 · 면세)" data-origin-month="2026-10" data-matrix="면세사업자 역발행 + 원천징수 (TX-08)">
-              STMT-202610-001 | 2026-10 당월 미마감 | 정종대 (당월 수동 조정)
-            </option>
+ STMT-202610-001 | 2026-10 당월 미마감 | 정종대 (당월 수동 조정)
+ </option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">조정 사유 구분 (adj_reason_code · 10.2절 표준 13종)</label>
-          <select id="newReasonCode" class="select" onchange="updateNewModalPreview()">
-            <option value="RATE_ERR">요율 오류 (RATE_ERR)</option>
-            <option value="SHARE_ERR">지분율 오류 (SHARE_ERR)</option>
-            <option value="REFUND_OMIT">환불 반영 누락 (REFUND_OMIT)</option>
-            <option value="PREPAY_OFFSET_ERR">선급금 상계액 오류 (PREPAY_OFFSET_ERR)</option>
-            <option value="MMG_CALC_ERR">최저보장 보전금 산출 오류 (MMG_CALC_ERR)</option>
-            <option value="SUPPORT_CAP_ERR">지원금 한도 판정 오류 (SUPPORT_CAP_ERR · 2차승인 필수)</option>
-            <option value="PRO_RATA_SETTLE">지원금 해지 이행률 정산 (PRO_RATA · 2차승인 필수)</option>
-            <option value="ACCOUNT_TRANSFER">세전·세후 계정 간 대체 (ACCOUNT_TRANSFER · 2차승인 필수)</option>
-            <option value="TAX_TYPE_ERR">과세유형 오인 (TAX_TYPE_ERR)</option>
-            <option value="WITHHOLDING_RATE_ERR">원천징수 세율 오류 (WITHHOLDING_RATE_ERR)</option>
-            <option value="BOOK_COUNT_DIFF">도서 확정 판매 부수 차이 (BOOK_COUNT_DIFF)</option>
-            <option value="BOOK_SUPPLY_ERR">도서 공급 형태 오등록 (BOOK_SUPPLY_ERR)</option>
-            <option value="CONSIGN_FEE_ERR">위탁 수수료율 오류 (CONSIGN_FEE_ERR)</option>
+          <label class="form-label">조정 사유 구분 (표준 조정 사유 13종)</label>
+          <select id="newReasonCode" class="select" onchange="updateNewModalPreview">
+            <option value="RATE_ERR">요율 오류</option>
+            <option value="SHARE_ERR">지분율 오류</option>
+            <option value="REFUND_OMIT">환불 반영 누락</option>
+            <option value="PREPAY_OFFSET_ERR">선급금 상계액 오류</option>
+            <option value="MMG_CALC_ERR">최저보장 보전금 산출 오류</option>
+            <option value="SUPPORT_CAP_ERR">지원금 한도 판정 오류 (2차 승인 필수)</option>
+            <option value="PRO_RATA_SETTLE">지원금 해지 이행률 정산 (2차 승인 필수)</option>
+            <option value="ACCOUNT_TRANSFER">세전·세후 계정 간 대체 (2차 승인 필수)</option>
+            <option value="TAX_TYPE_ERR">과세유형 오인</option>
+            <option value="WITHHOLDING_RATE_ERR">원천징수 세율 오류</option>
+            <option value="BOOK_COUNT_DIFF">도서 확정 판매 부수 차이</option>
+            <option value="BOOK_SUPPLY_ERR">도서 공급 형태 오등록</option>
+            <option value="CONSIGN_FEE_ERR">위탁 수수료율 오류</option>
           </select>
         </div>
       </div>
 
       <div class="form-row-3">
         <div class="form-group">
-          <label class="form-label">원 발생 귀속월 (origin_month)</label>
+          <label class="form-label">원 발생 귀속월</label>
           <input type="text" id="newOriginMonth" class="input mono" value="2026-09" readonly="" style="background:#f1f5f9;">
         </div>
         <div class="form-group">
-          <label class="form-label">반영 기준월 (applied_month · 미마감월 고정)</label>
+          <label class="form-label">반영 기준월 (미마감 당월 고정)</label>
           <select id="newAppliedMonth" class="select mono">
             <option value="2026-10" selected="">2026-10 (당월 미마감 정산서 반영)</option>
             <option value="2026-11">2026-11 (차월 예정)</option>
@@ -759,21 +759,21 @@ code, pre, kbd, samp,
         </div>
         <div class="form-group">
           <label class="form-label">조정 금액 (원 · 가산은 양수, 차감은 음수)</label>
-          <input type="number" id="newAdjAmount" class="input mono" value="500000" step="1000" oninput="updateNewModalPreview()">
+          <input type="number" id="newAdjAmount" class="input mono" value="500000" step="1000" oninput="updateNewModalPreview">
         </div>
       </div>
 
       <div class="form-row-3">
         <div class="form-group">
-          <label class="form-label">이월/반영 계정 구분 (adj_account_type)</label>
-          <select id="newAccountType" class="select" onchange="updateNewModalPreview()">
-            <option value="세전 계정 (PRE_TAX)">세전 계정 (PRE_TAX · 과세표준 반영)</option>
-            <option value="세후 계정 (POST_TAX)">세후 계정 (POST_TAX · 기세무처리/반환채권)</option>
-            <option value="세전(PRE_TAX) → 세후(POST_TAX) 대체">세전(PRE_TAX) → 세후(POST_TAX) 계정 대체</option>
+          <label class="form-label">이월/반영 계정 구분</label>
+          <select id="newAccountType" class="select" onchange="updateNewModalPreview">
+            <option value="세전 계정 (PRE_TAX)">세전 계정 (과세표준 반영)</option>
+            <option value="세후 계정 (POST_TAX)">세후 계정 (세후 이월 · 기세무처리/반환채권)</option>
+            <option value="세전(PRE_TAX) → 세후(POST_TAX) 대체">세전 → 세후 계정 대체</option>
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">과·면세 구분 (adj_tax_type)</label>
+          <label class="form-label">과·면세 구분</label>
           <select id="newTaxType" class="select">
             <option value="면세 (EXEMPT)">면세 (EXEMPT)</option>
             <option value="과세 (TAXABLE)">과세 10% (TAXABLE)</option>
@@ -794,18 +794,18 @@ code, pre, kbd, samp,
       <div class="channel-box" id="newModalPreviewBox"></div>
 
       <div class="form-group">
-        <label class="form-label">구체적 조정 소명 내용 (adj_explanation · 최소 20자 이상 필수 입력)</label>
+        <label class="form-label">구체적 조정 소명 내용 (최소 20자 이상 필수 입력)</label>
         <textarea id="newExplanation" class="input" placeholder="오류 발생 경위, 원 거래 근거, 산출 수식을 20자 이상 구체적으로 입력해 주세요..."></textarea>
         <div style="font-size:11px; color:var(--text-muted); text-align:right;">
-          입력 글자 수: <strong id="newCharCount">0</strong>자 (최소 20자 필수)
-        </div>
+ 입력 글자 수: <strong id="newCharCount">0</strong>자 (최소 20자 필수)
+ </div>
       </div>
     </div>
     <div class="modal-footer">
       <span style="font-size:11.5px; color:var(--text-sub);">* 등록 시 감사 로그(<code>ADMN-CONF-010</code>)에 원 정산서 연결 및 작업자 소명이 즉시 기록됩니다.</span>
       <div style="display:flex; gap:8px;">
-        <button class="btn" onclick="closeNewAdjModal()">취소</button>
-        <button class="btn btn-primary" onclick="submitNewAdjustment()">✔ 수동 조정 레코드 등록</button>
+        <button class="btn" onclick="closeNewAdjModal">취소</button>
+        <button class="btn btn-primary" onclick="submitNewAdjustment">✔ 수동 조정 레코드 등록</button>
       </div>
     </div>
   </div>

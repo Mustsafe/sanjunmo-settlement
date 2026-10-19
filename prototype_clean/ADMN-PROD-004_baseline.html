@@ -688,9 +688,9 @@ code, pre, kbd, samp,
     <div class="top-bar-right" id="v4-topbar-right-slot">
       <div class="role-sim-box" title="ADMN-BOOK-001 공급원가 열람 권한 시뮬레이터">
           <span>열람 권한:</span>
-          <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
+          <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking">
             <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
-            <option value="FIN_MANAGER">재무/정산책임자 (FIN_MANAGER)</option>
+            <option value="FIN_MANAGER">재무/정산책임자</option>
           </select>
         </div>
 
@@ -740,7 +740,7 @@ code, pre, kbd, samp,
             </div>
             <div class="step-desc">
               <code>ADMN-INST-001</code> · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (외부 사입 도서는 생략 가능)
-            </div>
+ </div>
           </a>
 
           <a class="step-node" href="ADMN-BOOK-001_baseline.html">
@@ -750,7 +750,7 @@ code, pre, kbd, samp,
             </div>
             <div class="step-desc">
               <code>ADMN-BOOK-001</code> · 정식 SKU(<code>BOOK-XXXX</code>)를 부여하고 출판사 공급률·제조원가·인세율을 확정합니다.
-            </div>
+ </div>
           </a>
 
           <a class="step-node" href="ADMN-SETT-001_baseline.html">
@@ -760,7 +760,7 @@ code, pre, kbd, samp,
             </div>
             <div class="step-desc">
               <code>ADMN-SETT-001</code> · 가채번 도서는 자동 매핑되며, 계약원장 없이 신규 생성한 도서는 여기서 권리자를 수동 매핑합니다.
-            </div>
+ </div>
           </a>
 
           <div class="step-node current-screen" onclick="switchSubview('form')" style="cursor:pointer;">
@@ -778,10 +778,10 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">도서정가제 0% · 면세 고정</span>
           <div class="policy-text">
-            산준모 판매 교재는 <strong>도서정가제 할인 0% 정책(<code>book_discount_rate_limit = 0%</code>)</strong>으로 정가와 판매가가 동일하게 고정되며, ISBN 도서로서 <strong>부가세 면세(VAT 0%)</strong> 처리됩니다. 재고 <strong>0권</strong> 도달 시 자동으로 <strong>[일시품절]</strong> 전환됩니다.
-          </div>
+ 산준모 판매 교재는 <strong>도서정가제 할인 0% 정책(도서정가제 0% 할인 고정)</strong>으로 정가와 판매가가 동일하게 고정되며, ISBN 도서로서 <strong>부가세 면세(VAT 0%)</strong> 처리됩니다. 재고 <strong>0권</strong> 도달 시 자동으로 <strong>[일시품절]</strong> 전환됩니다.
+ </div>
         </div>
-        <button type="button" class="btn btn-primary btn-sm" onclick="openNewBookForm()">+ 3-Way 교재 등록 바로가기</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="openNewBookForm">+ 3-Way 교재 등록 바로가기</button>
       </div>
 
       <!-- ========================================================================= -->
@@ -848,8 +848,8 @@ code, pre, kbd, samp,
                 <input type="text" id="filter-keyword" class="form-input" placeholder="교재명, BOOK-XXXX, TMP-BK-XX, ISBN-13, 저자명 입력">
               </div>
               <div class="filter-field" style="display:flex; justify-content:flex-end; gap:8px;">
-                <button type="button" class="btn btn-outline" onclick="resetBookFilters()">초기화</button>
-                <button type="button" class="btn btn-primary" onclick="renderBookList()">조건 검색</button>
+                <button type="button" class="btn btn-outline" onclick="resetBookFilters">초기화</button>
+                <button type="button" class="btn btn-primary" onclick="renderBookList">조건 검색</button>
               </div>
             </div>
           </div>
@@ -863,7 +863,7 @@ code, pre, kbd, samp,
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="showToast('교재 마스터 목록 CSV 다운로드가 완료되었습니다.')">엑셀 다운로드 (CSV)</button>
-              <button type="button" class="btn btn-primary" onclick="openNewBookForm()">+ 신규 교재 등록 (3-Way)</button>
+              <button type="button" class="btn btn-primary" onclick="openNewBookForm">+ 신규 교재 등록 (3-Way)</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -904,9 +904,9 @@ code, pre, kbd, samp,
             <span id="d-status-badge" class="badge badge-sale">판매중</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-soft" onclick="openStockAdjustModal()">재고 입고/차감 등록</button>
+            <button type="button" class="btn btn-soft" onclick="openStockAdjustModal">재고 입고/차감 등록</button>
             <a class="btn btn-outline" href="ADMN-BOOK-001_baseline.html">도서 공급 원장 (ADMN-BOOK-001)</a>
-            <button type="button" class="btn btn-primary" onclick="editCurrentDetailBook()">교재 정보 수정 (004-S1)</button>
+            <button type="button" class="btn btn-primary" onclick="editCurrentDetailBook">교재 정보 수정 (004-S1)</button>
           </div>
         </div>
 
@@ -940,7 +940,7 @@ code, pre, kbd, samp,
                 <tr>
                   <th>정가 / 도서할인 / 판매가</th>
                   <td id="d-price-info">
-                    정가 <strong>38,000원</strong> / 할인율 <strong>0% (도서정가제 고정)</strong> → 최종 판매가 <strong style="color:var(--primary);">38,000원 (면세)</strong>
+ 정가 <strong>38,000원</strong> / 할인율 <strong>0% (도서정가제 고정)</strong> → 최종 판매가 <strong style="color:var(--primary);">38,000원 (면세)</strong>
                   </td>
                   <th>배송비 정책</th>
                   <td>기본 배송비 <strong>3,000원</strong> (순수 실물(교재·일반상품) 결제 합계 <strong>30,000원 이상 무료배송</strong> (강좌 금액 합산 제외 · 도서산간 우편번호 대조 추가배송비 가산) / 1주문당 최대 5권)</td>
@@ -952,7 +952,7 @@ code, pre, kbd, samp,
                       <div>
                         <strong id="d-supply-type">[[경로 1] 계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
                         <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료 · 권리자 매핑(ADMN-SETT-001) 저자인세 10% 자동 매핑 완료</span>
-                        · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (FIN_MANAGER 전용)</span>
+ · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (재무·정산책임자 전용)</span>
                       </div>
                       <div style="display:flex; gap:6px;">
                         <a href="ADMN-BOOK-001_baseline.html" class="btn btn-outline btn-sm">ADMN-BOOK-001 원장</a>
@@ -972,7 +972,7 @@ code, pre, kbd, samp,
               <h3 class="card-title">2. 최근 재고 수불(입고 · 주문차감 · 반품 · 조정) 이력</h3>
               <span class="card-subtitle">재고 0권 도달 시 판매상태가 자동으로 [일시품절]로 전환됩니다.</span>
             </div>
-            <button type="button" class="btn btn-soft btn-sm" onclick="openStockAdjustModal()">+ 재고 수동 입고/조정</button>
+            <button type="button" class="btn btn-soft btn-sm" onclick="openStockAdjustModal">+ 재고 수동 입고/조정</button>
           </div>
           <div class="card-body" style="padding:0;">
             <table class="data-table">
@@ -1003,7 +1003,7 @@ code, pre, kbd, samp,
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="saveBookForm()">교재 정보 저장</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="saveBookForm">교재 정보 저장</button>
           </div>
         </div>
 
@@ -1026,13 +1026,13 @@ code, pre, kbd, samp,
                     <span class="badge badge-sale">강사 인세도서 권장</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    강사와 저자 인세 계약을 먼저 체결하여 <strong>가채번(<code>TMP-BK-XX</code>)</strong>된 도서를 불러옵니다.<br>
-                    저자명·인세율·권리자 지분이 자동 상속되므로 <strong>별도의 권리자 매핑(SETT-001) 작업이 필요 없습니다.</strong>
+ 강사와 저자 인세 계약을 먼저 체결하여 <strong>가채번(<code>TMP-BK-XX</code>)</strong>된 도서를 불러옵니다.<br>
+ 저자명·인세율·권리자 지분이 자동 상속되므로 <strong>별도의 권리자 매핑(SETT-001) 작업이 필요 없습니다.</strong>
                   </div>
                 </div>
                 <div class="entry-mode-foot">
                   <span style="color:var(--primary);" id="entry-status-INST_TEMP">현재 바인딩: TMP-BK-2601 (김안전 10%)</span>
-                  <button type="button" class="btn btn-soft btn-sm" onclick="event.stopPropagation(); openTempBookModal();">가채번 도서 검색 →</button>
+                  <button type="button" class="btn btn-soft btn-sm" onclick="event.stopPropagation; openTempBookModal;">가채번 도서 검색 →</button>
                 </div>
               </div>
 
@@ -1044,13 +1044,13 @@ code, pre, kbd, samp,
                     <span class="badge badge-info">위탁·사입 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    재무/출판 담당자가 <strong>도서 공급 원장(<code>ADMN-BOOK-001</code>)</strong>에서 먼저 생성한 정식 SKU를 불러옵니다.<br>
-                    SKU·정가·출판사·공급원가가 자동 세팅되며, 상품팀은 표지·목차·재고만 입력합니다.
-                  </div>
+ 재무/출판 담당자가 <strong>도서 공급 원장(<code>ADMN-BOOK-001</code>)</strong>에서 먼저 생성한 정식 SKU를 불러옵니다.<br>
+ SKU·정가·출판사·공급원가가 자동 세팅되며, 상품팀은 표지·목차·재고만 입력합니다.
+ </div>
                 </div>
                 <div class="entry-mode-foot">
                   <span style="color:var(--slate-600);" id="entry-status-BOOK_LEDGER">공급원장 미연결 SKU 2건 대기중</span>
-                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openSupplyLedgerModal();">공급원장 SKU 검색 →</button>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation; openSupplyLedgerModal;">공급원장 SKU 검색 →</button>
                 </div>
               </div>
 
@@ -1062,13 +1062,13 @@ code, pre, kbd, samp,
                     <span class="badge badge-warn">후속 매핑 필수</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    계약원장·공급원장 등록 전에 상품팀이 먼저 <strong>신규 SKU(<code>BOOK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
-                    단, 저장 후 <strong>공급원장 원가 입력(BOOK-001)</strong> 및 <strong>권리자 매핑(SETT-001)</strong>을 완료하기 전에는 <strong>[판매대기]</strong>로 잠금됩니다.
-                  </div>
+ 계약원장·공급원장 등록 전에 상품팀이 먼저 <strong>신규 SKU(<code>BOOK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
+ 단, 저장 후 <strong>공급원장 원가 입력(BOOK-001)</strong> 및 <strong>권리자 매핑(SETT-001)</strong>을 완료하기 전에는 <strong>[판매대기]</strong>로 잠금됩니다.
+ </div>
                 </div>
                 <div class="entry-mode-foot">
                   <span style="color:var(--amber);">선등록 후 원장 역매핑 모드</span>
-                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); selectEntryMode('PROD_DIRECT');">즉시 신규 채번 전환</button>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation; selectEntryMode('PROD_DIRECT');">즉시 신규 채번 전환</button>
                 </div>
               </div>
             </div>
@@ -1078,8 +1078,8 @@ code, pre, kbd, samp,
               <div>
                 <strong id="entry-alert-title">[경로 1 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 완료]</strong>
                 <div style="font-size:12px; margin-top:2px;" id="entry-alert-desc">
-                  계약원장(ADMN-INST-001)에서 저자(김안전 · INS-0001) 및 인세율(10%) 정보가 자동 연동되었습니다. 표지 이미지와 재고만 입력하면 즉시 [판매중]으로 전시할 수 있습니다.
-                </div>
+ 계약원장(ADMN-INST-001)에서 저자(김안전 · INS-0001) 및 인세율(10%) 정보가 자동 연동되었습니다. 표지 이미지와 재고만 입력하면 즉시 [판매중]으로 전시할 수 있습니다.
+ </div>
               </div>
               <div style="display:flex; gap:6px; flex-shrink:0;" id="entry-alert-actions">
                 <a href="ADMN-INST-001_baseline.html" class="btn btn-outline btn-sm">계약원장 확인</a>
@@ -1112,7 +1112,7 @@ code, pre, kbd, samp,
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
                       <input type="text" id="f-temp-code" class="form-input" style="width:170px;" value="TMP-BK-2601" readonly="">
-                      <button type="button" class="btn btn-soft btn-sm" onclick="openTempBookModal()">가채번 변경</button>
+                      <button type="button" class="btn btn-soft btn-sm" onclick="openTempBookModal">가채번 변경</button>
                     </div>
                   </td>
                 </tr>
@@ -1160,7 +1160,7 @@ code, pre, kbd, samp,
                     <div style="display:flex; align-items:center; gap:8px;">
                       <input type="text" id="f-publisher" class="form-input" style="width:140px;" value="산준모북스" placeholder="출판사명">
                       <input type="text" id="f-isbn" class="form-input" style="width:175px;" value="979-11-98765-01-2" placeholder="979-11-XXXXX-XX-X">
-                      <button type="button" class="btn btn-outline btn-sm" onclick="validateIsbnField()">ISBN 검증</button>
+                      <button type="button" class="btn btn-outline btn-sm" onclick="validateIsbnField">ISBN 검증</button>
                     </div>
                   </td>
                 </tr>
@@ -1184,7 +1184,7 @@ code, pre, kbd, samp,
                   <th>도서 정가 <span class="req-star">*</span></th>
                   <td>
                     <div class="input-with-unit" style="width:210px;">
-                      <input type="number" id="f-list-price" class="form-input text-right" value="38000" min="0" step="500" oninput="syncBookSalePrice()">
+                      <input type="number" id="f-list-price" class="form-input text-right" value="38000" min="0" step="500" oninput="syncBookSalePrice">
                       <span class="input-unit">원</span>
                     </div>
                   </td>
@@ -1193,7 +1193,7 @@ code, pre, kbd, samp,
                     <div style="display:flex; align-items:center; gap:8px;">
                       <input type="text" class="form-input text-right" style="width:80px;" value="0" disabled="">
                       <span class="input-unit">%</span>
-                      <span class="badge badge-warn">book_discount_rate_limit = 0% (할인 불가)</span>
+                      <span class="badge badge-warn">도서정가제 0% 할인 고정 (할인 불가)</span>
                     </div>
                   </td>
                 </tr>
@@ -1220,7 +1220,7 @@ code, pre, kbd, samp,
                         <option value="사입판매">[SUP-0003] 한국자격교재총판 — 사입판매 (매입가 60%)</option>
                         <option value="미등록(후속입력)">[미등록] 도서 공급 원장(ADMN-BOOK-001) 원가 미입력 상태</option>
                       </select>
-                      <span class="masked-cost" id="f-cost-preview">🔒 매입원가 마스킹 (FIN_MANAGER 전용)</span>
+                      <span class="masked-cost" id="f-cost-preview">🔒 매입원가 마스킹 (재무·정산책임자 전용)</span>
                       <a href="ADMN-BOOK-001_baseline.html" class="btn btn-outline btn-sm">ADMN-BOOK-001에서 공급원가 관리 →</a>
                     </div>
                   </td>
@@ -1234,7 +1234,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">3. 예약판매(<code>is_preorder</code>) · 재고 수량 · 판매 상태 제어</h3>
+              <h3 class="card-title">3. 예약판매 · 재고 수량 · 판매 상태 제어</h3>
               <span class="card-subtitle">재고 0권 시 [일시품절] 자동 전환 · 경로 3(직접 선등록) 선택 시 원장 매핑 전까지 [판매대기] 하드락 작동</span>
             </div>
           </div>
@@ -1242,15 +1242,15 @@ code, pre, kbd, samp,
             <table class="spec-form-table">
               <tbody>
                 <tr>
-                  <th>예약판매 설정<br>(<code>is_preorder</code>)</th>
+                  <th>예약판매 설정<br>(예약판매 여부)</th>
                   <td colspan="3">
                     <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
                       <label class="option-label">
-                        <input type="checkbox" id="f-is-preorder" onchange="togglePreorderFields()">
+                        <input type="checkbox" id="f-is-preorder" onchange="togglePreorderFields">
                         <span><strong>예약판매(출간 예정 도서 선주문) 활성화</strong></span>
                       </label>
                       <div id="preorder-date-wrap" style="display:none; align-items:center; gap:10px;">
-                        <span class="input-unit" style="color:var(--violet);">출고 예정일 (<code>release_date</code>) <span class="req-star">*</span></span>
+                        <span class="input-unit" style="color:var(--violet);">출고 예정일 <span class="req-star">*</span></span>
                         <input type="date" id="f-release-date" class="form-input" style="width:170px;" value="2026-11-15">
                       </div>
                     </div>
@@ -1260,9 +1260,9 @@ code, pre, kbd, samp,
                   <th>현재 재고 수량 <span class="req-star">*</span></th>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <input type="number" id="f-stock-qty" class="form-input text-right" style="width:120px; font-weight:700;" value="420" min="0" oninput="checkZeroStockHardLock()">
+                      <input type="number" id="f-stock-qty" class="form-input text-right" style="width:120px; font-weight:700;" value="420" min="0" oninput="checkZeroStockHardLock">
                       <span class="input-unit">권</span>
-                      <button type="button" class="btn btn-outline btn-sm" onclick="setZeroStockDemo()">재고 0권 시뮬레이션</button>
+                      <button type="button" class="btn btn-outline btn-sm" onclick="setZeroStockDemo">재고 0권 시뮬레이션</button>
                     </div>
                   </td>
                   <th>안전재고 알림 기준</th>
@@ -1363,12 +1363,12 @@ code, pre, kbd, samp,
     <div class="modal-window">
       <div class="modal-header">
         <div class="modal-title">[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeTempBookModal()">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeTempBookModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <div style="font-size:12px; color:var(--slate-600); margin-bottom:12px;">
-          권리자 계약 원장(<code>ADMN-INST-001</code>)에서 출판/인세 계약 체결 시 자동 채번된 임시 도서 목록입니다. 선택하면 저자·인세율·권리자 매핑이 자동으로 연결됩니다.
-        </div>
+ 권리자 계약 원장(<code>ADMN-INST-001</code>)에서 출판/인세 계약 체결 시 자동 채번된 임시 도서 목록입니다. 선택하면 저자·인세율·권리자 매핑이 자동으로 연결됩니다.
+ </div>
         <table class="data-table">
           <thead>
             <tr>
@@ -1405,7 +1405,7 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeTempBookModal()">취소</button>
+        <button type="button" class="btn btn-outline" onclick="closeTempBookModal">취소</button>
       </div>
     </div>
   </div>
@@ -1415,12 +1415,12 @@ code, pre, kbd, samp,
     <div class="modal-window">
       <div class="modal-header">
         <div class="modal-title">[경로 2] 도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불러오기</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeSupplyLedgerModal()">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeSupplyLedgerModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <div style="font-size:12px; color:var(--slate-600); margin-bottom:12px;">
-          도서 공급 원장(<code>ADMN-BOOK-001</code>)에서 SKU와 공급원가가 먼저 등록되었으나 아직 상품 전시(<code>ADMN-PROD-004</code>) 상세 정보가 입력되지 않은 도서입니다.
-        </div>
+ 도서 공급 원장(<code>ADMN-BOOK-001</code>)에서 SKU와 공급원가가 먼저 등록되었으나 아직 상품 전시(<code>ADMN-PROD-004</code>) 상세 정보가 입력되지 않은 도서입니다.
+ </div>
         <table class="data-table">
           <thead>
             <tr>
@@ -1457,7 +1457,7 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeSupplyLedgerModal()">취소</button>
+        <button type="button" class="btn btn-outline" onclick="closeSupplyLedgerModal">취소</button>
       </div>
     </div>
   </div>
@@ -1467,7 +1467,7 @@ code, pre, kbd, samp,
     <div class="modal-window" style="">
       <div class="modal-header">
         <div class="modal-title">교재 재고 수불(입고 · 차감 · 조정) 등록</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeStockAdjustModal()">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeStockAdjustModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <table class="spec-form-table">
@@ -1506,8 +1506,8 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeStockAdjustModal()">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmStockAdjust()">재고 반영</button>
+        <button type="button" class="btn btn-outline" onclick="closeStockAdjustModal">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmStockAdjust">재고 반영</button>
       </div>
     </div>
   </div>

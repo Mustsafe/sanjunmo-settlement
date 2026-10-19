@@ -137,13 +137,13 @@ code, pre, kbd, samp,
       <section id="panel-player" class="view-panel active">
         <div class="policy-banner">
           <strong>[11월 16일 1차 오픈 스펙 기준 — 플레이어 및 부정수강 통제 원칙]</strong>
-          1차 오픈에서는 수험생 CS 마찰이 큰 물리 단말기 고유번호(UUID) 2대 고정 등록 대신, <strong>계정당 동시접속 1세션(IP/세션 기준) 제한 및 중복 접속 시 기존 세션 강제 로그아웃</strong>을 우선 적용합니다. (단말기 UUID 기기 등록 제어는 2차 고도화 옵션으로 토글 분리)
-        </div>
+ 1차 오픈에서는 수험생 CS 마찰이 큰 물리 단말기 고유번호(UUID) 2대 고정 등록 대신, <strong>계정당 동시접속 1세션(IP/세션 기준) 제한 및 중복 접속 시 기존 세션 강제 로그아웃</strong>을 우선 적용합니다. (단말기 UUID 기기 등록 제어는 2차 고도화 옵션으로 토글 분리)
+ </div>
 
         <div class="card">
           <div class="card-header">
             <div class="card-title"><span>🎬 StarPlayer+ 동적 워터마크 · 재생 제어 · 동시접속 설정 (ADMN-CONF-003)</span></div>
-            <button type="button" class="btn btn-sm btn-primary" onclick="savePlayerConfig()">💾 플레이어 보안 설정 저장</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="savePlayerConfig">💾 플레이어 보안 설정 저장</button>
           </div>
           <div class="card-body">
             <div style="display:grid; grid-template-columns: 1fr 400px; gap:24px; align-items:start;">
@@ -153,7 +153,7 @@ code, pre, kbd, samp,
                     <tr>
                       <th>동적 워터마크 표기 내용 *</th>
                       <td>
-                        <select id="pl-wm-text" class="f-select" style="width:100%;" onchange="updateWmPreview()">
+                        <select id="pl-wm-text" class="f-select" style="width:100%;" onchange="updateWmPreview">
                           <option value="hon***@naver.com (121.***.7.90)">회원 이메일 ID + 접속 IP (권장 · 불법 녹화 유출자 즉시 특정)</option>
                           <option value="hon***@naver.com">회원 이메일 ID 단독 표기</option>
                           <option value="hon***@naver.com (홍*동)">회원 이메일 ID + 이름</option>
@@ -163,16 +163,16 @@ code, pre, kbd, samp,
                     <tr>
                       <th>워터마크 이동 주기 / 노출 시간 *</th>
                       <td>
-                        이동 주기(<code>positionChangeInterval</code>): <input type="number" id="pl-wm-interval" class="f-input" style="width:70px;" value="10" /> 초 &nbsp;·&nbsp;
-                        노출 시간(<code>displayDuration</code>): <input type="number" id="pl-wm-duration" class="f-input" style="width:70px;" value="5" /> 초
-                      </td>
+ 이동 주기(<code>positionChangeInterval</code>): <input type="number" id="pl-wm-interval" class="f-input" style="width:70px;" value="10" /> 초 &nbsp;·&nbsp;
+ 노출 시간(<code>displayDuration</code>): <input type="number" id="pl-wm-duration" class="f-input" style="width:70px;" value="5" /> 초
+ </td>
                     </tr>
                     <tr>
                       <th>투명도 / 글자 크기 *</th>
                       <td>
-                        투명도: <input type="number" id="pl-wm-opacity" class="f-input" style="width:70px;" value="35" onchange="updateWmPreview()" /> % &nbsp;·&nbsp;
-                        글자 크기: <input type="number" id="pl-wm-size" class="f-input" style="width:70px;" value="14" onchange="updateWmPreview()" /> px
-                      </td>
+ 투명도: <input type="number" id="pl-wm-opacity" class="f-input" style="width:70px;" value="35" onchange="updateWmPreview" /> % &nbsp;·&nbsp;
+ 글자 크기: <input type="number" id="pl-wm-size" class="f-input" style="width:70px;" value="14" onchange="updateWmPreview" /> px
+ </td>
                     </tr>
                     <tr>
                       <th>첫 수강 빨리감기 제한<br/>(<code>limitedForward</code>)</th>
@@ -184,8 +184,8 @@ code, pre, kbd, samp,
                     <tr>
                       <th>허용 재생 배속 범위 *</th>
                       <td>
-                        최소 <code>0.5x</code> ~ 최대
-                        <select id="pl-max-speed" class="f-select" style="width:100px;">
+ 최소 <code>0.5x</code> ~ 최대
+ <select id="pl-max-speed" class="f-select" style="width:100px;">
                           <option value="2.0x" selected>2.0x (권장)</option>
                           <option value="1.5x">1.5x</option>
                           <option value="2.5x">2.5x</option>
@@ -203,8 +203,8 @@ code, pre, kbd, samp,
                     <tr>
                       <th>24시간 접속 IP 급증 자동 감지</th>
                       <td>
-                        동일 계정 24시간 내 서로 다른 IP <input type="number" class="f-input" style="width:65px;" value="5" /> 개 초과 접속 시 부정수강 의심 알림 및 계정 보호 잠금(<code>ADMN-USER-005</code>) 연동
-                      </td>
+ 동일 계정 24시간 내 서로 다른 IP <input type="number" class="f-input" style="width:65px;" value="5" /> 개 초과 접속 시 부정수강 의심 알림 및 계정 보호 잠금(<code>ADMN-USER-005</code>) 연동
+ </td>
                     </tr>
                   </tbody>
                 </table>
@@ -219,12 +219,12 @@ code, pre, kbd, samp,
                     <div style="font-size:12px;">재생 중 · 00:14:22 / 00:52:10 (1.25x)</div>
                   </div>
                   <div id="wm-preview-chip" style="position:absolute; top:28px; right:32px; color:#FFFFFF; opacity:0.35; font-size:14px; font-weight:800; pointer-events:none; user-select:none;">
-                    hon***@naver.com (121.***.7.90)
-                  </div>
+ hon***@naver.com (121.***.7.90)
+ </div>
                 </div>
                 <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
-                  ※ 설정 저장 시 현재 재생 중인 세션을 끊지 않고 다음 강의 재생 시점부터 새 파라미터가 적용됩니다.
-                </div>
+ ※ 설정 저장 시 현재 재생 중인 세션을 끊지 않고 다음 강의 재생 시점부터 새 파라미터가 적용됩니다.
+ </div>
               </div>
             </div>
 
@@ -274,7 +274,7 @@ code, pre, kbd, samp,
               <div style="display:flex; gap:6px;">
                 <input type="text" id="new-ip-val" class="f-input" style="width:180px;" placeholder="예: 211.45.30.0/24" />
                 <input type="text" id="new-ip-memo" class="f-input" style="width:240px;" placeholder="예외 허용 사유 (예: 강남 제휴 스터디카페)" />
-                <button type="button" class="btn btn-sm btn-primary" onclick="addWhitelistIp()">+ 허용 IP 추가</button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="addWhitelistIp">+ 허용 IP 추가</button>
               </div>
             </div>
             <table class="data-table">

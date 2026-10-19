@@ -399,7 +399,7 @@ code, pre, kbd, samp,
           <tr>
             <th>전시 상태</th>
             <td style="width: 320px;">
-              <select id="filterActive" style="width: 180px;" onchange="applyFilter()">
+              <select id="filterActive" style="width: 180px;" onchange="applyFilter">
                 <option value="ALL">전체</option>
                 <option value="ON">전시중</option>
                 <option value="OFF">비전시</option>
@@ -408,9 +408,9 @@ code, pre, kbd, samp,
             <th>카테고리명</th>
             <td>
               <div style="display:flex; gap:8px; justify-content:flex-end; align-items:center;">
-                <input type="text" id="filterKeyword" placeholder="카테고리명 입력" style="width: 220px;" onkeyup="if(event.key==='Enter') applyFilter()">
-                <button class="btn btn-dark" onclick="applyFilter()">조회</button>
-                <button class="btn" onclick="resetFilter()">초기화</button>
+                <input type="text" id="filterKeyword" placeholder="카테고리명 입력" style="width: 220px;" onkeyup="if(event.key==='Enter') applyFilter">
+                <button class="btn btn-dark" onclick="applyFilter">조회</button>
+                <button class="btn" onclick="resetFilter">초기화</button>
               </div>
             </td>
           </tr>
@@ -430,7 +430,7 @@ code, pre, kbd, samp,
             <div class="tree-actions">
               <button class="btn" onclick="startAddCategory(1)">+ 1Depth 추가</button>
               <button class="btn" onclick="startAddCategory(2)">+ 2Depth 추가</button>
-              <button class="btn btn-dark" onclick="saveTreeOrder()">정렬 저장</button>
+              <button class="btn btn-dark" onclick="saveTreeOrder">정렬 저장</button>
             </div>
           </div>
         </div>

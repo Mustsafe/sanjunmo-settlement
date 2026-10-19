@@ -731,31 +731,31 @@ code, pre, kbd, samp,
 
       <button class="sub-tab-btn active" onclick="switchTab('courseReview')" id="tab-btn-courseReview">
 
-        ⭐ 수강후기 관리 (강좌/별점) <span class="cnt" id="cnt-courseReview">4</span>
+ ⭐ 수강후기 관리 (강좌/별점) <span class="cnt" id="cnt-courseReview">4</span>
 
       </button>
 
       <button class="sub-tab-btn" onclick="switchTab('passEssay')" id="tab-btn-passEssay">
 
-        🎓 합격수기 검수 관리 (합격증빙/회차) <span class="cnt" id="cnt-passEssay">4</span>
+ 🎓 합격수기 검수 관리 (합격증빙/회차) <span class="cnt" id="cnt-passEssay">4</span>
 
       </button>
 
       <button class="sub-tab-btn" onclick="switchTab('freeLecture')" id="tab-btn-freeLecture">
 
-        🎬 무료특강 및 빈출문제 (ADMN-BRD-006) <span class="cnt" id="cnt-freeLecture">4</span>
+ 🎬 무료특강 및 빈출문제 (ADMN-BRD-006) <span class="cnt" id="cnt-freeLecture">4</span>
 
       </button>
 
       <button class="sub-tab-btn" onclick="switchTab('errata')" id="tab-btn-errata">
 
-        📘 교재 정답지 관리 (ADMN-BRD-009) <span class="cnt" id="cnt-errata">4</span>
+ 📘 교재 정답지 관리 (ADMN-BRD-009) <span class="cnt" id="cnt-errata">4</span>
 
       </button>
 
       <button class="sub-tab-btn" onclick="switchTab('report')" id="tab-btn-report">
 
-        🚨 커뮤니티/신고 관리 (ADMN-BRD-007/008) <span class="cnt" id="cnt-report">3</span>
+ 🚨 커뮤니티/신고 관리 (ADMN-BRD-007/008) <span class="cnt" id="cnt-report">3</span>
 
       </button>
 
@@ -771,7 +771,7 @@ code, pre, kbd, samp,
 
         <strong>[ADMN-BRD-005-A] 수강후기(Course Review) 운영 정책:</strong> 강좌 진도율 <strong>30% 이상</strong> 수강생이 작성 가능하며, <strong>별점(★1~5)</strong>과 <strong>수강 강좌명·진도율</strong>을 기준으로 모니터링합니다. 우수 후기는 <code>[베스트 수강후기]</code>로 선정하여 강좌 상세 상단에 고정하고 추가 포인트를 지급합니다. (합격인증 증빙 심사는 우측 <strong>[합격수기 검수 관리]</strong> 탭에서 분리 운영합니다.)
 
-      </div>
+ </div>
 
 
 
@@ -781,7 +781,7 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <select id="cr-best-filter" onchange="renderCourseReviews()">
+            <select id="cr-best-filter" onchange="renderCourseReviews">
 
               <option value="ALL">베스트 여부 전체</option>
 
@@ -791,7 +791,7 @@ code, pre, kbd, samp,
 
             </select>
 
-            <input type="text" id="cr-keyword" placeholder="강좌명, 작성자, 후기 내용 검색..." oninput="renderCourseReviews()" style="width:260px;" />
+            <input type="text" id="cr-keyword" placeholder="강좌명, 작성자, 후기 내용 검색..." oninput="renderCourseReviews" style="width:260px;" />
 
           </div>
 
@@ -849,7 +849,7 @@ code, pre, kbd, samp,
 
         <strong>[ADMN-BRD-005-B] 합격수기(Pass Essay) 전용 검수 정책:</strong> 국가기술자격 정기검정 <strong>응시 종목·회차(예: 2026년 제2회 산업안전기사)</strong>, <strong>필기/실기 합격 구분</strong>, <strong>합격인증 증빙 파일(큐넷 자격증 사본/합격확인서)</strong>을 대조 심사합니다. 승인 시 합격수기 게시판 노출 및 합격 축하 포인트가 지급됩니다.
 
-      </div>
+ </div>
 
 
 
@@ -859,7 +859,7 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <select id="pe-status-filter" onchange="renderPassEssays()">
+            <select id="pe-status-filter" onchange="renderPassEssays">
 
               <option value="ALL">증빙 검수상태 전체</option>
 
@@ -871,7 +871,7 @@ code, pre, kbd, samp,
 
             </select>
 
-            <input type="text" id="pe-keyword" placeholder="자격증 종목, 응시회차, 작성자 검색..." oninput="renderPassEssays()" style="width:260px;" />
+            <input type="text" id="pe-keyword" placeholder="자격증 종목, 응시회차, 작성자 검색..." oninput="renderPassEssays" style="width:260px;" />
 
           </div>
 
@@ -925,9 +925,9 @@ code, pre, kbd, samp,
 
       <div class="info-callout">
 
-        <strong>[ADMN-BRD-006] 무료특강 및 빈출문제 운영 정책:</strong> 사용자 웹 <code>USER-FREE-001 ~ 003</code>에 노출되는 무료 학습 콘텐츠입니다. 콘텐츠 구분은 <strong>[무료특강 영상 (<code>FREE_LECTURE</code>)]</strong>과 <strong>[빈출문제 해설 (<code>FREQ_EXAM</code>)]</strong>로 운영하며, 빈출문제 PDF 시험지/해설지 다운로드 및 플레이어 VOD 연동을 지원합니다.
+        <strong>무료특강 및 빈출문제 운영 정책:</strong> 사용자 웹 <code>무료특강·빈출문제 코너</code>에 노출되는 무료 학습 콘텐츠입니다. 콘텐츠 구분은 <strong>[무료특강 영상]</strong>과 <strong>[빈출문제 해설]</strong>로 운영하며, 빈출문제 PDF 시험지/해설지 다운로드 및 플레이어 VOD 연동을 지원합니다.
 
-      </div>
+ </div>
 
 
 
@@ -937,17 +937,17 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <select id="fl-type-filter" onchange="renderFreeLectures()">
+            <select id="fl-type-filter" onchange="renderFreeLectures">
 
               <option value="ALL">콘텐츠 구분 전체</option>
 
-              <option value="FREE_LECTURE">무료특강 영상 (FREE_LECTURE)</option>
+              <option value="FREE_LECTURE">무료특강 영상</option>
 
-              <option value="FREQ_EXAM">빈출문제 해설 (FREQ_EXAM)</option>
+              <option value="FREQ_EXAM">빈출문제 해설</option>
 
             </select>
 
-            <select id="fl-cert-filter" onchange="renderFreeLectures()">
+            <select id="fl-cert-filter" onchange="renderFreeLectures">
 
               <option value="ALL">자격증 종목 전체</option>
 
@@ -963,7 +963,7 @@ code, pre, kbd, samp,
 
           <div class="filter-right">
 
-            <button class="btn btn-primary" onclick="openFreeLectureModal()">+ 무료특강 / 빈출문제 등록</button>
+            <button class="btn btn-primary" onclick="openFreeLectureModal">+ 무료특강 / 빈출문제 등록</button>
 
           </div>
 
@@ -1016,22 +1016,22 @@ code, pre, kbd, samp,
     <!-- ==================== 4. 교재 정답지 관리 (ADMN-BRD-009) ==================== -->
     <section id="view-errata" class="view-section">
       <div class="info-callout">
-        <strong>[ADMN-BRD-009] 교재 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[교재 정답지 및 상세 해설 (<code>ANSWER_SHEET</code>)]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
-      </div>
+        <strong>교재 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[교재 정답지 및 상세 해설]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
+ </div>
 
       <div class="card">
         <div class="filter-grid">
           <div class="filter-left">
-            <select id="er-type-filter" onchange="renderErrata()">
+            <select id="er-type-filter" onchange="renderErrata">
               <option value="ALL">자격증 종목 전체</option>
               <option value="산업안전기사">산업안전기사</option>
               <option value="건설안전기사">건설안전기사</option>
               <option value="위험물산업기사">위험물산업기사</option>
             </select>
-            <input type="text" id="er-keyword" placeholder="연결 교재명, 정답지 제목, 단원/회차 검색..." oninput="renderErrata()" style="width:280px;" />
+            <input type="text" id="er-keyword" placeholder="연결 교재명, 정답지 제목, 단원/회차 검색..." oninput="renderErrata" style="width:280px;" />
           </div>
           <div class="filter-right">
-            <button class="btn btn-primary" onclick="openErrataModal()">+ 교재 정답지 등록 (웹 에디터)</button>
+            <button class="btn btn-primary" onclick="openErrataModal">+ 교재 정답지 등록 (웹 에디터)</button>
           </div>
         </div>
       </div>
@@ -1137,7 +1137,7 @@ code, pre, kbd, samp,
 
     <div class="modal-header">
 
-      <h3 id="fl-modal-title">[ADMN-BRD-006] 무료특강 및 빈출문제 등록</h3>
+      <h3 id="fl-modal-title">무료특강 및 빈출문제 등록</h3>
 
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-free-lecture')">닫기 ✕</button>
 
@@ -1155,9 +1155,9 @@ code, pre, kbd, samp,
 
           <select id="fl-form-type">
 
-            <option value="FREE_LECTURE">무료특강 영상 (FREE_LECTURE)</option>
+            <option value="FREE_LECTURE">무료특강 영상</option>
 
-            <option value="FREQ_EXAM">빈출문제 해설 (FREQ_EXAM)</option>
+            <option value="FREQ_EXAM">빈출문제 해설</option>
 
           </select>
 
@@ -1237,7 +1237,7 @@ code, pre, kbd, samp,
 
       <button class="btn btn-outline" onclick="closeModal('modal-free-lecture')">취소</button>
 
-      <button class="btn btn-primary" onclick="saveFreeLecture()">저장</button>
+      <button class="btn btn-primary" onclick="saveFreeLecture">저장</button>
 
     </div>
 
@@ -1251,7 +1251,7 @@ code, pre, kbd, samp,
 <div class="modal-backdrop" id="modal-errata">
   <div class="modal-box" style="max-width:920px;">
     <div class="modal-header">
-      <h3 id="er-modal-title">[ADMN-BRD-009] 교재 정답지 등록 및 수정 (웹 에디터)</h3>
+      <h3 id="er-modal-title">교재 정답지 등록 및 수정 (웹 에디터)</h3>
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-errata')">닫기 ✕</button>
     </div>
     <div class="modal-body">
@@ -1292,9 +1292,9 @@ code, pre, kbd, samp,
             <div class="rich-toolbar">
               <button type="button" onclick="execCmd('er-form-body','bold')"><b>B 굵게</b></button>
               <button type="button" onclick="execCmd('er-form-body','underline')"><u>U 밑줄</u></button>
-              <button type="button" onclick="insertAnswerTableTemplate()">📊 단원별 정답 및 해설표 삽입</button>
-              <button type="button" onclick="insertQuickAnswerGridTemplate()">🔢 빠른 정답표(1~20번 그리드) 삽입</button>
-              <button type="button" onclick="toggleErrataHtmlSource()">&lt;/&gt; HTML 소스 보기 전환</button>
+              <button type="button" onclick="insertAnswerTableTemplate">📊 단원별 정답 및 해설표 삽입</button>
+              <button type="button" onclick="insertQuickAnswerGridTemplate">🔢 빠른 정답표(1~20번 그리드) 삽입</button>
+              <button type="button" onclick="toggleErrataHtmlSource">&lt;/&gt; HTML 소스 보기 전환</button>
             </div>
             <div id="er-form-body" class="rich-area" contenteditable="true"></div>
             <textarea id="er-form-source" style="display:none; width:100%; min-height:200px; border:none; padding:12px; font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-size:12px;"></textarea>
@@ -1304,7 +1304,7 @@ code, pre, kbd, samp,
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('modal-errata')">취소</button>
-      <button class="btn btn-primary" onclick="saveErrata()">교재 정답지 저장</button>
+      <button class="btn btn-primary" onclick="saveErrata">교재 정답지 저장</button>
     </div>
   </div>
 </div>

@@ -467,9 +467,9 @@ code, pre, kbd, samp,
       <div class="policy-banner">
         <div>
           <strong>📌 [제17장 국세청 오픈API 연동 및 선관주의 보존 원칙]</strong>
-          당사는 과세유형을 수기로 판정·선택하지 않으며, 국세청 API 응답을 확인·보존(보존 계층 2: 10년)합니다.
-          <strong>과세유형 전환 감지 시 원장을 자동 덮어쓰지 않고 담당자 확인 후 신규 유효일자 행을 생성</strong>하며(효력일 미반환 시 <code>7월 1일</code>로 일괄 가정 금지), <strong>폐업 감지 시 증빙 리마인더를 중단하고 미지급 정산금을 강제 정산 트리거(7.3절)로 이관</strong>합니다.
-        </div>
+ 당사는 과세유형을 수기로 판정·선택하지 않으며, 국세청 API 응답을 확인·보존(보존 계층 2: 10년)합니다.
+ <strong>과세유형 전환 감지 시 원장을 자동 덮어쓰지 않고 담당자 확인 후 신규 유효일자 행을 생성</strong>하며(효력일 미반환 시 <code>7월 1일</code>로 일괄 가정 금지), <strong>폐업 감지 시 증빙 리마인더를 중단하고 미지급 정산금을 강제 정산 트리거(7.3절)로 이관</strong>합니다.
+ </div>
         <span class="badge badge-neutral">유효기간 90일 (100건 청크 · 200ms 간격)</span>
       </div>
 
@@ -566,10 +566,10 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">국세청 과세유형 코드(tax_type_cd) ↔ 세무 판정 매트릭스 자동 매핑 설정표 (17.3절 · 읽기 전용)</div>
+              <div class="card-title">국세청 과세유형 코드 ↔ 세무 판정 매트릭스 자동 매핑 설정표 (읽기 전용)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                코드에 문자열을 하드코딩하지 않고 설정 테이블(<code>nts_tax_type_map</code>)로 관리하며, 도서 재화 공급(위탁자·매입처)은 과세유형과 무관하게 도서 면세(<code>TX-11</code>)를 우선 적용합니다.
-              </div>
+ 코드에 문자열을 하드코딩하지 않고 설정 테이블로 관리하며, 도서 재화 공급(위탁자·매입처)은 과세유형과 무관하게 도서 면세(<code>TX-11</code>)를 우선 적용합니다.
+ </div>
             </div>
             <span class="badge badge-primary">수기 과세유형 선택 금지 (17.1절)</span>
           </div>
@@ -595,14 +595,14 @@ code, pre, kbd, samp,
                 <tr>
                   <td class="mono"><strong>02</strong></td>
                   <td>부가가치세 간이과세자</td>
-                  <td>간이과세자-영수증발급 (<code>SIMPLIFIED_RECEIPT</code>)</td>
+                  <td>간이과세자-영수증발급</td>
                   <td><span class="badge badge-neutral">불가 (false)</span></td>
                   <td><strong>TX-05</strong> (부가가치세 미가산 · 영수증 대사 경로, 인적용역 해당 시 원천징수 병행)</td>
                 </tr>
                 <tr>
                   <td class="mono"><strong>07</strong></td>
                   <td>부가가치세 간이과세자(세금계산서 발급사업자)</td>
-                  <td>간이과세자-세금계산서발급 (<code>SIMPLIFIED_INVOICE</code>)</td>
+                  <td>간이과세자-세금계산서발급</td>
                   <td><span class="badge badge-success">가능 (true)</span></td>
                   <td><strong>TX-06</strong> (세금계산서 역발행 경로 · 당사가 4,800만 원 기준을 직접 계산하지 않고 API 코드로 직결)</td>
                 </tr>
@@ -611,14 +611,14 @@ code, pre, kbd, samp,
                   <td>부가가치세 면세사업자</td>
                   <td>면세사업자 (<code>EXEMPT</code>)</td>
                   <td><span class="badge badge-neutral">불가 (계산서 대상)</span></td>
-                  <td>개인 사업자는 <strong>TX-08</strong> (면세 계산서 역발행) / <strong>법인(법인번호 보유)은 인적용역 면세 배제 → 후보 TX-09 또는 TX-07 부여 후 <code>세무 판정 보류(PENDING_REVIEW)</code> 격리</strong></td>
+                  <td>개인 사업자는 <strong>TX-08</strong> (면세 계산서 역발행) / <strong>법인(법인번호 보유)은 인적용역 면세 배제 → 후보 TX-09 또는 TX-07 부여 후 세무 판정 보류 격리</strong></td>
                 </tr>
                 <tr>
                   <td class="mono"><strong>05 / 06</strong></td>
                   <td>비영리법인 또는 고유번호 부여 단체</td>
-                  <td>비영리·고유번호 단체 (<code>NON_PROFIT_ORG</code>)</td>
+                  <td>비영리·고유번호 단체</td>
                   <td><span class="badge badge-warn">확인 필요</span></td>
-                  <td>인세·매절은 후보 <strong>TX-09</strong>, 강의·약정·지원금은 후보 <strong>TX-07</strong> 부여 후 <strong><code>세무 판정 보류(PENDING_REVIEW)</code>로 격리 (마감 차단)</strong></td>
+                  <td>인세·매절은 후보 <strong>TX-09</strong>, 강의·약정·지원금은 후보 <strong>TX-07</strong> 부여 후 <strong>세무 판정 보류로 격리 (마감 차단)</strong></td>
                 </tr>
                 <tr>
                   <td class="mono"><strong>03 / 빈값</strong></td>
@@ -640,8 +640,8 @@ code, pre, kbd, samp,
             <div>
               <div class="card-title">국세청 오픈API 호출 제어 파라미터(부록 B) 및 지수 백오프 재시도 큐 (17.6절)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                API 장애 시 정산 배치를 무한 대기시키지 않고 재시도 큐에 적재하며, 마감 실행 시점까지 미확인 건이 남아 있으면 해당 거래처의 마감만 선택 차단합니다.
-              </div>
+ API 장애 시 정산 배치를 무한 대기시키지 않고 재시도 큐에 적재하며, 마감 실행 시점까지 미확인 건이 남아 있으면 해당 거래처의 마감만 선택 차단합니다.
+ </div>
             </div>
           </div>
           <div class="table-wrap">
@@ -657,25 +657,25 @@ code, pre, kbd, samp,
               <tbody>
                 <tr>
                   <td><strong>국세청 확인 유효 일수</strong></td>
-                  <td class="mono">nts_check_validity_days</td>
+                  <td class="mono">국세청 조회 유효기간(30일)</td>
                   <td><strong>90일</strong></td>
                   <td>최종 확인일로부터 90일 경과 시 약정금 승인(INST-002) 및 정산 마감(SETT-002) 시점 자동 재조회 트리거</td>
                 </tr>
                 <tr>
                   <td><strong>국세청 배치 청크 크기 / 호출 간격</strong></td>
-                  <td class="mono">nts_batch_chunk_size / nts_batch_interval_ms</td>
+                  <td class="mono">배치 묶음 단위(100건) / 호출 간격(1,000ms)</td>
                   <td><strong>100건 / 200ms</strong></td>
                   <td>POST 바디 배열 1회 최대 100건 묶음 호출, 청크 간 200ms 스로틀링 적용</td>
                 </tr>
                 <tr>
                   <td><strong>국세청 재시도 최대 횟수</strong></td>
-                  <td class="mono">nts_retry_max_count</td>
+                  <td class="mono">최대 재시도 횟수(3회)</td>
                   <td><strong>3회 (지수 백오프)</strong></td>
                   <td>타임아웃(5초) 및 5xx 오류 시 3회 재시도 후 실패 시 재시도 큐 적재 + 담당자 수동 재호출 지원</td>
                 </tr>
                 <tr>
                   <td><strong>국세청 정기 재조회 일정</strong></td>
-                  <td class="mono">nts_periodic_check_schedule</td>
+                  <td class="mono">정기 휴폐업 점검 스케줄</td>
                   <td><strong>매년 6/15 · 1/4/10월 15일</strong></td>
                   <td>6월 15일(과세유형 전환 통지 반영 전수 조회) / 1·4·10월 15일(분기별 휴·폐업 일괄 감지)</td>
                 </tr>
@@ -1220,20 +1220,20 @@ code, pre, kbd, samp,
             <span class="badge badge-primary">17.5절 하드락</span>
           </div>
           <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
-            국세청 API 과세유형 전환 감지 건에 대해 기존 행을 종료하고 신규 유효일자 행을 분할 생성합니다.
-          </div>
+ 국세청 API 과세유형 전환 감지 건에 대해 기존 행을 종료하고 신규 유효일자 행을 분할 생성합니다.
+ </div>
         </div>
-        <button type="button" class="btn btn-sm" onclick="closeTaxTransitionModal()">✕</button>
+        <button type="button" class="btn btn-sm" onclick="closeTaxTransitionModal">✕</button>
       </div>
       <div style="padding:18px 20px; overflow-y:auto; max-height:calc(85vh - 130px);">
         <!-- 17.5절 하드락 안내 박스 -->
         <div style="background:#FEF2F2; border:1.5px solid #FECACA; border-radius:8px; padding:12px 14px; margin-bottom:16px; font-size:12px; color:#991B1B; line-height:1.55;">
-          <strong>⚠️ 17.5절 하드락 규칙:</strong> 국세청 API 응답의 <code>tax_type_change_dt</code>가 빈값("")일 때 7월 1일 등으로 일괄 가정하는 것을 엄격히 금지하며, 수취한 정정 사업자등록증상 실제 전환 효력일을 기준으로 기존 행 종료 및 신규 행을 분할 생성합니다.
-        </div>
+          <strong>⚠️ 과세유형 전환일자 검증 규칙:</strong> 국세청 API 응답의 tax_type_change_dt가 빈값("")일 때 7월 1일 등으로 일괄 가정하는 것을 엄격히 금지하며, 수취한 정정 사업자등록증상 실제 전환 효력일을 기준으로 기존 행 종료 및 신규 행을 분할 생성합니다.
+ </div>
 
         <div style="margin-bottom:14px; font-size:12.5px;">
-          대상 거래처: <strong id="mdl-partner-name">-</strong> (사업자번호: <code id="mdl-biz-no" class="mono">-</code>)
-        </div>
+ 대상 거래처: <strong id="mdl-partner-name">-</strong> (사업자번호: <code id="mdl-biz-no" class="mono">-</code>)
+ </div>
 
         <!-- Before / After 행 분할 프리뷰 테이블 -->
         <div class="table-wrap" style="margin-bottom:14px;">
@@ -1251,7 +1251,7 @@ code, pre, kbd, samp,
                 <td style="padding:10px;"><strong>[기존 행 종료]</strong></td>
                 <td style="padding:10px;" id="mdl-prev-tax">간이과세자-영수증발급 (세금계산서 발급불가, TX-05)</td>
                 <td style="padding:10px;"><code class="mono" id="mdl-prev-period">2026-01-01 ~ 2026-06-30</code></td>
-                <td style="padding:10px;"><span class="badge badge-warn">CLOSED_BY_TRANSITION</span></td>
+                <td style="padding:10px;"><span class="badge badge-warn">과세전환 종결</span></td>
               </tr>
               <tr style="border-bottom:1px solid var(--border); background:#F0FDF4;">
                 <td style="padding:10px;"><strong>[신규 행 생성]</strong></td>
@@ -1264,12 +1264,12 @@ code, pre, kbd, samp,
         </div>
 
         <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
-          ※ 승인 즉시 기 마감 정산월은 소급 변경되지 않으며, 효력일 이후 인입되는 정산 라인부터 신규 과세유형(TX-06 또는 TX-07)으로 전자세금계산서 역발행이 적용됩니다.
-        </div>
+ ※ 승인 즉시 기 마감 정산월은 소급 변경되지 않으며, 효력일 이후 인입되는 정산 라인부터 신규 과세유형(TX-06 또는 TX-07)으로 전자세금계산서 역발행이 적용됩니다.
+ </div>
       </div>
       <div style="padding:12px 20px; background:var(--bg); border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px;">
-        <button type="button" class="btn" onclick="closeTaxTransitionModal()">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmTaxTypeTransition()">✔ 17.5절 행 분할 승인 및 PENDING_REVIEW 해제 확정</button>
+        <button type="button" class="btn" onclick="closeTaxTransitionModal">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmTaxTypeTransition">✔ 과세전환 행 분할 승인 및 판정 보류 해제 확정</button>
       </div>
     </div>
   </div>
