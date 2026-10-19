@@ -255,7 +255,7 @@
               <select id="sel-demo-account" class="form-input" onchange="fillDemoAccount(this.value)">
                 <option value="ops@sanjunmo.com|SUPER">최고관리자 (ops@sanjunmo.com → 대시보드 ADMN-DASH-001 이동)</option>
                 <option value="cs.kim@sanjunmo.com|CS">CS담당자 (cs.kim@sanjunmo.com → 1:1 문의 ADMN-BRD-002 이동)</option>
-                <option value="inst.jung@sanjunmo.com|PARTNER">강사 파트너 (inst.jung@sanjunmo.com → 정산 조회 ADMN-SETT-009 이동)</option>
+                <option value="inst.jung@sanjunmo.com|PARTNER">강사 파트너 (inst.jung@sanjunmo.com → 정산 조회 ADMN-SETT-002-S2 이동)</option>
               </select>
             </div>
 
@@ -417,7 +417,7 @@
       }
 
       if (email.indexOf("inst.") === 0) {
-        window.location.href = "ADMN-SETT-009_baseline.html";
+        window.location.href = "ADMN-SETT-002_baseline.html?view=partner-stmt&holder=RH-0025";
       } else if (email.indexOf("cs.") === 0) {
         window.location.href = "ADMN-BRD-002_baseline.html";
       } else {

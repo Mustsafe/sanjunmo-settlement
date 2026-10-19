@@ -732,6 +732,110 @@
       background: rgba(255,255,255,0.18);
     }
 
+  
+    /* === [Step 3] ADMN-SETT-002-S2 권리자 제공 정산서 (외부 제공본 · 파트너 열람 뷰) 스타일 === */
+    .s2-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.68);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3150;
+      padding: 16px;
+    }
+    .s2-modal-backdrop.open {
+      display: flex;
+    }
+    .s2-modal-dialog {
+      background: #e2e8f0;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      width: 100%;
+      max-width: 1180px;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 28px 60px rgba(15, 23, 42, 0.4);
+      overflow: hidden;
+    }
+    .s2-modal-header {
+      padding: 14px 22px;
+      background: #1e293b;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .s2-modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+    }
+    .s2-paper-sheet {
+      background: #ffffff;
+      width: 100%;
+      max-width: 1040px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 32px 36px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .s2-doc-header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .s2-party-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .s2-party-box {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 16px;
+      background: #f8fafc;
+      font-size: 12px;
+    }
+    .s2-party-title {
+      font-weight: 800;
+      color: #1e40af;
+      margin-bottom: 6px;
+      font-size: 12.5px;
+      border-bottom: 1px dashed #cbd5e1;
+      padding-bottom: 4px;
+    }
+    .s2-sec-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 4px 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .s2-modal-footer {
+      padding: 12px 22px;
+      background: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
   </style>
 
   
@@ -757,7 +861,7 @@
       <select id="monthSelect" class="select" style="font-weight:700;">
           <option value="2026-10" selected="">데이터 기준 월: 2026-10</option>
           <option value="2026-09">데이터 기준 월: 2026-09 (마감 잠금됨)</option>
-        </select> <button class="btn" id="btnRunEngine">⚙️ 1~11단계 통합 연산 배치 재실행</button> <button class="btn btn-primary" id="btnOpenStatementS1" onclick="openStatementModalS1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">📑 통합 정산서 상세·마감 (S1)</button>
+        </select> <button class="btn" id="btnRunEngine">⚙️ 1~11단계 통합 연산 배치 재실행</button> <button class="btn btn-primary" id="btnOpenStatementS1" onclick="openStatementModalS1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">📑 통합 정산서 상세·마감 (S1)</button> <button class="btn" id="btnOpenStatementS2" style="border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">📤 권리자 제공 정산서 (S2)</button>
         <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장 (ADMN-SETT-002-P1)</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 (Locked = True)</button>
     </div></header><div id="v4-page-body">
   
@@ -899,7 +1003,7 @@
               <div class="card-title" id="stmtTitle">통합 정산서 상세 (6.5절 · 8.3절)</div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <span id="stmtBadge" class="badge badge-primary">선택됨</span>
-                <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">🔍 상세·마감 워크스페이스 (S1)</button>
+                <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">🔍 상세·마감 워크스페이스 (S1)</button> <button type="button" class="btn btn-sm" id="btnPanelOpenS2" style="margin-right:4px; border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">📤 권리자 정산서 (S2)</button>
                 <button class="btn btn-sm" id="btnHeaderCarryP1" onclick="openCarryoverModalP1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025', 'OPERATOR')">📋 이 권리자 이월 내역(P1)</button>
                 <button class="btn btn-sm" id="btnHeaderManualAdj" title="선택된 정산서 기준으로 수동 조정(SETT-005) 등록">🔧 이 정산서 수동 조정 등록 →</button>
               </div>
@@ -2262,7 +2366,7 @@
     <div class="s1-modal-footer">
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <button type="button" class="btn btn-sm" onclick="openCarryoverModalP1(document.getElementById('selS1Holder').value, 'OPERATOR')">📋 이월 발생 내역 상세 모달 (ADMN-SETT-002-P1)</button>
-        <button type="button" class="btn btn-sm" onclick="if(window.openStatementModalS2){openStatementModalS2(document.getElementById('selS1Holder').value);}else{showToast('Step 3 패치 시 권리자 제공 정산서(ADMN-SETT-002-S2) 전용 뷰가 열립니다.');}">📤 권리자 제공 정산서 미리보기·발송 (ADMN-SETT-002-S2)</button>
+        <button type="button" class="btn btn-sm" onclick="closeStatementModalS1(); if(window.openStatementModalS2){openStatementModalS2(document.getElementById('selS1Holder').value);}else{showToast('Step 3 패치 시 권리자 제공 정산서(ADMN-SETT-002-S2) 전용 뷰가 열립니다.');}">📤 권리자 제공 정산서 미리보기·발송 (ADMN-SETT-002-S2)</button>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <button type="button" class="btn btn-sm" onclick="showToast('📄 내부 보관용 통합 정산서 상세(ADMN-SETT-002-S1) PDF 다운로드가 시작되었습니다.')">📥 내부 정산서 PDF 출력</button>
@@ -2888,6 +2992,359 @@
     const c = window.S1_STATEMENT_CASES[holderId];
     showToast(`🔒 [${c.holderName}] 2026년 10월 통합 정산서 상세 검토 및 개별 마감(Lock) 확정이 완료되었습니다.`);
   }
+</script>
+
+
+<!-- =====================================================================
+     [Step 3] ADMN-SETT-002-S2: 권리자 제공 정산서 (외부 제공본 PDF · 메일 발송 · 파트너 열람 뷰)
+     ===================================================================== -->
+<div class="s2-modal-backdrop" id="modalStatementS2" onclick="if(event.target===this) closeStatementModalS2()">
+  <div class="s2-modal-dialog">
+    <div class="s2-modal-header">
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <span style="background:#7c3aed; color:#fff; font-family:monospace; font-size:11px; font-weight:700; padding:3px 8px; border-radius:5px;">ADMN-SETT-002-S2</span>
+        <strong style="font-size:15.5px;">권리자 제공 정산서 (외부 제공본 PDF · 이메일 발송 · 파트너 열람 뷰)</strong>
+        <span class="badge badge-success" style="font-size:11px;">✔ 자사 귀속분(RH-INTERNAL) 및 타 권리자 지분 자동 제외 완료</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <label style="font-size:12px; color:#cbd5e1; font-weight:600;">권리자(파트너) 선택:</label>
+        <select id="selS2Holder" class="select" style="background:#0f172a; color:#fff; border-color:#475569; min-width:260px;" onchange="renderStatementModalS2()">
+          <option value="RH-0025">정종대 강사/저자 (RH-0025 · 강좌+인세+지원금+선급금)</option>
+          <option value="RH-0001">박안전 강사 (RH-0001 · 최소지급 기준액 미달 이월)</option>
+          <option value="RH-0012">김기계 강사 (RH-0012 · 전월 환불초과 이월 상쇄+선급금)</option>
+          <option value="RH-0031">한국소방학회 (RH-0031 · 위탁 도서 정산서)</option>
+          <option value="RH-0044">최전기 강사 (RH-0044 · 해지 정산 및 MMG 보장)</option>
+        </select>
+        <button type="button" class="btn btn-sm" style="background:rgba(255,255,255,0.14); color:#fff; border:none;" onclick="closeStatementModalS2()">✕ 닫기</button>
+      </div>
+    </div>
+
+    <div class="s2-modal-body">
+      <div class="s2-paper-sheet" id="s2PrintableSheet">
+        <!-- 정산서 공식 문서 헤더 -->
+        <div class="s2-doc-header">
+          <div>
+            <div style="font-size:11.5px; color:#64748b; font-weight:700;">SANJUNMO OFFICIAL SETTLEMENT STATEMENT (EXTERNAL)</div>
+            <h2 style="margin:4px 0 0; font-size:22px; font-weight:900; color:#0f172a;" id="s2DocMainTitle">2026년 10월 귀속 권리자 정산 내역서</h2>
+          </div>
+          <div style="text-align:right; font-size:12px; color:#475569;">
+            <div>문서번호: <strong style="font-family:monospace;" id="s2DocNo">STMT-EXT-202610-RH0025</strong></div>
+            <div>발행일자: <strong>2026-10-31</strong> | 정산 대상기간: <strong>2026-10-01 ~ 2026-10-31</strong></div>
+          </div>
+        </div>
+
+        <!-- 공급받는자(당사) & 권리자(수취인) 양측 정보 -->
+        <div class="s2-party-grid">
+          <div class="s2-party-box">
+            <div class="s2-party-title">🏢 정산 발행 기관 (플랫폼사)</div>
+            <div><strong>상호(법인명):</strong> 주식회사 엘캠퍼스 (산준모닷컴)</div>
+            <div><strong>사업자등록번호:</strong> 120-88-00000 | <strong>대표이사:</strong> 김영호</div>
+            <div><strong>소재지 및 문의처:</strong> 서울특별시 금천구 가산디지털1로 (정산팀: settlement@sanjunmo.com)</div>
+          </div>
+          <div class="s2-party-box" id="s2RecipientPartyBox"></div>
+        </div>
+
+        <!-- 종합 정산 요약표 -->
+        <div>
+          <div class="s2-sec-title">
+            <span>1. 당월 정산 종합 요약 (과세표준 및 실지급액 안내)</span>
+            <span style="font-size:11.5px; color:#2563eb; font-weight:600;" id="s2TaxGuideBadge"></span>
+          </div>
+          <div id="s2SummaryBox"></div>
+        </div>
+
+        <!-- 케이스별 조건부 상세 테이블 영역 (이월 / 강좌 / 도서 / 지원금·MMG / 선급금 상계) -->
+        <div id="s2ConditionalTablesArea" style="display:flex; flex-direction:column; gap:18px;"></div>
+
+        <!-- 하단 안내 및 파트너 확인 서명란 -->
+        <div style="margin-top:8px; padding:14px 16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:11.5px; color:#475569; line-height:1.6;">
+          <strong>[정산 산출 및 세무 증빙 안내]</strong><br>
+          • 본 정산서는 권리자 본인의 계약 지분 및 귀속 실적만 발췌하여 제공되며, 당사 내부 귀속분 및 제3자 권리자 정보는 표시되지 않습니다.<br>
+          • 도서정가제 준수 정책에 따라 복합 패키지 상품의 쿠폰·포인트 할인액은 강좌 정산 기준금에서만 차감되며, 교재 정가에는 할인이 전가되지 않습니다.<br>
+          • 선급금 상계액은 기 지급된 선급금에서 차감하는 금액이므로 당월 세무 증빙(전자세금계산서·계산서·원천징수영수증) 발행 기준 금액(과세표준)에는 영향을 주지 않습니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="s2-modal-footer">
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn btn-sm" onclick="openCarryoverModalP1(document.getElementById('selS2Holder').value, 'PARTNER')">📋 지난 정산 이월 발생 내역 보기 (ADMN-SETT-002-P1 · 권리자 뷰)</button>
+        <button type="button" class="btn btn-sm" onclick="closeStatementModalS2(); openStatementModalS1(document.getElementById('selS2Holder').value)">🔄 운영자용 통합 정산서 원장(S1)으로 전환</button>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn btn-sm" onclick="showToast('✍️ [파트너 확인] 해당 월 정산 내역 확인 및 전자(세금)계산서 역발행 승인이 완료되었습니다.')">✍️ [파트너용] 정산내역 확인 · 역발행 승인</button>
+        <button type="button" class="btn btn-sm" onclick="showToast('📧 권리자 등록 이메일 및 카카오 알림톡으로 외부 제공용 정산서(PDF)가 발송되었습니다.')">📧 권리자 이메일·알림톡 발송</button>
+        <button type="button" class="btn btn-sm btn-primary" onclick="showToast('📄 외부 제공본 정산서(ADMN-SETT-002-S2) PDF 파일 다운로드가 완료되었습니다.')">📥 권리자 제공용 PDF 다운로드</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // === [Step 3] ADMN-SETT-002-S2 권리자 제공 정산서 렌더링 로직 ===
+  function openStatementModalS2(holderId) {
+    const sel = document.getElementById("selS2Holder");
+    if (sel && holderId && window.S1_STATEMENT_CASES && window.S1_STATEMENT_CASES[holderId]) {
+      sel.value = holderId;
+    }
+    renderStatementModalS2();
+    const modal = document.getElementById("modalStatementS2");
+    if (modal) modal.classList.add("open");
+  }
+
+  function closeStatementModalS2() {
+    const modal = document.getElementById("modalStatementS2");
+    if (modal) modal.classList.remove("open");
+  }
+
+  function renderStatementModalS2() {
+    if (!window.S1_STATEMENT_CASES) return;
+    const holderId = document.getElementById("selS2Holder").value;
+    const c = window.S1_STATEMENT_CASES[holderId] || window.S1_STATEMENT_CASES["RH-0025"];
+    const sc = c.scores;
+    const fmt = (n) => (n >= 0 ? n.toLocaleString("ko-KR") : "-" + Math.abs(n).toLocaleString("ko-KR")) + "원";
+
+    document.getElementById("s2DocMainTitle").textContent = `2026년 10월 귀속 정산 내역서 (${c.holderName})`;
+    document.getElementById("s2DocNo").textContent = `STMT-EXT-202610-${c.holderId}`;
+    document.getElementById("s2TaxGuideBadge").textContent = `적용 세무 기준: ${c.taxCode}`;
+
+    // 수취인 박스
+    document.getElementById("s2RecipientPartyBox").innerHTML = `
+      <div class="s2-party-title">👤 정산 수취 권리자 (파트너)</div>
+      <div><strong>권리자명(상호):</strong> ${c.holderName} (${c.holderId})</div>
+      <div><strong>사업자/소득구분:</strong> ${c.entityType} | <strong>식별번호:</strong> ${c.ssnMasked}</div>
+      <div><strong>입금 계좌:</strong> ${c.bankMasked}</div>
+    `;
+
+    // 종합 요약 표
+    document.getElementById("s2SummaryBox").innerHTML = `
+      <table class="table" style="width:100%; border-collapse:collapse; font-size:12.5px; border:1px solid #cbd5e1;">
+        <thead>
+          <tr style="background:#f1f5f9;">
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right;">전월 이월(세전/위탁)</th>
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right;">당월 총 발생액</th>
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right;">환불·수수료 차감</th>
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right; background:#eff6ff; color:#1e40af;">증빙 발행/원천세 기준액</th>
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right;">선급금상계 · 세후/차월이월</th>
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right;">세액(부가세/원천세)</th>
+            <th style="padding:9px 12px; border:1px solid #cbd5e1; text-align:right; background:#f0fdf4; color:#15803d;">당월 실지급액</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:700;">${fmt(sc.carryInPre)}</td>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:700;">${fmt(sc.grossGenerated)}</td>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:700; color:#dc2626;">${fmt(sc.deductions)}</td>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:800; background:#eff6ff; color:#1d4ed8;">${fmt(sc.taxBase)}</td>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:700; color:#b45309;">${fmt(sc.prepayAndPostCarry)}</td>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:700;">${fmt(sc.taxAmount)}</td>
+            <td style="padding:10px 12px; border:1px solid #cbd5e1; text-align:right; font-weight:900; font-size:14.5px; background:#f0fdf4; color:#15803d;">${fmt(sc.finalPayout)}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:8px; padding:8px 12px; background:#fffbeb; border:1px solid #fcd34d; border-radius:6px; font-size:12px; color:#92400e;">
+        💡 <strong>산출 요약:</strong> ${c.diffEquation}
+      </div>
+    `;
+
+    // 케이스별 조건부 섹션 (해당될 때만 노출)
+    let secNo = 2;
+    const secHtml = [];
+
+    // (1) 이월 내역이 있는 경우만 노출
+    if (c.carryoverRows && c.carryoverRows.length > 0) {
+      secHtml.push(`
+        <div>
+          <div class="s2-sec-title">
+            <span>${secNo++}. 전월 이월금 반영 및 차월 이월 내역</span>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openCarryoverModalP1('${c.holderId}', 'PARTNER')">📋 지난 정산 이월 발생 내역 상세 표 보기</button>
+          </div>
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:12px; border:1px solid #cbd5e1;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">이월 발생월</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">정산 항목</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">전월 이월액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">이번 달 정산 반영액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">차월 이월 잔액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">상세 안내</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.carryoverRows.map(r => `
+                <tr>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; font-weight:700;">${r.origin}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;">${r.pipeline.replace(/Pipeline [0-9.]+ /g, '')}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:700;">${fmt(r.opening)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:700; color:#2563eb;">${fmt(r.delta !== 0 ? -r.delta : r.newAdd)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:800; color:#1d4ed8;">${fmt(r.closing)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;">${r.note}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // (2) 온라인 강좌 정산 내역이 있는 경우만 노출
+    if (c.lectureRows && c.lectureRows.length > 0) {
+      secHtml.push(`
+        <div>
+          <div class="s2-sec-title">
+            <span>${secNo++}. 온라인 강좌 정산 상세 내역</span>
+            <span style="font-size:11.5px; color:#64748b;">※ 본인 귀속 강좌 및 지분율 기준</span>
+          </div>
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:12px; border:1px solid #cbd5e1;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">강좌명 (상품코드)</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">구분</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">결제건수</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">정산 대상 순매출</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">귀속 지분율</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">정산 요율(R/S)</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">환불 차감</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">당월 정산금</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.lectureRows.map(r => `
+                <tr>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;"><strong>${r.prodName}</strong> (${r.prodCode})</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;">${r.pkgType}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${r.count}건</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${Number(r.allocBase.replace(/,/g, '')).toLocaleString('ko-KR')}원</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${r.shareRatio}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:700;">${r.rsRate}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; color:#dc2626;">${fmt(r.refundDeduct)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:800;">${fmt(r.finalFloor)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // (3) 도서 인세 / 위탁 도서가 있는 경우만 노출
+    if (c.bookRows && c.bookRows.length > 0) {
+      secHtml.push(`
+        <div>
+          <div class="s2-sec-title">
+            <span>${secNo++}. 교재 인세 / 위탁 도서 정산 상세 내역</span>
+            <span style="font-size:11.5px; color:#64748b;">※ 당월 출고완료 및 구매확정(반품 차감) 수량 기준</span>
+          </div>
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:12px; border:1px solid #cbd5e1;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">교재명 (SKU)</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">출고 / 반품 / 확정 부수</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">도서 정가</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">인세율 / 정산율</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">저자 지분율</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">당월 도서 정산금</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.bookRows.map(r => `
+                <tr>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;"><strong>${r.title}</strong> (${r.sku})</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">출고 ${r.shipQty} − 반품 ${r.returnQty} = <strong>${r.netQty}부</strong></td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${fmt(r.listPrice)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:700;">${r.rate}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${r.shareRatio}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:800;">${fmt(r.finalFloor)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // (4) 개발지원금 / 최저보장(MMG)이 있는 경우만 노출
+    if (c.supportRows && c.supportRows.length > 0) {
+      secHtml.push(`
+        <div>
+          <div class="s2-sec-title">
+            <span>${secNo++}. 콘텐츠 개발지원금 · 최저보장(MMG) 정산 내역</span>
+          </div>
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:12px; border:1px solid #cbd5e1;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">약정 항목</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">약정 한도(보장액)</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">전월까지 누적액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">당월 확정 반영액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">안내 사항</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.supportRows.map(r => `
+                <tr>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; font-weight:700;">${r.type}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${fmt(r.capTotal)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${fmt(r.usedBefore)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:800; color:#1d4ed8;">${fmt(r.capApplied)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;">${r.note}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // (5) 선급금 상계 내역이 있는 경우만 노출
+    if (c.prepayRows && c.prepayRows.length > 0) {
+      secHtml.push(`
+        <div>
+          <div class="s2-sec-title">
+            <span>${secNo++}. 선급금 차감(상계) 및 잔액 명세</span>
+          </div>
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:12px; border:1px solid #cbd5e1;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">선급금 약정번호</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">총 지급 선급금</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">전월 말 미상계 잔액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">당월 정산금 상계액</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">당월 말 잔여 선급금</th>
+                <th style="padding:8px 10px; border:1px solid #cbd5e1;">상세 내역</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.prepayRows.map(r => `
+                <tr>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; font-family:monospace; font-weight:700;">${r.prepayId}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${fmt(r.totalLoan)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right;">${fmt(r.openingBal)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:800; color:#dc2626;">${fmt(r.offsetApplied)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1; text-align:right; font-weight:800; color:#b45309;">${fmt(r.closingBal)}</td>
+                  <td style="padding:8px 10px; border:1px solid #cbd5e1;">${r.allocDetail}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    document.getElementById("s2ConditionalTablesArea").innerHTML = secHtml.join("");
+  }
+
+  // URL 파라미터(?view=partner-stmt 또는 ?view=s2) 진입 시 권리자 제공 정산서(ADMN-SETT-002-S2) 자동 오픈
+  window.addEventListener("DOMContentLoaded", function() {
+    const params = new URLSearchParams(window.location.search);
+    const v = params.get("view");
+    const holder = params.get("holder") || "RH-0025";
+    if (v === "partner-stmt" || v === "s2") {
+      setTimeout(() => openStatementModalS2(holder), 150);
+    } else if (v === "s1") {
+      setTimeout(() => openStatementModalS1(holder), 150);
+    }
+  });
 </script>
 
 </body></html>
