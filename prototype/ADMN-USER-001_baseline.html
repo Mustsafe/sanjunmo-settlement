@@ -2356,5 +2356,182 @@
       window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3500);
     }
   </script>
+
+<!-- ==================== [패치] ADMN-USER-005 수동 블랙리스트 회원 검색·선택·등록 모달 ==================== -->
+<div id="modal-manual-blacklist" style="position:fixed; inset:0; background:rgba(15,23,42,0.55); display:none; align-items:center; justify-content:center; z-index:9999; padding:20px;">
+  <div style="background:#fff; border-radius:14px; width:100%; max-width:760px; max-height:92vh; display:flex; flex-direction:column; box-shadow:0 20px 50px rgba(15,23,42,0.28); overflow:hidden; font-family:'Pretendard',sans-serif;">
+    <div style="padding:16px 22px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; background:#f8fafc;">
+      <h3 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">🚨 [ADMN-USER-005] 수동 블랙리스트 대상 회원 검색 및 제재 지정</h3>
+      <button type="button" onclick="closeManualBlacklistModal()" style="padding:5px 10px; border:1px solid #cbd5e1; background:#fff; border-radius:6px; cursor:pointer; font-weight:700;">닫기 ✕</button>
+    </div>
+    <div style="padding:18px 22px; overflow-y:auto; font-size:13px;">
+      <div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; padding:10px 14px; border-radius:8px; font-size:12px; margin-bottom:14px;">
+        <strong>대상 회원 지정 프로세스:</strong> ① 성명·회원ID·연락처로 회원을 실시간 검색하거나 신고 누적 대상자 칩을 클릭해 <strong>제재 대상 회원을 먼저 선택</strong>한 뒤, ② <strong>제재 범위</strong>와 <strong>상세 증빙 사유</strong>를 입력하여 등록합니다.
+      </div>
+
+      <!-- STEP 1: 회원 검색 및 선택 -->
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:12px; font-weight:800; color:#334155; margin-bottom:6px;">STEP 1. 블랙리스트 지정 대상 회원 검색 및 선택 *</label>
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <input type="text" id="bl-member-search-inp" placeholder="회원명, 로그인 ID, 휴대폰 번호 입력 (예: 김철수, share_id99, 010-)" oninput="filterBlacklistCandidateMembers()" style="flex:1; padding:8px 11px; border:1px solid #cbd5e1; border-radius:7px; font-size:13px;" />
+        </div>
+        <div style="border:1px solid #cbd5e1; border-radius:8px; max-height:175px; overflow-y:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+                <th style="padding:8px 10px; text-align:left; width:50px;">선택</th>
+                <th style="padding:8px 10px; text-align:left;">회원명 (로그인 ID)</th>
+                <th style="padding:8px 10px; text-align:left;">연락처</th>
+                <th style="padding:8px 10px; text-align:left;">위험/신고 이력</th>
+              </tr>
+            </thead>
+            <tbody id="bl-candidate-tbody"></tbody>
+          </table>
+        </div>
+        <div id="bl-selected-member-banner" style="margin-top:8px; padding:9px 12px; background:#fef2f2; border:1px solid #fecaca; border-radius:7px; color:#991b1b; font-weight:800; font-size:12.5px;">
+          선택된 대상 회원: 없음 (위 목록에서 회원을 선택하세요)
+        </div>
+      </div>
+
+      <!-- STEP 2: 제재 유형 및 기간 -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:800; color:#334155; margin-bottom:6px;">STEP 2. 위반 사유 분류 *</label>
+          <select id="bl-reason-cat" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:7px; font-size:13px;">
+            <option value="불법 계정공유 / 동시접속 적발">불법 계정공유 / 동시접속 적발</option>
+            <option value="강의 영상 불법 녹화·유출 시도">강의 영상 불법 녹화·유출 시도</option>
+            <option value="커뮤니티 상습 욕설·비방·스팸 도배">커뮤니티 상습 욕설·비방·스팸 도배</option>
+            <option value="상습 악성 환불 반복 / 업무방해">상습 악성 환불 반복 / 업무방해</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; font-weight:800; color:#334155; margin-bottom:6px;">STEP 3. 제재 수위 및 차단 범위 *</label>
+          <select id="bl-penalty-scope" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:7px; font-size:13px;">
+            <option value="플레이어 수강차단 + 로그인 제한 (30일)">플레이어 수강차단 + 로그인 제한 (30일)</option>
+            <option value="커뮤니티/게시판 작성 영구 제한">커뮤니티/게시판 작성 영구 제한</option>
+            <option value="계정 영구 정지 및 재가입 차단">계정 영구 정지 및 재가입 차단</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- STEP 4: 상세 사유 및 증빙 -->
+      <div>
+        <label style="display:block; font-size:12px; font-weight:800; color:#334155; margin-bottom:6px;">STEP 4. 상세 적발 경위 및 증빙 로그 기록 (감사로그 ADMN-CONF-006 자동 기록) *</label>
+        <textarea id="bl-detail-memo" rows="3" placeholder="예: 2026-10-19 중고거래 카페 내 계정 공유 판매글 적발 (신고번호 RPT-103) 및 서로 다른 4개 광역시 IP 동시 스트리밍 로그 확인" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:7px; font-size:13px;"></textarea>
+      </div>
+    </div>
+    <div style="padding:14px 22px; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end; gap:8px; background:#f8fafc;">
+      <button type="button" onclick="closeManualBlacklistModal()" style="padding:8px 14px; border:1px solid #cbd5e1; background:#fff; border-radius:7px; font-weight:700; cursor:pointer;">취소</button>
+      <button type="button" onclick="submitManualBlacklistMember()" style="padding:8px 16px; border:none; background:#dc2626; color:#fff; border-radius:7px; font-weight:800; cursor:pointer;">🚨 선택한 회원 블랙리스트 즉시 등록</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const BL_CANDIDATE_POOL = [
+    { uid: 'USR-2026-9912', name: '양도꾼', loginId: 'share_id99', phone: '010-4412-9981', risk: '신고 6회 누적 (계정공유 판매글 적발 · RPT-103)' },
+    { uid: 'USR-2026-8841', name: '김철수', loginId: 'cskim44', phone: '010-7123-4410', risk: '신고 2회 누적 (자유게시판 비속어 · RPT-101)' },
+    { uid: 'USR-2026-7730', name: '박동시', loginId: 'multi_ip77', phone: '010-8901-2311', risk: '1시간 내 5개 타 지역 IP 동시 재생 감지' },
+    { uid: 'USR-2026-6619', name: '이환불', loginId: 'refund_abuse', phone: '010-3321-7890', risk: '교재 수령 후 무단 복제·반품 분쟁 3회' },
+    { uid: 'USR-2026-5501', name: '최정상', loginId: 'normal_st01', phone: '010-5511-2200', risk: '특이 이력 없음 (일반 수강생)' }
+  ];
+  let selectedBlCandidate = BL_CANDIDATE_POOL[0];
+
+  function openManualBlacklistModal() {
+    const modal = document.getElementById('modal-manual-blacklist');
+    if (!modal) return;
+    document.getElementById('bl-member-search-inp').value = '';
+    selectedBlCandidate = BL_CANDIDATE_POOL[0];
+    filterBlacklistCandidateMembers();
+    modal.style.display = 'flex';
+  }
+
+  function closeManualBlacklistModal() {
+    const modal = document.getElementById('modal-manual-blacklist');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function filterBlacklistCandidateMembers() {
+    const kw = (document.getElementById('bl-member-search-inp').value || '').trim().toLowerCase();
+    const list = BL_CANDIDATE_POOL.filter(m =>
+      !kw || m.name.toLowerCase().includes(kw) || m.loginId.toLowerCase().includes(kw) || m.phone.includes(kw) || m.risk.toLowerCase().includes(kw)
+    );
+    const tbody = document.getElementById('bl-candidate-tbody');
+    tbody.innerHTML = list.map(m => {
+      const checked = selectedBlCandidate && selectedBlCandidate.uid === m.uid ? 'checked' : '';
+      return `
+        <tr onclick="selectBlacklistCandidate('${m.uid}')" style="cursor:pointer; border-bottom:1px solid #f1f5f9;">
+          <td style="padding:8px 10px;"><input type="radio" name="bl-cand-radio" ${checked} /></td>
+          <td style="padding:8px 10px; font-weight:700;">${m.name} (<span style="font-family:monospace;">${m.loginId}</span>)</td>
+          <td style="padding:8px 10px;">${m.phone}</td>
+          <td style="padding:8px 10px; color:#b91c1c; font-weight:600;">${m.risk}</td>
+        </tr>
+      `;
+    }).join('');
+    updateSelectedBlBanner();
+  }
+
+  function selectBlacklistCandidate(uid) {
+    const found = BL_CANDIDATE_POOL.find(m => m.uid === uid);
+    if (found) {
+      selectedBlCandidate = found;
+      filterBlacklistCandidateMembers();
+    }
+  }
+
+  function updateSelectedBlBanner() {
+    const banner = document.getElementById('bl-selected-member-banner');
+    if (!banner) return;
+    if (!selectedBlCandidate) {
+      banner.textContent = '선택된 대상 회원: 없음 (위 목록에서 회원을 선택하세요)';
+    } else {
+      banner.innerHTML = `✓ 선택된 제재 대상 회원: <strong>${selectedBlCandidate.name} (${selectedBlCandidate.loginId} / ${selectedBlCandidate.phone})</strong> — 사유이력: ${selectedBlCandidate.risk}`;
+    }
+  }
+
+  function submitManualBlacklistMember() {
+    if (!selectedBlCandidate) {
+      alert('블랙리스트로 지정할 대상 회원을 먼저 선택해주세요.');
+      return;
+    }
+    const reasonCat = document.getElementById('bl-reason-cat').value;
+    const scope = document.getElementById('bl-penalty-scope').value;
+    const memo = document.getElementById('bl-detail-memo').value.trim() || selectedBlCandidate.risk;
+
+    // 기존 블랙리스트 테이블(#blacklist-tbody 또는 view-ADMN-USER-005 내 tbody)에 즉시 행 추가
+    const blSection = document.getElementById('view-ADMN-USER-005');
+    const tbody = document.getElementById('blacklist-tbody') || (blSection ? blSection.querySelector('tbody') : null);
+    if (tbody) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-family:monospace; font-weight:700;">BL-${Date.now() % 10000}</td>
+        <td style="font-weight:700;">${selectedBlCandidate.name} (${selectedBlCandidate.loginId})<br/><span style="font-size:11px; color:#64748b;">${selectedBlCandidate.phone}</span></td>
+        <td><span class="badge badge-red" style="background:#fee2e2; color:#b91c1c; padding:3px 8px; border-radius:99px; font-weight:700;">수동 지정 (${reasonCat})</span></td>
+        <td style="font-weight:600;">${memo}<br/><span style="font-size:11px; color:#1d4ed8;">[제재수위: ${scope}]</span></td>
+        <td>2026-10-19 15:40</td>
+        <td><span style="background:#fee2e2; color:#b91c1c; padding:3px 8px; border-radius:99px; font-size:11px; font-weight:700;">차단중</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="this.closest('tr').remove()">차단 해제</button></td>
+      `;
+      tbody.prepend(tr);
+    }
+    closeManualBlacklistModal();
+    if (typeof showToast === 'function') {
+      showToast(`${selectedBlCandidate.name}(${selectedBlCandidate.loginId}) 회원이 블랙리스트에 등록되었습니다.`);
+    } else {
+      alert(`${selectedBlCandidate.name}(${selectedBlCandidate.loginId}) 회원이 블랙리스트에 등록되었습니다.`);
+    }
+  }
+
+  // 기존 ADMN-USER-005 내 '+ 수동 블랙리스트 등록/지정' 버튼 클릭 시 회원 검색 모달로 자동 연결
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('button, a').forEach(btn => {
+      const txt = (btn.textContent || '').trim();
+      if (txt.includes('수동 블랙리스트') || txt.includes('블랙리스트 수동') || txt.includes('블랙리스트 등록')) {
+        btn.setAttribute('onclick', 'openManualBlacklistModal(); return false;');
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
