@@ -734,3 +734,87 @@ code, pre, kbd, samp,
   font-variant-numeric: tabular-nums !important;
   letter-spacing: -0.01em !important;
 }
+
+
+/* === [UI-HOTFIX-V84-LAYOUT-AND-MODAL] === */
+/* 1. 상단 Top Bar: 버튼이 많을 때 좌측 타이틀과 절대 겹치지 않도록 높이 자동 확장 및 버튼 컴팩트화 */
+header.top-bar.v4-gen3-topbar {
+  height: auto !important;
+  min-height: 60px !important;
+  max-height: none !important;
+  padding: 10px 24px !important;
+  flex-wrap: wrap !important;
+  gap: 10px 16px !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-left,
+header.top-bar.v4-gen3-topbar .topbar-left {
+  flex: 1 1 280px !important;
+  min-width: 240px !important;
+  overflow: hidden !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  flex: 0 1 auto !important;
+}
+header.top-bar.v4-gen3-topbar .top-bar-right .btn,
+header.top-bar.v4-gen3-topbar .top-bar-right .select {
+  height: 32px !important;
+  padding: 0 10px !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+}
+
+/* 2. KPI 스코어카드: 22px 큰 숫자(괄호·쉼표 포함) 및 보조 텍스트 하단 잘림(clipping) 완전 방지 */
+#v4-page-body .kpi-card,
+#v4-page-body button.kpi-card {
+  height: auto !important;
+  min-height: 112px !important;
+  overflow: visible !important;
+  padding: 15px 16px !important;
+}
+#v4-page-body .kpi-card .k-num {
+  line-height: 1.38 !important;
+  padding-bottom: 2px !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+  word-break: keep-all !important;
+}
+#v4-page-body .kpi-card .k-sub {
+  line-height: 1.45 !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+/* 3. 전 화면 공통 모달 & 정산 P1/S1/S2 모달: 좌측 고정 SNB(260px, z-index:9999)와 절대 겹치지 않도록 우측 본문 영역 중앙 정렬 */
+.modal-backdrop,
+.p1-modal-backdrop,
+.s1-modal-backdrop,
+.s2-modal-backdrop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 260px !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: calc(100vw - 260px) !important;
+  height: 100vh !important;
+  z-index: 10500 !important;
+  padding: 20px 24px !important;
+  box-sizing: border-box !important;
+  overflow-y: auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 파트너 단독 격리 세션(SNB 숨김 상태)일 때는 모달을 전체 화면(left:0, width:100vw) 기준으로 배치 */
+body.partner-isolated-mode .modal-backdrop,
+body.partner-isolated-mode .p1-modal-backdrop,
+body.partner-isolated-mode .s1-modal-backdrop,
+body.partner-isolated-mode .s2-modal-backdrop {
+  left: 0 !important;
+  width: 100vw !important;
+}

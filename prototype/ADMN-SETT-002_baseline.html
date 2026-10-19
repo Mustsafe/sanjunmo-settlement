@@ -861,7 +861,82 @@ code, pre, kbd, samp,
   letter-spacing: -0.01em !important;
 }
 
-  </style>
+  
+  /* === [SETT-002-MODAL-AND-SHEET-FIX] === */
+  /* P1 / S1 / S2 모달 다이얼로그가 우측 본문 영역(calc(100vw - 260px)) 안에 완벽히 들어오도록 크기·스크롤 보정 */
+  .p1-modal-dialog,
+  .s1-modal-dialog,
+  .s2-modal-dialog {
+    width: 100% !important;
+    max-width: min(1320px, calc(100vw - 308px)) !important;
+    max-height: calc(100vh - 40px) !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  body.partner-isolated-mode .p1-modal-dialog,
+  body.partner-isolated-mode .s1-modal-dialog,
+  body.partner-isolated-mode .s2-modal-dialog {
+    max-width: min(1240px, calc(100vw - 48px)) !important;
+  }
+
+  .p1-modal-body,
+  .s1-modal-body,
+  .s2-modal-body {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 20px 24px 32px 24px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* [핵심] S2 권리자 제공 정산서 흰색 시트(.s2-paper-sheet)가 중간에 끊기거나 테이블이 밖으로 삐져나오는 현상 해결 */
+  .s2-paper-sheet {
+    width: 100% !important;
+    max-width: 1080px !important;
+    height: auto !important;
+    min-height: min-content !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 28px 32px 36px 32px !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06) !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  /* S1 / S2 내부 테이블이 카드 폭을 넘어가지 않도록 가로 스크롤 래퍼 및 자동 줄바꿈 보장 */
+  .s1-modal-body table,
+  .s2-paper-sheet table,
+  .p1-modal-body table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: auto !important;
+  }
+  .s1-modal-body th, .s1-modal-body td,
+  .s2-paper-sheet th, .s2-paper-sheet td,
+  .p1-modal-body th, .p1-modal-body td {
+    word-break: keep-all !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* S1/S2 상단 헤더 바가 좁은 화면에서도 줄바꿈되도록 처리 */
+  .p1-modal-header,
+  .s1-modal-header,
+  .s2-modal-header {
+    flex-wrap: wrap !important;
+    gap: 8px 12px !important;
+    height: auto !important;
+    min-height: 54px !important;
+    padding: 12px 20px !important;
+    flex: 0 0 auto !important;
+  }
+
+</style>
 
   
 
@@ -3385,6 +3460,7 @@ code, pre, kbd, samp,
 
     if (v === "partner-stmt") {
       window.isPartnerIsolatedSession = true;
+      document.body.classList.add("partner-isolated-mode");
       // 파트너 세션에서는 운영자 백오피스(좌측 SNB 및 운영자 메인 컨테이너)를 숨기고 권리자 정산서만 단독 노출
       const snbEl = document.getElementById("v4-master-snb");
       const rootShell = document.getElementById("v4-root-shell");
