@@ -103,6 +103,27 @@ foreach ($obs in $obsoleteFiles) {
     }
 }
 
+# 3-4. 실무 클린 어드민 복사 (prototype_clean -> prototype_clean)
+$localClean = "d:\Work\Settlement\prototype_clean"
+if (Test-Path $localClean) {
+    $gdriveClean = Join-Path $targetRoot "prototype_clean"
+    if (-not (Test-Path $gdriveClean)) { New-Item -ItemType Directory -Path $gdriveClean -Force | Out-Null }
+    Get-ChildItem -Path "$localClean\*" -Include "*.html", "*.css", "*.js" | ForEach-Object {
+        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $gdriveClean $_.Name) -Force
+    }
+    foreach ($sub in @("img", "fonts")) {
+        $srcSub = Join-Path $localClean $sub
+        if (Test-Path $srcSub) {
+            $dstSub = Join-Path $gdriveClean $sub
+            if (-not (Test-Path $dstSub)) { New-Item -ItemType Directory -Path $dstSub -Force | Out-Null }
+            Get-ChildItem -Path "$srcSub\*" | ForEach-Object {
+                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $dstSub $_.Name) -Force
+            }
+        }
+    }
+    Write-Host " [실무 클린 어드민 복사: prototype_clean] 동기화 완료"
+}
+
 # 4. 기획서 마크다운 복사 (docs -> docs)
 $gdriveDocs = Join-Path $targetRoot "docs"
 if (-not (Test-Path $gdriveDocs)) {

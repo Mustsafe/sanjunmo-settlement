@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[ADMN-SETT-006] 합격 환급반 관리 — 산준모 관리자 센터</title>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-soft: #eff6ff;
+      --success: #16a34a;
+      --success-soft: #f0fdf4;
+      --warn: #d97706;
+      --warn-soft: #fffbeb;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --snb-bg: #0f172a;
+      --snb-text: #cbd5e1;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .app-layout {
+      display: block;
+      min-height: 100vh;
+    }
+
+    /* 표준 SNB (업무 여정 1~4단계 정렬) */
+    .snb {
+      background: var(--snb-bg);
+      color: var(--snb-text);
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .snb-brand {
+      padding: 4px 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .snb-brand .title {
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+    .snb-brand .subtitle {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 3px;
+    }
+    .snb-group-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      padding: 0 10px;
+      margin-bottom: 6px;
+      letter-spacing: 0.4px;
+    }
+    .snb-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .snb-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 7px;
+      color: var(--snb-text);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 12.5px;
+    }
+    .snb-item:hover {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+    .snb-item.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+    }
+    .snb-code {
+      font-size: 10.5px;
+      opacity: 0.75;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;
+    }
+
+    /* Main */
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding-bottom: 84px;
+    }
+
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .topbar-left { display: flex; flex-direction: column; gap: 4px; }
+    .breadcrumb {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .page-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge-primary { background: var(--primary-soft); color: var(--primary); border: 1px solid #bfdbfe; }
+    .badge-success { background: var(--success-soft); color: var(--success); border: 1px solid #bbf7d0; }
+    .badge-warn { background: var(--warn-soft); color: var(--warn); border: 1px solid #fde68a; }
+    .badge-danger { background: var(--danger-soft); color: var(--danger); border: 1px solid #fecaca; }
+    .badge-purple { background: var(--purple-soft); color: var(--purple); border: 1px solid #ddd6fe; }
+    .badge-neutral { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+    .topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .btn:hover:not(:disabled) { background: var(--surface-alt); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
+    .btn-sm { padding: 4px 9px; font-size: 11.5px; }
+
+    .content {
+      padding: 22px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Alert & Policy Banner */
+    .overlap-banner {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-left: 4px solid var(--warn);
+      border-radius: var(--radius);
+      padding: 13px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow);
+    }
+    .overlap-banner-title {
+      font-weight: 700;
+      color: #92400e;
+      font-size: 13.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .overlap-banner-desc {
+      font-size: 12px;
+      color: #78350f;
+      margin-top: 3px;
+    }
+
+    /* KPI Row */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    .kpi-card:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .kpi-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+      background: #f8fbff;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* Card & Table */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface-alt);
+    }
+    .card-title { font-size: 14px; font-weight: 700; }
+    .filter-bar {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+    }
+    .input, .select {
+      padding: 6px 10px;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      font-size: 12.5px;
+      background: #fff;
+      color: var(--text);
+    }
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: var(--surface-alt);
+      color: var(--text-sub);
+      font-weight: 700;
+      font-size: 11.5px;
+      white-space: nowrap;
+    }
+    tr:hover td { background: #f8fafc; }
+    tr.selected td { background: #eff6ff; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; }
+    .mono { font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-size: 11.5px; }
+
+    /* Workspace Split */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.05fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .detail-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 78px;
+    }
+    .detail-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: calc(100vh - 180px);
+      overflow-y: auto;
+    }
+
+    .kv-grid {
+      display: grid;
+      grid-template-columns: 135px 1fr;
+      gap: 7px 12px;
+      font-size: 12.5px;
+    }
+    .kv-label { color: var(--text-muted); font-weight: 600; }
+    .calc-box {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .calc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-size: 12px; font-weight: 700; color: var(--text-sub); }
+    textarea.input { resize: vertical; min-height: 62px; font-family: inherit; }
+
+    /* Savebar */
+    .savebar {
+      position: fixed;
+      bottom: 0;
+      left: 250px;
+      right: 0;
+      background: rgba(15, 23, 42, 0.95);
+      color: #fff;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 30;
+      backdrop-filter: blur(6px);
+    }
+    .savebar-status { display: flex; align-items: center; gap: 12px; font-size: 12.5px; }
+
+    .toast-container {
+      position: fixed;
+      bottom: 72px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      border-left: 4px solid var(--primary);
+    }
+    .hidden { display: none !important; }
+  
+/* === [GLOBAL-PRETENDARD-FONT-LOCK: NO-BROWSER-MONOSPACE] === */
+:root {
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+*, *::before, *::after,
+html, body,
+code, pre, kbd, samp, tt, var,
+button, input, select, textarea, optgroup, option,
+table, thead, tbody, tfoot, tr, th, td,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+code, pre, kbd, samp,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+
+  </style>
+
+  
+
+  
+
+
+
+
+
+
+<link id="v4-common-css" rel="stylesheet" href="common-v84.css">
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
+    <div class="top-bar-left">
+      <span class="crumb-group">정산 마감 전 사전 대사</span>
+      <span class="crumb-sep">›</span>
+      <span class="crumb-code" id="header-screen-code">ADMN-SETT-006</span>
+      <h1 class="crumb-title" id="header-screen-title">합격 환급반 관리 (출석 · 진도율 · 환급 차감 검증)</h1>
+    </div>
+    <div class="top-bar-right" id="v4-topbar-right-slot">
+      <label style="font-size:12px; font-weight:700; color:var(--text-sub);">환급 승인 귀속월:</label> <select id="monthSelect" class="select" style="font-weight:700;">
+          <option value="2026-10" selected="">2026-10 (승인 확정일 기준 귀속)</option>
+          <option value="2026-09">2026-09 (마감 완료 · Locked)</option>
+        </select>
+    </div></header><div id="v4-page-body">
+  
+  
+  
+<div class="app-layout">
+  <!-- 좌측 SNB (업무 여정 1~4단계 표준) -->
+  
+
+  <!-- 우측 메인 영역 -->
+  <div class="main">
+    
+
+    <div class="content">
+      <!-- 15.2절 MMG · 프로모션 중복 발생 알럿 배너 (mmg_promo_overlap_flag) -->
+      <div class="overlap-banner">
+        <div>
+          <div class="overlap-banner-title">
+            <span>⚠️ [15.2절 · 부록 B] MMG 보전금 &amp; 합격 환급반 차감 동시 발생 감지 (<code>mmg_promo_overlap_flag = true</code>)</span>
+            <span class="badge badge-warn">연산 차단 없음 · 재무 모니터링</span>
+          </div>
+          <div class="overlap-banner-desc">
+            당월(2026-10) <strong>김안전 강사(CT-2026-0610)</strong> 계약에서 <strong>3단계 MMG 보전금(+1,200,000원)</strong>과 <strong>4단계 합격 환급반 옵션 C 차감(-200,000원)</strong>이 동시 발생했습니다.
+            이중 부담 회피 규칙(15.2절)에 따라 옵션 B·C 차감액은 3단계 MMG 판정 모수에서 제외하고 <strong>4단계(DEDUCT)에서 사후 차감</strong>하여 플랫폼 이중 부담을 방어합니다.
+          </div>
+        </div>
+        <span class="badge badge-neutral">선급금 상계 모수에는 차감 후 순액 반영</span>
+      </div>
+
+      <!-- KPI 카드 -->
+      <section class="kpi-grid">
+        <div class="kpi-card active" data-filter="ALL">
+          <div class="k-title">당월 환급 신청 건수</div>
+          <div class="k-num" id="kpiAll">5건</div>
+          <div class="k-sub">원 결제월 소급 금지 · 승인월 귀속</div>
+        </div>
+        <div class="kpi-card" data-filter="PENDING">
+          <div class="k-title">⏳ 자격 검수 대기 (합격증 확인)</div>
+          <div class="k-num" id="kpiPending" style="color:var(--warn);">2건</div>
+          <div class="k-sub">큐넷 합격증 · 출석률 · 수강기한 검수</div>
+        </div>
+        <div class="kpi-card" data-filter="OPT_BC">
+          <div class="k-title">🔻 권리자 분담 대상 (옵션 B · C)</div>
+          <div class="k-num" id="kpiOptBC" style="color:var(--danger);">3건</div>
+          <div class="k-sub">4단계(DEDUCT) 스냅샷 역참조 공제</div>
+        </div>
+        <div class="kpi-card" data-filter="OPT_A">
+          <div class="k-title">🛡️ 플랫폼 전액 부담 (옵션 A)</div>
+          <div class="k-num" id="kpiOptA" style="color:var(--primary);">2건</div>
+          <div class="k-sub">권리자 정산 차감 0원 (마케팅비)</div>
+        </div>
+        <div class="kpi-card" data-filter="MMG_OVERLAP">
+          <div class="k-title">🚨 MMG · 환급반 중복 플래그</div>
+          <div class="k-num" id="kpiOverlap" style="color:var(--purple);">1건</div>
+          <div class="k-sub">mmg_promo_overlap_flag = true</div>
+        </div>
+      </section>
+
+      <!-- 탭 -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tabList">1. 합격 환급 신청 검수 및 원거래 스냅샷 역참조 워크스페이스</button>
+        <button class="tab-btn" data-tab="tabMmgSim">2. [15.2절 · D-10] MMG 이중 부담 회피 &amp; 지원금(Pipeline 5.1) C-01 캡 흡수 방지 검증</button>
+        <button class="tab-btn" data-tab="tabAudit">3. 환급 승인 감사 로그 (ADMN-CONF-010)</button>
+      </div>
+
+      <!-- 탭 1: 워크스페이스 -->
+      <section id="tabList" class="tab-panel">
+        <div class="workspace-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">합격 환급 신청 목록 및 계약별 분담 옵션(A/B/C) 매핑</div>
+              <span style="font-size:11.5px; color:var(--text-muted);">행을 클릭하여 원 결제 스냅샷 역참조 공제액(BASIC / SUPPORT)을 확인하고 환급을 확정하세요.</span>
+            </div>
+            <div class="filter-bar">
+              <input type="text" id="searchInput" class="input" placeholder="신청번호, 수강생명, 강사명, 원주문번호..." style="width:230px;">
+              <select id="burdenFilter" class="select">
+                <option value="ALL">전체 환급 부담 옵션</option>
+                <option value="OPTION_A">옵션 A (플랫폼 전액 부담 · 기본값)</option>
+                <option value="OPTION_B">옵션 B (비율 공동 부담 · 4단계 공제)</option>
+                <option value="OPTION_C">옵션 C (매출 취소 처리 · 4단계 차감)</option>
+              </select>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>환급ID / 원주문(결제월)</th>
+                    <th>수강생 / 상품명</th>
+                    <th>귀속 권리자 / 부담 옵션</th>
+                    <th class="num">수강생 환급액</th>
+                    <th class="num">4단계 R/S 공제(BASIC)</th>
+                    <th class="num">4·5단계 지원금 공제(P5.1)</th>
+                    <th>검수 상태</th>
+                  </tr>
+                </thead>
+                <tbody id="refundTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 우측 상세 패널 -->
+          <div class="detail-panel">
+            <div class="card-header">
+              <div class="card-title">원 결제 스냅샷 역참조 산출 및 환급 확정</div>
+              <span id="detailBadge" class="badge badge-neutral">선택됨</span>
+            </div>
+            <div class="detail-body" id="detailBody"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 탭 2: 15.2절 MMG 이중 부담 회피 및 Pipeline 5.1 한도 캡 흡수 방지 비교 -->
+      <section id="tabMmgSim" class="tab-panel hidden">
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">[15.2절 · QA D-10 정본] MMG 보전금과 옵션 B·C 차감의 이중 부담 회피 수식 검증 (김안전 강사 사례)</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
+                조건: 당월 순수 신규 R/S = 300,000원, 월 최저보장액(MMG) = 1,500,000원, 합격 환급반 옵션 C 차감액 = 200,000원
+              </div>
+            </div>
+            <span class="badge badge-success">3단계 MMG 선행 → 4단계 DEDUCT 후행 적용됨</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>구분</th>
+                  <th class="num">2단계 순수 신규 R/S</th>
+                  <th class="num">3단계 MMG 판정 모수</th>
+                  <th class="num">3단계 플랫폼 MMG 보전금</th>
+                  <th class="num">4단계 옵션 C 차감</th>
+                  <th class="num">권리자 최종 세전 수령액</th>
+                  <th>재무 영향 판정 (15.2절)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background:#f0fdf4;">
+                  <td><strong>✅ 당사 정본 규칙 적용 (3단계 선행 → 4단계 차감)</strong></td>
+                  <td class="num">300,000원</td>
+                  <td class="num"><strong>300,000원</strong> (차감 제외)</td>
+                  <td class="num"><strong>+1,200,000원</strong></td>
+                  <td class="num" style="color:var(--danger); font-weight:700;">-200,000원</td>
+                  <td class="num"><strong>1,300,000원</strong></td>
+                  <td>권리자 200,000원 정상 분담 · 플랫폼 보전금 1,200,000원 유지</td>
+                </tr>
+                <tr style="background:#fff5f5;">
+                  <td><strong>❌ 잘못된 설계 (차감액을 MMG 모수에 선반영 시)</strong></td>
+                  <td class="num">300,000원</td>
+                  <td class="num" style="color:var(--danger);">100,000원 (30만-20만)</td>
+                  <td class="num" style="color:var(--danger);">+1,400,000원 (+20만 폭증)</td>
+                  <td class="num">모수에서 기차감</td>
+                  <td class="num">1,500,000원 (분담 0원)</td>
+                  <td><span class="badge badge-danger">차단됨</span> 플랫폼이 환급금+보전금 증가분(+20만) 이중 부담</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">[15.1절 · 8.3절 4·5단계 C-01 방어] 합격 환급반 옵션 B·C에 따른 매출연동 개발지원금(Pipeline 5.1) 차감 및 한도 복원 순서</div>
+              <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
+                한도 적용 전 신규 기준금에서 차감하면 잔여 한도 초과분에 옵션 B·C 차감액이 흡수되어 증발하므로, 반드시 5단계에서 [3) 한도 캡 선적용 → 4) 4단계 스냅샷 공제액 후차감] 순서를 지킵니다.
+              </div>
+            </div>
+            <span class="badge badge-primary">cap_restore_on_refund = true 연동</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>연산 단계</th>
+                  <th>수식 및 스냅샷 역참조 규칙 (8.3절 4·5단계 정본)</th>
+                  <th>정종대 강사(SUP-2026-009) 당월 시뮬레이션 값</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>4단계 (DEDUCT)</strong></td>
+                  <td>원 결제 스냅샷의 <code>원거래 지원금 확정 배분액</code> 역참조 × 옵션 B 분담비율(또는 옵션 C 취소비율) 산출 (원거래 미환불 확정액 한도)</td>
+                  <td class="mono">원거래 지원금 확정액 30,000원 × 50%(옵션 B) = <strong>-15,000원 공제 산출</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>5단계 1)·2)항</strong></td>
+                  <td><code>복원 후 사용가능 한도 = 총한도 − 기존 한도소진액 + 승인된 한도복원액(+15,000원)</code></td>
+                  <td class="mono">15,000,000 − 4,850,000 + 15,000 = <strong>10,165,000원</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>5단계 3)·4)항</strong></td>
+                  <td><code>신규 확정액 = min(2단계 순수 신규 발생액, 복원 후 한도)</code> → <code>지급 대상 확정액 = 신규 확정액 − 4단계 지원금 공제액</code></td>
+                  <td class="mono">신규 확정 450,000원 − 공제 15,000원 = <strong>435,000원 확정</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 탭 3: 감사 로그 -->
+      <section id="tabAudit" class="tab-panel hidden">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">합격 환급반 자격 검수 및 정산 공제 반영 감사 로그 (ADMN-CONF-010 연동)</div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>일시</th>
+                  <th>작업자</th>
+                  <th>환급 신청 ID</th>
+                  <th>부담 옵션 / 권리자</th>
+                  <th>처리 내역</th>
+                  <th>검수 근거</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 하단 고정 요약 바 -->
+    <footer class="savebar">
+      <div class="savebar-status">
+        <span class="badge badge-primary">4단계(DEDUCT) 공제 이관 요약</span>
+        <span id="footerSummary"></span>
+      </div>
+      <div>
+        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행(SETT-002)으로 이동 →</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+
+
+
+</div></div><script>
+  const BURDEN_LABELS = {
+    OPTION_A: "옵션 A (플랫폼 전액 부담 · 기본값)",
+    OPTION_B: "옵션 B (비율 공동 부담 · 4단계 공제)",
+    OPTION_C: "옵션 C (매출 취소 처리 · 4단계 차감)"
+  };
+
+  const state = {
+    selectedId: "HRF-202610-01",
+    kpiFilter: "ALL",
+    items: [
+      {
+        id: "HRF-202610-01",
+        orderId: "ORD-202603-112",
+        originPaidMonth: "2026-03",
+        studentName: "박합격 (수험번호: 26-99102)",
+        courseName: "[환급반] 2026 산업안전기사 1년 패스 (강좌 실결제 200,000원)",
+        rightsHolderId: "RH-0025",
+        rightsHolderName: "정종대 (산업안전)",
+        contractId: "CT-2026-0501",
+        burdenType: "OPTION_B", // 비율 공동 부담 (QA D-9 시나리오 정합)
+        studentRefundAmount: 200000,
+        snapshotRsRate: 50, // 원 결제 당시 R/S 50%
+        snapshotSupportRate: 15, // 원 결제 당시 지원금 요율 15% (확정배분액 30,000원)
+        deductBasicRs: 100000, // 200,000 * 50% = 100,000원 공제 (D-9 기준)
+        deductSupport: 15000,  // 원거래 지원금 확정액 30,000 * 50% = 15,000원 공제 & 한도복원
+        capRestoreYn: true,
+        mmgOverlapFlag: false,
+        originSettlementStatus: "PAID_POST_TAX", // 원거래 기지급 완료 → 기지급 소득 반환/차감 경로
+        certFile: "큐넷_국가기술자격_합격확인서_박합격.pdf",
+        attendanceRate: "94.5% (기준 80% 충족)",
+        appliedMonth: "2026-10",
+        status: "PENDING",
+        memo: "제3회 산업안전기사 실기 최종 합격 확인서 및 수강후기 URL 검수 대기"
+      },
+      {
+        id: "HRF-202610-02",
+        orderId: "ORD-202604-309",
+        originPaidMonth: "2026-04",
+        studentName: "최안전 (수험번호: 26-44120)",
+        courseName: "[환급반] 김안전 산업안전 핵심이론 패스 (강좌 실결제 400,000원)",
+        rightsHolderId: "RH-0019",
+        rightsHolderName: "김안전 (강사 · RH-0019 · MMG 150만 특약)",
+        contractId: "CT-2026-0610",
+        burdenType: "OPTION_C", // 매출 취소 처리 (15.2절 · QA D-10 시나리오 정합)
+        studentRefundAmount: 400000,
+        snapshotRsRate: 50, // 원거래 지급 R/S 200,000원 전액 취소 차감
+        snapshotSupportRate: 0,
+        deductBasicRs: 200000, // 15.2절 예시: 옵션 C 차감 200,000원 (3단계 MMG 120만 보전 후 4단계 차감)
+        deductSupport: 0,
+        capRestoreYn: false,
+        mmgOverlapFlag: true, // 당월 MMG 보전금 발생과 동시 발생!
+        originSettlementStatus: "PAID_POST_TAX",
+        certFile: "큐넷_합격확인서_최안전.pdf",
+        attendanceRate: "100.0% (기준 80% 충족)",
+        appliedMonth: "2026-10",
+        status: "APPROVED",
+        memo: "15.2절 규칙에 따라 3단계 MMG(150만, 보전금 120만) 판정 후 4단계(DEDUCT)에서 200,000원 차감 확정 (mmg_promo_overlap_flag=true)",
+        approvedBy: "운영팀장 (김검수)",
+        approvedAt: "2026-10-13 16:40:00"
+      },
+      {
+        id: "HRF-202610-03",
+        orderId: "ORD-202602-055",
+        originPaidMonth: "2026-02",
+        studentName: "이수석 (수험번호: 26-10294)",
+        courseName: "[초단기환급] 산업안전 필기+실기 올인원 (강좌 실결제 240,000원)",
+        rightsHolderId: "RH-0025",
+        rightsHolderName: "정종대 (산업안전)",
+        contractId: "CT-2026-0501",
+        burdenType: "OPTION_B",
+        studentRefundAmount: 240000,
+        snapshotRsRate: 50,
+        snapshotSupportRate: 15,
+        deductBasicRs: 120000,
+        deductSupport: 18000,
+        capRestoreYn: true,
+        mmgOverlapFlag: false,
+        originSettlementStatus: "PAID_POST_TAX",
+        certFile: "큐넷_합격확인서_이수석.pdf",
+        attendanceRate: "88.0% (기준 80% 충족)",
+        appliedMonth: "2026-10",
+        status: "APPROVED",
+        memo: "원 결제(2026-02) 스냅샷 역참조하여 2026-10 귀속월 4단계 공제(BASIC 12만 / SUPPORT 1.8만) 확정",
+        approvedBy: "운영팀장 (김검수)",
+        approvedAt: "2026-10-12 11:05:00"
+      },
+      {
+        id: "HRF-202610-04",
+        orderId: "ORD-202605-812",
+        originPaidMonth: "2026-05",
+        studentName: "한합격 (수험번호: 26-77812)",
+        courseName: "[이벤트환급] 산준교육 법인 특강 패스 (강좌 실결제 180,000원)",
+        rightsHolderId: "RH-0012",
+        rightsHolderName: "(주)산준교육 에이전시 (RH-0012)",
+        contractId: "CT-2026-0412",
+        burdenType: "OPTION_A", // 플랫폼 전액 부담 (기본값)
+        studentRefundAmount: 180000,
+        snapshotRsRate: 60,
+        snapshotSupportRate: 0,
+        deductBasicRs: 0, // 옵션 A는 권리자 차감 0원
+        deductSupport: 0,
+        capRestoreYn: false,
+        mmgOverlapFlag: false,
+        originSettlementStatus: "N/A (플랫폼 마케팅 비용 귀속)",
+        certFile: "큐넷_합격확인서_한합격.pdf",
+        attendanceRate: "91.2% (기준 80% 충족)",
+        appliedMonth: "2026-10",
+        status: "APPROVED",
+        memo: "계약상 refund_promo_burden_type = OPTION_A(플랫폼 전액 부담)이므로 권리자 정산 모수 차감 없음.",
+        approvedBy: "운영팀장 (김검수)",
+        approvedAt: "2026-10-11 14:20:00"
+      },
+      {
+        id: "HRF-202610-05",
+        orderId: "ORD-202605-901",
+        originPaidMonth: "2026-05",
+        studentName: "오열공 (수험번호: 26-88219)",
+        courseName: "[이벤트환급] 산준교육 법인 특강 패스 (강좌 실결제 180,000원)",
+        rightsHolderId: "RH-0012",
+        rightsHolderName: "(주)산준교육 에이전시 (RH-0012)",
+        contractId: "CT-2026-0412",
+        burdenType: "OPTION_A",
+        studentRefundAmount: 180000,
+        snapshotRsRate: 60,
+        snapshotSupportRate: 0,
+        deductBasicRs: 0,
+        deductSupport: 0,
+        capRestoreYn: false,
+        mmgOverlapFlag: false,
+        originSettlementStatus: "N/A (플랫폼 마케팅 비용 귀속)",
+        certFile: "큐넷_합격확인서_오열공_신분증대조.pdf",
+        attendanceRate: "82.5% (기준 80% 충족)",
+        appliedMonth: "2026-10",
+        status: "PENDING",
+        memo: "신분증 및 본인 명의 계좌 일치 확인 대기"
+      }
+    ],
+    auditLogs: [
+      {
+        time: "2026-10-13 16:40:00",
+        actor: "운영팀장 (김검수)",
+        targetId: "HRF-202610-02 (ORD-202604-309)",
+        option: "OPTION_C / 김안전",
+        action: "합격 환급 확정 → 2026-10 4단계(DEDUCT) -200,000원 반영",
+        reason: "MMG 중복 발생 플래그(mmg_promo_overlap_flag=true) 생성 및 3단계 MMG 보정 후 4단계 차감 연동"
+      },
+      {
+        time: "2026-10-12 11:05:00",
+        actor: "운영팀장 (김검수)",
+        targetId: "HRF-202610-03 (ORD-202602-055)",
+        option: "OPTION_B / 정종대",
+        action: "합격 환급 확정 → BASIC -120,000원 / SUPPORT -18,000원 공제 및 한도 복원",
+        reason: "2026-02 원 결제 스냅샷 역참조 완료"
+      }
+    ]
+  };
+
+  function showToast(msg) {
+    const wrap = document.getElementById("toastContainer");
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.textContent = msg;
+    wrap.appendChild(el);
+    setTimeout(() => el.remove(), 3200);
+  }
+
+  function updateSummary() {
+    const all = state.items;
+    const pending = all.filter(x => x.status === "PENDING");
+    const optBC = all.filter(x => x.burdenType === "OPTION_B" || x.burdenType === "OPTION_C");
+    const optA = all.filter(x => x.burdenType === "OPTION_A");
+    const overlap = all.filter(x => x.mmgOverlapFlag);
+
+    document.getElementById("kpiAll").textContent = `${all.length}건`;
+    document.getElementById("kpiPending").textContent = `${pending.length}건`;
+    document.getElementById("kpiOptBC").textContent = `${optBC.length}건`;
+    document.getElementById("kpiOptA").textContent = `${optA.length}건`;
+    document.getElementById("kpiOverlap").textContent = `${overlap.length}건`;
+
+    const approvedList = all.filter(x => x.status === "APPROVED");
+    const sumBasic = approvedList.reduce((a, c) => a + c.deductBasicRs, 0);
+    const sumSupp = approvedList.reduce((a, c) => a + c.deductSupport, 0);
+
+    document.getElementById("footerSummary").innerHTML =
+      `2026-10 승인 확정 <strong>${approvedList.length}건</strong> → 4단계(DEDUCT) 온라인 강좌 R/S 공제 합계: <strong>-${sumBasic.toLocaleString()}원</strong> / 4·5단계 개발지원금(Pipeline 5.1) 공제·한도복원 합계: <strong>-${sumSupp.toLocaleString()}원</strong>`;
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById("refundTableBody");
+    const q = document.getElementById("searchInput").value.trim().toLowerCase();
+    const bFilter = document.getElementById("burdenFilter").value;
+
+    const filtered = state.items.filter(item => {
+      if (state.kpiFilter === "PENDING" && item.status !== "PENDING") return false;
+      if (state.kpiFilter === "OPT_BC" && !(item.burdenType === "OPTION_B" || item.burdenType === "OPTION_C")) return false;
+      if (state.kpiFilter === "OPT_A" && item.burdenType !== "OPTION_A") return false;
+      if (state.kpiFilter === "MMG_OVERLAP" && !item.mmgOverlapFlag) return false;
+
+      if (bFilter !== "ALL" && item.burdenType !== bFilter) return false;
+      if (q) {
+        const hay = `${item.id} ${item.orderId} ${item.studentName} ${item.rightsHolderName} ${item.courseName}`.toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
+      return true;
+    });
+
+    tbody.innerHTML = filtered.map(item => {
+      const isSel = item.id === state.selectedId ? "selected" : "";
+      let optBadge = "";
+      if (item.burdenType === "OPTION_A") optBadge = `<span class="badge badge-primary">옵션 A (플랫폼부담)</span>`;
+      if (item.burdenType === "OPTION_B") optBadge = `<span class="badge badge-warn">옵션 B (비율분담)</span>`;
+      if (item.burdenType === "OPTION_C") optBadge = `<span class="badge badge-danger">옵션 C (매출취소)</span>`;
+
+      const overlapChip = item.mmgOverlapFlag
+        ? `<div style="margin-top:3px;"><span class="badge badge-purple">⚠️ MMG 중복 플래그</span></div>`
+        : "";
+
+      const statusBadge = item.status === "APPROVED"
+        ? `<span class="badge badge-success">환급·공제 확정 (${item.appliedMonth})</span>`
+        : `<span class="badge badge-warn">자격 검수 대기</span>`;
+
+      return `
+        <tr class="${isSel}" onclick="selectItem('${item.id}')" style="cursor:pointer;">
+          <td>
+            <div class="mono" style="font-weight:700;">${item.id}</div>
+            <div class="mono" style="color:var(--text-muted);">원주문: ${item.orderId} (${item.originPaidMonth})</div>
+          </td>
+          <td>
+            <div style="font-weight:700;">${item.studentName}</div>
+            <div style="font-size:11.5px; color:var(--text-sub);">${item.courseName}</div>
+          </td>
+          <td>
+            <div style="font-weight:700;">${item.rightsHolderName}</div>
+            <div style="margin-top:2px;">${optBadge}</div>
+            ${overlapChip}
+          </td>
+          <td class="num"><strong>${item.studentRefundAmount.toLocaleString()}원</strong></td>
+          <td class="num" style="color:${item.deductBasicRs > 0 ? 'var(--danger)' : 'var(--text-muted)'}; font-weight:700;">
+            ${item.deductBasicRs > 0 ? "-" + item.deductBasicRs.toLocaleString() + "원" : "0원 (차감없음)"}
+          </td>
+          <td class="num" style="color:${item.deductSupport > 0 ? 'var(--purple)' : 'var(--text-muted)'}; font-weight:700;">
+            ${item.deductSupport > 0 ? "-" + item.deductSupport.toLocaleString() + "원 (복원)" : "0원"}
+          </td>
+          <td>${statusBadge}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  function renderDetail() {
+    const item = state.items.find(x => x.id === state.selectedId);
+    const body = document.getElementById("detailBody");
+    const badge = document.getElementById("detailBadge");
+
+    if (!item) return;
+    const isApproved = item.status === "APPROVED";
+    badge.className = isApproved ? "badge badge-success" : "badge badge-warn";
+    badge.textContent = isApproved ? "승인 확정됨" : "검수 대기";
+
+    body.innerHTML = `
+      <div class="kv-grid">
+        <div class="kv-label">환급신청 ID / 귀속월</div>
+        <div class="mono"><strong>${item.id}</strong> → 정산 반영 귀속월: <strong>${item.appliedMonth}</strong> (원 결제월 ${item.originPaidMonth} 소급 금지)</div>
+        <div class="kv-label">수강생 / 출석률</div>
+        <div><strong>${item.studentName}</strong> &nbsp;|&nbsp; <span class="badge badge-success">${item.attendanceRate}</span></div>
+        <div class="kv-label">합격 증빙 파일</div>
+        <div class="mono" style="color:var(--primary);">${item.certFile}</div>
+        <div class="kv-label">계약 / 환급 부담 옵션</div>
+        <div><strong>${item.rightsHolderName} (${item.contractId})</strong><br><span class="mono">${BURDEN_LABELS[item.burdenType]}</span></div>
+        <div class="kv-label">원거래 지급·세무 상태</div>
+        <div class="mono">${item.originSettlementStatus}</div>
+      </div>
+
+      <div class="calc-box">
+        <div style="font-weight:700; font-size:12.5px; color:var(--text);">
+          📐 [15.1절 · 15.3절] 원 결제 스냅샷(settlement_line_snapshot) 역참조 대칭 공제 산출 내역
+        </div>
+        <div class="calc-row">
+          <span>수강생 실결제 환급 기준액 (원주문 ${item.orderId})</span>
+          <strong class="mono">${item.studentRefundAmount.toLocaleString()}원</strong>
+        </div>
+        <div class="calc-row">
+          <span>[BASIC] 4단계 온라인 강좌 R/S 공제액 (스냅샷 요율 ${item.snapshotRsRate}%)</span>
+          <strong class="mono" style="color:${item.deductBasicRs > 0 ? 'var(--danger)' : 'var(--text-muted)'};">
+            ${item.deductBasicRs > 0 ? "-" + item.deductBasicRs.toLocaleString() + "원" : "0원 (옵션 A 플랫폼 부담)"}
+          </strong>
+        </div>
+        <div class="calc-row">
+          <span>[SUPPORT] 4·5단계 개발지원금(Pipeline 5.1) 역참조 공제 (스냅샷 ${item.snapshotSupportRate}%)</span>
+          <strong class="mono" style="color:${item.deductSupport > 0 ? 'var(--purple)' : 'var(--text-muted)'};">
+            ${item.deductSupport > 0 ? "-" + item.deductSupport.toLocaleString() + "원" : "0원"}
+          </strong>
+        </div>
+        <div class="calc-row">
+          <span>5단계 지원금 한도 복원 여부 (cap_restore_on_refund)</span>
+          <span class="mono">${item.deductSupport > 0 && item.capRestoreYn ? `✔ true (+${item.deductSupport.toLocaleString()}원 한도 복원)` : "해당 없음"}</span>
+        </div>
+      </div>
+
+      ${item.mmgOverlapFlag ? `
+        <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:7px; padding:9px 12px; font-size:11.5px; color:#5b21b6;">
+          <strong>🚨 [mmg_promo_overlap_flag = true]</strong><br>
+          해당 계약은 당월 3단계 MMG 보전금과 4단계 옵션 C 차감이 동시 발생했습니다. 15.2절 규칙에 따라 3단계 MMG 판정 모수에서는 본 차감액(-200,000원)을 배제하고 4단계에서만 차감합니다.
+        </div>
+      ` : ""}
+
+      <div class="form-group">
+        <label class="form-label">검수 의견 및 정산 반영 메모 (감사 로그 기록)</label>
+        <textarea id="editMemo" class="input" ${isApproved ? "disabled" : ""}>${item.memo}</textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button class="btn btn-primary" onclick="approveRefund('${item.id}')" ${isApproved ? "disabled" : ""}>
+          ✔ 합격 환급 승인 확정 (2026-10 정산 4단계 반영)
+        </button>
+      </div>
+    `;
+  }
+
+  function renderAudit() {
+    const tbody = document.getElementById("auditTableBody");
+    tbody.innerHTML = state.auditLogs.map(log => `
+      <tr>
+        <td class="mono">${log.time}</td>
+        <td><strong>${log.actor}</strong></td>
+        <td class="mono">${log.targetId}</td>
+        <td><span class="badge badge-neutral">${log.option}</span></td>
+        <td><strong>${log.action}</strong></td>
+        <td>${log.reason}</td>
+      </tr>
+    `).join("");
+  }
+
+  function selectItem(id) {
+    state.selectedId = id;
+    renderTable();
+    renderDetail();
+  }
+
+  function approveRefund(id) {
+    const item = state.items.find(x => x.id === id);
+    if (!item) return;
+    const memo = document.getElementById("editMemo").value.trim();
+    if (memo.length < 5) {
+      alert("검수 근거를 입력해 주세요.");
+      return;
+    }
+    item.memo = memo;
+    item.status = "APPROVED";
+    item.approvedBy = "운영책임자 (white)";
+    item.approvedAt = "2026-10-14 15:40:00";
+
+    state.auditLogs.unshift({
+      time: item.approvedAt,
+      actor: item.approvedBy,
+      targetId: `${item.id} (${item.orderId})`,
+      option: `${item.burdenType} / ${item.rightsHolderName}`,
+      action: `합격 환급 확정 → BASIC -${item.deductBasicRs.toLocaleString()}원 / SUPPORT -${item.deductSupport.toLocaleString()}원`,
+      reason: memo
+    });
+
+    updateSummary();
+    renderTable();
+    renderDetail();
+    renderAudit();
+    showToast(`✔ [${item.id}] 합격 환급 승인이 확정되어 2026-10 정산 4단계(DEDUCT)에 반영되었습니다.`);
+  }
+
+  document.querySelectorAll(".kpi-card").forEach(card => {
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".kpi-card").forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+      state.kpiFilter = card.dataset.filter;
+      renderTable();
+    });
+  });
+
+  document.getElementById("searchInput").addEventListener("input", renderTable);
+  document.getElementById("burdenFilter").addEventListener("change", renderTable);
+
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const target = btn.dataset.tab;
+      document.querySelectorAll(".tab-panel").forEach(p => {
+        p.classList.toggle("hidden", p.id !== target);
+      });
+    });
+  });
+
+  document.querySelectorAll(".snb-item").forEach(item => {
+    item.addEventListener("click", () => {
+      const href = item.dataset.href;
+      if (href) window.location.href = href;
+    });
+  });
+
+  updateSummary();
+  renderTable();
+  renderDetail();
+  renderAudit();
+</script></body></html>

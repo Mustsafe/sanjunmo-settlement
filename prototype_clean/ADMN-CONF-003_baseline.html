@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-CONF-003 · 008] 플레이어/DRM 보안 · 동시접속 · 인증 발송 설정 — 산준모 관리자 센터</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-body: #F3F5F9; --bg-card: #FFFFFF; --bg-subtle: #F8FAFC;
+      --text-main: #0F172A; --text-sub: #475569; --text-muted: #64748B;
+      --border: #E2E8F0; --border-strong: #CBD5E1;
+      --primary: #2563EB; --primary-hover: #1D4ED8;
+      --success: #16A34A; --warning: #D97706; --danger: #DC2626;
+      --radius-md: 8px; --radius-lg: 12px; --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 13px; line-height: 1.5; min-width: 1440px; }
+    #v4-root-shell { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar.v4-gen3-topbar { height: 60px; background: #FFF; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 100; }
+    .crumb-wrap { display: flex; align-items: center; gap: 10px; }
+    .crumb-code { background: #1E293B; color: #F8FAFC; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+    .crumb-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .crumb-sub { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+    .main-container { padding: 24px 28px 60px; max-width: 1640px; width: 100%; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+    .kpi-card .k-title { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px; }
+    .kpi-card .k-num { font-family: "Pretendard", sans-serif; font-size: 22px; font-weight: 800; color: var(--text-main); text-align: left; margin-bottom: 6px; }
+    .kpi-card .k-sub { font-size: 11.5px; color: var(--text-muted); }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 20px; overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #FAFBFD; }
+    .card-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .card-body { padding: 18px 20px; }
+
+    .policy-banner { background: #EFF6FF; border: 1px solid #BFDBFE; border-left: 4px solid var(--primary); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 18px; font-size: 12px; color: #1E3A8A; line-height: 1.6; }
+    .f-input, .f-select { height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 12.5px; font-family: inherit; color: var(--text-main); background: #FFF; }
+    .btn { height: 34px; padding: 0 14px; border-radius: 6px; font-size: 12.5px; font-weight: 700; border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+    .btn-primary { background: var(--primary); color: #FFF; }
+    .btn-outline { background: #FFF; border-color: var(--border-strong); color: var(--text-main); }
+    .btn-danger { background: #FEF2F2; border-color: #FECACA; color: var(--danger); }
+
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+    .badge-green { background: #DCFCE7; color: #15803D; }
+    .badge-amber { background: #FEF3C7; color: #B45309; }
+    .badge-gray { background: #F1F5F9; color: #475569; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th { background: #F8FAFC; color: var(--text-sub); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); }
+    .kv-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .kv-table th { width: 180px; background: var(--bg-subtle); padding: 10px 14px; border: 1px solid var(--border); text-align: left; font-weight: 700; color: var(--text-sub); font-size: 12px; }
+    .kv-table td { padding: 10px 14px; border: 1px solid var(--border); font-size: 12.5px; }
+
+    .inner-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--border); margin-bottom: 18px; }
+    .inner-tab { padding: 10px 18px; font-size: 13px; font-weight: 800; color: var(--text-sub); border: none; background: transparent; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+    .inner-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; }
+    #toast-box { position: fixed; bottom: 24px; right: 24px; background: #0F172A; color: #FFF; padding: 12px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: none; z-index: 2000; }
+    code { background: #F1F5F9; padding: 2px 5px; border-radius: 4px; font-size: 11.5px; }
+  
+/* === [GLOBAL-PRETENDARD-FONT-LOCK: NO-BROWSER-MONOSPACE] === */
+:root {
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+*, *::before, *::after,
+html, body,
+code, pre, kbd, samp, tt, var,
+button, input, select, textarea, optgroup, option,
+table, thead, tbody, tfoot, tr, th, td,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+code, pre, kbd, samp,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="crumb-wrap">
+        <span class="crumb-code" id="top-crumb-code">ADMN-CONF-003</span>
+        <h1 class="crumb-title">플레이어/DRM 보안 · 동시접속 · SMS 인증 발송 설정</h1>
+        <span class="crumb-sub">사이트 관리 &gt; StarPlayer+ 워터마크 · 동시접속 1세션 제어(CONF-003) · SMS 본인인증 발송/IP 화이트리스트(CONF-008)</span>
+      </div>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="k-title"><span>1차 오픈 동시접속 제어 정책</span><span class="badge badge-blue">11/16 오픈 확정</span></div>
+          <div class="k-num">1 세션 (IP)</div>
+          <div class="k-sub">중복 로그인/재생 감지 시 기존 세션 즉시 강제 로그아웃</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>StarPlayer+ 동적 워터마크</span><span class="badge badge-green">ON</span></div>
+          <div class="k-num">10초 / 5초</div>
+          <div class="k-sub">10초 주기 랜덤 좌표 이동 · 5초 노출 · 투명도 35%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>24시간 SMS 인증 발송 한도</span><span class="badge badge-amber">ADMN-CONF-008</span></div>
+          <div class="k-num">최대 5 회</div>
+          <div class="k-sub">재발송 쿨다운 30초 · 인증번호 유효시간 3분(180초)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>공유기 IP 제한 예외 (Whitelist)</span><span class="badge badge-gray">CIDR 지원</span></div>
+          <div class="k-num" id="kpi-ip-cnt">2 건</div>
+          <div class="k-sub">제휴 독서실 · 사내 테스트망 IP 대역 예외 허용</div>
+        </div>
+      </div>
+
+      <div class="inner-tabs">
+        <button type="button" class="inner-tab active" id="tab-btn-player" onclick="switchConfTab('player')">🎬 플레이어 · 워터마크 · 동시접속 제어 설정 (ADMN-CONF-003)</button>
+        <button type="button" class="inner-tab" id="tab-btn-auth" onclick="switchConfTab('auth')">🔐 SMS 본인인증 발송 제한 · 허용 IP 관리 (ADMN-CONF-008)</button>
+      </div>
+
+      <!-- 탭 1: ADMN-CONF-003 플레이어 / DRM 보안 설정 -->
+      <section id="panel-player" class="view-panel active">
+        <div class="policy-banner">
+          <strong>[11월 16일 1차 오픈 스펙 기준 — 플레이어 및 부정수강 통제 원칙]</strong>
+          1차 오픈에서는 수험생 CS 마찰이 큰 물리 단말기 고유번호(UUID) 2대 고정 등록 대신, <strong>계정당 동시접속 1세션(IP/세션 기준) 제한 및 중복 접속 시 기존 세션 강제 로그아웃</strong>을 우선 적용합니다. (단말기 UUID 기기 등록 제어는 2차 고도화 옵션으로 토글 분리)
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>🎬 StarPlayer+ 동적 워터마크 · 재생 제어 · 동시접속 설정 (ADMN-CONF-003)</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="savePlayerConfig()">💾 플레이어 보안 설정 저장</button>
+          </div>
+          <div class="card-body">
+            <div style="display:grid; grid-template-columns: 1fr 400px; gap:24px; align-items:start;">
+              <div>
+                <table class="kv-table">
+                  <tbody>
+                    <tr>
+                      <th>동적 워터마크 표기 내용 *</th>
+                      <td>
+                        <select id="pl-wm-text" class="f-select" style="width:100%;" onchange="updateWmPreview()">
+                          <option value="hon***@naver.com (121.***.7.90)">회원 이메일 ID + 접속 IP (권장 · 불법 녹화 유출자 즉시 특정)</option>
+                          <option value="hon***@naver.com">회원 이메일 ID 단독 표기</option>
+                          <option value="hon***@naver.com (홍*동)">회원 이메일 ID + 이름</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>워터마크 이동 주기 / 노출 시간 *</th>
+                      <td>
+                        이동 주기(<code>positionChangeInterval</code>): <input type="number" id="pl-wm-interval" class="f-input" style="width:70px;" value="10" /> 초 &nbsp;·&nbsp;
+                        노출 시간(<code>displayDuration</code>): <input type="number" id="pl-wm-duration" class="f-input" style="width:70px;" value="5" /> 초
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>투명도 / 글자 크기 *</th>
+                      <td>
+                        투명도: <input type="number" id="pl-wm-opacity" class="f-input" style="width:70px;" value="35" onchange="updateWmPreview()" /> % &nbsp;·&nbsp;
+                        글자 크기: <input type="number" id="pl-wm-size" class="f-input" style="width:70px;" value="14" onchange="updateWmPreview()" /> px
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>첫 수강 빨리감기 제한<br/>(<code>limitedForward</code>)</th>
+                      <td>
+                        <label style="font-weight:800; margin-right:16px;"><input type="radio" name="pl_fwd" value="ON" checked /> ON (미수강 구간 마우스 드래그 스킵 차단 · 합격환급반 진도율 어뷰징 방지)</label>
+                        <label style="font-weight:700;"><input type="radio" name="pl_fwd" value="OFF" /> OFF (자유 이동 허용 · 맛보기/무료특강은 자동 OFF)</label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>허용 재생 배속 범위 *</th>
+                      <td>
+                        최소 <code>0.5x</code> ~ 최대
+                        <select id="pl-max-speed" class="f-select" style="width:100px;">
+                          <option value="2.0x" selected>2.0x (권장)</option>
+                          <option value="1.5x">1.5x</option>
+                          <option value="2.5x">2.5x</option>
+                        </select>
+                        <span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">(전 배속 진도율 정상 인정 · 구간 반복 A↔B 및 10초 앞/뒤 이동 기본 활성)</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>동시접속 세션 제어 (1차 오픈) *</th>
+                      <td>
+                        <span class="badge badge-blue">1계정 = 1세션 (동시 재생·로그인 전면 차단)</span>
+                        <span style="font-size:12px; margin-left:6px;">중복 접속 감지 시 기존 세션을 즉시 강제 로그아웃하고 안내 모달을 노출합니다.</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>24시간 접속 IP 급증 자동 감지</th>
+                      <td>
+                        동일 계정 24시간 내 서로 다른 IP <input type="number" class="f-input" style="width:65px;" value="5" /> 개 초과 접속 시 부정수강 의심 알림 및 계정 보호 잠금(<code>ADMN-USER-005</code>) 연동
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- 우측 16:9 플레이어 워터마크 실시간 미리보기 -->
+              <div>
+                <div style="font-size:12.5px; font-weight:800; color:var(--text-sub); margin-bottom:8px;">🖥️ StarPlayer+ 16:9 워터마크 실시간 미리보기</div>
+                <div style="background:#0F172A; border-radius:12px; height:230px; position:relative; overflow:hidden; border:2px solid #334155; display:flex; align-items:center; justify-content:center; color:#94A3B8;">
+                  <div style="text-align:center;">
+                    <div style="font-size:15px; font-weight:800; color:#F8FAFC; margin-bottom:4px;">[2026 산업안전기사 필기] 제1강 안전관리론 핵심정리</div>
+                    <div style="font-size:12px;">재생 중 · 00:14:22 / 00:52:10 (1.25x)</div>
+                  </div>
+                  <div id="wm-preview-chip" style="position:absolute; top:28px; right:32px; color:#FFFFFF; opacity:0.35; font-size:14px; font-weight:800; pointer-events:none; user-select:none;">
+                    hon***@naver.com (121.***.7.90)
+                  </div>
+                </div>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
+                  ※ 설정 저장 시 현재 재생 중인 세션을 끊지 않고 다음 강의 재생 시점부터 새 파라미터가 적용됩니다.
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:16px;">
+              <div style="font-size:13px; font-weight:800; margin-bottom:8px;">📋 최근 플레이어 · 보안 설정 변경 이력</div>
+              <table class="data-table">
+                <thead>
+                  <tr><th>변경 일시</th><th>변경 관리자</th><th>변경 항목</th><th>변경 전</th><th>변경 후</th></tr>
+                </thead>
+                <tbody id="player-hist-tbody">
+                  <tr><td>2026.10.16 14:20</td><td>최고관리자 (admin_root)</td><td>동시접속 제어 정책 (11/16 오픈 기준)</td><td>기기 UUID 2대 고정</td><td><strong>동시접속 1세션 제어 (중복 시 기존 세션 강제 로그아웃)</strong></td></tr>
+                  <tr><td>2026.10.11 10:05</td><td>운영팀 (admin_kim)</td><td>워터마크 노출 시간 (displayDuration)</td><td>3초</td><td><strong>5초 (이동 주기 10초)</strong></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 탭 2: ADMN-CONF-008 인증 발송 설정 및 허용 IP 화이트리스트 -->
+      <section id="panel-auth" class="view-panel">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title"><span>🔐 SMS 본인인증 발송 제한 설정 (ADMN-CONF-008)</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="showToast('SMS 본인인증 발송 제한 정책이 저장되었습니다.')">💾 인증 정책 저장</button>
+          </div>
+          <div class="card-body">
+            <table class="kv-table">
+              <tbody>
+                <tr>
+                  <th>계정/휴대폰당 24시간 발송 상한 *</th>
+                  <td>24시간 내 최대 <input type="number" class="f-input" style="width:75px;" value="5" /> 회 (초과 시 당일 SMS 인증 자동 차단 · 회원 상세 <code>ADMN-USER-002</code>에서 수동 초기화 가능)</td>
+                  <th>동일 IP 24시간 발송 상한 *</th>
+                  <td>동일 공인 IP 기준 24시간 내 최대 <input type="number" class="f-input" style="width:75px;" value="20" /> 회 (SMS 폭탄 공격 방어)</td>
+                </tr>
+                <tr>
+                  <th>재발송 쿨다운 시간 *</th>
+                  <td>발송 요청 후 <input type="number" class="f-input" style="width:75px;" value="30" /> 초 경과 후 재발송 버튼 활성화</td>
+                  <th>인증번호 유효 시간 *</th>
+                  <td>발송 시점부터 <input type="number" class="f-input" style="width:75px;" value="3" /> 분 (180초)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin:18px 0 10px;">
+              <div style="font-size:13px; font-weight:800;">🌐 IP 제한 예외 허용 목록 (Whitelist — 제휴 학원 · 독서실 · 사내 공인 IP 대역)</div>
+              <div style="display:flex; gap:6px;">
+                <input type="text" id="new-ip-val" class="f-input" style="width:180px;" placeholder="예: 211.45.30.0/24" />
+                <input type="text" id="new-ip-memo" class="f-input" style="width:240px;" placeholder="예외 허용 사유 (예: 강남 제휴 스터디카페)" />
+                <button type="button" class="btn btn-sm btn-primary" onclick="addWhitelistIp()">+ 허용 IP 추가</button>
+              </div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr><th>허용 IP / 대역 (CIDR)</th><th>등록 사유 · 기관명</th><th>등록일</th><th>등록 관리자</th><th style="text-align:right;">관리</th></tr>
+              </thead>
+              <tbody id="ip-whitelist-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    let WHITELIST_IPS = [
+      { ip: '203.241.12.0/24', memo: '산준모 본사 및 고객센터 운영망 공인 IP 대역', dt: '2026.09.01', admin: 'admin_root' },
+      { ip: '118.129.44.17', memo: '제휴 노량진 기술자격 전문학원 공용 와이파이 공인 IP', dt: '2026.09.15', admin: 'admin_kim' }
+    ];
+
+    function switchConfTab(tab) {
+      document.getElementById('tab-btn-player').classList.toggle('active', tab === 'player');
+      document.getElementById('tab-btn-auth').classList.toggle('active', tab === 'auth');
+      document.getElementById('panel-player').classList.toggle('active', tab === 'player');
+      document.getElementById('panel-auth').classList.toggle('active', tab === 'auth');
+      document.getElementById('top-crumb-code').textContent = (tab === 'player') ? 'ADMN-CONF-003' : 'ADMN-CONF-008';
+    }
+
+    function updateWmPreview() {
+      const txt = document.getElementById('pl-wm-text').value;
+      const op = parseInt(document.getElementById('pl-wm-opacity').value || '35', 10) / 100;
+      const sz = parseInt(document.getElementById('pl-wm-size').value || '14', 10);
+      const chip = document.getElementById('wm-preview-chip');
+      chip.textContent = txt;
+      chip.style.opacity = String(op);
+      chip.style.fontSize = sz + 'px';
+    }
+
+    function savePlayerConfig() {
+      const tbody = document.getElementById('player-hist-tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>2026.10.18 15:45</td><td>최고관리자 (admin_root)</td><td>워터마크 · 배속 · 동시접속 정책 갱신</td><td>기존 설정</td><td><strong>${document.getElementById('pl-wm-text').value} / 최대 ${document.getElementById('pl-max-speed').value}</strong></td>`;
+      tbody.prepend(tr);
+      showToast('플레이어/DRM 및 동시접속 1세션 제어 설정이 저장되었습니다.');
+    }
+
+    function renderIpWhitelist() {
+      document.getElementById('kpi-ip-cnt').textContent = WHITELIST_IPS.length + ' 건';
+      document.getElementById('ip-whitelist-tbody').innerHTML = WHITELIST_IPS.map(( row, idx ) => `
+        <tr>
+          <td><code>${row.ip}</code></td>
+          <td><strong>${row.memo}</strong></td>
+          <td>${row.dt}</td>
+          <td>${row.admin}</td>
+          <td style="text-align:right;">
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeWhitelistIp(${idx})">삭제</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function addWhitelistIp() {
+      const ip = document.getElementById('new-ip-val').value.trim();
+      const memo = document.getElementById('new-ip-memo').value.trim();
+      if (!ip || !memo) {
+        showToast('허용할 IP(또는 CIDR 대역)와 사유를 모두 입력해 주세요.');
+        return;
+      }
+      WHITELIST_IPS.unshift({ ip, memo, dt: '2026.10.18', admin: 'admin_root' });
+      document.getElementById('new-ip-val').value = '';
+      document.getElementById('new-ip-memo').value = '';
+      renderIpWhitelist();
+      showToast(`허용 IP(${ip})가 화이트리스트에 등록되었습니다.`);
+    }
+
+    function removeWhitelistIp(idx) {
+      WHITELIST_IPS.splice(idx, 1);
+      renderIpWhitelist();
+      showToast('허용 IP가 삭제되었습니다.');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      box.textContent = msg;
+      box.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderIpWhitelist();
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'auth') switchConfTab('auth');
+    });
+  </script>
+</body>
+</html>
