@@ -434,3 +434,84 @@
     startSafeCleaner();
   }
 })();
+
+/* [PHASE1_CLEAN_ENHANCEMENT_V4] */
+(function enhanceCleanDomTranslator() {
+  const EXTRA_MAP = {
+  "CARRY_IN": "전월 이월 승계",
+  "ACCRUAL": "순 발생액 산출",
+  "MMG_ADJ": "월 보장액 보정",
+  "SUPPORT_CAP": "지원금 한도 캡",
+  "PREPAY_OFFSET": "선급금 상한선 상계",
+  "LUMPSUM_ADD": "비정기 약정·매절 가산",
+  "PAYEE_SPLIT": "수취인 분할",
+  "UNKNOWN_MISMATCH": "원인 미분류 불일치",
+  "REVENUE_SHARE": "매출 비례 정산",
+  "PENDING_REVIEW": "수동 검토 대기",
+  "CONDITIONAL": "조건부 상계 허용",
+  "UNCONDITIONAL": "무조건 상계 허용",
+  "FORBIDDEN": "상계 불가",
+  "FREQ_EXAM": "빈출문제",
+  "ANSWER_SHEET": "교재 정답지",
+  "COURSE_REVIEW": "수강후기",
+  "PASS_ESSAY": "합격수기",
+  "ROLE_PARTNER_INST": "파트너 강사",
+  "ROLE_PARTNER_COPYRIGHT": "교재 저작권자·출판사",
+  "ROLE_PARTNER_3PL": "외부 물류(3PL)",
+  "payee_splits": "수취인 분할 비율",
+  "payee_is_author": "저작권자 여부",
+  "book_supply_type": "도서 공급 유형",
+  "own_copyright_yn": "자사 저작권 여부",
+  "is_internal": "자사 귀속 여부",
+  "tax_type": "과세 유형",
+  "goods_stock_log": "재고 변동 이력",
+  "member_status": "회원 상태",
+  "SSOT v4.0.0 Baseline": "통합 운영 가이드"
+};
+  const MARKER_RE = /\[\s*마커\s*\d+\s*\]\s*/g;
+  const CIRCLED_RE = /[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳]\s*/g;
+  const TRACK_RE = /\bTrack\s+[A-G]\b\s*[:·-]?\s*/gi;
+
+  function cleanString(str) {
+    if (!str || typeof str !== 'string') return str;
+    let out = str;
+    for (const [k, v] of Object.entries(EXTRA_MAP)) {
+      if (out.includes(k)) out = out.split(k).join(v);
+    }
+    out = out.replace(MARKER_RE, '').replace(CIRCLED_RE, '').replace(TRACK_RE, '');
+    return out;
+  }
+
+  function runEnhancedClean(root) {
+    if (!root) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    while ((node = walker.nextNode())) {
+      const parentTag = node.parentNode && node.parentNode.tagName;
+      if (parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'CODE') continue;
+      const cleaned = cleanString(node.nodeValue);
+      if (cleaned !== node.nodeValue) node.nodeValue = cleaned;
+    }
+    if (root.querySelectorAll) {
+      root.querySelectorAll('[placeholder],[title],[data-tooltip]').forEach(el => {
+        ['placeholder', 'title', 'data-tooltip'].forEach(attr => {
+          const val = el.getAttribute(attr);
+          if (val) {
+            const cleaned = cleanString(val);
+            if (cleaned !== val) el.setAttribute(attr, cleaned);
+          }
+        });
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    runEnhancedClean(document.body);
+    let timer = null;
+    const observer = new MutationObserver(() => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => runEnhancedClean(document.body), 80);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+})();

@@ -235,8 +235,8 @@ code, pre, kbd, samp,
             <span class="brand-pill">admin.sanjunmo.com · v4.0.0 SSOT</span>
             <div class="brand-title">산준모닷컴 백오피스<br/>통합 어드민 &amp; 파트너 센터</div>
             <div class="brand-desc">
-              사내 운영자(최고관리자·운영·CS·물류·정산)와 외부 권리자(강사·출판사 파트너)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
-            </div>
+ 사내 운영자(최고관리자·운영·CS·물류·정산)와 외부 권리자(강사·출판사 파트너)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
+ </div>
             <div class="security-policy-list">
               <div>• 모든 로그인 성공 · 실패 · 잠금 이력은 보안 감사 로그(<strong>ADMN-CONF-010</strong>)에 자동 기록됩니다.</div>
               <div>• 비밀번호 <strong>5회 연속 실패 시</strong> 계정이 즉시 잠금 처리됩니다.</div>
@@ -245,8 +245,8 @@ code, pre, kbd, samp,
             </div>
           </div>
           <div style="font-size:11px; color:#94a3b8;">
-            ※ 사용자 프론트(sanjunmo.com) 계정은 백오피스에 로그인할 수 없습니다.
-          </div>
+ ※ 사용자 프론트(sanjunmo.com) 계정은 백오피스에 로그인할 수 없습니다.
+ </div>
         </div>
 
         <!-- 우측 폼 영역 -->
@@ -259,8 +259,8 @@ code, pre, kbd, samp,
 
           <!-- 세션 만료 배너 -->
           <div id="banner-session-expired" class="alert-box alert-warn" style="display:none;">
-            ⏳ <strong>장시간(30분) 조작이 없어 자동 로그아웃되었습니다.</strong> 다시 로그인해 주세요.
-          </div>
+ ⏳ <strong>장시간(30분) 조작이 없어 자동 로그아웃되었습니다.</strong> 다시 로그인해 주세요.
+ </div>
 
           <!-- =========================================================
                MODE 1: 로그인 (ADMN-LOGIN-001 & 001-P1)
@@ -269,10 +269,10 @@ code, pre, kbd, samp,
             <!-- 5회 실패 잠금 안내 (ADMN-LOGIN-001-P1) -->
             <div id="box-lockout-p1" class="alert-box alert-danger" style="display:none;">
               <strong>🔒 계정이 잠겼습니다 (비밀번호 5회 연속 불일치 · ADMN-LOGIN-001-P1)</strong><br/>
-              보안 정책에 따라 해당 계정(<strong>cs.kim@sanjunmo.com</strong>)의 로그인이 차단되었습니다.<br/>
-              • 본인 휴대폰 SMS 인증 후 <strong>[비밀번호 재설정]</strong>을 완료하면 즉시 잠금이 해제됩니다.<br/>
-              • 또는 최고관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
-            </div>
+ 보안 정책에 따라 해당 계정(<strong>cs.kim@sanjunmo.com</strong>)의 로그인이 차단되었습니다.<br/>
+ • 본인 휴대폰 SMS 인증 후 <strong>[비밀번호 재설정]</strong>을 완료하면 즉시 잠금이 해제됩니다.<br/>
+ • 또는 최고관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
+ </div>
 
             <div class="form-group">
               <label class="form-label">접속 역할 프리셋 (시연용 빠른 선택)</label>
@@ -293,8 +293,8 @@ code, pre, kbd, samp,
               <label class="form-label">비밀번호 * <span id="lbl-fail-cnt" style="color:var(--danger); font-weight:700; margin-left:6px;"></span></label>
               <input type="password" id="inp-login-pw" class="form-input" value="Sanjunmo!2026" onkeyup="checkCapsLock(event)" placeholder="비밀번호 입력 (오류 시연: wrong 입력)" />
               <div id="caps-lock-warn" style="display:none; color:var(--warning); font-size:11px; font-weight:700; margin-top:4px;">
-                ⚠️ Caps Lock이 켜져 있습니다.
-              </div>
+ ⚠️ Caps Lock이 켜져 있습니다.
+ </div>
             </div>
 
             <button type="button" class="btn-submit" id="btn-do-login" onclick="handleAdminLogin()">로그인</button>
@@ -310,8 +310,8 @@ code, pre, kbd, samp,
                ========================================================= -->
           <div id="panel-find-id" class="view-panel">
             <div class="alert-box alert-warn">
-              운영자 계정 관리(<strong>ADMN-CONF-005</strong>)에 등록된 <strong>이름 + 휴대폰 번호 SMS 본인인증</strong>을 거쳐 로그인 이메일을 조회합니다.
-            </div>
+ 운영자 계정 관리(<strong>ADMN-CONF-005</strong>)에 등록된 <strong>이름 + 휴대폰 번호 SMS 본인인증</strong>을 거쳐 로그인 이메일을 조회합니다.
+ </div>
             <div class="form-group">
               <label class="form-label">이름 *</label>
               <input type="text" id="inp-find-name" class="form-input" value="김산준" placeholder="등록된 실명 입력" />
@@ -331,8 +331,8 @@ code, pre, kbd, samp,
               </div>
             </div>
             <div id="box-found-id-result" class="alert-box alert-ok" style="display:none;">
-              ✅ <strong>본인인증 완료 — 등록된 관리자 아이디</strong><br/>
-              • 전체 이메일: <strong style="font-size:14px;">cs.kim@sanjunmo.com</strong> (CS담당자 · 계정상태: 정상)<br/>
+ ✅ <strong>본인인증 완료 — 등록된 관리자 아이디</strong><br/>
+ • 전체 이메일: <strong style="font-size:14px;">cs.kim@sanjunmo.com</strong> (CS담당자 · 계정상태: 정상)<br/>
               <div style="margin-top:8px;">
                 <button type="button" class="link-btn" onclick="applyFoundEmailAndGoLogin('cs.kim@sanjunmo.com')">→ 이 계정으로 즉시 로그인하기</button>
               </div>
@@ -344,8 +344,8 @@ code, pre, kbd, samp,
                ========================================================= -->
           <div id="panel-reset-pw" class="view-panel">
             <div class="alert-box alert-warn">
-              이메일 아이디와 휴대폰 SMS 본인인증 완료 후 화면에서 새 비밀번호를 즉시 설정합니다. 재설정 즉시 <strong>5회 실패 잠금도 자동 해제</strong>됩니다.
-            </div>
+ 이메일 아이디와 휴대폰 SMS 본인인증 완료 후 화면에서 새 비밀번호를 즉시 설정합니다. 재설정 즉시 <strong>5회 실패 잠금도 자동 해제</strong>됩니다.
+ </div>
             <div class="form-group">
               <label class="form-label">관리자 아이디 (이메일) *</label>
               <input type="email" id="inp-reset-email" class="form-input" value="cs.kim@sanjunmo.com" />
