@@ -350,7 +350,7 @@
     <header class="top-bar v4-gen3-topbar">
       <div class="top-bar-left">
         <span class="crumb-code" id="top-crumb-code">ADMN-PROM-002</span>
-        <span class="crumb-title" id="top-crumb-title">쿠폰 마스터 관리 (정률 40% / 정액 20만원 Cap · 도서정가제 자동 바인딩)</span>
+        <span class="crumb-title" id="top-crumb-title">쿠폰 마스터 관리 (ADMN-PROM-002) 및 포인트 적립 정책 · 원장 내역 관리 (ADMN-PROM-003)</span>
       </div>
       <div class="top-bar-right">
         <div class="subview-switcher">
@@ -363,8 +363,8 @@
             <span class="code-pill">PROM-002 / P1</span>
           </button>
           <button type="button" class="subview-btn" id="nav-btn-point" onclick="switchSubView('point')">
-            <span>포인트 원장 · 전역 설정</span>
-            <span class="code-pill">benefit_config</span>
+            <span>포인트 정책 · 적립/차감 내역</span>
+            <span class="code-pill">ADMN-PROM-003</span>
           </button>
         </div>
       </div>
@@ -931,16 +931,75 @@
            SUBVIEW 3: 포인트(유/무상 20만P Cap) 분리 원장 & 전역 설정 (benefit_config)
            =================================================================== -->
       <section id="view-point" class="view-section">
+        <!-- 1. 포인트 자동 적립 · 지급 · 유효기간 정책 설정 (ADMN-PROM-003) -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span>🪙 포인트(유상 PAID / 무상 FREE) 물리 분리 원장 및 200,000P Cap 통제</span>
-              <span class="badge badge-green">FIFO 차감 · LIFO 환불 복원</span>
+              <span>⚙️ 포인트 자동 적립 · 보상 지급 · 유효기간 정책 설정 (ADMN-PROM-003)</span>
+              <span class="badge badge-blue">주문 결제 · 수강후기 · 회원가입 연동</span>
             </div>
-            <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal()">+ 관리자 포인트 수동 지급/차감</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="showToast('[ADMN-PROM-003] 포인트 적립률 및 지급 정책 설정이 저장되었습니다 (감사 로그 기록).')">💾 포인트 정책 저장</button>
           </div>
-          <div class="card-body" style="background:#F8FAFC; border-bottom:1px solid var(--border-color); font-size:12px; color:var(--text-secondary); line-height:1.6;">
-            • <b>환불 시 적립 포인트 회수 순서:</b> <b>① 무상 포인트 우선 회수 → ② 부족 시 유상 포인트 회수 → ③ 유·무상 잔액(0P) 모두 소진 후 초과분만 마이너스(-) 부채 전환</b> (DI 해시 기반 재가입 시에도 부채 복원).
+          <div class="card-body">
+            <table class="form-table" style="margin-bottom:0;">
+              <tbody>
+                <tr>
+                  <th>신규 회원가입 웰컴 포인트</th>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                      <label style="font-weight:700;"><input type="checkbox" checked /> 자동 지급 사용</label>
+                      <span>지급액:</span>
+                      <input type="number" class="form-input" style="width:110px; font-weight:800;" value="5000" />
+                      <span>P (무상 FREE 포인트 · 본인인증 DI 기준 최초 1회만 지급, 탈퇴 후 재가입 시 중복 지급 차단)</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>강좌 결제 시 기본 적립률</th>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                      <span>실결제 금액의</span>
+                      <input type="number" class="form-input" style="width:80px; font-weight:800;" value="1" step="0.5" />
+                      <span>% 자동 적립 (<strong>실물 교재 금액 및 배송비는 도서정가제 정책에 따라 적립 대상에서 자동 제외</strong>)</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>수강후기 · 합격수기 보상</th>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+                      <span>일반 수강후기 승인:</span>
+                      <input type="number" class="form-input" style="width:100px; font-weight:800;" value="1000" /> <span>P</span>
+                      <span style="margin-left:8px;">베스트 후기 · 합격수기(<code>ADMN-BRD-005</code>) 승인:</span>
+                      <input type="number" class="form-input" style="width:100px; font-weight:800;" value="5000" /> <span>P (무상 FREE)</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>포인트 사용 기준 · 유효기간</th>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+                      <span>최소 결제 사용 단위: <strong>100P 단위</strong></span>
+                      <span>·</span>
+                      <span>무상(FREE) 포인트 유효기간: <strong>지급일로부터 2년 (만료 30일/14일 전 사전 알림톡 자동 발송)</strong></span>
+                      <span>·</span>
+                      <span>유상(PAID) 포인트 유효기간: <strong>5년</strong></span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. 전체 회원 포인트 적립 · 사용 · 환불회수 · 소멸 내역 원장 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <span>📋 전체 회원 포인트 적립 · 사용 · 환불차감 · 소멸 내역 원장 (ADMN-PROM-003)</span>
+              <span class="badge badge-green">차감 순서: 무상(FREE) 우선 → 유상(PAID) 차감 → 환불 부족분 유상 마이너스(-) 부채 기록</span>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal()">＋ 관리자 수동 무상포인트 지급 · 차감</button>
           </div>
           <div style="overflow-x:auto;">
             <table class="data-table">
@@ -949,10 +1008,10 @@
                   <th>거래 ID / 일시</th>
                   <th>회원명 (ID)</th>
                   <th class="ct">원장 구분</th>
-                  <th class="ct">트랜잭션</th>
+                  <th class="ct">변동 유형</th>
                   <th class="num">변동 포인트</th>
                   <th class="num">거래 후 잔액</th>
-                  <th>상세 사유 및 도서정가제·DI 검증 로그</th>
+                  <th>상세 발생 사유 및 연관 주문/게시글</th>
                 </tr>
               </thead>
               <tbody id="pt-tbody">
@@ -960,72 +1019,28 @@
                   <td><b>TX-PT-0901</b><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-16 14:20</span></td>
                   <td><b>최산안</b> (USR-1082)</td>
                   <td class="ct"><span class="badge badge-green">무상 (FREE)</span></td>
-                  <td class="ct"><span class="badge badge-blue">EARN (적립)</span></td>
+                  <td class="ct"><span class="badge badge-blue">적립 (EARN)</span></td>
                   <td class="num"><b style="color:var(--success);">+5,000 P</b></td>
-                  <td class="num"><b>192,000 P</b></td>
-                  <td>신규가입 웰컴 포인트 지급 (<code>welcome_benefits_history</code> DI 해시 생애 최초 검증 통과 · 유효기간 2년)</td>
+                  <td class="num"><b>15,000 P</b></td>
+                  <td>수강·합격후기 검수 승인(<code>ADMN-BRD-005</code>) 베스트 후기 선정 보상 지급 (유효기간 2년)</td>
                 </tr>
                 <tr>
                   <td><b>TX-PT-0872</b><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-15 18:10</span></td>
-                  <td><b>이서연</b> (USR-0941)</td>
+                  <td><b>이선우</b> (USR-0941)</td>
                   <td class="ct"><span class="badge badge-green">무상 (FREE)</span></td>
-                  <td class="ct"><span class="badge badge-blue">EARN (적립)</span></td>
+                  <td class="ct"><span class="badge badge-blue">적립 (EARN)</span></td>
                   <td class="num"><b style="color:var(--success);">+1,890 P</b></td>
                   <td class="num"><b>8,990 P</b></td>
-                  <td>강좌 실결제액(189,000원) 1% 올림 적립 (함께 결제한 실물 교재 38,000원은 <code>earn_include_book=false</code>로 0P 적립)</td>
+                  <td>강좌 실결제액(189,000원) 1% 자동 적립 (함께 결제된 실물 교재 38,000원은 도서정가제로 적립 제외)</td>
                 </tr>
                 <tr>
                   <td><b>TX-PT-0750</b><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-12 11:05</span></td>
-                  <td><b>박준혁</b> (USR-1205)</td>
+                  <td><b>박준형</b> (USR-1205)</td>
                   <td class="ct"><span class="badge badge-purple">유상 (PAID)</span></td>
-                  <td class="ct"><span class="badge badge-red">DEBT (부채)</span></td>
+                  <td class="ct"><span class="badge badge-red">환불회수 부채 (DEBT)</span></td>
                   <td class="num"><b style="color:var(--danger);">-3,500 P</b></td>
                   <td class="num"><b style="color:var(--danger);">-3,500 P</b><br/><span style="font-size:10.5px; color:var(--text-muted);">유상 -3,500P / 무상 0P</span></td>
-                  <td>적립 포인트 선사용 후 강좌 환불(<code>ADMN-RFD-002-P1</code>) 회수 — 무상(0P) 우선 전액 차감 후 부족분이 유상 원장 마이너스 부채(<b>-3,500P</b>)로 기록 (DI 해시 승계)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">🛡️ 전역 혜택 및 도서정가제 하드락 설정 (benefit_config)</div>
-          </div>
-          <div style="overflow-x:auto;">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th style="width:220px;">파라미터 키</th>
-                  <th style="width:200px;">설정값</th>
-                  <th style="width:120px;" class="ct">통제 방식</th>
-                  <th>비즈니스 및 법령 근거</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>coupon.exclude_book</code></td>
-                  <td><b style="color:var(--danger);">1 (true 고정)</b></td>
-                  <td class="ct"><span class="badge badge-red">서버 강제 덮어쓰기</span></td>
-                  <td>출판문화산업진흥법 제22조 도서정가제 준수 — 모든 쿠폰에서 실물 교재 카테고리 할인 자동 제외</td>
-                </tr>
-                <tr>
-                  <td><code>benefit_config.earn_include_book</code></td>
-                  <td><b style="color:var(--danger);">false (0% 고정)</b></td>
-                  <td class="ct"><span class="badge badge-red">시스템 하드락</span></td>
-                  <td>실물 교재 결제분 포인트 적립율 0% 고정 (순수 인강 실결제액의 1% 올림만 적립)</td>
-                </tr>
-                <tr>
-                  <td><code>coupon_discount_cap</code></td>
-                  <td><b style="color:var(--primary);">200,000 원</b></td>
-                  <td class="ct"><span class="badge badge-slate">코드 배포 상수</span></td>
-                  <td>정률(최대 40%)·정액(최대 20만원) 공통 1회 최대 실감면 한도액 200,000원 강제 연산</td>
-                </tr>
-                <tr>
-                  <td><code>free_point_max_cap</code></td>
-                  <td><b style="color:var(--warning);">200,000 P</b></td>
-                  <td class="ct"><span class="badge badge-green">Config 통제</span></td>
-                  <td>계정당 무상 포인트(FREE) 최대 보유 상한 200,000P 제한</td>
+                  <td>적립 포인트 기사용 후 강좌 환불(<code>ADMN-RFD-002</code>) 회수 — 무상(0P) 우선 차감 후 부족분이 유상 원장 마이너스 부채(<b>-3,500P</b>)로 기록됨</td>
                 </tr>
               </tbody>
             </table>
@@ -1033,7 +1048,7 @@
         </div>
       </section>
 
-    </div>
+</div>
   </div>
 
   <!-- ===================================================================
@@ -1064,7 +1079,7 @@
   <div class="modal-backdrop" id="modal-point">
     <div class="modal-dialog">
       <div class="modal-header">
-        <span>🪙 관리자 포인트 수동 지급 · 차감 (무상 200,000P Cap 검증)</span>
+        <span>💸 관리자 무상(FREE) 포인트 수동 지급 · 차감 (1회 최대 30,000P · 감사 사유 필수)</span>
         <button type="button" class="btn btn-sm" onclick="closePointModal()">✕</button>
       </div>
       <div class="modal-body">
@@ -1200,7 +1215,7 @@
       } else if (viewKey === "point") {
         document.getElementById("view-point").classList.add("active");
         document.getElementById("nav-btn-point").classList.add("active");
-        document.getElementById("top-crumb-code").textContent = "ADMN-PROM-002 (POINT)";
+        document.getElementById("top-crumb-code").textContent = "ADMN-PROM-003";
       }
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1567,8 +1582,16 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderMasterGrid();
-      updateLiveSim();
+      const params = new URLSearchParams(window.location.search);
+      const v = params.get("view");
+      if (v === "point") {
+        switchSubView("point");
+      } else if (v === "form") {
+        openFormNew();
+      } else {
+        renderMasterGrid();
+        updateLiveSim();
+      }
     });
   </script>
 </body>
