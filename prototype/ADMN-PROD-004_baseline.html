@@ -925,7 +925,7 @@
                   <td colspan="3">
                     <div class="ledger-sync-box ok" id="d-ledger-box">
                       <div>
-                        <strong id="d-supply-type">[① 계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
+                        <strong id="d-supply-type">[[경로 1] 계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
                         <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료 · 권리자 매핑(ADMN-SETT-001) 저자인세 10% 자동 매핑 완료</span>
                         · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (FIN_MANAGER 전용)</span>
                       </div>
@@ -997,7 +997,7 @@
               <div class="entry-mode-card selected" id="entry-card-INST_TEMP" onclick="selectEntryMode('INST_TEMP')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>① 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
+                    <span>[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
                     <span class="badge badge-sale">강사 인세도서 권장</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1015,7 +1015,7 @@
               <div class="entry-mode-card" id="entry-card-BOOK_LEDGER" onclick="selectEntryMode('BOOK_LEDGER')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>② 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 불러오기</span>
+                    <span>[경로 2] 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 불러오기</span>
                     <span class="badge badge-info">위탁·사입 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1033,7 +1033,7 @@
               <div class="entry-mode-card" id="entry-card-PROD_DIRECT" onclick="selectEntryMode('PROD_DIRECT')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>③ 이 화면(PROD-004)에서 즉시 신규 SKU 생성</span>
+                    <span>[경로 3] 이 화면(PROD-004)에서 즉시 신규 SKU 생성</span>
                     <span class="badge badge-warn">후속 매핑 필수</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1051,7 +1051,7 @@
             <!-- 경로 선택에 따른 실시간 체크리스트 알림 박스 -->
             <div id="entry-mode-alert" class="ledger-sync-box ok" style="margin-top:14px;">
               <div>
-                <strong id="entry-alert-title">[경로 ① 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 완료]</strong>
+                <strong id="entry-alert-title">[경로 1 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 완료]</strong>
                 <div style="font-size:12px; margin-top:2px;" id="entry-alert-desc">
                   계약원장(ADMN-INST-001)에서 저자(김안전 · INS-0001) 및 인세율(10%) 정보가 자동 연동되었습니다. 표지 이미지와 재고만 입력하면 즉시 [판매중]으로 전시할 수 있습니다.
                 </div>
@@ -1210,7 +1210,7 @@
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">3. 예약판매(<code>is_preorder</code>) · 재고 수량 · 판매 상태 제어</h3>
-              <span class="card-subtitle">재고 0권 시 [일시품절] 자동 전환 · 경로 ③(직접 선등록) 선택 시 원장 매핑 전까지 [판매대기] 하드락 작동</span>
+              <span class="card-subtitle">재고 0권 시 [일시품절] 자동 전환 · 경로 3(직접 선등록) 선택 시 원장 매핑 전까지 [판매대기] 하드락 작동</span>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -1320,7 +1320,7 @@
                 <tr>
                   <th>교재 목차 및 상세 소개 <span class="req-star">*</span></th>
                   <td colspan="3">
-                    <textarea id="f-book-desc" class="form-textarea" rows="4">Part 01. 안전관리론 ~ Part 06. 건설안전기술 + 최근 10개년 과년도 기출해설 수록
+                    <textarea id="f-book-desc" class="form-textarea" rows="4">Part 01. 안전관리론 ~ Part 06. 건설안전기술 + 최근 10개년 과년도 빈출해설 수록
 - 한국산업인력공단 최신 출제기준 및 2026년 개정 산업안전보건법령 완벽 반영
 - 김안전 강사의 단과 강좌(CRS-2601) 및 0원 합격 환급반(PKG-2601) 공식 주교재</textarea>
                   </td>
@@ -1337,7 +1337,7 @@
   <div class="modal-backdrop" id="modal-temp-book">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">① 계약원장(ADMN-INST-001) 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
+        <div class="modal-title">[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeTempBookModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1389,7 +1389,7 @@
   <div class="modal-backdrop" id="modal-supply-sku">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">② 도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불러오기</div>
+        <div class="modal-title">[경로 2] 도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeSupplyLedgerModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1411,11 +1411,11 @@
             <tr>
               <td><span class="code-pill">BOOK-2607</span></td>
               <td><span class="badge badge-info">위탁판매 (65%)</span></td>
-              <td style="font-weight:700;">2026 인간공학기사 필기 기출 7개년 총정리</td>
+              <td style="font-weight:700;">2026 인간공학기사 필기 빈출문제 7개년 총정리</td>
               <td>안전기술출판</td>
               <td class="text-right">32,000원</td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('BOOK-2607', '2026 인간공학기사 필기 기출 7개년 총정리', '박보건', '안전기술출판', 32000, '위탁판매')">SKU 불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('BOOK-2607', '2026 인간공학기사 필기 빈출문제 7개년 총정리', '박보건', '안전기술출판', 32000, '위탁판매')">SKU 불러오기</button>
               </td>
             </tr>
             <tr>
@@ -1611,8 +1611,8 @@
         tempCode: "TMP-BK-2602",
         originMode: "INST_TEMP",
         cat: "산업안전기사",
-        title: "2026 산업안전기사 필기 10개년 과년도 기출해설집",
-        subtitle: "2016~2025 전 회차 기출 문항별 오답노트 수록",
+        title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집",
+        subtitle: "2016~2025 전 회차 빈출 문항별 오답노트 수록",
         author: "김안전",
         publisher: "산준모북스",
         isbn: "979-11-98765-02-9",
@@ -1637,7 +1637,7 @@
         tempCode: "-",
         originMode: "BOOK_LEDGER",
         cat: "건설안전기사",
-        title: "2026 건설안전기사 필기 핵심이론 + 과년도 기출",
+        title: "2026 건설안전기사 필기 핵심이론 + 과년도 빈출문제",
         subtitle: "건설안전기술 표준안전작업지침 개정판 완전 반영",
         author: "이건설",
         publisher: "안전기술출판",
@@ -1814,9 +1814,9 @@
        5. 목록 렌더링 (3원장 연동 신호등 컬럼 포함)
        ========================================================================= */
     function getOriginBadge(mode) {
-      if (mode === "INST_TEMP") return `<span class="badge badge-sale">① 계약원장 가채번</span>`;
-      if (mode === "BOOK_LEDGER") return `<span class="badge badge-info">② 공급원장 SKU</span>`;
-      return `<span class="badge badge-warn">③ PROD-004 선등록</span>`;
+      if (mode === "INST_TEMP") return `<span class="badge badge-sale">[경로 1] 계약원장 가채번</span>`;
+      if (mode === "BOOK_LEDGER") return `<span class="badge badge-info">[경로 2] 공급원장 SKU</span>`;
+      return `<span class="badge badge-warn">[경로 3] PROD-004 선등록</span>`;
     }
 
     function getBookStatusBadge(b) {
@@ -1959,20 +1959,20 @@
 
       if (mode === "INST_TEMP") {
         alertBox.className = "ledger-sync-box ok";
-        alertTitle.textContent = "[경로 ① 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 모드]";
+        alertTitle.textContent = "[경로 1 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 모드]";
         alertDesc.textContent = "계약원장(ADMN-INST-001)에서 저자 및 인세율이 자동 상속되므로 별도의 권리자 매핑(SETT-001) 없이 즉시 [판매중] 설정이 가능합니다.";
         document.getElementById("f-temp-code").value = "TMP-BK-2601";
         document.getElementById("f-sku").value = "BOOK-2601";
         radioSale.disabled = false;
       } else if (mode === "BOOK_LEDGER") {
         alertBox.className = "ledger-sync-box ok";
-        alertTitle.textContent = "[경로 ② 선택됨 — 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 호출 모드]";
+        alertTitle.textContent = "[경로 2 선택됨 — 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 호출 모드]";
         alertDesc.textContent = "공급원장에서 채번된 SKU와 정가·출판사를 불러옵니다. 외부 저자 인세/RS 배분이 필요한 경우에만 ADMN-SETT-001 매핑을 확인하세요.";
         document.getElementById("f-temp-code").value = "- (공급원장 직결)";
         radioSale.disabled = false;
       } else if (mode === "PROD_DIRECT") {
         alertBox.className = "ledger-sync-box warn";
-        alertTitle.textContent = "[경로 ③ 선택됨 — PROD-004 직접 신규 SKU 채번 (후속 원장 매핑 필수)]";
+        alertTitle.textContent = "[경로 3 선택됨 — PROD-004 직접 신규 SKU 채번 (후속 원장 매핑 필수)]";
         alertDesc.textContent = "⚠️ 계약원장·공급원장 없이 여기서 바로 SKU를 생성합니다. 저장 후 [1] ADMN-BOOK-001 공급원가 입력 및 [2] ADMN-SETT-001 권리자 매핑을 완료하기 전까지 판매 상태는 [판매대기]로 강제 고정됩니다.";
         document.getElementById("f-sku").value = "BOOK-AUTO (즉시 신규채번)";
         document.getElementById("f-temp-code").value = "- (미연동)";
