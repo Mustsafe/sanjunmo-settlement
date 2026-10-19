@@ -80,7 +80,7 @@
       items: [
         { code: "USER-007", label: "민감 정보 열람 통제", href: "ADMN-USER-007_baseline.html", screenCode: "ADMN-USER-007" },
         { code: "CONF-010", label: "정산 감사 로그", href: "ADMN-CONF-010_baseline.html", screenCode: "ADMN-CONF-010" },
-        { code: "CONF-006", label: "운영 · 보안 통합 감사 로그", href: "ADMN-CONF-006_baseline.html", screenCode: "ADMN-CONF-006" }
+        { code: "CONF-006", label: "운영 · 보안 통합 감사 로그", href: "ADMN-CONF-005_baseline.html?view=ADMN-CONF-006", screenCode: "ADMN-CONF-006" }
       ]
     },
     {

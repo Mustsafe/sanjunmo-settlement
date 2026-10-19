@@ -1078,7 +1078,7 @@
           <div class="card-header">
             <div class="card-title">
               <button type="button" class="btn btn-sm btn-outline" onclick="switchView('detail')">← 회원 상세로 (ADMN-USER-002)</button>
-              <span style="margin-left:6px;">회원 수강 계약 · 기간 강제 조정 · 동시접속/기기 제어 (ADMN-USER-003 / 004)</span>
+              <span style="margin-left:6px;">회원 수강 계약 · 기간 강제 조정 · 동시접속 1세션 제어 (ADMN-USER-003 / 004 · 11/16 1차 오픈 스펙)</span>
             </div>
             <div style="display:flex; gap:8px;">
               <input type="text" class="f-input" style="width:240px;" value="hon***@naver.com (100482)" placeholder="이메일(ID) / 회원번호 / 휴대폰 뒤 4자리" />
@@ -2302,7 +2302,7 @@
 
     function resetDevice(btn) {
       btn.closest('tr').innerHTML = '<td colspan="4" style="color:var(--success); font-weight:700;">모바일 등록 기기 리셋 완료 (DRM 서버 트랜잭션 동기화 완료 · 당월 잔여 리셋 2회)</td>';
-      showToast('등록 기기 UUID가 리셋되었습니다.');
+      showToast('동시접속 1세션(IP/세션 토큰) 강제 로그아웃 및 기기 세션 초기화가 완료되었습니다 (ADMN-CONF-006 감사로그 적재).');
     }
 
     
@@ -2366,7 +2366,7 @@
     </div>
     <div style="padding:18px 22px; overflow-y:auto; font-size:13px;">
       <div style="background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; padding:10px 14px; border-radius:8px; font-size:12px; margin-bottom:14px;">
-        <strong>대상 회원 지정 프로세스:</strong> ① 성명·회원ID·연락처로 회원을 실시간 검색하거나 신고 누적 대상자 칩을 클릭해 <strong>제재 대상 회원을 먼저 선택</strong>한 뒤, ② <strong>제재 범위</strong>와 <strong>상세 증빙 사유</strong>를 입력하여 등록합니다.
+        <strong>대상 회원 지정 프로세스:</strong> [1] 성명·회원ID·연락처로 회원을 실시간 검색하거나 신고 누적 대상자 칩을 클릭해 <strong>제재 대상 회원을 먼저 선택</strong>한 뒤, [2] <strong>제재 범위</strong>와 <strong>상세 증빙 사유</strong>를 입력하여 등록합니다.
       </div>
 
       <!-- STEP 1: 회원 검색 및 선택 -->
