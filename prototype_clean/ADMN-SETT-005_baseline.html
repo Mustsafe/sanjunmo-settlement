@@ -340,8 +340,10 @@
     }
     .kv-label { color: var(--text-muted); font-weight: 600; }
     .form-group { display: flex; flex-direction: column; gap: 5px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .form-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+    .form-row-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .form-row > *, .form-row-3 > * { min-width: 0; }
+    .form-row select, .form-row-3 select { max-width: 100%; text-overflow: ellipsis; }
     .form-label { font-size: 12px; font-weight: 700; color: var(--text-sub); }
     textarea.input { resize: vertical; min-height: 68px; font-family: inherit; }
 

@@ -311,7 +311,46 @@
     ["— 산준모 백오피스 v4.0.0", "— 산준모 관리자 센터"],
     ["— 산준모닷컴 백오피스 v8.4 Final", "— 산준모 관리자 센터"],
     ["— 산준모닷컴 백오피스 v8.4 FINAL", "— 산준모 관리자 센터"],
-    ["— 산준모닷컴 백오피스", "— 산준모 관리자 센터"]
+    ["— 산준모닷컴 백오피스", "— 산준모 관리자 센터"],
+    // 권한(ROLE) 코드 번역
+    ["ROLE_SUPER_ADMIN", "최고 관리자"],
+    ["ROLE_MASTER_ADMIN", "최고 관리자"],
+    ["ROLE_FINANCE_DIRECTOR", "재무 총괄 책임자"],
+    ["ROLE_FINANCE_ADMIN", "재무/정산 담당자"],
+    ["ROLE_SETT_ADMIN", "정산 관리자"],
+    ["ROLE_OPS_ADMIN", "서비스 운영자"],
+    ["ROLE_CS_ADMIN", "고객센터 담당자"],
+    ["ROLE_PARTNER_INST", "강사/학원 파트너"],
+    ["ROLE_PARTNER_COPYRIGHT", "저작권 파트너"],
+    ["ROLE_PARTNER_3PL", "물류(3PL) 파트너"],
+    ["ROLE_STUDENT", "일반 회원"],
+    // 미등록 화면 코드 번역
+    ["ADMN-SETT-003", "정산 마감 확정"],
+    ["ADMN-STAT-001", "매출·정산 통계"],
+    ["ADMN-DASH-001", "대시보드"],
+    ["ADMN-CONF-001-S1", "약관 개정 이력"],
+    ["ADMN-CONF-001-S2", "신규 약관 등록"],
+    ["ADMN-CONF-001", "배너/팝업 관리"],
+    ["ADMN-CONF-002", "약관/개인정보 관리"],
+    ["ADMN-CONF-003", "시스템 환경설정"],
+    ["ADMN-CONF-005", "관리자 권한 관리"],
+    ["ADMN-CONF-008", "환경설정 연동"],
+    ["ADMN-LOGIN-001-P1", "2차 인증 OTP"],
+    ["ADMN-LOGIN-001", "관리자 로그인"],
+    ["ADMN-LOGIN-002", "비밀번호 재설정"],
+    ["ADMN-LOGIN-003", "계정 잠금 해제"],
+    ["ADMN-BRD-004", "수험 자료실"],
+    ["ADMN-BRD-006", "무료특강·빈출문제"],
+    // 기술 파라미터 및 DB 컬럼명
+    ["tax_type", "과세유형"],
+    ["utcc_yn", "확인여부"],
+    ["origin_settlement_id", "참조 정산서 ID"],
+    ["origin_month", "원 발생 귀속월"],
+    ["applied_month", "반영 기준월"],
+    ["adj_reason_code", "조정 사유 구분"],
+    ["adj_account_type", "이월/반영 계정"],
+    ["adj_tax_type", "과·면세 구분"],
+    ["adj_explanation", "조정 소명 내용"]
   ];
 
   const REGEX_CLEANERS = [
@@ -327,7 +366,11 @@
     // (member_status), (goods_stock_log), (own_copyright_yn) 등 영문 snake_case DB 컬럼 괄호 제거
     /\s*\(\s*[a-z]+_[a-z0-9_]+(?:\s*=\s*[^)]+)?\s*\)/g,
     // Table: xxx 배지 텍스트 제거
-    /^\s*Table:\s*[a-z0-9_]+\s*$/i
+    /^\s*Table:\s*[a-z0-9_]+\s*$/i,
+    // 잔여 화면코드 접두사 및 기술 코드 제거
+    /\b(?:ADMN|USER)-[A-Z]+-\d+(?:-[A-Z0-9]+)?\b/g,
+    /\bROLE_[A-Z0-9_]+\b/g,
+    /\b[a-z]+_(?:yn|type|status|mode|limit|flag|scope)\b/g
   ];
 
   function transformText(str) {
