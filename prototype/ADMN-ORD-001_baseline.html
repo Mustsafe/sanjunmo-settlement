@@ -508,13 +508,19 @@
           <span class="crumb-title" id="topbar-title">주문 · 배송 통합 관리 및 3PL 물류 연동</span>
         </div>
       </div>
-      <div class="top-bar-right" style="display:flex;align-items:center;gap:10px;">
-        <div class="subview-switcher" style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #E2E8F0;gap:4px;">
+      <div class="top-bar-right" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <!-- 접속 권한/세션 모드 전환 (최고운영자 vs 외부 물류 3PL 파트너 격리) -->
+        <div style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #CBD5E1;gap:4px;">
+          <button type="button" class="btn btn-sm btn-dark" id="btnRoleAdmin" onclick="setSessionRole('ADMIN')">👑 운영자 전체 권한</button>
+          <button type="button" class="btn btn-sm btn-outline" id="btnRole3pl" onclick="setSessionRole('ROLE_PARTNER_3PL')">🚚 3PL 물류 격리 (ROLE_PARTNER_3PL)</button>
+        </div>
+
+        <div class="subview-switcher" id="ordViewSwitcher" style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #E2E8F0;gap:4px;">
           <button type="button" class="btn btn-sm btn-primary" id="sw-ord001" onclick="switchOrdView('ord001')">📋 1. 주문 내역 관리 (ORD-001)</button>
           <button type="button" class="btn btn-sm btn-outline" id="sw-ord002" onclick="switchOrdView('ord002')">🚚 2. 3PL 배송·출고·반품검수 (ORD-002)</button>
           <button type="button" class="btn btn-sm btn-outline" id="sw-ord001s1" onclick="switchOrdView('ord001s1')">🔍 3. 주문 상세 · 배송지 Lock (ORD-001-S1)</button>
         </div>
-        <span class="badge b-blue">PG: 토스페이먼츠 (전 수단 연동)</span>
+        <span class="badge b-blue" id="topbarPgBadge">PG: 토스페이먼츠 (전 수단 연동)</span>
       </div>
     </header>
 
@@ -524,7 +530,7 @@
         <!-- 상단 4단계 워크플로우 신호등 (공통 규격: 1층 신호등 / 2층 단계명 / 3층 설명) -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">🚦 주문 · 3PL 물류 · 환불 · 정산 대사 4단계 자동 연동 파이프라인 (SET3-⑤ · 합의서 8.1~8.2절)</h2>
+            <h2 class="card-title">🚦 주문 · 3PL 물류 · 환불 · 정산 대사 4단계 자동 연동 파이프라인 (SET3-5 · 합의서 8.1~8.2절)</h2>
             <span class="badge b-gray">실결제금액(payment.paid_amount) 단일 원장 기준</span>
           </div>
           <div class="card-body">
@@ -581,7 +587,7 @@
           </div>
 
           <div class="kpi-card" id="kpi-ord-ready" onclick="filterOrdListByKpi('배송준비중')">
-            <div class="k-title"><span>배송준비중 (3PL 발주 · 송장 대기)</span><span class="badge">SET3-⑤ 출고 대상</span></div>
+            <div class="k-title"><span>배송준비중 (3PL 발주 · 송장 대기)</span><span class="badge">SET3-5 출고 대상</span></div>
             <div class="k-num" style="color:var(--warn);" id="kpiNumReady">42건 (🔒 출고지시 12건)</div>
             <div class="k-sub">실물 교재 · 일반상품 포함 라인 (즉시 발주 대상 30건)</div>
           </div>
@@ -728,6 +734,7 @@
                     <option>200개씩 보기</option>
                   </select>
                   <button type="button" class="btn btn-outline" onclick="downloadOrderLookupExcel()">📥 조회용 엑셀 다운로드 (라인 단위 · 열람로그 적재)</button>
+                  <button type="button" class="btn btn-dark" onclick="openDirectGrantModal()">🎟️ 수강권 직권 부여 (0원 주문 · 구 ORD-003)</button>
                   <button type="button" class="btn btn-primary" onclick="goToDeliveryManageWithReady()">🚚 배송 관리로 이동 (배송준비중 42건 ➔)</button>
                 </div>
               </div>
@@ -759,11 +766,22 @@
              [VIEW 2] ADMN-ORD-002 (+ S1, S2, S3) : 배송 관리 · 3PL 연동
              ===================================================================== -->
         <section id="view-ord002" class="subview-panel">
-          <div class="notice-bar">
+          <!-- 외부 물류 파트너(ROLE_PARTNER_3PL) 전용 데이터 격리 배너 -->
+          <div id="partner3plBanner" class="notice-bar warn" style="display:none;margin-bottom:12px;background:#FFFBEB;border:1.5px solid #FDE68A;">
+            <div>
+              🔒 <b>외부 물류 파트너(ROLE_PARTNER_3PL) 보안 격리 모드 활성:</b><br>
+              • <b>데이터 스코프 격리:</b> 개인정보보호법 및 정산 보안 통제에 따라 강좌 결제금액, 매출 및 회원의 결제 수단 정보가 100% 차단/마스킹됩니다.<br>
+              • <b>출고 업무 필수 정보만 제한 제공:</b> 실물 교재 피킹 및 배송에 필요한 <b>수취인명, 마스킹 연락처(010-****-5678), 배송지 주소, 도서 SKU(BK-2026-101 등), 수량</b>만 노출됩니다.<br>
+              • 3PL 발주 엑셀 다운로드, 송장 벌크 업로드(P1), 단건 등록/정정(P2), 반품 수거 창고 검수(S3) 기능만 안전하게 수행할 수 있습니다.
+            </div>
+            <span class="badge b-purple">Data Scope: 3PL 풀필먼트 격리</span>
+          </div>
+
+          <div class="notice-bar" id="ord002AdminNotice">
             <div>
               💡 <b>실물 배송(교재 BOOK · 일반상품 GOODS) 라인 아이템 전용 워크스페이스:</b> 인강 단독 주문과 강좌 라인은 이 화면에 표시되지 않습니다. <b>1행 = 실물 주문 라인 1건(SKU 단위 피킹)</b>이므로 한 주문에 교재가 2종이면 2행으로 노출됩니다.
             </div>
-            <span class="badge b-blue">프로세스맵 SET3-⑤ · 3PL 물류비 대사(SETT-011) 원천</span>
+            <span class="badge b-blue">프로세스맵 SET3-5 · 3PL 물류비 대사(SETT-011) 원천</span>
           </div>
 
           <div class="card">
@@ -937,9 +955,9 @@
               </div>
               <div style="display:flex;align-items:center;gap:8px;">
                 <select class="form-select" id="detailPresetSelect" onchange="loadOrderDetailPreset(this.value)" style="width:430px;font-weight:700;">
-                  <option value="SJM20260818-0021">① SJM20260818-0021 (홍길동 · 복합패키지 · 🔒 3PL 출고지시 완료 Lock 상태)</option>
-                  <option value="SJM20260818-0019">② SJM20260818-0019 (김수현 · 교재단독 · 출고지시 전 ➔ 배송지 수정 가능)</option>
-                  <option value="SJM20260817-0132">③ SJM20260817-0132 (이서준 · 가상계좌 입금대기 ➔ 입금 기한 연장 활성)</option>
+                  <option value="SJM20260818-0021">[케이스 1] SJM20260818-0021 (홍길동 · 복합패키지 · 🔒 3PL 출고지시 완료 Lock 상태)</option>
+                  <option value="SJM20260818-0019">[케이스 2] SJM20260818-0019 (김수현 · 교재단독 · 출고지시 전 ➔ 배송지 수정 가능)</option>
+                  <option value="SJM20260817-0132">[케이스 3] SJM20260817-0132 (이서준 · 가상계좌 입금대기 ➔ 입금 기한 연장 활성)</option>
                 </select>
                 <button type="button" class="btn btn-outline btn-sm" onclick="switchOrdView('ord001')">← 주문 목록으로</button>
               </div>
@@ -1065,7 +1083,7 @@
                       <td><span class="badge b-blue">강좌 (LECTURE)</span></td>
                       <td>
                         <b>산업안전기사 필기 올패스(2026)</b><br>
-                        <span style="font-size:11.5px;color:var(--text-muted);">강사: 안창훈 · 수강기간 365일 · <code>ADMN-PROD-003</code></span>
+                        <span style="font-size:11.5px;color:var(--text-muted);">강사: 정종대 (RH-0025) · 수강기간 365일 · <code>ADMN-PROD-003</code></span>
                       </td>
                       <td>
                         <span class="badge b-blue">과세 10% (공급가 142,727)</span><br>
@@ -1085,7 +1103,7 @@
                         <span style="font-size:11.5px;color:var(--text-muted);">ISBN <code>979-11-8921-01</code> · 스냅샷: <code>ROYALTY_BOOK(인세도서)</code></span>
                       </td>
                       <td>
-                        <span class="badge b-teal">면세 0% (부가세법 §26①8)</span><br>
+                        <span class="badge b-teal">면세 0% (부가세법 제26조제1항제8호)</span><br>
                         <span style="font-size:11px;color:var(--text-muted);">Pipeline 2.1 도서 인세 (+1권)</span>
                       </td>
                       <td class="text-right">32,000원</td>
@@ -1640,8 +1658,192 @@
     </div>
   </div>
 
+  <!-- =========================================================================
+       [MODAL P4] ADMN-ORD-001-P4 : 수강권 직권 부여 (0원 주문 생성 · 구 ADMN-ORD-003 통합)
+       ========================================================================= -->
+  <div class="modal-backdrop" id="modalDirectGrant">
+    <div class="modal-dialog" style="max-width:720px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🎟️ [ADMN-ORD-001-P4] 수강권 직권 부여 (0원 주문 생성 · 구 ADMN-ORD-003 통합)</h3>
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modalDirectGrant')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="notice-bar" style="background:#EFF6FF;border-color:#BFDBFE;margin-bottom:12px;">
+          <div>
+            💡 <b>폐지 화면(구 ADMN-ORD-003) 통합 및 정산 0원 처리 원칙:</b><br>
+            CS 보상, 이벤트 당첨, 임직원/수험생 특수 승인에 따른 수강권 부여는 0원 주문(ORDER_TYPE: <code>DIRECT_GRANT</code>)으로 즉시 인서트됩니다. 실결제금액(<code>payment.paid_amount = 0원</code>)으로 확정되므로 정산 파이프라인(Pipeline 1.1)에서 강사 정산 기준금(정산 모수) 또한 0원으로 자동 산출되어 부당 정산 지급을 원천 방지합니다.
+          </div>
+        </div>
+
+        <table class="search-table" style="width:100%;">
+          <tbody>
+            <tr>
+              <th style="width:130px;">대상 회원 <span style="color:var(--danger);">*</span></th>
+              <td>
+                <div style="display:flex;gap:6px;align-items:center;">
+                  <input type="text" class="form-input" id="grantUserId" value="usr_9821" style="width:110px;" readonly />
+                  <input type="text" class="form-input" id="grantUserName" value="박영희" style="width:110px;" placeholder="회원명" />
+                  <input type="text" class="form-input" id="grantUserEmail" value="yh.park@daum.net" style="flex:1;" placeholder="이메일" />
+                  <button type="button" class="btn btn-sm btn-outline" onclick="alert('회원 검색 팝업을 엽니다 (ADMN-USER-001 연동).')">회원 조회</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>부여 강좌/패키지 <span style="color:var(--danger);">*</span></th>
+              <td>
+                <select class="form-select" id="grantProdCode" style="width:100%;">
+                  <option value="PROD-L-1001" selected>[단과] 2026 산업안전기사 필기 올패스 (강사: 정종대 RH-0025)</option>
+                  <option value="PROD-L-1002">[단과] 2026 산업안전기사 실기 실전 300제 (강사: 김안전 RH-0019)</option>
+                  <option value="PROD-PKG-001">[패키지] 산업안전기사 필기+실기 종합 프리패스 (교재 미포함 0원)</option>
+                </select>
+                <div style="margin-top:4px;font-size:11.5px;color:var(--text-muted);">
+                  ※ 도서정가제 준수를 위해 실물 교재는 0원 직권 부여 대상에서 엄격히 제외되며 순수 인강/디지털 수강권만 발급됩니다.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>수강 기간 <span style="color:var(--danger);">*</span></th>
+              <td>
+                <div style="display:flex;gap:10px;align-items:center;">
+                  <select class="form-select" id="grantPeriodDays" style="width:140px;">
+                    <option value="30">30일 (단기 특강)</option>
+                    <option value="90">90일 (CS 보상 표준)</option>
+                    <option value="180">180일 (반기)</option>
+                    <option value="365" selected>365일 (정규 1년)</option>
+                  </select>
+                  <span style="font-size:12px;color:var(--text-sub);">부여 즉시 <b>수강중</b>(ACTIVE)으로 활성화됩니다.</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>직권 부여 사유 <span style="color:var(--danger);">*</span></th>
+              <td>
+                <textarea class="form-input" id="grantReason" rows="2" style="width:100%;font-size:12px;" placeholder="10자 이상 필수 입력 (예: CS 시스템 일시 장애 수강 지연에 따른 필기 올패스 90일 무료 직권 보상 승인)"></textarea>
+                <div style="margin-top:4px;font-size:11.5px;color:var(--text-muted);">
+                  ※ 사유는 불변 감사 로그(ADMN-CONF-010) 및 수강권 히스토리에 영구 보존됩니다.
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>결제/정산 스냅샷</th>
+              <td>
+                <div style="font-size:12px;line-height:1.6;color:var(--text-sub);">
+                  • 주문 유형: <b class="mono">DIRECT_GRANT</b> (수강권 직권부여 · 구 ADMN-ORD-003 통합)<br>
+                  • 실결제금액: <b style="color:var(--primary);">0원</b> (정가 187,000원 − 직권감면 187,000원)<br>
+                  • 정산 모수: <b style="color:var(--success);">0원 (외부 권리자 지급액 없음 · 불법 정산 원천 차단)</b><br>
+                  • 처리자: <code class="mono">ops@sanjunmo.com</code> (보안 감사 로그 자동 적재)
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalDirectGrant')">취소</button>
+        <button type="button" class="btn btn-dark" onclick="submitDirectGrant()">🎟️ 직권 부여 확정 (0원 주문 생성)</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // =========================================================================
+    
+    // =========================================================================
+    // 0. 역할(RBAC) 세션 스코프 (ADMIN vs ROLE_PARTNER_3PL)
+    // =========================================================================
+    let currentRole = "ADMIN";
+
+    function setSessionRole(role) {
+      currentRole = role;
+      const btnAdmin = document.getElementById("btnRoleAdmin");
+      const btn3pl = document.getElementById("btnRole3pl");
+      const switcher = document.getElementById("ordViewSwitcher");
+      const banner = document.getElementById("partner3plBanner");
+      const pgBadge = document.getElementById("topbarPgBadge");
+      const codeEl = document.querySelector(".crumb-code");
+      const titleEl = document.getElementById("topbar-title");
+
+      if (role === "ROLE_PARTNER_3PL") {
+        if (btnAdmin) { btnAdmin.className = "btn btn-sm btn-outline"; }
+        if (btn3pl) { btn3pl.className = "btn btn-sm btn-dark"; }
+        if (switcher) {
+          document.getElementById("sw-ord001").style.display = "none";
+          document.getElementById("sw-ord001s1").style.display = "none";
+        }
+        if (banner) banner.style.display = "flex";
+        if (pgBadge) pgBadge.textContent = "Data Scope: ROLE_PARTNER_3PL (정산·매출 차단)";
+        if (codeEl) codeEl.textContent = "ADMN-ORD-002";
+        if (titleEl) titleEl.textContent = "배송 관리 · 3PL 물류 연동 — 외부 파트너(ROLE_PARTNER_3PL) 격리 세션";
+        switchOrdView("ord002");
+      } else {
+        if (btnAdmin) { btnAdmin.className = "btn btn-sm btn-dark"; }
+        if (btn3pl) { btn3pl.className = "btn btn-sm btn-outline"; }
+        if (switcher) {
+          document.getElementById("sw-ord001").style.display = "inline-block";
+          document.getElementById("sw-ord001s1").style.display = "inline-block";
+        }
+        if (banner) banner.style.display = "none";
+        if (pgBadge) pgBadge.textContent = "PG: 토스페이먼츠 (전 수단 연동)";
+        if (codeEl) codeEl.textContent = "ADMN-ORD-001";
+        if (titleEl) titleEl.textContent = "주문 · 배송 통합 관리 및 3PL 물류 연동";
+        renderShipTable();
+      }
+    }
+
+    // Direct Grant Modal Functions
+    function openDirectGrantModal() {
+      document.getElementById("grantReason").value = "CS 시스템 일시 장애 수강 지연에 따른 필기 올패스 90일 무료 직권 보상 승인";
+      openModal("modalDirectGrant");
+    }
+
+    function submitDirectGrant() {
+      const reason = document.getElementById("grantReason").value.trim();
+      if (reason.length < 10) {
+        alert("직권 부여 사유를 10자 이상 상세히 입력해 주세요 (보안 감사 로그 필수).");
+        return;
+      }
+      const userName = document.getElementById("grantUserName").value.trim() || "박영희";
+      const userEmail = document.getElementById("grantUserEmail").value.trim() || "yh.park@daum.net";
+      const prodCode = document.getElementById("grantProdCode").value;
+      const prodSelect = document.getElementById("grantProdCode");
+      const prodName = prodSelect.options[prodSelect.selectedIndex].text;
+      const days = document.getElementById("grantPeriodDays").value;
+
+      const newOrder = {
+        orderNo: "SJM20260818-0999",
+        basis: "LECTURE_TAX (0원 직권)",
+        paidAt: "08.18 15:30",
+        buyer: userName,
+        receiver: "— (배송 없음)",
+        phone: "010-8899-7711",
+        type: "인강",
+        hasDelivery: false,
+        lines: [
+          {
+            tag: "강좌",
+            cls: "b-blue",
+            name: prodName.split("] ")[1] || "산업안전기사 필기 올패스(2026)",
+            status: "수강중",
+            sCls: "b-green",
+            sub: `과세 10% (0원 직권부여 · ${days}일)`
+          }
+        ],
+        deliverySub: "배송 대상 아님 — 순수 디지털 수강권 (구 ORD-003 직권부여)",
+        paidAmt: "0원",
+        priceNote: "관리자 직권부여 (정산모수 0원)",
+        payMethod: "관리자직권",
+        paySub: "0원 주문 생성 (구 ORD-003)",
+        status: "결제완료",
+        shipLocked: false,
+        presetKey: "SJM20260818-0021"
+      };
+
+      ORDERS_DATA.unshift(newOrder);
+      closeModal("modalDirectGrant");
+      renderOrderList();
+      alert(`✅ [수강권 직권 부여 완료 (구 ADMN-ORD-003 통합)]\n• 주문번호: ${newOrder.orderNo}\n• 대상: ${userName} (${userEmail})\n• 상품: ${prodName} (${days}일)\n• 실결제금액: 0원 (정산 모수 0원 확정)\n• 감사 로그(ADMN-CONF-010)에 사유가 기록되었습니다.`);
+    }
+
     // 1. 통합 주문 목록 데이터 (ADMN-ORD-001 · 토스페이먼츠 전 수단 반영)
     // =========================================================================
     const ORDERS_DATA = [
@@ -2004,19 +2206,27 @@
             <th style="width:95px;">운송장</th>
           </tr>
         `;
-        tbody.innerHTML = list.map((r, idx) => `
+        tbody.innerHTML = list.map((r, idx) => {
+          const is3pl = (currentRole === "ROLE_PARTNER_3PL");
+          const maskedName = is3pl ? (r.recv.length > 2 ? r.recv[0] + "*" + r.recv.slice(2) : r.recv[0] + "*") : r.recv;
+          const maskedPhone = is3pl ? r.phone.replace(/(\d{3})-(\d{4})-(\d{4})/, "$1-****-$3") : r.phone;
+          const orderLink = is3pl 
+            ? `<span style="font-weight:800;color:var(--text-main);">${r.key}</span>` 
+            : `<a href="javascript:void(0)" onclick="openOrderDetail('SJM20260818-0021')" style="font-weight:800;color:var(--primary);">${r.key}</a>`;
+          const feeCol = is3pl ? `<span style="color:var(--text-muted);">— (권한제한)</span>` : `<b>${r.fee}</b>`;
+          return `
           <tr class="${r.checked ? 'row-selected' : ''}">
             <td><input type="checkbox" class="ship-cb" data-idx="${idx}" ${r.checked ? "checked" : ""} onchange="onShipCheckboxChange()" /></td>
-            <td><a href="javascript:void(0)" onclick="openOrderDetail('SJM20260818-0021')" style="font-weight:800;color:var(--primary);">${r.key}</a></td>
-            <td><b>${r.recv}</b></td>
-            <td class="mono">${r.phone}</td>
+            <td>${orderLink}</td>
+            <td><b>${maskedName}</b></td>
+            <td class="mono">${maskedPhone}</td>
             <td>
               ${r.addr}
               ${r.island ? `<div style="margin-top:3px;"><span class="badge b-amber">🏝️ 도서산간·제주 추가배송비 (+3,000원 고객청구)</span></div>` : ""}
             </td>
             <td><b>${r.book}</b></td>
             <td>${r.qty}</td>
-            <td class="text-right"><b>${r.fee}</b></td>
+            <td class="text-right">${feeCol}</td>
             <td>
               <span class="badge b-amber">배송준비중</span><br>
               <span style="font-size:11px;color:${r.locked ? 'var(--text-main)' : 'var(--text-muted)'};font-weight:${r.locked ? '700' : '400'};">
@@ -2025,7 +2235,8 @@
             </td>
             <td><span style="color:#94A3B8;">미등록</span></td>
           </tr>
-        `).join("");
+        `;
+        }).join("");
         notice.innerHTML = `<div class="notice-bar"><div>📌 <b>출고 대기 탭 안내:</b> [3PL 발주 엑셀 다운로드] 실행 시 선택된 주문 라인에 <code>🔒 출고지시 완료</code> 잠금이 걸리며, 송장이 등록되면 <b>배송중(S1)</b> 탭으로 이동합니다.</div></div>`;
       } else if (curShipTab === "SHIPPING") {
         const list = SHIP_LINES.SHIPPING;
@@ -2450,9 +2661,17 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderOrderList();
-      renderShipTable();
-      applyShipLockUiState();
+      const urlParams = new URLSearchParams(window.location.search);
+      const reqRole = urlParams.get("role");
+      const reqView = urlParams.get("view");
+
+      if (reqRole === "ROLE_PARTNER_3PL" || (reqView && reqView.includes("3pl"))) {
+        setSessionRole("ROLE_PARTNER_3PL");
+      } else {
+        renderOrderList();
+        renderShipTable();
+        applyShipLockUiState();
+      }
     });
   </script>
 </body>

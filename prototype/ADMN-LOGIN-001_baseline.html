@@ -256,6 +256,7 @@
                 <option value="ops@sanjunmo.com|SUPER">최고관리자 (ops@sanjunmo.com → 대시보드 ADMN-DASH-001 이동)</option>
                 <option value="cs.kim@sanjunmo.com|CS">CS담당자 (cs.kim@sanjunmo.com → 1:1 문의 ADMN-BRD-002 이동)</option>
                 <option value="inst.jung@sanjunmo.com|PARTNER">강사 파트너 (inst.jung@sanjunmo.com → 정산 조회 ADMN-SETT-002-S2 이동)</option>
+                <option value="3pl.logis@sanjunmo.com|3PL">물류 3PL 파트너 (3pl.logis@sanjunmo.com → 배송 관리 ADMN-ORD-002 이동)</option>
               </select>
             </div>
 
@@ -418,6 +419,8 @@
 
       if (email.indexOf("inst.") === 0) {
         window.location.href = "ADMN-SETT-002_baseline.html?view=partner-stmt&holder=PY-0025-A";
+      } else if (email.indexOf("3pl.") === 0) {
+        window.location.href = "ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL";
       } else if (email.indexOf("cs.") === 0) {
         window.location.href = "ADMN-BRD-002_baseline.html";
       } else {
