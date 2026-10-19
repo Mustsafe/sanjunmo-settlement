@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-SETT-004] PG 정산 원장 대사 — 산준모 백오피스 v4.0.0</title>
+  <title>PG 정산 원장 대사 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg: #f4f6f9;
@@ -539,8 +539,8 @@ code, pre, kbd, samp,
       <!-- 8.2절 정책 안내 배너 (토스페이먼츠 5대 결제수단 및 대사 범위 원칙) -->
       <div class="policy-note">
         <div>
-          <strong>📌 [제8장 8.2절 · 통합설계서 표 5.1-A 토스페이먼츠 5대 결제수단(신용/체크·계좌이체·가상계좌 DONE·간편결제 5종·휴대폰) 1:1 대사 및 이원화 임계값 통제]</strong>
- 매입 재판매 도서(매입 재판매 도서) 및 사은품(<code>강좌 부속·사은품 (BUNDLED)</code>), 배송비는 정산 엔진 비인입 대상이므로 <strong>정산서 총액과 전사 결제 매출 총액은 구조적으로 일치하지 않습니다.</strong> 본 화면은 오직 <strong>자체 결제 DB(payments / 주문 품목)와 PG사 정산 원장 간의 1:1 대사</strong>만 수행합니다.
+          <strong>📌 [통합설계서 표 5.1-A 토스페이먼츠 5대 결제수단(신용/체크·계좌이체·가상계좌 DONE·간편결제 5종·휴대폰) 1:1 대사 및 이원화 임계값 통제]</strong>
+ 매입 재판매 도서(매입 재판매 도서) 및 사은품(<code>강좌 부속·사은품</code>), 배송비는 정산 엔진 비인입 대상이므로 <strong>정산서 총액과 전사 결제 매출 총액은 구조적으로 일치하지 않습니다.</strong> 본 화면은 오직 <strong>자체 결제 DB(payments / 주문 품목)와 PG사 정산 원장 간의 1:1 대사</strong>만 수행합니다.
  </div>
         <span class="badge badge-neutral">3계층 과·면세 분할 승인 연동됨</span>
       </div>
@@ -578,8 +578,8 @@ code, pre, kbd, samp,
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabRecon">1. PG 원장 1:1 대사 및 소명 워크스페이스</button>
         <button class="tab-btn" data-tab="tabTaxSplit">2. 복합 결제 3계층 과·면세 분할 및 도서정가제 안분 검증 </button>
-        <button class="tab-btn" data-tab="tabVbank">3. 가상계좌 · 실시간 계좌이체 복구 시차 점검 (8.2절)</button>
-        <button class="tab-btn" data-tab="tabAudit">4. 대사 · 소명 감사 로그 (ADMN-CONF-010)</button>
+        <button class="tab-btn" data-tab="tabVbank">3. 가상계좌 · 실시간 계좌이체 복구 시차 점검 </button>
+        <button class="tab-btn" data-tab="tabAudit">4. 대사 · 소명 감사 로그</button>
       </div>
 
       <!-- 탭 1: 대사 및 소명 워크스페이스 -->
@@ -629,7 +629,7 @@ code, pre, kbd, samp,
           <!-- 우측 상세 및 소명 승인 패널 -->
           <div class="detail-panel">
             <div class="card-header">
-              <div class="card-title" id="detailTitle">[ADMN-SETT-004-S1] PG 대사 차이 상세 · 원인 코드 지정 및 소명 확정</div>
+              <div class="card-title" id="detailTitle">PG 대사 차이 상세 · 원인 코드 지정 및 소명 확정</div>
               <span id="detailStatusBadge" class="badge badge-neutral">거래 선택됨</span>
             </div>
             <div class="detail-body" id="detailBody">
@@ -646,7 +646,7 @@ code, pre, kbd, samp,
             <div>
               <div class="card-title">주문 품목 단위 3계층 과·면세 분할 승인 및 도서정가제 안분 대사 </div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
- 복합 결제(MIXED) 시 교재 정가 할인 0% 고정(`도서정가제 0% 할인 고정`) → 순수 강좌 결제 풀 안분 → 마지막 강좌 잔여 차액 배정 규칙 검증
+ 복합 결제 시 교재 정가 할인 0% 고정(`도서정가제 0% 할인 고정`) → 순수 강좌 결제 풀 안분 → 마지막 강좌 잔여 차액 배정 규칙 검증
  </div>
             </div>
             <span class="badge badge-success">전 품목 분할 검증 통과</span>
@@ -733,7 +733,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">가상계좌 입금 대기 스냅샷 및 월말/월초 귀속월 분리 대사 (8.2절)</div>
+              <div class="card-title">가상계좌 입금 대기 스냅샷 및 월말/월초 귀속월 분리 대사 </div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
  가상계좌 발급일과 PG 웹훅 입금완료 시점이 월 경계를 넘는 건은 매출 귀속월과 정산 반영월을 분리하여 추적합니다.
  </div>
@@ -811,7 +811,7 @@ code, pre, kbd, samp,
  </span>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행(SETT-002) 이동 →</button>
+        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행 이동 →</button>
       </div>
     </footer>
   </div>

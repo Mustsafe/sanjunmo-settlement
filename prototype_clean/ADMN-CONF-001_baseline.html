@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-CONF-001] 전시 배너 · 띠배너 · 모달 팝업 관리 — 산준모닷컴 백오피스 v8.4 FINAL</title>
+  <title>전시 배너 · 띠배너 · 모달 팝업 관리 — 산준모닷컴 백오피스 v8.4 FINAL</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
@@ -104,7 +104,7 @@ code, pre, kbd, samp,
       <div class="crumb-wrap">
         <span class="crumb-code" id="top-crumb-code">ADMN-CONF-001</span>
         <h1 class="crumb-title" id="top-crumb-title">전시 배너 · 띠배너 · 모달 팝업 관리</h1>
-        <span class="crumb-sub">사이트 관리 &gt; 메인 히어로 슬라이드 배너(CONF-001) · 상단 띠배너(CONF-001-S1) · 모달 팝업(CONF-001-S2)</span>
+        <span class="crumb-sub">사이트 관리 &gt; 메인 히어로 슬라이드 배너 · 상단 띠배너 · 모달 팝업</span>
       </div>
       <div style="display:flex; gap:8px;">
         <button type="button" class="btn btn-sm btn-outline" onclick="showToast('프론트 미리보기 토큰(?preview_token=adm_20261018)으로 예약 배너를 포함한 메인 화면을 새 창에서 검증합니다.')">🖥️ 사용자 메인 미리보기 (미리보기 전용) ↗</button>
@@ -137,9 +137,9 @@ code, pre, kbd, samp,
 
       <!-- 전시 영역 전환 탭 (메인 배너 / 띠배너 / 모달 팝업) -->
       <div class="inner-tabs">
-        <button type="button" class="inner-tab active" id="tab-domain-banner" onclick="switchDomainTab('banner')">🖼️ 메인 슬라이드 배너 (ADMN-CONF-001)</button>
-        <button type="button" class="inner-tab" id="tab-domain-strip" onclick="switchDomainTab('strip')">📏 상단 · 서브 띠배너 (ADMN-CONF-001-S1)</button>
-        <button type="button" class="inner-tab" id="tab-domain-popup" onclick="switchDomainTab('popup')">🪟 모달 팝업 관리 (ADMN-CONF-001-S2)</button>
+        <button type="button" class="inner-tab active" id="tab-domain-banner" onclick="switchDomainTab('banner')">🖼️ 메인 슬라이드 배너</button>
+        <button type="button" class="inner-tab" id="tab-domain-strip" onclick="switchDomainTab('strip')">📏 상단 · 서브 띠배너</button>
+        <button type="button" class="inner-tab" id="tab-domain-popup" onclick="switchDomainTab('popup')">🪟 모달 팝업 관리</button>
       </div>
 
       <!-- ================================================================== -->
@@ -147,7 +147,7 @@ code, pre, kbd, samp,
       <!-- ================================================================== -->
       <section id="panel-banner-list" class="view-panel active">
         <div class="policy-banner">
-          <strong>[메인 슬라이드 배너(ADMN-CONF-001) 운영 규칙]</strong>
+          <strong>[메인 슬라이드 배너 운영 규칙]</strong>
  PC 이미지(권장 <code>1920×520px</code>)와 모바일 이미지(권장 <code>750×620px</code>)를 <strong>단일 레코드 한 폼에서 함께 등록</strong>하여 노출 기간·이동 URL 불일치 사고를 원천 차단합니다. 이동 URL은 내부 경로(<code>/</code>로 시작) 또는 외부 보안 프로토콜(<code>https://</code>)만 허용됩니다.
  </div>
         <div class="card">
@@ -185,7 +185,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchDomainTab('banner')">← 배너 목록으로 (ADMN-CONF-001)</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchDomainTab('banner')">← 배너 목록으로</button>
               <span id="bd-title" style="margin-left:6px; font-weight:800;">메인 슬라이드 배너 등록 · 수정</span>
             </div>
           </div>
@@ -252,12 +252,12 @@ code, pre, kbd, samp,
       <!-- ================================================================== -->
       <section id="panel-strip-list" class="view-panel">
         <div class="policy-banner">
-          <strong>[띠배너(ADMN-CONF-001-S1) 운영 규칙]</strong>
+          <strong>[띠배너 운영 규칙]</strong>
  이미지 없이 <strong>텍스트(최대 40자) + 배경색/글자색</strong>으로 렌더링되며, 웹접근성 가독성을 위해 <strong>배경색과 글자색의 명도 대비가 4.5:1 이상</strong>이어야 저장됩니다. 노출 위치(메인 최상단 / 강좌 목록 상단) 및 대상(전체 / 비로그인 / 로그인) 조합별 1건씩 노출됩니다.
  </div>
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span>📏 상단 · 서브 띠배너 목록 (ADMN-CONF-001-S1)</span></div>
+            <div class="card-title"><span>📏 상단 · 서브 띠배너 목록</span></div>
             <button type="button" class="btn btn-sm btn-primary" onclick="openStripDetail(null)">+ 신규 띠배너 등록</button>
           </div>
           <div class="card-body" style="padding:0;">
@@ -284,7 +284,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchDomainTab('strip')">← 띠배너 목록으로 (ADMN-CONF-001-S1)</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchDomainTab('strip')">← 띠배너 목록으로</button>
               <span style="margin-left:6px; font-weight:800;">띠배너 등록 · 수정 및 명도 대비(4.5:1) 검증</span>
             </div>
           </div>
@@ -352,12 +352,12 @@ code, pre, kbd, samp,
       <!-- ================================================================== -->
       <section id="panel-popup-list" class="view-panel">
         <div class="policy-banner">
-          <strong>[모달 팝업(ADMN-CONF-001-S2) 운영 규칙]</strong>
+          <strong>[모달 팝업 운영 규칙]</strong>
  메인 진입 시 동시 노출 팝업은 <strong>최대 2건</strong>으로 제한되며(초과 등록 시 경고), <strong>[1] 공지사항/시험일정 게시글 선택 연결</strong> 또는 <strong>[2] 이동 URL 직접 입력</strong> 방식을 지원합니다. 수험생이 <code>[오늘 하루 보지 않기]</code> 클릭 시 <code>popup_{id}</code> 쿠키가 당일 <code>23:59:59</code>까지 유지됩니다.
  </div>
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span>🪟 모달 팝업 목록 (ADMN-CONF-001-S2)</span></div>
+            <div class="card-title"><span>🪟 모달 팝업 목록</span></div>
             <button type="button" class="btn btn-sm btn-primary" onclick="openPopupDetail(null)">+ 신규 모달 팝업 등록</button>
           </div>
           <div class="card-body" style="padding:0;">
@@ -384,7 +384,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchDomainTab('popup')">← 모달 팝업 목록으로 (ADMN-CONF-001-S2)</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchDomainTab('popup')">← 모달 팝업 목록으로</button>
               <span style="margin-left:6px; font-weight:800;">모달 팝업 등록 · 수정</span>
             </div>
           </div>
@@ -567,7 +567,7 @@ code, pre, kbd, samp,
         status: document.getElementById('bd-status').value
       });
       switchDomainTab('banner');
-      showToast('메인 슬라이드 배너가 저장되었으며 보안 감사 로그(CONF-006)에 기록되었습니다.');
+      showToast('메인 슬라이드 배너가 저장되었으며 보안 감사 로그에 기록되었습니다.');
     }
 
     function openStripDetail(idx) {

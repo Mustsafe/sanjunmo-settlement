@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-INST-002] 약정금 마일스톤 검수 — 산준모 백오피스 v4.0.0</title>
+  <title>약정금 마일스톤 검수 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg: #f4f6f9;
@@ -459,7 +459,7 @@ code, pre, kbd, samp,
       <h1 class="crumb-title" id="header-screen-title">약정금 마일스톤 검수 (선급 · 제작지원금 승인 게이트)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <button class="btn" onclick="location.href='ADMN-INST-001_baseline.html'">← 권리자 계약 원장(INST-001)</button>
+      <button class="btn" onclick="location.href='ADMN-INST-001_baseline.html'">← 권리자 계약 원장</button>
     </div></header><div id="v4-page-body">
   
   
@@ -476,7 +476,7 @@ code, pre, kbd, samp,
       <!-- 7.2절 단일 책임 및 경로 분리 안내 배너 -->
       <div class="policy-banner">
         <div>
-          <strong>📌 [7.2절 단일 책임 원칙 및 검수 범위]</strong>
+          <strong>📌 [단일 책임 원칙 및 검수 범위]</strong>
  본 화면은 <strong>전속계약금 · 일시금/분할형 개발지원금 · 매절 대금 · 정액 수당 · 종료 시 일시정산</strong>의 당월 정산서(7단계 비정기 약정·매절 가산) 이관 검수와, <strong>매출연동(매출연동) 개발지원금 약정 체결 시 최초 1회 검수</strong>만 수행합니다. (매출연동형의 월별 지급분은 자동 연산되므로 매월 검수하지 않으며, 사입 도서 매입채무(AP)는 회계 시스템 경로로 분리됩니다.)
  </div>
         <span class="badge badge-neutral">마감월(2026-09) 소급 이관 차단</span>
@@ -515,7 +515,7 @@ code, pre, kbd, samp,
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabWorkspace">1. 마일스톤 · 지원금 약정 검수 및 이관 승인 워크스페이스</button>
         <button class="tab-btn" data-tab="tabClawback">2. 전속계약금 중도해지 일할 반환 · 종료 일시정산 규격 </button>
-        <button class="tab-btn" data-tab="tabAudit">3. 검수 · 수기 소명 감사 로그 (ADMN-CONF-010)</button>
+        <button class="tab-btn" data-tab="tabAudit">3. 검수 · 수기 소명 감사 로그</button>
       </div>
 
       <!-- 탭 1: 메인 워크스페이스 -->
@@ -587,7 +587,7 @@ code, pre, kbd, samp,
                   <th>구분</th>
                   <th>계약 / 약정 ID</th>
                   <th>권리자</th>
-                  <th>산출 기준 및 수식 (5.2절 · 8.3절 정본)</th>
+                  <th>산출 기준 및 수식 (정본)</th>
                   <th class="num">산출 금액</th>
                   <th>엔진 인입 단계 및 처리 상태</th>
                 </tr>
@@ -610,7 +610,7 @@ code, pre, kbd, samp,
                   <td>산준교육 (법인)</td>
                   <td>
  종료 시 일시정산 적용 (한도형 총 한도 10,000,000원 − 기 소진 8,200,000원)<br>
-                    <span style="font-size:11px; color:var(--text-muted);">* 본 화면(INST-002)에서 종료 일시정산 승인 시 7단계로 1회 인입 + 5단계 한도 소진액 가산 후 종결 전이</span>
+                    <span style="font-size:11px; color:var(--text-muted);">* 본 화면에서 종료 일시정산 승인 시 7단계로 1회 인입 + 5단계 한도 소진액 가산 후 종결 전이</span>
                   </td>
                   <td class="num" style="color:var(--primary); font-weight:700;">+1,800,000원</td>
                   <td><strong>7단계 수당 라인 인입 대기</strong> (MS-2026-006)</td>
@@ -621,7 +621,7 @@ code, pre, kbd, samp,
                   <td>이전기 (강사)</td>
                   <td>
  위약벌 산정방식 = MULTIPLE (200%), 위약벌 기준금액 = 총 약정액 기준, <code>CUMULATIVE</code><br>
-                    <span style="font-size:11px; color:var(--text-muted);">* 5.2절 원칙: 위약금은 기 지급 소득의 정정이 아닌 신규 손해배상 채무이므로 1~11단계 정산 엔진 및 이월 원장에 절대 인입하지 않음</span>
+                    <span style="font-size:11px; color:var(--text-muted);">* 원칙: 위약금은 기 지급 소득의 정정이 아닌 신규 손해배상 채무이므로 1~11단계 정산 엔진 및 이월 원장에 절대 인입하지 않음</span>
                   </td>
                   <td class="num">20,000,000원</td>
                   <td><span class="badge badge-neutral">정산 엔진 완전 배제 (별도 청구 관리)</span></td>
@@ -666,7 +666,7 @@ code, pre, kbd, samp,
  </span>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행(SETT-002)으로 이동 →</button>
+        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행으로 이동 →</button>
       </div>
     </footer>
   </div>
@@ -1316,7 +1316,7 @@ code, pre, kbd, samp,
     if (!item) return;
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
+      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
       return;
     }
     item.targetMonth = tMonth;
@@ -1336,7 +1336,7 @@ code, pre, kbd, samp,
 
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
+      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
       return;
     }
 
@@ -1348,7 +1348,7 @@ code, pre, kbd, samp,
 
     const memo = document.getElementById("editMemo").value.trim();
     if (item.inspectionMode === "MANUAL_NOTE" && memo.length < 10) {
-      alert("[7.2절 담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
+      alert("[담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
       return;
     }
     if (item.inspectionMode === "EVIDENCE_FILE") {
@@ -1385,7 +1385,7 @@ code, pre, kbd, samp,
     renderTable();
     renderDetail();
     renderAudit();
-    showToast(`✔ [${item.id}] 검수 승인이 확정되어 ${item.targetMonth} 정산서(ADMN-SETT-002)로 이관되었습니다.`);
+    showToast(`✔ [${item.id}] 검수 승인이 확정되어 ${item.targetMonth} 정산서로 이관되었습니다.`);
   }
 
   // KPI 카드 필터링

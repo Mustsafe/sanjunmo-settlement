@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-PROD-006] 강사 노출 정보 관리 — 산준모 백오피스 v4.0.0</title>
+  <title>강사 노출 정보 관리 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --navy-950: #0B1120;
@@ -567,7 +567,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">권리자 계약 원장(SSOT) 연동 규칙</span>
           <div class="policy-text">
- 강사 노출 정보는 <strong>권리자 계약 원장(ADMN-INST-001)</strong>에 등록된 강사 마스터(<code>INS-XXXX</code>)를 바인딩하여 프론트 전시 프로필을 구성합니다.
+ 강사 노출 정보는 <strong>권리자 계약 원장</strong>에 등록된 강사 마스터(<code>INS-XXXX</code>)를 바인딩하여 프론트 전시 프로필을 구성합니다.
  실명·주민/사업자번호·정산계좌·RS 요율은 <strong>ADMN-INST-001</strong>에서만 관리하며, 계약 상태가 <strong>[계약해지/종료]</strong>인 경우 프론트 강사관 노출(<code>Y</code>) 설정이 자동 차단됩니다.
  </div>
         </div>
@@ -598,7 +598,7 @@ code, pre, kbd, samp,
                 </select>
               </div>
               <div class="filter-field">
-                <label>권리자 계약 상태 (ADMN-INST-001)</label>
+                <label>권리자 계약 상태</label>
                 <select id="filter-contract" class="form-select">
                   <option value="ALL">전체 계약상태</option>
                   <option value="정상">계약 정상 (유효)</option>
@@ -665,7 +665,7 @@ code, pre, kbd, samp,
                     <th style="width:130px;">대표 카테고리</th>
                     <th>강사 한줄 슬로건 (캐치프레이즈)</th>
                     <th class="text-center" style="width:120px;">연결 강좌 / 교재</th>
-                    <th class="text-center" style="width:115px;">계약상태 (INST-001)</th>
+                    <th class="text-center" style="width:115px;">계약상태</th>
                     <th class="text-center" style="width:90px;">메인추천</th>
                     <th class="text-center" style="width:80px;">노출여부</th>
                     <th class="text-center" style="width:95px;">등록일</th>
@@ -691,7 +691,7 @@ code, pre, kbd, samp,
             <span class="badge badge-active" id="d-contract-badge">계약 정상 (INS-0001)</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <a class="btn btn-soft" href="ADMN-INST-001_baseline.html">권리자 계약 원장 조회 (ADMN-INST-001)</a>
+            <a class="btn btn-soft" href="ADMN-INST-001_baseline.html">권리자 계약 원장 조회</a>
             <button type="button" class="btn btn-primary" onclick="editCurrentDetailInst">강사 프로필 수정 (006-S1)</button>
           </div>
         </div>
@@ -700,7 +700,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">1. 권리자 계약 원장(ADMN-INST-001) 매핑 및 프론트 노출 기본 정보</h3>
+              <h3 class="card-title">1. 권리자 계약 원장 매핑 및 프론트 노출 기본 정보</h3>
               <span class="card-subtitle">계약 원장 상태와 실시간 동기화되며, 프론트 강사 소개관 상단 영역에 렌더링됩니다.</span>
             </div>
             <span class="code-pill" id="d-created-at">등록일: 2026-01-03</span>
@@ -809,7 +809,7 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">강사 노출 정보 등록 / 수정 (ADMN-PROD-006-S1)</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">강사 노출 정보 등록 / 수정</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
@@ -821,7 +821,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">1. 권리자 계약 원장(ADMN-INST-001) 마스터 연결 및 전시 자격 검증</h3>
+              <h3 class="card-title">1. 권리자 계약 원장 마스터 연결 및 전시 자격 검증</h3>
               <span class="card-subtitle">권리자 원장에 등록된 강사를 선택하면 계약 유효 상태를 검증하여 프론트 노출 가능 여부를 판정합니다.</span>
             </div>
           </div>

@@ -223,7 +223,7 @@ code, pre, kbd, samp,
       </div>
       <div style="display:flex; gap:8px;">
         <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #cbd5e1; border-radius:6px;" onclick="triggerSessionExpiredBanner">⏱️ 30분 세션만료 배너 시연</button>
-        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #fecaca; color:#dc2626; border-radius:6px;" onclick="triggerLockoutState">🔒 5회 실패 잠금(ADMN-LOGIN-001-P1) 시연</button>
+        <button type="button" class="link-btn" style="padding:5px 10px; border:1px solid #fecaca; color:#dc2626; border-radius:6px;" onclick="triggerLockoutState">🔒 5회 실패 잠금 시연</button>
       </div>
     </header>
 
@@ -271,7 +271,7 @@ code, pre, kbd, samp,
               <strong>🔒 계정이 잠겼습니다 (비밀번호 5회 연속 불일치 · ADMN-LOGIN-001-P1)</strong><br/>
  보안 정책에 따라 해당 계정(<strong>cs.kim@sanjunmo.com</strong>)의 로그인이 차단되었습니다.<br/>
  • 본인 휴대폰 SMS 인증 후 <strong>[비밀번호 재설정]</strong>을 완료하면 즉시 잠금이 해제됩니다.<br/>
- • 또는 최고관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
+ • 또는 최고관리자에게 <strong>운영자 권한 관리</strong>에서 잠금 해제를 요청하세요.
  </div>
 
             <div class="form-group">
@@ -300,8 +300,8 @@ code, pre, kbd, samp,
             <button type="button" class="btn-submit" id="btn-do-login" onclick="handleAdminLogin">로그인</button>
 
             <div class="helper-links">
-              <button type="button" class="link-btn" onclick="switchAuthMode('find-id')">아이디 찾기 (ADMN-LOGIN-002)</button>
-              <button type="button" class="link-btn" onclick="switchAuthMode('reset-pw')">비밀번호 찾기 · 잠금 해제 (ADMN-LOGIN-003)</button>
+              <button type="button" class="link-btn" onclick="switchAuthMode('find-id')">아이디 찾기</button>
+              <button type="button" class="link-btn" onclick="switchAuthMode('reset-pw')">비밀번호 찾기 · 잠금 해제</button>
             </div>
           </div>
 

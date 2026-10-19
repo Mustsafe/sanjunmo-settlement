@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-PROD-005] 패키지 · 환급반 상품 관리 — 산준모 백오피스 v4.0.0</title>
+  <title>패키지 · 환급반 상품 관리 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --navy-950: #0B1120;
@@ -625,7 +625,7 @@ code, pre, kbd, samp,
           <span class="policy-badge">복합상품 과세·면세 분할 및 환급반 연동</span>
           <div class="policy-text">
  패키지 상품은 <strong>단과 강좌(과세 VAT 10%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
- 환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리(ADMN-SETT-006)</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
+ 환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
  </div>
         </div>
         <div style="display:flex; gap:6px; flex-shrink:0;">
@@ -758,7 +758,7 @@ code, pre, kbd, samp,
             <span class="badge badge-sale" id="d-pkg-status-badge">판매중</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <a class="btn btn-soft" href="ADMN-SETT-006_baseline.html">환급 심사 원장 (ADMN-SETT-006)</a>
+            <a class="btn btn-soft" href="ADMN-SETT-006_baseline.html">환급 심사 원장</a>
             <button type="button" class="btn btn-primary" onclick="editCurrentDetailPkg">패키지 정보 수정 (005-S1)</button>
           </div>
         </div>
@@ -768,7 +768,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">1. 패키지 기본 정보 및 과세(강좌) · 면세(교재) 복합결제 분할 내역</h3>
-              <span class="card-subtitle">PG 복합과세 결제 승인 및 정산 원장(ADMN-SETT-002) 매출 분리 기준</span>
+              <span class="card-subtitle">PG 복합과세 결제 승인 및 정산 원장 매출 분리 기준</span>
             </div>
             <span class="code-pill" id="d-pkg-created">등록일: 2026-01-15</span>
           </div>
@@ -880,7 +880,7 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">패키지 · 환급반 등록 / 수정 (ADMN-PROD-005-S1)</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">패키지 · 환급반 등록 / 수정</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
@@ -961,7 +961,7 @@ code, pre, kbd, samp,
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline btn-sm" onclick="autoDistributeCourseWeights">단과 기준가 비례 자동 안분 (100%)</button>
-              <button type="button" class="btn btn-soft btn-sm" onclick="openCoursePickerModal">+ 단과 강좌 추가 (ADMN-PROD-003)</button>
+              <button type="button" class="btn btn-soft btn-sm" onclick="openCoursePickerModal">+ 단과 강좌 추가</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -1001,7 +1001,7 @@ code, pre, kbd, samp,
               <h3 class="card-title">3. 구성 교재 매핑 (ADMN-PROD-004 연동 · 면세 분리 및 도서정가제 할인 0% 고정)</h3>
               <span class="card-subtitle">패키지에 포함된 교재는 할인 없이 정가 100%로 합산되며, PG 결제 시 면세 금액으로 분리 승인됩니다.</span>
             </div>
-            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal">+ 패키지 교재 추가 (ADMN-PROD-004)</button>
+            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal">+ 패키지 교재 추가</button>
           </div>
           <div class="card-body" style="padding:0;">
             <table class="data-table">
@@ -1153,7 +1153,7 @@ code, pre, kbd, samp,
           <div class="card-header" style="background:var(--violet-soft);">
             <div class="card-title-group">
               <h3 class="card-title" style="color:var(--violet);">5. 합격 환급반 달성 조건 및 정산 차감 정책 설정 (ADMN-SETT-006 연동)</h3>
-              <span class="card-subtitle">환급반 유형 선택 시 활성화 · 합격 환급 심사(ADMN-SETT-006)의 자동 판정 기준값으로 저장됩니다.</span>
+              <span class="card-subtitle">환급반 유형 선택 시 활성화 · 합격 환급 심사의 자동 판정 기준값으로 저장됩니다.</span>
             </div>
             <span class="badge badge-refund">환급반 전용 정책</span>
           </div>
@@ -1167,7 +1167,7 @@ code, pre, kbd, samp,
                       <input type="number" id="f-refund-progress" class="form-input text-right" value="80" min="0" max="100">
                       <span class="input-unit">% 이상 수강 완료</span>
                     </div>
-                    <div class="field-hint">포함된 단과 강좌(ADMN-PROD-003) 전체 차시 기준 평균 진도율</div>
+                    <div class="field-hint">포함된 단과 강좌 전체 차시 기준 평균 진도율</div>
                   </td>
                   <th>필수 출석일수 기준 <span class="req-star">*</span></th>
                   <td>

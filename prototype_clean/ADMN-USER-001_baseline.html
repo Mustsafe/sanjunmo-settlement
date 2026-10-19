@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-USER-001] 일반 회원 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
+  <title>일반 회원 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
   <script id="v4-common-snb" src="common-snb.js" defer></script>
@@ -568,9 +568,9 @@ code, pre, kbd, samp,
               <span class="badge badge-blue">포인트 실시간 합산 정상</span>
             </div>
             <div style="display:flex; gap:6px;">
-              <button type="button" class="btn btn-sm btn-outline" style="color:var(--danger); border-color:#FECACA;" onclick="switchView('blacklist')">🚫 블랙리스트 관리 (ADMN-USER-005)</button>
-              <button type="button" class="btn btn-sm btn-outline" onclick="openBulkTagModal">선택 회원 그룹·태그 부여 (ADMN-USER-006)</button>
-              <button type="button" class="btn btn-sm btn-primary" onclick="sendBulkMsg">💬 선택 회원 메시지 · 이메일 발송 (ADMN-CONF-004-S1)</button>
+              <button type="button" class="btn btn-sm btn-outline" style="color:var(--danger); border-color:#FECACA;" onclick="switchView('blacklist')">🚫 블랙리스트 관리</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="openBulkTagModal">선택 회원 그룹·태그 부여</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="sendBulkMsg">💬 선택 회원 메시지 · 이메일 발송</button>
               <button type="button" class="btn btn-sm btn-dark" onclick="openExcelModal">🔒 엑셀 다운로드</button>
             </div>
           </div>
@@ -710,16 +710,16 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로 (ADMN-USER-001)</button>
-              <span style="margin-left:6px;">회원 상세 정보 (ADMN-USER-002)</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로</button>
+              <span style="margin-left:6px;">회원 상세 정보</span>
               <span id="dt-header-sub" style="font-size:12.5px; font-weight:500; color:var(--text-muted);">회원번호 100482 · 홍*동 · 가입 2026.08.19</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-sm btn-primary" onclick="openDirectMsgModal('ALIMTALK')">💬 1:1 메시지 · 이메일 발송 (ADMN-USER-002-P3)</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openDirectMsgModal('ALIMTALK')">💬 1:1 메시지 · 이메일 발송</button>
               <button type="button" class="btn btn-sm btn-outline" id="btn-unmask" onclick="unmaskMemberDetail">🔓 마스킹 해제 (10분 후 자동 재마스킹)</button>
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('course')">수강 · 기기 제어 (ADMN-USER-003) →</button>
-              <button type="button" class="btn btn-sm btn-outline" style="color:var(--danger); border-color:#FECACA;" onclick="switchView('blacklist')">🚫 블랙리스트 관리 (ADMN-USER-005)</button>
-              <button type="button" class="btn btn-sm btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 · 정지 등재 (ADMN-USER-005)</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('course')">수강 · 기기 제어 →</button>
+              <button type="button" class="btn btn-sm btn-outline" style="color:var(--danger); border-color:#FECACA;" onclick="switchView('blacklist')">🚫 블랙리스트 관리</button>
+              <button type="button" class="btn btn-sm btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 · 정지 등재</button>
             </div>
           </div>
           <div class="card-body">
@@ -762,7 +762,7 @@ code, pre, kbd, samp,
                   <td>
                     <span id="dt-phone">010-****-5678</span>
                     <span class="badge badge-green">본인인증 완료</span>
-                    <span class="badge badge-gray">24h SMS 인증 1/5회 (CONF-008)</span> <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px; padding:2px 8px; font-size:11px;" onclick="openDirectMsgModal('SMS')">📱 1:1 문자/알림톡 발송</button>
+                    <span class="badge badge-gray">24h SMS 인증 1/5회</span> <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px; padding:2px 8px; font-size:11px;" onclick="openDirectMsgModal('SMS')">📱 1:1 문자/알림톡 발송</button>
                   </td>
                   <th>최종 접속</th>
                   <td>2026.10.17 09:41 · 접속 IP <code>121.***.7.90</code></td>
@@ -818,7 +818,7 @@ code, pre, kbd, samp,
                 <div style="font-size:13px; font-weight:800;">보유 포인트 · 쿠폰 · 누적 거래 요약 <span style="font-size:11.5px; font-weight:500; color:var(--text-muted);">(유상 P: 강좌 실결제 1% 올림·LIFO 부활 / 무상 P: 웰컴·이벤트·CS 보상·환불 시 우선 회수)</span></div>
                 <div style="display:flex; gap:6px;">
                   <button type="button" class="btn btn-sm btn-outline" onclick="switchCsTab('points')">포인트 원장 탭 보기</button>
-                  <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal">＋ 포인트 수동 지급/차감 (ADMN-USER-002-P1)</button>
+                  <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal">＋ 포인트 수동 지급/차감</button>
                 </div>
               </div>
               <div class="sum-strip">
@@ -904,7 +904,7 @@ code, pre, kbd, samp,
                 </table>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; color:var(--text-muted);">
                   <span>최근 <strong>5</strong>건만 표시 · 전체 4건</span>
-                  <a href="ADMN-ORD-001_baseline.html" class="btn btn-sm btn-outline">전체 주문 보기 (ADMN-ORD-001) ↗</a>
+                  <a href="ADMN-ORD-001_baseline.html" class="btn btn-sm btn-outline">전체 주문 보기 ↗</a>
                 </div>
               </div>
 
@@ -927,7 +927,7 @@ code, pre, kbd, samp,
                 </table>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; color:var(--text-muted);">
                   <span>최근 <strong>5</strong>건만 표시 · 전체 1건</span>
-                  <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm btn-outline">전체 환불 보기 (ADMN-RFD-002) ↗</a>
+                  <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm btn-outline">전체 환불 보기 ↗</a>
                 </div>
               </div>
 
@@ -955,7 +955,7 @@ code, pre, kbd, samp,
                 </table>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; color:var(--text-muted);">
                   <span>최근 <strong>5</strong>건만 표시 · 전체 2건 · 미답변 <strong style="color:var(--danger);">1</strong>건</span>
-                  <a href="ADMN-BRD-002_baseline.html" class="btn btn-sm btn-outline">전체 문의 보기 (ADMN-BRD-002) ↗</a>
+                  <a href="ADMN-BRD-002_baseline.html" class="btn btn-sm btn-outline">전체 문의 보기 ↗</a>
                 </div>
               </div>
 
@@ -996,7 +996,7 @@ code, pre, kbd, samp,
                 </table>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; color:var(--text-muted);">
                   <span>수강 계약 전체 3건 표시</span>
-                  <button type="button" class="btn btn-sm btn-primary" onclick="switchView('course')">수강 기간 · 기기/세션 제어 (ADMN-USER-003) →</button>
+                  <button type="button" class="btn btn-sm btn-primary" onclick="switchView('course')">수강 기간 · 기기/세션 제어 →</button>
                 </div>
               </div>
 
@@ -1042,7 +1042,7 @@ code, pre, kbd, samp,
                 </table>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; color:var(--text-muted);">
                   <span>최근 <strong>10</strong>건만 표시 · 결제 차감은 FIFO(만료 임박 무상→유상), 환불 복원은 LIFO(유상→무상), 기적립 회수는 무상 0P 소진 후 유상 마이너스(-) 처리</span>
-                  <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-outline">전체 포인트 원장 보기 (ADMN-PROM-002) ↗</a>
+                  <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-outline">전체 포인트 원장 보기 ↗</a>
                 </div>
               </div>
 
@@ -1083,10 +1083,10 @@ code, pre, kbd, samp,
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
-              <button type="button" class="btn btn-outline" onclick="switchView('list')">← 회원 목록 (ADMN-USER-001)</button>
+              <button type="button" class="btn btn-outline" onclick="switchView('list')">← 회원 목록</button>
               <div style="display:flex; gap:8px;">
-                <button type="button" class="btn btn-outline" onclick="switchView('course')">수강 · 기기 제어 (ADMN-USER-003)</button>
-                <button type="button" class="btn btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 등재 (ADMN-USER-005)</button>
+                <button type="button" class="btn btn-outline" onclick="switchView('course')">수강 · 기기 제어</button>
+                <button type="button" class="btn btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 등재</button>
                 <button type="button" class="btn btn-dark" onclick="saveMemberProfile">💾 변경사항 저장</button>
               </div>
             </div>
@@ -1101,7 +1101,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('detail')">← 회원 상세로 (ADMN-USER-002)</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('detail')">← 회원 상세로</button>
               <span style="margin-left:6px;">회원 수강 계약 · 기간 강제 조정 · 동시접속 1세션 제어 (ADMN-USER-003 / 004 · 11/16 1차 오픈 스펙)</span>
             </div>
             <div style="display:flex; gap:8px;">
@@ -1120,7 +1120,7 @@ code, pre, kbd, samp,
                   <th>수강 시작일</th>
                   <th>수강 종료일</th>
                   <th>잔여일</th>
-                  <th>가중평균 진도율 (ADMN-USER-004)</th>
+                  <th>가중평균 진도율</th>
                   <th>상태</th>
                 </tr>
               </thead>
@@ -1233,7 +1233,7 @@ code, pre, kbd, samp,
           <div class="card-body">
             <table class="data-table">
               <thead>
-                <tr><th>태그 코드</th><th>태그명</th><th>조합 조건 (N:M)</th><th class="tr-right">소속 회원 수</th><th>연동 프로모션 (ADMN-PROM-002)</th><th>관리</th></tr>
+                <tr><th>태그 코드</th><th>태그명</th><th>조합 조건 (N:M)</th><th class="tr-right">소속 회원 수</th><th>연동 프로모션</th><th>관리</th></tr>
               </thead>
               <tbody>
                 <tr>
@@ -1294,8 +1294,8 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로 (ADMN-USER-001)</button>
-              <span style="margin-left:6px;">🚫 블랙리스트 및 부정사용자 제재 원장 (ADMN-USER-005)</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로</button>
+              <span style="margin-left:6px;">🚫 블랙리스트 및 부정사용자 제재 원장</span>
             </div>
             <div style="display:flex; gap:8px;">
               <select id="bl-type-filter" class="f-select" onchange="filterBlacklistRows(this.value)">
@@ -1370,7 +1370,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-excel-p1">
     <div class="modal-box">
       <div class="modal-head">
-        <span>🔒 개인정보 포함 파일 다운로드 (ADMN-USER-001-P1)</span>
+        <span>🔒 개인정보 포함 파일 다운로드</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-excel-p1')">✕</button>
       </div>
       <div class="modal-body">
@@ -1423,7 +1423,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-point-p1">
     <div class="modal-box">
       <div class="modal-head">
-        <span>＋ 수동 무상 포인트 지급 · 차감 (ADMN-USER-002-P1)</span>
+        <span>＋ 수동 무상 포인트 지급 · 차감</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-point-p1')">✕</button>
       </div>
       <div class="modal-body">
@@ -1502,7 +1502,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-status">
     <div class="modal-box" style="max-width:480px;">
       <div class="modal-head">
-        <span>회원 상태 변경 · 블랙리스트 통제 (ADMN-USER-005)</span>
+        <span>회원 상태 변경 · 블랙리스트 통제</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-status')">✕</button>
       </div>
       <div class="modal-body">
@@ -1533,14 +1533,14 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-direct-msg">
     <div class="modal-box" style="max-width:640px;">
       <div class="modal-head">
-        <span>💬 1:1 개별 메시지 · 이메일 즉시 발송 (ADMN-USER-002-P3)</span>
+        <span>💬 1:1 개별 메시지 · 이메일 즉시 발송</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-direct-msg')">✕</button>
       </div>
       <div class="modal-body">
         <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12px; display:flex; justify-content:space-between; align-items:center;">
           <div>
  수신 대상 회원: <strong id="dm-target-info" style="color:var(--text-main);">홍*동 (100482 · 010-****-5678 · hon***@naver.com)</strong>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">※ 1:1 CS/운영 안내는 정보성 메시지로 발송되며, 발송 내역은 회원 상세 CS 타임라인 및 발송 이력(ADMN-CONF-004-S1)에 자동 기록됩니다.</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">※ 1:1 CS/운영 안내는 정보성 메시지로 발송되며, 발송 내역은 회원 상세 CS 타임라인 및 발송 이력에 자동 기록됩니다.</div>
           </div>
           <span class="badge badge-blue">단건 즉시발송</span>
         </div>
@@ -1567,10 +1567,10 @@ code, pre, kbd, samp,
         <div id="dm-box-ALIMTALK" style="margin-bottom:12px;">
           <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">SENS 승인 알림톡 템플릿 선택 (ADMN-CONF-004 연동)</label>
           <select id="dm-alim-tpl" class="f-select" style="width:100%;" onchange="applyDirectMsgTemplate">
-            <option value="TPL_CS_GUIDE">1:1 고객센터 안내 및 처리 결과 통지 (SENS 승인완료)</option>
-            <option value="TPL_VBANK_ISSUED">가상계좌 입금 계좌 및 기한 재안내 (SENS 승인완료)</option>
-            <option value="TPL_DLV_START">교재 출고 및 송장번호 개별 안내 (SENS 승인완료)</option>
-            <option value="TPL_RFD_DONE">환불 처리 완료 안내 (SENS 승인완료)</option>
+            <option value="TPL_CS_GUIDE">1:1 고객센터 안내 및 처리 결과 통지 (검수 승인완료)</option>
+            <option value="TPL_VBANK_ISSUED">가상계좌 입금 계좌 및 기한 재안내 (검수 승인완료)</option>
+            <option value="TPL_DLV_START">교재 출고 및 송장번호 개별 안내 (검수 승인완료)</option>
+            <option value="TPL_RFD_DONE">환불 처리 완료 안내 (검수 승인완료)</option>
           </select>
           <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">※ 카카오 알림톡은 사전 검수 승인된 템플릿 본문 내 <code>#{변수}</code>만 치환하여 발송되며, 카카오톡 미수신 시 동일 문구가 LMS로 자동 대체 발송됩니다.</div>
         </div>
@@ -1612,7 +1612,7 @@ code, pre, kbd, samp,
         </div>
       </div>
       <div class="modal-foot">
-        <button type="button" class="btn btn-outline" onclick="window.location.href='ADMN-CONF-004_baseline.html?view=send&target=selected&ids=' + currentMemberId">대량/예약 발송 화면(CONF-004-S1)에서 열기 ↗</button>
+        <button type="button" class="btn btn-outline" onclick="window.location.href='ADMN-CONF-004_baseline.html?view=send&target=selected&ids=' + currentMemberId">대량/예약 발송 화면에서 열기 ↗</button>
         <div style="display:flex; gap:8px;">
           <button type="button" class="btn btn-outline" onclick="closeModal('modal-direct-msg')">취소</button>
           <button type="button" class="btn btn-primary" onclick="submitDirectMsg">🚀 즉시 발송 실행</button>
@@ -1632,7 +1632,7 @@ code, pre, kbd, samp,
         <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
           <div>
             <strong id="prog-modal-course-title" style="color:#1E3A8A;">[CRS-2026-8841] 2026 산업안전기사 필기+실기 합격패스</strong>
-            <div style="font-size:11.5px; color:#1E40AF; margin-top:2px;">• 환불 심사(ADMN-RFD-002) 및 합격환급 심사(ADMN-SETT-006)의 기준 진도율로 실시간 연동됩니다.</div>
+            <div style="font-size:11.5px; color:#1E40AF; margin-top:2px;">• 환불 심사 및 합격환급 심사의 기준 진도율로 실시간 연동됩니다.</div>
           </div>
           <span class="badge badge-blue" id="prog-modal-total-rate">총 진도율 62.4%</span>
         </div>
@@ -1898,7 +1898,7 @@ code, pre, kbd, samp,
     function unlinkSocial(provider) {
       const el = document.getElementById('soc-' + provider);
       if (el) el.remove();
-      showToast(`${provider.toUpperCase()} 소셜 계정 연동이 해제되었습니다. (마지막 로그인 수단은 해제 불가)`);
+      showToast(`${provider.toUpperCase} 소셜 계정 연동이 해제되었습니다. (마지막 로그인 수단은 해제 불가)`);
     }
 
     function switchCsTab(tabKey) {
@@ -1954,7 +1954,7 @@ code, pre, kbd, samp,
 
       if (checkedRows.length === 0) {
 
-        if (confirm('선택된 회원이 없습니다. 현재 검색된 회원 전체(12,480명)를 대상으로 타겟 메시지 발송(ADMN-CONF-004-S1) 화면으로 이동하시겠습니까?')) {
+        if (confirm('선택된 회원이 없습니다. 현재 검색된 회원 전체(12,480명)를 대상으로 타겟 메시지 발송 화면으로 이동하시겠습니까?')) {
 
           window.location.href = 'ADMN-CONF-004_baseline.html?view=send&target=search_all&cnt=12480';
 
@@ -2278,7 +2278,7 @@ code, pre, kbd, samp,
       `;
       tbody.prepend(tr);
       closeModal('modal-point-p1');
-      showToast(`무상 포인트 ${mode === 'PLUS' ? '+' : '-'}${amt.toLocaleString()}P 처리가 원장 및 관리 이력에 기록되었습니다.`);
+      showToast(`무상 포인트 ${mode === 'PLUS' ? '+' : '-'}${amt.toLocaleString}P 처리가 원장 및 관리 이력에 기록되었습니다.`);
     }
 
     function openStatusModal(targetSt) {
@@ -2351,7 +2351,7 @@ code, pre, kbd, samp,
       const p1 = document.getElementById('crs-prog-txt-1');
       if (p1) p1.textContent = targetVal === '100.0%' ? '65.0%' : '60.0%';
       closeModal('modal-progress-004');
-      showToast(`[ADMN-USER-004-P1] 3강 진도율이 ${targetVal}로 보정되었으며 감사 로그에 사유가 기록되었습니다.`);
+      showToast(`3강 진도율이 ${targetVal}로 보정되었으며 감사 로그에 사유가 기록되었습니다.`);
     }
 
     function filterBlacklistRows(typeVal) {
@@ -2385,7 +2385,7 @@ code, pre, kbd, samp,
 <div id="modal-manual-blacklist" style="position:fixed; inset:0; background:rgba(15,23,42,0.55); display:none; align-items:center; justify-content:center; z-index:9999; padding:20px;">
   <div style="background:#fff; border-radius:14px; width:100%; max-width:760px; max-height:92vh; display:flex; flex-direction:column; box-shadow:0 20px 50px rgba(15,23,42,0.28); overflow:hidden; font-family:'Pretendard',sans-serif;">
     <div style="padding:16px 22px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; background:#f8fafc;">
-      <h3 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">🚨 [ADMN-USER-005] 수동 블랙리스트 대상 회원 검색 및 제재 지정</h3>
+      <h3 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">🚨 수동 블랙리스트 대상 회원 검색 및 제재 지정</h3>
       <button type="button" onclick="closeManualBlacklistModal" style="padding:5px 10px; border:1px solid #cbd5e1; background:#fff; border-radius:6px; cursor:pointer; font-weight:700;">닫기 ✕</button>
     </div>
     <div style="padding:18px 22px; overflow-y:auto; font-size:13px;">

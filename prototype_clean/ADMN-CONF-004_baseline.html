@@ -4,7 +4,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-CONF-004] 3채널 메시지 템플릿·검수 및 발송 이력 관리 — 산준모 백오피스</title>
+  <title>3채널 메시지 템플릿·검수 및 발송 이력 관리 — 산준모 백오피스</title>
   <link rel="stylesheet" href="common-v84.css" />
   <script src="common-snb.js" defer></script>
   <style>
@@ -387,13 +387,13 @@ code, pre, kbd, samp,
     <div class="domain-switch-bar">
       <div class="sub-tabs">
         <button class="sub-tab-btn active" onclick="switchTab('tpl')" id="tab-btn-tpl">
- 📋 3채널 템플릿 &amp; 카카오 검수 관리 (ADMN-CONF-004) <span class="cnt" id="cnt-tpl">7</span>
+ 📋 3채널 템플릿 &amp; 카카오 검수 관리 <span class="cnt" id="cnt-tpl">7</span>
         </button>
         <button class="sub-tab-btn" onclick="switchTab('send')" id="tab-btn-send">
- 🚀 타겟 메시지 수동/예약 발송 (ADMN-CONF-004-S1)
+ 🚀 타겟 메시지 수동/예약 발송
  </button>
         <button class="sub-tab-btn" onclick="switchTab('hist')" id="tab-btn-hist">
- 📊 통합 발송 이력 및 실패 재발송 (ADMN-CONF-007) <span class="cnt" id="cnt-hist">5</span>
+ 📊 통합 발송 이력 및 실패 재발송 <span class="cnt" id="cnt-hist">5</span>
         </button>
       </div>
     </div>
@@ -430,8 +430,8 @@ code, pre, kbd, samp,
 
       <div class="card">
         <div class="info-callout">
-          <strong>[ADMN-CONF-004] 카카오 알림톡 검수 프로세스 및 발송 제어 정책:</strong><br/>
- • <strong>알림톡(ALIMTALK):</strong> 신규 템플릿 등록 시 <code>작성초안(DRAFT)</code>으로 생성되며, <strong>[카카오 검수 요청]</strong>을 통해 검수중 → <code>검수승인(APPROVED)</code> 완료 후에만 실제 발송 트리거에 연결됩니다. <code>검수반려(REJECTED)</code> 건은 반려 사유를 확인하고 문구 수정 후 재심사를 요청할 수 있습니다.<br/>
+          <strong>카카오 알림톡 검수 프로세스 및 발송 제어 정책:</strong><br/>
+ • <strong>알림톡:</strong> 신규 템플릿 등록 시 <code>작성초안</code>으로 생성되며, <strong>[카카오 검수 요청]</strong>을 통해 검수중 → <code>검수승인</code> 완료 후에만 실제 발송 트리거에 연결됩니다. <code>검수반려</code> 건은 반려 사유를 확인하고 문구 수정 후 재심사를 요청할 수 있습니다.<br/>
  • <strong>문자(SMS/LMS) 및 이메일(EMAIL):</strong> 별도 카카오 사전 검수 없이 등록 즉시 <code>발송가능(APPROVED)</code> 상태로 활성화되며, 알림톡 발송 실패 시 대체문자(Fallback) 문구로 자동 활용됩니다.
  </div>
 
@@ -485,7 +485,7 @@ code, pre, kbd, samp,
     <section id="view-send" class="view-section">
       <div class="card">
         <div class="info-callout">
-          <strong>[ADMN-CONF-004-S1] 타겟 메시지 수동/예약 발송 가드레일:</strong><br/>
+          <strong>타겟 메시지 수동/예약 발송 가드레일:</strong><br/>
  [1] 알림톡 채널 선택 시 <strong>카카오 검수승인(<code>APPROVED</code>)이 완료된 템플릿만 발송</strong>할 수 있습니다.<br/>
  [2] <strong>광고성(<code>AD</code>) 메시지</strong>는 야간 시간대(20:50 ~ 익일 08:00) 즉시 발송이 자동 차단되며, 마케팅 수신 동의 수신 동의 회원만 자동 필터링됩니다.
  </div>
@@ -570,7 +570,7 @@ code, pre, kbd, samp,
 <div class="modal-backdrop" id="modal-template">
   <div class="modal-box">
     <div class="modal-header">
-      <h3 id="tpl-modal-title">[ADMN-CONF-004] 메시지 템플릿 등록 및 카카오 검수 설정</h3>
+      <h3 id="tpl-modal-title">메시지 템플릿 등록 및 카카오 검수 설정</h3>
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-template')">닫기 ✕</button>
     </div>
     <div class="modal-body">
@@ -615,7 +615,7 @@ code, pre, kbd, samp,
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <div>
               <div style="font-weight:800; color:#854d0e; font-size:12.5px;">💛 카카오 알림톡 딜러사(솔라피) 검수 상태 관리</div>
-              <div style="font-size:11.5px; color:#713f12; margin-top:2px;">알림톡은 카카오 검수승인(APPROVED) 상태에서만 발송됩니다. 반려(REJECTED) 시 반려사유를 반영하여 재검수를 요청하세요.</div>
+              <div style="font-size:11.5px; color:#713f12; margin-top:2px;">알림톡은 카카오 검수승인 상태에서만 발송됩니다. 반려 시 반려사유를 반영하여 재검수를 요청하세요.</div>
             </div>
             <select id="tpl-form-status" onchange="toggleRejectReasonInput" style="font-weight:700;">
               <option value="DRAFT">작성초안 (DRAFT)</option>
@@ -663,7 +663,7 @@ code, pre, kbd, samp,
     <div class="modal-footer">
       <div style="display:flex; gap:6px;">
         <button class="btn btn-warning" type="button" onclick="saveTemplateWithStatus('INSPECT_REQ')">📤 저장 후 카카오 검수 요청</button>
-        <button class="btn btn-success" type="button" onclick="saveTemplateWithStatus('APPROVED')">✓ 검수승인(APPROVED) 즉시 반영</button>
+        <button class="btn btn-success" type="button" onclick="saveTemplateWithStatus('APPROVED')">✓ 검수승인 즉시 반영</button>
       </div>
       <div style="display:flex; gap:6px;">
         <button class="btn btn-outline" type="button" onclick="closeModal('modal-template')">취소</button>
@@ -1009,7 +1009,7 @@ code, pre, kbd, samp,
     const t = TEMPLATES.find(item => item.code === code);
     if (!t) return;
     if (t.channel === 'ALIMTALK' && t.status !== 'APPROVED') {
-      alert(`[발송 차단] 선택한 알림톡 템플릿(${t.code})은 현재 '${t.status}' 상태입니다.\n카카오 검수승인(APPROVED) 완료 후 발송하거나 SMS/LMS 채널을 이용해주세요.`);
+      alert(`[발송 차단] 선택한 알림톡 템플릿(${t.code})은 현재 '${t.status}' 상태입니다.\n카카오 검수승인 완료 후 발송하거나 SMS/LMS 채널을 이용해주세요.`);
       return;
     }
     const segSel = document.getElementById('send-target-seg');

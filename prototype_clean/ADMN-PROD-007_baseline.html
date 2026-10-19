@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-PROD-007] 상품 마스터 (일반 상품 관리) — 산준모닷컴 백오피스 v8.4 Final</title>
+  <title>상품 마스터 (일반 상품 관리) — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
   <script id="v4-common-snb" src="common-snb.js" defer></script>
@@ -339,8 +339,8 @@ code, pre, kbd, samp,
         <label style="font-size:12px; font-weight:700; background:#F1F5F9; padding:4px 10px; border-radius:6px; border:1px solid var(--border); cursor:pointer;">
           <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무 권한 시뮬레이션 (사입원가 열람)
  </label>
-        <a href="ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 (ADMN-SETT-009) ↗</a>
-        <a href="ADMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 (ADMN-SETT-001) ↗</a>
+        <a href="ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 ↗</a>
+        <a href="ADMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 ↗</a>
       </div>
     </header>
 
@@ -353,11 +353,11 @@ code, pre, kbd, samp,
 
         <div class="policy-banner">
           <div>
-            <strong>일반 상품 정산 · 세무 · 회계 규칙 (합의서 제18장 18.1절):</strong>
- 도서(ISBN 면세)가 아닌 일반 소비재·굿즈는 <strong>일반 과세 재화 공급(<code>TX-13</code> · VAT 10% 포함가 <code>10/11</code> 자동 분해)</strong>으로 판정되며 도서정가제 제한이 없어 쿠폰·포인트 사용이 가능합니다.
+            <strong>일반 상품 정산 · 세무 · 회계 규칙 :</strong>
+ 도서(ISBN 면세)가 아닌 일반 소비재·굿즈는 <strong>일반 과세 재화 공급(<code>세무기준</code> · VAT 10% 포함가 <code>10/11</code> 자동 분해)</strong>으로 판정되며 도서정가제 제한이 없어 쿠폰·포인트 사용이 가능합니다.
  <code>ADMN-SETT-001</code>에서 <strong>자사 권리자 100%로 자동 매핑</strong>되어 <strong>일반 상품 판매매출(<code></code>)</strong>로 집계되며, 매입 대금은 정산 엔진(펌뱅킹)을 거치지 않고 <strong>회계 매입채무(AP · 재고 매입)</strong> 경로로 지급됩니다.
  </div>
-          <span class="badge badge-purple">TX-13 과세 · </span>
+          <span class="badge badge-purple">세무기준 과세 · </span>
         </div>
 
         <!-- 5칸 스코어카드 -->
@@ -453,7 +453,7 @@ code, pre, kbd, samp,
             <div style="display:flex; gap:6px;">
               <button type="button" class="btn btn-sm btn-outline" onclick="bulkStopSale">선택 판매중지</button>
               <button type="button" class="btn btn-sm btn-outline" id="btn-excel" onclick="showToast('일반상품 마스터 엑셀 다운로드 이력이 감사 로그에 기록되었습니다.')">엑셀 다운로드</button>
-              <button type="button" class="btn btn-sm btn-primary" onclick="openForm('NEW')">＋ 상품 등록 (ADMN-PROD-007-S1)</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openForm('NEW')">＋ 상품 등록</button>
             </div>
           </div>
           <div style="overflow-x:auto;">
@@ -486,8 +486,8 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 목록으로 (ADMN-PROD-007)</button>
-              <span style="margin-left:6px;" id="form-header-title">일반상품 등록 · 수정 (ADMN-PROD-007-S1)</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 목록으로</button>
+              <span style="margin-left:6px;" id="form-header-title">일반상품 등록 · 수정</span>
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-sm btn-outline" id="btn-form-p1" onclick="openStockAdjustModal(currentEditId)">재고 조정 (007-P1)</button>
@@ -568,7 +568,7 @@ code, pre, kbd, samp,
                   <th>원가 계정 / 세무 판정</th>
                   <td>
  재고 매입 계정 🔒 &nbsp;·&nbsp;
- <span class="badge badge-blue">TX-13 일반 과세 재화 공급 (VAT 10%) 🔒</span>
+ <span class="badge badge-blue">세무기준 일반 과세 재화 공급 (VAT 10%) 🔒</span>
                   </td>
                 </tr>
               </tbody>
@@ -582,8 +582,8 @@ code, pre, kbd, samp,
                   <th>현재 재고</th>
                   <td>
                     <input type="text" id="f-stock" class="f-input tr-right" style="width:120px; font-weight:800;" value="142 개" readonly />
-                    <button type="button" class="btn btn-sm btn-primary" id="btn-inline-adj" style="margin-left:6px;" onclick="openStockAdjustModal(currentEditId)">재고 조정 (ADMN-PROD-007-P1)</button>
-                    <button type="button" class="btn btn-sm btn-outline" id="btn-inline-hist" onclick="openStockHistoryModal(currentEditId)">입출고 이력 (ADMN-PROD-007-P2)</button>
+                    <button type="button" class="btn btn-sm btn-primary" id="btn-inline-adj" style="margin-left:6px;" onclick="openStockAdjustModal(currentEditId)">재고 조정</button>
+                    <button type="button" class="btn btn-sm btn-outline" id="btn-inline-hist" onclick="openStockHistoryModal(currentEditId)">입출고 이력</button>
                     <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">수정 모드에서 현재고 직접 덮어쓰기 불가 — 반드시 [재고 조정] 레이어를 통해 증감 수량과 사유를 `재고 수불 이력`에 기록해야 합니다.</div>
                   </td>
                   <th>재고 알림 임계치 <span style="color:var(--danger);">*</span></th>
@@ -642,7 +642,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-stock-p1">
     <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
-        <span>재고 조정 (ADMN-PROD-007-P1)</span>
+        <span>재고 조정</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-stock-p1')">✕</button>
       </div>
       <div class="modal-body">
@@ -1035,7 +1035,7 @@ code, pre, kbd, samp,
           logs: []
         });
       }
-      showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · TX-13 · Pipeline 2.3)');
+      showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · 세무기준 · Pipeline 2.3)');
       switchView('list');
     }
 

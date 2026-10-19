@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-BOOK-001] 도서 공급 원장 — 산준모 백오피스 v4.0.0</title>
+  <title>도서 공급 원장 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --navy-950: #0B1120;
@@ -725,7 +725,7 @@ code, pre, kbd, samp,
 
           <a class="step-node" href="ADMN-PROD-004_baseline.html">
             <div class="step-node-top">
-              <span class="step-num">Step 4. 교재 상세 · 재고 · 전시 (PROD-004)</span>
+              <span class="step-num">Step 4. 교재 상세 · 재고 · 전시</span>
               <span class="step-light light-green" id="step4-light">🟢 전시 판매중 (420권)</span>
             </div>
             <div class="step-desc">
@@ -740,7 +740,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">도서 공급 원장(SSOT) · 정산 연동 규칙</span>
           <div class="policy-text">
-            <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
+            <strong>도서 공급 원장</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
  상품관리자가 <code>ADMN-PROD-004</code>에서 먼저 선등록한 도서(원가 미입력 건)도 여기서 원가를 확정해야 <strong>[판매중]</strong> 전환 잠금이 해제됩니다.
  </div>
         </div>
@@ -759,12 +759,12 @@ code, pre, kbd, samp,
       <div class="card" id="v4BookCanonicalSpecCard" style="border:1px solid #93c5fd;">
         <div class="card-header" style="background:#eff6ff;">
           <div class="card-title-group">
-            <span class="badge badge-info">제6장 6.1~6.6절 · v4.0.0 SSOT</span>
+            <span class="badge badge-info">제6장 6.1~v4.0.0 SSOT</span>
             <h2 class="card-title">4대 도서 공급형태 · 자사저작권 · 정가 이력 정합성 원장</h2>
           </div>
           <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기 (BOOK-001-S1)</button>
-            <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">1계층 지분 매핑 (ADMN-SETT-001) ↗</a>
+            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기</button>
+            <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">1계층 지분 매핑 ↗</a>
           </div>
         </div>
         <div class="card-body" style="padding:0;">
@@ -799,7 +799,7 @@ code, pre, kbd, samp,
                   <td><span class="badge badge-sale">자사저작권 도서</span></td>
                   <td><strong style="color:#2563eb;">true (자사 100%)</strong></td>
                   <td>인세 Bypass → <strong>(개발지원금 모수 인입 · v4.0.0)</strong></td>
-                  <td>1계층 엘캠퍼스(<code>RH-INTERNAL</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
+                  <td>1계층 엘캠퍼스(<code>자사 계정</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
                   <td class="text-right"><strong>28,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
                 </tr>
@@ -828,7 +828,7 @@ code, pre, kbd, samp,
                   <td><strong>[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 번들)</strong></td>
                   <td><span class="badge badge-end">BUNDLED (강좌포함 비매품)</span></td>
                   <td><code>true</code> (자사 제작)</td>
-                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
+                  <td><strong>정산 비대상 (정산기준금 0원 고정 · )</strong></td>
                   <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
                   <td class="text-right"><strong>0원 (비매품)</strong></td>
                   <td><span class="badge badge-end">🔒 비매품 고정</span></td>
@@ -929,9 +929,9 @@ code, pre, kbd, samp,
                 <label>도서 등록 출발 경로</label>
                 <select id="filter-origin" class="form-select">
                   <option value="ALL">전체 경로</option>
-                  <option value="INST_TEMP">계약원장(INST-001) 가채번 출발</option>
-                  <option value="PROD_DIRECT">교재관리(PROD-004) 선등록 역매핑</option>
-                  <option value="BOOK_LEDGER">공급원장(BOOK-001) 최초 채번</option>
+                  <option value="INST_TEMP">계약원장 가채번 출발</option>
+                  <option value="PROD_DIRECT">교재관리 선등록 역매핑</option>
+                  <option value="BOOK_LEDGER">공급원장 최초 채번</option>
                 </select>
               </div>
               <div class="filter-field">
@@ -1012,7 +1012,7 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 원장 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">도서 공급 원장 등록 / 수정 (ADMN-BOOK-001-S1)</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">도서 공급 원장 등록 / 수정</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
@@ -1035,7 +1035,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card selected" id="ledger-card-INST_TEMP" onclick="selectLedgerEntryMode('INST_TEMP')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
+                    <span>계약원장 가채번 도서 불러오기</span>
                     <span class="badge badge-sale">인세도서 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1052,7 +1052,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="ledger-card-PROD_DIRECT" onclick="selectLedgerEntryMode('PROD_DIRECT')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>교재관리(ADMN-PROD-004) 선등록 SKU 원가 완성</span>
+                    <span>교재관리 선등록 SKU 원가 완성</span>
                     <span class="badge badge-warn">원가 미입력 1건</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1069,7 +1069,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="ledger-card-BOOK_LEDGER" onclick="selectLedgerEntryMode('BOOK_LEDGER')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>공급원장(ADMN-BOOK-001)에서 최초 신규 SKU 생성</span>
+                    <span>공급원장에서 최초 신규 SKU 생성</span>
                     <span class="badge badge-info">외부 위탁/사입</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1250,7 +1250,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-inst-temp">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">계약원장(ADMN-INST-001) 가채번 도서 불러오기</div>
+        <div class="modal-title">계약원장 가채번 도서 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeInstTempModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1296,7 +1296,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-prod-pending">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">교재관리(ADMN-PROD-004) 선등록 원가 미입력 SKU 불러오기</div>
+        <div class="modal-title">교재관리 선등록 원가 미입력 SKU 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeProdPendingModal">닫기 ✕</button>
       </div>
       <div class="modal-body">

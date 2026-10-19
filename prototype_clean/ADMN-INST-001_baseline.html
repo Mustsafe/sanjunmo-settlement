@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>[ADMN-INST-001] 권리자 계약 원장 — 산준모 백오피스 v4.0.0</title>
+<title>권리자 계약 원장 — 산준모 백오피스 v4.0.0</title>
 <style>
 :root{
   --p:#2563eb;--bd:#cbd5e1;--bl:#e2e8f0;--mu:#64748b;
@@ -326,7 +326,7 @@ code, pre, kbd, samp,
           <div class="cardhead">
             <div>
               <h2>권리자 계약 원장 목록 (강사 · 저자 · 출판/위탁사)</h2>
-              <div class="note">만료 임박(30일 이내), 세무 판정 보류, 작성 중(DRAFT) 계약을 필터링하여 조회하고, 클릭하여 상세 계약 조건·요율·개발지원금·선급금을 편집합니다.</div>
+              <div class="note">만료 임박(30일 이내), 세무 판정 보류, 작성 중 계약을 필터링하여 조회하고, 클릭하여 상세 계약 조건·요율·개발지원금·선급금을 편집합니다.</div>
             </div>
             <div class="inline">
               <button class="btn pr" type="button" data-action="newContractDraft">+ 신규 권리자 계약 등록</button>
@@ -366,14 +366,14 @@ code, pre, kbd, samp,
         <div class="card" id="inst001ReadonlyMappingCard">
           <div class="cardhead">
             <div>
-              <h2>📌 [읽기 전용] 권리자별 상품(강의 · 도서 SKU) 1계층 매핑 현황 (제4장 4.3절 · 제16장 16.1절)</h2>
+              <h2>📌 [읽기 전용] 권리자별 상품(강의 · 도서 SKU) 1계층 매핑 현황 </h2>
               <div class="note">
- 본 영역은 <strong>조회 전용(Read-Only)</strong>입니다. 상품 기준 합계 <code>100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong> 단일 진입점에서만 수행합니다.
+ 본 영역은 <strong>조회 전용(Read-Only)</strong>입니다. 상품 기준 합계 <code>100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>상품별 권리자 매핑</strong> 단일 진입점에서만 수행합니다.
  </div>
             </div>
             <div class="inline">
-              <button class="btn sm" type="button" onclick="openInst001RateLockModalP1">🔒 요율 잠금 · 상태 동기화 영향 안내 (ADMN-INST-001-P1)</button>
-              <a class="btn sm pr" href="ADMN-SETT-001_baseline.html" style="text-decoration:none; display:inline-flex; align-items:center;">상품별 권리자 매핑(ADMN-SETT-001) 이동 ↗</a>
+              <button class="btn sm" type="button" onclick="openInst001RateLockModalP1">🔒 요율 잠금 · 상태 동기화 영향 안내</button>
+              <a class="btn sm pr" href="ADMN-SETT-001_baseline.html" style="text-decoration:none; display:inline-flex; align-items:center;">상품별 권리자 매핑 이동 ↗</a>
             </div>
           </div>
 
@@ -414,7 +414,7 @@ code, pre, kbd, samp,
                   <td><span class="chip ok">정상 인입 </span></td>
                 </tr>
                 <tr>
-                  <td><strong>주식회사 엘캠퍼스</strong> (<code>RH-INTERNAL</code>)</td>
+                  <td><strong>주식회사 엘캠퍼스</strong> (<code>자사 계정</code>)</td>
                   <td><span class="chip">자사 저작권 도서</span></td>
                   <td>『산준모 산업안전 실기 빈출문제집』 (<code>PROD-BK-1004</code> · 자사 저작권 보유)</td>
                   <td><code>CT-INTERNAL-000</code> (자사 100% + 정종대 지원금 모수 인입)</td>
@@ -700,7 +700,7 @@ code, pre, kbd, samp,
                 <label class="lbl" for="refundBurden">환급 부담 방식</label>
                 <select class="fc" id="refundBurden" data-field="">
                   <option value="">선택</option>
-                  <option value="A">옵션 A · 플랫폼사 100% 부담 (권리자 정산 차감 없음 · 15.1절)</option>
+                  <option value="A">옵션 A · 플랫폼사 100% 부담 (권리자 정산 차감 없음 · )</option>
                   <option value="B">옵션 B · 매출연동 개발지원금 4단계 비례차감 + 5단계 한도복원(C-01)</option>
                   <option value="C">옵션 C · 온라인 강좌 R/S 4단계 차감 (MMG 적용월 이중부담 회피)</option>
                 </select>
@@ -711,7 +711,7 @@ code, pre, kbd, samp,
             <div id="terminationWrap" hidden="">
               <div class="lv">
                 <h3>계약 종료 대상별 처리 지정</h3>
-                <div class="sub">승계 계약 지정 또는 매핑 종료를 대상별로 지정합니다. 실제 매핑 적용은 상품별 권리자 매핑(ADMN-SETT-001)에서 수행합니다.</div>
+                <div class="sub">승계 계약 지정 또는 매핑 종료를 대상별로 지정합니다. 실제 매핑 적용은 상품별 권리자 매핑에서 수행합니다.</div>
                 <div id="terminationTable" class="tablewrap"></div>
               </div>
               <div class="alert warn">종료 시 미지급금·미회수 채권·환불 조정액의 후속 정산을 남깁니다. 전속계약금과 개발지원금 약정은 승계 계약 지정만으로 자동 승계하지 않습니다.</div>
@@ -752,7 +752,7 @@ code, pre, kbd, samp,
               <button class="btn sm" type="button" data-action="milestone" data-kind="exclusive">회차 추가</button>
             </div>
             <div class="tablewrap" id="exclusiveSchedule"></div>
-            <div class="note">검수 승인·지급 집행은 약정금 마일스톤 검수(ADMN-INST-002)에서 처리합니다. 확정·마감 회차는 변경하지 않습니다.</div>
+            <div class="note">검수 승인·지급 집행은 약정금 마일스톤 검수에서 처리합니다. 확정·마감 회차는 변경하지 않습니다.</div>
 
             <div class="row c3">
               <div>
@@ -972,7 +972,7 @@ code, pre, kbd, samp,
               <button class="btn" type="button" data-action="approveVat" style="margin-top:8px">재무 책임자 승인 · 모의</button>
               <span class="chip" id="vatApproval">미승인</span>
             </div>
-            <div class="fixed">강의별 권리자 지분은 상품별 권리자 매핑(ADMN-SETT-001)에서 관리합니다. 이 화면의 요율과 상품 지분은 서로 다른 항목입니다.</div>
+            <div class="fixed">강의별 권리자 지분은 상품별 권리자 매핑에서 관리합니다. 이 화면의 요율과 상품 지분은 서로 다른 항목입니다.</div>
           </div>
         </section>
 
@@ -1012,7 +1012,7 @@ code, pre, kbd, samp,
             <div class="fixed">
  임시코드 BK-REQ-YYYY-SEQ는 SKU 연결 후에도 보존합니다.
  SKU 미연결 저서는 계약 저장이 가능하지만 상품 정산 대상에는 포함하지 않습니다.
- 공동 저자 지분은 상품별 권리자 매핑(ADMN-SETT-001)에서 관리합니다.
+ 공동 저자 지분은 상품별 권리자 매핑에서 관리합니다.
  </div>
           </div>
         </section>
@@ -2848,14 +2848,14 @@ renderContractList();
  이미 수강생 결제 또는 도서 출고 정산 이력이 1건이라도 발생한 요율 라인은 과거 원거래 환불 시 역산 정합성을 보호하기 위해 <strong>요율(%) 및 기준 모수 직접 수정(Update)과 물리 삭제(Hard Delete)가 영구 잠금</strong>됩니다. 요율 변경이 필요한 경우 기존 요율 라인의 종료일을 닫고 <strong>신규 유효 시작일을 가진 요율 행을 추가(Insert)</strong>해야 합니다.
  </div>
       <div class="alert warn">
-        <strong>⚠️ 2. 계약 만료(EXPIRED) · 중도 해지(TERMINATED) 전환 시 연쇄 통제 (제5장 5.4절 · 통합설계서 Set 2):</strong><br>
+        <strong>⚠️ 2. 계약 만료(EXPIRED) · 중도 해지(TERMINATED) 전환 시 연쇄 통제 (통합설계서 Set 2):</strong><br>
  • <strong>프론트 강사/강좌 자동 숨김:</strong> 계약 상태가 만료 또는 중도 해지로 확정되면 <code>ADMN-PROD-006</code>(강사 노출 관리)의 전시 상태가 즉시 <code>강제 숨김(Blind)</code>으로 전환됩니다.<br>
  • <strong>매핑 상품 승계 또는 종료 필수 지정:</strong> 해당 계약에 매핑된 강의·도서 SKU마다 승계 계약(<code>SUCCESSION</code>) 또는 매핑 종료를 지정해야 저장이 허용됩니다.<br>
  • <strong>금전 약정 비승계 및 해지 강제청구:</strong> 선급금 잔액 · 최저보장(MMG) · 전속계약금 · 개발지원금은 승계 계약으로 자동 이전되지 않으며, 중도 해지 시 미상계 선급금 잔액은 당월 10단계에서 즉시 환수 청구로 전환됩니다.
  </div>
     </div>
     <footer>
-      <span class="sub">※ 정본 근거: 제1권 1.3절 · 5.4절 · 통합 상세 설계서 3.2.2절</span>
+      <span class="sub">※ 정본 근거: 통합 상세 설계서 3.</span>
       <button class="btn pr" type="button" onclick="closeInst001RateLockModalP1">확인</button>
     </footer>
   </div>

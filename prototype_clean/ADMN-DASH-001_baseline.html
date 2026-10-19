@@ -423,7 +423,7 @@ code, pre, kbd, samp,
         <span class="screen-id-badge" id="top-screen-code">ADMN-DASH-001</span>
         <div>
           <div class="topbar-title" id="top-screen-title">통합 대시보드 홈 — 전체 운영 현황 요약 · 처리 대기 큐 · 외부 연동 상태</div>
-          <div class="topbar-sub">역할별 권한(ADMN-CONF-005)에 따라 노출 블록이 제어되며, 정산 확정 원장은 ADMN-SETT-002를 따릅니다.</div>
+          <div class="topbar-sub">역할별 권한에 따라 노출 블록이 제어되며, 정산 확정 원장은 ADMN-SETT-002를 따릅니다.</div>
         </div>
       </div>
       <div class="topbar-right">
@@ -434,7 +434,7 @@ code, pre, kbd, samp,
           <option value="CS_ADMIN">CS담당자 (매출/통계 블록 마스킹)</option>
           <option value="LOGIS_ADMIN">물류담당자 (출고/3PL 중심)</option>
         </select>
-        <a href="ADMN-LOGIN-001_baseline.html" class="btn btn-xs">🔐 로그인 화면(ADMN-LOGIN-001)</a>
+        <a href="ADMN-LOGIN-001_baseline.html" class="btn btn-xs">🔐 로그인 화면</a>
       </div>
     </header>
 
@@ -443,13 +443,13 @@ code, pre, kbd, samp,
       <div class="domain-nav-bar">
         <div class="domain-tabs">
           <button type="button" class="domain-tab active" id="tab-btn-dash" onclick="switchView('dash')">
- 📊 대시보드 홈 (ADMN-DASH-001)
+ 📊 대시보드 홈
  </button>
           <button type="button" class="domain-tab" id="tab-btn-stat-sales" onclick="switchView('stat-sales')">
- 📈 매출 통계 · 기간별 추이 (ADMN-STAT-001)
+ 📈 매출 통계 · 기간별 추이
  </button>
           <button type="button" class="domain-tab" id="tab-btn-stat-prod" onclick="switchView('stat-prod')">
- 🏆 상품 통계 · 인기 순위 (ADMN-STAT-002)
+ 🏆 상품 통계 · 인기 순위
  </button>
         </div>
         <div class="refresh-meta">
@@ -572,7 +572,7 @@ code, pre, kbd, samp,
                 <div class="card-title">📈 최근 7일 일 순매출 합계: <span style="color:var(--primary);">91,470,000원</span></div>
                 <div class="card-sub">🔒 매출 열람 권한(최고·운영·정산 관리자) 보유 역할에만 노출됩니다.</div>
               </div>
-              <button type="button" class="btn btn-xs btn-primary" onclick="switchView('stat-sales')">매출 통계 상세 (ADMN-STAT-001) →</button>
+              <button type="button" class="btn btn-xs btn-primary" onclick="switchView('stat-sales')">매출 통계 상세 →</button>
             </div>
             <table class="data-table">
               <thead>
@@ -664,7 +664,7 @@ code, pre, kbd, samp,
                 <div class="card-title">🛡️ 최근 보안 · 감사 이상 징후 (최근 5건)</div>
                 <div class="card-sub">동시접속 1세션 차단·녹화 시도·개인정보 대량 다운로드 사유를 상시 추적합니다.</div>
               </div>
-              <a href="ADMN-CONF-010_baseline.html" class="btn btn-xs">감사 로그 전체 (ADMN-CONF-010) ↗</a>
+              <a href="ADMN-CONF-010_baseline.html" class="btn btn-xs">감사 로그 전체 ↗</a>
             </div>
             <table class="data-table">
               <thead>
@@ -919,7 +919,7 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <a href="ADMN-CONF-004_baseline.html?view=send" class="btn">발송 내역 전체 화면(ADMN-CONF-004-S1) 이동</a>
+        <a href="ADMN-CONF-004_baseline.html?view=send" class="btn">발송 내역 전체 화면 이동</a>
         <button type="button" class="btn btn-primary" onclick="retryAllTransientFails">일시 오류 건(9건) 일괄 재발송 실행</button>
       </div>
     </div>
@@ -1154,7 +1154,7 @@ code, pre, kbd, samp,
     function confirmStatExcelDownload() {
       const reason = document.getElementById("inp-excel-reason").value.trim();
       if (reason.length < 10) {
-        alert("감사 추적(ADMN-CONF-010)을 위해 다운로드 사유를 최소 10자 이상 입력해 주세요.");
+        alert("감사 추적을 위해 다운로드 사유를 최소 10자 이상 입력해 주세요.");
         return;
       }
       closeModal("modal-stat-excel");

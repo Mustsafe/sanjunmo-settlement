@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-SETT-011] 택배 대리점 운임 · 배송비 대사 — 산준모닷컴 백오피스 v8.4 Final</title>
+  <title>택배 대리점 운임 · 배송비 대사 — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <link rel="stylesheet" href="common-v84.css">
   <script src="common-snb.js" defer></script>
@@ -103,7 +103,7 @@ code, pre, kbd, samp,
       <div class="topbar-right" style="display:flex; align-items:center; gap:8px;">
         <span class="badge b-info">계약 택배 대리점 연동 (송장 기준 대사)</span>
         <a class="btn btn-sm" href="ADMN-ORD-001_baseline.html">📦 주문·출고지시 (ADMN-ORD-001/002)</a>
-        <a class="btn btn-sm" href="ADMN-SETT-009_baseline.html">📊 월간 재무 손익 리포트 (ADMN-SETT-009)</a>
+        <a class="btn btn-sm" href="ADMN-SETT-009_baseline.html">📊 월간 재무 손익 리포트</a>
       </div>
     </header>
 
@@ -195,7 +195,7 @@ code, pre, kbd, samp,
         <!-- 월별 택배 대리점 정산서 목록 -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">월별 택배 대리점 운임 · 배송비 대사 목록 (ADMN-SETT-011)</h2>
+            <h2 class="card-title">월별 택배 대리점 운임 · 배송비 대사 목록</h2>
             <div style="display:flex; gap:8px;">
               <button class="btn btn-sm" onclick="showToast('월별 택배 운임 및 고객 수취 배송비 요약표가 다운로드되었습니다.')">📥 월간 운임 정산 요약 다운로드</button>
             </div>
@@ -279,8 +279,8 @@ code, pre, kbd, samp,
       <section id="view-detail" style="display:none;">
         <div class="card-header" style="margin-bottom:12px;">
           <div style="display:flex; align-items:center; gap:10px;">
-            <button class="btn" onclick="backToList">← 월별 목록으로 (ADMN-SETT-011)</button>
-            <h2 class="card-title" style="font-size:16px;">[ADMN-SETT-011-S1] 2026년 10월 택배 대리점 송장별 운임 대사 및 조정</h2>
+            <button class="btn" onclick="backToList">← 월별 목록으로</button>
+            <h2 class="card-title" style="font-size:16px;">2026년 10월 택배 대리점 송장별 운임 대사 및 조정</h2>
             <span class="badge b-info">CJ대한통운 수도권북부 대리점 (AGY-CJ-01)</span>
           </div>
           <div style="display:flex; gap:8px;">
@@ -569,7 +569,7 @@ code, pre, kbd, samp,
       document.getElementById('row-oct-final').innerHTML = '<span style="color:#1d4ed8; font-weight:800;">3,555,750원</span>';
       document.getElementById('row-oct-status').innerHTML = '<span class="badge b-ok">정산 확정 완료</span>';
       document.getElementById('kpi-mismatch-cnt').textContent = '0건 (조정 완료)';
-      showToast('2026년 10월 택배 대리점 운임 정산(3,555,750원)이 최종 확정되어 재무 리포트(ADMN-SETT-009)에 반영되었습니다.');
+      showToast('2026년 10월 택배 대리점 운임 정산(3,555,750원)이 최종 확정되어 재무 리포트에 반영되었습니다.');
     }
 
     function openUploadModal() {

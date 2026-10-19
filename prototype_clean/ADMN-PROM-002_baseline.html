@@ -4,7 +4,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-PROM-002] 쿠폰 마스터 등록 · 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
+  <title>쿠폰 마스터 등록 · 관리 — 산준모닷컴 백오피스 v8.4 Final</title>
   <style>
     :root {
       --bg-body: #F8FAFC;
@@ -375,7 +375,7 @@ code, pre, kbd, samp,
     <header class="top-bar v4-gen3-topbar">
       <div class="top-bar-left">
         <span class="crumb-code" id="top-crumb-code">ADMN-PROM-002</span>
-        <span class="crumb-title" id="top-crumb-title">쿠폰 마스터 관리 (ADMN-PROM-002) 및 포인트 적립 정책 · 원장 내역 관리 (ADMN-PROM-003)</span>
+        <span class="crumb-title" id="top-crumb-title">쿠폰 마스터 관리 및 포인트 적립 정책 · 원장 내역 관리</span>
       </div>
       <div class="top-bar-right">
         <div class="subview-switcher">
@@ -552,7 +552,7 @@ code, pre, kbd, samp,
           <div style="padding:11px 18px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:#F8FAFC;">
             <div style="display:flex; align-items:center; gap:10px;">
               <span class="badge badge-blue" id="form-mode-pill">신규 쿠폰 등록 모드</span>
-              <strong id="form-header-title" style="font-size:14px;">쿠폰 마스터 등록 (ADMN-PROM-002)</strong>
+              <strong id="form-header-title" style="font-size:14px;">쿠폰 마스터 등록</strong>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
               <button type="button" class="btn btn-sm" style="border-color:#FECACA; color:#DC2626;" onclick="triggerP1Demo('FIXED_250K')">🧪 [P1 시연] 정액 250,000원 초과 입력</button>
@@ -795,7 +795,7 @@ code, pre, kbd, samp,
 
                     <!-- 타겟 그룹 (수동 대량 발급 시) -->
                     <tr id="row-target-group">
-                      <th>타겟 그룹 (USER-006)</th>
+                      <th>타겟 그룹</th>
                       <td>
                         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                           <select class="form-select" style="width:280px;">
@@ -837,7 +837,7 @@ code, pre, kbd, samp,
 
                 <!-- ADMN-PROM-002-P1 인라인 경고 박스 (초과 저장 시도 시 폼 하단에 즉시 노출) -->
                 <div class="p1-inline-alert" id="p1-inline-box">
-                  <div style="font-weight:800; font-size:14px; margin-bottom:4px;">⚠ [ADMN-PROM-002-P1] 감면 한도(Cap)를 초과했습니다</div>
+                  <div style="font-weight:800; font-size:14px; margin-bottom:4px;">⚠ 감면 한도(Cap)를 초과했습니다</div>
                   <div id="p1-inline-msg" style="font-size:12.5px; line-height:1.5; margin-bottom:10px;">
  정액 쿠폰의 감면 한도액은 <b>200,000원</b>입니다. 입력값 <b>250,000원</b>은 저장할 수 없습니다. 200,000원 이하로 다시 입력해 주세요.
  </div>
@@ -929,7 +929,7 @@ code, pre, kbd, samp,
               <div class="card-header">
                 <div class="card-title">
                   <span>🧮 복합 패키지(MIXED) 쿠폰 적용 시뮬레이터</span>
-                  <span class="badge badge-blue">8.1절 연동</span>
+                  <span class="badge badge-blue">연동</span>
                 </div>
               </div>
               <div class="card-body">
@@ -960,7 +960,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span>⚙️ 포인트 자동 적립 · 보상 지급 · 유효기간 정책 설정 (ADMN-PROM-003)</span>
+              <span>⚙️ 포인트 자동 적립 · 보상 지급 · 유효기간 정책 설정</span>
               <span class="badge badge-blue">주문 결제 · 수강후기 · 회원가입 연동</span>
             </div>
             <button type="button" class="btn btn-sm btn-primary" onclick="showToast('[ADMN-PROM-003] 포인트 적립률 및 지급 정책 설정이 저장되었습니다 (감사 로그 기록).')">💾 포인트 정책 저장</button>
@@ -1021,7 +1021,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span>📋 전체 회원 포인트 적립 · 사용 · 환불차감 · 소멸 내역 원장 (ADMN-PROM-003)</span>
+              <span>📋 전체 회원 포인트 적립 · 사용 · 환불차감 · 소멸 내역 원장</span>
               <span class="badge badge-green">차감 순서: 무상(FREE) 우선 → 유상(PAID) 차감 → 환불 부족분 유상 마이너스(-) 부채 기록</span>
             </div>
             <button type="button" class="btn btn-sm btn-primary" onclick="openPointModal">＋ 관리자 수동 무상포인트 지급 · 차감</button>
@@ -1082,7 +1082,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-p1">
     <div class="modal-dialog">
       <div class="modal-header" style="background:#FEF2F2; color:#991B1B; border-bottom:1px solid #FECACA;">
-        <span>⚠ [ADMN-PROM-002-P1] 감면 한도(Cap)를 초과했습니다</span>
+        <span>⚠ 감면 한도(Cap)를 초과했습니다</span>
         <button type="button" class="btn btn-sm" onclick="focusBackToDiscountInput">✕</button>
       </div>
       <div class="modal-body">

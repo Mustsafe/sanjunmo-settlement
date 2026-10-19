@@ -4,7 +4,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-CONF-005] 관리자·파트너(강사/저작권자/3PL) 권한 및 감사로그 관리 — 산준모 백오피스</title>
+  <title>관리자·파트너(강사/저작권자/3PL) 권한 및 감사로그 관리 — 산준모 백오피스</title>
   <link rel="stylesheet" href="common-v84.css" />
   <script src="common-snb.js" defer></script>
   <style>
@@ -325,20 +325,20 @@ code, pre, kbd, samp,
 
     <div class="domain-switch-bar">
       <button class="sub-tab-btn active" onclick="switchTab('accounts')" id="tab-btn-accounts">
- 👥 관리자 및 외부 파트너 계정 목록 (ADMN-CONF-005)
+ 👥 관리자 및 외부 파트너 계정 목록
  </button>
       <button class="sub-tab-btn" onclick="switchTab('matrix')" id="tab-btn-matrix">
  🔐 7대 RBAC 권한 그룹 매트릭스 (강사 / 저작권자 / 3PL 분리)
  </button>
       <button class="sub-tab-btn" onclick="switchTab('audit')" id="tab-btn-audit">
- 🛡️ 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006)
+ 🛡️ 개인정보 열람 및 보안 감사로그
  </button>
     </div>
 
     <!-- ==================== 1. 계정 목록 및 파트너 분리 (ADMN-CONF-005) ==================== -->
     <section id="view-accounts" class="view-section active">
       <div class="info-callout">
-        <strong>[ADMN-CONF-005] 외부 파트너 권한 3분류 분리 정책:</strong><br/>
+        <strong>외부 파트너 권한 3분류 분리 정책:</strong><br/>
  기존 단일 그룹이던 외부 파트너를 역할과 정산·업무 범위에 따라 <strong>[1] 파트너 강사</strong>, <strong>[2] 교재 저작권자/출판사</strong>, <strong>[3] 외부 물류 3PL</strong>로 명확히 분리하여, 타 파트너의 매출·정산서·회원 개인정보에 접근할 수 없도록 <strong>데이터 스코프(Data Scope ID)</strong>를 강제 바인딩합니다.
  </div>
 
@@ -448,7 +448,7 @@ code, pre, kbd, samp,
               <td>✕ 접근불가</td>
             </tr>
             <tr>
-              <td style="font-weight:700;">교재 출고 / 송장 관리 (ORD-002)</td>
+              <td style="font-weight:700;">교재 출고 / 송장 관리</td>
               <td>전체</td>
               <td>조회만</td>
               <td>전체</td>
@@ -507,7 +507,7 @@ code, pre, kbd, samp,
 <div class="modal-backdrop" id="modal-account">
   <div class="modal-box">
     <div class="modal-header">
-      <h3 id="acc-modal-title">[ADMN-CONF-005] 관리자 / 외부 파트너 계정 설정</h3>
+      <h3 id="acc-modal-title">관리자 / 외부 파트너 계정 설정</h3>
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-account')">닫기 ✕</button>
     </div>
     <div class="modal-body">

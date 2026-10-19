@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-BRD-002] 1:1 문의 관리 (문의 분기 허브) — 산준모닷컴 백오피스 v8.4 Final</title>
+  <title>1:1 문의 관리 (문의 분기 허브) — 산준모닷컴 백오피스 v8.4 Final</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
     :root {
@@ -475,8 +475,8 @@ code, pre, kbd, samp,
       <div style="display:flex; align-items:center; gap:8px;">
         <span class="badge badge-blue">SENS 알림톡 자동연동 (SMS 폴백)</span>
         <span class="badge badge-slate">1차 오픈 스펙: 동시접속 IP/세션 제어 적용</span>
-        <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm">⇄ 환불 심사 큐 (ADMN-RFD-002)</a>
-        <a href="ADMN-ORD-001_baseline.html" class="btn btn-sm">📦 주문·3PL 배송 (ADMN-ORD-001)</a>
+        <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm">⇄ 환불 심사 큐</a>
+        <a href="ADMN-ORD-001_baseline.html" class="btn btn-sm">📦 주문·3PL 배송</a>
       </div>
     </header>
 
@@ -518,7 +518,7 @@ code, pre, kbd, samp,
         </button>
         <button type="button" class="kpi-card" onclick="filterByCategory('REFUND')">
           <div class="k-title">
-            <span>환불 심사 큐(RFD-002) 이관 연동</span>
+            <span>환불 심사 큐 이관 연동</span>
             <span class="badge">부서 간 라우팅</span>
           </div>
           <div class="k-num" style="color:var(--primary);">4건</div>
@@ -537,7 +537,7 @@ code, pre, kbd, samp,
       <!-- 1:1 문의 5대 분기 라우팅 허브 가이드 -->
       <div class="routing-architecture-card">
         <div class="routing-header">
-          <h3>🔀 1:1 문의 허브 (ADMN-BRD-002) — 5대 문의유형 분기 아키텍처 (클릭 시 샘플 케이스 즉시 시연)</h3>
+          <h3>🔀 1:1 문의 허브 — 5대 문의유형 분기 아키텍처 (클릭 시 샘플 케이스 즉시 시연)</h3>
           <span style="font-size:11.5px; color:#94A3B8;">※ 수험생이 카테고리를 잘못 선택해 접수해도 운영자가 상단에서 즉시 재분류·타 부서 큐로 이관할 수 있습니다.</span>
         </div>
         <div class="routing-flow-grid">
@@ -806,7 +806,7 @@ code, pre, kbd, samp,
               <button type="button" class="btn btn-sm" id="case-btn-091" onclick="openCaseDetail('INQ-20261016-091')">[1] 결제·환불 (RFD-002 이관)</button>
               <button type="button" class="btn btn-sm" id="case-btn-088" onclick="openCaseDetail('INQ-20261016-088')">[2] 배송·교재 (3PL Lock)</button>
               <button type="button" class="btn btn-sm" id="case-btn-084" onclick="openCaseDetail('INQ-20261016-084')">[3] 수강·동시접속 (IP/세션 초기화)</button>
-              <button type="button" class="btn btn-sm" id="case-btn-079" onclick="openCaseDetail('INQ-20261016-079')">[4] 합격환급·포인트 (SETT-006)</button>
+              <button type="button" class="btn btn-sm" id="case-btn-079" onclick="openCaseDetail('INQ-20261016-079')">[4] 합격환급·포인트</button>
               <button type="button" class="btn btn-sm" id="case-btn-075" onclick="openCaseDetail('INQ-20261016-075')">[5] 학습질문 오인입 (카페 아웃링크)</button>
             </div>
             <button type="button" class="btn btn-sm" onclick="switchView('list')">← 목록으로 돌아가기</button>
@@ -928,7 +928,7 @@ code, pre, kbd, samp,
                 <div style="color:var(--text-secondary);">• 3PL 반품 입고 검수(<code>ADMN-ORD-002-S3</code>) 양품 판정 후 PG 면세 부분취소 집행</div>
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                <button type="button" class="btn btn-danger" onclick="transferToRefundQueue">🚀 환불 심사 큐(ADMN-RFD-002)로 즉시 이관</button>
+                <button type="button" class="btn btn-danger" onclick="transferToRefundQueue">🚀 환불 심사 큐로 즉시 이관</button>
                 <a href="ADMN-RFD-002_baseline.html" class="btn">환불 심사 화면 열기 ↗</a>
               </div>
             </div>
@@ -948,7 +948,7 @@ code, pre, kbd, samp,
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
                 <button type="button" class="btn btn-warning" onclick="insertMacro('3PL_LOCKED')">출고지시 Lock 안내 문구 삽입</button>
-                <a href="ADMN-ORD-001_baseline.html" class="btn btn-primary">주문 상세(ADMN-ORD-001-S1)에서 [출고지시 회수] 실행 ↗</a>
+                <a href="ADMN-ORD-001_baseline.html" class="btn btn-primary">주문 상세에서 [출고지시 회수] 실행 ↗</a>
               </div>
             </div>
 
@@ -995,7 +995,7 @@ code, pre, kbd, samp,
               </div>
               <div style="display:flex; gap:8px; flex-wrap:wrap;">
                 <button type="button" class="btn btn-purple" onclick="insertMacro('PASS_REFUND')">환급 신청 절차 안내 문구 삽입</button>
-                <a href="ADMN-SETT-006_baseline.html" class="btn">합격 환급반 관리(ADMN-SETT-006) 열기 ↗</a>
+                <a href="ADMN-SETT-006_baseline.html" class="btn">합격 환급반 관리 열기 ↗</a>
               </div>
             </div>
 
@@ -1042,16 +1042,16 @@ code, pre, kbd, samp,
           <div>
             <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">변경할 문의 유형 및 타겟 허브</label>
             <select class="select" id="modal-target-cat" style="width:100%;">
-              <option value="REFUND">[결제·환불] ➔ 환불 심사 워크스페이스 (ADMN-RFD-002-S1) 이관</option>
+              <option value="REFUND">[결제·환불] ➔ 환불 심사 워크스페이스 이관</option>
               <option value="SHIPPING">[배송·교재] ➔ 주문·3PL 출고지시 관리 (ADMN-ORD-001/002)</option>
               <option value="PLAYER">[수강·동시접속] ➔ 동시접속 IP/세션 제어 패널</option>
-              <option value="BENEFIT">[합격환급·포인트] ➔ 합격환급반 심사 (ADMN-SETT-006)</option>
+              <option value="BENEFIT">[합격환급·포인트] ➔ 합격환급반 심사</option>
               <option value="STUDY_MISROUTE">[학습질문 오인입] ➔ 산준모 네이버 카페 안내 (향후 강사 Q&A)</option>
             </select>
           </div>
           <div>
             <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">내부 이관 메모 (관리자 간 공유, 고객 미노출)</label>
-            <textarea class="textarea" style="min-height:80px;" id="modal-memo">고객이 패키지 내 미개봉 실물 교재 3종만 부분 환불 희망함. 최근 주문 ORD-20261012-0041 바인딩 완료하여 환불 심사 큐(ADMN-RFD-002)로 이관함.</textarea>
+            <textarea class="textarea" style="min-height:80px;" id="modal-memo">고객이 패키지 내 미개봉 실물 교재 3종만 부분 환불 희망함. 최근 주문 ORD-20261012-0041 바인딩 완료하여 환불 심사 큐로 이관함.</textarea>
           </div>
         </div>
       </div>
@@ -1230,7 +1230,7 @@ code, pre, kbd, samp,
     }
 
     function transferToRefundQueue() {
-      if (confirm('본 문의(INQ-20261016-091)와 바인딩된 주문(ORD-20261012-0041)을 환불 요청 심사 큐(ADMN-RFD-002-S1)로 즉시 이관하시겠습니까?')) {
+      if (confirm('본 문의(INQ-20261016-091)와 바인딩된 주문(ORD-20261012-0041)을 환불 요청 심사 큐로 즉시 이관하시겠습니까?')) {
         window.location.href = 'ADMN-RFD-002_baseline.html';
       }
     }
@@ -1297,7 +1297,7 @@ code, pre, kbd, samp,
       const targetCat = document.getElementById('modal-target-cat').value;
       closeTransferModal();
       if (targetCat === 'REFUND') {
-        if (confirm('환불 심사 큐(ADMN-RFD-002-S1)로 이관이 완료되었습니다. 환불 심사 화면으로 이동하시겠습니까?')) {
+        if (confirm('환불 심사 큐로 이관이 완료되었습니다. 환불 심사 화면으로 이동하시겠습니까?')) {
           window.location.href = 'ADMN-RFD-002_baseline.html';
         }
       } else {

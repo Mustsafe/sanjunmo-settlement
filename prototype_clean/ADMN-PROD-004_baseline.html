@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ADMN-PROD-004] 교재 관리 — 산준모 백오피스 v4.0.0</title>
+  <title>교재 관리 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --navy-950: #0B1120;
@@ -877,7 +877,7 @@ code, pre, kbd, samp,
                     <th>교재명</th>
                     <th style="width:95px;">저자 / 출판사</th>
                     <th class="text-right" style="width:95px;">정가(면세)</th>
-                    <th class="text-right" style="width:120px;">공급원가(BOOK-001)</th>
+                    <th class="text-right" style="width:120px;">공급원가</th>
                     <th class="text-center" style="width:215px;">3원장 연동 신호등 (계약·원가·매핑)</th>
                     <th class="text-center" style="width:90px;">현재 재고</th>
                     <th class="text-center" style="width:105px;">판매상태</th>
@@ -905,7 +905,7 @@ code, pre, kbd, samp,
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-soft" onclick="openStockAdjustModal">재고 입고/차감 등록</button>
-            <a class="btn btn-outline" href="ADMN-BOOK-001_baseline.html">도서 공급 원장 (ADMN-BOOK-001)</a>
+            <a class="btn btn-outline" href="ADMN-BOOK-001_baseline.html">도서 공급 원장</a>
             <button type="button" class="btn btn-primary" onclick="editCurrentDetailBook">교재 정보 수정 (004-S1)</button>
           </div>
         </div>
@@ -914,7 +914,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">1. 교재 기본 · 3원장 바인딩 · 가격 · 배송 정책 정보</h3>
-              <span class="card-subtitle">계약원장 가채번 코드 및 도서 공급 원장(ADMN-BOOK-001) 연결 상태</span>
+              <span class="card-subtitle">계약원장 가채번 코드 및 도서 공급 원장 연결 상태</span>
             </div>
             <span class="code-pill" id="d-created-at">등록일: 2026-01-05</span>
           </div>
@@ -951,7 +951,7 @@ code, pre, kbd, samp,
                     <div class="ledger-sync-box ok" id="d-ledger-box">
                       <div>
                         <strong id="d-supply-type">[[경로 1] 계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
-                        <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료 · 권리자 매핑(ADMN-SETT-001) 저자인세 10% 자동 매핑 완료</span>
+                        <span id="d-ledger-desc">공급원장 원가 등록 완료 · 권리자 매핑 저자인세 10% 자동 매핑 완료</span>
  · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (재무·정산책임자 전용)</span>
                       </div>
                       <div style="display:flex; gap:6px;">
@@ -1022,12 +1022,12 @@ code, pre, kbd, samp,
               <div class="entry-mode-card selected" id="entry-card-INST_TEMP" onclick="selectEntryMode('INST_TEMP')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
+                    <span>[경로 1] 계약원장 가채번 도서 불러오기</span>
                     <span class="badge badge-sale">강사 인세도서 권장</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
  강사와 저자 인세 계약을 먼저 체결하여 <strong>가채번(<code>TMP-BK-XX</code>)</strong>된 도서를 불러옵니다.<br>
- 저자명·인세율·권리자 지분이 자동 상속되므로 <strong>별도의 권리자 매핑(SETT-001) 작업이 필요 없습니다.</strong>
+ 저자명·인세율·권리자 지분이 자동 상속되므로 <strong>별도의 권리자 매핑 작업이 필요 없습니다.</strong>
                   </div>
                 </div>
                 <div class="entry-mode-foot">
@@ -1040,7 +1040,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="entry-card-BOOK_LEDGER" onclick="selectEntryMode('BOOK_LEDGER')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>[경로 2] 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 불러오기</span>
+                    <span>[경로 2] 도서 공급원장 기등록 SKU 불러오기</span>
                     <span class="badge badge-info">위탁·사입 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1058,12 +1058,12 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="entry-card-PROD_DIRECT" onclick="selectEntryMode('PROD_DIRECT')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>[경로 3] 이 화면(PROD-004)에서 즉시 신규 SKU 생성</span>
+                    <span>[경로 3] 이 화면에서 즉시 신규 SKU 생성</span>
                     <span class="badge badge-warn">후속 매핑 필수</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
  계약원장·공급원장 등록 전에 상품팀이 먼저 <strong>신규 SKU(<code>BOOK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
- 단, 저장 후 <strong>공급원장 원가 입력(BOOK-001)</strong> 및 <strong>권리자 매핑(SETT-001)</strong>을 완료하기 전에는 <strong>[판매대기]</strong>로 잠금됩니다.
+ 단, 저장 후 <strong>공급원장 원가 입력</strong> 및 <strong>권리자 매핑</strong>을 완료하기 전에는 <strong>[판매대기]</strong>로 잠금됩니다.
  </div>
                 </div>
                 <div class="entry-mode-foot">
@@ -1078,7 +1078,7 @@ code, pre, kbd, samp,
               <div>
                 <strong id="entry-alert-title">[경로 1 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 완료]</strong>
                 <div style="font-size:12px; margin-top:2px;" id="entry-alert-desc">
- 계약원장(ADMN-INST-001)에서 저자(김안전 · INS-0001) 및 인세율(10%) 정보가 자동 연동되었습니다. 표지 이미지와 재고만 입력하면 즉시 [판매중]으로 전시할 수 있습니다.
+ 계약원장에서 저자(김안전 · INS-0001) 및 인세율(10%) 정보가 자동 연동되었습니다. 표지 이미지와 재고만 입력하면 즉시 [판매중]으로 전시할 수 있습니다.
  </div>
               </div>
               <div style="display:flex; gap:6px; flex-shrink:0;" id="entry-alert-actions">
@@ -1173,7 +1173,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">2. 도서정가제 가격 · 세무(면세) · 도서 공급 원장(ADMN-BOOK-001) 바인딩</h3>
+              <h3 class="card-title">2. 도서정가제 가격 · 세무(면세) · 도서 공급 원장 바인딩</h3>
               <span class="card-subtitle">산준모 도서정가제 정책에 따라 도서 할인율은 0%로 잠금 처리됩니다.</span>
             </div>
           </div>
@@ -1218,7 +1218,7 @@ code, pre, kbd, samp,
                         <option value="자체출판(인세)">[SUP-0001] 산준모북스 — 자체출판 (저자 인세 10% 정산)</option>
                         <option value="위탁판매">[SUP-0002] 안전기술출판 — 위탁판매 (공급률 65%)</option>
                         <option value="사입판매">[SUP-0003] 한국자격교재총판 — 사입판매 (매입가 60%)</option>
-                        <option value="미등록(후속입력)">[미등록] 도서 공급 원장(ADMN-BOOK-001) 원가 미입력 상태</option>
+                        <option value="미등록(후속입력)">[미등록] 도서 공급 원장 원가 미입력 상태</option>
                       </select>
                       <span class="masked-cost" id="f-cost-preview">🔒 매입원가 마스킹 (재무·정산책임자 전용)</span>
                       <a href="ADMN-BOOK-001_baseline.html" class="btn btn-outline btn-sm">ADMN-BOOK-001에서 공급원가 관리 →</a>
@@ -1362,7 +1362,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-temp-book">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
+        <div class="modal-title">[경로 1] 계약원장 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeTempBookModal">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1414,7 +1414,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-supply-sku">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">[경로 2] 도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불러오기</div>
+        <div class="modal-title">[경로 2] 도서 공급 원장 기등록 SKU 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeSupplyLedgerModal">닫기 ✕</button>
       </div>
       <div class="modal-body">

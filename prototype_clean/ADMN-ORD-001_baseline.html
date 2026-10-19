@@ -4,7 +4,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[ADMN-ORD-001] 주문 · 배송 통합 관리 및 3PL 물류 연동 — 산준모닷컴 백오피스 v4.0.0</title>
+  <title>주문 · 배송 통합 관리 및 3PL 물류 연동 — 산준모닷컴 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg-body: #F1F5F9;
@@ -541,9 +541,9 @@ code, pre, kbd, samp,
         </div>
 
         <div class="subview-switcher" id="ordViewSwitcher" style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #E2E8F0;gap:4px;">
-          <button type="button" class="btn btn-sm btn-primary" id="sw-ord001" onclick="switchOrdView('ord001')">📋 1. 주문 내역 관리 (ORD-001)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-ord002" onclick="switchOrdView('ord002')">🚚 2. 3PL 배송·출고·반품검수 (ORD-002)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-ord001s1" onclick="switchOrdView('ord001s1')">🔍 3. 주문 상세 · 배송지 Lock (ORD-001-S1)</button>
+          <button type="button" class="btn btn-sm btn-primary" id="sw-ord001" onclick="switchOrdView('ord001')">📋 1. 주문 내역 관리</button>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-ord002" onclick="switchOrdView('ord002')">🚚 2. 3PL 배송·출고·반품검수</button>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-ord001s1" onclick="switchOrdView('ord001s1')">🔍 3. 주문 상세 · 배송지 Lock</button>
         </div>
         <span class="badge b-blue" id="topbarPgBadge">PG: 토스페이먼츠 (전 수단 연동)</span>
       </div>
@@ -555,7 +555,7 @@ code, pre, kbd, samp,
         <!-- 상단 4단계 워크플로우 신호등 (공통 규격: 1층 신호등 / 2층 단계명 / 3층 설명) -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">🚦 주문 · 3PL 물류 · 환불 · 정산 대사 4단계 자동 연동 파이프라인 (SET3-5 · 합의서 8.1~8.2절)</h2>
+            <h2 class="card-title">🚦 주문 · 3PL 물류 · 환불 · 정산 대사 4단계 자동 연동 파이프라인 (SET3-5 · 합의서 8.1~)</h2>
             <span class="badge b-gray">실결제금액(실결제금액) 단일 원장 기준</span>
           </div>
           <div class="card-body">
@@ -618,13 +618,13 @@ code, pre, kbd, samp,
           </div>
 
           <div class="kpi-card" id="kpi-ord-vbank" onclick="filterOrdListByKpi('결제대기')">
-            <div class="k-title"><span>입금대기 (가상계좌 미입금)</span><span class="badge">8.2절 · 24시간 기한</span></div>
+            <div class="k-title"><span>입금대기 (가상계좌 미입금)</span><span class="badge">24시간 기한</span></div>
             <div class="k-num" style="color:var(--purple);" id="kpiNumVbank">3건 (기한연장 가능)</div>
             <div class="k-sub">입금 웹훅 수신 시점에만 결제완료 및 정산월 귀속</div>
           </div>
 
           <div class="kpi-card" id="kpi-ord-ship" onclick="filterOrdListByKpi('배송중')">
-            <div class="k-title"><span>배송중 (도서산간·제주 추가배송비)</span><span class="badge">5.5절 우편번호 판정</span></div>
+            <div class="k-title"><span>배송중 (도서산간·제주 추가배송비)</span><span class="badge">우편번호 판정</span></div>
             <div class="k-num" style="color:var(--primary);" id="kpiNumShip">118건 (도서산간 5건)</div>
             <div class="k-sub">교재 합계 30,000원↑ 무료 / 제주·도서산간 +3,000원 부과</div>
           </div>
@@ -806,7 +806,7 @@ code, pre, kbd, samp,
             <div>
  💡 <b>실물 배송(교재 BOOK · 일반상품 GOODS) 라인 아이템 전용 워크스페이스:</b> 인강 단독 주문과 강좌 라인은 이 화면에 표시되지 않습니다. <b>1행 = 실물 주문 라인 1건(SKU 단위 피킹)</b>이므로 한 주문에 교재가 2종이면 2행으로 노출됩니다.
  </div>
-            <span class="badge b-blue">프로세스맵 SET3-5 · 3PL 물류비 대사(SETT-011) 원천</span>
+            <span class="badge b-blue">프로세스맵 SET3-5 · 3PL 물류비 대사 원천</span>
           </div>
 
           <div class="card">
@@ -958,7 +958,7 @@ code, pre, kbd, samp,
                   </div>
                   <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
                     <button type="button" class="btn btn-outline" onclick="clearReturnSelection">선택 해제</button>
-                    <button type="button" class="btn btn-dark" onclick="saveReturnInspection">💾 검수 결과 저장 · 환불 심사(ADMN-RFD-002)로 전달</button>
+                    <button type="button" class="btn btn-dark" onclick="saveReturnInspection">💾 검수 결과 저장 · 환불 심사로 전달</button>
                   </div>
                 </div>
               </div>
@@ -1084,7 +1084,7 @@ code, pre, kbd, samp,
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">📦 2. 주문 라인 아이템 (패키지 분할 인서트 · 과·면세 및 도서 공급원장 스냅샷 보존)</h3>
-              <span class="badge b-purple">합의서 6.1절 · 8.1절 · 도서정가제 안분 공식 적용</span>
+              <span class="badge b-purple">합의서 도서정가제 안분 공식 적용</span>
             </div>
             <div class="card-body">
               <div class="table-wrap">
@@ -1254,7 +1254,7 @@ code, pre, kbd, samp,
                       <th>환불 / 반품 연동</th>
                       <td>
                         <span style="color:var(--text-muted);">진행 중인 환불 요청 없음</span>
-                        <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm btn-danger" style="margin-left:6px;text-decoration:none;">환불 심사 화면 이동 (ADMN-RFD-002)</a>
+                        <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm btn-danger" style="margin-left:6px;text-decoration:none;">환불 심사 화면 이동</a>
                       </td>
                     </tr>
                   </tbody>
@@ -1335,7 +1335,7 @@ code, pre, kbd, samp,
         <p style="margin:0 0 8px;font-size:13px;line-height:1.6;">
  • 이미 출고 지시된 라인은 중복 발주 방지를 위해 자동 제외되며, 파일 생성 실패 시 잠금(Lock)은 100% 롤백됩니다.<br>
  • 이 시점에는 실제 운송장이 없으므로 <b>고객 알림톡을 발송하지 않습니다.</b> (송장 업로드 시 발송)<br>
- • 잘못 발주한 경우 3PL에 전달되기 전에 한해 <b>주문 상세(ORD-001-S1)의 [출고지시 회수]</b>로만 잠금을 풀 수 있습니다.
+ • 잘못 발주한 경우 3PL에 전달되기 전에 한해 <b>주문 상세의 [출고지시 회수]</b>로만 잠금을 풀 수 있습니다.
  </p>
       </div>
       <div class="modal-footer">
@@ -1351,7 +1351,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modalBulkUpload">
     <div class="modal-dialog" style="max-width:920px;">
       <div class="modal-header">
-        <h3 class="modal-title">📤 [ADMN-ORD-002-P1] 3PL 운송장 엑셀 벌크 업로드 및 크로스 매핑</h3>
+        <h3 class="modal-title">📤 3PL 운송장 엑셀 벌크 업로드 및 크로스 매핑</h3>
         <div style="display:flex;gap:6px;">
           <button type="button" class="btn btn-sm btn-primary" id="btnP1Step1" onclick="switchP1Step(1)">STEP 1. 파일 선택 · 옵션</button>
           <button type="button" class="btn btn-sm btn-outline" id="btnP1Step2" onclick="switchP1Step(2)">STEP 2. 업로드 결과 · 오류(E01~E06)</button>
@@ -1532,7 +1532,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modalSingleWaybill">
     <div class="modal-dialog" style="max-width:560px;">
       <div class="modal-header">
-        <h3 class="modal-title" id="p2ModalTitle">✏️ [ADMN-ORD-002-P2] 송장 단건 등록 (예외 처리)</h3>
+        <h3 class="modal-title" id="p2ModalTitle">✏️ 송장 단건 등록 (예외 처리)</h3>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modalSingleWaybill')">✕</button>
       </div>
       <div class="modal-body">
@@ -1615,7 +1615,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modalBatchHistory">
     <div class="modal-dialog" style="max-width:860px;">
       <div class="modal-header">
-        <h3 class="modal-title">🗂️ [ADMN-ORD-002-P3] 3PL 발주 배치 및 송장 벌크 업로드 이력 (물류비 대사 SETT-011 근거)</h3>
+        <h3 class="modal-title">🗂️ 3PL 발주 배치 및 송장 벌크 업로드 이력 (물류비 대사 SETT-011 근거)</h3>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modalBatchHistory')">✕</button>
       </div>
       <div class="modal-body">
@@ -1745,7 +1745,7 @@ code, pre, kbd, samp,
               <td>
                 <textarea class="form-input" id="grantReason" rows="2" style="width:100%;font-size:12px;" placeholder="10자 이상 필수 입력 (예: CS 시스템 일시 장애 수강 지연에 따른 필기 올패스 90일 무료 직권 보상 승인)"></textarea>
                 <div style="margin-top:4px;font-size:11.5px;color:var(--text-muted);">
- ※ 사유는 불변 감사 로그(ADMN-CONF-010) 및 수강권 히스토리에 영구 보존됩니다.
+ ※ 사유는 불변 감사 로그 및 수강권 히스토리에 영구 보존됩니다.
  </div>
               </td>
             </tr>
@@ -1866,7 +1866,7 @@ code, pre, kbd, samp,
       ORDERS_DATA.unshift(newOrder);
       closeModal("modalDirectGrant");
       renderOrderList();
-      alert(`✅ [수강권 직권 부여 완료 (구 ADMN-ORD-003 통합)]\n• 주문번호: ${newOrder.orderNo}\n• 대상: ${userName} (${userEmail})\n• 상품: ${prodName} (${days}일)\n• 실결제금액: 0원 (정산 모수 0원 확정)\n• 감사 로그(ADMN-CONF-010)에 사유가 기록되었습니다.`);
+      alert(`✅ [수강권 직권 부여 완료 (구 ADMN-ORD-003 통합)]\n• 주문번호: ${newOrder.orderNo}\n• 대상: ${userName} (${userEmail})\n• 상품: ${prodName} (${days}일)\n• 실결제금액: 0원 (정산 모수 0원 확정)\n• 감사 로그에 사유가 기록되었습니다.`);
     }
 
     // 1. 통합 주문 목록 데이터 (ADMN-ORD-001 · 토스페이먼츠 전 수단 반영)
@@ -2435,7 +2435,7 @@ code, pre, kbd, samp,
           target.sCls = "b-red";
         }
       }
-      alert("✅ [검수 결과 저장 완료]\n• 판정 결과와 배송비 귀책이 환불 심사(ADMN-RFD-002)로 전달되었습니다.\n• 정상 판정 건은 교재 재고(ADMN-PROD-004)에 자동 재입고(+1권) 처리되었습니다.");
+      alert("✅ [검수 결과 저장 완료]\n• 판정 결과와 배송비 귀책이 환불 심사로 전달되었습니다.\n• 정상 판정 건은 교재 재고에 자동 재입고(+1권) 처리되었습니다.");
       renderShipTable();
     }
 
