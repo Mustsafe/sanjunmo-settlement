@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>[ADMN-BRD-005] 수강후기·합격수기·무료특강(빈출문제)·정오표/정답지 관리 — 산준모 백오피스</title>
+  <title>[ADMN-BRD-005] 수강후기·합격수기·무료특강(빈출문제)·교재 정답지 관리 — 산준모 백오피스</title>
 
   <link rel="stylesheet" href="common-v84.css" />
 
@@ -686,9 +686,9 @@
 
         <span class="code-badge" id="current-screen-code">ADMN-BRD-005</span>
 
-        <h1 id="current-screen-title">수강후기·합격수기 분리 관리 및 무료특강(빈출문제)·정오표/정답지</h1>
+        <h1 id="current-screen-title">수강후기·합격수기 분리 관리 및 무료특강(빈출문제)·교재 정답지</h1>
 
-        <p>수강후기(진도율/별점)와 합격수기(자격증 합격증빙 검수)를 분리 운영하고, 무료특강/빈출문제 및 교재 정오표/정답지 웹 에디터를 관리합니다.</p>
+        <p>수강후기(진도율/별점)와 합격수기(자격증 합격증빙 검수)를 분리 운영하고, 무료특강/빈출문제 및 교재 정답지(웹 에디터)를 관리합니다.</p>
 
       </div>
 
@@ -724,7 +724,7 @@
 
       <button class="sub-tab-btn" onclick="switchTab('errata')" id="tab-btn-errata">
 
-        📘 교재 정오표 및 정답지 (ADMN-BRD-009) <span class="cnt" id="cnt-errata">4</span>
+        📘 교재 정답지 관리 (ADMN-BRD-009) <span class="cnt" id="cnt-errata">4</span>
 
       </button>
 
@@ -988,87 +988,47 @@
 
 
 
-    <!-- ==================== 4. 교재 정오표 및 정답지 관리 (ADMN-BRD-009) ==================== -->
-
+    <!-- ==================== 4. 교재 정답지 관리 (ADMN-BRD-009) ==================== -->
     <section id="view-errata" class="view-section">
-
       <div class="info-callout">
-
-        <strong>[ADMN-BRD-009] 교재 정오표 및 정답지 관리:</strong> 수험서 교재별 <strong>[교재 정오표 (<code>ERRATA</code>)]</strong>와 <strong>[정답지 및 해설 (<code>ANSWER_SHEET</code>)]</strong>를 통합 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(표/수식/이미지 본문 작성)</strong>와 첨부파일(PDF/HWP) 업로드를 모두 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>)에 자동 매핑됩니다.
-
+        <strong>[ADMN-BRD-009] 교재 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[교재 정답지 및 상세 해설 (<code>ANSWER_SHEET</code>)]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
       </div>
-
-
 
       <div class="card">
-
         <div class="filter-grid">
-
           <div class="filter-left">
-
             <select id="er-type-filter" onchange="renderErrata()">
-
-              <option value="ALL">구분 전체 (정오표 + 정답지)</option>
-
-              <option value="ERRATA">교재 정오표 (ERRATA)</option>
-
-              <option value="ANSWER_SHEET">교재 정답지 (ANSWER_SHEET)</option>
-
+              <option value="ALL">자격증 종목 전체</option>
+              <option value="산업안전기사">산업안전기사</option>
+              <option value="건설안전기사">건설안전기사</option>
+              <option value="위험물산업기사">위험물산업기사</option>
             </select>
-
-            <input type="text" id="er-keyword" placeholder="연결 교재명, 제목, 페이지 검색..." oninput="renderErrata()" style="width:260px;" />
-
+            <input type="text" id="er-keyword" placeholder="연결 교재명, 정답지 제목, 단원/회차 검색..." oninput="renderErrata()" style="width:280px;" />
           </div>
-
           <div class="filter-right">
-
-            <button class="btn btn-primary" onclick="openErrataModal()">+ 교재 정오표 / 정답지 등록</button>
-
+            <button class="btn btn-primary" onclick="openErrataModal()">+ 교재 정답지 등록 (웹 에디터)</button>
           </div>
-
         </div>
-
       </div>
-
-
 
       <div class="card" style="padding:0; overflow:hidden;">
-
         <table class="data-table">
-
           <thead>
-
             <tr>
-
-              <th style="width:100px;">문서번호</th>
-
-              <th style="width:130px;">문서 구분</th>
-
-              <th style="width:250px;">연결 교재 (ADMN-PROD-003)</th>
-
-              <th style="width:110px;">판쇄 / 페이지</th>
-
-              <th>제목 (웹 에디터 본문 포함)</th>
-
-              <th style="width:170px;">첨부파일 (PDF/HWP)</th>
-
+              <th style="width:100px;">정답지 번호</th>
+              <th style="width:130px;">자격증 종목</th>
+              <th style="width:260px;">연결 교재 (ADMN-PROD-003)</th>
+              <th style="width:140px;">대상 판쇄 / 수록 범위</th>
+              <th>정답지 제목 (웹 에디터 본문 포함)</th>
+              <th style="width:180px;">첨부파일 (PDF/HWP)</th>
               <th style="width:110px;">등록일</th>
-
               <th style="width:130px;">관리</th>
-
             </tr>
-
           </thead>
-
           <tbody id="er-tbody"></tbody>
-
         </table>
-
       </div>
-
     </section>
-
-
 
     <!-- ==================== 5. 커뮤니티/신고 관리 (ADMN-BRD-007/008) ==================== -->
 
@@ -1262,125 +1222,67 @@
 
 
 
-<!-- ==================== 모달 C: 교재 정오표 및 정답지 등록/수정 (ADMN-BRD-009 웹 에디터) ==================== -->
-
+<!-- ==================== 모달 C: 교재 정답지 등록/수정 (ADMN-BRD-009 웹 에디터) ==================== -->
 <div class="modal-backdrop" id="modal-errata">
-
   <div class="modal-box" style="max-width:920px;">
-
     <div class="modal-header">
-
-      <h3 id="er-modal-title">[ADMN-BRD-009] 교재 정오표 / 정답지 등록 (웹 에디터)</h3>
-
+      <h3 id="er-modal-title">[ADMN-BRD-009] 교재 정답지 등록 및 수정 (웹 에디터)</h3>
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-errata')">닫기 ✕</button>
-
     </div>
-
     <div class="modal-body">
-
       <input type="hidden" id="er-edit-id" />
-
       <div class="form-grid">
-
         <div class="form-group">
-
-          <label class="form-label">문서 구분 (정오표 / 정답지) *</label>
-
+          <label class="form-label">자격증 종목 *</label>
           <select id="er-form-type">
-
-            <option value="ANSWER_SHEET">교재 정답지 및 해설 (ANSWER_SHEET)</option>
-
-            <option value="ERRATA">교재 정오표 (ERRATA)</option>
-
+            <option value="산업안전기사">산업안전기사</option>
+            <option value="건설안전기사">건설안전기사</option>
+            <option value="위험물산업기사">위험물산업기사</option>
           </select>
-
         </div>
-
         <div class="form-group">
-
           <label class="form-label">연결 대상 교재 선택 (ADMN-PROD-003) *</label>
-
           <select id="er-form-book">
-
             <option value="[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장">[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장</option>
-
             <option value="[BOOK-2602] 2026 산준모 산업안전기사 실기 필답형+작업형">[BOOK-2602] 2026 산준모 산업안전기사 실기 필답형+작업형</option>
-
             <option value="[BOOK-2603] 2026 산준모 건설안전기사 필기 빈출문제집">[BOOK-2603] 2026 산준모 건설안전기사 필기 빈출문제집</option>
-
+            <option value="[BOOK-2604] 2026 산준모 위험물산업기사 필기·실기 핵심노트">[BOOK-2604] 2026 산준모 위험물산업기사 필기·실기 핵심노트</option>
           </select>
-
         </div>
-
         <div class="form-group">
-
-          <label class="form-label">대상 판쇄 / 페이지 범위</label>
-
-          <input type="text" id="er-form-page" placeholder="예: 제1판 2쇄 / p.112 ~ p.145" />
-
+          <label class="form-label">대상 판쇄 / 수록 단원·회차 범위</label>
+          <input type="text" id="er-form-page" placeholder="예: 2026년판 / 전 단원 빈출문제 및 실전모의고사" />
         </div>
-
         <div class="form-group">
-
-          <label class="form-label">첨부 문서 파일 (PDF / HWP 다운로드용)</label>
-
+          <label class="form-label">정답지 첨부파일 (PDF / HWP 다운로드용)</label>
           <input type="text" id="er-form-file" placeholder="예: 2026_산안기_필기_정답지_전문.pdf" />
-
         </div>
-
         <div class="form-group full">
-
-          <label class="form-label">제목 *</label>
-
+          <label class="form-label">정답지 제목 *</label>
           <input type="text" id="er-form-title" placeholder="예: [정답지] 2026 산업안전기사 필기 한권끝장 단원별 빈출문제 정답 및 상세해설" />
-
         </div>
-
         <div class="form-group full">
-
-          <label class="form-label">정오표 / 정답지 상세 본문 (웹 에디터 — 표/이미지/HTML 편집 지원) *</label>
-
+          <label class="form-label">정답지 상세 본문 (웹 에디터 — 문항별 정답표/해설/수식/HTML 편집 지원) *</label>
           <div class="rich-editor-shell">
-
             <div class="rich-toolbar">
-
               <button type="button" onclick="execCmd('er-form-body','bold')"><b>B 굵게</b></button>
-
               <button type="button" onclick="execCmd('er-form-body','underline')"><u>U 밑줄</u></button>
-
-              <button type="button" onclick="insertAnswerTableTemplate()">📊 정답지 표(문항/정답/해설) 삽입</button>
-
-              <button type="button" onclick="insertErrataTableTemplate()">📋 정오표 비교표(페이지/수정전/수정후) 삽입</button>
-
+              <button type="button" onclick="insertAnswerTableTemplate()">📊 단원별 정답 및 해설표 삽입</button>
+              <button type="button" onclick="insertQuickAnswerGridTemplate()">🔢 빠른 정답표(1~20번 그리드) 삽입</button>
               <button type="button" onclick="toggleErrataHtmlSource()">&lt;/&gt; HTML 소스 보기 전환</button>
-
             </div>
-
             <div id="er-form-body" class="rich-area" contenteditable="true"></div>
-
             <textarea id="er-form-source" style="display:none; width:100%; min-height:200px; border:none; padding:12px; font-family:monospace; font-size:12px;"></textarea>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
-
     <div class="modal-footer">
-
       <button class="btn btn-outline" onclick="closeModal('modal-errata')">취소</button>
-
-      <button class="btn btn-primary" onclick="saveErrata()">정오표 / 정답지 저장</button>
-
+      <button class="btn btn-primary" onclick="saveErrata()">교재 정답지 저장</button>
     </div>
-
   </div>
-
 </div>
-
-
 
 <div class="toast-box" id="toast-box"></div>
 
@@ -1438,93 +1340,49 @@
 
 
 
-  // 4. 교재 정오표 및 정답지 (ADMN-BRD-009) - 웹 에디터 본문 포함
-
+  // 4. 교재 정답지 (ADMN-BRD-009) - 웹 에디터 본문 포함
   let ERRATA_LIST = [
-
     {
-
-      id: 'DOC-404',
-
-      type: 'ANSWER_SHEET',
-
+      id: 'ANS-404',
+      type: '산업안전기사',
       book: '[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장',
-
-      page: '제1판 1쇄 / 전 단원',
-
+      page: '2026년판 / 전 단원 빈출문제',
       title: '[정답지] 2026 산업안전기사 필기 한권끝장 단원별 빈출문제 정답 및 상세해설',
-
       file: '2026_산안기_필기_정답지_전문.pdf',
-
       date: '2026-10-18',
-
       body: `<table><thead><tr><th>단원</th><th>문항번호</th><th>정답</th><th>핵심 해설</th></tr></thead><tbody><tr><td>1과목 안전관리론</td><td>01번 ~ 05번</td><td>③, ②, ④, ①, ③</td><td>하인리히 법칙 1:29:300 비율 적용</td></tr><tr><td>2과목 인간공학</td><td>01번 ~ 05번</td><td>②, ④, ①, ③, ②</td><td>Fitts의 법칙 및 작업공간 배치 기준</td></tr></tbody></table>`
-
     },
-
     {
-
-      id: 'DOC-403',
-
-      type: 'ERRATA',
-
-      book: '[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장',
-
-      page: '제1판 1쇄 / p.142, p.218',
-
-      title: '[정오표] 2026 산업안전기사 필기 한권끝장 제1판 1쇄 정오사항 안내',
-
-      file: '2026_산안기_필기_1판1쇄_정오표.pdf',
-
-      date: '2026-10-15',
-
-      body: `<table><thead><tr><th>페이지 / 위치</th><th>수정 전 (오류)</th><th>수정 후 (정정)</th></tr></thead><tbody><tr><td>p.142 14번 해설 2행</td><td>안전인증 대상 보호구 10종</td><td>안전인증 대상 보호구 12종</td></tr><tr><td>p.218 표 3-4 수치</td><td>조도 기준 75 Lux 이상</td><td>조도 기준 150 Lux 이상</td></tr></tbody></table>`
-
-    },
-
-    {
-
-      id: 'DOC-402',
-
-      type: 'ANSWER_SHEET',
-
-      book: '[BOOK-2603] 2026 산준모 건설안전기사 필기 빈출문제집',
-
-      page: '제1판 / 실전모의고사 1~5회',
-
-      title: '[정답지] 2026 건설안전기사 필기 빈출문제집 실전모의고사 빠른 정답표 및 해설',
-
-      file: '2026_건안기_빈출문제집_정답지.pdf',
-
-      date: '2026-10-11',
-
-      body: `<p>실전모의고사 1회~5회 문항별 빠른 정답표 및 계산문제 상세 풀이입니다.</p>`
-
-    },
-
-    {
-
-      id: 'DOC-401',
-
-      type: 'ERRATA',
-
+      id: 'ANS-403',
+      type: '산업안전기사',
       book: '[BOOK-2602] 2026 산준모 산업안전기사 실기 필답형+작업형',
-
-      page: '제1판 2쇄 / p.88',
-
-      title: '[정오표] 2026 산업안전기사 실기 필답형+작업형 법령 개정 문구 반영 안내',
-
-      file: '2026_산안기_실기_정오표.pdf',
-
+      page: '2026년판 / 실기 필답형 모의고사 1~10회',
+      title: '[정답지] 2026 산업안전기사 실기 필답형+작업형 모범답안 및 채점 키워드 정답지',
+      file: '2026_산안기_실기_모범답안_정답지.pdf',
+      date: '2026-10-15',
+      body: `<table><thead><tr><th>회차 / 문항</th><th>모범 정답 키워드</th><th>배점 및 부분점수 채점 기준</th></tr></thead><tbody><tr><td>제1회 04번</td><td>안전보건관리규정, 안전보건교육, 작업환경측정</td><td>3가지 모두 기재 시 4점 만점</td></tr><tr><td>제2회 07번</td><td>조도 기준 150 Lux 이상 (정밀작업 300 Lux)</td><td>단위(Lux) 누락 시 1점 감점</td></tr></tbody></table>`
+    },
+    {
+      id: 'ANS-402',
+      type: '건설안전기사',
+      book: '[BOOK-2603] 2026 산준모 건설안전기사 필기 빈출문제집',
+      page: '2026년판 / 실전모의고사 1~5회',
+      title: '[정답지] 2026 건설안전기사 필기 빈출문제집 실전모의고사 빠른 정답표 및 해설',
+      file: '2026_건안기_빈출문제집_정답지.pdf',
+      date: '2026-10-11',
+      body: `<p>실전모의고사 1회~5회 문항별 빠른 정답표 및 계산문제 상세 풀이입니다.</p>`
+    },
+    {
+      id: 'ANS-401',
+      type: '위험물산업기사',
+      book: '[BOOK-2604] 2026 산준모 위험물산업기사 필기·실기 핵심노트',
+      page: '2026년판 / 제1류~제6류 단원평가',
+      title: '[정답지] 2026 위험물산업기사 핵심노트 단원별 확인문제 정답 및 화학반응식 풀이',
+      file: '2026_위험물_단원평가_정답지.pdf',
       date: '2026-10-08',
-
-      body: `<p>p.88 안전보건관리규정 작성 기준 표 내 용어를 최신 법령 문구로 정정합니다.</p>`
-
+      body: `<p>제1류~제6류 위험물 화학반응식 계수 맞추기 및 소화약제 정답 해설지입니다.</p>`
     }
-
   ];
-
-
 
   // 5. 신고 관리
 
@@ -1560,7 +1418,7 @@
 
       freeLecture: ['ADMN-BRD-006', '무료특강 및 빈출문제 관리'],
 
-      errata: ['ADMN-BRD-009', '교재 정오표 및 정답지 관리 (웹 에디터)'],
+      errata: ['ADMN-BRD-009', '교재 정답지 관리 (웹 에디터)'],
 
       report: ['ADMN-BRD-007/008', '커뮤니티 게시글 및 신고 관리']
 
@@ -1962,251 +1820,124 @@
 
 
 
-  // 4. 교재 정오표 및 정답지 (ADMN-BRD-009)
-
+  // 4. 교재 정답지 (ADMN-BRD-009)
   function renderErrata() {
-
     const tp = document.getElementById('er-type-filter').value;
-
     const kw = (document.getElementById('er-keyword').value || '').trim().toLowerCase();
-
     const list = ERRATA_LIST.filter(item =>
-
       (tp === 'ALL' || item.type === tp) &&
-
       (!kw || item.book.toLowerCase().includes(kw) || item.title.toLowerCase().includes(kw) || item.page.toLowerCase().includes(kw))
-
     );
-
     document.getElementById('cnt-errata').textContent = ERRATA_LIST.length;
-
     document.getElementById('er-tbody').innerHTML = list.map(item => `
-
       <tr>
-
         <td style="font-family:monospace; font-weight:700;">${item.id}</td>
-
-        <td>
-
-          <span class="badge ${item.type === 'ANSWER_SHEET' ? 'badge-blue' : 'badge-amber'}">
-
-            ${item.type === 'ANSWER_SHEET' ? '📘 교재 정답지' : '🛠️ 교재 정오표'}
-
-          </span>
-
-        </td>
-
+        <td><span class="badge badge-blue">📘 ${item.type}</span></td>
         <td style="font-weight:700;">${item.book}</td>
-
         <td>${item.page}</td>
-
         <td>
-
           <div style="font-weight:700;">${item.title}</div>
-
-          <div style="font-size:11.5px; color:var(--text-sub);">웹 에디터 본문 및 표 등록됨</div>
-
+          <div style="font-size:11.5px; color:var(--text-sub);">웹 에디터 정답표·해설 본문 등록됨</div>
         </td>
-
         <td style="color:var(--primary); font-weight:600;">📎 ${item.file}</td>
-
         <td>${item.date}</td>
-
         <td>
-
           <button class="btn btn-outline btn-sm" onclick="openErrataModal('${item.id}')">에디터 수정</button>
-
         </td>
-
       </tr>
-
     `).join('');
-
   }
-
-
 
   function openErrataModal(id) {
-
     const item = ERRATA_LIST.find(e => e.id === id);
-
     document.getElementById('er-edit-id').value = item ? item.id : '';
-
     document.getElementById('er-modal-title').textContent = item
-
-      ? `[ADMN-BRD-009] 교재 정오표 / 정답지 수정 (${item.id})`
-
-      : '[ADMN-BRD-009] 교재 정오표 / 정답지 등록 (웹 에디터)';
-
-    document.getElementById('er-form-type').value = item ? item.type : 'ANSWER_SHEET';
-
+      ? `[ADMN-BRD-009] 교재 정답지 수정 (${item.id})`
+      : '[ADMN-BRD-009] 교재 정답지 신규 등록 (웹 에디터)';
+    document.getElementById('er-form-type').value = item ? item.type : '산업안전기사';
     document.getElementById('er-form-book').value = item ? item.book : '[BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장';
-
-    document.getElementById('er-form-page').value = item ? item.page : '제1판 1쇄 / 전 단원';
-
+    document.getElementById('er-form-page').value = item ? item.page : '2026년판 / 전 단원 빈출문제';
     document.getElementById('er-form-file').value = item ? item.file : '2026_산안기_정답지_및_해설.pdf';
-
     document.getElementById('er-form-title').value = item ? item.title : '';
-
     document.getElementById('er-form-body').style.display = 'block';
-
     document.getElementById('er-form-source').style.display = 'none';
-
     if (item) {
-
       document.getElementById('er-form-body').innerHTML = item.body;
-
     } else {
-
       insertAnswerTableTemplate();
-
     }
-
     document.getElementById('modal-errata').classList.add('open');
-
   }
-
-
 
   function insertAnswerTableTemplate() {
-
     document.getElementById('er-form-body').innerHTML = `
-
-      <p><strong>[단원별 빈출문제 정답 및 해설표]</strong></p>
-
+      <p><strong>[단원별 빈출문제 정답 및 상세 해설표]</strong></p>
       <table>
-
         <thead>
-
           <tr><th>단원 / 회차</th><th>문항 번호</th><th>정답</th><th>핵심 해설 및 관련 법령 근거</th></tr>
-
         </thead>
-
         <tbody>
-
           <tr><td>제1과목 안전관리론</td><td>01번 ~ 05번</td><td>③, ②, ④, ①, ③</td><td>산업안전보건법령상 안전보건관리책임자 선임 기준</td></tr>
-
           <tr><td>제2과목 인간공학</td><td>06번 ~ 10번</td><td>②, ④, ①, ③, ②</td><td>FTA 결함수와 최소컷셋(Minimal Cut Set) 신뢰도 계산</td></tr>
-
         </tbody>
-
       </table>
-
     `;
-
   }
 
-
-
-  function insertErrataTableTemplate() {
-
+  function insertQuickAnswerGridTemplate() {
     document.getElementById('er-form-body').innerHTML = `
-
-      <p><strong>[교재 정오표 상세 내역]</strong></p>
-
+      <p><strong>[실전모의고사 빠른 정답표 (1번 ~ 10번)]</strong></p>
       <table>
-
         <thead>
-
-          <tr><th>페이지 / 문항 위치</th><th>수정 전 (오류 표기)</th><th>수정 후 (정정 표기)</th></tr>
-
+          <tr><th>문항</th><th>01</th><th>02</th><th>03</th><th>04</th><th>05</th><th>06</th><th>07</th><th>08</th><th>09</th><th>10</th></tr>
         </thead>
-
         <tbody>
-
-          <tr><td>p.142 14번 해설 2행</td><td>안전인증 대상 보호구 10종</td><td>안전인증 대상 보호구 12종</td></tr>
-
+          <tr><td><strong>정답</strong></td><td>③</td><td>②</td><td>④</td><td>①</td><td>③</td><td>②</td><td>④</td><td>①</td><td>③</td><td>②</td></tr>
         </tbody>
-
       </table>
-
     `;
-
   }
-
-
 
   function toggleErrataHtmlSource() {
-
     const bodyEl = document.getElementById('er-form-body');
-
     const srcEl = document.getElementById('er-form-source');
-
     if (srcEl.style.display === 'none') {
-
       srcEl.value = bodyEl.innerHTML.trim();
-
       bodyEl.style.display = 'none';
-
       srcEl.style.display = 'block';
-
     } else {
-
       bodyEl.innerHTML = srcEl.value;
-
       srcEl.style.display = 'none';
-
       bodyEl.style.display = 'block';
-
     }
-
   }
-
-
 
   function saveErrata() {
-
     const editId = document.getElementById('er-edit-id').value;
-
     const type = document.getElementById('er-form-type').value;
-
     const book = document.getElementById('er-form-book').value;
-
     const page = document.getElementById('er-form-page').value.trim();
-
     const file = document.getElementById('er-form-file').value.trim() || '-';
-
     const title = document.getElementById('er-form-title').value.trim();
-
     const srcEl = document.getElementById('er-form-source');
-
     const bodyEl = document.getElementById('er-form-body');
-
     const body = srcEl.style.display !== 'none' ? srcEl.value : bodyEl.innerHTML;
 
-
-
-    if (!title) { alert('제목을 입력해주세요.'); return; }
-
-
+    if (!title) { alert('정답지 제목을 입력해주세요.'); return; }
 
     if (editId) {
-
       const target = ERRATA_LIST.find(e => e.id === editId);
-
       if (target) Object.assign(target, { type, book, page, file, title, body, date: '2026-10-19' });
-
     } else {
-
       ERRATA_LIST.unshift({
-
-        id: 'DOC-' + (405 + ERRATA_LIST.length),
-
+        id: 'ANS-' + (405 + ERRATA_LIST.length),
         type, book, page, title, file, date: '2026-10-19', body
-
       });
-
     }
-
     closeModal('modal-errata');
-
     renderErrata();
-
-    showToast('교재 정오표 / 정답지가 저장되어 교재 상세 페이지에 반영되었습니다.');
-
+    showToast('교재 정답지가 저장되어 교재 상세 페이지 및 학습지원센터에 반영되었습니다.');
   }
-
-
 
   // 5. 신고 렌더링
 

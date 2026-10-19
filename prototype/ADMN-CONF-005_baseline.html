@@ -326,7 +326,7 @@
         <div class="role-card partner">
           <span class="badge badge-blue">ROLE_PARTNER_COPYRIGHT</span>
           <h4>② 교재 저작권자 / 출판사 권한</h4>
-          <p>• <strong>접근 허용:</strong> 본인 저작 도서 판매량·인세(Royalty) 정산내역서 조회, 교재 정오표/정답지(<code>ADMN-BRD-009</code>) 등록·수정<br/>• <strong>데이터 스코프:</strong> 바인딩된 저작권 계약코드(<code>CR-*</code> / <code>BOOK-*</code>)에 한정한 열람 허용</p>
+          <p>• <strong>접근 허용:</strong> 본인 저작 도서 판매량·인세(Royalty) 정산내역서 조회, 교재 정답지(<code>ADMN-BRD-009</code>) 등록·수정<br/>• <strong>데이터 스코프:</strong> 바인딩된 저작권 계약코드(<code>CR-*</code> / <code>BOOK-*</code>)에 한정한 열람 허용</p>
         </div>
         <div class="role-card partner">
           <span class="badge badge-amber">ROLE_PARTNER_3PL</span>
@@ -443,13 +443,13 @@
               <td>✕ 접근불가</td>
             </tr>
             <tr>
-              <td style="font-weight:700;">학습 Q&amp;A / 정오표·정답지 (BRD)</td>
+              <td style="font-weight:700;">학습 Q&amp;A / 교재 정답지 (BRD)</td>
               <td>전체</td>
               <td>✕ 접근불가</td>
               <td>전체</td>
               <td>1:1문의/FAQ</td>
               <td><strong>✓ 본인 강좌 Q&amp;A 답변</strong></td>
-              <td><strong>✓ 본인 교재 정오표/정답지 등록</strong></td>
+              <td><strong>✓ 본인 교재 정답지 등록</strong></td>
               <td>✕ 접근불가</td>
             </tr>
           </tbody>
@@ -541,7 +541,7 @@
     { id: 'ops_content', name: '박운영 (교육콘텐츠팀)', role: 'ROLE_OPS_ADMIN', scope: 'PROD / PROM / BRD (강좌·프로모션·게시판)', sec: '2FA OTP', lastLogin: '2026-10-19 09:50', status: 'ACTIVE' },
     { id: 'cs_lead01', name: '최상담 (고객감동팀)', role: 'ROLE_CS_ADMIN', scope: 'USER / ORD / BRD (CS 상담 및 환불접수)', sec: '2FA OTP', lastLogin: '2026-10-19 11:05', status: 'ACTIVE' },
     { id: 'inst_leejh', name: '이준호 강사 (전임파트너)', role: 'ROLE_PARTNER_INST', scope: 'INST-2026-001 (본인 담당 강좌 Q&A 및 강의료 정산서 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 21:10', status: 'ACTIVE' },
-    { id: 'copy_sanjunbook', name: '한출판 대표 (산준모북스 저작권자)', role: 'ROLE_PARTNER_COPYRIGHT', scope: 'CR-2026-002 / BOOK-2601~2603 (본인 저작 도서 인세 정산서 및 정오표/정답지 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 16:30', status: 'ACTIVE' },
+    { id: 'copy_sanjunbook', name: '한출판 대표 (산준모북스 저작권자)', role: 'ROLE_PARTNER_COPYRIGHT', scope: 'CR-2026-002 / BOOK-2601~2603 (본인 저작 도서 인세 정산서 및 교재 정답지 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 16:30', status: 'ACTIVE' },
     { id: '3pl_cjlogis', name: '정물류 매니저 (CJ파주물류센터 3PL)', role: 'ROLE_PARTNER_3PL', scope: '3PL-PAJU-01 (실물 교재 출고대상 열람 및 송장 업로드 전용 / 금액 비노출)', sec: '물류센터 고정 IP 제한', lastLogin: '2026-10-19 08:30', status: 'ACTIVE' }
   ];
 
