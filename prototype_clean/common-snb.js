@@ -185,7 +185,9 @@
     // (Pipeline 1.1) 등 괄호형 파이프라인 코드 제거
     /\s*\(\s*Pipeline\s*\d+\.\d+[^)]*\)/gi,
     // DB 컬럼명 괄호 표기 제거: (member_status), (users.is_marketing_agreed...), (goods_stock_log) 등
-    /\s*\(\s*[a-z]+_[a-z0-9_]+\s*\)/g
+    /\s*\(\s*[a-z]+_[a-z0-9_]+\s*\)/g,
+    /\s*\(\s*(?:Case\s*\d+[^)]*|부록\s*[A-Z][^)]*|QA\s*D-\d+[^)]*)\)/gi,
+    /\[\s*(?:제?\d+장|\d+\.\d+절|부록)[^\]]*\]\s*/g
   ];
 
   function cleanString(str) {

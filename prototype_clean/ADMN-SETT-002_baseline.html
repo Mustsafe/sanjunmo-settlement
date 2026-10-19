@@ -962,7 +962,7 @@ code, pre, kbd, samp,
           <option value="2026-10" selected="">데이터 기준 월: 2026-10</option>
           <option value="2026-09">데이터 기준 월: 2026-09 (마감 잠금됨)</option>
         </select> <button class="btn" id="btnRunEngine">⚙️ 1~11단계 통합 연산 배치 재실행</button> <button class="btn btn-primary" id="btnOpenStatementS1" onclick="openStatementModalS1(getSelectedPayeeKey())">📑 통합 정산서 상세·마감 (S1)</button> <button class="btn" id="btnOpenStatementS2" style="border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(getSelectedPayeeKey())">📤 권리자 제공 정산서 (S2)</button>
-        <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장 (ADMN-SETT-002-P1)</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 </button>
+        <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 </button>
     </div></header><div id="v4-page-body">
   
   
@@ -980,9 +980,9 @@ code, pre, kbd, samp,
       <section class="engine-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div style="font-weight:700; font-size:13px;">
-            🚀 [8.3절 SSOT] 통합 순방향 연산 엔진 (1~11단계) 배치 모니터링 &nbsp;
+            ⚙️ 월간 정산 연산 단계별 처리 현황 (1~11단계) &nbsp;
             <span style="font-weight:400; font-size:11.5px; color:var(--text-muted);">
-              * 모든 단계는 원 단위 내림(Floor) 및 마지막 수취인 총액 역산 원칙(제13장)을 준수하며, 마감 확정 전 재실행 시 기존 당월 행을 삭제 후 멱등 재생성합니다.
+              
             </span>
           </div>
           <span class="badge badge-success">최종 배치 완료: 2026-10-14 15:45:00</span>
@@ -1100,7 +1100,7 @@ code, pre, kbd, samp,
           <!-- 우측 통합 정산서 상세 (6.5절 규격) -->
           <div class="statement-panel">
             <div class="card-header">
-              <div class="card-title" id="stmtTitle">통합 정산서 상세 (6.5절 · 8.3절)</div>
+              <div class="card-title" id="stmtTitle">통합 정산서 요약</div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <span id="stmtBadge" class="badge badge-primary">선택됨</span>
                 <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(getSelectedPayeeKey())">🔍 상세·마감 워크스페이스 (S1)</button> <button type="button" class="btn btn-sm" id="btnPanelOpenS2" style="margin-right:4px; border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(getSelectedPayeeKey())">📤 권리자 정산서 (S2)</button>

@@ -472,7 +472,7 @@ code, pre, kbd, samp,
       <div class="overlap-banner">
         <div>
           <div class="overlap-banner-title">
-            <span>⚠️ [15.2절 · 부록 B] MMG 보전금 &amp; 합격 환급반 차감 동시 발생 감지 (<code>mmg_promo_overlap_flag = true</code>)</span>
+            <span>⚠️ [15.2절 · 부록 B] MMG 보전금 &amp; 합격 환급반 차감 동시 발생 감지 (<code>최저보장·환급 차감 동시 발생</code>)</span>
             <span class="badge badge-warn">연산 차단 없음 · 재무 모니터링</span>
           </div>
           <div class="overlap-banner-desc">
@@ -508,14 +508,14 @@ code, pre, kbd, samp,
         <div class="kpi-card" data-filter="MMG_OVERLAP">
           <div class="k-title">🚨 MMG · 환급반 중복 플래그</div>
           <div class="k-num" id="kpiOverlap" style="color:var(--purple);">1건</div>
-          <div class="k-sub">mmg_promo_overlap_flag = true</div>
+          <div class="k-sub">최저보장·환급 차감 동시 발생</div>
         </div>
       </section>
 
       <!-- 탭 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabList">1. 합격 환급 신청 검수 및 원거래 스냅샷 역참조 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabMmgSim">2. [15.2절 · D-10] MMG 이중 부담 회피 &amp; 지원금(Pipeline 5.1) C-01 캡 흡수 방지 검증</button>
+        <button class="tab-btn" data-tab="tabMmgSim">2. MMG 이중 부담 회피 &amp; 지원금(Pipeline 5.1) C-01 캡 흡수 방지 검증</button>
         <button class="tab-btn" data-tab="tabAudit">3. 환급 승인 감사 로그 (ADMN-CONF-010)</button>
       </div>
 
@@ -570,7 +570,7 @@ code, pre, kbd, samp,
         <div class="card" style="margin-bottom:16px;">
           <div class="card-header">
             <div>
-              <div class="card-title">[15.2절 · QA D-10 정본] MMG 보전금과 옵션 B·C 차감의 이중 부담 회피 수식 검증 (김안전 강사 사례)</div>
+              <div class="card-title">MMG 보전금과 옵션 B·C 차감의 이중 부담 회피 수식 검증 (김안전 강사 사례)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 조건: 당월 순수 신규 R/S = 300,000원, 월 최저보장액(MMG) = 1,500,000원, 합격 환급반 옵션 C 차감액 = 200,000원
               </div>
@@ -617,12 +617,12 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">[15.1절 · 8.3절 4·5단계 C-01 방어] 합격 환급반 옵션 B·C에 따른 매출연동 개발지원금(Pipeline 5.1) 차감 및 한도 복원 순서</div>
+              <div class="card-title">합격 환급반 옵션 B·C에 따른 매출연동 개발지원금(Pipeline 5.1) 차감 및 한도 복원 순서</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 한도 적용 전 신규 기준금에서 차감하면 잔여 한도 초과분에 옵션 B·C 차감액이 흡수되어 증발하므로, 반드시 5단계에서 [3) 한도 캡 선적용 → 4) 4단계 스냅샷 공제액 후차감] 순서를 지킵니다.
               </div>
             </div>
-            <span class="badge badge-primary">cap_restore_on_refund = true 연동</span>
+            <span class="badge badge-primary">환급 시 지원금 한도 자동 복원</span>
           </div>
           <div class="table-wrap">
             <table>
@@ -1000,7 +1000,7 @@ code, pre, kbd, samp,
 
       ${item.mmgOverlapFlag ? `
         <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:7px; padding:9px 12px; font-size:11.5px; color:#5b21b6;">
-          <strong>🚨 [mmg_promo_overlap_flag = true]</strong><br>
+          <strong>🚨 [최저보장·환급 차감 동시 발생]</strong><br>
           해당 계약은 당월 3단계 MMG 보전금과 4단계 옵션 C 차감이 동시 발생했습니다. 15.2절 규칙에 따라 3단계 MMG 판정 모수에서는 본 차감액(-200,000원)을 배제하고 4단계에서만 차감합니다.
         </div>
       ` : ""}

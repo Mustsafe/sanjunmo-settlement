@@ -327,15 +327,15 @@ code, pre, kbd, samp,
         <div class="kpi-card" id="kpi-SPLIT" onclick="applyListFilter('SPLIT')">
           <div class="k-title"><span>2계층 분할 수취 활성 계약</span><span class="badge b-ok">복수 수취인</span></div>
           <div class="k-num" style="color:var(--ok);">2건</div>
-          <div class="k-sub">강사+소속사 70:30 분할(Case 7) · 공동 상속 60:40</div>
+          <div class="k-sub">강사+소속사 70:30 분할 · 공동 상속 60:40</div>
         </div>
         <div class="kpi-card" id="kpi-SUCCESSION" onclick="applyListFilter('SUCCESSION')">
-          <div class="k-title"><span>사망·상속 수취인 승계 계약</span><span class="badge b-pur">16.1절 · D-1</span></div>
+          <div class="k-title"><span>사망·상속 수취인 승계 계약</span><span class="badge b-pur">승계 관리</span></div>
           <div class="k-num" style="color:var(--purple);">1건</div>
           <div class="k-sub">승계 확정일 기준 저작자 본인 여부(payee_is_author) 전환</div>
         </div>
         <div class="kpi-card" id="kpi-BLOCKED" onclick="applyListFilter('BLOCKED')">
-          <div class="k-title"><span>선급금 미종결 분할 차단 계약</span><span class="badge b-bad">5.3절 하드락</span></div>
+          <div class="k-title"><span>선급금 미종결 분할 차단 계약</span><span class="badge b-bad">분할 제한</span></div>
           <div class="k-num" style="color:var(--bad);">1건</div>
           <div class="k-sub">미상계 선급금 잔액 존재 시 분할 등록 서버 차단</div>
         </div>
@@ -358,7 +358,7 @@ code, pre, kbd, samp,
               <option value="SPLIT">2계층 분할 수취 활성 (2인 이상 분할)</option>
               <option value="SINGLE">단독 수취 (원 권리자 100.00% · 분할 가능)</option>
               <option value="SUCCESSION">사망·상속 수취인 승계 계약</option>
-              <option value="BLOCKED">🚨 선급금 미종결로 분할 차단된 계약 (5.3절)</option>
+              <option value="BLOCKED">🚨 선급금 미종결로 분할 차단된 계약 </option>
             </select>
             <input type="text" id="listSearchInput" class="input" style="width:280px;" placeholder="계약번호, 원 권리자명, 소속사/수취인명 검색..." oninput="renderListTable()">
             <div style="margin-left:auto; display:flex; gap:8px;">
@@ -373,7 +373,7 @@ code, pre, kbd, samp,
                   <th>계약 식별자 / 계약명</th>
                   <th>1계층 원 권리자 (저작자)</th>
                   <th>현재 2계층 수취인 구성 및 비율 시각화</th>
-                  <th>선급금 원장 상태 (5.3절 상호차단)</th>
+                  <th>선급금 원장 상태 </th>
                   <th>합계 검증</th>
                   <th>관리 액션</th>
                 </tr>
@@ -486,7 +486,7 @@ code, pre, kbd, samp,
     </div>
     <div class="modal-bd">
       <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12.5px; color:#1e3a8a;">
-        💡 <strong>[계약 선택 안내 (4.1절 · 5.3절)]</strong> 계약 코드를 직접 입력할 필요 없이 아래 목록에서 검색하여 선택하세요. <strong>미상계 선급금 잔액이 남아 있는 계약(5.3절)</strong>은 선급금 상계 완결 전까지 수취인 분할 추가가 차단됩니다.
+        💡 <strong>[계약 선택 안내 ]</strong> 계약 코드를 직접 입력할 필요 없이 아래 목록에서 검색하여 선택하세요. <strong>미상계 선급금 잔액이 남아 있는 계약</strong>은 선급금 상계 완결 전까지 수취인 분할 추가가 차단됩니다.
       </div>
       <div style="display:flex; gap:10px; margin-bottom:12px;">
         <input type="text" id="modalContractSearch" class="input" style="flex:1;" placeholder="계약번호(CT-...), 권리자명(김안전, 정종대 등), 소속사명 검색..." oninput="renderContractPickerList()">
@@ -502,7 +502,7 @@ code, pre, kbd, samp,
             <th>계약번호 / 계약명</th>
             <th>1계층 원 권리자</th>
             <th>공동 서명 후보 풀</th>
-            <th>선급금 잔액 (5.3절)</th>
+            <th>선급금 잔액 </th>
             <th>현재 분할 상태</th>
             <th>선택</th>
           </tr>
@@ -522,7 +522,7 @@ code, pre, kbd, samp,
 <div class="modal-backdrop" id="coSignerModal">
   <div class="modal" style="width:min(780px, 95vw);">
     <div class="modal-hd">
-      <h3>👥 공동 서명 수취인 선택 모달 (계약 합의 당사자 일치 원칙 · 4.1절)</h3>
+      <h3>👥 공동 서명 수취인 선택 모달 (계약 합의 당사자 일치 원칙)</h3>
       <button class="btn btn-sm" onclick="closeModal('coSignerModal')">✕ 닫기</button>
     </div>
     <div class="modal-bd">
@@ -569,7 +569,7 @@ code, pre, kbd, samp,
     },
     {
       id: "CT-2026-0715",
-      title: "2026 전기기사 필기·실기 공동 매니지먼트 전속계약 (Case 7)",
+      title: "2026 전기기사 필기·실기 공동 매니지먼트 전속계약",
       primaryHolderId: "RH-0012",
       primaryHolderName: "김안전 (개인 프리랜서 · 원 저작자)",
       primaryTaxCase: "사업소득 원천징수 3.3% (TX-02)",
@@ -678,7 +678,7 @@ code, pre, kbd, samp,
       splits: [
         { payeeId: "PY-0025", ratio: 100.00, startDate: "2026-03-01", endDate: "2027-02-28", note: "선급금 잔액 0원 종결 전까지 원 권리자 100% 단독 귀속 강제" }
       ],
-      changeReason: "선급금 미종결 계약으로 원 권리자 100% 고정 (5.3절)"
+      changeReason: "선급금 미종결 계약으로 원 권리자 100% 고정 "
     }
   ];
 
@@ -687,7 +687,7 @@ code, pre, kbd, samp,
       ts: "2026-10-14 14:10:22",
       contractId: "CT-2026-0715",
       holder: "김안전 (RH-0012)",
-      action: "2계층 수취인 분할 비율 등록 (Case 7)",
+      action: "2계층 수취인 분할 비율 등록",
       before: '[{"payee_id":"PY-0012","ratio":100.00}]',
       after: '[{"payee_id":"PY-0012","ratio":70.00},{"payee_id":"PY-9001","ratio":30.00}]',
       actor: "재무팀 박정산 (계약서 제8조 공동서명 특약 반영)"
@@ -932,7 +932,7 @@ code, pre, kbd, samp,
       <table>
         <thead>
           <tr>
-            <th>수취인 (공동 서명인 그룹 · 4.1절)</th>
+            <th>수취인 (공동 서명인 그룹)</th>
             <th>사업자/소득 구분 및 세무 매트릭스 (11장 독립 적용)</th>
             <th>저작자 본인 여부 / 승계 확정일 (16.1절)</th>
             <th class="num" style="width:140px;">2계층 분할 비율 (%)</th>
@@ -1055,7 +1055,7 @@ code, pre, kbd, samp,
 
     if (isBlocked) {
       gateArea.innerHTML = `
-        <span class="badge b-bad">저장 하드락 (5.3절)</span>
+        <span class="badge b-bad">저장 하드락 </span>
         <span style="font-size:12.5px;">선택 계약(<strong>${c.id}</strong>)에 미상계 선급금 잔액(<strong>${fmt(c.advanceRemaining)}</strong>)이 남아 있어 수취인 분할 저장이 차단됩니다.</span>
       `;
       btnSave.disabled = true;
@@ -1068,7 +1068,7 @@ code, pre, kbd, samp,
     } else {
       gateArea.innerHTML = `
         <span class="badge b-ok">검증 통과 (100.00%)</span>
-        <span style="font-size:12.5px;">선택 계약(<strong>${c.id}</strong>): 공동 서명 당사자 일치(4.1절) · 선급금 미보유(5.3절) · 분할 합계 100.00% 검증 통과</span>
+        <span style="font-size:12.5px;">선택 계약(<strong>${c.id}</strong>): 공동 서명 당사자 일치(4.1절) · 선급금 미보유 · 분할 합계 100.00% 검증 통과</span>
       `;
       btnSave.disabled = false;
     }

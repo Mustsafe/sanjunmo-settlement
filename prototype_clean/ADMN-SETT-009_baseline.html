@@ -325,7 +325,7 @@ code, pre, kbd, samp,
         <div class="kpi-card" id="kpi-GOODS" onclick="setPipelineFilter('P2_3')">
           <div class="k-title"><span>일반 소비재 매출 (Pipeline 2.3)</span><span class="badge b-teal">TX-13 과세</span></div>
           <div class="k-num" style="color:var(--teal);" id="kpiGoodsSales">3,300,000원</div>
-          <div class="k-sub">공급가액 3,000,000원 + 부가세 300,000원 (Case 12)</div>
+          <div class="k-sub">공급가액 3,000,000원 + 부가세 300,000원</div>
         </div>
         <div class="kpi-card" id="kpi-INTERNAL" onclick="setPipelineFilter('INTERNAL')">
           <div class="k-title"><span>자사 최종 잔여 귀속 순액</span><span class="badge b-ok">Bypass 확정</span></div>
@@ -337,10 +337,10 @@ code, pre, kbd, samp,
       <!-- 탭 네비게이션 -->
       <div>
         <div class="tabs">
-          <button class="tab-btn active" id="tabBtn-overview" onclick="switchTab('overview')">1. 파이프라인별 전사 손익 · 권리자/자사 대조표 (18.4절)</button>
-          <button class="tab-btn" id="tabBtn-support" onclick="switchTab('support')">2. 자사 지분 내 개발지원금(Pipeline 5.1) 차감 검증 (5.2절 · D-15·16)</button>
-          <button class="tab-btn" id="tabBtn-goods" onclick="switchTab('goods')">3. 일반 소비재(Pipeline 2.3) 및 비인입 도서(Case 11·12) 명세</button>
-          <button class="tab-btn" id="tabBtn-taxreport" onclick="switchTab('taxreport')">4. 월별·연간 세무 신고 기초 산출물 센터 (제14장 14.1절)</button>
+          <button class="tab-btn active" id="tabBtn-overview" onclick="switchTab('overview')">1. 파이프라인별 전사 손익 · 권리자/자사 대조표</button>
+          <button class="tab-btn" id="tabBtn-support" onclick="switchTab('support')">2. 자사 지분 내 개발지원금(Pipeline 5.1) 차감 검증</button>
+          <button class="tab-btn" id="tabBtn-goods" onclick="switchTab('goods')">3. 일반 소비재(Pipeline 2.3) 및 비인입 도서 명세</button>
+          <button class="tab-btn" id="tabBtn-taxreport" onclick="switchTab('taxreport')">4. 월별·연간 세무 신고 기초 산출물 센터</button>
         </div>
 
         <!-- TAB 1: 파이프라인별 전사 손익 · 권리자/자사 대조표 -->
@@ -485,7 +485,7 @@ code, pre, kbd, samp,
           </div>
         </div>
 
-        <!-- TAB 3: 일반 소비재(Pipeline 2.3) 및 비인입 도서(Case 11·12) 명세 -->
+        <!-- TAB 3: 일반 소비재(Pipeline 2.3) 및 비인입 도서 명세 -->
         <div class="card" id="tabPanel-goods" style="display:none; border-top-left-radius:0;">
           <div class="card-hd">
             <h3>📦 일반 상품 판매매출(Pipeline 2.3 · TX-13) 및 매입 재판매 도서(Case 11) 내부 집계</h3>
@@ -514,7 +514,7 @@ code, pre, kbd, samp,
               <tbody>
                 <tr>
                   <td><span class="badge b-teal">일반 상품 판매매출 (Pipeline 2.3)</span></td>
-                  <td><strong>GOODS-2026-001</strong><br>산준모 공학용 계산기 &amp; 안전모 실기 키트 (Case 12)</td>
+                  <td><strong>GOODS-2026-001</strong><br>산준모 공학용 계산기 &amp; 안전모 실기 키트</td>
                   <td>사입 재판매 (PURCHASED_RESALE)<br><span class="code">item_type = GOODS_ITEM</span></td>
                   <td>일반 과세 재화 공급 (TX-13)<br><span style="font-size:11px; color:var(--muted);">원천징수 비대상</span></td>
                   <td class="num">300개</td>
@@ -537,7 +537,7 @@ code, pre, kbd, samp,
                   <td><span class="badge b-gray">승인월 P2.3 차감 반영</span></td>
                 </tr>
                 <tr>
-                  <td><span class="badge b-gray">정산 파이프라인 비인입 (Case 11)</span></td>
+                  <td><span class="badge b-gray">정산 파이프라인 비인입</span></td>
                   <td><strong>PROD-BK-2001</strong><br>2026 건설안전기사 필기 총정리 (한빛총판 사입)</td>
                   <td>매입 재판매 도서 (PURCHASED_RESALE)<br><span class="code">book_supply_type_snapshot</span></td>
                   <td>도서 재화 공급 면세 (TX-11)<br><span style="font-size:11px; color:var(--muted);">매입처 전자계산서 수취(채널 4)</span></td>
@@ -568,7 +568,7 @@ code, pre, kbd, samp,
         <!-- TAB 4: 제14장 세무 신고 산출물 센터 -->
         <div class="card" id="tabPanel-taxreport" style="display:none; border-top-left-radius:0;">
           <div class="card-hd">
-            <h3>📑 월별 · 연간 원천세 및 부가가치세 신고 기초 산출물 자동 추출 센터 (제14장 14.1절)</h3>
+            <h3>📑 월별 · 연간 원천세 및 부가가치세 신고 기초 산출물 자동 추출 센터</h3>
             <span class="badge b-pri">본점 일괄 납세지 기준 (지방세법 제89조 제3항 제4호)</span>
           </div>
           <div class="card-bd" style="padding:0;">
@@ -793,7 +793,7 @@ code, pre, kbd, samp,
       pipeCode: "P2_3",
       pipeName: "일반 상품 판매매출 (Pipeline 2.3 · 소비재)",
       sku: "GOODS-2026-001",
-      title: "산준모 공학용 계산기 & 안전모 실기 키트 (Case 12)",
+      title: "산준모 공학용 계산기 & 안전모 실기 키트",
       taxBadge: "일반 과세 재화 공급 (TX-13 · 부가세 10%)",
       salesTotal: 3300000,
       salesSupply: 3000000,

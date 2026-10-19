@@ -284,7 +284,7 @@ code, pre, kbd, samp,
     <div class="top-bar-right" id="v4-topbar-right-slot">
       <div class="tools">
         <label>
-          <span class="sub">시연 권한</span>
+          <span class="sub">열람 권한</span>
           <select class="fc" id="role">
             <option value="operator">계약 운영자</option>
             <option value="finance">재무 책임자</option>
@@ -335,13 +335,13 @@ code, pre, kbd, samp,
 
           <div class="row c4" style="margin-bottom:12px">
             <div>
-              <label class="lbl" for="clFilterStatus">계약 상태 (contract_status)</label>
+              <label class="lbl" for="clFilterStatus">계약 상태 </label>
               <select class="fc" id="clFilterStatus">
                 <option value="ALL">전체 상태</option>
                 <option value="ALERT">🚨 만료 임박 / 세무 보류 / 미확정 (조치 필요)</option>
-                <option value="ACTIVE">계약 중 (ACTIVE)</option>
-                <option value="DRAFT">작성 중 (DRAFT)</option>
-                <option value="EXPIRED">만료 / 해지 (EXPIRED · TERMINATED)</option>
+                <option value="ACTIVE">계약 중</option>
+                <option value="DRAFT">작성 중</option>
+                <option value="EXPIRED">만료 / 해지</option>
               </select>
             </div>
             <div>
@@ -501,7 +501,7 @@ code, pre, kbd, samp,
                 <input class="fc" id="payeeAccount" value="예시은행 123-***-******" readonly="" style="flex:1">
                 <button class="btn" type="button" data-action="pii" data-kind="account">열람</button>
               </div>
-              <div class="note">계좌 변경은 수취인 관리에서 처리합니다. 실제 계좌번호는 이 HTML에 포함하지 않습니다.</div>
+              <div class="note">계좌 변경은 수취인 관리에서 처리합니다. 계좌번호 열람 시 사유 입력 및 감사 로그가 기록됩니다.</div>
             </div>
 
             <div id="businessFields">
@@ -512,10 +512,10 @@ code, pre, kbd, samp,
               <label class="lbl" for="openingDate">개업일</label>
               <input class="fc" id="openingDate" type="date" value="2024-01-01" data-field="">
               <div class="inline" style="margin-top:10px">
-                <button class="btn pr" type="button" data-action="verify">국세청 진위 확인 · 모의</button>
+                <button class="btn pr" type="button" data-action="verify">국세청 진위 확인</button>
                 <span id="ntsBadge" class="chip warn">확인 필요</span>
               </div>
-              <div class="note">예시 번호입니다. 실제 API 호출 없이 선택한 응답을 확인 이력에 기록합니다.</div>
+              <div class="note">국세청 사업자 상태조회 결과를 확인 이력에 기록합니다.</div>
             </div>
 
             <div id="personFields" hidden="">
@@ -529,7 +529,7 @@ code, pre, kbd, samp,
                 <option value="YES">본인</option>
                 <option value="NO">본인 아님 · 권리 승계 증빙 필요</option>
               </select>
-              <div class="note">실제 주민등록번호는 이 화면설계에 저장하거나 표시하지 않습니다.</div>
+              <div class="note">주민등록번호 열람 시 사유 입력 및 감사 로그가 기록됩니다.</div>
             </div>
 
             <div>
@@ -588,13 +588,13 @@ code, pre, kbd, samp,
             휴업 상태입니다. 재무 책임자 승인 사유가 필요합니다.
             <label class="lbl" for="suspendedReason">휴업자 계약 승인 사유</label>
             <textarea class="fc" id="suspendedReason" placeholder="재무 책임자가 승인 사유를 입력합니다." data-field=""></textarea>
-            <button class="btn" type="button" data-action="approveSuspended" style="margin-top:8px">휴업자 저장 예외 승인 · 모의</button>
+            <button class="btn" type="button" data-action="approveSuspended" style="margin-top:8px">휴업자 예외 승인</button>
             <span class="chip" id="suspendedApproval">미승인</span>
           </div>
 
           <div class="row c3" style="margin-top:8px">
             <div>
-              <label class="lbl" for="taxDecision">세무 판정 상태 · 시연</label>
+              <label class="lbl" for="taxDecision">세무 판정 상태</label>
               <select class="fc" id="taxDecision" data-field="">
                 <option value="PENDING_REVIEW">검토 보류</option>
                 <option value="DECIDED">판정 완료</option>
@@ -609,13 +609,13 @@ code, pre, kbd, samp,
               <input class="fc" id="taxDecisionReason" placeholder="실무 검토 근거 입력" maxlength="300" data-field="">
             </div>
           </div>
-          <div class="note">위 판정 입력은 상태 표시를 시연하기 위한 항목이며 세율 자동 판정 기능이 아닙니다. 판정 보류 라인은 정산 마감 대상에서 제외하고, 보류가 남으면 마감을 차단합니다.</div>
+          <div class="note">판정 보류 라인은 정산 마감 대상에서 제외하고, 보류가 남으면 마감을 차단합니다.</div>
         </section>
 
         <!-- 계약 기간 -->
         <section class="term" id="core">
           <header>
-            <b>[Term-CORE] 계약 기간 · 갱신 · 만료</b>
+            <b>계약 기간 · 갱신 · 만료</b>
             <span class="chip info">필수 조항</span>
           </header>
           <div class="body">
@@ -821,7 +821,7 @@ code, pre, kbd, samp,
         <!-- 개발지원금 -->
         <section class="term" id="development">
           <header>
-            <b>[Term-DEV] 콘텐츠 개발지원금 <span class="chip info">매출연동(Pipeline 5.1) · 정액</span></b>
+            <b>콘텐츠 개발지원금 <span class="chip info">매출연동(Pipeline 5.1) · 정액</span></b>
             <label class="tg"><input type="checkbox" id="onDevelopment" checked="" data-term="development" data-field="">적용</label>
           </header>
           <div class="body">
@@ -1142,7 +1142,7 @@ code, pre, kbd, samp,
         <!-- 선급금 -->
         <section class="term" id="advance">
           <header>
-            <b>[Term-ADV] 선급금 · 상계형 원장</b>
+            <b>선급금 · 상계형 원장</b>
             <label class="tg"><input type="checkbox" id="onAdvance" checked="" data-term="advance" data-field="">적용</label>
           </header>
           <div class="body">
@@ -2151,7 +2151,7 @@ function clawbackModal(){
 function verifyModal(){
   if(radio("partyType")!=="BUSINESS"||val("bizType")==="INTERNAL") return toast("개인 또는 자사 귀속은 이 사업자 진위 확인 대상이 아닙니다.");
   if(!val("bizNumber").trim()||!val("representative").trim()||!val("openingDate")) return toast("사업자번호·대표자명·개업일을 입력하세요.");
-  openModal("국세청 진위 확인 · 모의 응답 선택",`
+  openModal("국세청 진위 확인 응답 선택",`
     <div class="fixed">${esc(val("bizNumber"))} · ${esc(val("representative"))} · ${esc(val("openingDate"))}</div>
     <div class="row c2">
       <div>${selectField("진위 결과","match",[["YES","입력 일치"],["NO","입력 불일치"]])}</div>
@@ -2315,7 +2315,7 @@ const actions={
     confirmDelete("미확정 원장 요청 삭제",row.id,()=>state.advances=state.advances.filter(x=>x.id!==row.id));
   },
   approveAdvance:btn=>{
-    if(!isFinance()) return toast("재무 책임자 시연 권한에서 승인할 수 있습니다.");
+    if(!isFinance()) return toast("재무 책임자 열람 권한에서 승인할 수 있습니다.");
     const row=state.advances.find(x=>x.id===btn.dataset.id);
     if(!row||row.status!=="PENDING_APPROVAL") return;
     openModal("선급금 요청 승인 · 모의",`
@@ -2332,13 +2332,13 @@ const actions={
   clawback:()=>clawbackModal(),
   verify:()=>verifyModal(),
   approveSuspended:()=>{
-    if(!isFinance()) return toast("재무 책임자 시연 권한이 필요합니다.");
+    if(!isFinance()) return toast("재무 책임자 열람 권한이 필요합니다.");
     if(!val("suspendedReason").trim()) return toast("휴업자 저장 승인 사유를 입력하세요.");
     state.suspendedApproved=true;
-    changed("휴업자 저장 예외 승인 · 모의",val("suspendedReason").trim());
+    changed("휴업자 예외 승인",val("suspendedReason").trim());
   },
   approveVat:()=>{
-    if(!isFinance()) return toast("재무 책임자 시연 권한이 필요합니다.");
+    if(!isFinance()) return toast("재무 책임자 열람 권한이 필요합니다.");
     if(!val("vatExceptionReason").trim()) return toast("VAT 예외 약정 승인 사유를 입력하세요.");
     state.vatApproved=true;
     changed("VAT 예외 약정 승인 · 모의",val("vatExceptionReason").trim());
@@ -2713,7 +2713,7 @@ function renderContractList(){
       <div class="k-sub">정산 엔진 연산 대상 유효 계약</div>
     </button>
     <button type="button" class="kpi-card ${curFilter==="DRAFT"?"active":""}" data-kpi-filter="DRAFT">
-      <div class="k-title"><span>작성 중 (DRAFT)</span><span class="chip warn">임시</span></div>
+      <div class="k-title"><span>작성 중</span><span class="chip warn">임시</span></div>
       <div class="k-num">${cntDraft}건</div>
       <div class="k-sub">계약 조건 입력 및 날인 대기</div>
     </button>

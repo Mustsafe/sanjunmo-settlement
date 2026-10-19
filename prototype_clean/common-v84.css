@@ -859,3 +859,12 @@ header.top-bar.v4-gen3-topbar .topbar-title {
   font-weight: 800 !important;
   color: #0F172A !important;
 }
+
+
+/* === [PROTOTYPE-CLEAN STEP 2: SETTLEMENT & BOOK SPEC BANNER HIDE] === */
+.policy-note,
+.book-pipeline-stepper,
+#inst001ReadonlyMappingCard .note,
+.engine-bar .engine-steps code {
+  display: none !important;
+}
