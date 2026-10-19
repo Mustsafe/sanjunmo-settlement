@@ -818,3 +818,43 @@ body.partner-isolated-mode .s2-modal-backdrop {
   left: 0 !important;
   width: 100vw !important;
 }
+
+/* === [MODAL-VISIBILITY-AND-CLOSE-LOCK] === */
+.modal-backdrop,
+.p1-modal-backdrop,
+.s1-modal-backdrop,
+.s2-modal-backdrop {
+  display: none !important;
+}
+
+.modal-backdrop.show,
+.modal-backdrop.open,
+.modal-backdrop.active,
+.p1-modal-backdrop.show,
+.p1-modal-backdrop.open,
+.p1-modal-backdrop.active,
+.s1-modal-backdrop.show,
+.s1-modal-backdrop.open,
+.s1-modal-backdrop.active,
+.s2-modal-backdrop.show,
+.s2-modal-backdrop.open,
+.s2-modal-backdrop.active,
+.modal-backdrop[style*="display: flex"],
+.modal-backdrop[style*="display:flex"],
+.modal-backdrop[style*="display: block"],
+.modal-backdrop[style*="display:block"],
+.p1-modal-backdrop[style*="display: flex"],
+.p1-modal-backdrop[style*="display:flex"],
+.s1-modal-backdrop[style*="display: flex"],
+.s1-modal-backdrop[style*="display:flex"],
+.s2-modal-backdrop[style*="display: flex"],
+.s2-modal-backdrop[style*="display:flex"] {
+  display: flex !important;
+}
+
+.modal-backdrop.force-closed,
+.p1-modal-backdrop.force-closed,
+.s1-modal-backdrop.force-closed,
+.s2-modal-backdrop.force-closed {
+  display: none !important;
+}

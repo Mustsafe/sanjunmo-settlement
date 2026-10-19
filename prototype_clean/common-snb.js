@@ -675,3 +675,104 @@
     observer.observe(document.body, { childList: true, subtree: true });
   });
 })();
+
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  function forceOpenModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('force-closed');
+    backdrop.classList.add('show');
+    backdrop.style.setProperty('display', 'flex', 'important');
+    backdrop.setAttribute('aria-hidden', 'false');
+  }
+
+  // 전역 헬퍼 등록 (기존 페이지 함수 보강)
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop, [id*="Modal"], [id*="modal"]').forEach(function(el) {
+      if (el.classList.contains('modal-backdrop') || el.classList.contains('p1-modal-backdrop') || el.classList.contains('s1-modal-backdrop') || el.classList.contains('s2-modal-backdrop') || getComputedStyle(el).position === 'fixed') {
+        forceCloseModalEl(el);
+      }
+    });
+  };
+
+  // 페이지 로드 후 ADMN-BRD-002 등 고유 모달 열기/닫기 함수 래핑
+  window.addEventListener('DOMContentLoaded', function() {
+    if (typeof window.closeTransferModal === 'function') {
+      var origClose = window.closeTransferModal;
+      window.closeTransferModal = function() {
+        try { origClose.apply(this, arguments); } catch (e) {}
+        window.closeAllModals();
+      };
+    } else {
+      window.closeTransferModal = function() {
+        window.closeAllModals();
+      };
+    }
+
+    if (typeof window.openTransferModal === 'function') {
+      var origOpen = window.openTransferModal;
+      window.openTransferModal = function() {
+        document.querySelectorAll('.modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+        try { origOpen.apply(this, arguments); } catch (e) {}
+        var modal = document.getElementById('transfer-modal') || document.getElementById('transferModal') || document.getElementById('modal-transfer') || document.querySelector('.modal-backdrop');
+        if (modal) forceOpenModalEl(modal);
+      };
+    }
+  });
+
+  // 1) 닫기/취소/X 버튼 및 배경 클릭 시 즉시 닫기 (이벤트 위임)
+  document.addEventListener('click', function(e) {
+    // (A) 배경(backdrop) 자체를 클릭한 경우
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    // (B) 모달 내부의 닫기 버튼(✕, ×, 취소, 닫기, [onclick*="close"]) 클릭 시
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() {
+        forceCloseModalEl(backdrop);
+      }, 0);
+    }
+  }, true);
+
+  // 2) ESC 키 입력 시 열려 있는 모든 모달 닫기
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      window.closeAllModals();
+    }
+  });
+})();
