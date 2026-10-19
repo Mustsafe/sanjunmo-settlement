@@ -690,7 +690,7 @@ code, pre, kbd, samp,
           <span>열람 권한:</span>
           <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
             <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
-            <option value="FIN_MANAGER">재무/정산책임자 (FIN_MANAGER)</option>
+            <option value="FIN_MANAGER">재무/정산 책임자</option>
           </select>
         </div>
 
@@ -794,7 +794,7 @@ code, pre, kbd, samp,
               <h2 class="card-title">교재 검색 조건</h2>
               <span class="card-subtitle">카테고리 · 생성 경로(가채번 연동 / 공급원장 연동 / 직접등록) · 원장 매핑 상태 · 재고 조회</span>
             </div>
-            <span class="code-pill">Table: textbook</span>
+            
           </div>
           <div class="card-body">
             <div class="filter-grid">
@@ -811,9 +811,9 @@ code, pre, kbd, samp,
                 <label>도서 등록 출발 경로</label>
                 <select id="filter-origin" class="form-select">
                   <option value="ALL">전체 경로</option>
-                  <option value="INST_TEMP">[경로 1] 계약원장 가채번 출발 (인세도서)</option>
-                  <option value="BOOK_LEDGER">[경로 2] 공급원장 SKU 출발 (위탁/사입)</option>
-                  <option value="PROD_DIRECT">[경로 3] 교재관리 직접 선등록 (후속매핑 필요)</option>
+                  <option value="INST_TEMP">계약원장 가채번 출발 (인세도서)</option>
+                  <option value="BOOK_LEDGER">공급원장 SKU 출발 (위탁/사입)</option>
+                  <option value="PROD_DIRECT">교재관리 직접 선등록 (후속매핑 필요)</option>
                 </select>
               </div>
               <div class="filter-field">
@@ -877,7 +877,7 @@ code, pre, kbd, samp,
                     <th>교재명</th>
                     <th style="width:95px;">저자 / 출판사</th>
                     <th class="text-right" style="width:95px;">정가(면세)</th>
-                    <th class="text-right" style="width:120px;">공급원가(BOOK-001)</th>
+                    <th class="text-right" style="width:120px;">공급원가</th>
                     <th class="text-center" style="width:215px;">3원장 연동 신호등 (계약·원가·매핑)</th>
                     <th class="text-center" style="width:90px;">현재 재고</th>
                     <th class="text-center" style="width:105px;">판매상태</th>
@@ -950,7 +950,7 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div class="ledger-sync-box ok" id="d-ledger-box">
                       <div>
-                        <strong id="d-supply-type">[[경로 1] 계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
+                        <strong id="d-supply-type">[계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
                         <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료 · 권리자 매핑(ADMN-SETT-001) 저자인세 10% 자동 매핑 완료</span>
                         · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (FIN_MANAGER 전용)</span>
                       </div>
@@ -1022,7 +1022,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card selected" id="entry-card-INST_TEMP" onclick="selectEntryMode('INST_TEMP')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
+                    <span>계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
                     <span class="badge badge-sale">강사 인세도서 권장</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1040,7 +1040,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="entry-card-BOOK_LEDGER" onclick="selectEntryMode('BOOK_LEDGER')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>[경로 2] 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 불러오기</span>
+                    <span>도서 공급원장(ADMN-BOOK-001) 기등록 SKU 불러오기</span>
                     <span class="badge badge-info">위탁·사입 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1058,7 +1058,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="entry-card-PROD_DIRECT" onclick="selectEntryMode('PROD_DIRECT')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>[경로 3] 이 화면(PROD-004)에서 즉시 신규 SKU 생성</span>
+                    <span>이 화면(PROD-004)에서 즉시 신규 SKU 생성</span>
                     <span class="badge badge-warn">후속 매핑 필수</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1362,7 +1362,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-temp-book">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
+        <div class="modal-title">계약원장(ADMN-INST-001) 가채번 도서 불러오기 (저자 인세 자동 상속)</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeTempBookModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1414,7 +1414,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-supply-sku">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">[경로 2] 도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불러오기</div>
+        <div class="modal-title">도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeSupplyLedgerModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1839,9 +1839,9 @@ code, pre, kbd, samp,
        5. 목록 렌더링 (3원장 연동 신호등 컬럼 포함)
        ========================================================================= */
     function getOriginBadge(mode) {
-      if (mode === "INST_TEMP") return `<span class="badge badge-sale">[경로 1] 계약원장 가채번</span>`;
-      if (mode === "BOOK_LEDGER") return `<span class="badge badge-info">[경로 2] 공급원장 SKU</span>`;
-      return `<span class="badge badge-warn">[경로 3] PROD-004 선등록</span>`;
+      if (mode === "INST_TEMP") return `<span class="badge badge-sale">계약원장 가채번</span>`;
+      if (mode === "BOOK_LEDGER") return `<span class="badge badge-info">공급원장 SKU</span>`;
+      return `<span class="badge badge-warn">PROD-004 선등록</span>`;
     }
 
     function getBookStatusBadge(b) {

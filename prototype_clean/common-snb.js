@@ -173,6 +173,8 @@
   const PATTERNS = [
     // [ADMN-XXX-000] 또는 (ADMN-XXX-000-P1 · ...) 형태 제거
     /\[\s*ADMN-[A-Z]+-\d+(?:-[A-Z0-9]+)?[^\]]*\]\s*/g,
+    /\s*\(\s*(?:ADMN-|USER-)?(?:SETT|INST|BOOK|PROD|ORD|RFD|USER|PROM|BRD|CONF|DASH|STAT|CRS|MY|FREE|LECT)-\d+(?:-[A-Z0-9]+)?[^)]*\)/g,
+    /\[\s*케이스\s*\d+\s*\]\s*/g,
     /\(\s*ADMN-[A-Z]+-\d+(?:-[A-Z0-9]+)?[^)]*\)/g,
     // (001-P1), (002-P1), (003-S1), (S1), (S2), (P1), (P2) 등 화면설계서 서브코드 꼬리표 제거
     /\s*\(\s*(?:\d{3}-[SP]\d+|[SP]\d+)\s*\)/g,

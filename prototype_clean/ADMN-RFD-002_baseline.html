@@ -395,7 +395,8 @@ code, pre, kbd, samp,
 
   </style>
     <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
-  <script id="v4-common-snb" src="common-snb.js" defer>
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+  <script>
   function openRfdAdjustModal() {
     document.getElementById('modal-rfd-adjust').classList.add('open');
   }
@@ -427,7 +428,7 @@ code, pre, kbd, samp,
         <td class="num">-</td>
         <td class="num"><strong style="color:var(--danger);">${Number(amount).toLocaleString()}원</strong></td>
         <td><span class="badge badge-amber">보정 처리: 수취계좌 환수/상계</span></td>
-        <td><span class="badge badge-blue">차월 전기오류수정 대기 (SETT-005)</span></td>
+        <td><span class="badge badge-blue">차월 정산 반영 대기</span></td>
       `;
       tbody.insertBefore(newTr, tbody.firstChild);
     }
@@ -448,20 +449,20 @@ code, pre, kbd, samp,
     <!-- TOP BAR -->
     <header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
       <div class="top-bar-left">
-        <span class="crumb-group">주문 · 배송 · 환불 관리 (ORD/RFD)</span>
+        <span class="crumb-group">주문 · 배송 · 환불 관리</span>
         <span class="crumb-sep">›</span>
         <span class="crumb-code" id="topbar-code">ADMN-RFD-004</span>
         <h1 class="crumb-title" id="topbar-breadcrumb">환불 요청 관리 (통합 목록 · 상세)</h1>
       </div>
       <div class="top-bar-right" id="v4-topbar-right-slot" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div class="subview-switcher" style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #CBD5E1;gap:4px;">
-          <button type="button" class="btn btn-sm btn-primary" id="sw-rfd-list" onclick="showMainView('list')">📋 1. 환불 요청 목록 (RFD-004)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-pass" onclick="showMainView('pass')">🎓 2. 합격환급반 심사 (RFD-001)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-detail" onclick="showMainView('detail')">🔍 3. 환불 처리 상세 (RFD-002)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-done" onclick="showMainView('done')">✅ 4. 환불 완료 내역 (RFD-003)</button>
+          <button type="button" class="btn btn-sm btn-primary" id="sw-rfd-list" onclick="showMainView('list')">📋 환불 요청 목록</button>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-pass" onclick="showMainView('pass')">🎓 합격환급반 심사</button>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-detail" onclick="showMainView('detail')">🔍 환불 처리 상세</button>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-done" onclick="showMainView('done')">✅ 환불 완료 내역</button>
         </div>
         <span class="badge badge-blue">PG: 토스페이먼츠 (전 수단)</span>
-        <a class="btn btn-sm btn-outline" href="ADMN-SETT-002_baseline.html">정산 원장(SETT-002) ↗</a>
+        <a class="btn btn-sm btn-outline" href="ADMN-SETT-002_baseline.html">월간 정산 관리 ↗</a>
       </div>
     </header>
 
@@ -640,7 +641,7 @@ code, pre, kbd, samp,
 
         <!-- 안내 배너 -->
         <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:12px 16px; margin-bottom:14px; font-size:12px; line-height:1.6; color:#1E3A8A;">
-          💡 <b>합격환급반 비즈니스 및 세무·정산 원칙 (정본 제15장 · 합의서 제8.1절):</b><br>
+          💡 <b>합격환급반 심사 및 지급 안내:</b><br>
           • <b>환급 모수:</b> 전체 결제액(450,000원) 중 도서정가제 대상인 실물 교재 정가(40,000원)를 제외한 순수 교습비(410,000원)만 환급 대상입니다.<br>
           • <b>제세공과금 원천징수 22%:</b> 교습비 환급금은 소득세법상 기타소득(과세율 20% + 지방소득세 2% = 22%) 원천징수 대상이며, 22%(90,200원) 차감 후 319,800원을 회원 등록계좌로 입금합니다.<br>
           • <b>정산 분담 옵션:</b> 계약서 옵션 B(강사 50% 분담) 적용 시, 강사 R/S 원장에서 교습비 환급금의 50%가 자동 공제(<code>ADMN-SETT-006 C-01</code>)됩니다.
@@ -665,7 +666,7 @@ code, pre, kbd, samp,
                   <th>회원명 (ID)</th>
                   <th>신청 환급반 상품</th>
                   <th>큐넷 자격증 번호 검증</th>
-                  <th>합격수기 검수 (BRD-005)</th>
+                  <th>합격수기 검수 상태</th>
                   <th class="num">실결제액</th>
                   <th class="num">환급 모수 (교재비 제외)</th>
                   <th class="num">제세공과금 (22%)</th>
@@ -681,14 +682,14 @@ code, pre, kbd, samp,
                   <td><strong>홍길동</strong><br><span class="mono" style="font-size:11px;">hong88</span></td>
                   <td>[패키지] 2026 산업안전기사 100% 환급반</td>
                   <td><span class="badge badge-green">26-01-09821 (큐넷 일치)</span></td>
-                  <td><span class="badge badge-purple">BRD-005 검수완료 (우수)</span></td>
+                  <td><span class="badge badge-purple">검수 완료 (우수)</span></td>
                   <td class="num">450,000원</td>
                   <td class="num"><strong>410,000원</strong></td>
                   <td class="num" style="color:var(--danger); font-weight:700;">−90,200원</td>
                   <td class="num"><strong style="color:var(--primary); font-size:13px;">319,800원</strong></td>
-                  <td><span class="badge badge-blue">옵션 B (강사 50% 분담 · SETT-006 C-01)</span></td>
+                  <td><span class="badge badge-blue">강사 50% 분담 약정</span></td>
                   <td><span class="badge badge-amber">심사대기</span></td>
-                  <td><button class="btn btn-sm btn-primary" onclick="openPassInspectModal('PASS-2026-0041', '홍길동', '26-01-09821', 410000, 90200, 319800)">🔍 합격 심사 (S1)</button></td>
+                  <td><button class="btn btn-sm btn-primary" onclick="openPassInspectModal('PASS-2026-0041', '홍길동', '26-01-09821', 410000, 90200, 319800)">🔍 합격 증빙 심사</button></td>
                 </tr>
                 <tr>
                   <td><strong>PASS-2026-0038</strong><br><span style="font-size:11px; color:var(--text-muted);">2026-10-12</span></td>
@@ -1189,7 +1190,7 @@ code, pre, kbd, samp,
               </td>
             </tr>
             <tr>
-              <th>합격수기 검수 (BRD-005)</th>
+              <th>합격수기 검수 상태</th>
               <td>
                 <span class="badge badge-purple">합격수기 등록 확인 (1,450자 · 사진 2매)</span>
                 <a href="ADMN-BRD-005_baseline.html" target="_blank" class="btn btn-sm btn-outline" style="margin-left:6px; text-decoration:none;">수기 게시글 열람 ↗</a>
@@ -1595,7 +1596,7 @@ code, pre, kbd, samp,
         <td class="num">-</td>
         <td class="num"><strong style="color:var(--danger);">${Number(amount).toLocaleString()}원</strong></td>
         <td><span class="badge badge-amber">보정 처리: 수취계좌 환수/상계</span></td>
-        <td><span class="badge badge-blue">차월 전기오류수정 대기 (SETT-005)</span></td>
+        <td><span class="badge badge-blue">차월 정산 반영 대기</span></td>
       `;
       tbody.insertBefore(newTr, tbody.firstChild);
     }

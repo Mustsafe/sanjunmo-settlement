@@ -333,11 +333,11 @@ code, pre, kbd, samp,
       <div class="crumb">
         <span class="crumb-code" id="top-crumb-code">ADMN-PROD-007</span>
         <span id="top-crumb-path">상품관리 &gt; 상품 마스터 &gt;</span>
-        <strong id="top-crumb-title" style="color:var(--text-main);">일반 상품 마스터 (공급 형태 · 재고 · 일반 상품 판매매출 Pipeline 2.3)</strong>
+        <strong id="top-crumb-title" style="color:var(--text-main);">일반 상품 관리 (재고 · 판매 상태)</strong>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <label style="font-size:12px; font-weight:700; background:#F1F5F9; padding:4px 10px; border-radius:6px; border:1px solid var(--border); cursor:pointer;">
-          <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무 권한(FIN_MANAGER) 시뮬레이션 (사입원가 열람)
+          <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무 담당자 원가 표시
         </label>
         <a href="ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 (ADMN-SETT-009) ↗</a>
         <a href="ADMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 (ADMN-SETT-001) ↗</a>
@@ -403,8 +403,8 @@ code, pre, kbd, samp,
                   <td>
                     <select id="fl-supply" class="f-select" style="width:220px;">
                       <option value="ALL">전체 공급 형태</option>
-                      <option value="PURCHASED_RESALE">매입 재판매 (PURCHASED_RESALE)</option>
-                      <option value="DIRECT_SALE">자사 직접 판매 (DIRECT_SALE)</option>
+                      <option value="PURCHASED_RESALE">매입 재판매</option>
+                      <option value="DIRECT_SALE">자사 직접 제작·판매</option>
                     </select>
                   </td>
                   <th>판매 상태</th>
@@ -509,8 +509,8 @@ code, pre, kbd, samp,
                   <th>공급 형태 <span style="color:var(--danger);">*</span></th>
                   <td>
                     <select id="f-supply" class="f-select" style="width:260px;" onchange="onSupplyTypeChange()">
-                      <option value="PURCHASED_RESALE">매입 재판매 (PURCHASED_RESALE)</option>
-                      <option value="DIRECT_SALE">자사 직접 판매 (DIRECT_SALE)</option>
+                      <option value="PURCHASED_RESALE">매입 재판매</option>
+                      <option value="DIRECT_SALE">자사 직접 제작·판매</option>
                     </select>
                     <span id="f-supply-lock-msg" style="font-size:11.5px; color:var(--warning); font-weight:700; margin-left:6px;">🔒 판매 이력이 존재하여 공급 형태 변경이 잠금되었습니다.</span>
                   </td>
@@ -536,7 +536,7 @@ code, pre, kbd, samp,
                 <tr>
                   <th>권리자 매핑 (<code>ADMN-SETT-001</code>)</th>
                   <td colspan="3">
-                    <span class="badge badge-green">자사 권리자(주식회사 엘캠퍼스 · is_internal=true) 100.00% 자동 매핑</span>
+                    <span class="badge badge-green">자사 귀속 상품 (100% 자동 매핑)</span>
                     <span style="font-size:11.5px; color:var(--text-muted); margin-left:8px;">외부 권리자 수익 배분 검증 면제 · 매출 전액 <strong>일반 상품 판매매출(Pipeline 2.3)</strong>로 집계 (매핑 유효기간 외에는 신규 판매 자동 차단)</span>
                   </td>
                 </tr>
@@ -556,7 +556,7 @@ code, pre, kbd, samp,
                   <th>공급가액 + 부가가치세</th>
                   <td>
                     <input type="text" id="f-vat-split" class="f-input" style="width:280px; font-weight:700;" value="공급가액 10,000원 + 부가세 1,000원" readonly />
-                    <span style="font-size:11px; color:var(--text-muted); margin-left:4px;">🔒 <code>FLOOR(판매가×100/110)</code> 자동 분해</span>
+                    <span style="font-size:11px; color:var(--text-muted); margin-left:4px;">판매가 기준 공급가액·부가세 자동 계산</span>
                   </td>
                 </tr>
                 <tr>
@@ -567,8 +567,8 @@ code, pre, kbd, samp,
                   </td>
                   <th>원가 계정 / 세무 판정</th>
                   <td>
-                    <code>INVENTORY_PURCHASE</code> (재고 매입 계정 🔒) &nbsp;·&nbsp;
-                    <span class="badge badge-blue">TX-13 일반 과세 재화 공급 (VAT 10%) 🔒</span>
+                    재고자산 매입 계정 · 
+                    <span class="badge badge-blue">일반 과세 상품 (부가세 10%)</span>
                   </td>
                 </tr>
               </tbody>
@@ -584,7 +584,7 @@ code, pre, kbd, samp,
                     <input type="text" id="f-stock" class="f-input tr-right" style="width:120px; font-weight:800;" value="142 개" readonly />
                     <button type="button" class="btn btn-sm btn-primary" id="btn-inline-adj" style="margin-left:6px;" onclick="openStockAdjustModal(currentEditId)">재고 조정 (ADMN-PROD-007-P1)</button>
                     <button type="button" class="btn btn-sm btn-outline" id="btn-inline-hist" onclick="openStockHistoryModal(currentEditId)">입출고 이력 (ADMN-PROD-007-P2)</button>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">수정 모드에서 현재고 직접 덮어쓰기 불가 — 반드시 [재고 조정] 레이어를 통해 증감 수량과 사유를 `goods_stock_log`에 기록해야 합니다.</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">수정 모드에서 현재고 직접 덮어쓰기 불가 — 재고 수량 변경은 [재고 조정] 버튼을 통해 사유와 함께 등록해 주세요.</div>
                   </td>
                   <th>재고 알림 임계치 <span style="color:var(--danger);">*</span></th>
                   <td>
@@ -924,7 +924,7 @@ code, pre, kbd, samp,
       document.getElementById('view-' + v).classList.add('active');
       if (v === 'list') {
         document.getElementById('top-crumb-code').textContent = 'ADMN-PROD-007';
-        document.getElementById('top-crumb-title').textContent = '일반 상품 마스터 (공급 형태 · 재고 · 일반 상품 판매매출 Pipeline 2.3)';
+        document.getElementById('top-crumb-title').textContent = '일반 상품 관리 (재고 · 판매 상태)';
         renderTable();
       } else {
         document.getElementById('top-crumb-code').textContent = 'ADMN-PROD-007-S1';
