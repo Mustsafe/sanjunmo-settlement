@@ -588,7 +588,7 @@ code, pre, kbd, samp,
       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-PROD-005</span>
-      <h1 class="crumb-title" id="header-screen-title">패키지 · 환급반 상품 관리 (복합과세 분할 · 안분 가중치)</h1>
+      <h1 class="crumb-title" id="header-screen-title">패키지 · 환급반 상품 관리 (강좌·교재 면세 분리 · 안분 가중치)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
       <div class="subview-switcher" role="tablist" aria-label="패키지 관리 서브 화면 전환">
@@ -622,7 +622,7 @@ code, pre, kbd, samp,
       <!-- 복합상품 / 환급반 정책 배너 -->
       <div class="policy-banner">
         <div class="policy-banner-left">
-          <span class="policy-badge">복합상품 과세·면세 분할 및 환급반 연동</span>
+          <span class="policy-badge">패키지(강좌·교재) 결제 금액 분할 및 환급반 연동</span>
           <div class="policy-text">
  패키지 상품은 <strong>단과 강좌(교육용역 면세 VAT 0%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
  환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
@@ -768,7 +768,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">1. 패키지 기본 정보 및 교육면세(강좌) · 면세(교재) 복합결제 분할 내역</h3>
-              <span class="card-subtitle">PG 복합과세 결제 승인 및 정산 원장 매출 분리 기준</span>
+              <span class="card-subtitle">도서정가제 준수를 위한 강좌(교육면세)·교재(도서면세) 결제 분리 및 정산 원장 안분 기준</span>
             </div>
             <span class="code-pill" id="d-pkg-created">등록일: 2026-01-15</span>
           </div>
@@ -782,7 +782,7 @@ code, pre, kbd, samp,
               <div class="price-split-card">
                 <div class="price-split-label">(B) 강좌 할인 적용 후 결제액 (교육용역 면세 · VAT 0%)</div>
                 <div class="price-split-val" style="color:var(--primary);" id="d-course-sale-sum">240,000원</div>
-                <div class="price-split-sub">패키지 강좌 할인 -100,000원 (VAT 10% 포함)</div>
+                <div class="price-split-sub">패키지 강좌 할인 -100,000원 (교육용역 면세 · VAT 0%)</div>
               </div>
               <div class="price-split-card">
                 <div class="price-split-label">(C) 포함 교재 결제액 (도서 면세 · 도서정가제 할인 0%)</div>
@@ -792,7 +792,7 @@ code, pre, kbd, samp,
               <div class="price-split-card highlight">
                 <div class="price-split-label">(D) 수강생 최종 실결제 합계 (B+C)</div>
                 <div class="price-split-val" style="color:var(--primary);" id="d-total-sale-sum">312,000원</div>
-                <div class="price-split-sub">과세 240,000원 + 면세 72,000원 자동 분리</div>
+                <div class="price-split-sub">교육면세 240,000원 + 도서면세 72,000원 자동 분리</div>
               </div>
             </div>
 
@@ -1025,7 +1025,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">4. 복합상품 가격 설정 (과세 강좌 할인 + 면세 교재 정가 합산) 및 판매 상태</h3>
+              <h3 class="card-title">4. 복합상품 가격 설정 (강좌 교육면세 할인 + 교재 도서면세 정가 합산) 및 판매 상태</h3>
               <span class="card-subtitle">할인은 강좌 금액에만 적용되며 교재 금액은 면세 정가로 자동 합산됩니다.</span>
             </div>
           </div>
@@ -1053,7 +1053,7 @@ code, pre, kbd, samp,
                   <td>
                     <div class="input-with-unit" style="width:210px;">
                       <input type="text" id="f-course-net-price" class="form-input text-right" style="font-weight:800; color:var(--primary);" value="240,000" readonly="">
-                      <span class="input-unit">원 (과세)</span>
+                      <span class="input-unit">원 (교육면세)</span>
                     </div>
                   </td>
                   <th>포함 교재 합계액 (면세 고정)</th>
@@ -1069,7 +1069,7 @@ code, pre, kbd, samp,
                   <td>
                     <div class="input-with-unit" style="width:240px;">
                       <input type="text" id="f-pkg-total-price" class="form-input text-right" style="font-weight:900; font-size:14px; color:var(--navy-900); background:#EFF6FF;" value="312,000" readonly="">
-                      <span class="input-unit">원 (과세+면세 합산)</span>
+                      <span class="input-unit">원 (교육면세+도서면세 합산)</span>
                     </div>
                   </td>
                   <th>수강기간 설정 <span class="req-star">*</span></th>

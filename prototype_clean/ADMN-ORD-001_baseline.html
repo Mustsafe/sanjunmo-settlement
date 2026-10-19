@@ -1008,7 +1008,7 @@ code, pre, kbd, samp,
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">💳 1. 주문 · 결제 및 과·면세 안분 정보 (정가 → 쿠폰 → 포인트 → 배송비 → 실결제금액)</h3>
-              <span class="badge b-green" id="detailExemptionBadge">헤더 표기: MIXED (강좌 교육면세 0% + 도서 면세 0% 복합 분할)</span>
+              <span class="badge b-green" id="detailExemptionBadge">헤더 표기: EXEMPT (교육·도서 통합면세 · 강좌 교육면세 0% + 도서 면세 0% 분할)</span>
             </div>
             <div class="card-body">
               <table class="kv-table">
@@ -1111,7 +1111,7 @@ code, pre, kbd, samp,
                         <span style="font-size:11.5px;color:var(--text-muted);">강사: 정종대 (RH-0025) · 수강기간 365일 · <code>ADMN-PROD-003</code></span>
                       </td>
                       <td>
-                        <span class="badge b-blue">과세 10% (공급가 142,727)</span><br>
+                        <span class="badge b-blue">교육용역 면세 0% (면세 157,000원)</span><br>
                         <span style="font-size:11px;color:var(--text-muted);">온라인 RS</span>
                       </td>
                       <td class="text-right">187,000원</td>
@@ -1836,7 +1836,7 @@ code, pre, kbd, samp,
 
       const newOrder = {
         orderNo: "SJM20260818-0999",
-        basis: "LECTURE_TAX (0원 직권)",
+        basis: "LECTURE_EDU (0원 직권)",
         paidAt: "08.18 15:30",
         buyer: userName,
         receiver: "— (배송 없음)",
@@ -1850,7 +1850,7 @@ code, pre, kbd, samp,
             name: prodName.split("] ")[1] || "산업안전기사 필기 올패스(2026)",
             status: "수강중",
             sCls: "b-green",
-            sub: `과세 10% (0원 직권부여 · ${days}일)`
+            sub: `교육용역 면세 0% (0원 직권부여 · ${days}일)`
           }
         ],
         deliverySub: "배송 대상 아님 — 순수 디지털 수강권 (구 ORD-003 직권부여)",
@@ -1874,7 +1874,7 @@ code, pre, kbd, samp,
     const ORDERS_DATA = [
       {
         orderNo: "SJM20260818-0021",
-        basis: "MIXED (과·면세 복합)",
+        basis: "EXEMPT (교육·도서 통합면세)",
         paidAt: "08.18 10:24",
         buyer: "홍길동",
         receiver: "홍길동",
@@ -1882,7 +1882,7 @@ code, pre, kbd, samp,
         type: "복합",
         hasDelivery: true,
         lines: [
-          { tag: "강좌", cls: "b-blue", name: "산업안전기사 필기 올패스(2026)", status: "수강중", sCls: "b-green", sub: "과세 10%" },
+          { tag: "강좌", cls: "b-blue", name: "산업안전기사 필기 올패스(2026)", status: "수강중", sCls: "b-green", sub: "교육용역 면세 0%" },
           { tag: "교재", cls: "b-teal", name: "정종대 (RH-0025) 명품 산업안전기사 필기 ×1", status: "배송준비중", sCls: "b-amber", sub: "면세 0% · 쿠폰·포인트 불가" }
         ],
         deliverySub: "수령인 홍길동 · 경기 성남시 분당구 판교역로 235 / 배송비 0원(3만원↑ 무료)",
@@ -1959,7 +1959,7 @@ code, pre, kbd, samp,
       },
       {
         orderNo: "SJM20260817-0132",
-        basis: "MIXED (과·면세 복합)",
+        basis: "EXEMPT (교육·도서 통합면세)",
         paidAt: "08.17 18:41",
         buyer: "이서준",
         receiver: "이서준",
@@ -2002,7 +2002,7 @@ code, pre, kbd, samp,
       },
       {
         orderNo: "SJM20260809-0044",
-        basis: "MIXED (과·면세 복합)",
+        basis: "EXEMPT (교육·도서 통합면세)",
         paidAt: "08.09 11:37",
         buyer: "정하늘",
         receiver: "정하늘",
