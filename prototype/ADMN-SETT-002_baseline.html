@@ -578,6 +578,160 @@
       color: #ffffff;
     }
 
+  
+    /* === [Step 2] ADMN-SETT-002-S1 통합 정산서 상세 · 마감 워크스페이스 스타일 === */
+    .s1-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 3100;
+      padding: 16px;
+    }
+    .s1-modal-backdrop.open {
+      display: flex;
+    }
+    .s1-modal-dialog {
+      background: #f8fafc;
+      border-radius: 14px;
+      border: 1px solid #cbd5e1;
+      width: 100%;
+      max-width: 1480px;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 28px 60px rgba(15, 23, 42, 0.35);
+      overflow: hidden;
+    }
+    .s1-modal-header {
+      padding: 14px 22px;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .s1-modal-body {
+      padding: 18px 22px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .s1-modal-footer {
+      padding: 12px 22px;
+      background: #ffffff;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .s1-card {
+      background: #ffffff;
+      border: 1px solid #dbe3ef;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .s1-card-head {
+      padding: 11px 16px;
+      background: #f1f5f9;
+      border-bottom: 1px solid #dbe3ef;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .s1-card-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .s1-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 14px 16px;
+    }
+    .s1-meta-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 9px 12px;
+    }
+    .s1-meta-label {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .s1-meta-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 3px;
+    }
+    .s1-score-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      padding: 14px 16px;
+      background: #ffffff;
+    }
+    .s1-score-box {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: #f8fafc;
+    }
+    .s1-score-box.highlight {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+    .s1-diff-banner {
+      margin: 0 16px 14px;
+      padding: 10px 14px;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .s1-month-nav {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255,255,255,0.12);
+      border-radius: 7px;
+      padding: 3px 6px;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .s1-month-nav button {
+      background: transparent;
+      border: none;
+      color: #e2e8f0;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .s1-month-nav button:hover {
+      background: rgba(255,255,255,0.18);
+    }
+
   </style>
 
   
@@ -603,7 +757,8 @@
       <select id="monthSelect" class="select" style="font-weight:700;">
           <option value="2026-10" selected="">데이터 기준 월: 2026-10</option>
           <option value="2026-09">데이터 기준 월: 2026-09 (마감 잠금됨)</option>
-        </select> <button class="btn" id="btnRunEngine">⚙️ 1~11단계 통합 연산 배치 재실행</button> <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장 (ADMN-SETT-002-P1)</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 (Locked = True)</button>
+        </select> <button class="btn" id="btnRunEngine">⚙️ 1~11단계 통합 연산 배치 재실행</button> <button class="btn btn-primary" id="btnOpenStatementS1" onclick="openStatementModalS1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">📑 통합 정산서 상세·마감 (S1)</button>
+        <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장 (ADMN-SETT-002-P1)</button> <button class="btn btn-primary" id="btnLockSettlement">🔒 당월 정산 마감 확정 (Locked = True)</button>
     </div></header><div id="v4-page-body">
   
   
@@ -744,6 +899,7 @@
               <div class="card-title" id="stmtTitle">통합 정산서 상세 (6.5절 · 8.3절)</div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <span id="stmtBadge" class="badge badge-primary">선택됨</span>
+                <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025')">🔍 상세·마감 워크스페이스 (S1)</button>
                 <button class="btn btn-sm" id="btnHeaderCarryP1" onclick="openCarryoverModalP1(state.selectedStmt ? state.selectedStmt.holderId : 'RH-0025', 'OPERATOR')">📋 이 권리자 이월 내역(P1)</button>
                 <button class="btn btn-sm" id="btnHeaderManualAdj" title="선택된 정산서 기준으로 수동 조정(SETT-005) 등록">🔧 이 정산서 수동 조정 등록 →</button>
               </div>
@@ -1985,6 +2141,752 @@
         </tr>
       `).join("");
     }
+  }
+</script>
+
+
+<!-- =====================================================================
+     [Step 2] ADMN-SETT-002-S1: 통합 정산서 상세 · 마감 워크스페이스 (케이스별 조건부 테이블 노출)
+     ===================================================================== -->
+<div class="s1-modal-backdrop" id="modalStatementS1" onclick="if(event.target===this) closeStatementModalS1()">
+  <div class="s1-modal-dialog">
+    <!-- 상단 헤더 & [마커 8] 월간 네비게이터 -->
+    <div class="s1-modal-header">
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <span style="background:#2563eb; color:#fff; font-family:monospace; font-size:11px; font-weight:700; padding:3px 8px; border-radius:5px;">ADMN-SETT-002-S1</span>
+        <strong style="font-size:16px;" id="s1HeaderTitle">통합 정산서 상세 · 마감 (운영자 전용 원장)</strong>
+        <div class="s1-month-nav" title="동일 수취인의 이전/다음 정산 귀속월 정산서로 즉시 이동합니다.">
+          <button type="button" onclick="shiftS1Month(-1)">◀ 이전월</button>
+          <span id="s1CurrentMonthLabel" style="color:#fff;">2026년 10월 귀속</span>
+          <button type="button" onclick="shiftS1Month(1)">다음월 ▶</button>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <label style="font-size:12px; color:#cbd5e1; font-weight:600;">수취인 케이스 전환:</label>
+        <select id="selS1Holder" class="select" style="background:#1e293b; color:#fff; border-color:#475569; min-width:290px;" onchange="renderStatementModalS1()">
+          <option value="RH-0025">정종대 (RH-0025 · 복합: 강좌+도서인세+지원금+선급금+이월)</option>
+          <option value="RH-0001">박안전 (RH-0001 · 단과강좌 + 최소지급액 10만원 미달 이월)</option>
+          <option value="RH-0012">김기계 (RH-0012 · 전월 환불초과 음수 이월 + 선급금 상계)</option>
+          <option value="RH-0031">한국소방학회 (RH-0031 · 위탁 도서 Pipeline 2.2 + 계산서 수취)</option>
+          <option value="RH-0044">최전기 (RH-0044 · 해지 선급금 강제청구 + 비상계 MMG 분리)</option>
+        </select>
+        <label style="display:inline-flex; align-items:center; gap:5px; font-size:11.5px; color:#e2e8f0; cursor:pointer; background:rgba(255,255,255,0.1); padding:5px 10px; border-radius:6px;">
+          <input type="checkbox" id="chkS1ShowAllTables" onchange="renderStatementModalS1()" />
+          <span>0원/미해당 테이블 전체 보기</span>
+        </label>
+        <button type="button" class="btn btn-sm" style="background:rgba(255,255,255,0.14); color:#fff; border:none;" onclick="closeStatementModalS1()">✕ 닫기</button>
+      </div>
+    </div>
+
+    <!-- 본문 -->
+    <div class="s1-modal-body">
+      <!-- [마커 1] 수취인 · 계약 · 지급계좌 · 선급금 요약 마스터 헤더 -->
+      <div class="s1-card">
+        <div class="s1-card-head">
+          <div class="s1-card-title">
+            <span>👤 수취인 · 적용 계약 · 지급 계좌 · 기준 한도 마스터 정보</span>
+            <span class="badge badge-primary" id="s1TaxCaseBadge">TX-01 (3.3% 사업소득)</span>
+            <span class="badge badge-success" id="s1LockStatusBadge">CONFIRMED (정산 확정)</span>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span style="font-size:11.5px; color:#64748b;" id="s1ActiveTablesSummary">노출 섹션: 계산 중...</span>
+            <button type="button" class="btn btn-sm" onclick="unmaskS1Identity()">🔓 실명번호·계좌 마스킹 해제 (ADMN-USER-007)</button>
+          </div>
+        </div>
+        <div class="s1-meta-grid" id="s1MasterMetaGrid"></div>
+      </div>
+
+      <!-- [마커 2] 6.5절 통합 정산 요약 스코어보드 및 과세표준 vs 실지급액 차액 등식 -->
+      <div class="s1-card">
+        <div class="s1-card-head">
+          <div class="s1-card-title">📊 제6장 6.5절 통합 정산 요약 및 과세표준 vs 실지급액 대조 등식</div>
+          <span style="font-size:11.5px; color:#475569;">※ 산출 중간값 DECIMAL(18,4) 유지 후 라인 합산 1회 Floor 절사 (제13장)</span>
+        </div>
+        <div class="s1-score-grid" id="s1SummaryScoreGrid"></div>
+        <div class="s1-diff-banner" id="s1DiffEquationBanner"></div>
+      </div>
+
+      <!-- 케이스별 조건부 테이블 컨테이너 (A ~ G) -->
+      <div id="s1DynamicTablesContainer" style="display:flex; flex-direction:column; gap:14px;"></div>
+
+      <!-- [마커 4] 1~11단계 연산 엔진 워터폴 및 6단계 파이프라인 비례안분 · 9단계 원천세 분리절사 상세 -->
+      <div class="s1-card">
+        <div class="s1-card-head">
+          <div class="s1-card-title">⚙️ 제8장 8.3절 1~11단계 정산 연산 워터폴 및 세액·상계 산식 검증</div>
+          <span style="font-size:11.5px; color:#64748b;" id="s1WaterfallSubnote">0원 단계는 기본 접힘 처리됩니다 (상단 '전체 보기' 체크 시 전 단계 표시)</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="table" style="width:100%; border-collapse:collapse; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc; text-align:left; border-bottom:1px solid #dbe3ef;">
+                <th style="padding:8px 12px;">단계 (Step Code)</th>
+                <th style="padding:8px 12px;">연산 항목 및 적용 파이프라인</th>
+                <th style="padding:8px 12px;">적용 수식 · 한도 캡 · 절사 규칙 (SSOT 검증 근거)</th>
+                <th style="padding:8px 12px; text-align:right;">단계 변동액</th>
+                <th style="padding:8px 12px; text-align:right;">단계 후 누적 잔액</th>
+              </tr>
+            </thead>
+            <tbody id="s1WaterfallBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- [마커 5 & 마커 6] 세무 증빙 매핑 현황 및 재무 담당자 검토 메모 / 수동 조정 연동 -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">🧾 세무 증빙 발행·수취 매핑 및 원천세 신고 귀속</div>
+            <span class="badge badge-primary" id="s1EvidenceChannelBadge">전자세금계산서 역발행 / 원천징수</span>
+          </div>
+          <div style="padding:14px 16px; font-size:12.5px;" id="s1EvidenceDetailBox"></div>
+        </div>
+
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">📝 재무팀 검토 메모 및 마감 후 수동 조정(ADMN-SETT-005) 연동</div>
+            <a href="ADMN-SETT-005_baseline.html" class="btn btn-sm">↗ 수동 조정 원장 이동 (SETT-005)</a>
+          </div>
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px;">
+            <div id="s1AuditMemoHistory" style="font-size:12px; color:#334155; background:#f8fafc; padding:8px 10px; border-radius:6px; border:1px solid #e2e8f0;"></div>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="inpS1NewMemo" class="input" style="flex:1;" placeholder="재무 검토 의견 또는 특이사항 메모 입력 (예: 7월분 전기오류수정 반영 확인 완료)" />
+              <button type="button" class="btn btn-sm btn-primary" onclick="saveS1AuditMemo()">메모 등록</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- [마커 7] 하단 액션 바 -->
+    <div class="s1-modal-footer">
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <button type="button" class="btn btn-sm" onclick="openCarryoverModalP1(document.getElementById('selS1Holder').value, 'OPERATOR')">📋 이월 발생 내역 상세 모달 (ADMN-SETT-002-P1)</button>
+        <button type="button" class="btn btn-sm" onclick="if(window.openStatementModalS2){openStatementModalS2(document.getElementById('selS1Holder').value);}else{showToast('Step 3 패치 시 권리자 제공 정산서(ADMN-SETT-002-S2) 전용 뷰가 열립니다.');}">📤 권리자 제공 정산서 미리보기·발송 (ADMN-SETT-002-S2)</button>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button type="button" class="btn btn-sm" onclick="showToast('📄 내부 보관용 통합 정산서 상세(ADMN-SETT-002-S1) PDF 다운로드가 시작되었습니다.')">📥 내부 정산서 PDF 출력</button>
+        <button type="button" class="btn btn-sm btn-primary" onclick="confirmSingleStatementS1()">🔒 개별 정산서 검토 완료 · 마감 확정</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // === [Step 2] ADMN-SETT-002-S1 수취인 케이스별 상세 정산서 데이터셋 ===
+  window.S1_unmasked = false;
+  window.S1_monthIdx = 2; // 0: 2026-08, 1: 2026-09, 2: 2026-10
+  window.S1_MONTHS = ["2026년 08월 귀속", "2026년 09월 귀속", "2026년 10월 귀속"];
+
+  window.S1_STATEMENT_CASES = {
+    "RH-0025": {
+      holderId: "RH-0025",
+      holderName: "정종대 (산업안전 전임)",
+      entityType: "개인 (비사업자 · 자유직업소득자)",
+      taxCode: "TX-01 (사업소득 3.3% · 업종 940903/940100)",
+      lockStatus: "CONFIRMED (정산 확정 · 이체 대기)",
+      ssnMasked: "680412-1******",
+      ssnRaw: "680412-1482910",
+      bankMasked: "신한은행 110-428-****** (예금주: 정종대)",
+      bankRaw: "신한은행 110-428-991024 (예금주: 정종대)",
+      contractSummary: "CT-2026-025 | 강좌 R/S 40% · 도서 인세 10% · 개발지원금 5%(캡 500만)",
+      prepaySummary: "기초 미상계 800,000원 → 당월 상계 -500,000원 → 기말 잔액 300,000원",
+      limitsSummary: "최소지급 100,000원 / 최소청구 -100,000원",
+      batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
+      scores: {
+        carryInPre: 64000,
+        grossGenerated: 1986000,
+        deductions: -150000,
+        taxBase: 1900000,
+        prepayAndPostCarry: -290000, // 선급금 상계 -500,000 + 세후이월 +210,000
+        taxAmount: -62700,
+        finalPayout: 1547300
+      },
+      diffEquation: "과세표준(원천징수 기준액) 1,900,000원 − 선급금 상계 500,000원 − 원천세(3.3%) 62,700원 + 전월 계좌오류 세후이월 합산 210,000원 = 당월 실지급액 1,547,300원",
+      // [A] 이월 섹션 (존재)
+      carryoverRows: [
+        { type: "PRE_TAX (세전 이월)", origin: "2026-08", pipeline: "Pipeline 2.1 (도서 인세)", opening: 64000, delta: -64000, newAdd: 0, closing: 0, note: "8월 소액 인세 미달분 당월 1단계 합산" },
+        { type: "POST_TAX (세후 이월)", origin: "2026-09", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: 210000, delta: -210000, newAdd: 0, closing: 0, note: "9월 계좌오류 미송금 세후 금액 당월 11단계 합산" }
+      ],
+      // [B] 온라인 강좌 Pipeline 1.1 (존재)
+      lectureRows: [
+        { prodCode: "CRS-2026-001", prodName: "[단과] 2026 산업안전기사 필기 핵심이론", pkgType: "단과 직접결제", count: 28, allocBase: "2,800,000.0000", shareRatio: "100.00%", rsRate: "40.00%", refundDeduct: -80000, calcRaw: "1,040,000.0000", finalFloor: 1040000 },
+        { prodCode: "PKG-2026-004", prodName: "[합격패키지] 산업안전 필기+실기 올인원 (정종대 구간 안분)", pkgType: "패키지 안분 (70.00%)", count: 15, allocBase: "1,470,000.0000", shareRatio: "100.00%", rsRate: "40.00%", refundDeduct: -70000, calcRaw: "518,000.0000", finalFloor: 518000 }
+      ],
+      // [C] 도서 인세/위탁 Pipeline 2.1/2.2 (존재)
+      bookRows: [
+        { sku: "BK-2026-101", title: "2026 정종대 산업안전기사 필기 기본서", supplyType: "SELF_PUBLISHED (자사발행 인세 · Pipeline 2.1)", shipQty: 62, returnQty: 4, netQty: 58, listPrice: 30000, rate: "10.00%", shareRatio: "100.00%", finalFloor: 174000 }
+      ],
+      // [D] 개발지원금/MMG Pipeline 5.1 (존재)
+      supportRows: [
+        { type: "매출연동 개발지원금 (Pipeline 5.1)", capTotal: 5000000, usedBefore: 4820000, calcCurrent: 213500, capApplied: 104000, offsetRule: "CONDITIONAL (상계 허용)", remainCap: 76000, note: "잔여 한도 캡(180,000원) 내 당월 확정 104,000원 반영" }
+      ],
+      // [E] 선급금 상계 6단계 (존재)
+      prepayRows: [
+        { prepayId: "PP-2026-009", totalLoan: 2000000, openingBal: 800000, eligiblePreTax: 1900000, offsetApplied: -500000, closingBal: 300000, allocDetail: "강좌(1.1) 410,000원 / 도서인세(2.1) 62,631원 / 지원금(5.1) 27,369원 비례안분" }
+      ],
+      // [F] 2계층 수취인 분할 (미해당: 100% 단독)
+      payeeSplitRows: [],
+      // [G] 마감 후 수동 조정 (미해당)
+      manualAdjRows: [],
+      waterfall: [
+        { step: "1단계 (CARRY_IN)", title: "세전 이월금 합산/상쇄", rule: "8월 도서 인세 세전이월 +64,000원 합산", delta: 64000, bal: 64000 },
+        { step: "2단계 (SALES)", title: "당월 판매·출고 정산금 산출", rule: "강좌 1,708,000 + 도서인세 174,000 (소수점 4자리 합산 후 Floor)", delta: 1882000, bal: 1946000 },
+        { step: "3단계 (SUPPORT_CALC)", title: "콘텐츠 개발지원금 산출", rule: "강좌 순매출 연동 5% 산출 (한도 캡 적용 전)", delta: 104000, bal: 2050000 },
+        { step: "4단계 (DEDUCT)", title: "환불 · 반품 · 합격환급반 차감", rule: "강좌 수강환불 및 옵션 B 분담금 차감", delta: -150000, bal: 1900000 },
+        { step: "5단계 (SUPPORT_CAP)", title: "개발지원금 누적 한도 캡 통제", rule: "약정 한도 5,000,000원 내 통과 (초과분 0원)", delta: 0, bal: 1900000 },
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (파이프라인 비례안분)", rule: "원천세 공제 후 한도 내 약정 상계액 500,000원 차감 (과세표준 불변)", delta: -500000, bal: 1400000 },
+        { step: "7단계 (MMG_COMP)", title: "최저보장 정산금(MMG) 보전", rule: "비상계 MMG 미약정 (0원)", delta: 0, bal: 1400000 },
+        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 (Payee Split)", rule: "단독 수취 100.00% (분할 없음)", delta: 0, bal: 1400000 },
+        { step: "9단계 (TAX)", title: "원천징수세액 산출 (과세표준 1,900,000원 기준)", rule: "소득세 Floor(1,900,000×3%)=57,000원 + 지방소득세 Floor(5,700)=5,700원", delta: -62700, bal: 1337300 },
+        { step: "10단계 (PAYOUT_CTRL)", title: "최소지급 기준액(100,000원) 및 보류 판정", rule: "1,337,300원 ≥ 100,000원 (즉시 지급 적격)", delta: 0, bal: 1337300 },
+        { step: "11단계 (PAYOUT)", title: "세후 이월금(POST_TAX) 합산 및 최종 이체 확정", rule: "9월 계좌오류 미지급 세후이월 +210,000원 합산", delta: 210000, bal: 1547300 }
+      ],
+      evidenceInfo: "원천징수이행상황신고서 귀속: 지급확정일(payment_event_date) 속하는 달 | 업종코드 분리: 강좌·지원금(940903 학원강사) / 도서인세(940100 저술가)",
+      auditMemos: [
+        "[2026-10-31 19:05] 재무팀 김회계: 8월 도서인세 이월분(64,000원) 및 9월 계좌오류 세후이월분(210,000원) 동시 반영 검증 완료."
+      ]
+    },
+    "RH-0001": {
+      holderId: "RH-0001",
+      holderName: "박안전 (특강 강사)",
+      entityType: "개인 (비사업자 · 단기특강)",
+      taxCode: "TX-01 (사업소득 3.3% · 업종 940903)",
+      lockStatus: "CARRIED_OVER (최소지급 기준 미달 차월이월)",
+      ssnMasked: "791103-1******",
+      ssnRaw: "791103-1093821",
+      bankMasked: "국민은행 042-21-****** (예금주: 박안전)",
+      bankRaw: "국민은행 042-21-883920 (예금주: 박안전)",
+      contractSummary: "CT-2026-001 | 단과 강좌 R/S 35% (도서·지원금·선급금 약정 없음)",
+      prepaySummary: "해당 없음 (선급금 약정 미체결)",
+      limitsSummary: "최소지급 100,000원 (미달 시 차월 세전 이월)",
+      batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
+      scores: {
+        carryInPre: 43430,
+        grossGenerated: 38570,
+        deductions: 0,
+        taxBase: 82000,
+        prepayAndPostCarry: -82000, // 전액 차월 이월 적재
+        taxAmount: 0,
+        finalPayout: 0
+      },
+      diffEquation: "전월 세전이월 43,430원 + 당월 강좌 발생 38,570원 = 세전 합계 82,000원 (예상 세후액 79,294원이 최소지급 기준액 100,000원 미만이므로 원천징수 보류 후 82,000원 전액 11월 세전 이월)",
+      carryoverRows: [
+        { type: "PRE_TAX (세전 이월)", origin: "2026-09", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: 43430, delta: -43430, newAdd: 0, closing: 0, note: "9월 미달분 당월 1단계 합산" },
+        { type: "PRE_TAX (당월 신규이월)", origin: "2026-10", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: 0, delta: 0, newAdd: 82000, closing: 82000, note: "합산 후 10만원 미달로 11월 세전 이월 적재" }
+      ],
+      lectureRows: [
+        { prodCode: "CRS-2026-019", prodName: "[특강] 위험물산업기사 핵심 기출변형(빈출문제) 특강", pkgType: "단과 직접결제", count: 11, allocBase: "110,200.0000", shareRatio: "100.00%", rsRate: "35.00%", refundDeduct: 0, calcRaw: "38,570.0000", finalFloor: 38570 }
+      ],
+      bookRows: [],
+      supportRows: [],
+      prepayRows: [],
+      payeeSplitRows: [],
+      manualAdjRows: [],
+      waterfall: [
+        { step: "1단계 (CARRY_IN)", title: "전월 세전 이월금 합산", rule: "9월 최소지급 미달 세전이월 +43,430원 합산", delta: 43430, bal: 43430 },
+        { step: "2단계 (SALES)", title: "당월 강좌 정산금 산출", rule: "단과 특강 R/S 35% 산출", delta: 38570, bal: 82000 },
+        { step: "10단계 (PAYOUT_CTRL)", title: "최소지급 기준액(100,000원) 미달 판정 · 차월 세전 이월", rule: "예상 세후액 79,294원 < 100,000원 → 과세 보류 및 세전 82,000원 차월 이월", delta: -82000, bal: 0 }
+      ],
+      evidenceInfo: "당월 지급 이벤트 미발생(payment_event_date IS NULL)으로 10월 원천세 신고 대상에서 제외되며, 추후 10만원 이상 도달하여 실제 지급되는 월에 일괄 원천징수 신고합니다.",
+      auditMemos: [
+        "[2026-10-31 18:50] 시스템 자동판정: 최소지급 기준액(100,000원) 미달로 세전 이월 원장(CL-202610-019) 자동 적재."
+      ]
+    },
+    "RH-0012": {
+      holderId: "RH-0012",
+      holderName: "김기계 (일반기계 전임)",
+      entityType: "개인사업자 (일반과세자 · 전자세금계산서 역발행)",
+      taxCode: "TX-05 (사업자 과세 · 부가세 10% 별도)",
+      lockStatus: "APPROVED (역발행 승인완료)",
+      ssnMasked: "214-19-*****",
+      ssnRaw: "214-19-66482",
+      bankMasked: "우리은행 1005-802-****** (예금주: 김기계기계연구소)",
+      bankRaw: "우리은행 1005-802-331920 (예금주: 김기계기계연구소)",
+      contractSummary: "CT-2026-012 | 강좌 R/S 45% (선급금 상계 약정 있음)",
+      prepaySummary: "기초 미상계 300,000원 → 당월 상계 -200,000원 → 기말 잔액 100,000원",
+      limitsSummary: "최소지급 100,000원 / 최소청구 -100,000원",
+      batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
+      scores: {
+        carryInPre: -150000,
+        grossGenerated: 950000,
+        deductions: -50000,
+        taxBase: 750000,
+        prepayAndPostCarry: -200000,
+        taxAmount: 75000,
+        finalPayout: 625000
+      },
+      diffEquation: "당월 순발생 900,000원 − 전월 음수이월 상쇄 150,000원 = 공급가액(과세표준) 750,000원 + 부가세(10%) 75,000원 − 선급금 상계 200,000원 = 실지급액 625,000원",
+      carryoverRows: [
+        { type: "PRE_TAX (음수 세전이월)", origin: "2026-09", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: -150000, delta: 150000, newAdd: 0, closing: 0, note: "9월 환불초과 마이너스 이월분 당월 1단계 전액 차감 해소" }
+      ],
+      lectureRows: [
+        { prodCode: "CRS-2026-008", prodName: "[단과] 일반기계기사 재료역학·열역학 마스터", pkgType: "단과 직접결제", count: 20, allocBase: "2,111,111.1111", shareRatio: "100.00%", rsRate: "45.00%", refundDeduct: -50000, calcRaw: "900,000.0000", finalFloor: 900000 }
+      ],
+      bookRows: [],
+      supportRows: [],
+      prepayRows: [
+        { prepayId: "PP-2026-014", totalLoan: 1000000, openingBal: 300000, eligiblePreTax: 750000, offsetApplied: -200000, closingBal: 100000, allocDetail: "단일 강좌 파이프라인(1.1) 200,000원 상계 (세금계산서 공급가액은 750,000원 유지)" }
+      ],
+      payeeSplitRows: [],
+      manualAdjRows: [],
+      waterfall: [
+        { step: "1단계 (CARRY_IN)", title: "전월 음수 세전 이월금 상쇄", rule: "9월 환불초과 음수 이월 -150,000원 차감", delta: -150000, bal: -150000 },
+        { step: "2단계 (SALES)", title: "당월 강좌 정산금 산출", rule: "강좌 R/S 45% 산출 (+950,000원)", delta: 950000, bal: 800000 },
+        { step: "4단계 (DEDUCT)", title: "당월 수강환불 차감", rule: "10월 중도환불 분담금 -50,000원", delta: -50000, bal: 750000 },
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계", rule: "약정 월 상계한도 200,000원 차감", delta: -200000, bal: 550000 },
+        { step: "9단계 (TAX)", title: "부가가치세(10%) 가산", rule: "공급가액 750,000원 × 10% = +75,000원", delta: 75000, bal: 625000 },
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정", rule: "역발행 세금계산서(공급가액 75만 / 세액 7.5만) 승인 완료", delta: 0, bal: 625000 }
+      ],
+      evidenceInfo: "전자세금계산서 역발행 공급가액 750,000원 / 세액 75,000원 (합계 825,000원) 승인 완료 — 선급금 상계 200,000원 차감 후 625,000원 이체",
+      auditMemos: [
+        "[2026-10-31 19:12] 재무팀 박세무: 전월 마이너스 이월(-15만원) 반영 후 공급가액 75만원 기준 역발행 전자서명 수신 확인."
+      ]
+    },
+    "RH-0031": {
+      holderId: "RH-0031",
+      holderName: "한국소방학회 (위탁출판사)",
+      entityType: "법인사업자 (면세사업자 · 출판사)",
+      taxCode: "TX-09 (위탁 도서 면세 계산서 수취 + 수수료 과세 세금계산서 발행)",
+      lockStatus: "CONFIRMED (위탁 계산서 수취 확인)",
+      ssnMasked: "108-82-*****",
+      ssnRaw: "108-82-49102",
+      bankMasked: "기업은행 012-098412-**-*** (예금주: 사단법인한국소방학회)",
+      bankRaw: "기업은행 012-098412-01-019 (예금주: 사단법인한국소방학회)",
+      contractSummary: "CT-2026-031 | 위탁 도서(CONSIGNMENT) 판매대행 수수료율 25% (NET_DEDUCT 차감지급)",
+      prepaySummary: "해당 없음 (위탁 도서 전용 파이프라인 격리)",
+      limitsSummary: "최소지급 100,000원",
+      batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
+      scores: {
+        carryInPre: 320000,
+        grossGenerated: 1200000,
+        deductions: -330000,
+        taxBase: 870000,
+        prepayAndPostCarry: 0,
+        taxAmount: 0,
+        finalPayout: 1190000
+      },
+      diffEquation: "당월 위탁도서 확정 매출 1,200,000원 − 플랫폼 위탁수수료(공급가 272,727원 + 부가세 27,273원 = 300,000원) − 반품차감 30,000원 + 전월 계산서지연 이월분 320,000원 = 실지급액 1,190,000원",
+      carryoverRows: [
+        { type: "CONSIGNMENT_BAL (위탁전용)", origin: "2026-09", pipeline: "Pipeline 2.2 (위탁 도서)", opening: 320000, delta: -320000, newAdd: 0, closing: 0, note: "9월 계산서 수취 지연 보류분 10월 수취 확인 완료로 합산 지급" }
+      ],
+      lectureRows: [],
+      bookRows: [
+        { sku: "BK-2026-305", title: "2026 소방설비기사(기계/전기) 위탁 수험서", supplyType: "CONSIGNMENT (위탁도서 · Pipeline 2.2)", shipQty: 40, returnQty: 1, netQty: 39, listPrice: 30000, rate: "75.00% (수수료 25% 차감)", shareRatio: "100.00%", finalFloor: 870000 }
+      ],
+      supportRows: [],
+      prepayRows: [],
+      payeeSplitRows: [],
+      manualAdjRows: [],
+      waterfall: [
+        { step: "1단계 (CARRY_IN)", title: "위탁 전용 이월 잔액 합산", rule: "9월 증빙지연 보류 위탁대금 +320,000원 합산", delta: 320000, bal: 320000 },
+        { step: "2단계 (SALES)", title: "위탁 도서 판매대금 및 수수료 차감(NET_DEDUCT)", rule: "확정 39부 × 30,000원 − 위탁수수료(VAT포함) 차감 = +870,000원", delta: 870000, bal: 1190000 },
+        { step: "11단계 (PAYOUT)", title: "위탁 정산대금 최종 이체 확정", rule: "면세 계산서 수취 및 수수료 과세 세금계산서 매출발행 완료", delta: 0, bal: 1190000 }
+      ],
+      evidenceInfo: "양방향 증빙: ① 수취인→산준모 면세 계산서 수취 완료 / ② 산준모→수취인 위탁 판매대행 수수료 과세 세금계산서(VAT 10%) 정발행 완료",
+      auditMemos: [
+        "[2026-10-31 19:20] 재무팀 이검수: 위탁 도서 3PL 출고·반품(D+7) 수량 대사 및 양방향 계산서 검증 완료."
+      ]
+    },
+    "RH-0044": {
+      holderId: "RH-0044",
+      holderName: "최전기 (전기분야 · 중도해지)",
+      entityType: "개인 (비사업자 · 해지 정산)",
+      taxCode: "TX-01 (사업소득 3.3% · MMG 비상계 보호 + 선급금 해지 강제청구)",
+      lockStatus: "CLAIM_ISSUED (비상계 MMG 분리 지급 + 미상계 선급금 환수청구)",
+      ssnMasked: "810219-1******",
+      ssnRaw: "810219-1239841",
+      bankMasked: "하나은행 392-910283-***** (예금주: 최전기)",
+      bankRaw: "하나은행 392-910283-41902 (예금주: 최전기)",
+      contractSummary: "CT-2026-044 (2026-10-25 중도해지) | 비상계 MMG 월 50만 보장 / 선급금 잔액 강제청구",
+      prepaySummary: "기초 미상계 1,200,000원 → 당월 강좌수익 상계 -180,000원 → 해지 미상계 강제청구 전환 1,020,000원",
+      limitsSummary: "해지 시 미상계 선급금 즉시 환수 청구 (비상계 MMG 보전금은 상계 금지 보호)",
+      batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
+      scores: {
+        carryInPre: 0,
+        grossGenerated: 500000,
+        deductions: 0,
+        taxBase: 500000,
+        prepayAndPostCarry: -180000,
+        taxAmount: -16500,
+        finalPayout: 303500
+      },
+      diffEquation: "강좌 발생 180,000원(선급금 180,000원 전액 상계로 실지급 0원) + 비상계 MMG 보전금 320,000원(선급금 상계 금지 보호) − 원천세(500,000원×3.3%=16,500원) = 실지급액 303,500원 (※ 미상계 선급금 잔액 1,020,000원은 별도 환수 청구서 발행)",
+      carryoverRows: [],
+      lectureRows: [
+        { prodCode: "CRS-2026-044", prodName: "[단과] 전기산업기사 회로이론 핵심완성", pkgType: "단과 직접결제", count: 9, allocBase: "450,000.0000", shareRatio: "100.00%", rsRate: "40.00%", refundDeduct: 0, calcRaw: "180,000.0000", finalFloor: 180000 }
+      ],
+      bookRows: [],
+      supportRows: [
+        { type: "최저보장 정산금 보전 (7단계 MMG_COMP)", capTotal: 500000, usedBefore: 180000, calcCurrent: 320000, capApplied: 320000, offsetRule: "NON_OFFSET (상계 절대 금지 · 제7장 7.2절)", remainCap: 0, note: "월 보장액 50만원 대비 부족분 32만원 보전 (선급금 상계 대상에서 제외)" }
+      ],
+      prepayRows: [
+        { prepayId: "PP-2026-044", totalLoan: 1500000, openingBal: 1200000, eligiblePreTax: 180000, offsetApplied: -180000, closingBal: 1020000, allocDetail: "6단계 강좌수익 180,000원만 상계 후, 잔액 1,020,000원은 해지 강제청구(CLAIMED_ON_TERMINATION) 전환" }
+      ],
+      payeeSplitRows: [],
+      manualAdjRows: [],
+      waterfall: [
+        { step: "2단계 (SALES)", title: "당월 강좌 정산금 산출", rule: "강좌 R/S 40% 산출 (+180,000원)", delta: 180000, bal: 180000 },
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (7단계 MMG 보전 이전 수행)", rule: "상계 적격 강좌수익 180,000원 전액 상계 (미상계 1,020,000원은 해지 환수청구)", delta: -180000, bal: 0 },
+        { step: "7단계 (MMG_COMP)", title: "최저보장 정산금(MMG) 보전 (비상계 보호)", rule: "보장액 500,000원 − 강좌실적 180,000원 = +320,000원 보전 (선급금 상계 금지)", delta: 320000, bal: 320000 },
+        { step: "9단계 (TAX)", title: "원천징수세액 산출 (과세표준 500,000원)", rule: "강좌 180,000 + MMG 320,000 = 500,000원 × 3.3% = -16,500원", delta: -16500, bal: 303500 },
+        { step: "11단계 (PAYOUT)", title: "비상계 보호 금액 실지급 확정 + 미상계 선급금 별도 청구", rule: "실지급 303,500원 이체 / 미상계 선급금 1,020,000원 환수 청구서(CLAIM) 발행", delta: 0, bal: 303500 }
+      ],
+      evidenceInfo: "과세표준 500,000원 원천세 신고 완료 | 계약 해지(2026-10-25)에 따른 미상계 선급금 잔액 1,020,000원 별도 반환 청구서 발행 완료",
+      auditMemos: [
+        "[2026-10-31 19:30] 법무·재무 합동검토: 제7장 7.2절에 의거 비상계 MMG(32만원)는 선급금과 상계하지 않고 지급하며, 미상계 선급금(102만원)은 해지 청구권으로 분리 행사."
+      ]
+    }
+  };
+
+  function openStatementModalS1(holderId) {
+    const sel = document.getElementById("selS1Holder");
+    if (sel && holderId && window.S1_STATEMENT_CASES[holderId]) {
+      sel.value = holderId;
+    }
+    renderStatementModalS1();
+    const modal = document.getElementById("modalStatementS1");
+    if (modal) modal.classList.add("open");
+  }
+
+  function closeStatementModalS1() {
+    const modal = document.getElementById("modalStatementS1");
+    if (modal) modal.classList.remove("open");
+  }
+
+  function shiftS1Month(dir) {
+    window.S1_monthIdx = Math.max(0, Math.min(window.S1_MONTHS.length - 1, window.S1_monthIdx + dir));
+    document.getElementById("s1CurrentMonthLabel").textContent = window.S1_MONTHS[window.S1_monthIdx];
+    showToast(`📅 ${window.S1_MONTHS[window.S1_monthIdx]} 통합 정산서 원장으로 전환되었습니다.`);
+  }
+
+  function unmaskS1Identity() {
+    if (window.S1_unmasked) {
+      window.S1_unmasked = false;
+      renderStatementModalS1();
+      showToast("🔒 개인정보 및 계좌번호 마스킹이 다시 적용되었습니다.");
+      return;
+    }
+    const reason = prompt("[ADMN-USER-007 개인정보 3계층 보안 통제]\n마스킹 해제 사유를 10자 이상 입력해 주세요 (감사 로그 즉시 기록):", "2026년 10월 귀속 원천세 신고 및 펌뱅킹 지급 계좌 대조 검수");
+    if (!reason || reason.trim().length < 10) {
+      alert("열람 사유를 10자 이상 입력해야 마스킹이 해제됩니다.");
+      return;
+    }
+    window.S1_unmasked = true;
+    renderStatementModalS1();
+    showToast("✅ 감사 로그 기록 완료: 실명번호 및 지급 계좌번호 마스킹이 해제되었습니다.");
+  }
+
+  function renderStatementModalS1() {
+    const holderId = document.getElementById("selS1Holder").value;
+    const c = window.S1_STATEMENT_CASES[holderId] || window.S1_STATEMENT_CASES["RH-0025"];
+    const showAll = document.getElementById("chkS1ShowAllTables").checked;
+
+    document.getElementById("s1TaxCaseBadge").textContent = c.taxCode;
+    document.getElementById("s1LockStatusBadge").textContent = c.lockStatus;
+
+    // 1. 마스터 메타 그리드
+    const ssnText = window.S1_unmasked ? c.ssnRaw : c.ssnMasked;
+    const bankText = window.S1_unmasked ? c.bankRaw : c.bankMasked;
+    document.getElementById("s1MasterMetaGrid").innerHTML = `
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">수취인명 (권리자 코드 · 사업자 구분)</div>
+        <div class="s1-meta-val">${c.holderName} <span style="color:#2563eb;">(${c.holderId})</span></div>
+        <div style="font-size:11px; color:#64748b; margin-top:2px;">${c.entityType} | 식별번호: <code>${ssnText}</code></div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">적용 계약 및 정산 요율 요약</div>
+        <div class="s1-meta-val">${c.contractSummary}</div>
+        <div style="font-size:11px; color:#64748b; margin-top:2px;">기준 한도: ${c.limitsSummary}</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">선급금(LOAN/EARNED) 원장 요약</div>
+        <div class="s1-meta-val" style="color:${c.prepayRows.length ? '#b45309' : '#475569'};">${c.prepaySummary}</div>
+        <div style="font-size:11px; color:#64748b; margin-top:2px;">배치 시각: ${c.batchTimestamp}</div>
+      </div>
+      <div class="s1-meta-item">
+        <div class="s1-meta-label">지급 계좌 정보 (펌뱅킹 연동)</div>
+        <div class="s1-meta-val">${bankText}</div>
+        <div style="font-size:11px; color:#16a34a; margin-top:2px;">✔ 예금주 실명조회 일치 완료</div>
+      </div>
+    `;
+
+    // 2. 6.5절 스코어보드 및 차액 등식
+    const sc = c.scores;
+    const fmt = (n) => (n >= 0 ? n.toLocaleString("ko-KR") : "-" + Math.abs(n).toLocaleString("ko-KR")) + "원";
+    document.getElementById("s1SummaryScoreGrid").innerHTML = `
+      <div class="s1-score-box">
+        <div class="s1-meta-label">① 전월 세전/위탁 이월(기초)</div>
+        <div class="s1-meta-val" style="font-size:15px;">${fmt(sc.carryInPre)}</div>
+      </div>
+      <div class="s1-score-box">
+        <div class="s1-meta-label">② 당월 총 발생 정산액</div>
+        <div class="s1-meta-val" style="font-size:15px;">${fmt(sc.grossGenerated)}</div>
+      </div>
+      <div class="s1-score-box">
+        <div class="s1-meta-label">③ 당월 환불·수수료 차감</div>
+        <div class="s1-meta-val" style="font-size:15px; color:#dc2626;">${fmt(sc.deductions)}</div>
+      </div>
+      <div class="s1-score-box highlight">
+        <div class="s1-meta-label" style="color:#1e40af;">④ 과세표준 (증빙/원천세 기준)</div>
+        <div class="s1-meta-val" style="font-size:16px; color:#1d4ed8;">${fmt(sc.taxBase)}</div>
+      </div>
+      <div class="s1-score-box">
+        <div class="s1-meta-label">⑤ 선급금상계 · 세후이월 · 차월이월</div>
+        <div class="s1-meta-val" style="font-size:15px; color:#b45309;">${fmt(sc.prepayAndPostCarry)}</div>
+      </div>
+      <div class="s1-score-box" style="background:#f0fdf4; border-color:#86efac;">
+        <div class="s1-meta-label" style="color:#15803d;">⑥ 세액(${fmt(sc.taxAmount)}) 반영 실지급액</div>
+        <div class="s1-meta-val" style="font-size:17px; color:#15803d;">${fmt(sc.finalPayout)}</div>
+      </div>
+    `;
+    document.getElementById("s1DiffEquationBanner").innerHTML = `
+      <div><strong>📐 [6.5절 과세표준 vs 실지급액 차액 검증 등식]</strong> ${c.diffEquation}</div>
+      <span class="badge badge-success">등식 정합성 100% 일치</span>
+    `;
+
+    // 3. 케이스별 조건부 테이블 동적 렌더링 (해당될 때만 노출, 또는 showAll 시 전체 노출)
+    const blocks = [];
+    const activeNames = [];
+
+    // [A] 이월 내역 블록
+    if (c.carryoverRows.length > 0 || showAll) {
+      activeNames.push("[A] 이월원장");
+      blocks.push(`
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">🔄 [테이블 A] 전월 이월 흡수/상쇄 및 당월 신규 이월 요약 (carryover_ledger)</div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="openCarryoverModalP1('${c.holderId}', 'OPERATOR')">📋 지난 정산 이월 발생 내역 전체 모달 (ADMN-SETT-002-P1)</button>
+          </div>
+          <table class="table" style="width:100%; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;">이월 계정 구분</th>
+                <th style="padding:8px 12px;">원 발생 정산월</th>
+                <th style="padding:8px 12px;">연관 파이프라인</th>
+                <th style="padding:8px 12px; text-align:right;">전기말 기초 잔액</th>
+                <th style="padding:8px 12px; text-align:right;">당월 합산/상쇄 변동</th>
+                <th style="padding:8px 12px; text-align:right;">당월 신규 이월 적재</th>
+                <th style="padding:8px 12px; text-align:right;">당기말 차월 이월 잔액</th>
+                <th style="padding:8px 12px;">비고 (사유)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.carryoverRows.length ? c.carryoverRows.map(r => `
+                <tr style="border-top:1px solid #e2e8f0;">
+                  <td style="padding:8px 12px; font-weight:700;">${r.type}</td>
+                  <td style="padding:8px 12px; font-family:monospace;">${r.origin}</td>
+                  <td style="padding:8px 12px;">${r.pipeline}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:700;">${fmt(r.opening)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:700; color:#2563eb;">${fmt(r.delta)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:700; color:#d97706;">${fmt(r.newAdd)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:800; color:#1d4ed8;">${fmt(r.closing)}</td>
+                  <td style="padding:8px 12px; color:#475569;">${r.note}</td>
+                </tr>
+              `).join("") : `<tr><td colspan="8" style="padding:12px; text-align:center; color:#94a3b8;">해당 수취인은 당월 이월 발생/해소 내역이 없습니다.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // [B] 온라인 강좌 수익배분 (Pipeline 1.1)
+    if (c.lectureRows.length > 0 || showAll) {
+      activeNames.push("[B] 온라인강좌(1.1)");
+      blocks.push(`
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">🎓 [테이블 B] 온라인 강좌 수익배분 산출 명세 (Pipeline 1.1 · 단과 및 패키지 안분)</div>
+            <span style="font-size:11.5px; color:#64748b;">정산기준금 DECIMAL(18,4) 유지 → 라인 합산 후 1회 Floor 절사</span>
+          </div>
+          <table class="table" style="width:100%; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;">강좌/패키지 코드 및 상품명</th>
+                <th style="padding:8px 12px;">판매 유형</th>
+                <th style="padding:8px 12px; text-align:right;">결제 건수</th>
+                <th style="padding:8px 12px; text-align:right;">강좌 안분 정산기준금</th>
+                <th style="padding:8px 12px; text-align:right;">1계층 지분율</th>
+                <th style="padding:8px 12px; text-align:right;">계약 R/S 요율</th>
+                <th style="padding:8px 12px; text-align:right;">4단계 환불/환급 차감</th>
+                <th style="padding:8px 12px; text-align:right;">당월 순정산금 (Floor)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.lectureRows.length ? c.lectureRows.map(r => `
+                <tr style="border-top:1px solid #e2e8f0;">
+                  <td style="padding:8px 12px;"><strong>${r.prodCode}</strong> · ${r.prodName}</td>
+                  <td style="padding:8px 12px;"><span class="badge badge-primary">${r.pkgType}</span></td>
+                  <td style="padding:8px 12px; text-align:right;">${r.count}건</td>
+                  <td style="padding:8px 12px; text-align:right; font-family:monospace;">${r.allocBase}원</td>
+                  <td style="padding:8px 12px; text-align:right;">${r.shareRatio}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:700;">${r.rsRate}</td>
+                  <td style="padding:8px 12px; text-align:right; color:#dc2626;">${fmt(r.refundDeduct)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:800; color:#0f172a;">${fmt(r.finalFloor)}</td>
+                </tr>
+              `).join("") : `<tr><td colspan="8" style="padding:12px; text-align:center; color:#94a3b8;">당월 온라인 강좌(Pipeline 1.1) 정산 내역이 없습니다.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // [C] 도서 인세 / 위탁 도서 (Pipeline 2.1 / 2.2)
+    if (c.bookRows.length > 0 || showAll) {
+      activeNames.push("[C] 도서인세·위탁(2.1/2.2)");
+      blocks.push(`
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">📚 [테이블 C] 교재 저작권 인세(Pipeline 2.1) · 위탁 도서 판매대금(Pipeline 2.2) 산출 명세</div>
+            <span style="font-size:11.5px; color:#64748b;">3PL 출고 완료 및 구매확정(D+7) 반품 차감 기준</span>
+          </div>
+          <table class="table" style="width:100%; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;">도서 SKU 및 교재명</th>
+                <th style="padding:8px 12px;">공급 형태 (Pipeline)</th>
+                <th style="padding:8px 12px; text-align:right;">출고 / 반품 / 확정수량</th>
+                <th style="padding:8px 12px; text-align:right;">도서 정가</th>
+                <th style="padding:8px 12px; text-align:right;">인세율 / 정산율</th>
+                <th style="padding:8px 12px; text-align:right;">저자 지분율</th>
+                <th style="padding:8px 12px; text-align:right;">당월 도서 정산금 (Floor)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.bookRows.length ? c.bookRows.map(r => `
+                <tr style="border-top:1px solid #e2e8f0;">
+                  <td style="padding:8px 12px;"><strong>${r.sku}</strong> · ${r.title}</td>
+                  <td style="padding:8px 12px;"><span class="badge badge-warn">${r.supplyType}</span></td>
+                  <td style="padding:8px 12px; text-align:right;">출고 ${r.shipQty} − 반품 ${r.returnQty} = <strong>${r.netQty}부</strong></td>
+                  <td style="padding:8px 12px; text-align:right;">${fmt(r.listPrice)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:700;">${r.rate}</td>
+                  <td style="padding:8px 12px; text-align:right;">${r.shareRatio}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:800; color:#0f172a;">${fmt(r.finalFloor)}</td>
+                </tr>
+              `).join("") : `<tr><td colspan="7" style="padding:12px; text-align:center; color:#94a3b8;">당월 도서 인세/위탁 정산 내역이 없습니다.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // [D] 개발지원금 · 최저보장(MMG) (Pipeline 5.1 / 3·5·7단계)
+    if (c.supportRows.length > 0 || showAll) {
+      activeNames.push("[D] 개발지원금·MMG");
+      blocks.push(`
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">🛡️ [테이블 D] 콘텐츠 개발지원금 한도 캡(5단계) · 최저보장 정산금 MMG(7단계) 명세</div>
+            <span style="font-size:11.5px; color:#64748b;">상계 허용 여부(CONDITIONAL vs NON_OFFSET) 분리 통제</span>
+          </div>
+          <table class="table" style="width:100%; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;">약정 구분</th>
+                <th style="padding:8px 12px; text-align:right;">약정 총 한도(보장액)</th>
+                <th style="padding:8px 12px; text-align:right;">전월까지 소진(실적)</th>
+                <th style="padding:8px 12px; text-align:right;">당월 산출액</th>
+                <th style="padding:8px 12px; text-align:right;">한도 캡 적용 확정액</th>
+                <th style="padding:8px 12px;">상계 규칙</th>
+                <th style="padding:8px 12px;">검증 비고</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.supportRows.length ? c.supportRows.map(r => `
+                <tr style="border-top:1px solid #e2e8f0;">
+                  <td style="padding:8px 12px; font-weight:700;">${r.type}</td>
+                  <td style="padding:8px 12px; text-align:right;">${fmt(r.capTotal)}</td>
+                  <td style="padding:8px 12px; text-align:right;">${fmt(r.usedBefore)}</td>
+                  <td style="padding:8px 12px; text-align:right;">${fmt(r.calcCurrent)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:800; color:#1d4ed8;">${fmt(r.capApplied)}</td>
+                  <td style="padding:8px 12px;"><span class="badge ${r.offsetRule.includes('NON_OFFSET') ? 'badge-danger' : 'badge-primary'}">${r.offsetRule}</span></td>
+                  <td style="padding:8px 12px; color:#475569;">${r.note}</td>
+                </tr>
+              `).join("") : `<tr><td colspan="7" style="padding:12px; text-align:center; color:#94a3b8;">당월 개발지원금 또는 MMG 보전 내역이 없습니다.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    // [E] 선급금 원장 및 당월 자동 상계 명세 (6단계)
+    if (c.prepayRows.length > 0 || showAll) {
+      activeNames.push("[E] 선급금상계(6단계)");
+      blocks.push(`
+        <div class="s1-card">
+          <div class="s1-card-head">
+            <div class="s1-card-title">🏦 [테이블 E] 선급금(LOAN/EARNED) 원장 및 6단계 파이프라인 비례안분 상계 명세</div>
+            <span style="font-size:11.5px; color:#64748b;">선급금 상계는 지급액만 차감하며 당월 과세표준(세금계산서/원천세 기준액)을 축소하지 않음</span>
+          </div>
+          <table class="table" style="width:100%; font-size:12px;">
+            <thead>
+              <tr style="background:#f8fafc;">
+                <th style="padding:8px 12px;">선급금 약정 ID</th>
+                <th style="padding:8px 12px; text-align:right;">총 지급 선급금</th>
+                <th style="padding:8px 12px; text-align:right;">전기말 미상계 잔액</th>
+                <th style="padding:8px 12px; text-align:right;">당월 상계 적격 세전액</th>
+                <th style="padding:8px 12px; text-align:right;">당월 상계 확정액</th>
+                <th style="padding:8px 12px; text-align:right;">기말 미상계 잔액(또는 해지청구)</th>
+                <th style="padding:8px 12px;">파이프라인 비례안분 및 처리 상세</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.prepayRows.length ? c.prepayRows.map(r => `
+                <tr style="border-top:1px solid #e2e8f0;">
+                  <td style="padding:8px 12px; font-family:monospace; font-weight:700;">${r.prepayId}</td>
+                  <td style="padding:8px 12px; text-align:right;">${fmt(r.totalLoan)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:700;">${fmt(r.openingBal)}</td>
+                  <td style="padding:8px 12px; text-align:right;">${fmt(r.eligiblePreTax)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:800; color:#dc2626;">${fmt(r.offsetApplied)}</td>
+                  <td style="padding:8px 12px; text-align:right; font-weight:800; color:#b45309;">${fmt(r.closingBal)}</td>
+                  <td style="padding:8px 12px; color:#334155;">${r.allocDetail}</td>
+                </tr>
+              `).join("") : `<tr><td colspan="7" style="padding:12px; text-align:center; color:#94a3b8;">해당 수취인은 선급금 약정 및 상계 내역이 없습니다.</td></tr>`}
+            </tbody>
+          </table>
+        </div>
+      `);
+    }
+
+    document.getElementById("s1ActiveTablesSummary").textContent = `케이스별 자동 노출 섹션(${activeNames.length}개): ${activeNames.join(" · ")}`;
+    document.getElementById("s1DynamicTablesContainer").innerHTML = blocks.join("");
+
+    // 4. 워터폴 렌더링
+    document.getElementById("s1WaterfallBody").innerHTML = c.waterfall.map(w => `
+      <tr style="border-bottom:1px solid #e2e8f0;">
+        <td style="padding:8px 12px; font-family:monospace; font-weight:700; color:#1e40af;">${w.step}</td>
+        <td style="padding:8px 12px; font-weight:700;">${w.title}</td>
+        <td style="padding:8px 12px; color:#475569;">${w.rule}</td>
+        <td style="padding:8px 12px; text-align:right; font-weight:700; color:${w.delta < 0 ? '#dc2626' : (w.delta > 0 ? '#2563eb' : '#94a3b8')};">${fmt(w.delta)}</td>
+        <td style="padding:8px 12px; text-align:right; font-weight:800; background:#f8fafc;">${fmt(w.bal)}</td>
+      </tr>
+    `).join("");
+
+    // 5. 증빙 및 재무 검토 메모
+    document.getElementById("s1EvidenceDetailBox").textContent = c.evidenceInfo;
+    document.getElementById("s1AuditMemoHistory").innerHTML = c.auditMemos.map(m => `<div>• ${m}</div>`).join("");
+  }
+
+  function saveS1AuditMemo() {
+    const inp = document.getElementById("inpS1NewMemo");
+    if (!inp || !inp.value.trim()) {
+      alert("검토 메모 내용을 입력해 주세요.");
+      return;
+    }
+    const holderId = document.getElementById("selS1Holder").value;
+    const c = window.S1_STATEMENT_CASES[holderId];
+    if (c) {
+      c.auditMemos.push(`[2026-10-31 즉시등록] 재무관리자(white): ${inp.value.trim()}`);
+      inp.value = "";
+      renderStatementModalS1();
+      showToast("📝 재무 검토 메모가 통합 정산서 원장에 기록되었습니다.");
+    }
+  }
+
+  function confirmSingleStatementS1() {
+    const holderId = document.getElementById("selS1Holder").value;
+    const c = window.S1_STATEMENT_CASES[holderId];
+    showToast(`🔒 [${c.holderName}] 2026년 10월 통합 정산서 상세 검토 및 개별 마감(Lock) 확정이 완료되었습니다.`);
   }
 </script>
 
