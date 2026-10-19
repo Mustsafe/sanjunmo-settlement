@@ -788,7 +788,7 @@ code, pre, kbd, samp,
                           <button type="button" class="seg-btn" id="seg-mth-code" onclick="setIssueMethod('CODE')">코드 입력형</button>
                         </div>
                         <div class="help-txt" id="method-desc-txt">
-                          • <b>수동 대량 발급:</b> <code>ADMN-USER-006</code> 수평적 그룹·태그로 타겟팅하여 예약 시각에 배치 발급 및 알림톡을 동시 발송합니다.
+                          • <b>수동 대량 발급:</b> [회원 그룹·태그 관리] 수평적 그룹·태그로 타겟팅하여 예약 시각에 배치 발급 및 알림톡을 동시 발송합니다.
                         </div>
                       </td>
                     </tr>
@@ -920,7 +920,7 @@ code, pre, kbd, samp,
               </div>
               <div class="card-body" style="background:#F8FAFC; border-top:1px solid var(--border-color); font-size:11.5px; color:var(--text-secondary);">
                 • <b>수식:</b> <code>discount = FLOOR(MIN(base × rate, 200000, base))</code><br />
-                • Cap이 작동해 감면액이 깎인 주문은 <code>order_discount.cap_applied = 1</code> 기록 및 정산(<code>ADMN-SETT-002</code>) 시 <b>실감면액 기준</b>으로 배분됩니다.
+                • Cap이 작동해 감면액이 깎인 주문은 <code>order_discount.cap_applied = 1</code> 기록 및 정산([월간 정산 및 집행]) 시 <b>실감면액 기준</b>으로 배분됩니다.
               </div>
             </div>
 
@@ -995,7 +995,7 @@ code, pre, kbd, samp,
                     <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
                       <span>일반 수강후기 승인:</span>
                       <input type="number" class="form-input" style="width:100px; font-weight:800;" value="1000" /> <span>P</span>
-                      <span style="margin-left:8px;">베스트 후기 · 합격수기(<code>ADMN-BRD-005</code>) 승인:</span>
+                      <span style="margin-left:8px;">베스트 후기 · 합격수기([수강·합격수기 관리]) 승인:</span>
                       <input type="number" class="form-input" style="width:100px; font-weight:800;" value="5000" /> <span>P (무상 FREE)</span>
                     </div>
                   </td>
@@ -1047,7 +1047,7 @@ code, pre, kbd, samp,
                   <td class="ct"><span class="badge badge-blue">적립 (EARN)</span></td>
                   <td class="num"><b style="color:var(--success);">+5,000 P</b></td>
                   <td class="num"><b>15,000 P</b></td>
-                  <td>수강·합격후기 검수 승인(<code>ADMN-BRD-005</code>) 베스트 후기 선정 보상 지급 (유효기간 2년)</td>
+                  <td>수강·합격후기 검수 승인([수강·합격수기 관리]) 베스트 후기 선정 보상 지급 (유효기간 2년)</td>
                 </tr>
                 <tr>
                   <td><b>TX-PT-0872</b><br/><span style="font-size:11px; color:var(--text-muted);">2026-10-15 18:10</span></td>
@@ -1270,7 +1270,7 @@ code, pre, kbd, samp,
             <td class="ct"><b>${c.no}</b></td>
             <td>
               <div style="font-weight:800; color:var(--primary);">${c.name}</div>
-              <div style="font-size:11px; color:var(--text-muted); font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;">${c.code} · 실물교재 제외(exclude_book=1)</div>
+              <div style="font-size:11px; color:var(--text-muted); font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;">${c.code} · 실물교재 제외(도서 자동 제외)</div>
             </td>
             <td class="ct">${c.typeLabel}</td>
             <td class="num"><b>${c.valText}</b></td>
@@ -1415,7 +1415,7 @@ code, pre, kbd, samp,
       if (m === "AUTO") {
         desc.innerHTML = "• <b>자동 발급(회원가입 웰컴):</b> 가입 커밋 직후 5,000P + 10% 쿠폰(D+21 자정 만료) 동기 발급. <code>welcome_benefits_history</code>의 <b>DI 해시 기준 생애 1회</b>만 발급되며 재가입 회원은 자동 SKIP.";
       } else if (m === "BULK") {
-        desc.innerHTML = "• <b>수동 대량 발급:</b> <code>ADMN-USER-006</code> 수평적 그룹·태그로 타겟팅하여 예약 시각에 배치 발급 및 알림톡을 동시 발송합니다.";
+        desc.innerHTML = "• <b>수동 대량 발급:</b> [회원 그룹·태그 관리] 수평적 그룹·태그로 타겟팅하여 예약 시각에 배치 발급 및 알림톡을 동시 발송합니다.";
       } else {
         desc.innerHTML = "• <b>코드 입력형:</b> 오프라인·산준모 카페 이벤트용 코드로, 수험생이 마이페이지 쿠폰함(<code>USER-MY-007-P1</code>)에서 직접 입력해 등록합니다.";
       }

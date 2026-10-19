@@ -368,17 +368,17 @@ code, pre, kbd, samp,
             <div>
               <h2>📌 [읽기 전용] 권리자별 상품(강의 · 도서 SKU) 1계층 매핑 현황 (제4장 4.3절 · 제16장 16.1절)</h2>
               <div class="note">
-                본 영역은 <strong>조회 전용(Read-Only)</strong>입니다. 상품 기준 합계 <code>100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong> 단일 진입점에서만 수행합니다.
+                본 영역은 <strong>조회 전용(Read-Only)</strong>입니다. 상품 기준 합계 <code>100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>[상품별 권리자 매핑] 메뉴</strong> 단일 진입점에서만 수행합니다.
               </div>
             </div>
             <div class="inline">
               <button class="btn sm" type="button" onclick="openInst001RateLockModalP1()">🔒 요율 잠금 · 상태 동기화 영향 안내 (ADMN-INST-001-P1)</button>
-              <a class="btn sm pr" href="ADMN-SETT-001_baseline.html" style="text-decoration:none; display:inline-flex; align-items:center;">상품별 권리자 매핑(ADMN-SETT-001) 이동 ↗</a>
+              <a class="btn sm pr" href="ADMN-SETT-001_baseline.html" style="text-decoration:none; display:inline-flex; align-items:center;">[상품별 권리자 매핑] 메뉴 이동 ↗</a>
             </div>
           </div>
 
           <div class="alert warn" style="margin-bottom:10px;">
-            ⚠️ <strong>정산 매핑 미완료(적용 계약 미지정) 1건 감지:</strong> 적용 계약(<code>contract_id</code>)이 미지정된 강의·도서 SKU는 월간 정산 배치(<code>ADMN-SETT-002</code>) 인입이 차단되며 신규 판매가 중단됩니다.
+            ⚠️ <strong>정산 매핑 미완료(적용 계약 미지정) 1건 감지:</strong> 적용 계약(<code>contract_id</code>)이 미지정된 강의·도서 SKU는 월간 정산 배치([월간 정산 및 집행]) 인입이 차단되며 신규 판매가 중단됩니다.
           </div>
 
           <div class="tablewrap">
@@ -416,7 +416,7 @@ code, pre, kbd, samp,
                 <tr>
                   <td><strong>주식회사 엘캠퍼스</strong> (<code>RH-INTERNAL</code>)</td>
                   <td><span class="chip">자사 저작권 도서</span></td>
-                  <td>『산준모 산업안전 실기 빈출문제집』 (<code>PROD-BK-1004</code> · <code>own_copyright_yn=true</code>)</td>
+                  <td>『산준모 산업안전 실기 빈출문제집』 (<code>PROD-BK-1004</code> · <code>자사 저작권 보유</code>)</td>
                   <td><code>CT-INTERNAL-000</code> (자사 100% + 정종대 지원금 Pipeline 5.1 모수 인입)</td>
                   <td class="num"><strong>100.00%</strong></td>
                   <td><code>CONTRACT_LINKED</code> (무기한)</td>
@@ -711,7 +711,7 @@ code, pre, kbd, samp,
             <div id="terminationWrap" hidden="">
               <div class="lv">
                 <h3>계약 종료 대상별 처리 지정</h3>
-                <div class="sub">승계 계약 지정 또는 매핑 종료를 대상별로 지정합니다. 실제 매핑 적용은 상품별 권리자 매핑(ADMN-SETT-001)에서 수행합니다.</div>
+                <div class="sub">승계 계약 지정 또는 매핑 종료를 대상별로 지정합니다. 실제 매핑 적용은 [상품별 권리자 매핑] 메뉴에서 수행합니다.</div>
                 <div id="terminationTable" class="tablewrap"></div>
               </div>
               <div class="alert warn">종료 시 미지급금·미회수 채권·환불 조정액의 후속 정산을 남깁니다. 전속계약금과 개발지원금 약정은 승계 계약 지정만으로 자동 승계하지 않습니다.</div>
@@ -972,7 +972,7 @@ code, pre, kbd, samp,
               <button class="btn" type="button" data-action="approveVat" style="margin-top:8px">재무 책임자 승인 · 모의</button>
               <span class="chip" id="vatApproval">미승인</span>
             </div>
-            <div class="fixed">강의별 권리자 지분은 상품별 권리자 매핑(ADMN-SETT-001)에서 관리합니다. 이 화면의 요율과 상품 지분은 서로 다른 항목입니다.</div>
+            <div class="fixed">강의별 권리자 지분은 [상품별 권리자 매핑] 메뉴에서 관리합니다. 이 화면의 요율과 상품 지분은 서로 다른 항목입니다.</div>
           </div>
         </section>
 
@@ -1012,7 +1012,7 @@ code, pre, kbd, samp,
             <div class="fixed">
               임시코드 BK-REQ-YYYY-SEQ는 SKU 연결 후에도 보존합니다.
               SKU 미연결 저서는 계약 저장이 가능하지만 상품 정산 대상에는 포함하지 않습니다.
-              공동 저자 지분은 상품별 권리자 매핑(ADMN-SETT-001)에서 관리합니다.
+              공동 저자 지분은 [상품별 권리자 매핑] 메뉴에서 관리합니다.
             </div>
           </div>
         </section>
@@ -1313,7 +1313,7 @@ const catalog = [
   {id:"CRS-1002",name:"산업안전 실전 문제풀이",type:"COURSE",share:30},
   {id:"PROD-BK-1001",name:"산업안전 핵심 이론 교재",type:"OWN_PUBLISHED",share:20,ownCopyright:false},
   {id:"PROD-BK-1002",name:"산업안전 실전 문제집",type:"OWN_PUBLISHED",share:25,ownCopyright:false},
-  {id:"PROD-BK-1004",name:"[자사저작권] 정종대 산업안전 필기 기출문제집 (own_copyright_yn=true)",type:"OWN_PUBLISHED",share:100,ownCopyright:true},
+  {id:"PROD-BK-1004",name:"[자사저작권] 정종대 산업안전 필기 기출문제집 (자사 저작권 보유)",type:"OWN_PUBLISHED",share:100,ownCopyright:true},
   {id:"PROD-BK-1003",name:"산업안전 요약 노트",type:"OWN_PUBLISHED",share:0,ownCopyright:false},
   {id:"PROD-BK-2001",name:"외부 출판사 사입 교재",type:"PURCHASED",share:100,ownCopyright:false},
   {id:"PROD-BK-3001",name:"외부 출판사 위탁 교재",type:"CONSIGNMENT",share:0,ownCopyright:false}
@@ -1814,7 +1814,7 @@ function validation(){
       if(val("supportEndBasis")==="FIXED_DATE"&&!val("supportEndDate")) errors.push("지원금 약정 종료일을 입력하세요.");
       if(val("supportEndBasis")==="FIXED_DATE"&&support.some(r=>r.start>val("supportEndDate")||(r.end&&r.end>val("supportEndDate")))) errors.push("SUPPORT 요율 기간이 약정 종료일을 초과합니다.");
       if(!val("supportTerminationPolicy")) warnings.push("지원금 종료 처리 정책이 아직 선택되지 않았습니다.");
-      /* v4.0.0 (D-15/D-16): 권리자 본인의 도서 인세 계약(state.books)이 없더라도 자사 저작권 보유 도서(own_copyright_yn=true, 자사 지분 > 0%)는 개별 지정 매핑 정상 허용 */
+      /* v4.0.0 (D-15/D-16): 권리자 본인의 도서 인세 계약(state.books)이 없더라도 자사 저작권 보유 도서(자사 저작권 보유, 자사 지분 > 0%)는 개별 지정 매핑 정상 허용 */
     }else{
       const sum=state.schedules.support.reduce((s,r)=>s+r.amount,0);
       if(num("supportFixedTotal")<=0||sum!==num("supportFixedTotal")) errors.push("지원금 총 약정액과 지급 회차 합계를 확인하세요.");
@@ -2604,7 +2604,7 @@ const contractCatalog = [
     supportOffset:"CONDITIONAL",
     advanceBalance:5000000,
     alertType:"OK",
-    summaryNote:"[v4.0.0 대표 사례] 자사저작권 도서(own_copyright_yn=true) 매출연동 지원금 15% + 선급금 상계 허용(CONDITIONAL)"
+    summaryNote:"[v4.0.0 대표 사례] 자사저작권 도서(자사 저작권 보유) 매출연동 지원금 15% + 선급금 상계 허용(CONDITIONAL)"
   },
   {
     id:"CT-2026-0610",

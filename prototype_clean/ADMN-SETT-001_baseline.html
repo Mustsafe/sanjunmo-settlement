@@ -512,7 +512,7 @@ const products = [
     id:"PROD-BK-1004",
     kind:"BOOK",
     name:"정종대 산업안전 필기 기출문제집 (자사저작권 보유 도서 · 정종대 지원금 15% 연동)",
-    pipeline:"자사 도서(own_copyright_yn=true) → 개발지원금(Pipeline 5.1)",
+    pipeline:"자사 도서(자사 저작권 보유) → 개발지원금(Pipeline 5.1)",
     supplyType:"OWN_PUBLISHED",
     ownCopyright:true,
     registeredDate:"2025-01-10",
@@ -601,7 +601,7 @@ const state = {
 
     /* 자사 저작권 100% 도서 및 사입/위탁 도서 */
     "PROD-BK-1004":[
-      {id:"MAP-204", holderId:"RH-INTERNAL", contractId:"CT-INTERNAL-000", share:100.00, start:"2025-01-01", endBasis:"CONTRACT_LINKED", end:"2099-12-31", reason:"자사 저작권 보유 도서(own_copyright_yn=true) 자사 100% 자동 매핑", locked:true}
+      {id:"MAP-204", holderId:"RH-INTERNAL", contractId:"CT-INTERNAL-000", share:100.00, start:"2025-01-01", endBasis:"CONTRACT_LINKED", end:"2099-12-31", reason:"자사 저작권 보유 도서(자사 저작권 보유) 자사 100% 자동 매핑", locked:true}
     ],
     "PROD-BK-2001":[
       {id:"MAP-205", holderId:"RH-INTERNAL", contractId:"CT-INTERNAL-000", share:100.00, start:"2025-01-01", endBasis:"CONTRACT_LINKED", end:"2099-12-31", reason:"매입 재판매(PURCHASED_RESALE) 도서 자사 100% 자동 매핑", locked:true}

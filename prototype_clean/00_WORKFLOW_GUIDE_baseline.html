@@ -527,7 +527,7 @@ code, pre, kbd, samp,
                                     </div>
                                     <div class="screen-name">수취인 분할 관리</div>
                                     <div class="screen-role">1계층 권리자 정산금을 공동 서명인(소속사·상속인)과 나누는 2계층 분할 비율
-                                        (<code>payee_splits</code>)</div>
+                                        (수취인 분할 비율)</div>
                                     <ul class="screen-rules">
                                         <li><strong>미상계 선급금 잔액 &gt; 0원 계약은 분할 등록 원천 차단 (5.3절)</strong></li>
                                         <li>수취인별 세무 유형(강사 3.3% vs 소속사 세금계산서) 독립 적용</li>
@@ -545,9 +545,9 @@ code, pre, kbd, samp,
                                     <div class="screen-role">실물 도서 4대 공급 형태 (<code>book_supply_type</code>:
                                         자사발행/사입/위탁/사은품) 및 정가 이력 관리</div>
                                     <ul class="screen-rules">
-                                        <li><code>ADMN-INST-001</code>의 <strong>도서 가채번 (<code>BK-REQ-*</code>)과 정식 SKU
+                                        <li>[권리자 계약 원장]의 <strong>도서 가채번 (<code>BK-REQ-*</code>)과 정식 SKU
                                                 매칭</strong></li>
-                                        <li>자사 저작권 보유 (<code>own_copyright_yn = true</code>) 시
+                                        <li>자사 저작권 보유 (자사 저작권 보유 도서) 시
                                             인세(<code>Pipeline 2.1</code>) Bypass (단, 외부 수취인 개발지원금
                                             <code>Pipeline 5.1</code> 매핑 시 모수 정상 인입)</li>
                                         <li>판매 이력 발생 후 공급 형태 변경 하드락 차단 (6.1절)</li>
@@ -666,7 +666,7 @@ code, pre, kbd, samp,
                                     <div class="screen-role">1~11단계 통합 연산 배치 실행, 정산 마감 확정 (<code>Locked = True</code>),
                                         역발행 및 펌뱅킹 집행</div>
                                     <ul class="screen-rules">
-                                        <li>수취인 리스트 행마다 <strong><code>[🔧 수동 조정]</code> 버튼으로 <code>ADMN-SETT-005</code>
+                                        <li>수취인 리스트 행마다 <strong><code>[🔧 수동 조정]</code> 버튼으로 [정산 수동 조정]
                                                 직결</strong></li>
                                         <li>세전 이월 계정 (<code>PRE_TAX</code>)·세후 이월 계정 (<code>POST_TAX</code>)·위탁 전용 잔액 모달
                                         </li>
@@ -702,7 +702,7 @@ code, pre, kbd, samp,
                                     <div class="screen-role">자사 권리자 귀속분 (<code>is_internal = true</code>), 일반 상품 판매매출
                                         (<code>Pipeline 2.3</code>), 외부 지급액 통합 대조</div>
                                     <ul class="screen-rules">
-                                        <li><strong>자금 집행 버튼 일체 배제</strong> (<code>ADMN-SETT-002</code>와의 엄격한 권한 분리,
+                                        <li><strong>자금 집행 버튼 일체 배제</strong> ([월간 정산 및 집행]와의 엄격한 권한 분리,
                                             18.4절)</li>
                                         <li>매출연동 개발지원금 (<code>Pipeline 5.1</code>) 확정 차감액과 자사 잔여 귀속액 대조</li>
                                         <li>제14장 14.1절 <strong>원천세·간이지급명세서·과세/면세 매출 명세 기초자료 조회·추출</strong></li>
@@ -775,7 +775,7 @@ code, pre, kbd, samp,
                                     가채번 발급</div>
                                 <div style="font-size:12.5px; color:var(--muted);">
                                     실물 책과 ISBN이 아직 없어도 저자와 인세 계약(예: 정가 기준 10%)을 먼저 맺습니다. 이때 <strong>권리자 계약 원장
-                                        (<code>ADMN-INST-001</code>)</strong>에서 <strong>도서 가채번
+                                        ([권리자 계약 원장])</strong>에서 <strong>도서 가채번
                                         (<code>BK-REQ-2026-0001</code>)</strong>을 선발급해 인세 요율을 먼저 저장해 둡니다.
                                 </div>
                             </div>
@@ -790,7 +790,7 @@ code, pre, kbd, samp,
                                 <div style="font-weight:800; font-size:14px; margin-top:4px;">정식 SKU 생성 · 공급 형태 지정 · 가채번
                                     연결</div>
                                 <div style="font-size:12.5px; color:var(--muted);">
-                                    책이 출간되면 도서 MD가 <strong>도서 공급 원장 (<code>ADMN-BOOK-001</code>)</strong>에서 정식 상품
+                                    책이 출간되면 도서 MD가 <strong>도서 공급 원장 ([도서 공급 원장])</strong>에서 정식 상품
                                     식별자(<code>PROD-BK-1001</code>)와 정가를 등록하고 대기 중이던 <strong>도서 가채번
                                         (<code>BK-REQ-*</code>)과 1:1 영구 매핑</strong>합니다. (자사 저작권 보유 도서, 매입 재판매, 위탁 판매,
                                     부속·사은품 도서는 가채번 없이 여기서 바로 SKU를 생성합니다.)
@@ -807,7 +807,7 @@ code, pre, kbd, samp,
                                 <div style="font-weight:800; font-size:14px; margin-top:4px;">저자 지분율 합계 100.00% 확정 → 판매
                                     차단 해제</div>
                                 <div style="font-size:12.5px; color:var(--muted);">
-                                    <strong>상품별 권리자 매핑 (<code>ADMN-SETT-001</code>)</strong>에서 공동저자 및 자사 지분 합계를
+                                    <strong>상품별 권리자 매핑 ([상품별 권리자 매핑])</strong>에서 공동저자 및 자사 지분 합계를
                                     <strong><code>100.00%</code></strong>로 저장하면 즉시 판매 차단이 해제되고, 3PL 출고 완료 후 D+7 확정 판매
                                     부수가 매월 정산 엔진(자사 발행 도서 인세 <code>Pipeline 2.1</code> 및 매출연동 개발지원금
                                     <code>Pipeline 5.1</code>)으로 인입됩니다.
@@ -936,8 +936,8 @@ code, pre, kbd, samp,
                                 <tr>
                                     <td><strong>시나리오 A. 신규 강사 영입 후 강좌 + 자사저작권 도서 동시 오픈</strong></td>
                                     <td>
-                                        <code>ADMN-INST-001</code> (계약·R/S·지원금 등록) → <code>ADMN-BOOK-001</code> (도서
-                                        SKU·자사 저작권 보유 <code>own_copyright_yn = true</code>) → <code>ADMN-SETT-001</code>
+                                        [권리자 계약 원장] (계약·R/S·지원금 등록) → [도서 공급 원장] (도서
+                                        SKU·자사 저작권 보유 자사 저작권 보유 도서) → [상품별 권리자 매핑]
                                         (강좌·도서 지분 100.00% 매핑)
                                     </td>
                                     <td>자사 저작권 보유 도서는 저작자 인세(<code>Pipeline 2.1</code>) 외부 지급을 Bypass하되, 외부 강사 매출연동
@@ -950,20 +950,20 @@ code, pre, kbd, samp,
                                     <td><strong>시나리오 B. 매월 초(1일~10일) 전월 매출 정산 마감 및 펌뱅킹 이체</strong></td>
                                     <td>
                                         <code>ADMN-SETT-004</code> (PG 대사 오차 소명) → <code>ADMN-INST-002</code> (당월 약정금
-                                        승인) → <code>ADMN-SETT-006</code> (환급반 차감 확정) → <code>ADMN-SETT-002</code> (배치
+                                        승인) → [합격 환급반 정산] (환급반 차감 확정) → [월간 정산 및 집행] (배치
                                         실행·마감 확정 <code>Locked = True</code>·펌뱅킹)
                                     </td>
                                     <td>PG 원인 미분류 불일치 (<code>UNKNOWN_MISMATCH</code>) 0건 및 세무 판정 보류
                                         (<code>PENDING_REVIEW</code>) 0건, 이월 원장 3대 연속성 등식 일치 시에만
-                                        <code>ADMN-SETT-002</code> 마감 확정 활성화</td>
+                                        [월간 정산 및 집행] 마감 확정 활성화</td>
                                     <td><button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-SETT-004_baseline.html')">SETT-004 대사부터 →</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><strong>시나리오 C. 이미 마감된 전월(Locked) 정산서의 요율·수수료 오류 발견 시</strong></td>
                                     <td>
-                                        <code>ADMN-SETT-002</code> (수취인 행의 <code>[🔧 수동 조정]</code> 클릭) →
-                                        <code>ADMN-SETT-005</code> (원 정산서 자동 바인딩 모달에서 등록·1/2차 승인)
+                                        [월간 정산 및 집행] (수취인 행의 <code>[🔧 수동 조정]</code> 클릭) →
+                                        [정산 수동 조정] (원 정산서 자동 바인딩 모달에서 등록·1/2차 승인)
                                     </td>
                                     <td>마감 취소 절대 금지 (10.1절). 발생 원인 귀속월 (<code>origin_month</code>)과 반영 기준월
                                         (<code>applied_month</code>)을 분리하고 4채널 증빙·원천세 정정 작업 (10.4절, 1:N 복수 작업 허용) 자동 생성
@@ -974,13 +974,13 @@ code, pre, kbd, samp,
                                 <tr>
                                     <td><strong>시나리오 D. 세무신고일(매월 10일/말일) 원천세·간이지급명세서 추출 및 계좌 진위 대조</strong></td>
                                     <td>
-                                        <code>ADMN-SETT-009</code> (자사/전체 정산 대조 및 제14장 신고 기초자료 추출) → 확인 필요 시
-                                        <code>ADMN-USER-007</code> (10자 사유 입력 후 30초간 주민번호·계좌 열람) →
-                                        <code>ADMN-CONF-010</code> (감사로그 확인)
+                                        [내부 정산 조회] (자사/전체 정산 대조 및 제14장 신고 기초자료 추출) → 확인 필요 시
+                                        [민감 정보 열람 통제] (10자 사유 입력 후 30초간 주민번호·계좌 열람) →
+                                        [정산 감사 로그] (감사로그 확인)
                                     </td>
                                     <td>원천세 신고 집계는 실제 지급·적법한 상계·지급 의제 성립 건
-                                        (<code>payment_event_date IS NOT NULL</code>)만 포함하며, 민감 정보 열람 후 30초
-                                        (<code>pii_unmask_ttl_seconds</code>) 경과 시 자동 재마스킹 및 감사 로그 기록</td>
+                                        (실제 지급·상계 완료 건)만 포함하며, 민감 정보 열람 후 30초
+                                        (열람 유지 시간) 경과 시 자동 재마스킹 및 감사 로그 기록</td>
                                     <td><button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-SETT-009_baseline.html')">SETT-009 조회센터 →</button>
                                     </td>
                                 </tr>
@@ -1016,7 +1016,7 @@ code, pre, kbd, samp,
                                 </tr>
                                 <tr>
                                     <td><strong>03. 회원 · 수강 · 태그 · 블랙리스트</strong></td>
-                                    <td><code>ADMN-USER-001~006</code> 회원 목록·상세·1:1 발송·수강/기기·진도율(004)·블랙리스트(005)·태그(006) · <code>ADMN-USER-007</code> 민감정보 통제</td>
+                                    <td><code>ADMN-USER-001~006</code> 회원 목록·상세·1:1 발송·수강/기기·진도율(004)·블랙리스트(005)·태그(006) · [민감 정보 열람 통제] 민감정보 통제</td>
                                     <td>
                                         <button class="btn btn-sm btn-pri" onclick="goScreen('ADMN-USER-001_baseline.html?view=list')">일반회원 관리 →</button>
                                         <button class="btn btn-sm" onclick="goScreen('ADMN-USER-001_baseline.html?view=course')">수강·진도(003/004) →</button>

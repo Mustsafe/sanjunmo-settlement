@@ -937,7 +937,7 @@ code, pre, kbd, samp,
 
         <div class="info-callout">
 
-          <strong>[ADMN-BRD-002] FAQ 동적 카테고리 관리:</strong> 고정된 분류 외에 <code>[기타]</code>, <code>[모바일/플레이어]</code> 등 신규 FAQ 카테고리를 자유롭게 추가·이름 수정·노출 순서 조정할 수 있으며, 사용자 고객센터(<code>USER-CS-002</code>) 탭에 즉시 반영됩니다.
+          <strong>[ADMN-BRD-002] FAQ 동적 카테고리 관리:</strong> 고정된 분류 외에 <code>[기타]</code>, <code>[모바일/플레이어]</code> 등 신규 FAQ 카테고리를 자유롭게 추가·이름 수정·노출 순서 조정할 수 있으며, 사용자 고객센터(프론트 [자주 묻는 질문(FAQ)]) 탭에 즉시 반영됩니다.
 
         </div>
 
@@ -1165,7 +1165,7 @@ code, pre, kbd, samp,
 
           <strong>[ADMN-BRD-010] 당첨자 발표 프론트 노출 위치 및 지급 플로우:</strong><br/>
 
-          [1] <strong>프론트 노출:</strong> 발표글 등록 시 <strong>사용자 웹 [이벤트 &gt; 당첨자 발표 탭(<code>USER-PROM-001</code>)]</strong>에 기본 노출되며, 옵션 선택 시 <strong>[고객센터 &gt; 공지사항(<code>USER-CS-001</code>)] 상단 배너</strong>에 동시 노출됩니다.<br/>
+          [1] <strong>프론트 노출:</strong> 발표글 등록 시 <strong>사용자 웹 [이벤트 &gt; 당첨자 발표 탭(프론트 [이벤트/기획전] 페이지)]</strong>에 기본 노출되며, 옵션 선택 시 <strong>[고객센터 &gt; 공지사항(프론트 [고객센터 공지사항])] 상단 배너</strong>에 동시 노출됩니다.<br/>
 
           [2] <strong>경품 지급 연동:</strong> <code>포인트/쿠폰</code>은 <strong>[선택 당첨자 일괄 즉시 지급]</strong> 시 회원 포인트 원장(<code>ADMN-PROM-003</code>)에 즉시 적립되고, <code>기프티콘</code>은 알림톡/MMS 발송, <code>실물 경품</code>은 당첨자 배송지 수집 후 송장번호를 입력합니다.
 
@@ -1505,9 +1505,9 @@ code, pre, kbd, samp,
 
           <div style="display:flex; flex-wrap:wrap; gap:18px; padding:10px 14px; background:#f8fafc; border:1px solid var(--border); border-radius:8px;">
 
-            <label><input type="checkbox" id="winpost-exp-event" checked /> <strong>이벤트 &gt; 당첨자 발표 탭 (USER-PROM-001)</strong> 노출</label>
+            <label><input type="checkbox" id="winpost-exp-event" checked /> <strong>이벤트 &gt; 당첨자 발표 탭 (프론트 [이벤트/기획전] 페이지)</strong> 노출</label>
 
-            <label><input type="checkbox" id="winpost-exp-notice" checked /> <strong>고객센터 &gt; 공지사항 (USER-CS-001)</strong> 상단 동시 노출</label>
+            <label><input type="checkbox" id="winpost-exp-notice" checked /> <strong>고객센터 &gt; 공지사항 (프론트 [고객센터 공지사항])</strong> 상단 동시 노출</label>
 
             <label><input type="checkbox" id="winpost-send-alim" checked /> 게시와 동시에 당첨자 개별 알림톡(<code>ADMN-CONF-004</code>) 발송</label>
 
@@ -2599,9 +2599,9 @@ code, pre, kbd, samp,
 
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
 
-            <span class="badge ${post.exposeEventTab ? 'badge-blue' : 'badge-slate'}">이벤트 &gt; 당첨자 발표 탭(USER-PROM-001): ${post.exposeEventTab ? '노출 ON' : 'OFF'}</span>
+            <span class="badge ${post.exposeEventTab ? 'badge-blue' : 'badge-slate'}">이벤트 &gt; 당첨자 발표 탭(프론트 [이벤트/기획전] 페이지): ${post.exposeEventTab ? '노출 ON' : 'OFF'}</span>
 
-            <span class="badge ${post.exposeNoticeTop ? 'badge-blue' : 'badge-slate'}">고객센터 &gt; 공지사항(USER-CS-001) 동시 노출: ${post.exposeNoticeTop ? 'ON' : 'OFF'}</span>
+            <span class="badge ${post.exposeNoticeTop ? 'badge-blue' : 'badge-slate'}">고객센터 &gt; 공지사항(프론트 [고객센터 공지사항]) 동시 노출: ${post.exposeNoticeTop ? 'ON' : 'OFF'}</span>
 
             <span class="badge ${post.sendAlimtalk ? 'badge-green' : 'badge-slate'}">당첨자 개별 알림톡(ADMN-CONF-004): ${post.sendAlimtalk ? '발송 연동됨' : '미발송'}</span>
 

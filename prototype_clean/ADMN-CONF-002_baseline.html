@@ -488,7 +488,7 @@ code, pre, kbd, samp,
 
           산준모닷컴 약관 마스터는 <strong>T01(서비스 이용약관) ~ T05(마케팅 정보 수신 동의) 5종</strong>으로 운영됩니다. (수험생 전용 플랫폼 정책에 따라 만 14세 미만 가입 차단 약관은 두지 않음)<br/>
 
-          약관 개정 시 기존 회원의 로그인을 막는 강제 재동의 절차 대신, <strong>법정 사전 공고 기간(일반 7일 / 불리·중대 30일) 동안 사이트 공지 및 전체 회원 개정 고지(ADMN-CONF-004-S1)</strong>를 발송하며, 역대 모든 버전은 하단 이력에 보존되어 프론트 푸터(<code>USER-INFO-001</code>)의 <strong>[이전 버전 보기]</strong> 드롭다운과 1:1 연동됩니다.
+          약관 개정 시 기존 회원의 로그인을 막는 강제 재동의 절차 대신, <strong>법정 사전 공고 기간(일반 7일 / 불리·중대 30일) 동안 사이트 공지 및 전체 회원 개정 고지(ADMN-CONF-004-S1)</strong>를 발송하며, 역대 모든 버전은 하단 이력에 보존되어 프론트 푸터(사이트 하단 푸터)의 <strong>[이전 버전 보기]</strong> 드롭다운과 1:1 연동됩니다.
 
         </div>
 
@@ -508,7 +508,7 @@ code, pre, kbd, samp,
 
             <div style="display:flex; gap:8px;">
 
-              <button type="button" class="btn btn-sm btn-outline" onclick="showToast('신규 약관 코드(T06 등) 추가는 회원가입(USER-JOIN-002)·주문서(USER-PAY-001) 프론트 체크박스 연동 배포 사항입니다.')">+ 신규 약관 종류 추가 안내</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="showToast('신규 약관 코드(T06 등) 추가는 회원가입(회원가입 화면)·주문서(USER-PAY-001) 프론트 체크박스 연동 배포 사항입니다.')">+ 신규 약관 종류 추가 안내</button>
 
             </div>
 
@@ -628,7 +628,7 @@ code, pre, kbd, samp,
 
                   <th>프론트 노출 위치</th>
 
-                  <td id="dt-meta-loc">주문/결제(<code>USER-PAY-001</code>) 필수 체크 + 사이트 하단 푸터(<code>USER-INFO-001</code>) 상시 노출</td>
+                  <td id="dt-meta-loc">주문/결제(<code>USER-PAY-001</code>) 필수 체크 + 사이트 하단 푸터(사이트 하단 푸터) 상시 노출</td>
 
                   <th>현행 시행 버전 / 시행일</th>
 
@@ -668,7 +668,7 @@ code, pre, kbd, samp,
 
                     <input type="radio" name="edit_mode" value="NEW_REV" checked onchange="onChangeEditMode()" />
 
-                    <span>[유형 1] 신규 개정 버전 등록 (기존 시행 버전은 [이전 버전 이력]으로 자동 보관)</span>
+                    <span>신규 개정 약관 등록 (기존 시행 버전은 [이전 버전 이력]으로 자동 보관)</span>
 
                   </label>
 
@@ -676,7 +676,7 @@ code, pre, kbd, samp,
 
                     <input type="radio" name="edit_mode" value="DIRECT_FIX" onchange="onChangeEditMode()" />
 
-                    <span>[유형 2] 현행/공시예정 버전 본문 직접 수정 (단순 오탈자·문구 보정용 · 버전 번호 유지)</span>
+                    <span>현행 약관 본문 수정 (단순 오탈자·문구 보정용 · 버전 번호 유지)</span>
 
                   </label>
 
@@ -764,7 +764,7 @@ code, pre, kbd, samp,
 
                   <button type="button" class="btn btn-sm btn-outline" onclick="insertEditorTag('<mark style=\x22background:#FEF08A;\x22>', '</mark>')">🖍️ 개정 강조</button>
 
-                  <span style="margin-left:auto; font-size:11.5px; color:var(--text-muted);">※ 저장 시 프론트 약관 뷰어(<code>USER-INFO-001</code>) 및 동의 모달에 즉시 반영됩니다.</span>
+                  <span style="margin-left:auto; font-size:11.5px; color:var(--text-muted);">※ 저장 시 프론트 약관 뷰어(사이트 하단 푸터) 및 동의 모달에 즉시 반영됩니다.</span>
 
                 </div>
 
@@ -806,7 +806,7 @@ code, pre, kbd, samp,
 
                 <div style="font-size:12px; color:var(--text-sub);">
 
-                  <strong>[프론트 이전 버전 보기 연동]</strong> 개인정보보호법 제30조 및 전자상거래법에 따라 역대 약관 버전은 삭제 없이 보존되며, 사용자 화면(<code>USER-INFO-001</code>) 하단 드롭다운에서 수험생이 언제든 이전 버전을 열람할 수 있습니다.
+                  <strong>[프론트 이전 버전 보기 연동]</strong> 개인정보보호법 제30조 및 전자상거래법에 따라 역대 약관 버전은 삭제 없이 보존되며, 사용자 화면(사이트 하단 푸터) 하단 드롭다운에서 수험생이 언제든 이전 버전을 열람할 수 있습니다.
 
                 </div>
 
@@ -970,7 +970,7 @@ code, pre, kbd, samp,
 
         <div style="font-size:12px; color:var(--text-sub);">
 
-          • 저장 즉시 버전별 변경 이력(<code>terms_version_history</code>) 및 관리자 보안 감사 로그(<code>ADMN-CONF-006</code>)에 기록됩니다.<br/>
+          • 저장 즉시 버전별 변경 이력(<code>terms_version_history</code>) 및 관리자 보안 감사 로그([운영 · 보안 감사 로그])에 기록됩니다.<br/>
 
           • 신규 개정 공시 등록 후에는 <strong>[전체 회원 개정 고지 발송 (ADMN-CONF-004-S1)]</strong>을 통해 이메일/알림톡 사전 안내를 발송할 수 있습니다.
 
@@ -1012,7 +1012,7 @@ code, pre, kbd, samp,
 
         dbMap: "user_agreements (term_code='T01')",
 
-        location: '회원가입(USER-JOIN-002) 필수 체크 + 하단 푸터(USER-INFO-001)',
+        location: '회원가입(회원가입 화면) 필수 체크 + 하단 푸터(사이트 하단 푸터)',
 
         currentVer: 'v2.1',
 
@@ -1055,7 +1055,7 @@ code, pre, kbd, samp,
 
         dbMap: "user_agreements (term_code='T02')",
 
-        location: '회원가입(USER-JOIN-002) 필수 체크',
+        location: '회원가입(회원가입 화면) 필수 체크',
 
         currentVer: 'v1.8',
 
@@ -1095,7 +1095,7 @@ code, pre, kbd, samp,
 
         dbMap: '상시 공시 문서 (별도 체크박스 수집 없음 · 푸터 상시 노출)',
 
-        location: '사이트 하단 푸터(USER-INFO-001) 볼드체 상시 노출',
+        location: '사이트 하단 푸터(사이트 하단 푸터) 볼드체 상시 노출',
 
         currentVer: 'v2.9',
 
@@ -1136,7 +1136,7 @@ code, pre, kbd, samp,
 
         dbMap: "user_agreements (term_code='T04')",
 
-        location: '주문/결제(USER-PAY-001) 필수 체크 + 하단 푸터(USER-INFO-001)',
+        location: '주문/결제(USER-PAY-001) 필수 체크 + 하단 푸터(사이트 하단 푸터)',
 
         currentVer: 'v1.4',
 
@@ -1172,7 +1172,7 @@ code, pre, kbd, samp,
 
         dbMap: 'users.is_marketing_agreed (SMS/알림톡·이메일 통합 단일 필드)',
 
-        location: '회원가입(USER-JOIN-002) 선택 체크 + 마이페이지(USER-MY-009) 토글',
+        location: '회원가입(회원가입 화면) 선택 체크 + 마이페이지(USER-MY-009) 토글',
 
         currentVer: 'v1.1',
 

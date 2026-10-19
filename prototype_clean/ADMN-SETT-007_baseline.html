@@ -558,8 +558,8 @@ code, pre, kbd, samp,
       effectiveEnd: "2027-12-31",
       simBaseAmount: 7393750,
       coSigners: [
-        { payeeId: "PY-0025-A", name: "정종대 (주권리자 · 강사 겸 저자)", role: "주권리자 (계약 서명인)", entityType: "개인 면세사업자 (211-90-48291)", taxCase: "면세 계산서 역발행 + 3.3% 원천징수 (TX-08)", isAuthor: true, successionYn: false, successionDate: "" },
-        { payeeId: "PY-0025-B", name: "(주)산준교육 에이전시", role: "공동서명 에이전시", entityType: "법인 일반과세자 (120-86-99381)", taxCase: "일반과세 세금계산서 역발행 (TX-07 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" }
+        { payeeId: "PY-0025-A", name: "정종대 (주권리자 · 강사 겸 저자)", role: "주권리자 (계약 서명인)", entityType: "개인 면세사업자 (211-90-48291)", taxCase: "개인 면세사업자 (계산서 역발행 + 3.3% 원천징수)", isAuthor: true, successionYn: false, successionDate: "" },
+        { payeeId: "PY-0025-B", name: "(주)산준교육 에이전시", role: "공동서명 에이전시", entityType: "법인 일반과세자 (120-86-99381)", taxCase: "법인/일반과세 사업자 (세금계산서 역발행 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [
         { payeeId: "PY-0025-A", ratio: 80.00, startDate: "2025-01-01", endDate: "2027-12-31", note: "주권리자 정종대 80% 귀속 (2026-10 과세표준 5,915,000원)" },
@@ -582,8 +582,8 @@ code, pre, kbd, samp,
       simBaseAmount: 2000000,
       coSigners: [
         { payeeId: "PY-0012", name: "김안전 (원 권리자 본인)", role: "원 저작자 (강사)", entityType: "개인 프리랜서 (비사업자)", taxCase: "사업소득 원천징수 3.3% (TX-02)", isAuthor: true, successionYn: false, successionDate: "" },
-        { payeeId: "PY-9001", name: "(주)스타에듀매니지먼트", role: "공동서명 소속사", entityType: "법인 일반과세자 (106-81-55210)", taxCase: "일반과세 세금계산서 역발행 (TX-07 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" },
-        { payeeId: "PY-9005", name: "한국기술콘텐츠에이전시", role: "공동서명 기획사", entityType: "개인 일반과세자 (211-08-33190)", taxCase: "일반과세 세금계산서 역발행 (TX-07 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" }
+        { payeeId: "PY-9001", name: "(주)스타에듀매니지먼트", role: "공동서명 소속사", entityType: "법인 일반과세자 (106-81-55210)", taxCase: "법인/일반과세 사업자 (세금계산서 역발행 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" },
+        { payeeId: "PY-9005", name: "한국기술콘텐츠에이전시", role: "공동서명 기획사", entityType: "개인 일반과세자 (211-08-33190)", taxCase: "법인/일반과세 사업자 (세금계산서 역발행 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [
         { payeeId: "PY-0012", ratio: 70.00, startDate: "2026-01-01", endDate: "2026-12-31", note: "1계층 원 저작자 직접 수취분 (70%)" },
@@ -890,7 +890,7 @@ code, pre, kbd, samp,
           <div>
             <div style="font-weight:800; font-size:13.5px;">🚫 [제5장 5.3절 상호 차단 하드락] 미상계 선급금 잔액(${fmt(c.advanceRemaining)})이 존재하여 수취인 분할 설정이 차단되었습니다.</div>
             <div style="margin-top:4px;">
-              선급금은 원 권리자(${c.primaryHolderName}) 개인에 대한 채권이므로 제3자(소속사·에이전시)에게 상계 부담이 전이되는 것을 방지하기 위해, <strong>선급금 잔액이 0원으로 종결되기 전까지 2계층 수취인 분할 비율(<code>payee_splits</code>)을 추가하거나 변경할 수 없습니다.</strong>
+              선급금은 원 권리자(${c.primaryHolderName}) 개인에 대한 채권이므로 제3자(소속사·에이전시)에게 상계 부담이 전이되는 것을 방지하기 위해, <strong>선급금 잔액이 0원으로 종결되기 전까지 2계층 수취인 분할 비율(수취인 분할 비율)을 추가하거나 변경할 수 없습니다.</strong>
             </div>
           </div>
           <span class="badge b-bad">서버 검증 차단</span>

@@ -652,10 +652,10 @@ code, pre, kbd, samp,
       <h1 class="crumb-title" id="header-screen-title">도서 공급 원장 (SKU · 공급원가 · 인세 마스터)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <div class="role-sim-box" title="FIN_MANAGER 전용 공급원가 열람 통제 시뮬레이터">
+      <div class="role-sim-box" title="재무/정산 책임자 전용 공급원가 열람 통제 시뮬레이터">
           <span>열람 권한:</span>
           <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
-            <option value="FIN_MANAGER" selected="">재무/정산책임자 (FIN_MANAGER)</option>
+            <option value="재무/정산 책임자" selected="">재무/정산책임자 (재무/정산 책임자)</option>
             <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
           </select>
         </div>
@@ -701,7 +701,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step1-light">🟢 가채번 완료 (TMP-BK-2601)</span>
             </div>
             <div class="step-desc">
-              <code>ADMN-INST-001</code> · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (사입 도서는 생략)
+              [권리자 계약 원장] · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (사입 도서는 생략)
             </div>
           </a>
 
@@ -719,7 +719,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step3-light">🟢 계약원장 자동상속</span>
             </div>
             <div class="step-desc">
-              <code>ADMN-SETT-001</code> · 가채번 도서는 자동 매핑되며, 계약원장 없이 생성한 도서는 여기서 권리자를 매핑합니다.
+              [상품별 권리자 매핑] · 가채번 도서는 자동 매핑되며, 계약원장 없이 생성한 도서는 여기서 권리자를 매핑합니다.
             </div>
           </a>
 
@@ -740,7 +740,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">도서 공급 원장(SSOT) · 정산 연동 규칙</span>
           <div class="policy-text">
-            <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
+            <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산([월간 정산 및 집행]) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
             상품관리자가 <code>ADMN-PROD-004</code>에서 먼저 선등록한 도서(원가 미입력 건)도 여기서 원가를 확정해야 <strong>[판매중]</strong> 전환 잠금이 해제됩니다.
           </div>
         </div>
@@ -829,7 +829,7 @@ code, pre, kbd, samp,
                   <td><span class="badge badge-end">강좌 포함 비매품</span></td>
                   <td><code>true</code> (자사 제작)</td>
                   <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
-                  <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
+                  <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 ([배송 · 3PL 출고 관리] 3PL 출고만 연동)</td>
                   <td class="text-right"><strong>0원 (비매품)</strong></td>
                   <td><span class="badge badge-end">🔒 비매품 고정</span></td>
                 </tr>
@@ -911,7 +911,7 @@ code, pre, kbd, samp,
               <h2 class="card-title">도서 공급 원장 검색 조건</h2>
               <span class="card-subtitle">공급 계약 유형 · 원가 확정 상태 · 출발 경로 · 출판사(공급처) · SKU/ISBN 조회</span>
             </div>
-            <span class="code-pill">Table: book_supply_ledger</span>
+            
           </div>
           <div class="card-body">
             <div class="filter-grid">
@@ -1039,7 +1039,7 @@ code, pre, kbd, samp,
                     <span class="badge badge-sale">인세도서 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    권리자 계약 원장(<code>ADMN-INST-001</code>)에서 가채번(<code>TMP-BK-XX</code>)된 도서를 호출하여 <strong>정식 SKU(<code>BOOK-XXXX</code>)를 부여</strong>하고 제조원가를 확정합니다.
+                    권리자 계약 원장([권리자 계약 원장])에서 가채번(<code>TMP-BK-XX</code>)된 도서를 호출하여 <strong>정식 SKU(<code>BOOK-XXXX</code>)를 부여</strong>하고 제조원가를 확정합니다.
                   </div>
                 </div>
                 <div class="entry-mode-foot">
@@ -1523,7 +1523,7 @@ code, pre, kbd, samp,
     }
 
     function isFinManagerRole() {
-      return document.getElementById("role-mask-select").value === "FIN_MANAGER";
+      return document.getElementById("role-mask-select").value === "재무/정산 책임자";
     }
 
     function applyRoleCostMasking() {

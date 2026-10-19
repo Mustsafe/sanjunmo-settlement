@@ -168,35 +168,64 @@
 })();
 
 
+
 /* === [PROTOTYPE-CLEAN: RUNTIME TEXT SANITIZER] === */
 (function () {
-  const PATTERNS = [
-    // [ADMN-XXX-000] 또는 (ADMN-XXX-000-P1 · ...) 형태 제거
+  const REPLACE_PAIRS = [
+    ["USER-PROM-001", "프론트 이벤트/기획전"],
+    ["USER-CS-001", "프론트 공지사항"],
+    ["USER-CS-002", "프론트 FAQ"],
+    ["USER-LECT-002", "프론트 강좌상세"],
+    ["USER-MY-003", "내 강의실"],
+    ["ADMN-SETT-001", "상품별 권리자 매핑"],
+    ["ADMN-SETT-002-S1", "통합 정산서 원장"],
+    ["ADMN-SETT-002-S2", "권리자 정산내역서"],
+    ["ADMN-SETT-002-P1", "이월 내역 원장"],
+    ["ADMN-SETT-002", "월간 정산 관리"],
+    ["ADMN-SETT-005", "정산 수동 조정"],
+    ["ADMN-SETT-006", "합격환급반 정산"],
+    ["ADMN-INST-001", "권리자 계약 원장"],
+    ["ADMN-BOOK-001", "도서 공급 원장"],
+    ["ADMN-ORD-002", "배송·3PL 관리"],
+    ["ADMN-USER-005", "블랙리스트 관리"],
+    ["ADMN-USER-007", "민감정보 열람통제"],
+    ["ADMN-CONF-006", "보안 감사로그"],
+    ["ADMN-CONF-010", "정산 감사로그"],
+    ["WAITING_FOR_DEPOSIT", "입금대기(가상계좌)"],
+    ["UNKNOWN_MISMATCH", "원인 미분류 불일치"],
+    ["PURCHASED_RESALE", "매입 재판매"],
+    ["OWN_PUBLISHED", "자사 발행 도서"],
+    ["CONSIGNMENT_BAL", "위탁 도서 이월액"],
+    ["CONSIGNMENT", "위탁 판매 도서"],
+    ["PRE_TAX", "세전 이월"],
+    ["POST_TAX", "세후 이월"],
+    ["CONDITIONAL", "상계 허용"],
+    ["NON_OFFSET", "비상계 보장"]
+  ];
+
+  const REMOVE_PATTERNS = [
     /\[\s*ADMN-[A-Z]+-\d+(?:-[A-Z0-9]+)?[^\]]*\]\s*/g,
-    /\s*\(\s*(?:ADMN-|USER-)?(?:SETT|INST|BOOK|PROD|ORD|RFD|USER|PROM|BRD|CONF|DASH|STAT|CRS|MY|FREE|LECT)-\d+(?:-[A-Z0-9]+)?[^)]*\)/g,
-    /\[\s*케이스\s*\d+\s*\]\s*/g,
-    /\(\s*ADMN-[A-Z]+-\d+(?:-[A-Z0-9]+)?[^)]*\)/g,
-    // (001-P1), (002-P1), (003-S1), (S1), (S2), (P1), (P2) 등 화면설계서 서브코드 꼬리표 제거
+    /\(\s*(?:ADMN-|USER-)?(?:SETT|INST|BOOK|PROD|ORD|RFD|USER|PROM|BRD|CONF|DASH|STAT|CRS|MY|FREE|LECT)-\d+(?:-[A-Z0-9]+)?[^)]*\)/g,
     /\s*\(\s*(?:\d{3}-[SP]\d+|[SP]\d+)\s*\)/g,
-    // [테이블 A] ~ [테이블 G], [8.3절 SSOT] 등 기획서 마커 제거
     /\[\s*테이블\s*[A-G]\s*\]\s*/g,
-    /\[\s*\d+(?:\.\d+)?절[^\]]*\]\s*/g,
-    // (6.5절 · 8.3절), (제15장 15.2절), (합의서 제18장 18.1절), (4.3절) 등 장/절 참조 괄호 제거
+    /\[\s*(?:제?\d+장|\d+(?:\.\d+)?절|부록)[^\]]*\]\s*/g,
     /\s*\(\s*(?:합의서\s*)?(?:제?\d+장\s*)?\d+(?:\.\d+)?절[^)]*\)/g,
     /\s*·\s*\d+(?:\.\d+)?절/g,
-    // (Pipeline 1.1) 등 괄호형 파이프라인 코드 제거
     /\s*\(\s*Pipeline\s*\d+\.\d+[^)]*\)/gi,
-    // DB 컬럼명 괄호 표기 제거: (member_status), (users.is_marketing_agreed...), (goods_stock_log) 등
-    /\s*\(\s*[a-z]+_[a-z0-9_]+\s*\)/g,
     /\s*\(\s*(?:Case\s*\d+[^)]*|부록\s*[A-Z][^)]*|QA\s*D-\d+[^)]*)\)/gi,
-    /\[\s*(?:제?\d+장|\d+\.\d+절|부록)[^\]]*\]\s*/g
+    /\s*\(\s*[a-z]+_[a-z0-9_]+\s*\)/g
   ];
 
   function cleanString(str) {
     if (!str || typeof str !== "string") return str;
     let out = str;
-    for (let i = 0; i < PATTERNS.length; i++) {
-      out = out.replace(PATTERNS[i], "");
+    for (let i = 0; i < REPLACE_PAIRS.length; i++) {
+      if (out.indexOf(REPLACE_PAIRS[i][0]) !== -1) {
+        out = out.split(REPLACE_PAIRS[i][0]).join(REPLACE_PAIRS[i][1]);
+      }
+    }
+    for (let j = 0; j < REMOVE_PATTERNS.length; j++) {
+      out = out.replace(REMOVE_PATTERNS[j], "");
     }
     return out.replace(/\s{2,}/g, " ");
   }
@@ -207,18 +236,15 @@
     const nodes = [];
     let n;
     while ((n = walker.nextNode())) {
-      const parentTag = n.parentNode && n.parentNode.tagName;
-      if (parentTag === "SCRIPT" || parentTag === "STYLE" || parentTag === "TEXTAREA") continue;
+      const pTag = n.parentNode && n.parentNode.tagName;
+      if (pTag === "SCRIPT" || pTag === "STYLE" || pTag === "TEXTAREA") continue;
       nodes.push(n);
     }
     for (let i = 0; i < nodes.length; i++) {
       const orig = nodes[i].nodeValue;
       const cleaned = cleanString(orig);
-      if (cleaned !== orig) {
-        nodes[i].nodeValue = cleaned;
-      }
+      if (cleaned !== orig) nodes[i].nodeValue = cleaned;
     }
-    // option 텍스트 및 문서 타이틀 정리
     if (document.title) {
       const ct = cleanString(document.title);
       if (ct !== document.title) document.title = ct;
