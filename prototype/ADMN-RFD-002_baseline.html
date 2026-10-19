@@ -1579,5 +1579,23 @@
   }
 
 </script>
+
+  <script>
+    /* [PHASE-3C-QUERY-ROUTER] */
+    window.addEventListener("DOMContentLoaded", function () {
+      var params = new URLSearchParams(window.location.search);
+      var v = params.get("view");
+      if (v && typeof showMainView === "function") {
+        if (v === "pass" || v === "RFD-001" || v === "ADMN-RFD-001") showMainView("pass");
+        else if (v === "detail" || v === "RFD-002" || v === "ADMN-RFD-002") showMainView("detail");
+        else if (v === "done" || v === "RFD-003" || v === "ADMN-RFD-003") showMainView("done");
+        else if (v === "list" || v === "RFD-004" || v === "ADMN-RFD-004") showMainView("list");
+      }
+      var sample = params.get("case");
+      if (sample && typeof openDetailView === "function") {
+        openDetailView(sample.toUpperCase());
+      }
+    });
+  </script>
 </body>
 </html>
