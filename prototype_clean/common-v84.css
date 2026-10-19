@@ -868,3 +868,10 @@ header.top-bar.v4-gen3-topbar .topbar-title {
 .engine-bar .engine-steps code {
   display: none !important;
 }
+
+
+/* === [PROTOTYPE-CLEAN FINAL POLISH: HIDE INFO CALLOUT & CODE BADGE] === */
+.info-callout,
+.code-badge {
+  display: none !important;
+}

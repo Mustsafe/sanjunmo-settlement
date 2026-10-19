@@ -941,9 +941,9 @@ code, pre, kbd, samp,
 
               <option value="ALL">콘텐츠 구분 전체</option>
 
-              <option value="FREE_LECTURE">무료특강 영상 (FREE_LECTURE)</option>
+              <option value="FREE_LECTURE">무료특강 영상</option>
 
-              <option value="빈출문제">빈출문제 해설 (빈출문제)</option>
+              <option value="빈출문제">빈출문제 해설</option>
 
             </select>
 
@@ -1155,9 +1155,9 @@ code, pre, kbd, samp,
 
           <select id="fl-form-type">
 
-            <option value="FREE_LECTURE">무료특강 영상 (FREE_LECTURE)</option>
+            <option value="FREE_LECTURE">무료특강 영상</option>
 
-            <option value="빈출문제">빈출문제 해설 (빈출문제)</option>
+            <option value="빈출문제">빈출문제 해설</option>
 
           </select>
 
@@ -1317,7 +1317,7 @@ code, pre, kbd, samp,
 
   // 1. 수강후기 (수강후기) - 합격수기와 완전 분리
 
-  let 수강후기S = [
+  let COURSE_REVIEWS = [
 
     { id: 'CR-904', course: '2026 산업안전기사 필기 올인원 패키지 / 이준호', progress: 84, rating: 5, title: '비전공자도 이해하기 쉽게 도식화로 설명해주셔서 좋았습니다.', user: '김도윤 (doyoon_k)', best: true, pointPaid: 1500, visible: true },
 
@@ -1333,7 +1333,7 @@ code, pre, kbd, samp,
 
   // 2. 합격수기 (합격수기) - 자격증 회차 및 합격증빙 파일 심사 전용
 
-  let 합격수기S = [
+  let PASS_ESSAYS = [
 
     { id: 'PE-312', cert: '산업안전기사 / 2026년 정기 기사 제2회', passType: '최종합격 (필기+실기)', title: '직장 병행 3개월 만에 산업안전기사 동차 최종합격 수기입니다!', proofFile: '큐넷_국가기술자격증_사본_박준형.jpg', user: '박준형 (jhpark90)', status: 'PENDING', scoreInfo: '필기 평균 78점 / 실기 81점' },
 
@@ -1465,7 +1465,7 @@ code, pre, kbd, samp,
 
     const kw = (document.getElementById('cr-keyword').value || '').trim().toLowerCase();
 
-    const list = 수강후기S.filter(r =>
+    const list = COURSE_REVIEWS.filter(r =>
 
       (f === 'ALL' || (f === 'BEST' && r.best) || (f === 'NORMAL' && !r.best)) &&
 
@@ -1473,7 +1473,7 @@ code, pre, kbd, samp,
 
     );
 
-    document.getElementById('cnt-courseReview').textContent = 수강후기S.length;
+    document.getElementById('cnt-courseReview').textContent = COURSE_REVIEWS.length;
 
     document.getElementById('cr-tbody').innerHTML = list.map(r => `
 
@@ -1523,7 +1523,7 @@ code, pre, kbd, samp,
 
   function toggleBestCourseReview(id) {
 
-    const r = 수강후기S.find(item => item.id === id);
+    const r = COURSE_REVIEWS.find(item => item.id === id);
 
     if (!r) return;
 
@@ -1541,7 +1541,7 @@ code, pre, kbd, samp,
 
   function toggleCourseReviewVisible(id) {
 
-    const r = 수강후기S.find(item => item.id === id);
+    const r = COURSE_REVIEWS.find(item => item.id === id);
 
     if (!r) return;
 
@@ -1563,7 +1563,7 @@ code, pre, kbd, samp,
 
     const kw = (document.getElementById('pe-keyword').value || '').trim().toLowerCase();
 
-    const list = 합격수기S.filter(p =>
+    const list = PASS_ESSAYS.filter(p =>
 
       (st === 'ALL' || p.status === st) &&
 
@@ -1571,7 +1571,7 @@ code, pre, kbd, samp,
 
     );
 
-    document.getElementById('cnt-passEssay').textContent = 합격수기S.length;
+    document.getElementById('cnt-passEssay').textContent = PASS_ESSAYS.length;
 
     const stBadge = { PENDING: 'badge-amber', APPROVED: 'badge-green', REJECTED: 'badge-red' };
 
@@ -1627,7 +1627,7 @@ code, pre, kbd, samp,
 
   function openPassAuditModal(id) {
 
-    const p = 합격수기S.find(item => item.id === id);
+    const p = PASS_ESSAYS.find(item => item.id === id);
 
     if (!p) return;
 
@@ -1687,7 +1687,7 @@ code, pre, kbd, samp,
 
   function decidePassEssay(decision) {
 
-    const p = 합격수기S.find(item => item.id === currentAuditEssayId);
+    const p = PASS_ESSAYS.find(item => item.id === currentAuditEssayId);
 
     if (!p) return;
 
