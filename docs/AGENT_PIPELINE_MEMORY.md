@@ -30,7 +30,7 @@
 | 스킬 | 파일 | 기능 | 상태 |
 | :--- | :--- | :--- | :--- |
 | Skill 1 | `scripts/qa/skill_static_lint.py` | 38개 HTML 내 `<script>` 추출 → `node --check` 문법 검사, 깨진 링크(`href`), 중복 ID, 빈 `<tbody>` 초고속 스캔 | 미구축 |
-| Skill 2 | `scripts/qa/skill_jargon_scan.py` | 금지어(`기출`, `정오표`, `Vimeo`, `80%`, `①~⑭`, `[마커`) 및 기획서 내부 암호(`C-01`, `D-1`, `P5.1`, `15.2절`, `mmg_promo_overlap_flag`, `Pipeline 1.1` 등), 번역 중복어(`실결제금액(실결제금액)`) 정규식 전수 탐지 → `docs/JARGON_SCAN_REPORT.md` | **구축 완료** |
+| Skill 2 | `scripts/qa/skill_jargon_scan.py` | 금지어(`기출`, `정오표`, `Vimeo`, `80%`, `①~⑭`, `[마커`) 및 운영자가 이해할 수 없는 기획서 내부 암호(`C-01~04`, `H-01~05`, `D-1~16`, `P1.1~5.1`, `Pipeline`, `제N장`, `N.N절`, `_flag`, `_yn`, `_id`), 번역 중복어(`실결제금액(실결제금액)`) 정규식 전수 탐지 → `docs/JARGON_SCAN_REPORT.md` | **구축 완료** |
 | Skill 3 | `scripts/qa/skill_cross_data_check.py` | 동일 강사(`RH-0025` 등)·동일 도서(`BK-2026-101` / `BOOK-2601`)의 정가·요율·계약번호 화면 간 불일치 파싱 대조 | 미구축 |
 | Skill 4 | `scripts/qa/skill_playwright_e2e.py` | Playwright 기반 모달 열기/닫기, 탭 전환, 레이아웃 겹침 검수 | **구축 완료** |
 
