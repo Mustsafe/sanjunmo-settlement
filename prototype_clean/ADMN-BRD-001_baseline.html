@@ -803,7 +803,7 @@ code, pre, kbd, samp,
 
       <div style="display:flex; gap:8px; align-items:center;">
 
-        <a href="ADMN-BRD-005_baseline.html" class="btn btn-outline">수강/합격후기·무료특강·정답지 이동 →</a>
+        <a href="ADMN-BRD-005_baseline.html" class="btn btn-outline">수강/합격후기·무료특강·정답지 (ADMN-BRD-005) 이동 →</a>
 
       </div>
 
@@ -817,31 +817,31 @@ code, pre, kbd, samp,
 
         <button class="sub-tab-btn active" onclick="switchTab('notice')" id="tab-btn-notice">
 
- 📢 공지사항 관리 <span class="cnt" id="cnt-notice">4</span>
+          📢 공지사항 관리 <span class="cnt" id="cnt-notice">4</span>
 
         </button>
 
         <button class="sub-tab-btn" onclick="switchTab('faq')" id="tab-btn-faq">
 
- ❓ 자주 묻는 질문 (FAQ) <span class="cnt" id="cnt-faq">7</span>
+          ❓ 자주 묻는 질문 (FAQ) <span class="cnt" id="cnt-faq">7</span>
 
         </button>
 
         <button class="sub-tab-btn" onclick="switchTab('cs')" id="tab-btn-cs">
 
- 💬 1:1 고객문의 (CS) <span class="cnt" id="cnt-cs">4</span>
+          💬 1:1 고객문의 (CS) <span class="cnt" id="cnt-cs">4</span>
 
         </button>
 
         <button class="sub-tab-btn" onclick="switchTab('qna')" id="tab-btn-qna">
 
- 🎓 강좌 학습 Q&amp;A <span class="cnt" id="cnt-qna">3</span>
+          🎓 강좌 학습 Q&amp;A <span class="cnt" id="cnt-qna">3</span>
 
         </button>
 
         <button class="sub-tab-btn" onclick="switchTab('winner')" id="tab-btn-winner">
 
- 🎁 이벤트 당첨자 발표·지급 <span class="cnt" id="cnt-winner">3</span>
+          🎁 이벤트 당첨자 발표·지급 (ADMN-BRD-010) <span class="cnt" id="cnt-winner">3</span>
 
         </button>
 
@@ -861,7 +861,7 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <select id="notice-cat-filter" onchange="renderNotices">
+            <select id="notice-cat-filter" onchange="renderNotices()">
 
               <option value="ALL">전체 분류</option>
 
@@ -875,13 +875,13 @@ code, pre, kbd, samp,
 
             </select>
 
-            <input type="text" id="notice-keyword" placeholder="공지 제목 검색..." oninput="renderNotices" style="width:240px;" />
+            <input type="text" id="notice-keyword" placeholder="공지 제목 검색..." oninput="renderNotices()" style="width:240px;" />
 
           </div>
 
           <div class="filter-right">
 
-            <button class="btn btn-primary" onclick="openNoticeModal">+ 공지사항 신규 등록</button>
+            <button class="btn btn-primary" onclick="openNoticeModal()">+ 공지사항 신규 등록</button>
 
           </div>
 
@@ -937,9 +937,9 @@ code, pre, kbd, samp,
 
         <div class="info-callout">
 
-          <strong>FAQ 동적 카테고리 관리:</strong> 고정된 분류 외에 <code>[기타]</code>, <code>[모바일/플레이어]</code> 등 신규 FAQ 카테고리를 자유롭게 추가·이름 수정·노출 순서 조정할 수 있으며, 사용자 고객센터(<code>USER-CS-002</code>) 탭에 즉시 반영됩니다.
+          <strong>[ADMN-BRD-002] FAQ 동적 카테고리 관리:</strong> 고정된 분류 외에 <code>[기타]</code>, <code>[모바일/플레이어]</code> 등 신규 FAQ 카테고리를 자유롭게 추가·이름 수정·노출 순서 조정할 수 있으며, 사용자 고객센터(<code>USER-CS-002</code>) 탭에 즉시 반영됩니다.
 
- </div>
+        </div>
 
 
 
@@ -951,15 +951,15 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <input type="text" id="faq-keyword" placeholder="질문(Q) 또는 답변(A) 키워드 검색..." oninput="renderFaqs" style="width:280px;" />
+            <input type="text" id="faq-keyword" placeholder="질문(Q) 또는 답변(A) 키워드 검색..." oninput="renderFaqs()" style="width:280px;" />
 
           </div>
 
           <div class="filter-right">
 
-            <button class="btn btn-outline" onclick="openFaqCategoryModal">⚙️ FAQ 카테고리 관리 (추가/수정/순서)</button>
+            <button class="btn btn-outline" onclick="openFaqCategoryModal()">⚙️ FAQ 카테고리 관리 (추가/수정/순서)</button>
 
-            <button class="btn btn-primary" onclick="openFaqModal">+ FAQ 문답 등록</button>
+            <button class="btn btn-primary" onclick="openFaqModal()">+ FAQ 문답 등록</button>
 
           </div>
 
@@ -1015,7 +1015,7 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <select id="cs-status-filter" onchange="renderCs">
+            <select id="cs-status-filter" onchange="renderCs()">
 
               <option value="ALL">답변상태 전체</option>
 
@@ -1025,7 +1025,7 @@ code, pre, kbd, samp,
 
             </select>
 
-            <input type="text" id="cs-keyword" placeholder="작성자명, 회원ID, 문의제목 검색..." oninput="renderCs" style="width:260px;" />
+            <input type="text" id="cs-keyword" placeholder="작성자명, 회원ID, 문의제목 검색..." oninput="renderCs()" style="width:260px;" />
 
           </div>
 
@@ -1141,7 +1141,7 @@ code, pre, kbd, samp,
 
           <div class="kpi-val" style="color:var(--success);" id="win-kpi-done">4명</div>
 
-          <div class="kpi-sub">포인트 원장 및 알림톡 연동</div>
+          <div class="kpi-sub">포인트 원장(ADMN-PROM-003) 및 알림톡 연동</div>
 
         </div>
 
@@ -1163,13 +1163,13 @@ code, pre, kbd, samp,
 
         <div class="info-callout">
 
-          <strong>당첨자 발표 프론트 노출 위치 및 지급 플로우:</strong><br/>
+          <strong>[ADMN-BRD-010] 당첨자 발표 프론트 노출 위치 및 지급 플로우:</strong><br/>
 
- [1] <strong>프론트 노출:</strong> 발표글 등록 시 <strong>사용자 웹 [이벤트 &gt; 당첨자 발표 탭(<code>USER-PROM-001</code>)]</strong>에 기본 노출되며, 옵션 선택 시 <strong>[고객센터 &gt; 공지사항(<code>USER-CS-001</code>)] 상단 배너</strong>에 동시 노출됩니다.<br/>
+          [1] <strong>프론트 노출:</strong> 발표글 등록 시 <strong>사용자 웹 [이벤트 &gt; 당첨자 발표 탭(<code>USER-PROM-001</code>)]</strong>에 기본 노출되며, 옵션 선택 시 <strong>[고객센터 &gt; 공지사항(<code>USER-CS-001</code>)] 상단 배너</strong>에 동시 노출됩니다.<br/>
 
- [2] <strong>경품 지급 연동:</strong> <code>포인트/쿠폰</code>은 <strong>[선택 당첨자 일괄 즉시 지급]</strong> 시 회원 포인트 원장(<code>ADMN-PROM-003</code>)에 즉시 적립되고, <code>기프티콘</code>은 알림톡/MMS 발송, <code>실물 경품</code>은 당첨자 배송지 수집 후 송장번호를 입력합니다.
+          [2] <strong>경품 지급 연동:</strong> <code>포인트/쿠폰</code>은 <strong>[선택 당첨자 일괄 즉시 지급]</strong> 시 회원 포인트 원장(<code>ADMN-PROM-003</code>)에 즉시 적립되고, <code>기프티콘</code>은 알림톡/MMS 발송, <code>실물 경품</code>은 당첨자 배송지 수집 후 송장번호를 입력합니다.
 
- </div>
+        </div>
 
 
 
@@ -1177,11 +1177,11 @@ code, pre, kbd, samp,
 
           <div class="filter-left">
 
-            <select id="winner-post-select" onchange="renderWinnerView">
+            <select id="winner-post-select" onchange="renderWinnerView()">
 
             </select>
 
-            <select id="winner-status-filter" onchange="renderWinnerTable">
+            <select id="winner-status-filter" onchange="renderWinnerTable()">
 
               <option value="ALL">지급상태 전체</option>
 
@@ -1223,9 +1223,9 @@ code, pre, kbd, samp,
 
           <div style="display:flex; gap:8px;">
 
-            <button class="btn btn-outline btn-sm" onclick="openAddWinnerRowModal">+ 당첨자 개별/엑셀 추가</button>
+            <button class="btn btn-outline btn-sm" onclick="openAddWinnerRowModal()">+ 당첨자 개별/엑셀 추가</button>
 
-            <button class="btn btn-success btn-sm" onclick="batchGrantSelectedWinners">⚡ 선택 당첨자 일괄 즉시 지급 (포인트/기프티콘)</button>
+            <button class="btn btn-success btn-sm" onclick="batchGrantSelectedWinners()">⚡ 선택 당첨자 일괄 즉시 지급 (포인트/기프티콘)</button>
 
           </div>
 
@@ -1291,15 +1291,15 @@ code, pre, kbd, samp,
 
       <div class="info-callout">
 
- 고정 분류 외에 <code>기타</code>, <code>환급반/장학금</code>, <code>모바일 플레이어</code> 등 카테고리를 추가하거나 명칭을 변경할 수 있습니다.
+        고정 분류 외에 <code>기타</code>, <code>환급반/장학금</code>, <code>모바일 플레이어</code> 등 카테고리를 추가하거나 명칭을 변경할 수 있습니다.
 
- </div>
+      </div>
 
       <div style="display:flex; gap:8px; margin-bottom:14px;">
 
         <input type="text" id="new-faq-cat-name" placeholder="추가할 카테고리명 입력 (예: 기타, 제휴/단체수강)" style="flex:1;" />
 
-        <button class="btn btn-primary" onclick="addFaqCategory">+ 카테고리 추가</button>
+        <button class="btn btn-primary" onclick="addFaqCategory()">+ 카테고리 추가</button>
 
       </div>
 
@@ -1421,7 +1421,7 @@ code, pre, kbd, samp,
 
       <button class="btn btn-outline" onclick="closeModal('modal-faq-form')">취소</button>
 
-      <button class="btn btn-primary" onclick="saveFaqItem">저장</button>
+      <button class="btn btn-primary" onclick="saveFaqItem()">저장</button>
 
     </div>
 
@@ -1439,7 +1439,7 @@ code, pre, kbd, samp,
 
     <div class="modal-header">
 
-      <h3 id="winner-post-modal-title">이벤트 당첨자 발표 등록 및 노출 설정</h3>
+      <h3 id="winner-post-modal-title">[ADMN-BRD-010] 이벤트 당첨자 발표 등록 및 노출 설정</h3>
 
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-winner-post')">닫기 ✕</button>
 
@@ -1453,7 +1453,7 @@ code, pre, kbd, samp,
 
         <div class="form-group">
 
-          <label class="form-label">연결할 프로모션/이벤트 *</label>
+          <label class="form-label">연결할 프로모션/이벤트 (ADMN-PROM-001) *</label>
 
           <select id="winpost-event-code">
 
@@ -1527,7 +1527,7 @@ code, pre, kbd, samp,
 
               <button type="button" onclick="execEditorCmd('winpost-body','underline')"><u>U</u></button>
 
-              <button type="button" onclick="insertWinnerTemplateText">📋 표준 당첨 안내문 템플릿 삽입</button>
+              <button type="button" onclick="insertWinnerTemplateText()">📋 표준 당첨 안내문 템플릿 삽입</button>
 
             </div>
 
@@ -1545,7 +1545,7 @@ code, pre, kbd, samp,
 
       <button class="btn btn-outline" onclick="closeModal('modal-winner-post')">취소</button>
 
-      <button class="btn btn-primary" onclick="saveWinnerPost">발표글 저장 및 프론트 반영</button>
+      <button class="btn btn-primary" onclick="saveWinnerPost()">발표글 저장 및 프론트 반영</button>
 
     </div>
 
@@ -1629,7 +1629,7 @@ code, pre, kbd, samp,
 
       <button class="btn btn-outline" onclick="closeModal('modal-winner-row')">취소</button>
 
-      <button class="btn btn-primary" onclick="addWinnerRow">당첨자 명단 추가</button>
+      <button class="btn btn-primary" onclick="addWinnerRow()">당첨자 명단 추가</button>
 
     </div>
 
@@ -1725,7 +1725,7 @@ code, pre, kbd, samp,
 
       <button class="btn btn-outline" onclick="closeModal('modal-notice-form')">취소</button>
 
-      <button class="btn btn-primary" onclick="saveNoticeItem">저장</button>
+      <button class="btn btn-primary" onclick="saveNoticeItem()">저장</button>
 
     </div>
 
@@ -3123,6 +3123,81 @@ code, pre, kbd, samp,
 
 </script>
 
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body>
 
 </html>

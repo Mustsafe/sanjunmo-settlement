@@ -416,7 +416,7 @@ code, pre, kbd, samp,
 
         <span class="badge badge-blue">법정 공고 기한 자동 검증 (일반 7일 / 불리·중대 30일)</span>
 
-        <a href="ADMN-CONF-004_baseline.html?view=send&target=all&channel=EMAIL&type=terms_notice&term=T03" class="btn btn-sm btn-outline">📣 개정 고지 발송 화면 ↗</a>
+        <a href="ADMN-CONF-004_baseline.html?view=send&target=all&channel=EMAIL&type=terms_notice&term=T03" class="btn btn-sm btn-outline">📣 개정 고지 발송 화면 (CONF-004-S1) ↗</a>
 
       </div>
 
@@ -486,11 +486,11 @@ code, pre, kbd, samp,
 
           <strong>[약관 운영 및 버전 이력 관리 원칙]</strong>
 
- 산준모닷컴 약관 마스터는 <strong>T01(서비스 이용약관) ~ T05(마케팅 정보 수신 동의) 5종</strong>으로 운영됩니다. (수험생 전용 플랫폼 정책에 따라 만 14세 미만 가입 차단 약관은 두지 않음)<br/>
+          산준모닷컴 약관 마스터는 <strong>T01(서비스 이용약관) ~ T05(마케팅 정보 수신 동의) 5종</strong>으로 운영됩니다. (수험생 전용 플랫폼 정책에 따라 만 14세 미만 가입 차단 약관은 두지 않음)<br/>
 
- 약관 개정 시 기존 회원의 로그인을 막는 강제 재동의 절차 대신, <strong>법정 사전 공고 기간(일반 7일 / 불리·중대 30일) 동안 사이트 공지 및 전체 회원 개정 고지</strong>를 발송하며, 역대 모든 버전은 하단 이력에 보존되어 프론트 푸터(<code>USER-INFO-001</code>)의 <strong>[이전 버전 보기]</strong> 드롭다운과 1:1 연동됩니다.
+          약관 개정 시 기존 회원의 로그인을 막는 강제 재동의 절차 대신, <strong>법정 사전 공고 기간(일반 7일 / 불리·중대 30일) 동안 사이트 공지 및 전체 회원 개정 고지(ADMN-CONF-004-S1)</strong>를 발송하며, 역대 모든 버전은 하단 이력에 보존되어 프론트 푸터(<code>USER-INFO-001</code>)의 <strong>[이전 버전 보기]</strong> 드롭다운과 1:1 연동됩니다.
 
- </div>
+        </div>
 
 
 
@@ -570,7 +570,7 @@ code, pre, kbd, samp,
 
             <div class="card-title">
 
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 약관 목록으로</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 약관 목록으로 (ADMN-CONF-002)</button>
 
               <span id="dt-term-title" style="margin-left:6px; font-size:15px; font-weight:800;">[T04] 환불 · 청약철회 규정 (이용약관 제15조)</span>
 
@@ -596,7 +596,7 @@ code, pre, kbd, samp,
 
               </select>
 
-              <button type="button" class="btn btn-sm btn-outline" onclick="goTermsNoticeSend">📣 전체 회원 개정 고지 발송 ↗</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="goTermsNoticeSend()">📣 전체 회원 개정 고지 발송 (CONF-004-S1) ↗</button>
 
             </div>
 
@@ -620,7 +620,7 @@ code, pre, kbd, samp,
 
                   <th>수집 구분 / DB 매핑</th>
 
-                  <td id="dt-meta-req">필수 동의 · 회원 약관 동의 이력(필수 제4호)</td>
+                  <td id="dt-meta-req">필수 동의 · <code>user_agreements (term_code='T04')</code></td>
 
                 </tr>
 
@@ -666,7 +666,7 @@ code, pre, kbd, samp,
 
                   <label style="display:flex; align-items:center; gap:6px; font-weight:800; cursor:pointer; color:var(--primary);">
 
-                    <input type="radio" name="edit_mode" value="NEW_REV" checked onchange="onChangeEditMode" />
+                    <input type="radio" name="edit_mode" value="NEW_REV" checked onchange="onChangeEditMode()" />
 
                     <span>[유형 1] 신규 개정 버전 등록 (기존 시행 버전은 [이전 버전 이력]으로 자동 보관)</span>
 
@@ -674,7 +674,7 @@ code, pre, kbd, samp,
 
                   <label style="display:flex; align-items:center; gap:6px; font-weight:700; cursor:pointer; color:var(--text-main);">
 
-                    <input type="radio" name="edit_mode" value="DIRECT_FIX" onchange="onChangeEditMode" />
+                    <input type="radio" name="edit_mode" value="DIRECT_FIX" onchange="onChangeEditMode()" />
 
                     <span>[유형 2] 현행/공시예정 버전 본문 직접 수정 (단순 오탈자·문구 보정용 · 버전 번호 유지)</span>
 
@@ -692,7 +692,7 @@ code, pre, kbd, samp,
 
                   <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">개정 유형 (법정 공고기한 기준) *</label>
 
-                  <select id="ed-rev-type" class="f-select" style="width:100%;" onchange="onChangeRevType">
+                  <select id="ed-rev-type" class="f-select" style="width:100%;" onchange="onChangeRevType()">
 
                     <option value="MINOR">일반 개정 (최소 7일 전 공고 · 버전 +0.1)</option>
 
@@ -714,7 +714,7 @@ code, pre, kbd, samp,
 
                   <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">공고일자 (사전 공시 시작일) *</label>
 
-                  <input type="date" id="ed-announce-date" class="f-input" style="width:100%;" value="2026-10-18" onchange="validateNoticePeriod" />
+                  <input type="date" id="ed-announce-date" class="f-input" style="width:100%;" value="2026-10-18" onchange="validateNoticePeriod()" />
 
                 </div>
 
@@ -722,7 +722,7 @@ code, pre, kbd, samp,
 
                   <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">시행일자 (효력 발생일) *</label>
 
-                  <input type="date" id="ed-effective-date" class="f-input" style="width:100%;" value="2026-10-28" onchange="validateNoticePeriod" />
+                  <input type="date" id="ed-effective-date" class="f-input" style="width:100%;" value="2026-10-28" onchange="validateNoticePeriod()" />
 
                 </div>
 
@@ -734,9 +734,9 @@ code, pre, kbd, samp,
 
               <div id="notice-period-alert" style="border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12px; font-weight:700; background:#F0FDF4; border:1px solid #BBF7D0; color:#166534;">
 
- ✅ [법정 사전 공고 기간 충족] 공고일(2026-10-18) ~ 시행일(2026-10-28): 총 10일 확보 (일반 개정 최소 7일 이상 충족)
+                ✅ [법정 사전 공고 기간 충족] 공고일(2026-10-18) ~ 시행일(2026-10-28): 총 10일 확보 (일반 개정 최소 7일 이상 충족)
 
- </div>
+              </div>
 
 
 
@@ -778,17 +778,17 @@ code, pre, kbd, samp,
 
                 <div style="display:flex; gap:8px;">
 
-                  <button type="button" class="btn btn-outline" onclick="openDiffModal">🔍 현행 버전과 신·구 대조(Diff) 미리보기</button>
+                  <button type="button" class="btn btn-outline" onclick="openDiffModal()">🔍 현행 버전과 신·구 대조(Diff) 미리보기</button>
 
-                  <button type="button" class="btn btn-outline" onclick="resetEditorToCurrent">↺ 현행 조문으로 초기화</button>
+                  <button type="button" class="btn btn-outline" onclick="resetEditorToCurrent()">↺ 현행 조문으로 초기화</button>
 
                 </div>
 
                 <div style="display:flex; gap:8px;">
 
-                  <button type="button" class="btn btn-outline" onclick="saveTermDraft">임시저장 (DRAFT)</button>
+                  <button type="button" class="btn btn-outline" onclick="saveTermDraft()">임시저장 (DRAFT)</button>
 
-                  <button type="button" class="btn btn-primary" id="btn-save-term" onclick="openSaveConfirmModal">💾 약관 저장 및 공시 확정</button>
+                  <button type="button" class="btn btn-primary" id="btn-save-term" onclick="openSaveConfirmModal()">💾 약관 저장 및 공시 확정</button>
 
                 </div>
 
@@ -808,7 +808,7 @@ code, pre, kbd, samp,
 
                   <strong>[프론트 이전 버전 보기 연동]</strong> 개인정보보호법 제30조 및 전자상거래법에 따라 역대 약관 버전은 삭제 없이 보존되며, 사용자 화면(<code>USER-INFO-001</code>) 하단 드롭다운에서 수험생이 언제든 이전 버전을 열람할 수 있습니다.
 
- </div>
+                </div>
 
                 <button type="button" class="btn btn-sm btn-primary" onclick="switchDetailTab('edit')">+ 새 개정 버전 등록하기</button>
 
@@ -938,7 +938,7 @@ code, pre, kbd, samp,
 
       <div class="modal-foot">
 
-        <button type="button" class="btn btn-outline" onclick="loadVerToEditor">이 버전 본문을 편집창으로 불러오기</button>
+        <button type="button" class="btn btn-outline" onclick="loadVerToEditor()">이 버전 본문을 편집창으로 불러오기</button>
 
         <button type="button" class="btn btn-primary" onclick="closeModal('modal-view-ver')">확인</button>
 
@@ -970,11 +970,11 @@ code, pre, kbd, samp,
 
         <div style="font-size:12px; color:var(--text-sub);">
 
- • 저장 즉시 버전별 변경 이력 및 관리자 보안 감사 로그(<code>ADMN-CONF-006</code>)에 기록됩니다.<br/>
+          • 저장 즉시 버전별 변경 이력(<code>terms_version_history</code>) 및 관리자 보안 감사 로그(<code>ADMN-CONF-006</code>)에 기록됩니다.<br/>
 
- • 신규 개정 공시 등록 후에는 <strong>[전체 회원 개정 고지 발송]</strong>을 통해 이메일/알림톡 사전 안내를 발송할 수 있습니다.
+          • 신규 개정 공시 등록 후에는 <strong>[전체 회원 개정 고지 발송 (ADMN-CONF-004-S1)]</strong>을 통해 이메일/알림톡 사전 안내를 발송할 수 있습니다.
 
- </div>
+        </div>
 
       </div>
 
@@ -982,7 +982,7 @@ code, pre, kbd, samp,
 
         <button type="button" class="btn btn-outline" onclick="closeModal('modal-save-confirm')">취소</button>
 
-        <button type="button" class="btn btn-primary" onclick="commitTermSave">확정 및 저장</button>
+        <button type="button" class="btn btn-primary" onclick="commitTermSave()">확정 및 저장</button>
 
       </div>
 
@@ -1852,6 +1852,81 @@ code, pre, kbd, samp,
 
   </script>
 
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body>
 
 </html>

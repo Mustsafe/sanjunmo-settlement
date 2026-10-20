@@ -280,7 +280,7 @@ code, pre, kbd, samp,
       <h1 class="crumb-title" id="header-screen-title">정산 감사 로그 (전 원장 변경 · 열람 불변 이력)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <button class="btn" onclick="verifyHashChain">🛡️ 해시 체인 위변조 무결성 검증</button> <button class="btn btn-pri" onclick="exportAuditCsv">⬇ 현재 조회 월·기간 감사 원장 추출 (CSV/JSON)</button>
+      <button class="btn" onclick="verifyHashChain()">🛡️ 해시 체인 위변조 무결성 검증</button> <button class="btn btn-pri" onclick="exportAuditCsv()">⬇ 현재 조회 월·기간 감사 원장 추출 (CSV/JSON)</button>
     </div></header><div id="v4-page-body">
   
   
@@ -308,9 +308,9 @@ code, pre, kbd, samp,
           <span style="color:var(--line-strong);">|</span>
 
           <span style="font-weight:800; font-size:12.5px; color:var(--muted);">발생 일자 범위:</span>
-          <input type="date" id="dateFrom" class="input" value="2026-10-01" onchange="onCustomDateChange">
+          <input type="date" id="dateFrom" class="input" value="2026-10-01" onchange="onCustomDateChange()">
           <span>~</span>
-          <input type="date" id="dateTo" class="input" value="2026-10-31" onchange="onCustomDateChange">
+          <input type="date" id="dateTo" class="input" value="2026-10-31" onchange="onCustomDateChange()">
         </div>
 
         <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
@@ -338,7 +338,7 @@ code, pre, kbd, samp,
         <div class="kpi-card" id="kpi-FINANCE" onclick="setAuditCategory('FINANCE')">
           <div class="k-title"><span>수동 조정 · 계정대체 · 수기검수</span><span class="badge b-warn">SETT-005 · INST-002</span></div>
           <div class="k-num" style="color:var(--warn);" id="kpiValFinance">3건</div>
-          <div class="k-sub">2차 승인 · 세전↔세후 계정 대체 · 수기 확인 소명</div>
+          <div class="k-sub">2차 승인 · PRE↔POST 대체 · MANUAL_NOTE</div>
         </div>
         <div class="kpi-card" id="kpi-STATE" onclick="setAuditCategory('STATE')">
           <div class="k-title"><span>지원금 상태전이 · 국세청 · 도서</span><span class="badge b-teal">D-12 · 17장 · 6장</span></div>
@@ -346,7 +346,7 @@ code, pre, kbd, samp,
           <div class="k-sub">COMPLETED↔ACTIVE 복원 · 과세유형 전환</div>
         </div>
         <div class="kpi-card" id="kpi-PII" onclick="setAuditCategory('PII')">
-          <div class="k-title"><span>민감정보 열람 · 계층 1 파기</span><span class="badge b-bad">USER-007 · </span></div>
+          <div class="k-title"><span>민감정보 열람 · 계층 1 파기</span><span class="badge b-bad">USER-007 · 3.5절</span></div>
           <div class="k-num" style="color:var(--bad);" id="kpiValPii">2건</div>
           <div class="k-sub">10자 이상 열람 사유 및 개인정보 필드 파기</div>
         </div>
@@ -364,14 +364,14 @@ code, pre, kbd, samp,
           <div class="filter-bar">
             <span style="font-weight:800; font-size:12.5px;">감사 영역:</span>
             <select id="catSelect" class="select" onchange="setAuditCategory(this.value)">
-              <option value="ALL">전체 9대 감사 이벤트 보기 </option>
+              <option value="ALL">전체 9대 감사 이벤트 보기 (16.1절)</option>
               <option value="SHARE">1. 1계층·2계층 지분율 및 매핑 변경 (SETT-001 / SETT-007)</option>
               <option value="FINANCE">2. 정산 수동 조정 · 계정 간 대체 · 수기 검수 (SETT-005 / INST-002)</option>
               <option value="STATE">3. 지원금 상태전이(COMPLETED↔ACTIVE) · 국세청 · 도서 공급형태</option>
-              <option value="PII">4. 민감정보 마스킹 해제 및 계층 1 개인정보 파기</option>
+              <option value="PII">4. 민감정보 마스킹 해제 및 계층 1 개인정보 파기 (USER-007)</option>
             </select>
 
-            <select id="screenSelect" class="select" onchange="renderAuditRows">
+            <select id="screenSelect" class="select" onchange="renderAuditRows()">
               <option value="ALL">전체 발생 화면 (ADMN-*)</option>
               <option value="ADMN-SETT-001">ADMN-SETT-001 (상품별 권리자 매핑)</option>
               <option value="ADMN-SETT-007">ADMN-SETT-007 (수취인 분할 관리)</option>
@@ -383,7 +383,7 @@ code, pre, kbd, samp,
               <option value="ADMN-USER-007">ADMN-USER-007 (민감 정보 열람 통제)</option>
             </select>
 
-            <input type="text" id="auditKeyword" class="input" style="width:260px;" placeholder="로그ID, 대상 식별자(CT/SUP/ADJ), 작업자, 사유 검색..." oninput="renderAuditRows">
+            <input type="text" id="auditKeyword" class="input" style="width:260px;" placeholder="로그ID, 대상 식별자(CT/SUP/ADJ), 작업자, 사유 검색..." oninput="renderAuditRows()">
 
             <span style="margin-left:auto; font-size:12px; color:var(--muted);" id="resultCountInfo">조회 결과: 9건</span>
           </div>
@@ -395,7 +395,7 @@ code, pre, kbd, samp,
                   <th>로그 ID / 발생 일시</th>
                   <th>귀속 정산월</th>
                   <th>발생 화면</th>
-                  <th>감사 이벤트 구분 (9대 항목)</th>
+                  <th>감사 이벤트 구분 (16.1절 9대 항목)</th>
                   <th>대상 엔티티 / 권리자</th>
                   <th>입력된 변경·열람·승인 사유</th>
                   <th>작업자 / IP</th>
@@ -483,12 +483,12 @@ code, pre, kbd, samp,
       <div style="display:flex; align-items:center; gap:12px;">
         <span class="badge b-ok">IMMUTABLE AUDIT LEDGER</span>
         <span style="font-size:12.5px; color:#cbd5e1;">
- 본 감사 원장은 DB 레벨에서 <code>UPDATE</code> · <code>DELETE</code> 권한이 박탈된 <strong>Append-Only 테이블</strong>입니다. 행을 클릭하면 변경 전·후(<code>Before / After</code>) JSON 스냅샷을 대조할 수 있습니다.
- </span>
+          본 감사 원장은 DB 레벨에서 <code>UPDATE</code> · <code>DELETE</code> 권한이 박탈된 <strong>Append-Only 테이블</strong>입니다. 행을 클릭하면 변경 전·후(<code>Before / After</code>) JSON 스냅샷을 대조할 수 있습니다.
+        </span>
       </div>
       <div style="font-family:var(--mono); font-size:12px; color:#93c5fd;">
- 최종 블록 해시: <code>SHA256:9f84c2e1...a47b09d2</code> (무결성 정상)
- </div>
+        최종 블록 해시: <code>SHA256:9f84c2e1...a47b09d2</code> (무결성 정상)
+      </div>
     </footer>
   </main>
 
@@ -500,7 +500,7 @@ code, pre, kbd, samp,
   <div class="modal">
     <div class="modal-hd">
       <h3 id="diffModalTitle">🔍 감사 로그 변경 전·후 (Before / After) JSON 스냅샷 상세 대조</h3>
-      <button class="btn btn-sm" style="background:#1e293b; color:#fff; border-color:#475569;" onclick="closeDiffModal">✕ 닫기</button>
+      <button class="btn btn-sm" style="background:#1e293b; color:#fff; border-color:#475569;" onclick="closeDiffModal()">✕ 닫기</button>
     </div>
     <div class="modal-bd">
       <div id="diffMetaSummary" style="background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:13px 16px;"></div>
@@ -508,14 +508,14 @@ code, pre, kbd, samp,
       <div class="diff-grid">
         <div>
           <div style="font-weight:800; font-size:12.5px; color:var(--bad); margin-bottom:6px;">
- 🔴 변경 전 스냅샷
- </div>
+            🔴 변경 전 스냅샷 (<code>before_snapshot_json</code>)
+          </div>
           <div class="json-box json-before" id="diffBeforeBox"></div>
         </div>
         <div>
           <div style="font-weight:800; font-size:12.5px; color:var(--ok); margin-bottom:6px;">
- 🟢 변경 후 스냅샷
- </div>
+            🟢 변경 후 스냅샷 (<code>after_snapshot_json</code>)
+          </div>
           <div class="json-box json-after" id="diffAfterBox"></div>
         </div>
       </div>
@@ -524,7 +524,7 @@ code, pre, kbd, samp,
       <span class="code" id="diffHashText" style="color:var(--muted);"></span>
       <div style="display:flex; gap:8px;">
         <button class="btn" id="btnJumpSourceScreen">↗ 발생 원천 화면으로 이동</button>
-        <button class="btn btn-pri" onclick="closeDiffModal">확인</button>
+        <button class="btn btn-pri" onclick="closeDiffModal()">확인</button>
       </div>
     </div>
   </div>
@@ -1104,4 +1104,79 @@ code, pre, kbd, samp,
   }
 
   renderAuditRows();
-</script></body></html>
+</script><script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
+</body></html>

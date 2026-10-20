@@ -103,7 +103,7 @@ code, pre, kbd, samp,
       <div class="topbar-right" style="display:flex; align-items:center; gap:8px;">
         <span class="badge b-info">계약 택배 대리점 연동 (송장 기준 대사)</span>
         <a class="btn btn-sm" href="ADMN-ORD-001_baseline.html">📦 주문·출고지시 (ADMN-ORD-001/002)</a>
-        <a class="btn btn-sm" href="ADMN-SETT-009_baseline.html">📊 월간 재무 손익 리포트</a>
+        <a class="btn btn-sm" href="ADMN-SETT-009_baseline.html">📊 월간 재무 손익 리포트 (ADMN-SETT-009)</a>
       </div>
     </header>
 
@@ -116,11 +116,11 @@ code, pre, kbd, samp,
         <div class="notice-bar">
           <div>
             <strong>[실무 운영 기준 — 택배 대리점 운임 및 고객 수취 배송비 대사]</strong>
- 백오피스 출고 원장(<code>ADMN-ORD-002</code> 송장번호 운송장번호, 출고지시 일시 확정분)과 계약 택배 대리점의 월간 운임 청구서(엑셀)를 대조합니다.
- 고객이 결제한 유료 배송비(교재·일반상품 실물 합계 30,000원 미만 시 3,000원) 및 환불 시 차감 회수한 반품 왕복 배송비(6,000원)를 함께 집계하여 대리점 지급액을 확정합니다.
- </div>
+            백오피스 출고 원장(<code>ADMN-ORD-002</code> 송장번호 <code>tracking_no</code>, <code>ship_ordered_at</code> 확정분)과 계약 택배 대리점의 월간 운임 청구서(엑셀)를 대조합니다.
+            고객이 결제한 유료 배송비(교재·일반상품 실물 합계 30,000원 미만 시 3,000원) 및 환불 시 차감 회수한 반품 왕복 배송비(6,000원)를 함께 집계하여 대리점 지급액을 확정합니다.
+          </div>
           <div style="display:flex; gap:8px; flex-shrink:0;">
-            <button class="btn btn-primary" onclick="openUploadModal">📤 택배 대리점 정산서(Excel) 업로드</button>
+            <button class="btn btn-primary" onclick="openUploadModal()">📤 택배 대리점 정산서(Excel) 업로드</button>
           </div>
         </div>
 
@@ -195,7 +195,7 @@ code, pre, kbd, samp,
         <!-- 월별 택배 대리점 정산서 목록 -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">월별 택배 대리점 운임 · 배송비 대사 목록</h2>
+            <h2 class="card-title">월별 택배 대리점 운임 · 배송비 대사 목록 (ADMN-SETT-011)</h2>
             <div style="display:flex; gap:8px;">
               <button class="btn btn-sm" onclick="showToast('월별 택배 운임 및 고객 수취 배송비 요약표가 다운로드되었습니다.')">📥 월간 운임 정산 요약 다운로드</button>
             </div>
@@ -279,13 +279,13 @@ code, pre, kbd, samp,
       <section id="view-detail" style="display:none;">
         <div class="card-header" style="margin-bottom:12px;">
           <div style="display:flex; align-items:center; gap:10px;">
-            <button class="btn" onclick="backToList">← 월별 목록으로</button>
-            <h2 class="card-title" style="font-size:16px;">2026년 10월 택배 대리점 송장별 운임 대사 및 조정</h2>
+            <button class="btn" onclick="backToList()">← 월별 목록으로 (ADMN-SETT-011)</button>
+            <h2 class="card-title" style="font-size:16px;">[ADMN-SETT-011-S1] 2026년 10월 택배 대리점 송장별 운임 대사 및 조정</h2>
             <span class="badge b-info">CJ대한통운 수도권북부 대리점 (AGY-CJ-01)</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <button class="btn" onclick="autoAdjustCancelled">⚡ 출고지시 회수(미발송) 중복청구건 일괄 0원 조정</button>
-            <button class="btn btn-success" id="btn-confirm-settlement" onclick="confirmMonthlyLogistics">🔒 당월 택배비 대사 최종 확정</button>
+            <button class="btn" onclick="autoAdjustCancelled()">⚡ 출고지시 회수(미발송) 중복청구건 일괄 0원 조정</button>
+            <button class="btn btn-success" id="btn-confirm-settlement" onclick="confirmMonthlyLogistics()">🔒 당월 택배비 대사 최종 확정</button>
           </div>
         </div>
 
@@ -322,14 +322,14 @@ code, pre, kbd, samp,
               <button class="btn btn-sm" onclick="filterInvoiceRows('MATCHED')">✅ 정상 일치 (1,279건)</button>
             </div>
             <div style="font-size:12px; color:#475569;">
- * 도서·일반상품 실물 합계 <strong>30,000원 이상 무료배송(자사 부담)</strong>, 30,000원 미만 고객 3,000원 부과 / 출고 이후 단순변심 반품 시 왕복 6,000원 차감(`ADMN-RFD-002` 연동)
- </div>
+              * 도서·일반상품 실물 합계 <strong>30,000원 이상 무료배송(자사 부담)</strong>, 30,000원 미만 고객 3,000원 부과 / 출고 이후 단순변심 반품 시 왕복 6,000원 차감(`ADMN-RFD-002` 연동)
+            </div>
           </div>
 
           <table class="data-table" id="invoice-recon-table">
             <thead>
               <tr>
-                <th>송장번호</th>
+                <th>송장번호 (tracking_no)</th>
                 <th>주문번호 / 출고일시</th>
                 <th>구분 / 상품 요약</th>
                 <th>고객 배송비 구분</th>
@@ -354,7 +354,7 @@ code, pre, kbd, samp,
                 <td class="num">0원</td>
                 <td class="num" style="color:#b91c1c; font-weight:700;">2,750원</td>
                 <td class="num" style="color:#b91c1c; font-weight:700;">+2,750원</td>
-                <td><span class="badge b-err">출고지시 회수건 청구</span></td>
+                <td><span class="badge b-err">출고지시 회수건 청구 (CANCELLED_BILLED)</span></td>
                 <td class="num"><input type="number" class="f-ctrl" style="width:95px; text-align:right; height:28px;" value="0" id="adj-val-1"></td>
                 <td>
                   <button class="btn btn-sm btn-primary" onclick="resolveInvoiceRow(1, '송장 가발급 후 집하 전 회수건 — 대리점 0원 차감 합의')">조정 반영</button>
@@ -464,7 +464,7 @@ code, pre, kbd, samp,
     <div class="modal-box">
       <div class="modal-hd">
         <span>📤 택배 대리점 월간 운임 정산서(Excel/CSV) 업로드</span>
-        <button class="btn btn-sm" onclick="closeUploadModal">✕</button>
+        <button class="btn btn-sm" onclick="closeUploadModal()">✕</button>
       </div>
       <div class="modal-bd">
         <div style="margin-bottom:12px;">
@@ -480,14 +480,14 @@ code, pre, kbd, samp,
         </div>
         <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:12px; font-size:12px; color:#334155; line-height:1.6;">
           <strong>[자동 대사 매칭 규칙]</strong><br>
- 1. 업로드 파일의 <code>운송장번호</code>와 백오피스 출고 원장(출고 운송장번호)을 1:1 대조합니다.<br>
- 2. 발송 전 <strong>출고지시 회수(취소)</strong> 처리된 주문에 발급되었던 가송장이 청구된 경우 CANCELLED_BILLED로 자동 분류하여 과오청구를 차단합니다.<br>
- 3. 대사 확정 시 당월 택배 운임 지급액과 고객 수취 배송비 상계 내역이 <code>ADMN-SETT-009</code>(월간 재무 손익 리포트)에 자동 반영됩니다.
- </div>
+          1. 업로드 파일의 <code>운송장번호</code>와 백오피스 출고 원장(<code>ADMN-ORD-002.tracking_no</code>)을 1:1 대조합니다.<br>
+          2. 발송 전 <strong>출고지시 회수(취소)</strong> 처리된 주문에 발급되었던 가송장이 청구된 경우 <code>CANCELLED_BILLED</code>로 자동 분류하여 과오청구를 차단합니다.<br>
+          3. 대사 확정 시 당월 택배 운임 지급액과 고객 수취 배송비 상계 내역이 <code>ADMN-SETT-009</code>(월간 재무 손익 리포트)에 자동 반영됩니다.
+        </div>
       </div>
       <div class="modal-ft">
-        <button class="btn" onclick="closeUploadModal">취소</button>
-        <button class="btn btn-primary" onclick="closeUploadModal; openDetailView('2026-10'); showToast('택배 대리점 정산서 1,293건 업로드 및 자동 대사가 완료되었습니다.');">업로드 및 자동 대사 실행</button>
+        <button class="btn" onclick="closeUploadModal()">취소</button>
+        <button class="btn btn-primary" onclick="closeUploadModal(); openDetailView('2026-10'); showToast('택배 대리점 정산서 1,293건 업로드 및 자동 대사가 완료되었습니다.');">업로드 및 자동 대사 실행</button>
       </div>
     </div>
   </div>
@@ -569,7 +569,7 @@ code, pre, kbd, samp,
       document.getElementById('row-oct-final').innerHTML = '<span style="color:#1d4ed8; font-weight:800;">3,555,750원</span>';
       document.getElementById('row-oct-status').innerHTML = '<span class="badge b-ok">정산 확정 완료</span>';
       document.getElementById('kpi-mismatch-cnt').textContent = '0건 (조정 완료)';
-      showToast('2026년 10월 택배 대리점 운임 정산(3,555,750원)이 최종 확정되어 재무 리포트에 반영되었습니다.');
+      showToast('2026년 10월 택배 대리점 운임 정산(3,555,750원)이 최종 확정되어 재무 리포트(ADMN-SETT-009)에 반영되었습니다.');
     }
 
     function openUploadModal() {
@@ -579,5 +579,80 @@ code, pre, kbd, samp,
       document.getElementById('modal-upload').classList.remove('open');
     }
   </script>
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body>
 </html>

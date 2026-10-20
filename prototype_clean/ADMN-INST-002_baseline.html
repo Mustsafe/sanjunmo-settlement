@@ -459,7 +459,7 @@ code, pre, kbd, samp,
       <h1 class="crumb-title" id="header-screen-title">약정금 마일스톤 검수 (선급 · 제작지원금 승인 게이트)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <button class="btn" onclick="location.href='ADMN-INST-001_baseline.html'">← 권리자 계약 원장</button>
+      <button class="btn" onclick="location.href='ADMN-INST-001_baseline.html'">← 권리자 계약 원장(INST-001)</button>
     </div></header><div id="v4-page-body">
   
   
@@ -476,9 +476,9 @@ code, pre, kbd, samp,
       <!-- 7.2절 단일 책임 및 경로 분리 안내 배너 -->
       <div class="policy-banner">
         <div>
-          <strong>📌 [단일 책임 원칙 및 검수 범위]</strong>
- 본 화면은 <strong>전속계약금 · 일시금/분할형 개발지원금 · 매절 대금 · 정액 수당 · 종료 시 일시정산</strong>의 당월 정산서(7단계 비정기 약정·매절 가산) 이관 검수와, <strong>매출연동(매출연동) 개발지원금 약정 체결 시 최초 1회 검수</strong>만 수행합니다. (매출연동형의 월별 지급분은 자동 연산되므로 매월 검수하지 않으며, 사입 도서 매입채무(AP)는 회계 시스템 경로로 분리됩니다.)
- </div>
+          <strong>📌 [7.2절 단일 책임 원칙 및 검수 범위]</strong>
+          본 화면은 <strong>전속계약금 · 일시금/분할형 개발지원금 · 매절 대금 · 정액 수당 · 종료 시 일시정산(<code>LUMP_SETTLE</code>)</strong>의 당월 정산서(7단계 <code>LUMPSUM_ADD</code>) 이관 검수와, <strong>매출연동(<code>매출연동 (REVENUE_SHARE)</code>) 개발지원금 약정 체결 시 최초 1회 검수</strong>만 수행합니다. (매출연동형의 월별 지급분은 자동 연산되므로 매월 검수하지 않으며, 사입 도서 매입채무(AP)는 회계 시스템 경로로 분리됩니다.)
+        </div>
         <span class="badge badge-neutral">마감월(2026-09) 소급 이관 차단</span>
       </div>
 
@@ -487,7 +487,7 @@ code, pre, kbd, samp,
         <div class="kpi-card active" data-filter="ALL">
           <div class="k-title">전체 검수 대상 (마일스톤+R/S약정)</div>
           <div class="k-num" id="kpiAll">6건</div>
-          <div class="k-sub">7단계 이관 + 약정</div>
+          <div class="k-sub">7단계 이관 + Pipeline 5.1 약정</div>
         </div>
         <div class="kpi-card" data-filter="GATE_BLOCKED">
           <div class="k-title">🚨 승인 게이트 차단 (조치 필요)</div>
@@ -514,8 +514,8 @@ code, pre, kbd, samp,
       <!-- 탭 네비게이션 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabWorkspace">1. 마일스톤 · 지원금 약정 검수 및 이관 승인 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabClawback">2. 전속계약금 중도해지 일할 반환 · 종료 일시정산 규격 </button>
-        <button class="tab-btn" data-tab="tabAudit">3. 검수 · 수기 소명 감사 로그</button>
+        <button class="tab-btn" data-tab="tabClawback">2. 전속계약금 중도해지 일할 반환 · 종료 일시정산(LUMP_SETTLE) 규격 (5.2절)</button>
+        <button class="tab-btn" data-tab="tabAudit">3. 검수 · 수기 소명 감사 로그 (ADMN-CONF-010)</button>
       </div>
 
       <!-- 탭 1: 메인 워크스페이스 -->
@@ -536,7 +536,7 @@ code, pre, kbd, samp,
                 <option value="SUPPORT_RS_ONCE">개발지원금 (매출연동 R/S 체결 1회)</option>
                 <option value="BUYOUT">매절 대금 (권리 양도)</option>
                 <option value="FLAT_ALLOWANCE">정액·건당 수당</option>
-                <option value="LUMP_SETTLE">지원금 종료 시 일시정산</option>
+                <option value="LUMP_SETTLE">지원금 종료 시 일시정산 (LUMP_SETTLE)</option>
               </select>
             </div>
             <div class="table-wrap">
@@ -547,7 +547,7 @@ code, pre, kbd, samp,
                     <th>권리자 / 약정 구분</th>
                     <th class="num">약정 금액 (또는 요율)</th>
                     <th>상계 / 소득구분</th>
-                    <th>귀속월</th>
+                    <th>귀속월 (target_month)</th>
                     <th>게이트 / 검수 상태</th>
                   </tr>
                 </thead>
@@ -574,10 +574,10 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">전속계약금 중도해지 일할 반환 산식(10단계 반환·최소 청구 검증) 및 지원금 종료 시 일시 정산(종료 일시정산, 7단계) 연동 현황 </div>
+              <div class="card-title">전속계약금 중도해지 일할 반환 산식(10단계 CLAIM) 및 지원금 종료 시 일시 정산(LUMP_SETTLE, 7단계) 연동 현황 (5.2절)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
- 전속계약금 반환액은 세후 실지급액 기준 일할 산출하여 10단계에서 1회 차감하며, 위약금(Penalty)은 정산 엔진(1~11단계)에서 완전 배제합니다.
- </div>
+                전속계약금 반환액은 세후 실지급액 기준 일할 산출하여 10단계(CLAIM)에서 1회 차감하며, 위약금(Penalty)은 정산 엔진(1~11단계)에서 완전 배제합니다.
+              </div>
             </div>
           </div>
           <div class="table-wrap">
@@ -587,7 +587,7 @@ code, pre, kbd, samp,
                   <th>구분</th>
                   <th>계약 / 약정 ID</th>
                   <th>권리자</th>
-                  <th>산출 기준 및 수식 (정본)</th>
+                  <th>산출 기준 및 수식 (5.2절 · 8.3절 정본)</th>
                   <th class="num">산출 금액</th>
                   <th>엔진 인입 단계 및 처리 상태</th>
                 </tr>
@@ -602,26 +602,26 @@ code, pre, kbd, samp,
                     <span style="font-size:11px; color:var(--text-muted);">* 총 복무일수 = 의무 종료일 − 의무 시작일 + 1 (해지일 당일은 복무 일수 포함) / 반환 상당 과세표준 역산 후 수정신고(채널 3-a) 연동</span>
                   </td>
                   <td class="num" style="color:var(--danger); font-weight:700;">-4,768,767원</td>
-                  <td>7단계 차감 금지 → <strong>10단계 세후 1회 차감</strong></td>
+                  <td>7단계 차감 금지 → <strong>10단계(CLAIM) 세후 1회 차감</strong></td>
                 </tr>
                 <tr>
                   <td><span class="badge badge-primary">지원금 종료 일시정산</span></td>
                   <td class="mono">CT-2026-0412<br>(SUP-2026-001)</td>
                   <td>산준교육 (법인)</td>
                   <td>
- 종료 시 일시정산 적용 (한도형 총 한도 10,000,000원 − 기 소진 8,200,000원)<br>
-                    <span style="font-size:11px; color:var(--text-muted);">* 본 화면에서 종료 일시정산 승인 시 7단계로 1회 인입 + 5단계 한도 소진액 가산 후 종결 전이</span>
+                    <code>on_termination_policy = LUMP_SETTLE</code> (한도형 총 한도 10,000,000원 − 기 소진 8,200,000원)<br>
+                    <span style="font-size:11px; color:var(--text-muted);">* 본 화면(INST-002)에서 종료 일시정산 승인 시 7단계(LUMPSUM_ADD)로 1회 인입 + 5단계(SUPPORT_CAP) 한도 소진액 가산 후 종결 전이</span>
                   </td>
                   <td class="num" style="color:var(--primary); font-weight:700;">+1,800,000원</td>
-                  <td><strong>7단계 수당 라인 인입 대기</strong> (MS-2026-006)</td>
+                  <td><strong>7단계(LUMPSUM_ADD) 수당 라인 인입 대기</strong> (MS-2026-006)</td>
                 </tr>
                 <tr>
                   <td><span class="badge badge-neutral">위약금 (Penalty)</span></td>
                   <td class="mono">CT-2025-0911</td>
                   <td>이전기 (강사)</td>
                   <td>
- 위약벌 산정방식 = MULTIPLE (200%), 위약벌 기준금액 = 총 약정액 기준, <code>CUMULATIVE</code><br>
-                    <span style="font-size:11px; color:var(--text-muted);">* 원칙: 위약금은 기 지급 소득의 정정이 아닌 신규 손해배상 채무이므로 1~11단계 정산 엔진 및 이월 원장에 절대 인입하지 않음</span>
+                    <code>penalty_calc_type = MULTIPLE (200%)</code>, <code>penalty_base = TOTAL_AGREED</code>, <code>CUMULATIVE</code><br>
+                    <span style="font-size:11px; color:var(--text-muted);">* 5.2절 원칙: 위약금은 기 지급 소득의 정정이 아닌 신규 손해배상 채무이므로 1~11단계 정산 엔진 및 이월 원장에 절대 인입하지 않음</span>
                   </td>
                   <td class="num">20,000,000원</td>
                   <td><span class="badge badge-neutral">정산 엔진 완전 배제 (별도 청구 관리)</span></td>
@@ -662,11 +662,11 @@ code, pre, kbd, samp,
       <div class="savebar-status">
         <span class="badge badge-primary">이관 연동 상태</span>
         <span id="footerSummaryText">
- 2026-10 귀속월 이관 승인 완료: <strong>2건</strong> (7단계 비정기 가산금 <strong>5,000,000원</strong> + 매출연동 약정 <strong>1건 ACTIVE</strong>)
- </span>
+          2026-10 귀속월 이관 승인 완료: <strong>2건</strong> (7단계 비정기 가산금 <strong>5,000,000원</strong> + Pipeline 5.1 매출연동 약정 <strong>1건 ACTIVE</strong>)
+        </span>
       </div>
       <div style="display:flex; gap:8px;">
-        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행으로 이동 →</button>
+        <button class="btn btn-sm" onclick="location.href='ADMN-SETT-002_baseline.html'">월간 정산 및 집행(SETT-002)으로 이동 →</button>
       </div>
     </footer>
   </div>
@@ -1316,7 +1316,7 @@ code, pre, kbd, samp,
     if (!item) return;
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
+      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
       return;
     }
     item.targetMonth = tMonth;
@@ -1336,7 +1336,7 @@ code, pre, kbd, samp,
 
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
+      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
       return;
     }
 
@@ -1348,7 +1348,7 @@ code, pre, kbd, samp,
 
     const memo = document.getElementById("editMemo").value.trim();
     if (item.inspectionMode === "MANUAL_NOTE" && memo.length < 10) {
-      alert("[담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
+      alert("[7.2절 담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
       return;
     }
     if (item.inspectionMode === "EVIDENCE_FILE") {
@@ -1385,7 +1385,7 @@ code, pre, kbd, samp,
     renderTable();
     renderDetail();
     renderAudit();
-    showToast(`✔ [${item.id}] 검수 승인이 확정되어 ${item.targetMonth} 정산서로 이관되었습니다.`);
+    showToast(`✔ [${item.id}] 검수 승인이 확정되어 ${item.targetMonth} 정산서(ADMN-SETT-002)로 이관되었습니다.`);
   }
 
   // KPI 카드 필터링
@@ -1457,4 +1457,79 @@ code, pre, kbd, samp,
   }
 </script>
 
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body></html>

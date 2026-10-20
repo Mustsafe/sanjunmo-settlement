@@ -333,14 +333,14 @@ code, pre, kbd, samp,
       <div class="crumb">
         <span class="crumb-code" id="top-crumb-code">ADMN-PROD-007</span>
         <span id="top-crumb-path">상품관리 &gt; 상품 마스터 &gt;</span>
-        <strong id="top-crumb-title" style="color:var(--text-main);">일반 상품 마스터 (공급 형태 · 재고 · 일반 상품 판매매출 )</strong>
+        <strong id="top-crumb-title" style="color:var(--text-main);">일반 상품 마스터 (공급 형태 · 재고 · 일반 상품 판매매출 Pipeline 2.3)</strong>
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <label style="font-size:12px; font-weight:700; background:#F1F5F9; padding:4px 10px; border-radius:6px; border:1px solid var(--border); cursor:pointer;">
-          <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무 권한 시뮬레이션 (사입원가 열람)
- </label>
-        <a href="ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 ↗</a>
-        <a href="ADMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 ↗</a>
+          <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무 권한(FIN_MANAGER) 시뮬레이션 (사입원가 열람)
+        </label>
+        <a href="ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 (ADMN-SETT-009) ↗</a>
+        <a href="ADMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 (ADMN-SETT-001) ↗</a>
       </div>
     </header>
 
@@ -353,11 +353,11 @@ code, pre, kbd, samp,
 
         <div class="policy-banner">
           <div>
-            <strong>일반 상품 정산 · 세무 · 회계 규칙 :</strong>
- 도서(ISBN 면세)가 아닌 일반 소비재·굿즈는 <strong>일반 과세 재화 공급(<code>세무기준</code> · VAT 10% 포함가 <code>10/11</code> 자동 분해)</strong>으로 판정되며 도서정가제 제한이 없어 쿠폰·포인트 사용이 가능합니다.
- <code>ADMN-SETT-001</code>에서 <strong>자사 권리자 100%로 자동 매핑</strong>되어 <strong>일반 상품 판매매출(<code></code>)</strong>로 집계되며, 매입 대금은 정산 엔진(펌뱅킹)을 거치지 않고 <strong>회계 매입채무(AP · 재고 매입)</strong> 경로로 지급됩니다.
- </div>
-          <span class="badge badge-purple">세무기준 과세 · </span>
+            <strong>일반 상품 정산 · 세무 · 회계 규칙 (합의서 제18장 18.1절):</strong>
+            도서(ISBN 면세)가 아닌 일반 소비재·굿즈는 <strong>일반 과세 재화 공급(<code>TX-13</code> · VAT 10% 포함가 <code>10/11</code> 자동 분해)</strong>으로 판정되며 도서정가제 제한이 없어 쿠폰·포인트 사용이 가능합니다.
+            <code>ADMN-SETT-001</code>에서 <strong>자사 권리자 100%로 자동 매핑</strong>되어 <strong>일반 상품 판매매출(<code>Pipeline 2.3</code>)</strong>로 집계되며, 매입 대금은 정산 엔진(펌뱅킹)을 거치지 않고 <strong>회계 매입채무(AP · <code>INVENTORY_PURCHASE</code>)</strong> 경로로 지급됩니다.
+          </div>
+          <span class="badge badge-purple">TX-13 과세 · Pipeline 2.3</span>
         </div>
 
         <!-- 5칸 스코어카드 -->
@@ -383,7 +383,7 @@ code, pre, kbd, samp,
             <div class="k-sub">재고 0 도달 시 결제 자동 차단</div>
           </div>
           <div class="kpi-card" onclick="window.location.href='ADMN-SETT-009_baseline.html'">
-            <div class="k-top"><span class="k-title">당월 일반 상품 판매매출</span><span class="badge badge-purple"></span></div>
+            <div class="k-top"><span class="k-title">당월 일반 상품 판매매출</span><span class="badge badge-purple">Pipeline 2.3</span></div>
             <div class="k-num" style="color:var(--primary);">3,000,000</div>
             <div class="k-sub">ADMN-SETT-009 내부 정산 집계액(원)</div>
           </div>
@@ -399,12 +399,12 @@ code, pre, kbd, samp,
             <table class="search-tbl">
               <tbody>
                 <tr>
-                  <th>공급 형태</th>
+                  <th>공급 형태 (<code>goods_supply_type</code>)</th>
                   <td>
                     <select id="fl-supply" class="f-select" style="width:220px;">
                       <option value="ALL">전체 공급 형태</option>
-                      <option value="PURCHASED_RESALE">매입 재판매</option>
-                      <option value="DIRECT_SALE">자사 직접 판매</option>
+                      <option value="PURCHASED_RESALE">매입 재판매 (PURCHASED_RESALE)</option>
+                      <option value="DIRECT_SALE">자사 직접 판매 (DIRECT_SALE)</option>
                     </select>
                   </td>
                   <th>판매 상태</th>
@@ -432,8 +432,8 @@ code, pre, kbd, samp,
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                       <input type="text" id="fl-kw" class="f-input" style="width:360px;" placeholder="상품명(안전모 키링, 계산기 등) 또는 상품 ID(GDS-0001) 입력" />
                       <div style="display:flex; gap:8px;">
-                        <button type="button" class="btn btn-outline" onclick="resetSearch">초기화</button>
-                        <button type="button" class="btn btn-dark" onclick="renderTable">조회</button>
+                        <button type="button" class="btn btn-outline" onclick="resetSearch()">초기화</button>
+                        <button type="button" class="btn btn-dark" onclick="renderTable()">조회</button>
                       </div>
                     </div>
                   </td>
@@ -448,12 +448,12 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div style="display:flex; align-items:center; gap:10px;">
               <span style="font-size:13px;">전체 <strong id="list-cnt">4</strong>건</span>
-              <span class="badge badge-gray">사입 원가는 대외비로 재무 권한 외 **** 마스킹</span>
+              <span class="badge badge-gray">사입 원가는 대외비로 재무 권한(FIN_MANAGER) 외 **** 마스킹</span>
             </div>
             <div style="display:flex; gap:6px;">
-              <button type="button" class="btn btn-sm btn-outline" onclick="bulkStopSale">선택 판매중지</button>
+              <button type="button" class="btn btn-sm btn-outline" onclick="bulkStopSale()">선택 판매중지</button>
               <button type="button" class="btn btn-sm btn-outline" id="btn-excel" onclick="showToast('일반상품 마스터 엑셀 다운로드 이력이 감사 로그에 기록되었습니다.')">엑셀 다운로드</button>
-              <button type="button" class="btn btn-sm btn-primary" onclick="openForm('NEW')">＋ 상품 등록</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openForm('NEW')">＋ 상품 등록 (ADMN-PROD-007-S1)</button>
             </div>
           </div>
           <div style="overflow-x:auto;">
@@ -462,7 +462,7 @@ code, pre, kbd, samp,
                 <tr>
                   <th style="width:36px;"><input type="checkbox" onchange="document.querySelectorAll('.g-chk').forEach(c=>c.checked=this.checked)" /></th>
                   <th>상품 ID</th>
-                  <th>공급 형태</th>
+                  <th>공급 형태 (<code>goods_supply_type</code>)</th>
                   <th>상품명</th>
                   <th class="tr-right">판매가 (VAT 포함)</th>
                   <th class="tr-right">공급가액 / 부가세 (10/11)</th>
@@ -486,8 +486,8 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 목록으로</button>
-              <span style="margin-left:6px;" id="form-header-title">일반상품 등록 · 수정</span>
+              <button type="button" class="btn btn-sm btn-outline" onclick="switchView('list')">← 목록으로 (ADMN-PROD-007)</button>
+              <span style="margin-left:6px;" id="form-header-title">일반상품 등록 · 수정 (ADMN-PROD-007-S1)</span>
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-sm btn-outline" id="btn-form-p1" onclick="openStockAdjustModal(currentEditId)">재고 조정 (007-P1)</button>
@@ -508,9 +508,9 @@ code, pre, kbd, samp,
                   </td>
                   <th>공급 형태 <span style="color:var(--danger);">*</span></th>
                   <td>
-                    <select id="f-supply" class="f-select" style="width:260px;" onchange="onSupplyTypeChange">
-                      <option value="PURCHASED_RESALE">매입 재판매</option>
-                      <option value="DIRECT_SALE">자사 직접 판매</option>
+                    <select id="f-supply" class="f-select" style="width:260px;" onchange="onSupplyTypeChange()">
+                      <option value="PURCHASED_RESALE">매입 재판매 (PURCHASED_RESALE)</option>
+                      <option value="DIRECT_SALE">자사 직접 판매 (DIRECT_SALE)</option>
                     </select>
                     <span id="f-supply-lock-msg" style="font-size:11.5px; color:var(--warning); font-weight:700; margin-left:6px;">🔒 판매 이력이 존재하여 공급 형태 변경이 잠금되었습니다.</span>
                   </td>
@@ -536,8 +536,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>권리자 매핑 (<code>ADMN-SETT-001</code>)</th>
                   <td colspan="3">
-                    <span class="badge badge-green">자사 권리자(주식회사 엘캠퍼스 · 자사 권리자) 100.00% 자동 매핑</span>
-                    <span style="font-size:11.5px; color:var(--text-muted); margin-left:8px;">외부 권리자 수익 배분 검증 면제 · 매출 전액 <strong>일반 상품 판매매출</strong>로 집계 (매핑 유효기간 외에는 신규 판매 자동 차단)</span>
+                    <span class="badge badge-green">자사 권리자(주식회사 엘캠퍼스 · is_internal=true) 100.00% 자동 매핑</span>
+                    <span style="font-size:11.5px; color:var(--text-muted); margin-left:8px;">외부 권리자 수익 배분 검증 면제 · 매출 전액 <strong>일반 상품 판매매출(Pipeline 2.3)</strong>로 집계 (매핑 유효기간 외에는 신규 판매 자동 차단)</span>
                   </td>
                 </tr>
               </tbody>
@@ -550,8 +550,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>판매가 (VAT 포함) <span style="color:var(--danger);">*</span></th>
                   <td>
-                    <input type="number" id="f-price" class="f-input tr-right" style="width:160px; font-weight:800;" value="11000" min="100" step="100" oninput="calcVatSplit" /> 원
- <span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">도서정가제 미적용 (쿠폰 · 포인트 사용 허용)</span>
+                    <input type="number" id="f-price" class="f-input tr-right" style="width:160px; font-weight:800;" value="11000" min="100" step="100" oninput="calcVatSplit()" /> 원
+                    <span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">도서정가제 미적용 (쿠폰 · 포인트 사용 허용)</span>
                   </td>
                   <th>공급가액 + 부가가치세</th>
                   <td>
@@ -563,12 +563,12 @@ code, pre, kbd, samp,
                   <th>사입 원가 (대외비)</th>
                   <td>
                     <input type="text" id="f-cost" class="f-input tr-right" style="width:160px;" value="5500" /> 원
- <span id="f-cost-hint" style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">재무 권한 외 열람 시 마스킹 · 자사 직접 판매 선택 시 비활성</span>
+                    <span id="f-cost-hint" style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">재무 권한 외 열람 시 마스킹 · 자사 직접 판매(DIRECT_SALE) 선택 시 비활성</span>
                   </td>
                   <th>원가 계정 / 세무 판정</th>
                   <td>
- 재고 매입 계정 🔒 &nbsp;·&nbsp;
- <span class="badge badge-blue">세무기준 일반 과세 재화 공급 (VAT 10%) 🔒</span>
+                    <code>INVENTORY_PURCHASE</code> (재고 매입 계정 🔒) &nbsp;·&nbsp;
+                    <span class="badge badge-blue">TX-13 일반 과세 재화 공급 (VAT 10%) 🔒</span>
                   </td>
                 </tr>
               </tbody>
@@ -582,14 +582,14 @@ code, pre, kbd, samp,
                   <th>현재 재고</th>
                   <td>
                     <input type="text" id="f-stock" class="f-input tr-right" style="width:120px; font-weight:800;" value="142 개" readonly />
-                    <button type="button" class="btn btn-sm btn-primary" id="btn-inline-adj" style="margin-left:6px;" onclick="openStockAdjustModal(currentEditId)">재고 조정</button>
-                    <button type="button" class="btn btn-sm btn-outline" id="btn-inline-hist" onclick="openStockHistoryModal(currentEditId)">입출고 이력</button>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">수정 모드에서 현재고 직접 덮어쓰기 불가 — 반드시 [재고 조정] 레이어를 통해 증감 수량과 사유를 `재고 수불 이력`에 기록해야 합니다.</div>
+                    <button type="button" class="btn btn-sm btn-primary" id="btn-inline-adj" style="margin-left:6px;" onclick="openStockAdjustModal(currentEditId)">재고 조정 (ADMN-PROD-007-P1)</button>
+                    <button type="button" class="btn btn-sm btn-outline" id="btn-inline-hist" onclick="openStockHistoryModal(currentEditId)">입출고 이력 (ADMN-PROD-007-P2)</button>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">수정 모드에서 현재고 직접 덮어쓰기 불가 — 반드시 [재고 조정] 레이어를 통해 증감 수량과 사유를 `goods_stock_log`에 기록해야 합니다.</div>
                   </td>
                   <th>재고 알림 임계치 <span style="color:var(--danger);">*</span></th>
                   <td>
                     <input type="number" id="f-threshold" class="f-input tr-right" style="width:100px;" value="20" /> 개 이하 시 <span class="badge badge-amber">임박</span> 강조 및 알림
- </td>
+                  </td>
                 </tr>
                 <tr>
                   <th>매입처 (Supplier)</th>
@@ -609,8 +609,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>배송 정책</th>
                   <td colspan="3">
- 기본 배송비 <strong>3,000원</strong> · <strong>교재 및 일반상품 합산 실결제 30,000원 이상 무료배송</strong> (강좌 결제액 합산 제외 · 3PL 파주 물류센터 합포장 출고)
- </td>
+                    기본 배송비 <strong>3,000원</strong> · <strong>교재 및 일반상품 합산 실결제 30,000원 이상 무료배송</strong> (강좌 결제액 합산 제외 · 3PL 파주 물류센터 합포장 출고)
+                  </td>
                 </tr>
                 <tr>
                   <th>대표 이미지 / 상세 설명</th>
@@ -625,8 +625,8 @@ code, pre, kbd, samp,
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:18px; padding-top:14px; border-top:1px solid var(--border);">
               <button type="button" class="btn btn-outline" onclick="switchView('list')">← 목록</button>
               <div style="display:flex; gap:8px;">
-                <button type="button" class="btn btn-danger" onclick="stopCurrentProduct">판매중지 전환 (물리 삭제 불가)</button>
-                <button type="button" class="btn btn-dark" onclick="saveProductForm">💾 저장</button>
+                <button type="button" class="btn btn-danger" onclick="stopCurrentProduct()">판매중지 전환 (물리 삭제 불가)</button>
+                <button type="button" class="btn btn-dark" onclick="saveProductForm()">💾 저장</button>
               </div>
             </div>
           </div>
@@ -642,26 +642,26 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-stock-p1">
     <div class="modal-box" style="max-width:520px;">
       <div class="modal-head">
-        <span>재고 조정</span>
+        <span>재고 조정 (ADMN-PROD-007-P1)</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-stock-p1')">✕</button>
       </div>
       <div class="modal-body">
         <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:14px; font-size:12.5px;">
- 대상 상품: <strong id="p1-target-name">GDS-0001 · 산준모 안전모 키링</strong><br/>
- 현재 재고: <strong id="p1-cur-stock">142</strong> 개
- </div>
+          대상 상품: <strong id="p1-target-name">GDS-0001 · 산준모 안전모 키링</strong><br/>
+          현재 재고: <strong id="p1-cur-stock">142</strong> 개
+        </div>
 
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px;">
           <div>
             <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">증감 구분 <span style="color:var(--danger);">*</span></label>
-            <select id="p1-dir" class="f-select" style="width:100%;" onchange="updateP1Preview">
+            <select id="p1-dir" class="f-select" style="width:100%;" onchange="updateP1Preview()">
               <option value="PLUS">늘림 (+ 입고/복원)</option>
               <option value="MINUS">줄임 (- 파손/실사차감)</option>
             </select>
           </div>
           <div>
             <label style="display:block; font-size:12px; font-weight:800; margin-bottom:4px;">증감 수량 (1 이상 정수) <span style="color:var(--danger);">*</span></label>
-            <input type="number" id="p1-qty" class="f-input tr-right" style="width:100%;" value="30" min="1" oninput="updateP1Preview" />
+            <input type="number" id="p1-qty" class="f-input tr-right" style="width:100%;" value="30" min="1" oninput="updateP1Preview()" />
           </div>
         </div>
 
@@ -688,7 +688,7 @@ code, pre, kbd, samp,
       </div>
       <div class="modal-foot">
         <button type="button" class="btn btn-outline" onclick="closeModal('modal-stock-p1')">취소</button>
-        <button type="button" id="btn-p1-save" class="btn btn-primary" onclick="confirmStockAdjust">조정 저장 (재고 수불 이력 적재)</button>
+        <button type="button" id="btn-p1-save" class="btn btn-primary" onclick="confirmStockAdjust()">조정 저장 (goods_stock_log 적재)</button>
       </div>
     </div>
   </div>
@@ -699,7 +699,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-stock-p2">
     <div class="modal-box" style="max-width:740px;">
       <div class="modal-head">
-        <span id="p2-title">입출고 이력 원장 조회 (재고 수불 원장)</span>
+        <span id="p2-title">입출고 이력 원장 조회 (ADMN-PROD-007-P2 · goods_stock_log)</span>
         <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-stock-p2')">✕</button>
       </div>
       <div class="modal-body">
@@ -708,7 +708,7 @@ code, pre, kbd, samp,
             <strong>기간:</strong>
             <input type="date" class="f-input" value="2026-09-17" /> ~ <input type="date" class="f-input" value="2026-10-17" />
             <strong>구분:</strong>
-            <select id="p2-filter-type" class="f-select" style="width:140px;" onchange="renderStockHistoryTable">
+            <select id="p2-filter-type" class="f-select" style="width:140px;" onchange="renderStockHistoryTable()">
               <option value="ALL">전체</option>
               <option value="수기 조정">수기 조정</option>
               <option value="주문 차감">주문 차감</option>
@@ -1035,7 +1035,7 @@ code, pre, kbd, samp,
           logs: []
         });
       }
-      showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · 세무기준 · Pipeline 2.3)');
+      showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · TX-13 · Pipeline 2.3)');
       switchView('list');
     }
 
@@ -1178,5 +1178,80 @@ code, pre, kbd, samp,
       renderTable();
     });
   </script>
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body>
 </html>

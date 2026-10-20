@@ -357,7 +357,7 @@
       </div>
       <div style="display:flex; gap:8px;">
         <a href="ADMN-PROM-002_baseline.html" class="btn btn-xs">🎟️ 쿠폰 · 포인트 관리 (ADMN-PROM-002/003)</a>
-        <a href="ADMN-BRD-001_baseline.html?view=winner" class="btn btn-xs">🏆 당첨자 발표 관리</a>
+        <a href="ADMN-BRD-001_baseline.html?view=winner" class="btn btn-xs">🏆 당첨자 발표 관리 (ADMN-BRD-009)</a>
       </div>
     </header>
 
@@ -383,7 +383,7 @@
             <div class="kpi-val" style="color:var(--primary);">3건</div>
             <div class="kpi-sub">수험생 응원 · 친구추천 · 출석체크 이벤트</div>
           </div>
-          <div class="kpi-card" onclick="filterBlockOnly">
+          <div class="kpi-card" onclick="filterBlockOnly()">
             <div class="kpi-label"><span>중복 할인 일괄 차단 작동중</span><span class="badge badge-danger">ADMN-PROM-001-S1</span></div>
             <div class="kpi-val" style="color:var(--danger);">3건</div>
             <div class="kpi-sub">특가 상품 쿠폰·포인트 중복 사용 자동 차단(ON)</div>
@@ -393,35 +393,35 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <span>📋 기획전 · 이벤트 통합 목록</span>
+              <span>📋 기획전 · 이벤트 통합 목록 (ADMN-PROM-001)</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-primary" onclick="openPromoFormNew">＋ 신규 기획전 · 이벤트 등록</button>
+              <button type="button" class="btn btn-primary" onclick="openPromoFormNew()">＋ 신규 기획전 · 이벤트 등록 (ADMN-PROM-001-S3)</button>
             </div>
           </div>
           <div class="card-body">
             <div class="filter-bar">
               <strong>카테고리 구분:</strong>
-              <select id="flt-cat" class="form-select" onchange="renderPromoList">
+              <select id="flt-cat" class="form-select" onchange="renderPromoList()">
                 <option value="ALL">전체 (기획전 + 이벤트)</option>
                 <option value="PROMO">기획전 (기획상품)</option>
                 <option value="EVENT">이벤트 (일반이벤트)</option>
               </select>
               <strong>진행 상태:</strong>
-              <select id="flt-status" class="form-select" onchange="renderPromoList">
+              <select id="flt-status" class="form-select" onchange="renderPromoList()">
                 <option value="ALL">전체 상태</option>
                 <option value="ACTIVE">진행중</option>
                 <option value="READY">예약 (노출 대기)</option>
                 <option value="ENDED">종료</option>
               </select>
               <strong>중복할인 차단(S1):</strong>
-              <select id="flt-block" class="form-select" onchange="renderPromoList">
+              <select id="flt-block" class="form-select" onchange="renderPromoList()">
                 <option value="ALL">전체</option>
                 <option value="ON">차단 ON (쿠폰·포인트 제한)</option>
                 <option value="OFF">차단 OFF (중복 허용)</option>
               </select>
-              <input type="text" id="flt-kw" class="form-input" style="width:260px;" placeholder="기획전/이벤트명, 코드(PRM-...), 슬러그 검색" oninput="renderPromoList" />
-              <button type="button" class="btn btn-xs" onclick="resetPromoFilter">초기화</button>
+              <input type="text" id="flt-kw" class="form-input" style="width:260px;" placeholder="기획전/이벤트명, 코드(PRM-...), 슬러그 검색" oninput="renderPromoList()" />
+              <button type="button" class="btn btn-xs" onclick="resetPromoFilter()">초기화</button>
             </div>
 
             <table class="data-table">
@@ -434,7 +434,7 @@
                   <th class="text-center">대상 상품</th>
                   <th class="text-center">중복할인 차단 (001-S1)</th>
                   <th class="text-center">진행 상태</th>
-                  <th class="text-center">당첨발표</th>
+                  <th class="text-center">당첨발표(BRD-009)</th>
                   <th class="text-center">관리</th>
                 </tr>
               </thead>
@@ -451,12 +451,12 @@
         <div class="card">
           <div class="card-header">
             <div class="card-title">
-              <button type="button" class="btn btn-xs" onclick="switchPromoView('list')">← 목록으로</button>
-              <span id="form-header-title">✏️ 기획전 · 이벤트 등록 및 수정</span>
+              <button type="button" class="btn btn-xs" onclick="switchPromoView('list')">← 목록으로 (ADMN-PROM-001)</button>
+              <span id="form-header-title">✏️ 기획전 · 이벤트 등록 및 수정 (ADMN-PROM-001-S3)</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn" onclick="openFullPreviewModal">🖥️ 새 창 전체 미리보기</button>
-              <button type="button" class="btn btn-primary" onclick="savePromoItem">💾 기획전 · 이벤트 저장 확정</button>
+              <button type="button" class="btn" onclick="openFullPreviewModal()">🖥️ 새 창 전체 미리보기</button>
+              <button type="button" class="btn btn-primary" onclick="savePromoItem()">💾 기획전 · 이벤트 저장 확정</button>
             </div>
           </div>
           <div class="card-body">
@@ -469,13 +469,13 @@
                   <td>
                     <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
                       <label style="display:inline-flex; align-items:center; gap:6px; font-weight:800; color:var(--purple); cursor:pointer;">
-                        <input type="radio" name="promo_cat" id="cat-radio-promo" value="PROMO" checked onchange="onChangePromoCat" />
- 🟣 기획전 (기획상품 — 프론트 <code>USER-PROM-001</code> [기획전] 탭 노출 · 특가 패키지/교재 매핑 중심)
- </label>
+                        <input type="radio" name="promo_cat" id="cat-radio-promo" value="PROMO" checked onchange="onChangePromoCat()" />
+                        🟣 기획전 (기획상품 — 프론트 <code>USER-PROM-001</code> [기획전] 탭 노출 · 특가 패키지/교재 매핑 중심)
+                      </label>
                       <label style="display:inline-flex; align-items:center; gap:6px; font-weight:800; color:var(--primary); cursor:pointer;">
-                        <input type="radio" name="promo_cat" id="cat-radio-event" value="EVENT" onchange="onChangePromoCat" />
- 🔵 이벤트 (일반이벤트 — 프론트 <code>USER-PROM-001</code> [이벤트] 탭 노출 · 댓글/경품/출석/당첨자 발표 연동)
- </label>
+                        <input type="radio" name="promo_cat" id="cat-radio-event" value="EVENT" onchange="onChangePromoCat()" />
+                        🔵 이벤트 (일반이벤트 — 프론트 <code>USER-PROM-001</code> [이벤트] 탭 노출 · 댓글/경품/출석/당첨자 발표 연동)
+                      </label>
                     </div>
                   </td>
                 </tr>
@@ -483,7 +483,7 @@
                   <th>기획전 · 이벤트명<span class="req">*</span></th>
                   <td>
                     <div style="display:flex; align-items:center; gap:10px;">
-                      <input type="text" id="f-promo-title" class="form-input" style="width:480px; font-weight:700;" maxlength="40" value="2026 산업안전기사 가을 합격 올패스 최대 35% 특가 기획전" oninput="syncAltText" />
+                      <input type="text" id="f-promo-title" class="form-input" style="width:480px; font-weight:700;" maxlength="40" value="2026 산업안전기사 가을 합격 올패스 최대 35% 특가 기획전" oninput="syncAltText()" />
                       <span style="font-size:11.5px; color:var(--text-muted);">최대 40자 · 프론트 상단 <code>&lt;h1&gt;</code> 및 브라우저 타이틀로 자동 지정됩니다.</span>
                     </div>
                   </td>
@@ -546,7 +546,7 @@
               </div>
               <div style="display:flex; gap:6px;">
                 <input type="text" id="inp-new-asset-name" class="form-input" style="width:210px;" placeholder="예: hero_visual_02.webp" />
-                <button type="button" class="btn btn-xs btn-primary" onclick="uploadNewS3Asset">☁️ S3 에셋 업로드 추가</button>
+                <button type="button" class="btn btn-xs btn-primary" onclick="uploadNewS3Asset()">☁️ S3 에셋 업로드 추가</button>
               </div>
             </div>
             <table class="data-table" style="margin-bottom:18px; border:1px solid var(--border);">
@@ -569,8 +569,8 @@
                 <span style="font-size:11.5px; color:var(--text-muted); margin-left:8px;">모든 CSS는 <code>#sanjunmo-promotion-wrapper</code> 내부 스코프로 자동 격리되며 <code>z-index: 900</code> 이하만 허용됩니다.</span>
               </div>
               <div style="display:flex; gap:6px;">
-                <button type="button" class="btn btn-xs" onclick="beautifyCurrentCode">✨ 코드 자동 정렬 (Beautify)</button>
-                <button type="button" class="btn btn-xs" onclick="validatePromoCodeSecurity">🔍 문법 · 보안 검증 (z-index / XSS 체크)</button>
+                <button type="button" class="btn btn-xs" onclick="beautifyCurrentCode()">✨ 코드 자동 정렬 (Beautify)</button>
+                <button type="button" class="btn btn-xs" onclick="validatePromoCodeSecurity()">🔍 문법 · 보안 검증 (z-index / XSS 체크)</button>
               </div>
             </div>
 
@@ -579,15 +579,15 @@
               <div class="cm-shell">
                 <div class="cm-topbar">
                   <div class="cm-tabs">
-                    <button type="button" class="cm-tab active" id="cm-tab-html" onclick="switchCodeTab('HTML')">📄 HTML</button>
-                    <button type="button" class="cm-tab" id="cm-tab-css" onclick="switchCodeTab('CSS')">🎨 CSS</button>
-                    <button type="button" class="cm-tab" id="cm-tab-js" onclick="switchCodeTab('JS')">⚡ JS</button>
+                    <button type="button" class="cm-tab active" id="cm-tab-html" onclick="switchCodeTab('HTML')">📄 HTML (html_content)</button>
+                    <button type="button" class="cm-tab" id="cm-tab-css" onclick="switchCodeTab('CSS')">🎨 CSS (css_content)</button>
+                    <button type="button" class="cm-tab" id="cm-tab-js" onclick="switchCodeTab('JS')">⚡ JS (js_content)</button>
                   </div>
-                  <span style="font-size:11px; color:#93c5fd;" id="cm-active-col-label">현재 편집 영역: 상세 HTML 소스</span>
+                  <span style="font-size:11px; color:#93c5fd;" id="cm-active-col-label">현재 편집 컬럼: promotion.html_content</span>
                 </div>
                 <div class="cm-body-wrap">
                   <div class="cm-gutter" id="cm-line-numbers">1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16</div>
-                  <textarea id="cm-code-input" class="cm-textarea" oninput="onCodeInput" spellcheck="false"></textarea>
+                  <textarea id="cm-code-input" class="cm-textarea" oninput="onCodeInput()" spellcheck="false"></textarea>
                 </div>
                 <div class="cm-statusbar">
                   <span id="cm-security-msg">✅ 보안 검증 통과: #sanjunmo-promotion-wrapper 스코프 정상 · 금지 태그(iframe/document.write) 0건</span>
@@ -622,8 +622,8 @@
                 <div style="display:flex; align-items:center; gap:10px;">
                   <label style="display:inline-flex; align-items:center; gap:6px; font-weight:800; color:var(--danger); cursor:pointer;">
                     <input type="checkbox" id="chk-bulk-disable" checked onchange="toggleBulkDisable(this.checked)" />
- 기획전 특가 기간 중 쿠폰 · 포인트 중복 할인 일괄 차단 활성화
- </label>
+                    기획전 특가 기간 중 쿠폰 · 포인트 중복 할인 일괄 차단 활성화
+                  </label>
                 </div>
               </div>
               <div class="card-body">
@@ -631,14 +631,14 @@
                   <div>
                     <div style="font-weight:800; color:#9f1239; font-size:12.5px;">• 차단 대상 혜택 선택 (기획전 특가 상품 주문서 결제 시 자동 제어)</div>
                     <div style="display:flex; gap:16px; margin-top:6px; font-weight:700; font-size:12px;">
-                      <label><input type="checkbox" id="chk-block-cpn" checked onchange="renderMappedProducts" /> 🎟️ 쿠폰 사용 차단 (특가 이중할인 방지)</label>
-                      <label><input type="checkbox" id="chk-block-pt" checked onchange="renderMappedProducts" /> 💰 포인트(유상·무상) 사용 차단</label>
-                      <label><input type="checkbox" id="chk-block-earn" onchange="renderMappedProducts" /> 📈 기본 결제 포인트(1%) 적립 차단</label>
+                      <label><input type="checkbox" id="chk-block-cpn" checked onchange="renderMappedProducts()" /> 🎟️ 쿠폰 사용 차단 (특가 이중할인 방지)</label>
+                      <label><input type="checkbox" id="chk-block-pt" checked onchange="renderMappedProducts()" /> 💰 포인트(유상·무상) 사용 차단</label>
+                      <label><input type="checkbox" id="chk-block-earn" onchange="renderMappedProducts()" /> 📈 기본 결제 포인트(1%) 적립 차단</label>
                     </div>
                   </div>
                   <div style="font-size:12px; color:#881337;">
                     <strong>차단 적용 스케줄:</strong> 기획전 노출 기간(<code>2026.10.01 ~ 2026.11.15</code>) 동안 자동 적용 · 종료 시 원복
- </div>
+                  </div>
                 </div>
 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -649,7 +649,7 @@
                       <option value="COURSE|CRS-2026-019|[정종대 교수] 산업안전기사 실기 작업형 만점 특강|140,000원">단과: [정종대 교수] 산업안전기사 실기 작업형 만점 특강 (140,000원)</option>
                       <option value="BOOK|BOK-3012|2026 산준모 산업안전기사 실기 필답형 단권화 교재|36,000원">교재: 2026 산준모 산업안전기사 실기 필답형 단권화 교재 (36,000원)</option>
                     </select>
-                    <button type="button" class="btn btn-xs btn-primary" onclick="addMappedProduct">＋ 대상 상품 추가</button>
+                    <button type="button" class="btn btn-xs btn-primary" onclick="addMappedProduct()">＋ 대상 상품 추가</button>
                   </div>
                 </div>
 
@@ -670,8 +670,8 @@
                   <tbody id="mapped-prod-tbody"></tbody>
                 </table>
                 <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
- ※ 실물 교재(도서) 단품은 출판문화산업진흥법 제22조(도서정가제)에 따라 본 화면의 스위치와 무관하게 쿠폰·포인트 할인이 상시 차단(🔒 고정)됩니다.
- </div>
+                  ※ 실물 교재(도서) 단품은 출판문화산업진흥법 제22조(도서정가제)에 따라 본 화면의 스위치와 무관하게 쿠폰·포인트 할인이 상시 차단(🔒 고정)됩니다.
+                </div>
               </div>
             </div>
           </div>
@@ -1182,5 +1182,80 @@ code, pre, kbd, samp,
       renderMappedProducts();
     });
   </script>
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body>
 </html>

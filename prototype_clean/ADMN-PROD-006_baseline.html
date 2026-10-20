@@ -567,9 +567,9 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">권리자 계약 원장(SSOT) 연동 규칙</span>
           <div class="policy-text">
- 강사 노출 정보는 <strong>권리자 계약 원장</strong>에 등록된 강사 마스터(<code>INS-XXXX</code>)를 바인딩하여 프론트 전시 프로필을 구성합니다.
- 실명·주민/사업자번호·정산계좌·RS 요율은 <strong>ADMN-INST-001</strong>에서만 관리하며, 계약 상태가 <strong>[계약해지/종료]</strong>인 경우 프론트 강사관 노출(<code>Y</code>) 설정이 자동 차단됩니다.
- </div>
+            강사 노출 정보는 <strong>권리자 계약 원장(ADMN-INST-001)</strong>에 등록된 강사 마스터(<code>INS-XXXX</code>)를 바인딩하여 프론트 전시 프로필을 구성합니다.
+            실명·주민/사업자번호·정산계좌·RS 요율은 <strong>ADMN-INST-001</strong>에서만 관리하며, 계약 상태가 <strong>[계약해지/종료]</strong>인 경우 프론트 강사관 노출(<code>Y</code>) 설정이 자동 차단됩니다.
+          </div>
         </div>
         <a class="btn btn-soft btn-sm" href="ADMN-INST-001_baseline.html">ADMN-INST-001 권리자 계약 원장 →</a>
       </div>
@@ -584,7 +584,7 @@ code, pre, kbd, samp,
               <h2 class="card-title">강사 노출 검색 조건</h2>
               <span class="card-subtitle">대표 담당 카테고리 · 권리자 계약 상태 · 프론트 노출 여부 · 강사명 조회</span>
             </div>
-            <span class="code-pill">강사 노출 정보 목록</span>
+            <span class="code-pill">Table: instructor_display</span>
           </div>
           <div class="card-body">
             <div class="filter-grid">
@@ -598,7 +598,7 @@ code, pre, kbd, samp,
                 </select>
               </div>
               <div class="filter-field">
-                <label>권리자 계약 상태</label>
+                <label>권리자 계약 상태 (ADMN-INST-001)</label>
                 <select id="filter-contract" class="form-select">
                   <option value="ALL">전체 계약상태</option>
                   <option value="정상">계약 정상 (유효)</option>
@@ -629,14 +629,14 @@ code, pre, kbd, samp,
               </div>
               <div class="filter-field">
                 <label>정렬 기준</label>
-                <select id="filter-sort" class="form-select" onchange="renderInstList">
+                <select id="filter-sort" class="form-select" onchange="renderInstList()">
                   <option value="ORDER">프론트 노출 순서 오름차순</option>
                   <option value="RECENT">최근 등록일순</option>
                 </select>
               </div>
               <div class="filter-field" style="display:flex; justify-content:flex-end; gap:8px;">
-                <button type="button" class="btn btn-outline" onclick="resetInstFilters">초기화</button>
-                <button type="button" class="btn btn-primary" onclick="renderInstList">조건 검색</button>
+                <button type="button" class="btn btn-outline" onclick="resetInstFilters()">초기화</button>
+                <button type="button" class="btn btn-primary" onclick="renderInstList()">조건 검색</button>
               </div>
             </div>
           </div>
@@ -650,7 +650,7 @@ code, pre, kbd, samp,
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="showToast('변경된 강사 노출 순서가 프론트 강사관에 반영되었습니다.')">노출 순서 일괄 저장</button>
-              <button type="button" class="btn btn-primary" onclick="openNewInstForm">+ 신규 강사 프로필 등록</button>
+              <button type="button" class="btn btn-primary" onclick="openNewInstForm()">+ 신규 강사 프로필 등록</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -665,7 +665,7 @@ code, pre, kbd, samp,
                     <th style="width:130px;">대표 카테고리</th>
                     <th>강사 한줄 슬로건 (캐치프레이즈)</th>
                     <th class="text-center" style="width:120px;">연결 강좌 / 교재</th>
-                    <th class="text-center" style="width:115px;">계약상태</th>
+                    <th class="text-center" style="width:115px;">계약상태 (INST-001)</th>
                     <th class="text-center" style="width:90px;">메인추천</th>
                     <th class="text-center" style="width:80px;">노출여부</th>
                     <th class="text-center" style="width:95px;">등록일</th>
@@ -691,8 +691,8 @@ code, pre, kbd, samp,
             <span class="badge badge-active" id="d-contract-badge">계약 정상 (INS-0001)</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <a class="btn btn-soft" href="ADMN-INST-001_baseline.html">권리자 계약 원장 조회</a>
-            <button type="button" class="btn btn-primary" onclick="editCurrentDetailInst">강사 프로필 수정 (006-S1)</button>
+            <a class="btn btn-soft" href="ADMN-INST-001_baseline.html">권리자 계약 원장 조회 (ADMN-INST-001)</a>
+            <button type="button" class="btn btn-primary" onclick="editCurrentDetailInst()">강사 프로필 수정 (006-S1)</button>
           </div>
         </div>
 
@@ -700,7 +700,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">1. 권리자 계약 원장 매핑 및 프론트 노출 기본 정보</h3>
+              <h3 class="card-title">1. 권리자 계약 원장(ADMN-INST-001) 매핑 및 프론트 노출 기본 정보</h3>
               <span class="card-subtitle">계약 원장 상태와 실시간 동기화되며, 프론트 강사 소개관 상단 영역에 렌더링됩니다.</span>
             </div>
             <span class="code-pill" id="d-created-at">등록일: 2026-01-03</span>
@@ -726,8 +726,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>강사 한줄 슬로건</th>
                   <td colspan="3" style="font-weight:700; color:var(--primary);" id="d-slogan">
- "산업안전기사 누적 수강생 1위, 비전공자도 이해되는 스토리텔링 안전공학"
- </td>
+                    "산업안전기사 누적 수강생 1위, 비전공자도 이해되는 스토리텔링 안전공학"
+                  </td>
                 </tr>
                 <tr>
                   <th>프론트 노출 여부 / 순서</th>
@@ -809,11 +809,11 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">강사 노출 정보 등록 / 수정</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">강사 노출 정보 등록 / 수정 (ADMN-PROD-006-S1)</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="saveInstForm">강사 노출 정보 저장</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="saveInstForm()">강사 노출 정보 저장</button>
           </div>
         </div>
 
@@ -821,7 +821,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">1. 권리자 계약 원장 마스터 연결 및 전시 자격 검증</h3>
+              <h3 class="card-title">1. 권리자 계약 원장(ADMN-INST-001) 마스터 연결 및 전시 자격 검증</h3>
               <span class="card-subtitle">권리자 원장에 등록된 강사를 선택하면 계약 유효 상태를 검증하여 프론트 노출 가능 여부를 판정합니다.</span>
             </div>
           </div>
@@ -835,7 +835,7 @@ code, pre, kbd, samp,
                   </td>
                   <th>권리자 마스터 선택 <span class="req-star">*</span><br>(ADMN-INST-001)</th>
                   <td>
-                    <select id="f-ins-master" class="form-select" style="width:310px;" onchange="onChangeMasterInstructor">
+                    <select id="f-ins-master" class="form-select" style="width:310px;" onchange="onChangeMasterInstructor()">
                       <option value="INS-0001" data-status="정상" data-name="김안전">[RH-0019 / INS-0001] 김안전 — 계약 정상 (~2027-12-31)</option>
                       <option value="RH-0025" data-status="정상" data-name="정종대">[RH-0025 / INS-0025] 정종대 — 계약 정상 (~2028-12-31)</option>
                       <option value="INS-0002" data-status="정상" data-name="이건설">[INS-0002] 이건설 — 계약 정상 (~2027-06-30)</option>
@@ -851,8 +851,8 @@ code, pre, kbd, samp,
                       <div>
                         <strong id="f-contract-gate-title">[계약 유효 검증 통과] 권리자코드 INS-0001 (계약 상태: 정상)</strong>
                         <div style="font-size:12px; margin-top:2px;" id="f-contract-gate-desc">
- ADMN-INST-001 원장 계약이 유효하므로 프론트 강사관 노출(Y) 및 메인 배너 추천 설정이 가능합니다.
- </div>
+                          ADMN-INST-001 원장 계약이 유효하므로 프론트 강사관 노출(Y) 및 메인 배너 추천 설정이 가능합니다.
+                        </div>
                       </div>
                       <a href="ADMN-INST-001_baseline.html" class="btn btn-outline btn-sm">ADMN-INST-001 계약서 확인 →</a>
                     </div>
@@ -953,7 +953,7 @@ code, pre, kbd, samp,
                   <th>주요 약력 / 학력 / 저서<br>(행 단위 편집) <span class="req-star">*</span></th>
                   <td colspan="3">
                     <div id="career-builder-wrap"></div>
-                    <button type="button" class="btn btn-outline btn-sm" style="margin-top:4px;" onclick="addCareerLine">+ 약력 항목 한 줄 추가</button>
+                    <button type="button" class="btn btn-outline btn-sm" style="margin-top:4px;" onclick="addCareerLine()">+ 약력 항목 한 줄 추가</button>
                   </td>
                 </tr>
                 <tr>
@@ -1436,4 +1436,79 @@ code, pre, kbd, samp,
       renderDetailView();
       renderCareerBuilder();
     });
-  </script></body></html>
+  </script><script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
+</body></html>

@@ -100,7 +100,7 @@ code, pre, kbd, samp,
       <div class="crumb-wrap">
         <span class="crumb-code" id="top-crumb-code">ADMN-CONF-003</span>
         <h1 class="crumb-title">플레이어/DRM 보안 · 동시접속 · SMS 인증 발송 설정</h1>
-        <span class="crumb-sub">사이트 관리 &gt; StarPlayer+ 워터마크 · 동시접속 1세션 제어 · SMS 본인인증 발송/IP 화이트리스트</span>
+        <span class="crumb-sub">사이트 관리 &gt; StarPlayer+ 워터마크 · 동시접속 1세션 제어(CONF-003) · SMS 본인인증 발송/IP 화이트리스트(CONF-008)</span>
       </div>
     </header>
 
@@ -129,21 +129,21 @@ code, pre, kbd, samp,
       </div>
 
       <div class="inner-tabs">
-        <button type="button" class="inner-tab active" id="tab-btn-player" onclick="switchConfTab('player')">🎬 플레이어 · 워터마크 · 동시접속 제어 설정</button>
-        <button type="button" class="inner-tab" id="tab-btn-auth" onclick="switchConfTab('auth')">🔐 SMS 본인인증 발송 제한 · 허용 IP 관리</button>
+        <button type="button" class="inner-tab active" id="tab-btn-player" onclick="switchConfTab('player')">🎬 플레이어 · 워터마크 · 동시접속 제어 설정 (ADMN-CONF-003)</button>
+        <button type="button" class="inner-tab" id="tab-btn-auth" onclick="switchConfTab('auth')">🔐 SMS 본인인증 발송 제한 · 허용 IP 관리 (ADMN-CONF-008)</button>
       </div>
 
       <!-- 탭 1: ADMN-CONF-003 플레이어 / DRM 보안 설정 -->
       <section id="panel-player" class="view-panel active">
         <div class="policy-banner">
           <strong>[11월 16일 1차 오픈 스펙 기준 — 플레이어 및 부정수강 통제 원칙]</strong>
- 1차 오픈에서는 수험생 CS 마찰이 큰 물리 단말기 고유번호(UUID) 2대 고정 등록 대신, <strong>계정당 동시접속 1세션(IP/세션 기준) 제한 및 중복 접속 시 기존 세션 강제 로그아웃</strong>을 우선 적용합니다. (단말기 UUID 기기 등록 제어는 2차 고도화 옵션으로 토글 분리)
- </div>
+          1차 오픈에서는 수험생 CS 마찰이 큰 물리 단말기 고유번호(UUID) 2대 고정 등록 대신, <strong>계정당 동시접속 1세션(IP/세션 기준) 제한 및 중복 접속 시 기존 세션 강제 로그아웃</strong>을 우선 적용합니다. (단말기 UUID 기기 등록 제어는 2차 고도화 옵션으로 토글 분리)
+        </div>
 
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span>🎬 StarPlayer+ 동적 워터마크 · 재생 제어 · 동시접속 설정</span></div>
-            <button type="button" class="btn btn-sm btn-primary" onclick="savePlayerConfig">💾 플레이어 보안 설정 저장</button>
+            <div class="card-title"><span>🎬 StarPlayer+ 동적 워터마크 · 재생 제어 · 동시접속 설정 (ADMN-CONF-003)</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="savePlayerConfig()">💾 플레이어 보안 설정 저장</button>
           </div>
           <div class="card-body">
             <div style="display:grid; grid-template-columns: 1fr 400px; gap:24px; align-items:start;">
@@ -153,7 +153,7 @@ code, pre, kbd, samp,
                     <tr>
                       <th>동적 워터마크 표기 내용 *</th>
                       <td>
-                        <select id="pl-wm-text" class="f-select" style="width:100%;" onchange="updateWmPreview">
+                        <select id="pl-wm-text" class="f-select" style="width:100%;" onchange="updateWmPreview()">
                           <option value="hon***@naver.com (121.***.7.90)">회원 이메일 ID + 접속 IP (권장 · 불법 녹화 유출자 즉시 특정)</option>
                           <option value="hon***@naver.com">회원 이메일 ID 단독 표기</option>
                           <option value="hon***@naver.com (홍*동)">회원 이메일 ID + 이름</option>
@@ -163,16 +163,16 @@ code, pre, kbd, samp,
                     <tr>
                       <th>워터마크 이동 주기 / 노출 시간 *</th>
                       <td>
- 이동 주기(<code>positionChangeInterval</code>): <input type="number" id="pl-wm-interval" class="f-input" style="width:70px;" value="10" /> 초 &nbsp;·&nbsp;
- 노출 시간(<code>displayDuration</code>): <input type="number" id="pl-wm-duration" class="f-input" style="width:70px;" value="5" /> 초
- </td>
+                        이동 주기(<code>positionChangeInterval</code>): <input type="number" id="pl-wm-interval" class="f-input" style="width:70px;" value="10" /> 초 &nbsp;·&nbsp;
+                        노출 시간(<code>displayDuration</code>): <input type="number" id="pl-wm-duration" class="f-input" style="width:70px;" value="5" /> 초
+                      </td>
                     </tr>
                     <tr>
                       <th>투명도 / 글자 크기 *</th>
                       <td>
- 투명도: <input type="number" id="pl-wm-opacity" class="f-input" style="width:70px;" value="35" onchange="updateWmPreview" /> % &nbsp;·&nbsp;
- 글자 크기: <input type="number" id="pl-wm-size" class="f-input" style="width:70px;" value="14" onchange="updateWmPreview" /> px
- </td>
+                        투명도: <input type="number" id="pl-wm-opacity" class="f-input" style="width:70px;" value="35" onchange="updateWmPreview()" /> % &nbsp;·&nbsp;
+                        글자 크기: <input type="number" id="pl-wm-size" class="f-input" style="width:70px;" value="14" onchange="updateWmPreview()" /> px
+                      </td>
                     </tr>
                     <tr>
                       <th>첫 수강 빨리감기 제한<br/>(<code>limitedForward</code>)</th>
@@ -184,8 +184,8 @@ code, pre, kbd, samp,
                     <tr>
                       <th>허용 재생 배속 범위 *</th>
                       <td>
- 최소 <code>0.5x</code> ~ 최대
- <select id="pl-max-speed" class="f-select" style="width:100px;">
+                        최소 <code>0.5x</code> ~ 최대
+                        <select id="pl-max-speed" class="f-select" style="width:100px;">
                           <option value="2.0x" selected>2.0x (권장)</option>
                           <option value="1.5x">1.5x</option>
                           <option value="2.5x">2.5x</option>
@@ -203,8 +203,8 @@ code, pre, kbd, samp,
                     <tr>
                       <th>24시간 접속 IP 급증 자동 감지</th>
                       <td>
- 동일 계정 24시간 내 서로 다른 IP <input type="number" class="f-input" style="width:65px;" value="5" /> 개 초과 접속 시 부정수강 의심 알림 및 계정 보호 잠금(<code>ADMN-USER-005</code>) 연동
- </td>
+                        동일 계정 24시간 내 서로 다른 IP <input type="number" class="f-input" style="width:65px;" value="5" /> 개 초과 접속 시 부정수강 의심 알림 및 계정 보호 잠금(<code>ADMN-USER-005</code>) 연동
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -219,12 +219,12 @@ code, pre, kbd, samp,
                     <div style="font-size:12px;">재생 중 · 00:14:22 / 00:52:10 (1.25x)</div>
                   </div>
                   <div id="wm-preview-chip" style="position:absolute; top:28px; right:32px; color:#FFFFFF; opacity:0.35; font-size:14px; font-weight:800; pointer-events:none; user-select:none;">
- hon***@naver.com (121.***.7.90)
- </div>
+                    hon***@naver.com (121.***.7.90)
+                  </div>
                 </div>
                 <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
- ※ 설정 저장 시 현재 재생 중인 세션을 끊지 않고 다음 강의 재생 시점부터 새 파라미터가 적용됩니다.
- </div>
+                  ※ 설정 저장 시 현재 재생 중인 세션을 끊지 않고 다음 강의 재생 시점부터 새 파라미터가 적용됩니다.
+                </div>
               </div>
             </div>
 
@@ -236,7 +236,7 @@ code, pre, kbd, samp,
                 </thead>
                 <tbody id="player-hist-tbody">
                   <tr><td>2026.10.16 14:20</td><td>최고관리자 (admin_root)</td><td>동시접속 제어 정책 (11/16 오픈 기준)</td><td>기기 UUID 2대 고정</td><td><strong>동시접속 1세션 제어 (중복 시 기존 세션 강제 로그아웃)</strong></td></tr>
-                  <tr><td>2026.10.11 10:05</td><td>운영팀 (admin_kim)</td><td>워터마크 노출 시간</td><td>3초</td><td><strong>5초 (이동 주기 10초)</strong></td></tr>
+                  <tr><td>2026.10.11 10:05</td><td>운영팀 (admin_kim)</td><td>워터마크 노출 시간 (displayDuration)</td><td>3초</td><td><strong>5초 (이동 주기 10초)</strong></td></tr>
                 </tbody>
               </table>
             </div>
@@ -248,7 +248,7 @@ code, pre, kbd, samp,
       <section id="panel-auth" class="view-panel">
         <div class="card">
           <div class="card-header">
-            <div class="card-title"><span>🔐 SMS 본인인증 발송 제한 설정</span></div>
+            <div class="card-title"><span>🔐 SMS 본인인증 발송 제한 설정 (ADMN-CONF-008)</span></div>
             <button type="button" class="btn btn-sm btn-primary" onclick="showToast('SMS 본인인증 발송 제한 정책이 저장되었습니다.')">💾 인증 정책 저장</button>
           </div>
           <div class="card-body">
@@ -274,7 +274,7 @@ code, pre, kbd, samp,
               <div style="display:flex; gap:6px;">
                 <input type="text" id="new-ip-val" class="f-input" style="width:180px;" placeholder="예: 211.45.30.0/24" />
                 <input type="text" id="new-ip-memo" class="f-input" style="width:240px;" placeholder="예외 허용 사유 (예: 강남 제휴 스터디카페)" />
-                <button type="button" class="btn btn-sm btn-primary" onclick="addWhitelistIp">+ 허용 IP 추가</button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="addWhitelistIp()">+ 허용 IP 추가</button>
               </div>
             </div>
             <table class="data-table">
@@ -372,5 +372,80 @@ code, pre, kbd, samp,
       if (params.get('view') === 'auth') switchConfTab('auth');
     });
   </script>
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
 </body>
 </html>

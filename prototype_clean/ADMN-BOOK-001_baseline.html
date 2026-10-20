@@ -652,10 +652,10 @@ code, pre, kbd, samp,
       <h1 class="crumb-title" id="header-screen-title">도서 공급 원장 (SKU · 공급원가 · 인세 마스터)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <div class="role-sim-box" title="재무·정산책임자 전용 공급원가 열람 통제 시뮬레이터">
+      <div class="role-sim-box" title="FIN_MANAGER 전용 공급원가 열람 통제 시뮬레이터">
           <span>열람 권한:</span>
-          <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking">
-            <option value="FIN_MANAGER" selected="">재무/정산책임자</option>
+          <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
+            <option value="FIN_MANAGER" selected="">재무/정산책임자 (FIN_MANAGER)</option>
             <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
           </select>
         </div>
@@ -702,7 +702,7 @@ code, pre, kbd, samp,
             </div>
             <div class="step-desc">
               <code>ADMN-INST-001</code> · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (사입 도서는 생략)
- </div>
+            </div>
           </a>
 
           <div class="step-node current-screen" onclick="switchSubview('form')" style="cursor:pointer;">
@@ -720,17 +720,17 @@ code, pre, kbd, samp,
             </div>
             <div class="step-desc">
               <code>ADMN-SETT-001</code> · 가채번 도서는 자동 매핑되며, 계약원장 없이 생성한 도서는 여기서 권리자를 매핑합니다.
- </div>
+            </div>
           </a>
 
           <a class="step-node" href="ADMN-PROD-004_baseline.html">
             <div class="step-node-top">
-              <span class="step-num">Step 4. 교재 상세 · 재고 · 전시</span>
+              <span class="step-num">Step 4. 교재 상세 · 재고 · 전시 (PROD-004)</span>
               <span class="step-light light-green" id="step4-light">🟢 전시 판매중 (420권)</span>
             </div>
             <div class="step-desc">
               <code>ADMN-PROD-004</code> · 상품팀이 표지/목차/미리보기 PDF와 물류 재고를 입력하여 프론트에 전시합니다.
- </div>
+            </div>
           </a>
         </div>
       </div>
@@ -740,12 +740,12 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">도서 공급 원장(SSOT) · 정산 연동 규칙</span>
           <div class="policy-text">
-            <strong>도서 공급 원장</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
- 상품관리자가 <code>ADMN-PROD-004</code>에서 먼저 선등록한 도서(원가 미입력 건)도 여기서 원가를 확정해야 <strong>[판매중]</strong> 전환 잠금이 해제됩니다.
- </div>
+            <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가 차감 및 출판사/저자 정산액 산출의 기준이 됩니다.
+            상품관리자가 <code>ADMN-PROD-004</code>에서 먼저 선등록한 도서(원가 미입력 건)도 여기서 원가를 확정해야 <strong>[판매중]</strong> 전환 잠금이 해제됩니다.
+          </div>
         </div>
         <div style="display:flex; gap:6px; flex-shrink:0;">
-          <button type="button" class="btn btn-primary btn-sm" onclick="openPendingProdBookForm">⚠️ PROD-004 선등록 원가 미입력 도서 불러오기 (1건)</button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="openPendingProdBookForm()">⚠️ PROD-004 선등록 원가 미입력 도서 불러오기 (1건)</button>
           <a class="btn btn-outline btn-sm" href="ADMN-PROD-004_baseline.html">ADMN-PROD-004 교재 전시 이동 →</a>
         </div>
       </div>
@@ -759,12 +759,12 @@ code, pre, kbd, samp,
       <div class="card" id="v4BookCanonicalSpecCard" style="border:1px solid #93c5fd;">
         <div class="card-header" style="background:#eff6ff;">
           <div class="card-title-group">
-            <span class="badge badge-info">제6장 6.1~v4.0.0 SSOT</span>
-            <h2 class="card-title">4대 도서 공급형태 · 자사저작권 · 정가 이력 정합성 원장</h2>
+            <span class="badge badge-info">제6장 6.1~6.6절 · v4.0.0 SSOT</span>
+            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(Pipeline 5.1) · 정가 이력(book_price_history) 정합성 원장</h2>
           </div>
           <div style="display:flex; gap:8px;">
-            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기</button>
-            <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">1계층 지분 매핑 ↗</a>
+            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal()">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기 (BOOK-001-S1)</button>
+            <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">1계층 지분 매핑 (ADMN-SETT-001) ↗</a>
           </div>
         </div>
         <div class="card-body" style="padding:0;">
@@ -774,8 +774,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>정산 연동 SKU (교재코드)</th>
                   <th>도서명</th>
-                  <th>공급형태 코드</th>
-                  <th>자사저작권</th>
+                  <th>공급형태 코드 (book_supply_type)</th>
+                  <th>자사저작권 (own_copyright_yn)</th>
                   <th>정산 파이프라인 라우팅 (SSOT)</th>
                   <th>위탁/매입/인세 핵심 파라미터</th>
                   <th class="text-right">현행 정가 (면세)</th>
@@ -786,9 +786,9 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">BK-2026-101</span><br><span style="font-size:11px; color:#64748b;">(BOOK-2601 호환)</span></td>
                   <td><strong>2026 정종대 산업안전기사 필기 기본서</strong></td>
-                  <td><span class="badge badge-sale">자사발행 도서</span></td>
+                  <td><span class="badge badge-sale">OWN_PUBLISHED (자사발행)</span></td>
                   <td><code>false</code> (저자 정종대)</td>
-                  <td><strong></strong> (자사발행 도서 인세)</td>
+                  <td><strong>Pipeline 2.1</strong> (자사발행 도서 인세)</td>
                   <td>인세율 <code>10.00%</code> · 1계층 정종대 100% (<code>CON-2026-001</code>)</td>
                   <td class="text-right"><strong>30,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
@@ -796,10 +796,10 @@ code, pre, kbd, samp,
                 <tr>
                   <td><span class="code-pill">PROD-BK-1004</span></td>
                   <td><strong>산준모 산업안전 실기 빈출문제집 (자사저작권)</strong></td>
-                  <td><span class="badge badge-sale">자사저작권 도서</span></td>
+                  <td><span class="badge badge-sale">OWN_PUBLISHED (자사저작권)</span></td>
                   <td><strong style="color:#2563eb;">true (자사 100%)</strong></td>
-                  <td>인세 Bypass → <strong>(개발지원금 모수 인입 · v4.0.0)</strong></td>
-                  <td>1계층 엘캠퍼스(<code>자사 계정</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
+                  <td>인세 Bypass → <strong>Pipeline 5.1 (개발지원금 모수 인입 · v4.0.0)</strong></td>
+                  <td>1계층 엘캠퍼스(<code>RH-INTERNAL</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
                   <td class="text-right"><strong>28,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
                 </tr>
@@ -808,15 +808,15 @@ code, pre, kbd, samp,
                   <td><strong>2026 소방설비기사 위탁 수험서 세트</strong></td>
                   <td><span class="badge badge-preorder">CONSIGNMENT (위탁판매)</span></td>
                   <td><code>false</code> (위탁자 보유)</td>
-                  <td><strong></strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
-                  <td>수수료 차감지급(순액 정산) · 수수료율 <code>30%</code> (부가세 포함) </td>
+                  <td><strong>Pipeline 2.2</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
+                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 6.6절 등식 적용</td>
                   <td class="text-right"><strong>40,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
                 </tr>
                 <tr>
                   <td><span class="code-pill">PROD-BK-2001</span><br><span style="font-size:11px; color:#64748b;">(BOOK-2603 호환)</span></td>
                   <td><strong>2026 건설안전기사 필기 총정리 (외부 사입)</strong></td>
-                  <td><span class="badge badge-warn">매입 재판매(사입)</span></td>
+                  <td><span class="badge badge-warn">PURCHASED_RESALE (사입)</span></td>
                   <td><code>false</code> (외부 출판사)</td>
                   <td>외부 권리자 정산 제외 → <strong>ADMN-SETT-009(자사매출) &amp; SETT-011(매입대사)</strong></td>
                   <td>매입처: 한빛총판(<code>SUP-0003</code>) · 매입공급률 65% · 1계층 자사 100% 자동귀속</td>
@@ -828,7 +828,7 @@ code, pre, kbd, samp,
                   <td><strong>[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 번들)</strong></td>
                   <td><span class="badge badge-end">BUNDLED (강좌포함 비매품)</span></td>
                   <td><code>true</code> (자사 제작)</td>
-                  <td><strong>정산 비대상 (정산기준금 0원 고정)</strong></td>
+                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
                   <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
                   <td class="text-right"><strong>0원 (비매품)</strong></td>
                   <td><span class="badge badge-end">🔒 비매품 고정</span></td>
@@ -840,23 +840,23 @@ code, pre, kbd, samp,
       </div>
 
       <!-- [ADMN-BOOK-001-S1] 도서 정가 변경 이력(book_price_history) 및 위탁 수수료 스냅샷 모달 -->
-      <div class="modal-backdrop" id="modalBookPriceHistory" onclick="if(event.target===this) closeBookPriceHistoryModal">
+      <div class="modal-backdrop" id="modalBookPriceHistory" onclick="if(event.target===this) closeBookPriceHistoryModal()">
         <div class="modal-window" style="max-width:920px;">
           <div class="modal-header">
-            <div class="modal-title">도서 정가 변경 이력 및 위탁 수수료 스냅샷 검증</div>
-            <button type="button" class="btn btn-sm btn-outline" onclick="closeBookPriceHistoryModal">✕ 닫기</button>
+            <div class="modal-title">[ADMN-BOOK-001-S1] 도서 정가 변경 이력(book_price_history) 및 위탁 수수료 스냅샷 검증</div>
+            <button type="button" class="btn btn-sm btn-outline" onclick="closeBookPriceHistoryModal()">✕ 닫기</button>
           </div>
           <div class="modal-body">
             <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12px; color:#1e3a8a;">
- 💡 <strong>[도서 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 환불·할인 공제) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(적용 시작일 ~ 적용 종료일)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 도서 공급형태를 사후 변경할 수 없습니다.
- </div>
+              💡 <strong>[제6장 6.2절 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>(공급 형태)을 사후 변경할 수 없습니다.
+            </div>
             <table class="data-table">
               <thead>
                 <tr>
                   <th>이력 ID</th>
                   <th>도서 SKU / 도서명</th>
-                  <th>적용 시작일</th>
-                  <th>적용 종료일</th>
+                  <th>적용 시작일 (effective_from)</th>
+                  <th>적용 종료일 (effective_to)</th>
                   <th class="text-right">적용 정가 (면세)</th>
                   <th>변경 사유 및 스냅샷 상태</th>
                 </tr>
@@ -890,7 +890,7 @@ code, pre, kbd, samp,
             </table>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" onclick="closeBookPriceHistoryModal">확인</button>
+            <button type="button" class="btn btn-primary" onclick="closeBookPriceHistoryModal()">확인</button>
           </div>
         </div>
       </div>
@@ -911,17 +911,17 @@ code, pre, kbd, samp,
               <h2 class="card-title">도서 공급 원장 검색 조건</h2>
               <span class="card-subtitle">공급 계약 유형 · 원가 확정 상태 · 출발 경로 · 출판사(공급처) · SKU/ISBN 조회</span>
             </div>
-            <span class="code-pill">도서 공급 원장 목록</span>
+            <span class="code-pill">Table: book_supply_ledger</span>
           </div>
           <div class="card-body">
             <div class="filter-grid">
               <div class="filter-field">
                 <label>공급 계약 유형</label>
                 <select id="filter-supply-type" class="form-select">
-                  <option value="ALL">전체 4대 공급형태</option>
-                  <option value="자체출판(인세)">자사발행 도서 (저자 인세 / 매출연동 지원금 대상)</option>
-                  <option value="위탁판매">CONSIGNMENT · 위탁판매 도서 (수수료 차감/총액)</option>
-                  <option value="사입판매">매입 재판매 도서 (외부정산 비대상 · 내부손익/물류대사 관리)</option>
+                  <option value="ALL">전체 4대 공급형태 (book_supply_type)</option>
+                  <option value="자체출판(인세)">OWN_PUBLISHED · 자사발행 (Pipeline 2.1 인세 / 5.1 지원금)</option>
+                  <option value="위탁판매">CONSIGNMENT · 위탁판매 도서 (Pipeline 2.2 수수료 차감/총액)</option>
+                  <option value="사입판매">PURCHASED_RESALE · 매입 재판매 (외부정산 비대상 · SETT-009/011)</option>
                   <option value="비매품(번들)">BUNDLED · 강좌 포함 비매품 (정산기준금 0원 고정)</option>
                 </select>
               </div>
@@ -929,9 +929,9 @@ code, pre, kbd, samp,
                 <label>도서 등록 출발 경로</label>
                 <select id="filter-origin" class="form-select">
                   <option value="ALL">전체 경로</option>
-                  <option value="INST_TEMP">계약원장 가채번 출발</option>
-                  <option value="PROD_DIRECT">교재관리 선등록 역매핑</option>
-                  <option value="BOOK_LEDGER">공급원장 최초 채번</option>
+                  <option value="INST_TEMP">① 계약원장(INST-001) 가채번 출발</option>
+                  <option value="PROD_DIRECT">② 교재관리(PROD-004) 선등록 역매핑</option>
+                  <option value="BOOK_LEDGER">③ 공급원장(BOOK-001) 최초 채번</option>
                 </select>
               </div>
               <div class="filter-field">
@@ -961,8 +961,8 @@ code, pre, kbd, samp,
                 <input type="date" class="form-input" value="2026-10-15">
               </div>
               <div class="filter-field" style="display:flex; justify-content:flex-end; gap:8px;">
-                <button type="button" class="btn btn-outline" onclick="resetLedgerFilters">초기화</button>
-                <button type="button" class="btn btn-primary" onclick="renderLedgerList">조건 검색</button>
+                <button type="button" class="btn btn-outline" onclick="resetLedgerFilters()">초기화</button>
+                <button type="button" class="btn btn-primary" onclick="renderLedgerList()">조건 검색</button>
               </div>
             </div>
           </div>
@@ -976,7 +976,7 @@ code, pre, kbd, samp,
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="showToast('도서 공급 원장 CSV 파일을 다운로드했습니다.')">원장 엑셀 다운로드 (CSV)</button>
-              <button type="button" class="btn btn-primary" onclick="openNewLedgerForm">+ SKU · 공급원가 등록 (3-Way)</button>
+              <button type="button" class="btn btn-primary" onclick="openNewLedgerForm()">+ SKU · 공급원가 등록 (3-Way)</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -1012,11 +1012,11 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 원장 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">도서 공급 원장 등록 / 수정</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">도서 공급 원장 등록 / 수정 (ADMN-BOOK-001-S1)</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="saveLedgerForm">공급 원장 확정 저장</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="saveLedgerForm()">공급 원장 확정 저장</button>
           </div>
         </div>
 
@@ -1035,16 +1035,16 @@ code, pre, kbd, samp,
               <div class="entry-mode-card selected" id="ledger-card-INST_TEMP" onclick="selectLedgerEntryMode('INST_TEMP')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>계약원장 가채번 도서 불러오기</span>
+                    <span>① 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
                     <span class="badge badge-sale">인세도서 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
- 권리자 계약 원장(<code>ADMN-INST-001</code>)에서 가채번(<code>TMP-BK-XX</code>)된 도서를 호출하여 <strong>정식 SKU(<code>BOOK-XXXX</code>)를 부여</strong>하고 제조원가를 확정합니다.
- </div>
+                    권리자 계약 원장(<code>ADMN-INST-001</code>)에서 가채번(<code>TMP-BK-XX</code>)된 도서를 호출하여 <strong>정식 SKU(<code>BOOK-XXXX</code>)를 부여</strong>하고 제조원가를 확정합니다.
+                  </div>
                 </div>
                 <div class="entry-mode-foot">
                   <span style="color:var(--primary);" id="ledger-status-INST_TEMP">바인딩: TMP-BK-2601 → BOOK-2601</span>
-                  <button type="button" class="btn btn-soft btn-sm" onclick="event.stopPropagation; openInstTempModal;">가채번 도서 선택 →</button>
+                  <button type="button" class="btn btn-soft btn-sm" onclick="event.stopPropagation(); openInstTempModal();">가채번 도서 선택 →</button>
                 </div>
               </div>
 
@@ -1052,16 +1052,16 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="ledger-card-PROD_DIRECT" onclick="selectLedgerEntryMode('PROD_DIRECT')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>교재관리 선등록 SKU 원가 완성</span>
+                    <span>② 교재관리(ADMN-PROD-004) 선등록 SKU 원가 완성</span>
                     <span class="badge badge-warn">원가 미입력 1건</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
- 상품팀이 <code>ADMN-PROD-004</code>에서 먼저 생성해 둔 <strong>원가 미입력 SKU(판매대기 잠금 상태)</strong>를 불러와 공급처·매입원가를 확정합니다.
- </div>
+                    상품팀이 <code>ADMN-PROD-004</code>에서 먼저 생성해 둔 <strong>원가 미입력 SKU(판매대기 잠금 상태)</strong>를 불러와 공급처·매입원가를 확정합니다.
+                  </div>
                 </div>
                 <div class="entry-mode-foot">
                   <span style="color:var(--amber);" id="ledger-status-PROD_DIRECT">대기중: BOOK-2605 (산안지도사 법령집)</span>
-                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation; openProdPendingModal;">선등록 SKU 불러오기 →</button>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openProdPendingModal();">선등록 SKU 불러오기 →</button>
                 </div>
               </div>
 
@@ -1069,26 +1069,26 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="ledger-card-BOOK_LEDGER" onclick="selectLedgerEntryMode('BOOK_LEDGER')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>공급원장에서 최초 신규 SKU 생성</span>
+                    <span>③ 공급원장(ADMN-BOOK-001)에서 최초 신규 SKU 생성</span>
                     <span class="badge badge-info">외부 위탁/사입</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
- 강사 인세 계약이 없는 외부 출판사 위탁·사입 도서를 <strong>공급원장에서 최초로 채번(<code>BOOK-AUTO</code>)</strong>합니다. 이후 <code>PROD-004</code>에서 불러와 전시합니다.
- </div>
+                    강사 인세 계약이 없는 외부 출판사 위탁·사입 도서를 <strong>공급원장에서 최초로 채번(<code>BOOK-AUTO</code>)</strong>합니다. 이후 <code>PROD-004</code>에서 불러와 전시합니다.
+                  </div>
                 </div>
                 <div class="entry-mode-foot">
                   <span style="color:var(--slate-600);">신규 외부도서 원장 선등록</span>
-                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation; selectLedgerEntryMode('BOOK_LEDGER');">신규 SKU 채번 전환</button>
+                  <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); selectLedgerEntryMode('BOOK_LEDGER');">신규 SKU 채번 전환</button>
                 </div>
               </div>
             </div>
 
             <div id="ledger-mode-alert" class="ledger-sync-box ok" style="margin-top:14px;">
               <div>
-                <strong id="ledger-alert-title">[경로 선택됨 — 계약원장 가채번(TMP-BK-2601) 바인딩 완료]</strong>
+                <strong id="ledger-alert-title">[경로 ① 선택됨 — 계약원장 가채번(TMP-BK-2601) 바인딩 완료]</strong>
                 <div style="font-size:12px; margin-top:2px;" id="ledger-alert-desc">
- ADMN-INST-001의 저자(김안전 · INS-0001) 및 계약 인세율(10%)이 연동되었습니다. 인쇄 제조원가(공급가)를 확정 저장하면 ADMN-PROD-004(교재 전시)와 즉시 동기화됩니다.
- </div>
+                  ADMN-INST-001의 저자(김안전 · INS-0001) 및 계약 인세율(10%)이 연동되었습니다. 인쇄 제조원가(공급가)를 확정 저장하면 ADMN-PROD-004(교재 전시)와 즉시 동기화됩니다.
+                </div>
               </div>
               <a href="ADMN-PROD-004_baseline.html" class="btn btn-outline btn-sm">ADMN-PROD-004 교재 전시 확인 →</a>
             </div>
@@ -1118,7 +1118,7 @@ code, pre, kbd, samp,
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
                       <input type="text" id="f-temp-code" class="form-input" style="width:170px;" value="TMP-BK-2601" readonly="">
-                      <button type="button" class="btn btn-soft btn-sm" onclick="openInstTempModal">가채번 조회</button>
+                      <button type="button" class="btn btn-soft btn-sm" onclick="openInstTempModal()">가채번 조회</button>
                     </div>
                   </td>
                 </tr>
@@ -1182,15 +1182,15 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; gap:18px; flex-wrap:wrap;">
                       <label class="option-label">
-                        <input type="radio" name="f-supply-type" value="자체출판(인세)" checked="" onchange="recalcSupplyNumbers">
+                        <input type="radio" name="f-supply-type" value="자체출판(인세)" checked="" onchange="recalcSupplyNumbers()">
                         <span><strong>자체출판 (인쇄 제조원가 + 저자 인세 정산)</strong></span>
                       </label>
                       <label class="option-label">
-                        <input type="radio" name="f-supply-type" value="위탁판매" onchange="recalcSupplyNumbers">
+                        <input type="radio" name="f-supply-type" value="위탁판매" onchange="recalcSupplyNumbers()">
                         <span><strong>출판사 위탁판매 (판매분 공급률 정산)</strong></span>
                       </label>
                       <label class="option-label">
-                        <input type="radio" name="f-supply-type" value="사입판매" onchange="recalcSupplyNumbers">
+                        <input type="radio" name="f-supply-type" value="사입판매" onchange="recalcSupplyNumbers()">
                         <span><strong>출판사 총판 사입 (매입원가 정산)</strong></span>
                       </label>
                     </div>
@@ -1200,14 +1200,14 @@ code, pre, kbd, samp,
                   <th>도서 정가 (=판매가) <span class="req-star">*</span></th>
                   <td>
                     <div class="input-with-unit" style="width:200px;">
-                      <input type="number" id="f-price" class="form-input text-right" value="38000" min="0" step="500" oninput="recalcSupplyNumbers">
+                      <input type="number" id="f-price" class="form-input text-right" value="38000" min="0" step="500" oninput="recalcSupplyNumbers()">
                       <span class="input-unit">원 (면세)</span>
                     </div>
                   </td>
                   <th>공급률 / 제조원가율 (%) <span class="req-star">*</span></th>
                   <td>
                     <div class="input-with-unit" style="width:180px;">
-                      <input type="number" id="f-supply-rate" class="form-input text-right" value="30" min="0" max="100" step="0.5" oninput="recalcSupplyNumbers">
+                      <input type="number" id="f-supply-rate" class="form-input text-right" value="30" min="0" max="100" step="0.5" oninput="recalcSupplyNumbers()">
                       <span class="input-unit">% (정가 대비)</span>
                     </div>
                   </td>
@@ -1223,7 +1223,7 @@ code, pre, kbd, samp,
                   <th>저자 인세율 (INST-001 연동)</th>
                   <td>
                     <div class="input-with-unit" style="width:200px;">
-                      <input type="number" id="f-royalty-rate" class="form-input text-right" value="10" min="0" max="50" step="0.5" oninput="recalcSupplyNumbers">
+                      <input type="number" id="f-royalty-rate" class="form-input text-right" value="10" min="0" max="50" step="0.5" oninput="recalcSupplyNumbers()">
                       <span class="input-unit">% (권당 <strong id="f-royalty-amt">3,800</strong>원)</span>
                     </div>
                   </td>
@@ -1233,8 +1233,8 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; align-items:center; gap:14px;">
                       <span style="font-size:14px; font-weight:800; color:var(--emerald);" id="f-margin-summary">
- 권당 22,800원 (이익률 60.0%) = 정가 38,000원 - 제조원가 11,400원(30%) - 저자인세 3,800원(10%)
- </span>
+                        권당 22,800원 (이익률 60.0%) = 정가 38,000원 - 제조원가 11,400원(30%) - 저자인세 3,800원(10%)
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -1250,8 +1250,8 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-inst-temp">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">계약원장 가채번 도서 불러오기</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeInstTempModal">닫기 ✕</button>
+        <div class="modal-title">① 계약원장(ADMN-INST-001) 가채번 도서 불러오기</div>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeInstTempModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <table class="data-table">
@@ -1287,7 +1287,7 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeInstTempModal">취소</button>
+        <button type="button" class="btn btn-outline" onclick="closeInstTempModal()">취소</button>
       </div>
     </div>
   </div>
@@ -1296,13 +1296,13 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-prod-pending">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">교재관리 선등록 원가 미입력 SKU 불러오기</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeProdPendingModal">닫기 ✕</button>
+        <div class="modal-title">② 교재관리(ADMN-PROD-004) 선등록 원가 미입력 SKU 불러오기</div>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeProdPendingModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <div style="font-size:12px; color:var(--slate-600); margin-bottom:12px;">
- 상품팀이 <code>ADMN-PROD-004</code>에서 먼저 신규 생성하여 현재 <strong>[원가 미입력 · 판매대기 잠금]</strong> 상태인 도서입니다. 원가를 확정하면 판매대기 잠금이 해제됩니다.
- </div>
+          상품팀이 <code>ADMN-PROD-004</code>에서 먼저 신규 생성하여 현재 <strong>[원가 미입력 · 판매대기 잠금]</strong> 상태인 도서입니다. 원가를 확정하면 판매대기 잠금이 해제됩니다.
+        </div>
         <table class="data-table">
           <thead>
             <tr>
@@ -1329,7 +1329,7 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeProdPendingModal">취소</button>
+        <button type="button" class="btn btn-outline" onclick="closeProdPendingModal()">취소</button>
       </div>
     </div>
   </div>
@@ -1839,4 +1839,79 @@ code, pre, kbd, samp,
       renderLedgerList();
       recalcSupplyNumbers();
     });
-  </script></body></html>
+  </script><script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
+</body></html>

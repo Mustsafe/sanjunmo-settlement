@@ -624,9 +624,9 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">패키지(강좌·교재) 결제 금액 분할 및 환급반 연동</span>
           <div class="policy-text">
- 패키지 상품은 <strong>단과 강좌(교육용역 면세 VAT 0%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
- 환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
- </div>
+            패키지 상품은 <strong>단과 강좌(교육용역 면세 VAT 0%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
+            환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리(ADMN-SETT-006)</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
+          </div>
         </div>
         <div style="display:flex; gap:6px; flex-shrink:0;">
           <a class="btn btn-soft btn-sm" href="ADMN-SETT-006_baseline.html">ADMN-SETT-006 환급반 관리 →</a>
@@ -644,7 +644,7 @@ code, pre, kbd, samp,
               <h2 class="card-title">패키지 · 환급반 검색 조건</h2>
               <span class="card-subtitle">패키지 유형(일반패키지 / 합격환급반 / 프리패스) · 카테고리 · 판매상태 복합 조회</span>
             </div>
-            <span class="code-pill">패키지·환급반 상품 목록</span>
+            <span class="code-pill">Table: package_product</span>
           </div>
           <div class="card-body">
             <div class="filter-grid">
@@ -700,8 +700,8 @@ code, pre, kbd, samp,
             </div>
 
             <div class="filter-actions">
-              <button type="button" class="btn btn-outline" onclick="resetPkgFilters">검색 초기화</button>
-              <button type="button" class="btn btn-primary" onclick="renderPkgList">조건 검색</button>
+              <button type="button" class="btn btn-outline" onclick="resetPkgFilters()">검색 초기화</button>
+              <button type="button" class="btn btn-primary" onclick="renderPkgList()">조건 검색</button>
             </div>
           </div>
         </div>
@@ -714,7 +714,7 @@ code, pre, kbd, samp,
             </div>
             <div style="display:flex; gap:8px;">
               <button type="button" class="btn btn-outline" onclick="showToast('패키지 상품 목록 엑셀(CSV) 다운로드가 완료되었습니다.')">엑셀 다운로드 (CSV)</button>
-              <button type="button" class="btn btn-primary" onclick="openNewPkgForm">+ 신규 패키지 · 환급반 등록</button>
+              <button type="button" class="btn btn-primary" onclick="openNewPkgForm()">+ 신규 패키지 · 환급반 등록</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -758,8 +758,8 @@ code, pre, kbd, samp,
             <span class="badge badge-sale" id="d-pkg-status-badge">판매중</span>
           </div>
           <div style="display:flex; gap:8px;">
-            <a class="btn btn-soft" href="ADMN-SETT-006_baseline.html">환급 심사 원장</a>
-            <button type="button" class="btn btn-primary" onclick="editCurrentDetailPkg">패키지 정보 수정 (005-S1)</button>
+            <a class="btn btn-soft" href="ADMN-SETT-006_baseline.html">환급 심사 원장 (ADMN-SETT-006)</a>
+            <button type="button" class="btn btn-primary" onclick="editCurrentDetailPkg()">패키지 정보 수정 (005-S1)</button>
           </div>
         </div>
 
@@ -768,7 +768,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">1. 패키지 기본 정보 및 교육면세(강좌) · 면세(교재) 복합결제 분할 내역</h3>
-              <span class="card-subtitle">도서정가제 준수를 위한 강좌(교육면세)·교재(도서면세) 결제 분리 및 정산 원장 안분 기준</span>
+              <span class="card-subtitle">도서정가제 준수를 위한 강좌(교육면세)·교재(도서면세) 결제 분리 및 정산 원장(ADMN-SETT-002) 안분 기준</span>
             </div>
             <span class="code-pill" id="d-pkg-created">등록일: 2026-01-15</span>
           </div>
@@ -809,7 +809,7 @@ code, pre, kbd, samp,
                   <td id="d-period">결제일로부터 <strong>180일</strong> (불합격 인증 시 1회 90일 무상 연장 지원)</td>
                   <th>합격 환급 조건<br>(ADMN-SETT-006 연동)</th>
                   <td id="d-refund-rule">
- 전 강좌 평균 <strong>인정 진도율 90% 이상 (재생시간 가중평균)</strong> + <strong>출석일수 60일 이상</strong> + 시험 최종합격 수기/자격증 인증 시<br>
+                    전 강좌 평균 <strong>인정 진도율 90% 이상 (재생시간 가중평균)</strong> + <strong>출석일수 60일 이상</strong> + 시험 최종합격 수기/자격증 인증 시<br>
                     <span style="color:var(--violet); font-weight:700;">※ 교재비(72,000원) 및 제세공과금(22%) 공제 후 강좌 실결제액(240,000원) 기준 환급 (계약 부담옵션 B: 강사·플랫폼 공동 분담)</span>
                   </td>
                 </tr>
@@ -880,11 +880,11 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">패키지 · 환급반 등록 / 수정</h2>
+            <h2 style="font-size:16px; font-weight:800;" id="form-mode-title">패키지 · 환급반 등록 / 수정 (ADMN-PROD-005-S1)</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">취소</button>
-            <button type="button" class="btn btn-primary btn-lg" onclick="savePkgForm">패키지 상품 저장</button>
+            <button type="button" class="btn btn-primary btn-lg" onclick="savePkgForm()">패키지 상품 저장</button>
           </div>
         </div>
 
@@ -921,15 +921,15 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div class="inline-options">
                       <label class="option-label">
-                        <input type="radio" name="f-pkg-type" value="환급반" checked="" onchange="toggleRefundSection">
+                        <input type="radio" name="f-pkg-type" value="환급반" checked="" onchange="toggleRefundSection()">
                         <span><strong>합격 환급반</strong> (ADMN-SETT-006 환급 심사 및 진도/출석율 연동)</span>
                       </label>
                       <label class="option-label">
-                        <input type="radio" name="f-pkg-type" value="일반패키지" onchange="toggleRefundSection">
+                        <input type="radio" name="f-pkg-type" value="일반패키지" onchange="toggleRefundSection()">
                         <span><strong>일반 종합 패키지</strong> (필기+실기 묶음 할인 · 환급 미적용)</span>
                       </label>
                       <label class="option-label">
-                        <input type="radio" name="f-pkg-type" value="연간프리패스" onchange="toggleRefundSection">
+                        <input type="radio" name="f-pkg-type" value="연간프리패스" onchange="toggleRefundSection()">
                         <span><strong>연간 프리패스</strong> (카테고리 전 강좌 무제한 수강)</span>
                       </label>
                     </div>
@@ -960,8 +960,8 @@ code, pre, kbd, samp,
               <span class="card-subtitle">포함된 단과 강좌의 기준 판매가 비율로 자동 계산하거나 수동으로 안분 가중치(합계 100%)를 지정합니다.</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-outline btn-sm" onclick="autoDistributeCourseWeights">단과 기준가 비례 자동 안분 (100%)</button>
-              <button type="button" class="btn btn-soft btn-sm" onclick="openCoursePickerModal">+ 단과 강좌 추가</button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="autoDistributeCourseWeights()">단과 기준가 비례 자동 안분 (100%)</button>
+              <button type="button" class="btn btn-soft btn-sm" onclick="openCoursePickerModal()">+ 단과 강좌 추가 (ADMN-PROD-003)</button>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -1001,7 +1001,7 @@ code, pre, kbd, samp,
               <h3 class="card-title">3. 구성 교재 매핑 (ADMN-PROD-004 연동 · 면세 분리 및 도서정가제 할인 0% 고정)</h3>
               <span class="card-subtitle">패키지에 포함된 교재는 할인 없이 정가 100%로 합산되며, PG 결제 시 면세 금액으로 분리 승인됩니다.</span>
             </div>
-            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal">+ 패키지 교재 추가</button>
+            <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal()">+ 패키지 교재 추가 (ADMN-PROD-004)</button>
           </div>
           <div class="card-body" style="padding:0;">
             <table class="data-table">
@@ -1043,7 +1043,7 @@ code, pre, kbd, samp,
                   <th>패키지 강좌 할인금액 <span class="req-star">*</span></th>
                   <td>
                     <div class="input-with-unit" style="width:220px;">
-                      <input type="number" id="f-course-discount" class="form-input text-right" value="100000" min="0" step="1000" oninput="recalcPackagePricing">
+                      <input type="number" id="f-course-discount" class="form-input text-right" value="100000" min="0" step="1000" oninput="recalcPackagePricing()">
                       <span class="input-unit">원 할인 (강좌분만 차감)</span>
                     </div>
                   </td>
@@ -1091,7 +1091,7 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
                       <span style="font-size:12px; font-weight:700; color:var(--slate-600);">포함 강좌 권리자 지분 검증 시뮬레이션:</span>
-                      <select id="f-pkg-settlement-sim" class="form-select" style="width:360px;" onchange="applyPkgSettlementLock">
+                      <select id="f-pkg-settlement-sim" class="form-select" style="width:360px;" onchange="applyPkgSettlementLock()">
                         <option value="100">[정상] 포함 전 강좌 ADMN-SETT-001 1계층 지분 100.00% 완료</option>
                         <option value="70">[미완성] 일부 포함 강좌 1계층 지분 합계 미달 (70.00%)</option>
                       </select>
@@ -1100,8 +1100,8 @@ code, pre, kbd, samp,
                       <div>
                         <strong id="f-pkg-settlement-title">[검증 통과] 포함 강좌 1계층 지분 합계 100.00% 및 안분 가중치 100.00% 완료</strong>
                         <div style="font-size:12px; margin-top:2px;" id="f-pkg-settlement-desc">
- 모든 구성 강좌의 권리자 지분이 정상 매핑되어 패키지 [판매중] 전환이 가능합니다.
- </div>
+                          모든 구성 강좌의 권리자 지분이 정상 매핑되어 패키지 [판매중] 전환이 가능합니다.
+                        </div>
                       </div>
                       <a href="ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">ADMN-SETT-001 확인 →</a>
                     </div>
@@ -1153,7 +1153,7 @@ code, pre, kbd, samp,
           <div class="card-header" style="background:var(--violet-soft);">
             <div class="card-title-group">
               <h3 class="card-title" style="color:var(--violet);">5. 합격 환급반 달성 조건 및 정산 차감 정책 설정 (ADMN-SETT-006 연동)</h3>
-              <span class="card-subtitle">환급반 유형 선택 시 활성화 · 합격 환급 심사의 자동 판정 기준값으로 저장됩니다.</span>
+              <span class="card-subtitle">환급반 유형 선택 시 활성화 · 합격 환급 심사(ADMN-SETT-006)의 자동 판정 기준값으로 저장됩니다.</span>
             </div>
             <span class="badge badge-refund">환급반 전용 정책</span>
           </div>
@@ -1167,7 +1167,7 @@ code, pre, kbd, samp,
                       <input type="number" id="f-refund-progress" class="form-input text-right" value="80" min="0" max="100">
                       <span class="input-unit">% 이상 수강 완료</span>
                     </div>
-                    <div class="field-hint">포함된 단과 강좌 전체 차시 기준 평균 진도율</div>
+                    <div class="field-hint">포함된 단과 강좌(ADMN-PROD-003) 전체 차시 기준 평균 진도율</div>
                   </td>
                   <th>필수 출석일수 기준 <span class="req-star">*</span></th>
                   <td>
@@ -1216,7 +1216,7 @@ code, pre, kbd, samp,
     <div class="modal-window">
       <div class="modal-header">
         <div class="modal-title">패키지 구성 단과 강좌 추가 — ADMN-PROD-003 연동</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeCoursePickerModal">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeCoursePickerModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <table class="data-table">
@@ -1234,8 +1234,8 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeCoursePickerModal">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmAddCoursesToPkg">선택 강좌 추가 및 가중치 재계산</button>
+        <button type="button" class="btn btn-outline" onclick="closeCoursePickerModal()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmAddCoursesToPkg()">선택 강좌 추가 및 가중치 재계산</button>
       </div>
     </div>
   </div>
@@ -1245,7 +1245,7 @@ code, pre, kbd, samp,
     <div class="modal-window">
       <div class="modal-header">
         <div class="modal-title">패키지 포함 교재 추가 — ADMN-PROD-004 연동 (면세 · 할인 0% 고정)</div>
-        <button type="button" class="btn btn-outline btn-sm" onclick="closeBookPickerModal">닫기 ✕</button>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeBookPickerModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
         <table class="data-table">
@@ -1263,8 +1263,8 @@ code, pre, kbd, samp,
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeBookPickerModal">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmAddBooksToPkg">선택 교재 추가</button>
+        <button type="button" class="btn btn-outline" onclick="closeBookPickerModal()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmAddBooksToPkg()">선택 교재 추가</button>
       </div>
     </div>
   </div>
@@ -1982,4 +1982,79 @@ code, pre, kbd, samp,
       renderFormBooks();
       recalcPackagePricing();
     });
-  </script></body></html>
+  </script><script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
+</body></html>
