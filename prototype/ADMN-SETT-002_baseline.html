@@ -1100,7 +1100,7 @@ code, pre, kbd, samp,
           <!-- 우측 통합 정산서 상세 (6.5절 규격) -->
           <div class="statement-panel">
             <div class="card-header">
-              <div class="card-title" id="stmtTitle">통합 정산서 상세 (정산 기준 · 정산 기준)</div>
+              <div class="card-title" id="stmtTitle">통합 정산서 상세 (정산 기준)</div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <span id="stmtBadge" class="badge badge-primary">선택됨</span>
                 <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(getSelectedPayeeKey())">🔍 상세·마감 워크스페이스 (S1)</button> <button type="button" class="btn btn-sm" id="btnPanelOpenS2" style="margin-right:4px; border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(getSelectedPayeeKey())">📤 권리자 정산서 (S2)</button>
@@ -1118,7 +1118,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">매출연동 개발지원금 소진 원장 — 확정·환불 순누계 / 한도 소진액 / 실제 송금 누계 3분리 (정산 기준 · 정산 기준 5단계)</div>
+              <div class="card-title">매출연동 개발지원금 소진 원장 — 확정·환불 순누계 / 한도 소진액 / 실제 송금 누계 3분리 (정산 기준 5단계)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 단일 '기 지급 누적액' 필드를 폐지하고, 세전 한도 소진액과 세후·상계 후 실제 현금 송금 누계를 엄격히 분리하여 대사 왜곡을 방지합니다. (무한도형도 동일하게 월별 행 적재)
               </div>
@@ -1189,7 +1189,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">2채널 전자(세금)계산서 역발행 및 위탁 면세 계산서 수취 추적 게이트웨이 (정산 기준 · 정산 기준)</div>
+              <div class="card-title">2채널 전자(세금)계산서 역발행 및 위탁 면세 계산서 수취 추적 게이트웨이 (정산 기준)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 익월 10일 지연발급 가산세(공급가액의 1~2%) 기한 3영업일 전 미승인 알럿 및 위탁 정산금 지급 후 10일 경과 미수취 알럿을 자동 통제합니다.
               </div>
@@ -1304,7 +1304,7 @@ code, pre, kbd, samp,
       <div>
         <div class="card-title" style="font-size:15px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
           <span>[ADMN-SETT-002-P2] 당월 정산 마감 확정 사전 게이트(Gate) 검증</span>
-          <span class="badge badge-primary">16.1절 · 정산 기준 필수 규격</span>
+          <span class="badge badge-primary">정산 기준 필수 규격</span>
         </div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
           정산 원장 비가역 마감(Locked=True) 전 3대 선행 조건(PG 미대사 0건, 세무 판정 보류 0건, 이월 등식 일치)을 강제 검증합니다.
@@ -2090,7 +2090,7 @@ code, pre, kbd, samp,
         <div class="s1-card">
           <div class="s1-card-head">
             <div class="s1-card-title">🧾 세무 증빙 발행·수취 매핑 및 원천세 신고 귀속</div>
-            <span class="badge badge-primary">제9장 · 정산 기준 매트릭스</span>
+            <span class="badge badge-primary">세무 판정 매트릭스</span>
           </div>
           <div style="padding:14px 16px; font-size:12.5px;" id="s1EvidenceDetailBox"></div>
         </div>
