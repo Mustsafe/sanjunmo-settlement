@@ -848,8 +848,8 @@ code, pre, kbd, samp,
                 <input type="text" id="filter-keyword" class="form-input" placeholder="교재명, BOOK-XXXX, TMP-BK-XX, ISBN-13, 저자명 입력">
               </div>
               <div class="filter-field" style="display:flex; justify-content:flex-end; gap:8px;">
-                <button type="button" class="btn btn-outline" onclick="resetBookFilters">초기화</button>
-                <button type="button" class="btn btn-primary" onclick="renderBookList">조건 검색</button>
+                <button type="button" class="btn btn-outline" onclick="resetBookFilters()">초기화</button>
+                <button type="button" class="btn btn-primary" onclick="renderBookList()">조건 검색</button>
               </div>
             </div>
           </div>
@@ -2257,4 +2257,25 @@ code, pre, kbd, samp,
       renderDetailView();
       syncBookSalePrice();
     });
-  </script></body></html>
+  </script>
+<script id="prod-004-list-fix">
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(function() {
+    var tbody = document.querySelector('#subview-list tbody, .data-table tbody, #book-list-tbody');
+    if (tbody && tbody.children.length === 0) {
+      // 모든 select 필터를 첫 번째 옵션('전체' 또는 '')으로 초기화 후 재렌더링 시도
+      document.querySelectorAll('select').forEach(function(sel) {
+        if (sel.options.length > 0 && (sel.options[0].text.indexOf('전체') !== -1 || sel.options[0].value === '' || sel.options[0].value === 'ALL')) {
+          sel.selectedIndex = 0;
+        }
+      });
+      if (typeof window.filterBooks === 'function') window.filterBooks();
+      if (typeof window.renderBookList === 'function') window.renderBookList();
+      if (typeof window.renderTable === 'function') window.renderTable();
+      if (typeof window.applyFilter === 'function') window.applyFilter();
+    }
+  }, 60);
+});
+</script>
+
+</body></html>

@@ -730,7 +730,7 @@ code, pre, kbd, samp,
                   <td>
                     <strong id="dt-name" style="font-size:14px;">홍*동</strong> (<code id="dt-no">100482</code>)
  <span id="unmask-timer-badge" class="badge badge-amber" style="display:none; margin-left:6px;">열람 중 · 09:59 후 자동 재마스킹</span>
-                    <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">클릭 즉시 admin_access_log에 계정·일시·IP·대상 회원번호가 기록됩니다.</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">마스킹 해제 시 열람 일시·사유·접속 IP가 보안 감사 로그에 자동 기록됩니다.</div>
                   </td>
                   <th>회원 상태 · 잠금 분리</th>
                   <td>
@@ -771,14 +771,14 @@ code, pre, kbd, samp,
                   <th>산준모 네이버 카페 ID</th>
                   <td>
                     <input type="text" id="dt-cafe" class="f-input" style="width:190px;" value="sanjun_hong88" />
-                    <span style="font-size:11px; color:var(--text-muted); margin-left:6px;">항목명 'ID' 고정('닉네임' 표기 금지 · @ 이메일 형식 검증 제외)</span>
+                    <span style="font-size:11px; color:var(--text-muted); margin-left:6px;">네이버 카페 정회원 연동 확인용 ID</span>
                   </td>
                   <th>마케팅 수신 동의</th>
                   <td>
                     <label style="font-weight:700; cursor:pointer;">
                       <input type="checkbox" id="dt-mkt-agree" checked /> 마케팅 및 이벤트 알림 수신 동의 (통합 단일)
  </label>
-                    <span id="dt-mkt-meta" style="font-size:11px; color:var(--text-muted); margin-left:8px;">(users.마케팅 수신 동의 · 2026.08.19 동의 · 하단 [변경사항 저장] 시 반영)</span>
+                    <span id="dt-mkt-meta" style="font-size:11px; color:var(--text-muted); margin-left:8px;">(마케팅 수신 동의: 2026.08.19 동의 · 하단 [변경사항 저장] 시 반영)</span>
                   </td>
                 </tr>
                 <tr>
@@ -1858,7 +1858,7 @@ code, pre, kbd, samp,
       const cafeVal = document.getElementById('dt-cafe').value.trim();
       const mktAgreed = document.getElementById('dt-mkt-agree').checked;
       m.cafeId = cafeVal;
-      document.getElementById('dt-mkt-meta').innerHTML = `(<code>users.is_marketing_agreed = ${mktAgreed}</code> · 2026.10.17 관리자 수정 반영)`;
+      document.getElementById('dt-mkt-meta').innerHTML = `(${mktAgreed ? '동의' : '미동의'} · 2026.10.17 관리자 수정 반영)`;
 
       const tbody = document.querySelector('#dt-audit-timeline tbody');
       if (tbody) {
