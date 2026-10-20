@@ -466,9 +466,9 @@ code, pre, kbd, samp,
       <!-- 17.1절 · 17.5절 핵심 원칙 배너 -->
       <div class="policy-banner">
         <div>
-          <strong>📌 [제17장 국세청 오픈API 연동 및 선관주의 보존 원칙]</strong>
+          <strong>📌 [정산 기준 국세청 오픈API 연동 및 선관주의 보존 원칙]</strong>
           당사는 과세유형을 수기로 판정·선택하지 않으며, 국세청 API 응답을 확인·보존(보존 계층 2: 10년)합니다.
-          <strong>과세유형 전환 감지 시 원장을 자동 덮어쓰지 않고 담당자 확인 후 신규 유효일자 행을 생성</strong>하며(효력일 미반환 시 <code>7월 1일</code>로 일괄 가정 금지), <strong>폐업 감지 시 증빙 리마인더를 중단하고 미지급 정산금을 강제 정산 트리거(7.3절)로 이관</strong>합니다.
+          <strong>과세유형 전환 감지 시 원장을 자동 덮어쓰지 않고 담당자 확인 후 신규 유효일자 행을 생성</strong>하며(효력일 미반환 시 <code>7월 1일</code>로 일괄 가정 금지), <strong>폐업 감지 시 증빙 리마인더를 중단하고 미지급 정산금을 강제 정산 트리거로 이관</strong>합니다.
         </div>
         <span class="badge badge-neutral">유효기간 90일 (100건 청크 · 200ms 간격)</span>
       </div>
@@ -505,8 +505,8 @@ code, pre, kbd, samp,
       <!-- 탭 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabHistory">1. 사업자 상태조회 · 과세유형 전환 감지 및 버전 승인 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabMapping">2. 국세청 과세유형 코드(01~07) ↔ 세무 매트릭스(TX-05~TX-11) 매핑 설정표 (17.3절)</button>
-        <button class="tab-btn" data-tab="tabRetry">3. 네트워크 장애 재시도 큐 및 배치 스케줄 파라미터 (17.6절 · 부록 B)</button>
+        <button class="tab-btn" data-tab="tabMapping">2. 국세청 과세유형 코드(01~07) ↔ 세무 매트릭스(TX-05~TX-11) 매핑 설정표 </button>
+        <button class="tab-btn" data-tab="tabRetry">3. 네트워크 장애 재시도 큐 및 배치 스케줄 파라미터 (정산 기준 · 부록 B)</button>
       </div>
 
       <!-- 탭 1: 메인 워크스페이스 -->
@@ -566,12 +566,12 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">국세청 과세유형 코드(tax_type_cd) ↔ 세무 판정 매트릭스 자동 매핑 설정표 (17.3절 · 읽기 전용)</div>
+              <div class="card-title">국세청 과세유형 코드(tax_type_cd) ↔ 세무 판정 매트릭스 자동 매핑 설정표 (정산 기준 · 읽기 전용)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 코드에 문자열을 하드코딩하지 않고 설정 테이블(<code>nts_tax_type_map</code>)로 관리하며, 도서 재화 공급(위탁자·매입처)은 과세유형과 무관하게 도서 면세(<code>TX-11</code>)를 우선 적용합니다.
               </div>
             </div>
-            <span class="badge badge-primary">수기 과세유형 선택 금지 (17.1절)</span>
+            <span class="badge badge-primary">수기 과세유형 선택 금지 </span>
           </div>
           <div class="table-wrap">
             <table>
@@ -581,7 +581,7 @@ code, pre, kbd, samp,
                   <th>국세청 과세유형 명칭 (API 응답)</th>
                   <th>수취인 과세유형 (한글 · 코드)</th>
                   <th>세금계산서 발급 가능</th>
-                  <th>자동 연결 매트릭스 케이스 및 예외 규칙 (17.3절 정본)</th>
+                  <th>자동 연결 매트릭스 케이스 및 예외 규칙 </th>
                 </tr>
               </thead>
               <tbody>
@@ -638,7 +638,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">국세청 오픈API 호출 제어 파라미터(부록 B) 및 지수 백오프 재시도 큐 (17.6절)</div>
+              <div class="card-title">국세청 오픈API 호출 제어 파라미터(부록 B) 및 지수 백오프 재시도 큐 </div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 API 장애 시 정산 배치를 무한 대기시키지 않고 재시도 큐에 적재하며, 마감 실행 시점까지 미확인 건이 남아 있으면 해당 거래처의 마감만 선택 차단합니다.
               </div>
@@ -651,7 +651,7 @@ code, pre, kbd, samp,
                   <th>파라미터 한글 명칭</th>
                   <th>시스템 파라미터 코드</th>
                   <th>설정 기준값</th>
-                  <th>운영 통제 규칙 (17.5절 · 17.6절 · 부록 B)</th>
+                  <th>운영 통제 규칙 (정산 기준 · 정산 기준 · 부록 B)</th>
                 </tr>
               </thead>
               <tbody>
@@ -1228,7 +1228,7 @@ code, pre, kbd, samp,
       <div style="padding:18px 20px; overflow-y:auto; max-height:calc(85vh - 130px);">
         <!-- 17.5절 하드락 안내 박스 -->
         <div style="background:#FEF2F2; border:1.5px solid #FECACA; border-radius:8px; padding:12px 14px; margin-bottom:16px; font-size:12px; color:#991B1B; line-height:1.55;">
-          <strong>⚠️ 17.5절 하드락 규칙:</strong> 국세청 API 응답의 <code>tax_type_change_dt</code>가 빈값("")일 때 7월 1일 등으로 일괄 가정하는 것을 엄격히 금지하며, 수취한 정정 사업자등록증상 실제 전환 효력일을 기준으로 기존 행 종료 및 신규 행을 분할 생성합니다.
+          <strong>⚠️ 정산 기준 하드락 규칙:</strong> 국세청 API 응답의 <code>tax_type_change_dt</code>가 빈값("")일 때 7월 1일 등으로 일괄 가정하는 것을 엄격히 금지하며, 수취한 정정 사업자등록증상 실제 전환 효력일을 기준으로 기존 행 종료 및 신규 행을 분할 생성합니다.
         </div>
 
         <div style="margin-bottom:14px; font-size:12.5px;">
@@ -1269,7 +1269,7 @@ code, pre, kbd, samp,
       </div>
       <div style="padding:12px 20px; background:var(--bg); border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px;">
         <button type="button" class="btn" onclick="closeTaxTransitionModal()">취소</button>
-        <button type="button" class="btn btn-primary" onclick="confirmTaxTypeTransition()">✔ 17.5절 행 분할 승인 및 PENDING_REVIEW 해제 확정</button>
+        <button type="button" class="btn btn-primary" onclick="confirmTaxTypeTransition()">✔ 정산 기준 행 분할 승인 및 PENDING_REVIEW 해제 확정</button>
       </div>
     </div>
   </div>

@@ -366,7 +366,7 @@ code, pre, kbd, samp,
         <div class="card" id="inst001ReadonlyMappingCard">
           <div class="cardhead">
             <div>
-              <h2>📌 [읽기 전용] 권리자별 상품(강의 · 도서 SKU) 1계층 매핑 현황 (제4장 4.3절 · 제16장 16.1절)</h2>
+              <h2>📌 [읽기 전용] 권리자별 상품(강의 · 도서 SKU) 1계층 매핑 현황 (정산 기준 · 정산 기준)</h2>
               <div class="note">
                 본 영역은 <strong>조회 전용(Read-Only)</strong>입니다. 상품 기준 합계 <code>100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong> 단일 진입점에서만 수행합니다.
               </div>
@@ -378,7 +378,7 @@ code, pre, kbd, samp,
           </div>
 
           <div class="alert warn" style="margin-bottom:10px;">
-            ⚠️ <strong>정산 매핑 미완료(적용 계약 미지정) 1건 감지:</strong> 적용 계약(<code>contract_id</code>)이 미지정된 강의·도서 SKU는 월간 정산 배치(<code>ADMN-SETT-002</code>) 인입이 차단되며 신규 판매가 중단됩니다.
+            ⚠️ <strong>정산 매핑 미완료(적용 계약 미지정) 1건 감지:</strong> 적용 계약(<code>계약번호</code>)이 미지정된 강의·도서 SKU는 월간 정산 배치(<code>ADMN-SETT-002</code>) 인입이 차단되며 신규 판매가 중단됩니다.
           </div>
 
           <div class="tablewrap">
@@ -388,7 +388,7 @@ code, pre, kbd, samp,
                   <th>권리자 (식별코드)</th>
                   <th>구분</th>
                   <th>상품 · 강의 · 도서 SKU 명칭</th>
-                  <th>적용 계약 (contract_id)</th>
+                  <th>적용 계약 </th>
                   <th class="num">1계층 지분율</th>
                   <th>매핑 종료 기준 (end_basis)</th>
                   <th>정산 인입 상태</th>
@@ -402,7 +402,7 @@ code, pre, kbd, samp,
                   <td><code>CON-2026-001</code> (전속 R/S 50% + 지원금 15%)</td>
                   <td class="num"><strong>100.00%</strong></td>
                   <td><code>CONTRACT_LINKED</code> (계약 종료일 동기화)</td>
-                  <td><span class="chip ok">정상 인입 (Pipeline 1.1)</span></td>
+                  <td><span class="chip ok">정상 인입 (강좌 수익배분)</span></td>
                 </tr>
                 <tr>
                   <td><strong>정종대</strong> (<code>RH-0025</code>)</td>
@@ -411,13 +411,13 @@ code, pre, kbd, samp,
                   <td><code>CON-2026-001</code> (인세 10%)</td>
                   <td class="num"><strong>100.00%</strong></td>
                   <td><code>CONTRACT_LINKED</code> (계약 종료일 동기화)</td>
-                  <td><span class="chip ok">정상 인입 (Pipeline 2.1)</span></td>
+                  <td><span class="chip ok">정상 인입 (도서 인세)</span></td>
                 </tr>
                 <tr>
                   <td><strong>주식회사 엘캠퍼스</strong> (<code>RH-INTERNAL</code>)</td>
                   <td><span class="chip">자사 저작권 도서</span></td>
-                  <td>『산준모 산업안전 실기 빈출문제집』 (<code>PROD-BK-1004</code> · <code>own_copyright_yn=true</code>)</td>
-                  <td><code>CT-INTERNAL-000</code> (자사 100% + 정종대 지원금 Pipeline 5.1 모수 인입)</td>
+                  <td>『산준모 산업안전 실기 빈출문제집』 (<code>PROD-BK-1004</code> · <code>자사 저작권 보유</code>)</td>
+                  <td><code>CT-INTERNAL-000</code> (자사 100% + 정종대 지원금 개발지원금 모수 인입)</td>
                   <td class="num"><strong>100.00%</strong></td>
                   <td><code>CONTRACT_LINKED</code> (무기한)</td>
                   <td><span class="chip tx">인세 Bypass · 지원금(5.1) 모수 인입</span></td>
@@ -700,9 +700,9 @@ code, pre, kbd, samp,
                 <label class="lbl" for="refundBurden">환급 부담 방식</label>
                 <select class="fc" id="refundBurden" data-field="">
                   <option value="">선택</option>
-                  <option value="A">옵션 A · 플랫폼사 100% 부담 (권리자 정산 차감 없음 · 15.1절)</option>
-                  <option value="B">옵션 B · 매출연동 개발지원금(Pipeline 5.1) 4단계 비례차감 + 5단계 한도복원(C-01)</option>
-                  <option value="C">옵션 C · 온라인 강좌 R/S(Pipeline 1.1) 4단계 차감 (MMG 적용월 이중부담 회피)</option>
+                  <option value="A">옵션 A · 플랫폼사 100% 부담 (권리자 정산 차감 없음 · 정산 기준)</option>
+                  <option value="B">옵션 B · 매출연동 개발지원금 4단계 비례차감 + 5단계 한도복원</option>
+                  <option value="C">옵션 C · 온라인 강좌 R/S(강좌 수익배분) 4단계 차감 (MMG 적용월 이중부담 회피)</option>
                 </select>
               </div>
             </div>
@@ -821,7 +821,7 @@ code, pre, kbd, samp,
         <!-- 개발지원금 -->
         <section class="term" id="development">
           <header>
-            <b>[Term-DEV] 콘텐츠 개발지원금 <span class="chip info">매출연동(Pipeline 5.1) · 정액</span></b>
+            <b>[Term-DEV] 콘텐츠 개발지원금 <span class="chip info">매출연동 지원금 · 정액</span></b>
             <label class="tg"><input type="checkbox" id="onDevelopment" checked="" data-term="development" data-field="">적용</label>
           </header>
           <div class="body">
@@ -910,7 +910,7 @@ code, pre, kbd, samp,
                 <div><label>실제 지급 누계 · 송금액</label><b>4,699,950원</b></div>
                 <div><label>잔여 한도</label><b id="supportRemaining">25,150,000원</b></div>
               </div>
-              <div class="alert warn">위 누계는 원장 조회 결과를 표현한 예시입니다. 동일 콘텐츠·동일 기간의 지원금 요율 합계는 자사 지분을 넘을 수 없습니다. 매출연동 지원금(Pipeline 5.1)은 월 최저보장(MMG) 판정 모수에서 제외하되, <b>상계 허용(CONDITIONAL)</b> 선택 시 6단계(PREPAY_OFFSET) 선급금 상계 적격 세전액에 포함됩니다(v4.0.0 개정).</div>
+              <div class="alert warn">위 누계는 원장 조회 결과를 표현한 예시입니다. 동일 콘텐츠·동일 기간의 지원금 요율 합계는 자사 지분을 넘을 수 없습니다. 매출연동 개발지원금은 월 최저보장(MMG) 판정 모수에서 제외하되, <b>상계 허용(CONDITIONAL)</b> 선택 시 6단계(PREPAY_OFFSET) 선급금 상계 적격 세전액에 포함됩니다(v4.0.0 개정).</div>
             </div>
 
             <div id="supportFixed" hidden="">
@@ -936,14 +936,14 @@ code, pre, kbd, samp,
         <!-- 온라인 매출 배분 -->
         <section class="term" id="online">
           <header>
-            <b>[Term-1] 온라인 강의 매출 배분 <span class="chip info">온라인 강좌 수익배분(Pipeline 1.1)</span></b>
+            <b>[Term-1] 온라인 강의 매출 배분 <span class="chip info">온라인 강좌 수익배분</span></b>
             <label class="tg"><input type="checkbox" id="onOnline" checked="" data-term="online" data-field="">적용</label>
           </header>
           <div class="body">
             <div class="cardhead">
               <div>
                 <h3>기본 배분 요율 라인 · BASIC</h3>
-                <div class="note">BASIC은 agreement_id = NULL입니다. 마감 구간은 잠금 상태로 보존합니다.</div>
+                <div class="note">BASIC은 별도 약정 없음입니다. 마감 구간은 잠금 상태로 보존합니다.</div>
               </div>
               <button class="btn sm" type="button" data-action="rate" data-kind="BASIC">요율 라인 추가</button>
             </div>
@@ -979,7 +979,7 @@ code, pre, kbd, samp,
         <!-- 저작권 인세 -->
         <section class="term" id="royalty">
           <header>
-            <b>[Term-2] 실물 교재 저작권 인세 <span class="chip info">자사 발행 도서 인세(Pipeline 2.1)</span></b>
+            <b>[Term-2] 실물 교재 저작권 인세 <span class="chip info">자사 발행 도서 인세</span></b>
             <label class="tg"><input type="checkbox" id="onRoyalty" checked="" data-term="royalty" data-field="">적용</label>
           </header>
           <div class="body">
@@ -1063,7 +1063,7 @@ code, pre, kbd, samp,
         <!-- 위탁 -->
         <section class="term off" id="consignment">
           <header>
-            <b>[Term-CONS] 도서 위탁 판매 <span class="chip info">위탁 도서 판매대금 정산(Pipeline 2.2)</span></b>
+            <b>[Term-CONS] 도서 위탁 판매 <span class="chip info">위탁 도서 판매대금 정산</span></b>
             <label class="tg"><input type="checkbox" id="onConsignment" data-term="consignment" data-field="">적용</label>
           </header>
           <div class="body" hidden="">
@@ -1313,7 +1313,7 @@ const catalog = [
   {id:"CRS-1002",name:"산업안전 실전 문제풀이",type:"COURSE",share:30},
   {id:"PROD-BK-1001",name:"산업안전 핵심 이론 교재",type:"OWN_PUBLISHED",share:20,ownCopyright:false},
   {id:"PROD-BK-1002",name:"산업안전 실전 문제집",type:"OWN_PUBLISHED",share:25,ownCopyright:false},
-  {id:"PROD-BK-1004",name:"[자사저작권] 정종대 산업안전 필기 기출문제집 (own_copyright_yn=true)",type:"OWN_PUBLISHED",share:100,ownCopyright:true},
+  {id:"PROD-BK-1004",name:"[자사저작권] 정종대 산업안전 필기 빈출문제집 (own_copyright_yn=true)",type:"OWN_PUBLISHED",share:100,ownCopyright:true},
   {id:"PROD-BK-1003",name:"산업안전 요약 노트",type:"OWN_PUBLISHED",share:0,ownCopyright:false},
   {id:"PROD-BK-2001",name:"외부 출판사 사입 교재",type:"PURCHASED",share:100,ownCopyright:false},
   {id:"PROD-BK-3001",name:"외부 출판사 위탁 교재",type:"CONSIGNMENT",share:0,ownCopyright:false}
@@ -2844,18 +2844,18 @@ renderContractList();
     </header>
     <div class="modalbody">
       <div class="alert err" style="margin-top:0;">
-        <strong>🔒 1. 결제 이력 1건 이상 발생 시 기존 요율 라인 직접 수정 차단 (제1장 스냅샷 보존 원칙):</strong><br>
+        <strong>🔒 1. 결제 이력 1건 이상 발생 시 기존 요율 라인 직접 수정 차단 (정산 기준 스냅샷 보존 원칙):</strong><br>
         이미 수강생 결제 또는 도서 출고 정산 이력이 1건이라도 발생한 요율 라인은 과거 원거래 환불 시 역산 정합성을 보호하기 위해 <strong>요율(%) 및 기준 모수 직접 수정(Update)과 물리 삭제(Hard Delete)가 영구 잠금</strong>됩니다. 요율 변경이 필요한 경우 기존 요율 라인의 종료일을 닫고 <strong>신규 유효 시작일을 가진 요율 행을 추가(Insert)</strong>해야 합니다.
       </div>
       <div class="alert warn">
-        <strong>⚠️ 2. 계약 만료(EXPIRED) · 중도 해지(TERMINATED) 전환 시 연쇄 통제 (제5장 5.4절 · 통합설계서 Set 2):</strong><br>
+        <strong>⚠️ 2. 계약 만료(EXPIRED) · 중도 해지(TERMINATED) 전환 시 연쇄 통제 (정산 기준 · 통합설계서 Set 2):</strong><br>
         • <strong>프론트 강사/강좌 자동 숨김:</strong> 계약 상태가 만료 또는 중도 해지로 확정되면 <code>ADMN-PROD-006</code>(강사 노출 관리)의 전시 상태가 즉시 <code>강제 숨김(Blind)</code>으로 전환됩니다.<br>
         • <strong>매핑 상품 승계 또는 종료 필수 지정:</strong> 해당 계약에 매핑된 강의·도서 SKU마다 승계 계약(<code>SUCCESSION</code>) 또는 매핑 종료를 지정해야 저장이 허용됩니다.<br>
         • <strong>금전 약정 비승계 및 해지 강제청구:</strong> 선급금 잔액 · 최저보장(MMG) · 전속계약금 · 개발지원금은 승계 계약으로 자동 이전되지 않으며, 중도 해지 시 미상계 선급금 잔액은 당월 10단계(<code>CLAIM</code>)에서 즉시 환수 청구(<code>CLAIMED_ON_TERMINATION</code>)로 전환됩니다.
       </div>
     </div>
     <footer>
-      <span class="sub">※ 정본 근거: 제1권 1.3절 · 5.4절 · 통합 상세 설계서 3.2.2절</span>
+      <span class="sub">※ 정본 근거: 제1권 정산 기준 · 정산 기준 · 통합 상세 설계서 3.2.2절</span>
       <button class="btn pr" type="button" onclick="closeInst001RateLockModalP1()">확인</button>
     </footer>
   </div>

@@ -1134,9 +1134,9 @@ code, pre, kbd, samp,
                   <th class="num">총 약정 한도</th>
                   <th class="num">당월 발생 / 환불공제</th>
                   <th class="num">당월 확정액 (5단계)</th>
-                  <th class="num">① 확정·환불 순누계</th>
-                  <th class="num">② 한도 소진액 누계</th>
-                  <th class="num">③ 실제 현금송금 누계</th>
+                  <th class="num">[1] 확정·환불 순누계</th>
+                  <th class="num">[2] 한도 소진액 누계</th>
+                  <th class="num">[3] 실제 현금송금 누계</th>
                   <th class="num">갱신 잔여 한도</th>
                   <th>약정 상태</th>
                 </tr>
@@ -1233,7 +1233,7 @@ code, pre, kbd, samp,
                 </tr>
                 <tr>
                   <td><strong>한국소방학회 (위탁출판사)</strong><br><span class="mono">도서 재화 공급 (TX-11)</span></td>
-                  <td>① [수취] 도서 판매대금 면세 계산서<br>② [당사 발행] 위탁 수수료 과세 세금계산서</td>
+                  <td>[1] [수취] 도서 판매대금 면세 계산서<br>[2] [당사 발행] 위탁 수수료 과세 세금계산서</td>
                   <td>채널 B (홈택스 확인 + 당사 발행)</td>
                   <td class="num">도서: 4,000,000원<br>수수료: 1,000,000원</td>
                   <td class="num">도서: 0원<br>수수료: 100,000원</td>
@@ -1952,24 +1952,24 @@ code, pre, kbd, samp,
       <!-- 7.4절 마감 연속성 등식 4단 요약 카드 -->
       <div class="p1-eq-grid">
         <div class="p1-eq-card">
-          <div class="p1-eq-label">① 전기말 기초 이월 잔액 (Opening)</div>
+          <div class="p1-eq-label">[1] 전기말 기초 이월 잔액 (Opening)</div>
           <div class="p1-eq-val" id="p1EqOpening">0원</div>
           <div class="p1-eq-sub">전월 마감 시 이월된 기초 원장 잔액</div>
         </div>
         <div class="p1-eq-card">
-          <div class="p1-eq-label">② 당월 정산 합산/상쇄 해소로 인한 원장 변동</div>
+          <div class="p1-eq-label">[2] 당월 정산 합산/상쇄 해소로 인한 원장 변동</div>
           <div class="p1-eq-val" id="p1EqAbsorbed" style="color:#2563eb;">0원</div>
           <div class="p1-eq-sub">당월 정산서(1단계·11단계)로 흡수되어 해소된 변동액</div>
         </div>
         <div class="p1-eq-card">
-          <div class="p1-eq-label">③ 당월 신규 차월이월 적재액 (New Carry-Out)</div>
+          <div class="p1-eq-label">[3] 당월 신규 차월이월 적재액 (New Carry-Out)</div>
           <div class="p1-eq-val" id="p1EqNewAdded" style="color:#d97706;">0원</div>
           <div class="p1-eq-sub">최소지급액 미달 · 증빙 미승인 · 당월 순음수 신규 적재</div>
         </div>
         <div class="p1-eq-card" style="border-color:#93c5fd; background:#eff6ff;">
-          <div class="p1-eq-label" style="color:#1e40af;">④ 당기말 차월 이월 잔액 (Closing)</div>
+          <div class="p1-eq-label" style="color:#1e40af;">[4] 당기말 차월 이월 잔액 (Closing)</div>
           <div class="p1-eq-val" id="p1EqClosing" style="color:#1d4ed8;">0원</div>
-          <div class="p1-eq-sub">7.4절 연속성 등식: ① + ② + ③ = ④ (100% 일치)</div>
+          <div class="p1-eq-sub">7.4절 연속성 등식: [1] + [2] + [3] = [4] (100% 일치)</div>
         </div>
       </div>
 
@@ -2427,7 +2427,7 @@ code, pre, kbd, samp,
         { step: "10단계 (CLAIM)", title: "최소지급 기준액(100,000원) 판정", rule: "4,519,810원 ≥ 100,000원 (정상 지급 적격)", delta: 0, bal: 4519810 },
         { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (펌뱅킹 이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 4,519,810원", delta: 0, bal: 4519810 }
       ],
-      evidenceInfo: "복합 증빙(TX-08): ① 면세 계산서 역발행 공급가액 5,915,000원 승인완료 + ② 사업소득 원천징수(3.3%, 195,190원) 동시 수행 (채널 2 + 3-a)",
+      evidenceInfo: "복합 증빙(TX-08): [1] 면세 계산서 역발행 공급가액 5,915,000원 승인완료 + [2] 사업소득 원천징수(3.3%, 195,190원) 동시 수행 (채널 2 + 3-a)",
       auditMemos: [
         "[2026-10-31 19:05] 재무팀 김회계: 정종대(80%) / 산준교육(20%) 2계층 분할 및 선급금 150만원 비례 상계 검증 완료."
       ]
@@ -2517,7 +2517,7 @@ code, pre, kbd, samp,
         { step: "9단계 (TAX)", title: "재화 공급 면세 판정 (TX-11 · 원천징수 비대상)", rule: "도서 재화 공급이므로 원천징수 0원 / 당사 수수료(780,000원)는 별도 과세 세금계산서 정발행", delta: 0, bal: 1820000 },
         { step: "11단계 (PAYOUT)", title: "위탁 정산대금 최종 실지급액 확정", rule: "수수료 차감지급(NET_DEDUCT) 방식 → 1,820,000원 지급", delta: 0, bal: 1820000 }
       ],
-      evidenceInfo: "양방향 증빙(TX-11/TX-12): ① 당사→한국소방학회 위탁수수료 과세 세금계산서(공급가 709,091 / 세액 70,909) 정발행 완료 | ② 한국소방학회→당사 도서 면세 계산서 수취 대기",
+      evidenceInfo: "양방향 증빙(TX-11/TX-12): [1] 당사→한국소방학회 위탁수수료 과세 세금계산서(공급가 709,091 / 세액 70,909) 정발행 완료 | [2] 한국소방학회→당사 도서 면세 계산서 수취 대기",
       auditMemos: [
         "[2026-10-31 19:18] 재무팀 이검수: 6.6절 품목별 배분 등식(판매대금 260만 − 위탁순액 182만 = 수수료 총액 78만) 검증 완료."
       ]
@@ -2860,27 +2860,27 @@ code, pre, kbd, samp,
     const sc = c.scores;
     document.getElementById("s1SummaryScoreGrid").innerHTML = `
       <div class="s1-score-box">
-        <div class="s1-meta-label">① 전월 세전 이월(1단계)</div>
+        <div class="s1-meta-label">[1] 전월 세전 이월(1단계)</div>
         <div class="s1-meta-val" style="font-size:15px; color:${sc.carryInPre < 0 ? '#dc2626' : '#0f172a'};">${fmt(sc.carryInPre)}</div>
       </div>
       <div class="s1-score-box">
-        <div class="s1-meta-label">② 당월 발생(2·3·7단계)</div>
+        <div class="s1-meta-label">[2] 당월 발생(2·3·7단계)</div>
         <div class="s1-meta-val" style="font-size:15px;">${fmt(sc.grossGenerated)}</div>
       </div>
       <div class="s1-score-box">
-        <div class="s1-meta-label">③ 환불·반품·옵션B 공제(4단계)</div>
+        <div class="s1-meta-label">[3] 환불·반품·옵션B 공제(4단계)</div>
         <div class="s1-meta-val" style="font-size:15px; color:#dc2626;">${fmt(sc.deductions)}</div>
       </div>
       <div class="s1-score-box highlight">
-        <div class="s1-meta-label" style="color:#1e40af;">④ 수취인 과세표준 (증빙 기준)</div>
+        <div class="s1-meta-label" style="color:#1e40af;">[4] 수취인 과세표준 (증빙 기준)</div>
         <div class="s1-meta-val" style="font-size:16px; color:#1d4ed8;">${fmt(sc.taxBase)}</div>
       </div>
       <div class="s1-score-box">
-        <div class="s1-meta-label">⑤ 선급금상계 · 세후이월 가감</div>
+        <div class="s1-meta-label">[5] 선급금상계 · 세후이월 가감</div>
         <div class="s1-meta-val" style="font-size:15px; color:#b45309;">${fmt(sc.prepayAndPostCarry)}</div>
       </div>
       <div class="s1-score-box" style="background:#f0fdf4; border-color:#86efac;">
-        <div class="s1-meta-label" style="color:#15803d;">⑥ 세액(${fmt(sc.taxAmount)}) 반영 실지급액</div>
+        <div class="s1-meta-label" style="color:#15803d;">[6] 세액(${fmt(sc.taxAmount)}) 반영 실지급액</div>
         <div class="s1-meta-val" style="font-size:17px; color:#15803d;">${fmt(sc.finalPayout)}</div>
       </div>
     `;

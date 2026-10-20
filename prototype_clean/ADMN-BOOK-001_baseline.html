@@ -759,8 +759,8 @@ code, pre, kbd, samp,
       <div class="card" id="v4BookCanonicalSpecCard" style="border:1px solid #93c5fd;">
         <div class="card-header" style="background:#eff6ff;">
           <div class="card-title-group">
-            <span class="badge badge-info">제6장 6.1~6.6절 · v4.0.0 SSOT</span>
-            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(Pipeline 5.1) · 정가 이력(book_price_history) 정합성 원장</h2>
+            <span class="badge badge-info">제6장 정산 기준 · v4.0.0 SSOT</span>
+            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(개발지원금) · 정가 이력(book_price_history) 정합성 원장</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal()">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기 (BOOK-001-S1)</button>
@@ -775,7 +775,7 @@ code, pre, kbd, samp,
                   <th>정산 연동 SKU (교재코드)</th>
                   <th>도서명</th>
                   <th>공급형태 코드 (book_supply_type)</th>
-                  <th>자사저작권 (own_copyright_yn)</th>
+                  <th>자사저작권 </th>
                   <th>정산 파이프라인 라우팅 (SSOT)</th>
                   <th>위탁/매입/인세 핵심 파라미터</th>
                   <th class="text-right">현행 정가 (면세)</th>
@@ -788,7 +788,7 @@ code, pre, kbd, samp,
                   <td><strong>2026 정종대 산업안전기사 필기 기본서</strong></td>
                   <td><span class="badge badge-sale">OWN_PUBLISHED (자사발행)</span></td>
                   <td><code>false</code> (저자 정종대)</td>
-                  <td><strong>Pipeline 2.1</strong> (자사발행 도서 인세)</td>
+                  <td><strong>도서 인세</strong> (자사발행 도서 인세)</td>
                   <td>인세율 <code>10.00%</code> · 1계층 정종대 100% (<code>CON-2026-001</code>)</td>
                   <td class="text-right"><strong>30,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
@@ -798,7 +798,7 @@ code, pre, kbd, samp,
                   <td><strong>산준모 산업안전 실기 빈출문제집 (자사저작권)</strong></td>
                   <td><span class="badge badge-sale">OWN_PUBLISHED (자사저작권)</span></td>
                   <td><strong style="color:#2563eb;">true (자사 100%)</strong></td>
-                  <td>인세 Bypass → <strong>Pipeline 5.1 (개발지원금 모수 인입 · v4.0.0)</strong></td>
+                  <td>인세 Bypass → <strong>개발지원금 (개발지원금 모수 인입 · v4.0.0)</strong></td>
                   <td>1계층 엘캠퍼스(<code>RH-INTERNAL</code>) 100% + 정종대 지원금(<code>SUP-2026-009</code>, 15%) 모수 산입</td>
                   <td class="text-right"><strong>28,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
@@ -808,8 +808,8 @@ code, pre, kbd, samp,
                   <td><strong>2026 소방설비기사 위탁 수험서 세트</strong></td>
                   <td><span class="badge badge-preorder">CONSIGNMENT (위탁판매)</span></td>
                   <td><code>false</code> (위탁자 보유)</td>
-                  <td><strong>Pipeline 2.2</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
-                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 6.6절 등식 적용</td>
+                  <td><strong>위탁도서 정산</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
+                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 정산 기준 등식 적용</td>
                   <td class="text-right"><strong>40,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
                 </tr>
@@ -828,7 +828,7 @@ code, pre, kbd, samp,
                   <td><strong>[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 번들)</strong></td>
                   <td><span class="badge badge-end">BUNDLED (강좌포함 비매품)</span></td>
                   <td><code>true</code> (자사 제작)</td>
-                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
+                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 정산 기준)</strong></td>
                   <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
                   <td class="text-right"><strong>0원 (비매품)</strong></td>
                   <td><span class="badge badge-end">🔒 비매품 고정</span></td>
@@ -848,7 +848,7 @@ code, pre, kbd, samp,
           </div>
           <div class="modal-body">
             <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12px; color:#1e3a8a;">
-              💡 <strong>[제6장 6.2절 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>(공급 형태)을 사후 변경할 수 없습니다.
+              💡 <strong>[정산 기준 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>(공급 형태)을 사후 변경할 수 없습니다.
             </div>
             <table class="data-table">
               <thead>
@@ -919,8 +919,8 @@ code, pre, kbd, samp,
                 <label>공급 계약 유형</label>
                 <select id="filter-supply-type" class="form-select">
                   <option value="ALL">전체 4대 공급형태 (book_supply_type)</option>
-                  <option value="자체출판(인세)">OWN_PUBLISHED · 자사발행 (Pipeline 2.1 인세 / 5.1 지원금)</option>
-                  <option value="위탁판매">CONSIGNMENT · 위탁판매 도서 (Pipeline 2.2 수수료 차감/총액)</option>
+                  <option value="자체출판(인세)">OWN_PUBLISHED · 자사발행 (도서 인세 인세 / 5.1 지원금)</option>
+                  <option value="위탁판매">CONSIGNMENT · 위탁판매 도서 (위탁도서 정산 수수료 차감/총액)</option>
                   <option value="사입판매">PURCHASED_RESALE · 매입 재판매 (외부정산 비대상 · SETT-009/011)</option>
                   <option value="비매품(번들)">BUNDLED · 강좌 포함 비매품 (정산기준금 0원 고정)</option>
                 </select>
@@ -929,9 +929,9 @@ code, pre, kbd, samp,
                 <label>도서 등록 출발 경로</label>
                 <select id="filter-origin" class="form-select">
                   <option value="ALL">전체 경로</option>
-                  <option value="INST_TEMP">① 계약원장(INST-001) 가채번 출발</option>
-                  <option value="PROD_DIRECT">② 교재관리(PROD-004) 선등록 역매핑</option>
-                  <option value="BOOK_LEDGER">③ 공급원장(BOOK-001) 최초 채번</option>
+                  <option value="INST_TEMP">[1] 계약원장(INST-001) 가채번 출발</option>
+                  <option value="PROD_DIRECT">[2] 교재관리(PROD-004) 선등록 역매핑</option>
+                  <option value="BOOK_LEDGER">[3] 공급원장(BOOK-001) 최초 채번</option>
                 </select>
               </div>
               <div class="filter-field">
@@ -1035,7 +1035,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card selected" id="ledger-card-INST_TEMP" onclick="selectLedgerEntryMode('INST_TEMP')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>① 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
+                    <span>[1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기</span>
                     <span class="badge badge-sale">인세도서 표준</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1052,7 +1052,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="ledger-card-PROD_DIRECT" onclick="selectLedgerEntryMode('PROD_DIRECT')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>② 교재관리(ADMN-PROD-004) 선등록 SKU 원가 완성</span>
+                    <span>[2] 교재관리(ADMN-PROD-004) 선등록 SKU 원가 완성</span>
                     <span class="badge badge-warn">원가 미입력 1건</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1069,7 +1069,7 @@ code, pre, kbd, samp,
               <div class="entry-mode-card" id="ledger-card-BOOK_LEDGER" onclick="selectLedgerEntryMode('BOOK_LEDGER')">
                 <div>
                   <div class="entry-mode-title">
-                    <span>③ 공급원장(ADMN-BOOK-001)에서 최초 신규 SKU 생성</span>
+                    <span>[3] 공급원장(ADMN-BOOK-001)에서 최초 신규 SKU 생성</span>
                     <span class="badge badge-info">외부 위탁/사입</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
@@ -1085,7 +1085,7 @@ code, pre, kbd, samp,
 
             <div id="ledger-mode-alert" class="ledger-sync-box ok" style="margin-top:14px;">
               <div>
-                <strong id="ledger-alert-title">[경로 ① 선택됨 — 계약원장 가채번(TMP-BK-2601) 바인딩 완료]</strong>
+                <strong id="ledger-alert-title">[경로 [1] 선택됨 — 계약원장 가채번(TMP-BK-2601) 바인딩 완료]</strong>
                 <div style="font-size:12px; margin-top:2px;" id="ledger-alert-desc">
                   ADMN-INST-001의 저자(김안전 · INS-0001) 및 계약 인세율(10%)이 연동되었습니다. 인쇄 제조원가(공급가)를 확정 저장하면 ADMN-PROD-004(교재 전시)와 즉시 동기화됩니다.
                 </div>
@@ -1250,7 +1250,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-inst-temp">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">① 계약원장(ADMN-INST-001) 가채번 도서 불러오기</div>
+        <div class="modal-title">[1] 계약원장(ADMN-INST-001) 가채번 도서 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeInstTempModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1296,7 +1296,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-prod-pending">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">② 교재관리(ADMN-PROD-004) 선등록 원가 미입력 SKU 불러오기</div>
+        <div class="modal-title">[2] 교재관리(ADMN-PROD-004) 선등록 원가 미입력 SKU 불러오기</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeProdPendingModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1450,7 +1450,7 @@ code, pre, kbd, samp,
         sku: "BOOK-2602",
         tempCode: "TMP-BK-2602",
         originMode: "INST_TEMP",
-        title: "2026 산업안전기사 필기 10개년 과년도 기출해설집",
+        title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집",
         isbn: "979-11-98765-02-9",
         supplier: "산준모북스",
         author: "김안전 (INS-0001)",
@@ -1469,7 +1469,7 @@ code, pre, kbd, samp,
         sku: "BOOK-2604",
         tempCode: "-",
         originMode: "BOOK_LEDGER",
-        title: "2026 건설안전기사 필기 핵심이론 + 과년도 기출",
+        title: "2026 건설안전기사 필기 핵심이론 + 과년도 빈출",
         isbn: "979-11-98765-04-3",
         supplier: "안전기술출판",
         author: "이건설 (INS-0002)",
@@ -1598,9 +1598,9 @@ code, pre, kbd, samp,
        4. 목록 렌더링
        ========================================================================= */
     function getOriginBadge(mode) {
-      if (mode === "INST_TEMP") return `<span class="badge badge-sale">① 계약원장 가채번</span>`;
-      if (mode === "PROD_DIRECT") return `<span class="badge badge-warn">② PROD-004 선등록</span>`;
-      return `<span class="badge badge-info">③ 공급원장 직결</span>`;
+      if (mode === "INST_TEMP") return `<span class="badge badge-sale">[1] 계약원장 가채번</span>`;
+      if (mode === "PROD_DIRECT") return `<span class="badge badge-warn">[2] PROD-004 선등록</span>`;
+      return `<span class="badge badge-info">[3] 공급원장 직결</span>`;
     }
 
     function resetLedgerFilters() {
@@ -1722,15 +1722,15 @@ code, pre, kbd, samp,
 
       if (mode === "INST_TEMP") {
         alertBox.className = "ledger-sync-box ok";
-        title.textContent = "[경로 ① 선택됨 — 계약원장 가채번(TMP-BK-2601) 바인딩 모드]";
+        title.textContent = "[경로 [1] 선택됨 — 계약원장 가채번(TMP-BK-2601) 바인딩 모드]";
         desc.textContent = "ADMN-INST-001의 저자 및 인세율이 자동 연동됩니다. 제조원가를 확정 저장하면 ADMN-PROD-004(교재 전시)와 즉시 동기화됩니다.";
       } else if (mode === "PROD_DIRECT") {
         alertBox.className = "ledger-sync-box warn";
-        title.textContent = "[경로 ② 선택됨 — 교재관리(ADMN-PROD-004) 선등록 SKU 사후 원가 확정 모드]";
+        title.textContent = "[경로 [2] 선택됨 — 교재관리(ADMN-PROD-004) 선등록 SKU 사후 원가 확정 모드]";
         desc.textContent = "상품팀이 PROD-004에서 먼저 만든 도서(현재 판매대기 잠금 상태)의 공급원가를 확정합니다. 저장 즉시 PROD-004의 원가 미입력 잠금이 해제됩니다.";
       } else {
         alertBox.className = "ledger-sync-box ok";
-        title.textContent = "[경로 ③ 선택됨 — 도서 공급 원장 최초 신규 SKU 채번 모드]";
+        title.textContent = "[경로 [3] 선택됨 — 도서 공급 원장 최초 신규 SKU 채번 모드]";
         desc.textContent = "외부 위탁/사입 도서의 정식 SKU(BOOK-YYNN)를 여기서 최초 생성합니다. 저장 후 상품팀이 PROD-004에서 이 SKU를 불러와 표지·재고를 입력합니다.";
         document.getElementById("f-sku").value = "BOOK-AUTO (신규채번)";
         document.getElementById("f-temp-code").value = "-";

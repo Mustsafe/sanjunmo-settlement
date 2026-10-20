@@ -267,7 +267,7 @@ code, pre, kbd, samp,
           <div class="cardhead">
             <div>
               <h2>정산 대상 상품 목록 (강좌 · 도서 SKU)</h2>
-              <div class="note">미매핑 상품(`정산 매핑 미완료`)은 신규 결제·판매가 자동 차단됩니다(4.2절). 행 또는 <b>[권리자 매핑하기]</b> 버튼을 클릭해 지분을 설정하세요.</div>
+              <div class="note">미매핑 상품(`정산 매핑 미완료`)은 신규 결제·판매가 자동 차단됩니다. 행 또는 <b>[권리자 매핑하기]</b> 버튼을 클릭해 지분을 설정하세요.</div>
             </div>
           </div>
 
@@ -277,8 +277,8 @@ code, pre, kbd, samp,
               <label class="lbl" for="fType">상품 구분</label>
               <select class="fc" id="fType">
                 <option value="ALL">전체 (온라인 강좌 + 실물 도서)</option>
-                <option value="COURSE">온라인 강좌 (Pipeline 1.1)</option>
-                <option value="BOOK">실물 도서 SKU (Pipeline 2.1 / 5.1)</option>
+                <option value="COURSE">온라인 강좌 (강좌 수익배분)</option>
+                <option value="BOOK">실물 도서 SKU (도서 인세 / 5.1)</option>
               </select>
             </div>
             <div>
@@ -293,7 +293,7 @@ code, pre, kbd, samp,
             </div>
             <div style="grid-column:span 2">
               <label class="lbl" for="fKeyword">상품명 / 상품코드 / 권리자 검색</label>
-              <input class="fc" id="fKeyword" type="text" placeholder="예: 기출, CRS-1003, 정종대, PROD-BK...">
+              <input class="fc" id="fKeyword" type="text" placeholder="예: 빈출, CRS-1003, 정종대, PROD-BK...">
             </div>
           </div>
 
@@ -352,14 +352,14 @@ code, pre, kbd, samp,
                 <div style="margin-top:18px">
                   <div class="cardhead" style="margin-bottom:4px">
                     <h3>기간 구간(Timeline Slice)별 100.00% 및 지원금 재원 검증 결과</h3>
-                    <span class="sub">시작일·종료일 경계별로 자동 분할하여 공백이나 100% 미달 구간을 탐지합니다(4.3절).</span>
+                    <span class="sub">시작일·종료일 경계별로 자동 분할하여 공백이나 100% 미달 구간을 탐지합니다.</span>
                   </div>
                   <div class="tablewrap" id="timelineWrap"></div>
                 </div>
 
                 <div class="fixed">
                   <b>[편집 및 저장 규칙 요약]</b>
-                  강좌(상품) 단위로 목록에서 진입하되, 실제 저장은 <b>강의(lesson) 행 단위</b> 또는 <b>도서 SKU 단위</b>로 트랜잭션 저장합니다(16.1절).
+                  강좌(상품) 단위로 목록에서 진입하되, 실제 저장은 <b>강의(lesson) 행 단위</b> 또는 <b>도서 SKU 단위</b>로 트랜잭션 저장합니다.
                   모든 활성 기간 구간의 지분 합계가 <b>100.00%</b>가 되면 즉시 해당 상품의 <code>정산 매핑 미완료(판매 차단)</code> 상태가 해제됩니다.
                 </div>
               </div>
@@ -489,13 +489,13 @@ const products = [
   {
     id:"CRS-1002",
     kind:"COURSE",
-    name:"정종대 산업안전 실전 기출특강",
+    name:"정종대 산업안전 실전 빈출특강",
     pipeline:"온라인 강좌 수익배분 (Pipeline 1.1)",
     registeredDate:"2025-01-05",
     supportAgreements:[{agreementId:"SUP-2026-009", beneficiary:"정종대 강사", rate:15, start:"2025-01-01", end:"2027-12-31"}],
     lessons:[
-      {id:"LSN-1002-01", title:"1강. 기출 핵심 문제풀이 Part 1", runtime:3000},
-      {id:"LSN-1002-02", title:"2강. 기출 핵심 문제풀이 Part 2", runtime:2800}
+      {id:"LSN-1002-01", title:"1강. 빈출 핵심 문제풀이 Part 1", runtime:3000},
+      {id:"LSN-1002-02", title:"2강. 빈출 핵심 문제풀이 Part 2", runtime:2800}
     ]
   },
   {
@@ -511,7 +511,7 @@ const products = [
   {
     id:"PROD-BK-1004",
     kind:"BOOK",
-    name:"정종대 산업안전 필기 기출문제집 (자사저작권 보유 도서 · 정종대 지원금 15% 연동)",
+    name:"정종대 산업안전 필기 빈출문제집 (자사저작권 보유 도서 · 정종대 지원금 15% 연동)",
     pipeline:"자사 도서(own_copyright_yn=true) → 개발지원금(Pipeline 5.1)",
     supplyType:"OWN_PUBLISHED",
     ownCopyright:true,

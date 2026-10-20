@@ -68,3 +68,4 @@
 | 2026-10-20 | `patch_missing_3_features.py` 실행 — USER-004 진도율 보정 원장(카드 4·5번)·USER-006 태그 생성/그룹-태그 연결(카드 1·2번)·RFD-003-S2 별도 보정 거래, prototype/·prototype_clean/ 동기 적용 | `prototype*/ADMN-USER-001_baseline.html`, `prototype*/ADMN-RFD-002_baseline.html`, `docs/JARGON_SCAN_REPORT.md` |
 | 2026-10-20 | `hotfix_ssr_initial_rows.py` 실행 — USER-001 차시·보정이력·그룹 3개 테이블 SSR 초기 행 내장 및 Skill 4(Playwright E2E 검수기) 구축·38/38 PASS 검증 | `prototype*/ADMN-USER-001_baseline.html`, `scripts/qa/skill_playwright_e2e.py`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
 | 2026-10-20 | `fix_rfd002_ssr_row.py` 실행 — RFD-002 보정 거래 원장(m3f-rfd-adj-body) SSR 초기 행 내장 완료, 38/38 PASS 유지 | `prototype*/ADMN-RFD-002_baseline.html`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
+| 2026-10-20 | `clean_all_jargon_zero.py` (v2) 실행 — JS 100% 보호형 DOM 가시 텍스트 기획서 암호·금지어 일괄 정제 (333건➔37건, 89% 감축, 38/38 ALL PASS 유지) | `prototype*/*.html`, `docs/JARGON_SCAN_REPORT.md`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
