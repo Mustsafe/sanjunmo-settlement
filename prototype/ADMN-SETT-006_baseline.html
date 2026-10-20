@@ -448,7 +448,7 @@ code, pre, kbd, samp,
       <span class="crumb-group">2단계 · 월마감 전 검증 (Gate)</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-SETT-006</span>
-      <h1 class="crumb-title" id="header-screen-title">합격 환급반 관리 (4대 증빙 · 진도율 90% · 환급 정산 차감 검증)</h1>
+      <h1 class="crumb-title" id="header-screen-title">합격 환급반 정산 관리</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
       <label style="font-size:12px; font-weight:700; color:var(--text-sub);">환급 승인 귀속월:</label> <select id="monthSelect" class="select" style="font-weight:700;">
@@ -472,7 +472,7 @@ code, pre, kbd, samp,
       <div class="overlap-banner">
         <div>
           <div class="overlap-banner-title">
-            <span>⚠️ [15.2절 · 부록 B] MMG 보전금 &amp; 합격 환급반 차감 동시 발생 감지 (<code>mmg_promo_overlap_flag = true</code>)</span>
+            <span>⚠️ [15.2절 · 부록 B] MMG 보전금 &amp; 합격 환급반 차감 동시 발생 감지 (<code>최저보장 보전금 산정 후 별도 차감</code>)</span>
             <span class="badge badge-warn">연산 차단 없음 · 재무 모니터링</span>
           </div>
           <div class="overlap-banner-desc">
@@ -498,7 +498,7 @@ code, pre, kbd, samp,
         <div class="kpi-card" data-filter="OPT_BC">
           <div class="k-title">🔻 권리자 분담 대상 (옵션 B · C)</div>
           <div class="k-num" id="kpiOptBC" style="color:var(--danger);">3건</div>
-          <div class="k-sub">4단계(DEDUCT) 스냅샷 역참조 공제</div>
+          <div class="k-sub">원 결제 시점 정산율 기준 차감</div>
         </div>
         <div class="kpi-card" data-filter="OPT_A">
           <div class="k-title">🛡️ 플랫폼 전액 부담 (옵션 A)</div>
@@ -506,9 +506,9 @@ code, pre, kbd, samp,
           <div class="k-sub">권리자 정산 차감 0원 (마케팅비)</div>
         </div>
         <div class="kpi-card" data-filter="MMG_OVERLAP">
-          <div class="k-title">🚨 MMG · 환급반 중복 플래그</div>
+          <div class="k-title">최저보장(MMG) 적용 강사 건</div>
           <div class="k-num" id="kpiOverlap" style="color:var(--purple);">1건</div>
-          <div class="k-sub">mmg_promo_overlap_flag = true</div>
+          <div class="k-sub">최저보장 보전금 산정 후 별도 차감</div>
         </div>
       </section>
 
@@ -544,8 +544,8 @@ code, pre, kbd, samp,
                     <th>수강생 / 상품명</th>
                     <th>귀속 권리자 / 부담 옵션</th>
                     <th class="num">수강생 환급액</th>
-                    <th class="num">4단계 R/S 공제(BASIC)</th>
-                    <th class="num">4·5단계 지원금 공제(P5.1)</th>
+                    <th class="num">강사료(R/S) 차감액</th>
+                    <th class="num">개발지원금 차감 (한도복원)</th>
                     <th>검수 상태</th>
                   </tr>
                 </thead>
@@ -587,12 +587,12 @@ code, pre, kbd, samp,
                   <th class="num">3단계 플랫폼 MMG 보전금</th>
                   <th class="num">4단계 옵션 C 차감</th>
                   <th class="num">권리자 최종 세전 수령액</th>
-                  <th>재무 영향 판정 (15.2절)</th>
+                  <th>정산 적용 결과</th>
                 </tr>
               </thead>
               <tbody>
                 <tr style="background:#f0fdf4;">
-                  <td><strong>✅ 당사 정본 규칙 적용 (3단계 선행 → 4단계 차감)</strong></td>
+                  <td><strong>✅ 적용 기준 (최저보장금 우선 산정 후 환급 분담금 차감)</strong></td>
                   <td class="num">300,000원</td>
                   <td class="num"><strong>300,000원</strong> (차감 제외)</td>
                   <td class="num"><strong>+1,200,000원</strong></td>
@@ -601,7 +601,7 @@ code, pre, kbd, samp,
                   <td>권리자 200,000원 정상 분담 · 플랫폼 보전금 1,200,000원 유지</td>
                 </tr>
                 <tr style="background:#fff5f5;">
-                  <td><strong>❌ 잘못된 설계 (차감액을 MMG 모수에 선반영 시)</strong></td>
+                  <td><strong>⚠️ 비교 참고 (환급 차감액을 최저보장 기준매출에서 먼저 뺄 경우 — 미적용)</strong></td>
                   <td class="num">300,000원</td>
                   <td class="num" style="color:var(--danger);">100,000원 (30만-20만)</td>
                   <td class="num" style="color:var(--danger);">+1,400,000원 (+20만 폭증)</td>
@@ -629,7 +629,7 @@ code, pre, kbd, samp,
               <thead>
                 <tr>
                   <th>연산 단계</th>
-                  <th>수식 및 스냅샷 역참조 규칙 (8.3절 4·5단계 정본)</th>
+                  <th>개발지원금 차감 및 잔여 한도 복원 계산 방식</th>
                   <th>정종대 강사(SUP-2026-009) 당월 시뮬레이션 값</th>
                 </tr>
               </thead>
@@ -700,9 +700,9 @@ code, pre, kbd, samp,
 
 </div></div><script>
   const BURDEN_LABELS = {
-    OPTION_A: "옵션 A (플랫폼 전액 부담 · 기본값)",
-    OPTION_B: "옵션 B (비율 공동 부담 · 4단계 공제)",
-    OPTION_C: "옵션 C (매출 취소 처리 · 4단계 차감)"
+    OPTION_A: "옵션 A (플랫폼 100% 부담 · 강사 차감 없음)",
+    OPTION_B: "옵션 B (강사·플랫폼 비율 공동 분담)",
+    OPTION_C: "옵션 C (환급금 전액 매출 취소 차감)"
   };
 
   const state = {
@@ -723,27 +723,26 @@ code, pre, kbd, samp,
         burdenType: "OPTION_B",
         totalPaidAmount: 450000,
         excludedBookAmount: 40000,
-        studentRefundAmount: 410000, // 교재비 제외한 순수 강좌 실결제 환급 모수
-        withholdingTax22: 90200,     // 기타소득 제세공과금 22% (소득세 20% + 지방세 2%)
-        netPayoutToStudent: 319800,  // 수강생 실입금액
+        studentRefundAmount: 410000,
+        withholdingTax22: 90200,
+        netPayoutToStudent: 319800,
         snapshotRsRate: 50,
         snapshotSupportRate: 15,
-        deductBasicRs: 102500,       // 원거래 강사 R/S(205,000원) × 50%(옵션B 분담) = 102,500원 공제
-        deductSupport: 15000,        // 원거래 지원금 확정액(30,000원) × 50%(옵션B) = 15,000원 공제 및 한도복원
+        deductBasicRs: 102500,
+        deductSupport: 15000,
         capRestoreYn: true,
         mmgOverlapFlag: false,
         originSettlementStatus: "PAID_POST_TAX",
-        progressRate: "92.4% (기준 90% 충족 · 가중평균)",
-        // 통합 상세 설계서 & USER-MY-011-S1 4대 필수 수집 자료
+        progressRate: "92.4% (기준 90% 충족)",
         certImageFile: "합격증사본_국가기술자격_홍길동_2026.jpg",
         reviewOutlinkUrl: "https://cafe.naver.com/sanjunmo/984120",
-        reviewPlatformId: "BRD-005-REV-0412 (플랫폼·카페 동시 등록 확인)",
+        reviewPlatformId: "플랫폼·산준모 카페 수기 등록 확인",
         bankbookCopyFile: "통장사본_KB국민은행_홍길동.png",
-        bankNameTier1: "KB국민은행 (시중 1금융권 검증 통과)",
-        bankAccountRealName: "123-45-****-890 (예금주: 홍길동 · 회원 실명 100% 일치)",
+        bankNameTier1: "KB국민은행 (시중 1금융권)",
+        bankAccountRealName: "123-45-****-890 (예금주: 홍길동 · 실명 일치)",
         appliedMonth: "2026-10",
         status: "PENDING",
-        memo: "ADMN-RFD-001(올패스 환급 심사) 4대 제출자료(합격증 사본·카페 합격수기 아웃링크·통장사본·1금융권 실명계좌) 검수 완료 후 정산 4단계(DEDUCT) 공제 확정 대기"
+        memo: "올패스 환급 심사에서 4대 제출자료(합격증 사본·산준모 카페 합격수기 아웃링크·통장사본·1금융권 실명계좌) 확인 완료. 당월 정산 공제 반영 대기 중"
       },
       {
         id: "HRF-202610-02",
@@ -754,7 +753,7 @@ code, pre, kbd, samp,
         studentUid: "safe_choi (수험번호: 26-01-44120)",
         courseName: "[환급반] 김안전 산업안전 핵심이론 패스 (강좌 실결제 400,000원)",
         rightsHolderId: "RH-0019",
-        rightsHolderName: "김안전 (강사 · RH-0019 · MMG 150만 특약)",
+        rightsHolderName: "김안전 (산업안전 · 월 최저보장 150만원 약정)",
         contractId: "CT-2026-0610",
         burdenType: "OPTION_C",
         totalPaidAmount: 438000,
@@ -769,16 +768,16 @@ code, pre, kbd, samp,
         capRestoreYn: false,
         mmgOverlapFlag: true,
         originSettlementStatus: "PAID_POST_TAX",
-        progressRate: "100.0% (기준 90% 충족 · 가중평균)",
+        progressRate: "100.0% (기준 90% 충족)",
         certImageFile: "합격증사본_큐넷확인서_최안전.png",
         reviewOutlinkUrl: "https://cafe.naver.com/sanjunmo/983910",
-        reviewPlatformId: "BRD-005-REV-0398 (플랫폼·카페 동시 등록 확인)",
+        reviewPlatformId: "플랫폼·산준모 카페 수기 등록 확인",
         bankbookCopyFile: "통장사본_신한은행_최안전.jpg",
-        bankNameTier1: "신한은행 (시중 1금융권 검증 통과)",
-        bankAccountRealName: "110-382-****91 (예금주: 최안전 · 회원 실명 100% 일치)",
+        bankNameTier1: "신한은행 (시중 1금융권)",
+        bankAccountRealName: "110-382-****91 (예금주: 최안전 · 실명 일치)",
         appliedMonth: "2026-10",
         status: "APPROVED",
-        memo: "15.2절 규칙에 따라 3단계 MMG(150만, 보전금 120만) 판정 후 4단계(DEDUCT)에서 200,000원 차감 확정 (mmg_promo_overlap_flag=true)",
+        memo: "월 최저보장금(150만원)을 먼저 산정한 뒤 합격환급 분담금(200,000원)을 별도 차감 완료 (최저보장 약정 강사 동시 발생 건)",
         approvedBy: "재무팀장 (조정식)",
         approvedAt: "2026-10-13 16:40:00"
       },
@@ -806,16 +805,16 @@ code, pre, kbd, samp,
         capRestoreYn: true,
         mmgOverlapFlag: false,
         originSettlementStatus: "PAID_POST_TAX",
-        progressRate: "95.2% (기준 90% 충족 · 가중평균)",
+        progressRate: "95.2% (기준 90% 충족)",
         certImageFile: "합격증사본_산업안전기사_이수석.jpg",
         reviewOutlinkUrl: "https://cafe.naver.com/sanjunmo/983102",
-        reviewPlatformId: "BRD-005-REV-0351 (플랫폼·카페 동시 등록 확인)",
+        reviewPlatformId: "플랫폼·산준모 카페 수기 등록 확인",
         bankbookCopyFile: "통장사본_우리은행_이수석.png",
-        bankNameTier1: "우리은행 (시중 1금융권 검증 통과)",
-        bankAccountRealName: "1002-841-****12 (예금주: 이수석 · 회원 실명 100% 일치)",
+        bankNameTier1: "우리은행 (시중 1금융권)",
+        bankAccountRealName: "1002-841-****12 (예금주: 이수석 · 실명 일치)",
         appliedMonth: "2026-10",
         status: "APPROVED",
-        memo: "원 결제(2026-02) 스냅샷 역참조하여 2026-10 귀속 4단계 공제 및 5단계 지원금 한도(+18,000원) 복원 완료",
+        memo: "원 결제월(2026-02) 정산율을 적용하여 당월(2026-10) 강사료 차감(-60,000원) 및 개발지원금 차감·잔여한도 복원(+18,000원) 완료",
         approvedBy: "재무팀장 (조정식)",
         approvedAt: "2026-10-12 11:20:00"
       },
@@ -843,16 +842,16 @@ code, pre, kbd, samp,
         capRestoreYn: false,
         mmgOverlapFlag: false,
         originSettlementStatus: "PAID_POST_TAX",
-        progressRate: "91.8% (기준 90% 충족 · 가중평균)",
+        progressRate: "91.8% (기준 90% 충족)",
         certImageFile: "합격증사본_건설안전기사_최유진.jpg",
         reviewOutlinkUrl: "https://cafe.naver.com/sanjunmo/982400",
-        reviewPlatformId: "BRD-005-REV-0319 (플랫폼·카페 동시 등록 확인)",
+        reviewPlatformId: "플랫폼·산준모 카페 수기 등록 확인",
         bankbookCopyFile: "통장사본_하나은행_최유진.jpg",
-        bankNameTier1: "하나은행 (시중 1금융권 검증 통과)",
-        bankAccountRealName: "391-910***-**107 (예금주: 최유진 · 회원 실명 100% 일치)",
+        bankNameTier1: "하나은행 (시중 1금융권)",
+        bankAccountRealName: "391-910***-**107 (예금주: 최유진 · 실명 일치)",
         appliedMonth: "2026-10",
         status: "APPROVED",
-        memo: "계약 옵션 A(플랫폼 100% 부담 · 마케팅 판촉비 처리) 적용 — 권리자 정산 차감 0원 확정",
+        memo: "계약 옵션 A(플랫폼 100% 부담 · 마케팅비 처리) 적용 — 강사 정산 차감 0원 확정",
         approvedBy: "운영팀장 (김검수)",
         approvedAt: "2026-10-10 14:15:00"
       },
@@ -880,16 +879,16 @@ code, pre, kbd, samp,
         capRestoreYn: false,
         mmgOverlapFlag: false,
         originSettlementStatus: "PAID_POST_TAX",
-        progressRate: "96.0% (기준 90% 충족 · 가중평균)",
+        progressRate: "96.0% (기준 90% 충족)",
         certImageFile: "합격증사본_산업안전기사_정하늘.png",
         reviewOutlinkUrl: "https://cafe.naver.com/sanjunmo/984511",
-        reviewPlatformId: "BRD-005-REV-0429 (플랫폼·카페 동시 등록 확인)",
+        reviewPlatformId: "플랫폼·산준모 카페 수기 등록 확인",
         bankbookCopyFile: "통장사본_IBK기업은행_정하늘.png",
-        bankNameTier1: "IBK기업은행 (시중 1금융권 검증 통과)",
-        bankAccountRealName: "010-****-6620 평생계좌 / 221-08****-01-011 (예금주: 정하늘 · 실명 일치)",
+        bankNameTier1: "IBK기업은행 (시중 1금융권)",
+        bankAccountRealName: "221-08****-01-011 (예금주: 정하늘 · 실명 일치)",
         appliedMonth: "2026-10",
         status: "PENDING",
-        memo: "특강 프로모션 옵션 A 적용 대상 — 4대 제출 증빙 검수 완료, 최종 정산 이관 승인 대기"
+        memo: "특강 프로모션 옵션 A(플랫폼 부담) 적용 대상 — 4대 제출 증빙 확인 완료, 정산 반영 승인 대기"
       }
     ],
     auditLogs: [
@@ -897,24 +896,24 @@ code, pre, kbd, samp,
         time: "2026-10-13 16:40:00",
         actor: "재무팀장 (조정식)",
         targetId: "HRF-202610-02",
-        burden: "OPTION_C / 김안전 (RH-0019)",
-        action: "합격환급 정산 차감 확정 (-200,000원) · MMG 중복 플래그(mmg_promo_overlap_flag=true) 기록",
-        basis: "합격증 사본·산준모 카페 수기 아웃링크·신한은행 통장사본·실명계좌 4종 대조 완료 (15.2절 3단계 MMG 선행 후 4단계 차감)"
+        burden: "옵션 C / 김안전",
+        action: "합격환급 강사료 차감 확정 (-200,000원) · 최저보장(MMG) 보전금 산정 후 별도 차감",
+        basis: "합격증 사본·산준모 카페 수기 링크·신한은행 통장사본·실명계좌 4종 대조 완료"
       },
       {
         time: "2026-10-12 11:20:00",
         actor: "재무팀장 (조정식)",
         targetId: "HRF-202610-03",
-        burden: "OPTION_B / 정종대 (RH-0025)",
-        action: "4단계 R/S 공제(-60,000원) 및 개발지원금 공제(-18,000원) · 5단계 한도 복원(+18,000원) 확정",
-        basis: "합격증 사본·카페 합격수기 아웃링크·우리은행 통장사본·실명계좌 4종 검증 완료 (원결제 2026-02 스냅샷 역참조)"
+        burden: "옵션 B / 정종대",
+        action: "강사료 차감(-60,000원) 및 개발지원금 차감(-18,000원) · 잔여 지원금 한도 복원(+18,000원) 확정",
+        basis: "합격증 사본·카페 합격수기 링크·우리은행 통장사본·실명계좌 4종 검증 완료 (원결제 2026-02 기준)"
       },
       {
         time: "2026-10-10 14:15:00",
         actor: "운영팀장 (김검수)",
         targetId: "HRF-202610-04",
-        burden: "OPTION_A / 이건설 (RH-0031)",
-        action: "플랫폼 전액 부담(옵션 A) 확정 — 권리자 정산 차감 0원 처리",
+        burden: "옵션 A / 이건설",
+        action: "플랫폼 전액 부담(옵션 A) 확정 — 강사 정산 차감 0원 처리",
         basis: "합격증 사본·카페 수기 링크·하나은행 통장사본·실명계좌 검증 완료 (제세공과금 22% 공제 후 234,000원 지급)"
       }
     ]
@@ -948,7 +947,7 @@ code, pre, kbd, samp,
       const burdenBadge = item.burdenType === "OPTION_A"
         ? `<span class="badge badge-primary">옵션 A (플랫폼 100%)</span>`
         : item.burdenType === "OPTION_B"
-          ? `<span class="badge badge-warn">옵션 B (비율 공동분담)</span>`
+          ? `<span class="badge badge-warn">옵션 B (강사·플랫폼 공동분담)</span>`
           : `<span class="badge badge-danger">옵션 C (매출 취소차감)</span>`;
 
       const statusBadge = item.status === "APPROVED"
@@ -956,7 +955,7 @@ code, pre, kbd, samp,
         : `<span class="badge badge-warn">⏳ 공제검수 대기</span>`;
 
       const overlapTag = item.mmgOverlapFlag
-        ? `<div style="margin-top:3px;"><span class="badge badge-purple">🚨 MMG 중복 발생</span></div>`
+        ? `<div style="margin-top:3px;"><span class="badge badge-purple">최저보장(MMG) 적용 강사</span></div>`
         : "";
 
       return `
@@ -971,7 +970,7 @@ code, pre, kbd, samp,
             <div style="font-size:11px; color:var(--primary); margin-top:2px;">📎 합격증사본 O · 카페수기링크 O · 통장사본 O · 1금융실명계좌 O</div>
           </td>
           <td>
-            <strong>${item.rightsHolderName}</strong> <span class="mono" style="color:var(--text-muted);">(${item.rightsHolderId})</span>
+            <strong>${item.rightsHolderName}</strong>
             <div style="margin-top:3px;">${burdenBadge}</div>
             ${overlapTag}
           </td>
@@ -984,7 +983,7 @@ code, pre, kbd, samp,
           </td>
           <td class="num" style="color:${item.deductSupport > 0 ? "var(--danger)" : "var(--text-muted)"}; font-weight:700;">
             ${item.deductSupport > 0 ? "-" + fmt(item.deductSupport) : "0원"}
-            ${item.capRestoreYn ? `<div style="font-size:10.5px; color:var(--primary);">+한도복원 ${fmt(item.deductSupport)}</div>` : ""}
+            ${item.capRestoreYn ? `<div style="font-size:10.5px; color:var(--primary);">+잔여한도 복원 ${fmt(item.deductSupport)}</div>` : ""}
           </td>
           <td>${statusBadge}</td>
         </tr>
@@ -1003,31 +1002,30 @@ code, pre, kbd, samp,
 
     if (badge) {
       badge.className = "badge " + (item.status === "APPROVED" ? "badge-success" : "badge-warn");
-      badge.textContent = item.status === "APPROVED" ? "정산 4단계 반영 완료" : "검수 · 정산반영 대기";
+      badge.textContent = item.status === "APPROVED" ? "당월 정산 반영 완료" : "검수 · 정산반영 대기";
     }
 
     box.innerHTML = `
       <div class="kv-grid">
-        <div class="kv-label">환급정산 ID / 심사번호</div>
-        <div><strong>${item.id}</strong> (환불심사 연동: <code>${item.rfdApproveId}</code>)</div>
+        <div class="kv-label">환급정산 번호 / 심사번호</div>
+        <div><strong>${item.id}</strong> (환불심사 번호: <code>${item.rfdApproveId}</code>)</div>
         <div class="kv-label">수강생 / 인정 진도율</div>
         <div><strong>${item.studentName}</strong> (${item.studentUid}) · <span class="badge badge-success">${item.progressRate}</span></div>
         <div class="kv-label">원 주문번호 / 결제월</div>
-        <div><code>${item.orderId}</code> (원 결제월: <strong>${item.originPaidMonth}</strong> → 환급 귀속월: <strong>${item.appliedMonth}</strong>)</div>
-        <div class="kv-label">귀속 권리자 / 계약</div>
-        <div><strong>${item.rightsHolderName}</strong> (<code>${item.rightsHolderId}</code> · 계약 <code>${item.contractId}</code>)</div>
-        <div class="kv-label">계약 환급 부담 옵션</div>
+        <div><code>${item.orderId}</code> (원 결제월: <strong>${item.originPaidMonth}</strong> → 정산 반영월: <strong>${item.appliedMonth}</strong>)</div>
+        <div class="kv-label">귀속 강사(권리자)</div>
+        <div><strong>${item.rightsHolderName}</strong> (계약번호: <code>${item.contractId}</code>)</div>
+        <div class="kv-label">계약상 환급 분담 방식</div>
         <div><strong style="color:var(--primary);">${BURDEN_LABELS[item.burdenType]}</strong></div>
       </div>
 
-      <!-- 통합 상세 설계서 & USER-MY-011-S1 4대 필수 수집 증빙 박스 -->
       <div class="calc-box" style="background:#EFF6FF; border-color:#BFDBFE;">
         <div style="font-weight:800; font-size:12.5px; color:#1E3A8A; margin-bottom:4px;">
-          📋 [USER-MY-011-S1 ➔ ADMN-RFD-001-S1] 수강생 제출 4대 필수 증빙 및 계좌 검증 내역
+          📋 수강생 제출 4대 필수 자료 및 1금융권 실명 계좌 확인 내역
         </div>
         <div class="calc-row">
           <span style="color:#1E40AF; font-weight:600;">① 합격증 사본 이미지</span>
-          <span>📎 <code>${item.certImageFile}</code> <button type="button" class="btn btn-sm" style="padding:2px 7px; font-size:11px;" onclick="showToast('합격증 사본 이미지 원본 뷰어를 호출합니다: ' + '${item.certImageFile}')">이미지 열람</button></span>
+          <span>📎 <code>${item.certImageFile}</code> <button type="button" class="btn btn-sm" style="padding:2px 7px; font-size:11px;" onclick="showToast('합격증 사본 이미지 원본을 열람합니다: ' + '${item.certImageFile}')">이미지 보기</button></span>
         </div>
         <div class="calc-row">
           <span style="color:#1E40AF; font-weight:600;">② 플랫폼 및 산준모 카페 합격수기 아웃링크</span>
@@ -1035,7 +1033,7 @@ code, pre, kbd, samp,
         </div>
         <div class="calc-row">
           <span style="color:#1E40AF; font-weight:600;">③ 환급금 입금용 통장 사본</span>
-          <span>📎 <code>${item.bankbookCopyFile}</code> <button type="button" class="btn btn-sm" style="padding:2px 7px; font-size:11px;" onclick="showToast('통장 사본 이미지 원본 뷰어를 호출합니다: ' + '${item.bankbookCopyFile}')">사본 열람</button></span>
+          <span>📎 <code>${item.bankbookCopyFile}</code> <button type="button" class="btn btn-sm" style="padding:2px 7px; font-size:11px;" onclick="showToast('통장 사본 이미지를 열람합니다: ' + '${item.bankbookCopyFile}')">사본 보기</button></span>
         </div>
         <div class="calc-row">
           <span style="color:#1E40AF; font-weight:600;">④ 시중 1금융권 은행명 · 실명 계좌번호</span>
@@ -1043,43 +1041,42 @@ code, pre, kbd, samp,
         </div>
       </div>
 
-      <!-- 수강생 환급금(제세공과금 22%) 및 권리자 4·5단계 역참조 공제 산출 박스 -->
       <div class="calc-box">
         <div style="font-weight:800; font-size:12.5px; color:var(--text); margin-bottom:2px;">
-          💰 수강생 환급금(제세공과금 22% 공제) 및 권리자 4·5단계 스냅샷 역참조 산출
+          💰 수강생 환급금(제세공과금 22% 제외) 및 강사 정산 차감액 계산 내역
         </div>
         <div class="calc-row">
           <span>패키지 총 실결제액 (교재 정가 ${fmt(item.excludedBookAmount)} 포함)</span>
           <strong class="mono">${fmt(item.totalPaidAmount)}</strong>
         </div>
         <div class="calc-row">
-          <span>환급 기준 모수 (도서정가제 교재비 제외 순수 강좌 실결제액)</span>
+          <span>환급 대상 금액 (도서정가제 교재비 제외 순수 강좌 결제액)</span>
           <strong class="mono" style="color:var(--primary);">${fmt(item.studentRefundAmount)}</strong>
         </div>
         <div class="calc-row">
-          <span>수강생 실입금 환급액 (기타소득 제세공과금 22% = -${fmt(item.withholdingTax22)} 원천징수)</span>
+          <span>수강생 실입금 환급액 (기타소득 제세공과금 22% = -${fmt(item.withholdingTax22)} 원천징수 차감)</span>
           <strong class="mono" style="color:var(--success);">${fmt(item.netPayoutToStudent)}</strong>
         </div>
         <hr style="border:none; border-top:1px dashed var(--border-strong); margin:4px 0;">
         <div class="calc-row">
-          <span>[4단계 DEDUCT] 기본 R/S(Pipeline 1.1) 스냅샷 공제액 (원요율 ${item.snapshotRsRate}%)</span>
-          <strong class="mono" style="color:var(--danger);">${item.deductBasicRs > 0 ? "-" + fmt(item.deductBasicRs) : "0원 (옵션 A 면제)"}</strong>
+          <span>강사료(R/S) 환급분 차감액 (원 결제 시점 정산율 ${item.snapshotRsRate}% 적용)</span>
+          <strong class="mono" style="color:var(--danger);">${item.deductBasicRs > 0 ? "-" + fmt(item.deductBasicRs) : "0원 (플랫폼 부담)"}</strong>
         </div>
         <div class="calc-row">
-          <span>[4·5단계 C-01] 매출연동 개발지원금(Pipeline 5.1) 공제 및 한도 복원액</span>
-          <strong class="mono" style="color:var(--danger);">${item.deductSupport > 0 ? "-" + fmt(item.deductSupport) + " (한도 +" + fmt(item.deductSupport) + " 복원)" : "0원"}</strong>
+          <span>개발지원금 환급분 차감 및 잔여 한도 복원액</span>
+          <strong class="mono" style="color:var(--danger);">${item.deductSupport > 0 ? "-" + fmt(item.deductSupport) + " (잔여 한도 +" + fmt(item.deductSupport) + " 복원)" : "0원"}</strong>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">정산 검수 메모 및 스냅샷 역참조 근거</label>
+        <label class="form-label">정산 검수 메모</label>
         <textarea id="detailMemo" class="input">${item.memo || ""}</textarea>
       </div>
 
       <div style="display:flex; gap:8px; justify-content:flex-end;">
-        <button type="button" class="btn" onclick="location.href='ADMN-RFD-002_baseline.html'">⇄ 올패스 환급 심사원장(RFD-001) 열기</button>
+        <button type="button" class="btn" onclick="location.href='ADMN-RFD-002_baseline.html'">⇄ 올패스 환급 심사 목록 열기</button>
         <button type="button" class="btn btn-primary" onclick="approveSettlementDeduct('${item.id}')" ${item.status === "APPROVED" ? "disabled" : ""}>
-          ${item.status === "APPROVED" ? "✔ 당월 4단계(DEDUCT) 반영 확정됨" : "✔ 4단계(DEDUCT) 정산 공제 확정 승인"}
+          ${item.status === "APPROVED" ? "✔ 당월 정산 차감 반영됨" : "✔ 당월 정산 차감 승인"}
         </button>
       </div>
     `;
@@ -1106,7 +1103,7 @@ code, pre, kbd, samp,
     const totalBasic = state.items.reduce((acc, x) => acc + x.deductBasicRs, 0);
     const totalSup = state.items.reduce((acc, x) => acc + x.deductSupport, 0);
     const pendingCnt = state.items.filter(x => x.status === "PENDING").length;
-    el.innerHTML = `당월 환급 <strong>${state.items.length}건</strong> (공제대기 <strong>${pendingCnt}건</strong>) · 4단계 R/S 총 공제액: <strong style="color:#fca5a5;">-${fmt(totalBasic)}</strong> · 4·5단계 지원금 공제(한도복원): <strong style="color:#93c5fd;">-${fmt(totalSup)}</strong>`;
+    el.innerHTML = `당월 환급 <strong>${state.items.length}건</strong> (승인 대기 <strong>${pendingCnt}건</strong>) · 강사료 총 차감액: <strong style="color:#fca5a5;">-${fmt(totalBasic)}</strong> · 개발지원금 차감(잔여한도 복원): <strong style="color:#93c5fd;">-${fmt(totalSup)}</strong>`;
   }
 
   function selectItem(id) {
@@ -1126,13 +1123,13 @@ code, pre, kbd, samp,
       actor: "재무팀장 (조정식)",
       targetId: item.id,
       burden: `${item.burdenType} / ${item.rightsHolderName}`,
-      action: `4단계 R/S 공제(-${fmt(item.deductBasicRs)}) 및 지원금 공제(-${fmt(item.deductSupport)}) 정산 반영 승인`,
-      basis: "4대 수집 증빙(합격증 사본·산준모 카페 합격수기 아웃링크·통장 사본·1금융권 실명계좌) 및 원거래 스냅샷 검증 완료"
+      action: `강사료 차감(-${fmt(item.deductBasicRs)}) 및 개발지원금 차감(-${fmt(item.deductSupport)}) 정산 반영 승인`,
+      basis: "4대 수집 증빙(합격증 사본·산준모 카페 합격수기 아웃링크·통장 사본·1금융권 실명계좌) 확인 완료"
     });
     renderTable();
     renderDetail();
     renderAuditLogs();
-    showToast(`[${item.id}] 합격환급 정산 4단계(DEDUCT) 공제 반영이 확정되었습니다.`);
+    showToast(`[${item.id}] 합격환급 정산 차감 내역이 확정되었습니다.`);
   }
 
   function showToast(msg) {
@@ -1146,7 +1143,6 @@ code, pre, kbd, samp,
   }
 
   window.addEventListener("DOMContentLoaded", () => {
-    // KPI 카드 필터 바인딩
     document.querySelectorAll(".kpi-card[data-filter]").forEach(card => {
       card.addEventListener("click", () => {
         document.querySelectorAll(".kpi-card[data-filter]").forEach(c => c.classList.remove("active"));
@@ -1156,7 +1152,6 @@ code, pre, kbd, samp,
       });
     });
 
-    // 탭 전환 바인딩
     document.querySelectorAll(".tab-btn[data-tab]").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".tab-btn[data-tab]").forEach(b => b.classList.remove("active"));
