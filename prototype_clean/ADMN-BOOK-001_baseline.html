@@ -778,7 +778,7 @@ code, pre, kbd, samp,
                   <th>자사저작권 </th>
                   <th>정산 파이프라인 라우팅 (SSOT)</th>
                   <th>위탁/매입/인세 핵심 파라미터</th>
-                  <th class="text-right">현행 정가 (면세)</th>
+                  <th class="text-right">정가 / 실판매가(최대 10%↓ · 면세)</th>
                   <th>공급형태 변경 잠금</th>
                 </tr>
               </thead>
@@ -809,7 +809,7 @@ code, pre, kbd, samp,
                   <td><span class="badge badge-preorder">CONSIGNMENT (위탁판매)</span></td>
                   <td><code>false</code> (위탁자 보유)</td>
                   <td><strong>위탁도서 정산</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
-                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 정산 기준 등식 적용</td>
+                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 정산모수: 계약원장 선택(<code>실결제액 기준</code> / <code>정가 기준</code>)</td>
                   <td class="text-right"><strong>40,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
                 </tr>
@@ -1208,7 +1208,7 @@ code, pre, kbd, samp,
                   <td>
                     <div class="input-with-unit" style="width:180px;">
                       <input type="number" id="f-supply-rate" class="form-input text-right" value="30" min="0" max="100" step="0.5" oninput="recalcSupplyNumbers()">
-                      <span class="input-unit">% (정가 대비)</span>
+                      <span class="input-unit">% (실결제액 대비 (위탁은 계약기준 선택))</span>
                     </div>
                   </td>
                 </tr>
@@ -1233,7 +1233,7 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; align-items:center; gap:14px;">
                       <span style="font-size:14px; font-weight:800; color:var(--emerald);" id="f-margin-summary">
-                        권당 22,800원 (이익률 60.0%) = 정가 38,000원 - 제조원가 11,400원(30%) - 저자인세 3,800원(10%)
+                        권당 20,520원 (실결제액 기준 이익률 60.0%) = 실결제액 34,200원(정가 38,000원·10%↓) - 제조원가 10,260원(30%) - 저자인세 3,420원(실결제액의 10%)
                       </span>
                     </div>
                   </td>
