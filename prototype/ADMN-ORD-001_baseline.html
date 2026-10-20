@@ -555,7 +555,7 @@ code, pre, kbd, samp,
         <!-- 상단 4단계 워크플로우 신호등 (공통 규격: 1층 신호등 / 2층 단계명 / 3층 설명) -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">🚦 주문 · 3PL 물류 · 환불 · 정산 대사 4단계 자동 연동 파이프라인 (SET3-5 · 합의서 8.1~8.2절)</h2>
+            <h2 class="card-title">🚦 주문 · 3PL 물류 · 환불 · 정산 대사 4단계 자동 연동 파이프라인 (SET3-5 · 합의서 8.1~정산 기준)</h2>
             <span class="badge b-gray">실결제금액(payment.paid_amount) 단일 원장 기준</span>
           </div>
           <div class="card-body">
@@ -618,13 +618,13 @@ code, pre, kbd, samp,
           </div>
 
           <div class="kpi-card" id="kpi-ord-vbank" onclick="filterOrdListByKpi('결제대기')">
-            <div class="k-title"><span>입금대기 (가상계좌 미입금)</span><span class="badge">8.2절 · 24시간 기한</span></div>
+            <div class="k-title"><span>입금대기 (가상계좌 미입금)</span><span class="badge">24시간 입금 기한</span></div>
             <div class="k-num" style="color:var(--purple);" id="kpiNumVbank">3건 (기한연장 가능)</div>
             <div class="k-sub">입금 웹훅 수신 시점에만 결제완료 및 정산월 귀속</div>
           </div>
 
           <div class="kpi-card" id="kpi-ord-ship" onclick="filterOrdListByKpi('배송중')">
-            <div class="k-title"><span>배송중 (도서산간·제주 추가배송비)</span><span class="badge">5.5절 우편번호 판정</span></div>
+            <div class="k-title"><span>배송중 (도서산간·제주 추가배송비)</span><span class="badge">도서산간 우편번호 판정</span></div>
             <div class="k-num" style="color:var(--primary);" id="kpiNumShip">118건 (도서산간 5건)</div>
             <div class="k-sub">교재 합계 30,000원↑ 무료 / 제주·도서산간 +3,000원 부과</div>
           </div>
@@ -1084,7 +1084,7 @@ code, pre, kbd, samp,
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">📦 2. 주문 라인 아이템 (패키지 분할 인서트 · 과·면세 및 도서 공급원장 스냅샷 보존)</h3>
-              <span class="badge b-purple">합의서 6.1절 · 8.1절 · 도서정가제 안분 공식 적용</span>
+              <span class="badge b-purple">합의서 정산 기준 · 정산 기준 · 도서정가제 안분 공식 적용</span>
             </div>
             <div class="card-body">
               <div class="table-wrap">
@@ -1141,7 +1141,7 @@ code, pre, kbd, samp,
                 </table>
               </div>
               <div style="margin-top:8px;font-size:12px;color:var(--text-sub);background:#F8FAFC;padding:8px 12px;border-radius:6px;border:1px solid var(--border);">
-                📌 <b>도서정가제 &amp; 정산 스냅샷 규칙 (합의서 6.1절 · 8.1절):</b> 교재 라인(#2)에는 쿠폰·포인트 할인이 <b>0원</b>으로 고정되며 패키지 할인은 강좌 라인(#1)에만 배분됩니다. 또한 결제 시점의 도서 공급유형(<code>book_supply_type_snapshot = ROYALTY_BOOK</code>)이 주문 라인에 영구 박제되어, 향후 도서 마스터가 변경되어도 과거 월 재연산 및 환불 차감(4단계 DEDUCT) 시 흔들리지 않습니다.
+                📌 <b>도서정가제 &amp; 정산 스냅샷 규칙 (합의서 정산 기준 · 정산 기준):</b> 교재 라인(#2)에는 쿠폰·포인트 할인이 <b>0원</b>으로 고정되며 패키지 할인은 강좌 라인(#1)에만 배분됩니다. 또한 결제 시점의 도서 공급유형(<code>book_supply_type_snapshot = ROYALTY_BOOK</code>)이 주문 라인에 영구 박제되어, 향후 도서 마스터가 변경되어도 과거 월 재연산 및 환불 차감(4단계 DEDUCT) 시 흔들리지 않습니다.
               </div>
             </div>
           </div>
@@ -1696,7 +1696,7 @@ code, pre, kbd, samp,
         <div class="notice-bar" style="background:#EFF6FF;border-color:#BFDBFE;margin-bottom:12px;">
           <div>
             💡 <b>폐지 화면(구 ADMN-ORD-003) 통합 및 정산 0원 처리 원칙:</b><br>
-            CS 보상, 이벤트 당첨, 임직원/수험생 특수 승인에 따른 수강권 부여는 0원 주문(ORDER_TYPE: <code>DIRECT_GRANT</code>)으로 즉시 인서트됩니다. 실결제금액(<code>payment.paid_amount = 0원</code>)으로 확정되므로 정산 파이프라인(Pipeline 1.1)에서 강사 정산 기준금(정산 모수) 또한 0원으로 자동 산출되어 부당 정산 지급을 원천 방지합니다.
+            CS 보상, 이벤트 당첨, 임직원/수험생 특수 승인에 따른 수강권 부여는 0원 주문(ORDER_TYPE: <code>DIRECT_GRANT</code>)으로 즉시 인서트됩니다. 실결제금액(<code>payment.paid_amount = 0원</code>)으로 확정되므로 정산 파이프라인(강좌 수익배분)에서 강사 정산 기준금(정산 모수) 또한 0원으로 자동 산출되어 부당 정산 지급을 원천 방지합니다.
           </div>
         </div>
 

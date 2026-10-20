@@ -494,7 +494,7 @@ code, pre, kbd, samp,
       <!-- 10.1~10.3절 핵심 원칙 및 UX 진입 경로 안내 배너 -->
       <div class="policy-banner">
         <div>
-          <strong>📌 [UX 진입 경로 및 마감 불변성 원칙 (제10장)]</strong>
+          <strong>📌 [UX 진입 경로 및 마감 불변성 원칙 (정산 기준)]</strong>
           [1] <strong>월간 정산 및 집행(<code>ADMN-SETT-002</code>)</strong>에서 특정 정산서를 선택해 <strong>[수동 조정 등록]</strong>으로 진입하면 해당 정산서가 자동 바인딩되며, [2] 우측 상단 <strong>[+ 신규 수동 조정 · 계정 대체 등록]</strong> 버튼으로 직접 등록할 수도 있습니다.<br>
           마감 확정(<code>Locked = True</code>)된 월은 해제하지 않으며, <strong>원 발생 귀속월(<code>origin_month</code>)과 반영 기준월(<code>applied_month</code>)을 분리</strong>해 미마감 당월 조정 라인으로 반영합니다.
         </div>
@@ -533,7 +533,7 @@ code, pre, kbd, samp,
       <!-- 탭 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabWorkspace">1. 수동 조정 · 계정 간 대체 · 이행률 정산 승인 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabChannels">2. [10.4절] 4채널 증빙 정정 분기 및 원천세 수정신고(채널 3-a) 연동 내역</button>
+        <button class="tab-btn" data-tab="tabChannels">2. [정산 기준] 4채널 증빙 정정 분기 및 원천세 수정신고(채널 3-a) 연동 내역</button>
         <button class="tab-btn" data-tab="tabAudit">3. 수동 조정 감사 로그 (ADMN-CONF-010)</button>
       </div>
 
@@ -569,7 +569,7 @@ code, pre, kbd, samp,
                     <th>원 발생 귀속월 → 반영월</th>
                     <th>계정 구분 / 소득 구분</th>
                     <th class="num">조정 금액</th>
-                    <th>승인 단계 (10.3절)</th>
+                    <th>승인 단계 (정산 기준)</th>
                     <th>상태</th>
                   </tr>
                 </thead>
@@ -594,7 +594,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">[10.4절 정본] 수동 조정에 따른 4채널 증빙·원천세 정정 작업 목록 (1:N 복수 연결 지원)</div>
+              <div class="card-title">[정산 기준 정본] 수동 조정에 따른 4채널 증빙·원천세 정정 작업 목록 (1:N 복수 연결 지원)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 부가가치세 증빙 정정(채널 1·2·4)과 원천세·지급명세서 수정신고(채널 3-a)는 독립 판정하여 동일 조정 건에 복수 작업을 동시 생성합니다.
               </div>
@@ -632,7 +632,7 @@ code, pre, kbd, samp,
                   <td><span class="badge badge-success">원천세 수정신고 비대상 (차월 정상 인입)</span></td>
                   <td class="mono">당초 지급·신고: 0원<br>(사입 오등록으로 미지급)</td>
                   <td class="mono">당월 인세 과세표준: <strong>+450,000원</strong><br>(2026-10 정상 과세·지급)</td>
-                  <td>10.4절 도서 공급형태 오등록 규칙: 기지급·신고 없으므로 당월 정상 인입</td>
+                  <td>도서 공급형태 정정 규칙: 기지급·신고 없으므로 당월 정상 인입</td>
                   <td><span class="badge badge-success">2026-10 정상 인입 대기</span></td>
                 </tr>
                 <tr>
@@ -726,7 +726,7 @@ code, pre, kbd, samp,
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">조정 사유 구분 (adj_reason_code · 10.2절 표준 13종)</label>
+          <label class="form-label">조정 사유 구분 (adj_reason_code · 정산 기준 표준 13종)</label>
           <select id="newReasonCode" class="select" onchange="updateNewModalPreview()">
             <option value="RATE_ERR">요율 오류 (RATE_ERR)</option>
             <option value="SHARE_ERR">지분율 오류 (SHARE_ERR)</option>
@@ -948,7 +948,7 @@ code, pre, kbd, samp,
         reasonLabel: "위탁 수수료율 오류 (CONSIGN_FEE_ERR)",
         originMonth: "2026-09",
         appliedMonth: "2026-10",
-        accountTypeLabel: "위탁 정산금 (Pipeline 2.2)",
+        accountTypeLabel: "위탁 정산금 (위탁도서 정산)",
         taxTypeLabel: "도서 면세 / 수수료 과세",
         incomeCategoryLabel: "원천징수 비대상 (재화 공급)",
         amount: 200000,

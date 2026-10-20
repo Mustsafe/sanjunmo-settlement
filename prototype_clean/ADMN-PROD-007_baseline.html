@@ -873,7 +873,7 @@ code, pre, kbd, samp,
           <td class="tr-right" style="font-size:11.5px; color:var(--text-sub);">${supply.toLocaleString()} / ${vat.toLocaleString()}</td>
           <td class="tr-right" style="font-weight:700;">${costDisplay}</td>
           <td class="tr-right">${stockBadge}</td>
-          <td class="tr-center"><span class="badge badge-gray">TX-13 · Pipeline 2.3</span></td>
+          <td class="tr-center"><span class="badge badge-gray">TX-13 · 일반상품 매출</span></td>
           <td class="tr-center">${stBadge}</td>
           <td class="tr-center">
             <button type="button" class="btn btn-sm btn-outline" onclick="openStockAdjustModal('${g.id}')">재고조정(P1)</button>
@@ -930,7 +930,7 @@ code, pre, kbd, samp,
       document.getElementById('view-' + v).classList.add('active');
       if (v === 'list') {
         document.getElementById('top-crumb-code').textContent = 'ADMN-PROD-007';
-        document.getElementById('top-crumb-title').textContent = '일반 상품 마스터 (공급 형태 · 재고 · 일반 상품 판매매출 Pipeline 2.3)';
+        document.getElementById('top-crumb-title').textContent = '일반 상품 마스터 (공급 형태 · 재고 · 일반 상품 판매매출)';
         renderTable();
       /* Init PROD-007 Stock Modal */
       if (typeof renderStockHistoryTable === 'function') renderStockHistoryTable();
@@ -1043,7 +1043,7 @@ code, pre, kbd, samp,
           logs: []
         });
       }
-      showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · TX-13 · Pipeline 2.3)');
+      showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · TX-13 · 일반상품 매출)');
       switchView('list');
     }
 

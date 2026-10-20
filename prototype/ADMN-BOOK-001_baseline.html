@@ -759,8 +759,8 @@ code, pre, kbd, samp,
       <div class="card" id="v4BookCanonicalSpecCard" style="border:1px solid #93c5fd;">
         <div class="card-header" style="background:#eff6ff;">
           <div class="card-title-group">
-            <span class="badge badge-info">제6장 6.1~6.6절 · v4.0.0 SSOT</span>
-            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(Pipeline 5.1) · 정가 이력(book_price_history) 정합성 원장</h2>
+            <span class="badge badge-info">제6장 6.1~정산 기준 · v4.0.0 SSOT</span>
+            <h2 class="card-title">4대 도서 공급형태(book_supply_type) · 자사저작권(개발지원금) · 정가 이력(book_price_history) 정합성 원장</h2>
           </div>
           <div style="display:flex; gap:8px;">
             <button type="button" class="btn btn-soft btn-sm" onclick="openBookPriceHistoryModal()">📅 도서 정가 변경 이력 · 위탁 조건 원장 보기 (BOOK-001-S1)</button>
@@ -809,7 +809,7 @@ code, pre, kbd, samp,
                   <td><span class="badge badge-preorder">CONSIGNMENT (위탁판매)</span></td>
                   <td><code>false</code> (위탁자 보유)</td>
                   <td><strong>Pipeline 2.2</strong> (위탁 도서 판매대금 · <code>PY-0031</code> 한국소방학회)</td>
-                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 6.6절 등식 적용</td>
+                  <td><code>NET_DEDUCT</code>(수수료 차감지급) · 수수료율 <code>30%</code> (<code>VAT_INCLUDED</code>) · 정산 기준 등식 적용</td>
                   <td class="text-right"><strong>40,000원</strong></td>
                   <td><span class="badge badge-end">🔒 출고발생 변경잠금</span></td>
                 </tr>
@@ -828,7 +828,7 @@ code, pre, kbd, samp,
                   <td><strong>[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 번들)</strong></td>
                   <td><span class="badge badge-end">BUNDLED (강좌포함 비매품)</span></td>
                   <td><code>true</code> (자사 제작)</td>
-                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 6.1절)</strong></td>
+                  <td><strong>정산 비대상 (정산기준금 0원 고정 · 정산 기준)</strong></td>
                   <td>단독 판매 불가 · 패키지/강좌 번들 출고 전용 (<code>ADMN-ORD-002</code> 3PL 출고만 연동)</td>
                   <td class="text-right"><strong>0원 (비매품)</strong></td>
                   <td><span class="badge badge-end">🔒 비매품 고정</span></td>
@@ -848,7 +848,7 @@ code, pre, kbd, samp,
           </div>
           <div class="modal-body">
             <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12px; color:#1e3a8a;">
-              💡 <strong>[제6장 6.2절 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>(공급 형태)을 사후 변경할 수 없습니다.
+              💡 <strong>[정산 기준 정산 기준 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>(공급 형태)을 사후 변경할 수 없습니다.
             </div>
             <table class="data-table">
               <thead>

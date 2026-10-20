@@ -1910,7 +1910,7 @@ code, pre, kbd, samp,
       } else {
         banner.className = "settlement-gate-box locked";
         title.textContent = `[판매중 전환 차단 — Hard Lock] 1계층 지분 합계 ${simVal}.00% (100% 미달)`;
-        desc.textContent = "기획서 4.2절 정책에 따라 ADMN-SETT-001의 1계층 지분율 합계가 100.00%가 아니면 [판매중]으로 설정할 수 없으며 [판매대기]로 강제 고정됩니다.";
+        desc.textContent = "ADMN-SETT-001의 1계층 지분율 합계가 100.00%가 아니면 [판매중]으로 설정할 수 없으며 [판매대기]로 강제 고정됩니다.";
         if (radioSaleOn.checked) radioSaleReady.checked = true;
         radioSaleOn.disabled = true;
       }

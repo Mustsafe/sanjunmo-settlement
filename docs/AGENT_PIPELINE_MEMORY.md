@@ -69,3 +69,4 @@
 | 2026-10-20 | `hotfix_ssr_initial_rows.py` 실행 — USER-001 차시·보정이력·그룹 3개 테이블 SSR 초기 행 내장 및 Skill 4(Playwright E2E 검수기) 구축·38/38 PASS 검증 | `prototype*/ADMN-USER-001_baseline.html`, `scripts/qa/skill_playwright_e2e.py`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
 | 2026-10-20 | `fix_rfd002_ssr_row.py` 실행 — RFD-002 보정 거래 원장(m3f-rfd-adj-body) SSR 초기 행 내장 완료, 38/38 PASS 유지 | `prototype*/ADMN-RFD-002_baseline.html`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
 | 2026-10-20 | `clean_all_jargon_zero.py` (v2) 실행 — JS 100% 보호형 DOM 가시 텍스트 기획서 암호·금지어 일괄 정제 (333건➔37건, 89% 감축, 38/38 ALL PASS 유지) | `prototype*/*.html`, `docs/JARGON_SCAN_REPORT.md`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
+| 2026-10-20 | `clean_remaining_jargon_v3.py` 실행 — 잔여 DOM 34건 및 고정 문자열 핀셋 정제 (DOM 잔여 3건으로 99.1% 종결, 28개 화면 무결, 38/38 ALL PASS 유지) | `prototype*/*.html`, `docs/JARGON_SCAN_REPORT.md`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |

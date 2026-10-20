@@ -476,7 +476,7 @@ code, pre, kbd, samp,
       <!-- 7.2절 단일 책임 및 경로 분리 안내 배너 -->
       <div class="policy-banner">
         <div>
-          <strong>📌 [7.2절 단일 책임 원칙 및 검수 범위]</strong>
+          <strong>📌 [정산 기준 단일 책임 원칙 및 검수 범위]</strong>
           본 화면은 <strong>전속계약금 · 일시금/분할형 개발지원금 · 매절 대금 · 정액 수당 · 종료 시 일시정산(<code>LUMP_SETTLE</code>)</strong>의 당월 정산서(7단계 <code>LUMPSUM_ADD</code>) 이관 검수와, <strong>매출연동(<code>매출연동 (REVENUE_SHARE)</code>) 개발지원금 약정 체결 시 최초 1회 검수</strong>만 수행합니다. (매출연동형의 월별 지급분은 자동 연산되므로 매월 검수하지 않으며, 사입 도서 매입채무(AP)는 회계 시스템 경로로 분리됩니다.)
         </div>
         <span class="badge badge-neutral">마감월(2026-09) 소급 이관 차단</span>
@@ -487,7 +487,7 @@ code, pre, kbd, samp,
         <div class="kpi-card active" data-filter="ALL">
           <div class="k-title">전체 검수 대상 (마일스톤+R/S약정)</div>
           <div class="k-num" id="kpiAll">6건</div>
-          <div class="k-sub">7단계 이관 + Pipeline 5.1 약정</div>
+          <div class="k-sub">7단계 이관 + 개발지원금 약정</div>
         </div>
         <div class="kpi-card" data-filter="GATE_BLOCKED">
           <div class="k-title">🚨 승인 게이트 차단 (조치 필요)</div>
@@ -514,7 +514,7 @@ code, pre, kbd, samp,
       <!-- 탭 네비게이션 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabWorkspace">1. 마일스톤 · 지원금 약정 검수 및 이관 승인 워크스페이스</button>
-        <button class="tab-btn" data-tab="tabClawback">2. 전속계약금 중도해지 일할 반환 · 종료 일시정산(LUMP_SETTLE) 규격 (5.2절)</button>
+        <button class="tab-btn" data-tab="tabClawback">2. 전속계약금 중도해지 일할 반환 · 종료 일시정산(LUMP_SETTLE) 규격</button>
         <button class="tab-btn" data-tab="tabAudit">3. 검수 · 수기 소명 감사 로그 (ADMN-CONF-010)</button>
       </div>
 
@@ -574,7 +574,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">전속계약금 중도해지 일할 반환 산식(10단계 CLAIM) 및 지원금 종료 시 일시 정산(LUMP_SETTLE, 7단계) 연동 현황 (5.2절)</div>
+              <div class="card-title">전속계약금 중도해지 일할 반환 산식(10단계 CLAIM) 및 지원금 종료 시 일시 정산(LUMP_SETTLE, 7단계) 연동 현황</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 전속계약금 반환액은 세후 실지급액 기준 일할 산출하여 10단계(CLAIM)에서 1회 차감하며, 위약금(Penalty)은 정산 엔진(1~11단계)에서 완전 배제합니다.
               </div>
@@ -587,7 +587,7 @@ code, pre, kbd, samp,
                   <th>구분</th>
                   <th>계약 / 약정 ID</th>
                   <th>권리자</th>
-                  <th>산출 기준 및 수식 (5.2절 · 8.3절 정본)</th>
+                  <th>산출 기준 및 수식 (정산 기준 · 정산 기준 정본)</th>
                   <th class="num">산출 금액</th>
                   <th>엔진 인입 단계 및 처리 상태</th>
                 </tr>
@@ -621,7 +621,7 @@ code, pre, kbd, samp,
                   <td>이전기 (강사)</td>
                   <td>
                     <code>penalty_calc_type = MULTIPLE (200%)</code>, <code>penalty_base = TOTAL_AGREED</code>, <code>CUMULATIVE</code><br>
-                    <span style="font-size:11px; color:var(--text-muted);">* 5.2절 원칙: 위약금은 기 지급 소득의 정정이 아닌 신규 손해배상 채무이므로 1~11단계 정산 엔진 및 이월 원장에 절대 인입하지 않음</span>
+                    <span style="font-size:11px; color:var(--text-muted);">* 정산 기준 원칙: 위약금은 기 지급 소득의 정정이 아닌 신규 손해배상 채무이므로 1~11단계 정산 엔진 및 이월 원장에 절대 인입하지 않음</span>
                   </td>
                   <td class="num">20,000,000원</td>
                   <td><span class="badge badge-neutral">정산 엔진 완전 배제 (별도 청구 관리)</span></td>
@@ -662,7 +662,7 @@ code, pre, kbd, samp,
       <div class="savebar-status">
         <span class="badge badge-primary">이관 연동 상태</span>
         <span id="footerSummaryText">
-          2026-10 귀속월 이관 승인 완료: <strong>2건</strong> (7단계 비정기 가산금 <strong>5,000,000원</strong> + Pipeline 5.1 매출연동 약정 <strong>1건 ACTIVE</strong>)
+          2026-10 귀속월 이관 승인 완료: <strong>2건</strong> (7단계 비정기 가산금 <strong>5,000,000원</strong> + 매출연동 지원금 약정 <strong>1건 ACTIVE</strong>)
         </span>
       </div>
       <div style="display:flex; gap:8px;">
@@ -724,7 +724,7 @@ code, pre, kbd, samp,
         isBusinessEntity: true,
         category: "SUPPORT_RS_ONCE",
         categoryLabel: "개발지원금 (매출연동 R/S 약정 체결 1회 검수)",
-        title: "[자사저작권 도서+강좌] 정종대 산업안전 필기 개발지원금 (Pipeline 5.1)",
+        title: "[자사저작권 도서+강좌] 정종대 산업안전 필기 개발지원금",
         amount: 0, // 매출연동형은 요율로 산정
         rateText: "지원금 요율 15.00% (rate_type=SUPPORT, 기준모수 SAME_AS_BASIC)",
         paymentMethod: "REVENUE_SHARE",
@@ -733,7 +733,7 @@ code, pre, kbd, samp,
         capType: "CAPPED",
         totalCapAmount: 15000000,
         settlementScope: "PIPELINE_1_1_2_1",
-        targetCount: 2, // CRS-1001, PROD-BK-1004 (own_copyright_yn=true 자사지분 100%)
+        targetCount: 2, // CRS-1001, PROD-BK-1004 (자사 저작권 보유 자사지분 100%)
         endBasis: "CONTRACT_LINKED",
         onTerminationPolicy: "FORFEIT",
         // Gate A: 소득 구분
@@ -919,7 +919,7 @@ code, pre, kbd, samp,
       gateAMsg = "차단: 기타소득(OTHER) 선택 시 기타소득 호 구분(C15/C05/C19 등) 필수 지정";
     }
 
-    // Gate B: 매출연동(REVENUE_SHARE) 지원금 필수값 (5.2절 · 7.2절)
+    // Gate B: 매출연동(REVENUE_SHARE) 지원금 필수값
     let gateBPass = true;
     let gateBMsg = "해당 없음 (비정기 단건 마일스톤)";
     if (item.category === "SUPPORT_RS_ONCE") {
@@ -981,7 +981,7 @@ code, pre, kbd, samp,
     const rsApprovedCount = approved.filter(x => x.category === "SUPPORT_RS_ONCE").length;
 
     document.getElementById("footerSummaryText").innerHTML =
-      `2026-10 귀속월 이관 승인 완료: <strong>${approved.length}건</strong> (7단계 비정기 가산금 합계 <strong>${lumpSumApproved.toLocaleString()}원</strong> + Pipeline 5.1 매출연동 약정 활성화 <strong>${rsApprovedCount}건</strong>)`;
+      `2026-10 귀속월 이관 승인 완료: <strong>${approved.length}건</strong> (7단계 비정기 가산금 합계 <strong>${lumpSumApproved.toLocaleString()}원</strong> + 매출연동 지원금 약정 활성화 <strong>${rsApprovedCount}건</strong>)`;
   }
 
   function renderTable() {
@@ -1022,7 +1022,7 @@ code, pre, kbd, samp,
         : `<span class="badge badge-primary" style="margin-top:3px;">증빙 첨부형</span>`;
 
       const amountHtml = item.category === "SUPPORT_RS_ONCE"
-        ? `<span class="badge badge-purple">Pipeline 5.1 (R/S 1회)</span><div style="font-size:11px; color:var(--text-sub); margin-top:2px;">${item.rateText}</div>`
+        ? `<span class="badge badge-purple">매출연동 지원금 (1회)</span><div style="font-size:11px; color:var(--text-sub); margin-top:2px;">${item.rateText}</div>`
         : `<strong>${item.amount.toLocaleString()}원</strong><div style="font-size:11px; color:var(--text-muted);">${item.paymentMethod}</div>`;
 
       const incomeText = item.incomeCategory
@@ -1084,7 +1084,7 @@ code, pre, kbd, samp,
 
     const buyoutLegalWarning = item.category === "BUYOUT" ? `
       <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:7px; padding:9px 12px; font-size:11.5px; color:#92400e;">
-        <strong>⚖️ [6.4절 · TX-03 매절(권리 양도) 세무 근거 통제]</strong><br>
+        <strong>⚖️ [TX-03 매절(권리 양도) 세무 근거 통제]</strong><br>
         매절은 저작권 양도 거래이므로 '사용료' 조항인 <strong>부가가치세법 시행령 제42조 제1호 아목을 단독 인용하지 않습니다.</strong>
         독립 저술 용역(같은 호 <strong>가목</strong>) 및 도서 면세 부수 공급 예규(<strong>서삼46015-10392</strong>)를 병기하며, 기타소득 시 원작자 여부에 따라 <code>C15(60% 경비)</code> 또는 <code>C05(승계·경비 0%)</code>로 분기합니다.
       </div>
@@ -1093,7 +1093,7 @@ code, pre, kbd, samp,
     const rsSupportSection = item.category === "SUPPORT_RS_ONCE" ? `
       <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:8px; padding:11px 13px; display:flex; flex-direction:column; gap:8px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <strong style="color:var(--purple); font-size:12.5px;">🟣 매출연동(REVENUE_SHARE) 지원금 약정 체결 1회 필수값 검증 (5.2절 · 7.2절)</strong>
+          <strong style="color:var(--purple); font-size:12.5px;">🟣 매출연동(REVENUE_SHARE) 지원금 약정 체결 1회 필수값 검증</strong>
           ${item.targetCount === 0 ? `<button class="btn btn-sm btn-primary" onclick="fixMissingRsTargets('${item.id}')">+ 약정 대상(자사지분>0%) 매핑 불러오기</button>` : ""}
         </div>
         <div class="kv-grid" style="font-size:12px;">
@@ -1120,7 +1120,7 @@ code, pre, kbd, samp,
         <div class="kv-label">약정 금액 / 지급방식</div>
         <div class="mono">
           ${item.category === "SUPPORT_RS_ONCE"
-            ? `<strong style="color:var(--purple);">매출연동 자동산출 (Pipeline 5.1)</strong>`
+            ? `<strong style="color:var(--purple);">매출연동 자동산출 (개발지원금)</strong>`
             : `<strong>${item.amount.toLocaleString()}원</strong> (${item.paymentMethod})`}
         </div>
         <div class="kv-label">선급금 상계 연동</div>
@@ -1136,10 +1136,10 @@ code, pre, kbd, samp,
       ${buyoutLegalWarning}
       ${rsSupportSection}
 
-      <!-- 3대 하드 게이트 체크박스 (7.2절) -->
+      <!-- 3대 하드 게이트 체크박스 -->
       <div class="gate-box">
         <div class="gate-box-title">
-          <span>🔒 [7.2절] 마일스톤 검수 승인 3대 필수 게이트 판정</span>
+          <span>🔒 마일스톤 검수 승인 3대 필수 게이트 판정</span>
           <span class="mono">${g.allPass ? "ALL PASS" : "BLOCKED"}</span>
         </div>
         <div class="gate-item ${g.gateAPass ?"pass" : "fail"}">
@@ -1182,7 +1182,7 @@ code, pre, kbd, samp,
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">이원화 검수 방식 선택 (7.2절)</label>
+          <label class="form-label">이원화 검수 방식 선택</label>
           <select id="editInspectMode" class="select" onchange="onInspectModeChange('${item.id}')" ${isApproved ? "disabled" : ""}>
             <option value="EVIDENCE_FILE" ${item.inspectionMode === "EVIDENCE_FILE" ? "selected" : ""}>증빙 첨부형 검수 (완강확인서·양도서 등)</option>
             <option value="MANUAL_NOTE" ${item.inspectionMode === "MANUAL_NOTE" ? "selected" : ""}>담당자 수기 소명형 ('수기 검수(내부확인)' 배지)</option>
@@ -1288,7 +1288,7 @@ code, pre, kbd, samp,
       time: "2026-10-14 15:10:00",
       actor: "재무담당자 (white)",
       targetId: `${item.id} (${item.contractId})`,
-      mode: "국세청 API 연동(제17장)",
+      mode: "국세청 API 연동",
       action: "사업자 상태 수시 재조회 (MILESTONE_APPROVAL 트리거)",
       reason: "90일 유효기간 경과에 따른 즉시 재조회 → 계속사업자 확인 완료 (Gate C 통과)"
     });
@@ -1316,7 +1316,7 @@ code, pre, kbd, samp,
     if (!item) return;
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
+      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
       return;
     }
     item.targetMonth = tMonth;
@@ -1336,7 +1336,7 @@ code, pre, kbd, samp,
 
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
+      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
       return;
     }
 
@@ -1348,7 +1348,7 @@ code, pre, kbd, samp,
 
     const memo = document.getElementById("editMemo").value.trim();
     if (item.inspectionMode === "MANUAL_NOTE" && memo.length < 10) {
-      alert("[7.2절 담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
+      alert("[담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
       return;
     }
     if (item.inspectionMode === "EVIDENCE_FILE") {
@@ -1369,7 +1369,7 @@ code, pre, kbd, samp,
 
     const modeLabel = item.inspectionMode === "MANUAL_NOTE" ? "수기 검수(내부확인)" : "증빙 첨부 검수";
     const actionDesc = item.category === "SUPPORT_RS_ONCE"
-      ? `매출연동(Pipeline 5.1) 지원금 약정 1회 검수 승인 (${item.targetMonth}부터 자동 연산 활성화)`
+      ? `매출연동 지원금 약정 1회 검수 승인 (${item.targetMonth}부터 자동 연산 활성화)`
       : `약정금 ${item.amount.toLocaleString()}원 검수 승인 → ${item.targetMonth} 정산서 7단계(LUMPSUM_ADD) 이관`;
 
     state.auditLogs.unshift({

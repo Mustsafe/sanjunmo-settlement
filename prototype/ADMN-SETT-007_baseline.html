@@ -330,12 +330,12 @@ code, pre, kbd, samp,
           <div class="k-sub">강사+소속사 70:30 분할(Case 7) · 공동 상속 60:40</div>
         </div>
         <div class="kpi-card" id="kpi-SUCCESSION" onclick="applyListFilter('SUCCESSION')">
-          <div class="k-title"><span>사망·상속 수취인 승계 계약</span><span class="badge b-pur">16.1절 · D-1</span></div>
+          <div class="k-title"><span>사망·상속 수취인 승계 계약</span><span class="badge b-pur">권리 승계 기준</span></div>
           <div class="k-num" style="color:var(--purple);">1건</div>
           <div class="k-sub">승계 확정일 기준 저작자 본인 여부(payee_is_author) 전환</div>
         </div>
         <div class="kpi-card" id="kpi-BLOCKED" onclick="applyListFilter('BLOCKED')">
-          <div class="k-title"><span>선급금 미종결 분할 차단 계약</span><span class="badge b-bad">5.3절 하드락</span></div>
+          <div class="k-title"><span>선급금 미종결 분할 차단 계약</span><span class="badge b-bad">선급금 상계 보호</span></div>
           <div class="k-num" style="color:var(--bad);">1건</div>
           <div class="k-sub">미상계 선급금 잔액 존재 시 분할 등록 서버 차단</div>
         </div>
@@ -358,7 +358,7 @@ code, pre, kbd, samp,
               <option value="SPLIT">2계층 분할 수취 활성 (2인 이상 분할)</option>
               <option value="SINGLE">단독 수취 (원 권리자 100.00% · 분할 가능)</option>
               <option value="SUCCESSION">사망·상속 수취인 승계 계약</option>
-              <option value="BLOCKED">🚨 선급금 미종결로 분할 차단된 계약 (5.3절)</option>
+              <option value="BLOCKED">🚨 선급금 미종결로 분할 차단된 계약 (정산 기준)</option>
             </select>
             <input type="text" id="listSearchInput" class="input" style="width:280px;" placeholder="계약번호, 원 권리자명, 소속사/수취인명 검색..." oninput="renderListTable()">
             <div style="margin-left:auto; display:flex; gap:8px;">
@@ -373,7 +373,7 @@ code, pre, kbd, samp,
                   <th>계약 식별자 / 계약명</th>
                   <th>1계층 원 권리자 (저작자)</th>
                   <th>현재 2계층 수취인 구성 및 비율 시각화</th>
-                  <th>선급금 원장 상태 (5.3절 상호차단)</th>
+                  <th>선급금 원장 상태 (정산 기준 상호차단)</th>
                   <th>합계 검증</th>
                   <th>관리 액션</th>
                 </tr>
@@ -407,7 +407,7 @@ code, pre, kbd, samp,
             <span class="badge b-dark">ADMN-CONF-010 연동</span>
           </div>
           <div class="card-bd">
-            <h4 style="margin:0 0 10px; font-size:13.5px;">1) 정산 항목별 2계층 수취인 분할 적용 여부 (제4장 4.1절 · 제8장 8.3절 8단계)</h4>
+            <h4 style="margin:0 0 10px; font-size:13.5px;">1) 정산 항목별 2계층 수취인 분할 적용 여부 (정산 기준 정산 기준 · 정산 기준 정산 기준 8단계)</h4>
             <table style="margin-bottom:22px;">
               <thead>
                 <tr>
@@ -425,16 +425,16 @@ code, pre, kbd, samp,
                   <td class="code">Case 7 / D-1 / D-2</td>
                 </tr>
                 <tr>
-                  <td><strong>5단계 확정 매출연동 개발지원금 (Pipeline 5.1) 및 7단계 비정기 가산금</strong></td>
+                  <td><strong>5단계 확정 매출연동 개발지원금 및 7단계 비정기 가산금</strong></td>
                   <td><span class="badge b-ok">분할 대상 포함</span></td>
                   <td>기본 R/S와 합산하지 않고 라인 단위로 독립 분할·절사한 뒤, 9단계에서 수취인별 세무 유형 및 <code>payee_is_author</code> 지위 독립 적용</td>
-                  <td class="code">4.1절 / 13.1절</td>
+                  <td class="code">원 단위 절사 및 역산 기준</td>
                 </tr>
                 <tr>
                   <td><strong>6단계 선급금 상계액 (<code>PREPAY_OFFSET</code>)</strong></td>
                   <td><span class="badge b-bad">비분할 격리 (상호 차단)</span></td>
                   <td>선급금은 원 권리자 개인 채권이므로 제3자 수취인에게 전이 불가. <strong>선급금 잔액 &gt; 0원 계약은 수취인 분할 등록 자체를 차단</strong></td>
-                  <td class="code">5.3절 상호 차단</td>
+                  <td class="code">선급금 미상계 시 분할 차단</td>
                 </tr>
                 <tr>
                   <td><strong>전월 이월액 (<code>PRE_TAX</code> 세전 미지급 / <code>POST_TAX</code> 세후 지급대기) 및 전속계약금 반환액</strong></td>
@@ -486,7 +486,7 @@ code, pre, kbd, samp,
     </div>
     <div class="modal-bd">
       <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12.5px; color:#1e3a8a;">
-        💡 <strong>[계약 선택 안내 (4.1절 · 5.3절)]</strong> 계약 코드를 직접 입력할 필요 없이 아래 목록에서 검색하여 선택하세요. <strong>미상계 선급금 잔액이 남아 있는 계약(5.3절)</strong>은 선급금 상계 완결 전까지 수취인 분할 추가가 차단됩니다.
+        💡 <strong>[계약 선택 안내 (정산 기준 · 정산 기준)]</strong> 계약 코드를 직접 입력할 필요 없이 아래 목록에서 검색하여 선택하세요. <strong>미상계 선급금 잔액이 남아 있는 계약(정산 기준)</strong>은 선급금 상계 완결 전까지 수취인 분할 추가가 차단됩니다.
       </div>
       <div style="display:flex; gap:10px; margin-bottom:12px;">
         <input type="text" id="modalContractSearch" class="input" style="flex:1;" placeholder="계약번호(CT-...), 권리자명(김안전, 정종대 등), 소속사명 검색..." oninput="renderContractPickerList()">
@@ -502,7 +502,7 @@ code, pre, kbd, samp,
             <th>계약번호 / 계약명</th>
             <th>1계층 원 권리자</th>
             <th>공동 서명 후보 풀</th>
-            <th>선급금 잔액 (5.3절)</th>
+            <th>선급금 잔액 (정산 기준)</th>
             <th>현재 분할 상태</th>
             <th>선택</th>
           </tr>
@@ -522,12 +522,12 @@ code, pre, kbd, samp,
 <div class="modal-backdrop" id="coSignerModal">
   <div class="modal" style="width:min(780px, 95vw);">
     <div class="modal-hd">
-      <h3>👥 공동 서명 수취인 선택 모달 (계약 합의 당사자 일치 원칙 · 4.1절)</h3>
+      <h3>👥 공동 서명 수취인 선택 모달 (계약 합의 당사자 일치 원칙 · 정산 기준)</h3>
       <button class="btn btn-sm" onclick="closeModal('coSignerModal')">✕ 닫기</button>
     </div>
     <div class="modal-bd">
       <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12.5px; color:#4c1d95;">
-        🔒 <strong>[제4장 4.1절 계약 합의 당사자 일치 원칙]</strong> 임의의 제3자 계정을 입력할 수 없으며, <strong>현재 계약서(<span id="modalSignerContractId" class="code"></span>)에 공동 서명인 또는 적법 승계인으로 등록된 수취인 풀</strong>에서만 선택하여 추가할 수 있습니다.
+        🔒 <strong>[정산 기준 정산 기준 계약 합의 당사자 일치 원칙]</strong> 임의의 제3자 계정을 입력할 수 없으며, <strong>현재 계약서(<span id="modalSignerContractId" class="code"></span>)에 공동 서명인 또는 적법 승계인으로 등록된 수취인 풀</strong>에서만 선택하여 추가할 수 있습니다.
       </div>
       <div id="coSignerCardList"></div>
     </div>
@@ -667,7 +667,7 @@ code, pre, kbd, samp,
       status: "ACTIVE",
       category: "BLOCKED",
       advanceRemaining: 3500000,
-      advanceStatusText: "🚨 미상계 선급금 잔액 3,500,000원 존재 (선급금 원장 미종결 — 5.3절 상호 차단)",
+      advanceStatusText: "🚨 미상계 선급금 잔액 3,500,000원 존재 (선급금 원장 미종결 — 선급금 미상계 시 분할 차단)",
       effectiveStart: "2026-03-01",
       effectiveEnd: "2027-02-28",
       simBaseAmount: 4500000,
@@ -891,7 +891,7 @@ code, pre, kbd, samp,
       ${isBlocked ? `
         <div class="alert-box alert-bad">
           <div>
-            <div style="font-weight:800; font-size:13.5px;">🚫 [제5장 5.3절 상호 차단 하드락] 미상계 선급금 잔액(${fmt(c.advanceRemaining)})이 존재하여 수취인 분할 설정이 차단되었습니다.</div>
+            <div style="font-weight:800; font-size:13.5px;">🚫 [제5장 선급금 미상계 시 분할 차단 하드락] 미상계 선급금 잔액(${fmt(c.advanceRemaining)})이 존재하여 수취인 분할 설정이 차단되었습니다.</div>
             <div style="margin-top:4px;">
               선급금은 원 권리자(${c.primaryHolderName}) 개인에 대한 채권이므로 제3자(소속사·에이전시)에게 상계 부담이 전이되는 것을 방지하기 위해, <strong>선급금 잔액이 0원으로 종결되기 전까지 2계층 수취인 분할 비율(<code>payee_splits</code>)을 추가하거나 변경할 수 없습니다.</strong>
             </div>
@@ -937,7 +937,7 @@ code, pre, kbd, samp,
           <tr>
             <th>수취인 (공동 서명인 그룹 · 4.1절)</th>
             <th>사업자/소득 구분 및 세무 매트릭스 (11장 독립 적용)</th>
-            <th>저작자 본인 여부 / 승계 확정일 (16.1절)</th>
+            <th>저작자 본인 여부 / 승계 확정일</th>
             <th class="num" style="width:140px;">2계층 분할 비율 (%)</th>
             <th style="width:130px;">적용 시작일</th>
             <th style="width:130px;">적용 종료일</th>

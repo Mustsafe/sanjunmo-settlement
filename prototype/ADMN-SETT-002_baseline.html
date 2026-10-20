@@ -980,9 +980,9 @@ code, pre, kbd, samp,
       <section class="engine-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div style="font-weight:700; font-size:13px;">
-            🚀 [8.3절 SSOT] 통합 순방향 연산 엔진 (1~11단계) 배치 모니터링 &nbsp;
+            🚀 [정산 기준 SSOT] 통합 순방향 연산 엔진 (1~11단계) 배치 모니터링 &nbsp;
             <span style="font-weight:400; font-size:11.5px; color:var(--text-muted);">
-              * 모든 단계는 원 단위 내림(Floor) 및 마지막 수취인 총액 역산 원칙(제13장)을 준수하며, 마감 확정 전 재실행 시 기존 당월 행을 삭제 후 멱등 재생성합니다.
+              * 모든 단계는 원 단위 내림(Floor) 및 마지막 수취인 총액 역산 원칙(정산 기준)을 준수하며, 마감 확정 전 재실행 시 기존 당월 행을 삭제 후 멱등 재생성합니다.
             </span>
           </div>
           <span class="badge badge-success">최종 배치 완료: 2026-10-14 15:45:00</span>
@@ -1054,9 +1054,9 @@ code, pre, kbd, samp,
       <!-- 탭 네비게이션 -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabStatements">1. 수취인별 통합 정산서 및 1~11단계 연산 명세</button>
-        <button class="tab-btn" data-tab="tabSupportLedger">2. 개발지원금(Pipeline 5.1) 소진 원장 (확정·한도소진·실지급 3분리 · 5.2절)</button>
+        <button class="tab-btn" data-tab="tabSupportLedger">2. 개발지원금 소진 원장 (확정·한도소진·실지급 3분리 · 정산 기준)</button>
         <button class="tab-btn" data-tab="tabTaxInvoice">3. 2채널 전자(세금)계산서 역발행 및 위탁 계산서 수취 게이트웨이 (제10·12장)</button>
-        <button class="tab-btn" data-tab="tabFirmbanking">4. 펌뱅킹 대량이체 추출 및 은행 결과 파일 1:1 대사 (7.2절)</button>
+        <button class="tab-btn" data-tab="tabFirmbanking">4. 펌뱅킹 대량이체 추출 및 은행 결과 파일 1:1 대사</button>
       </div>
 
       <!-- 탭 1: 수취인별 통합 정산서 워크스페이스 -->
@@ -1072,10 +1072,10 @@ code, pre, kbd, samp,
               <input type="text" id="searchInput" class="input" placeholder="수취인명, 권리자ID, 계약ID 검색..." style="width:220px;">
               <select id="pipelineFilter" class="select">
                 <option value="ALL">전체 포함 파이프라인</option>
-                <option value="P1_1">온라인 강좌 수익배분 (Pipeline 1.1)</option>
-                <option value="P2_1">자사 발행 도서 인세 (Pipeline 2.1)</option>
-                <option value="P2_2">위탁 도서 판매대금 정산 (Pipeline 2.2)</option>
-                <option value="P5_1">매출연동 개발지원금 (Pipeline 5.1)</option>
+                <option value="P1_1">온라인 강좌 수익배분</option>
+                <option value="P2_1">자사 발행 도서 인세</option>
+                <option value="P2_2">위탁 도서 판매대금 정산</option>
+                <option value="P5_1">매출연동 개발지원금</option>
               </select>
             </div>
             <div class="table-wrap">
@@ -1100,7 +1100,7 @@ code, pre, kbd, samp,
           <!-- 우측 통합 정산서 상세 (6.5절 규격) -->
           <div class="statement-panel">
             <div class="card-header">
-              <div class="card-title" id="stmtTitle">통합 정산서 상세 (6.5절 · 8.3절)</div>
+              <div class="card-title" id="stmtTitle">통합 정산서 상세 (정산 기준 · 정산 기준)</div>
               <div style="display:flex; align-items:center; gap:6px;">
                 <span id="stmtBadge" class="badge badge-primary">선택됨</span>
                 <button type="button" class="btn btn-sm btn-primary" id="btnPanelOpenS1" style="margin-right:4px;" onclick="openStatementModalS1(getSelectedPayeeKey())">🔍 상세·마감 워크스페이스 (S1)</button> <button type="button" class="btn btn-sm" id="btnPanelOpenS2" style="margin-right:4px; border-color:#c4b5fd; background:#f5f3ff; color:#6d28d9; font-weight:700;" onclick="openStatementModalS2(getSelectedPayeeKey())">📤 권리자 정산서 (S2)</button>
@@ -1118,7 +1118,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">매출연동 개발지원금(Pipeline 5.1) 소진 원장 — 확정·환불 순누계 / 한도 소진액 / 실제 송금 누계 3분리 (5.2절 · 8.3절 5단계)</div>
+              <div class="card-title">매출연동 개발지원금 소진 원장 — 확정·환불 순누계 / 한도 소진액 / 실제 송금 누계 3분리 (정산 기준 · 정산 기준 5단계)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 단일 '기 지급 누적액' 필드를 폐지하고, 세전 한도 소진액과 세후·상계 후 실제 현금 송금 누계를 엄격히 분리하여 대사 왜곡을 방지합니다. (무한도형도 동일하게 월별 행 적재)
               </div>
@@ -1189,7 +1189,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">2채널 전자(세금)계산서 역발행 및 위탁 면세 계산서 수취 추적 게이트웨이 (6.5절 · 제12장)</div>
+              <div class="card-title">2채널 전자(세금)계산서 역발행 및 위탁 면세 계산서 수취 추적 게이트웨이 (정산 기준 · 정산 기준)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 익월 10일 지연발급 가산세(공급가액의 1~2%) 기한 3영업일 전 미승인 알럿 및 위탁 정산금 지급 후 10일 경과 미수취 알럿을 자동 통제합니다.
               </div>
@@ -1252,7 +1252,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">펌뱅킹 대량이체 집행 리스트 및 은행 결과 파일 1:1 식별자 매핑 (7.2절 · QA D-13)</div>
+              <div class="card-title">펌뱅킹 대량이체 집행 리스트 및 은행 결과 파일 1:1 식별자 매핑 (정산 기준 · QA D-13)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 이름만으로 자동 매핑하지 않고 지급 지시 식별자로 대조합니다. <strong>마감 후 송금 실패 시 마감 원장(Locked)이나 지원금 한도를 되돌리지 않고, 지급 예약(RESERVED)만 해제하여 미지급 소득을 세전 계정(PRE_TAX)에 적재</strong>합니다.
               </div>
@@ -1270,7 +1270,7 @@ code, pre, kbd, samp,
                   <th>수취인 / 귀속 구분</th>
                   <th>입금 은행 / 계좌번호 (예금주 검증)</th>
                   <th class="num">이체 지시 금액 (세후 실지급액)</th>
-                  <th>원천징수·상계 사건 기록 (7.2절)</th>
+                  <th>원천징수·상계 사건 기록</th>
                   <th>지급 상태 (payment_status)</th>
                 </tr>
               </thead>
@@ -1304,7 +1304,7 @@ code, pre, kbd, samp,
       <div>
         <div class="card-title" style="font-size:15px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
           <span>[ADMN-SETT-002-P2] 당월 정산 마감 확정 사전 게이트(Gate) 검증</span>
-          <span class="badge badge-primary">16.1절 · 7.4절 필수 규격</span>
+          <span class="badge badge-primary">16.1절 · 정산 기준 필수 규격</span>
         </div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">
           정산 원장 비가역 마감(Locked=True) 전 3대 선행 조건(PG 미대사 0건, 세무 판정 보류 0건, 이월 등식 일치)을 강제 검증합니다.
@@ -1341,7 +1341,7 @@ code, pre, kbd, samp,
               </td>
               <td style="padding:12px;">
                 원인 미분류 불일치<br>
-                <code>UNKNOWN_MISMATCH = 0건</code> (7.4절)
+                <code>UNKNOWN_MISMATCH = 0건</code> (정산 기준)
               </td>
               <td style="padding:12px;" id="gate1StatusCell">
                 <!-- 동적 렌더링 -->
@@ -1369,7 +1369,7 @@ code, pre, kbd, samp,
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:12px;">
                 <strong>Gate 3. 이월 원장 마감 연속성 등식</strong><br>
-                <span class="mono" style="font-size:11px; color:var(--text-muted);">7.4절 carryover_ledger</span>
+                <span class="mono" style="font-size:11px; color:var(--text-muted);">이월 원장</span>
               </td>
               <td style="padding:12px;">
                 전월 마감잔액 - 당월 소진액 + 신규적재액 = 당월 마감잔액
@@ -1442,7 +1442,7 @@ code, pre, kbd, samp,
         payoutStatusLabel: "실지급 확정 (≥10만원)",
         bankInfo: "신한은행 110-492-****** (예금주: 정종대 일치)",
         bankTransferStatus: "지급 대기 (마감 확정 후 이체 예약)",
-        diffReasonNote: "과세표준 합계(6,795,000원)와 세전 지급액의 차이는 [6단계 대여금(LOAN) 방식 선급금 상계(-500,000원)] 및 [10단계 기세무처리 세후 지급대기 이월액(+45,000원) 합산]에 기인합니다 (6.5절)."
+        diffReasonNote: "과세표준 합계(6,795,000원)와 세전 지급액의 차이는 [6단계 대여금(LOAN) 방식 선급금 상계(-500,000원)] 및 [10단계 기세무처리 세후 지급대기 이월액(+45,000원) 합산]에 기인합니다."
       },
       {
         id: "STMT-02",
@@ -1484,7 +1484,7 @@ code, pre, kbd, samp,
         contractId: "CT-2026-0801",
         matrixCase: "도서 재화 공급 면세 계산서 수취 + 위탁수수료 과세 (TX-11)",
         pipelines: ["P2_2"],
-        pipelineText: "위탁 도서 판매대금 정산 (Pipeline 2.2 · 수수료 차감지급)",
+        pipelineText: "위탁 도서 판매대금 정산 (수수료 차감지급)",
         step1PreTaxCarry: 0,
         step1PostTaxWait: 0,
         step2LectureRs: 0,
@@ -1507,7 +1507,7 @@ code, pre, kbd, samp,
         payoutStatusLabel: "실지급 확정 (위탁 정산)",
         bankInfo: "우리은행 1005-801-****** (예금주: 한국소방학회 일치)",
         bankTransferStatus: "지급 대기 (수취 계산서 확인 병행)",
-        diffReasonNote: "위탁 도서 판매대금(Pipeline 2.2)은 원천징수 비대상이며, 수수료 차감 후 지급(NET_DEDUCT) 방식에 따라 당사 위탁 수수료 공급가액(1,000,000원)과 수수료 부가세(100,000원)를 차감한 실정산액을 지급합니다 (6.6절 · 8.3절 9단계)."
+        diffReasonNote: "위탁 도서 판매대금은 원천징수 비대상이며, 수수료 차감 후 지급(NET_DEDUCT) 방식에 따라 당사 위탁 수수료 공급가액(1,000,000원)과 수수료 부가세(100,000원)를 차감한 실정산액을 지급합니다."
       },
       {
         id: "STMT-04",
@@ -1539,7 +1539,7 @@ code, pre, kbd, samp,
         payoutStatusLabel: "지급 보류 → 세전 이월 (PRE_TAX 72,000원)",
         bankInfo: "카카오뱅크 3333-02-******* (예금주: 최그래픽 일치)",
         bankTransferStatus: "이체 비대상 (최소 지급 기준 100,000원 미달)",
-        diffReasonNote: "11단계 실지급 판정액(69,624원)이 최소 정산 지급 기준액(100,000원) 미만이므로 원천징수를 실행하지 않고 원천징수 전 기초금액(72,000원)을 세전 계정(PRE_TAX, Pipeline 5.1 전용 구분)으로 차월 이월합니다 (7.3~7.4절)."
+        diffReasonNote: "11단계 실지급 판정액(69,624원)이 최소 정산 지급 기준액(100,000원) 미만이므로 원천징수를 실행하지 않고 원천징수 전 기초금액(72,000원)을 세전 계정(PRE_TAX, 개발지원금 전용 구분)으로 차월 이월합니다."
       },
       {
         id: "STMT-05",
@@ -1547,7 +1547,7 @@ code, pre, kbd, samp,
         payeeId: "RH-0015",
         payeeName: "이전기 (해지 강사 · 강제 청구)",
         contractId: "CT-2025-0911",
-        matrixCase: "계약 해지 · 강제 청구 트리거 발동 (10단계 CLAIM · QA D-11)",
+        matrixCase: "계약 해지 · 강제 청구 트리거 발동 (10단계 CLAIM )",
         pipelines: ["P1_1"],
         pipelineText: "전속계약금 세후 일할반환 + 해지 미상계 선급금 강제청구",
         step1PreTaxCarry: 0,
@@ -1571,7 +1571,7 @@ code, pre, kbd, samp,
         payoutStatusLabel: "공식 마이너스 청구서 발행 (CLAIM)",
         bankInfo: "회수 가상계좌 발급 완료",
         bankTransferStatus: "미수 채권 확정 (채널 3-a 원천세 수정신고 이관)",
-        diffReasonNote: "계약 해지 확정 주기에 해당하여 최소 청구 기준액(-100,000원)과 무관하게 소액 미상계 선급금(-50,000원, D-11) 및 전속계약금 세후 일할 반환액(-4,768,767원) 전액을 10단계(CLAIM) 공식 청구서로 발행했습니다."
+        diffReasonNote: "계약 해지 확정 주기에 해당하여 최소 청구 기준액(-100,000원)과 무관하게 소액 미상계 선급금(-50,000원) 및 전속계약금 세후 일할 반환액(-4,768,767원) 전액을 10단계(CLAIM) 공식 청구서로 발행했습니다."
       }
     ]
   };
@@ -1680,13 +1680,13 @@ code, pre, kbd, samp,
           <span><strong>9단계 원천징수세액:</strong> -${s.step9WithholdingTax.toLocaleString()}원</span>
         </div>
         <div class="diff-reason-box">
-          <strong>💡 [6.5절 과세표준 ↔ 실지급액 차액 사유 자동 명시]</strong><br>
+          <strong>💡 [과세표준 ↔ 실지급액 차액 사유 자동 명시]</strong><br>
           ${s.diffReasonNote}
         </div>
       </div>
 
       <!-- 1~11단계 순방향 연산 스텝 브레이크다운 -->
-      <div style="font-weight:700; font-size:12.5px; color:var(--text);">📊 1단계 ~ 11단계 순방향 단방향 연산 명세 (8.3절 SSOT 정본)</div>
+      <div style="font-weight:700; font-size:12.5px; color:var(--text);">📊 1단계 ~ 11단계 순방향 단방향 연산 명세</div>
       <div class="step-list">
         <div class="step-row">
           <span><strong>1단계 (전월 이월 호출 · CARRY_IN)</strong> — 세전 기초금액 / 세후 지급대기</span>
@@ -1849,7 +1849,7 @@ code, pre, kbd, samp,
     target.bankTransferStatus = "이체 실패 (계좌오류) → 예약 해제(NONE) · 세전 이월(PRE_TAX) 적재 완료";
     renderDetail();
     renderFirmbanking();
-    showToast("🧪 [QA D-13 검증 완료] 펌뱅킹 실패 시 마감 원장(Locked)이나 지원금 한도는 되돌리지 않고, 지급 예약(RESERVED)만 해제하여 미지급분을 세전 이월(PRE_TAX)로 적재했습니다.");
+    showToast("🧪 펌뱅킹 실패 시 마감 원장(Locked)이나 지원금 한도는 되돌리지 않고, 지급 예약(RESERVED)만 해제하여 미지급분을 세전 이월(PRE_TAX)로 적재했습니다.");
   }
 
   document.getElementById("btnRunEngine").addEventListener("click", () => {
@@ -1911,7 +1911,7 @@ code, pre, kbd, samp,
       <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
         <span style="background:#2563eb; color:#fff; font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-size:11px; font-weight:700; padding:3px 8px; border-radius:5px;">ADMN-SETT-002-P1</span>
         <strong style="font-size:15.5px;" id="p1ModalTitle">이월 잔액 및 지난 정산 이월 발생 내역 상세</strong>
-        <span style="font-size:12px; color:#94a3b8;" id="p1ModalSubtitle">| 이월 원장(carryover_ledger) 7.4절 마감 연속성 검증</span>
+        <span style="font-size:12px; color:#94a3b8;" id="p1ModalSubtitle">| 이월 원장(carryover_ledger) 정산 기준 마감 연속성 검증</span>
       </div>
       <div style="display:flex; align-items:center; gap:10px;">
         <!-- 파트너 격리 로그인 시에는 모드 전환 스위치를 숨김 -->
@@ -1969,7 +1969,7 @@ code, pre, kbd, samp,
         <div class="p1-eq-card" style="border-color:#93c5fd; background:#eff6ff;">
           <div class="p1-eq-label" style="color:#1e40af;">[4] 당기말 차월 이월 잔액 (Closing)</div>
           <div class="p1-eq-val" id="p1EqClosing" style="color:#1d4ed8;">0원</div>
-          <div class="p1-eq-sub">7.4절 연속성 등식: [1] + [2] + [3] = [4] (100% 일치)</div>
+          <div class="p1-eq-sub">이월 잔액 연속성 등식: [1] + [2] + [3] = [4] (100% 일치)</div>
         </div>
       </div>
 
@@ -1992,7 +1992,7 @@ code, pre, kbd, samp,
 
     <div class="p1-modal-footer">
       <div style="font-size:11.5px; color:#64748b;">
-        ※ 정본 근거: 제1권 7.3절(최소 지급/청구 하한) · 7.4절(이월 원장 마감 연속성 등식) · 제2권 8.3절 1단계(CARRY_IN) 및 11단계(PAYOUT)
+        ※ 정본 근거: 제1권 정산 기준(최소 지급/청구 하한) · 정산 기준(이월 원장 마감 연속성 등식) · 제2권 정산 기준 1단계(CARRY_IN) 및 11단계(PAYOUT)
       </div>
       <div style="display:flex; gap:8px;">
         <button type="button" class="btn btn-sm" onclick="showToast('📥 이월 발생 내역 데이터 테이블 엑셀(CSV) 다운로드가 완료되었습니다.')">📥 이월 내역 엑셀 다운로드</button>
@@ -2053,8 +2053,8 @@ code, pre, kbd, samp,
       <!-- [마커 2] 6.5절 통합 정산 요약 스코어보드 및 과세표준 vs 실지급액 차액 등식 -->
       <div class="s1-card">
         <div class="s1-card-head">
-          <div class="s1-card-title">📊 제6장 6.5절 통합 정산 요약 및 과세표준 vs 실지급액 대조 등식 (메인 목록 100% 동기화)</div>
-          <span style="font-size:11.5px; color:#475569;">※ 산출 중간값 DECIMAL(18,4) 유지 후 라인 합산 1회 Floor 절사 (제13장)</span>
+          <div class="s1-card-title">📊 정산 기준 정산 기준 통합 정산 요약 및 과세표준 vs 실지급액 대조 등식 (메인 목록 100% 동기화)</div>
+          <span style="font-size:11.5px; color:#475569;">※ 산출 중간값 DECIMAL(18,4) 유지 후 라인 합산 1회 Floor 절사 (정산 기준)</span>
         </div>
         <div class="s1-score-grid" id="s1SummaryScoreGrid"></div>
         <div class="s1-diff-banner" id="s1DiffEquationBanner"></div>
@@ -2066,7 +2066,7 @@ code, pre, kbd, samp,
       <!-- [마커 4] 1~11단계 연산 엔진 워터폴 -->
       <div class="s1-card">
         <div class="s1-card-head">
-          <div class="s1-card-title">⚙️ 제8장 8.3절 1~11단계 정산 연산 워터폴 및 세액·상계 산식 검증</div>
+          <div class="s1-card-title">⚙️ 정산 기준 정산 기준 1~11단계 정산 연산 워터폴 및 세액·상계 산식 검증</div>
           <span style="font-size:11.5px; color:#64748b;">메인 우측 요약 패널의 1~11단계 수치와 1원 단위까지 동일합니다</span>
         </div>
         <div style="overflow-x:auto;">
@@ -2090,7 +2090,7 @@ code, pre, kbd, samp,
         <div class="s1-card">
           <div class="s1-card-head">
             <div class="s1-card-title">🧾 세무 증빙 발행·수취 매핑 및 원천세 신고 귀속</div>
-            <span class="badge badge-primary">제9장 · 제11장 매트릭스</span>
+            <span class="badge badge-primary">제9장 · 정산 기준 매트릭스</span>
           </div>
           <div style="padding:14px 16px; font-size:12.5px;" id="s1EvidenceDetailBox"></div>
         </div>
@@ -2405,7 +2405,7 @@ code, pre, kbd, samp,
         { sku: "BK-2026-101", title: "2026 정종대 산업안전기사 필기 기본서", supplyType: "OWN_PUBLISHED (자사발행 인세 · Pipeline 2.1)", shipQty: 300, returnQty: 10, netQty: 290, listPrice: 30000, rate: "10.00%", shareRatio: "100.00%", finalFloor: 870000 }
       ],
       supportRows: [
-        { type: "매출연동 개발지원금 (Pipeline 5.1)", capTotal: 10000000, usedBefore: 8930000, calcCurrent: 1170000, capApplied: 720000, offsetRule: "CONDITIONAL (상계 허용 · v4.0.0)", remainCap: 0, note: "4단계 옵션B 지원금 차감(-325,000원) 후 5단계 잔여 한도 캡 적용 확정액 720,000원" }
+        { type: "매출연동 개발지원금", capTotal: 10000000, usedBefore: 8930000, calcCurrent: 1170000, capApplied: 720000, offsetRule: "CONDITIONAL (상계 허용 · v4.0.0)", remainCap: 0, note: "4단계 옵션B 지원금 차감(-325,000원) 후 5단계 잔여 한도 캡 적용 확정액 720,000원" }
       ],
       prepayRows: [
         { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 7393750, offsetApplied: -1500000, closingBal: 2000000, allocDetail: "계약 전체 상계 -1,500,000원 → 8단계 수취인 분할(80%) 적용 시 정종대 귀속 상계액 -1,200,000원" }
@@ -2489,7 +2489,7 @@ code, pre, kbd, samp,
       ssnRaw: "108-82-49102",
       bankMasked: "기업은행 012-098412-**-*** (예금주: 사단법인한국소방학회)",
       bankRaw: "기업은행 012-098412-01-019 (예금주: 사단법인한국소방학회)",
-      contractSummary: "CON-2026-014 | 위탁 도서(Pipeline 2.2) 수수료 차감지급(NET_DEDUCT, 수수료율 30% VAT포함)",
+      contractSummary: "CON-2026-014 | 위탁 도서(위탁도서 정산) 수수료 차감지급(NET_DEDUCT, 수수료율 30% VAT포함)",
       prepaySummary: "해당 없음 (위탁 도서 전용 파이프라인 격리)",
       limitsSummary: "최소지급 100,000원",
       batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
@@ -2512,7 +2512,7 @@ code, pre, kbd, samp,
       prepayRows: [],
       payeeSplitRows: [],
       waterfall: [
-        { step: "2단계 (ACCRUAL)", title: "위탁 도서 출고 기준 위탁 순액 산출 (Pipeline 2.2)", rule: "출고 70부 × 40,000원 × 70% = 1,960,000원", delta: 1960000, bal: 1960000 },
+        { step: "2단계 (ACCRUAL)", title: "위탁 도서 출고 기준 위탁 순액 산출 (위탁도서 정산)", rule: "출고 70부 × 40,000원 × 70% = 1,960,000원", delta: 1960000, bal: 1960000 },
         { step: "4단계 (DEDUCT)", title: "구매확정(D+7) 전 반품 회수 차감", rule: "반품 5부 × 40,000원 × 70% = -140,000원", delta: -140000, bal: 1820000 },
         { step: "9단계 (TAX)", title: "재화 공급 면세 판정 (TX-11 · 원천징수 비대상)", rule: "도서 재화 공급이므로 원천징수 0원 / 당사 수수료(780,000원)는 별도 과세 세금계산서 정발행", delta: 0, bal: 1820000 },
         { step: "11단계 (PAYOUT)", title: "위탁 정산대금 최종 실지급액 확정", rule: "수수료 차감지급(NET_DEDUCT) 방식 → 1,820,000원 지급", delta: 0, bal: 1820000 }
@@ -2885,7 +2885,7 @@ code, pre, kbd, samp,
       </div>
     `;
     document.getElementById("s1DiffEquationBanner").innerHTML = `
-      <div><strong>📐 [6.5절 과세표준 vs 실지급액 차액 검증 등식]</strong> ${c.diffEquation}</div>
+      <div><strong>📐 [과세표준 vs 실지급액 차액 검증 등식]</strong> ${c.diffEquation}</div>
       <span class="badge badge-success">메인 목록과 100% 일치</span>
     `;
 
@@ -2933,13 +2933,13 @@ code, pre, kbd, samp,
       `);
     }
 
-    // [B] 온라인 강좌 수익배분 (Pipeline 1.1)
+    // [B] 온라인 강좌 수익배분
     if (c.lectureRows.length > 0 || showAll) {
       activeNames.push("[B] 온라인강좌(1.1)");
       blocks.push(`
         <div class="s1-card">
           <div class="s1-card-head">
-            <div class="s1-card-title">🎓 [테이블 B] 온라인 강좌 수익배분 산출 명세 (Pipeline 1.1)</div>
+            <div class="s1-card-title">🎓 [테이블 B] 온라인 강좌 수익배분 산출 명세 (강좌 수익배분)</div>
             <span style="font-size:11.5px; color:#64748b;">정산기준금 DECIMAL(18,4) 유지 → 라인 합산 후 1회 Floor 절사</span>
           </div>
           <table class="table" style="width:100%; font-size:12px;">
@@ -2980,7 +2980,7 @@ code, pre, kbd, samp,
       blocks.push(`
         <div class="s1-card">
           <div class="s1-card-head">
-            <div class="s1-card-title">📚 [테이블 C] 교재 저작권 인세(Pipeline 2.1) · 위탁 도서 판매대금(Pipeline 2.2) 산출 명세</div>
+            <div class="s1-card-title">📚 [테이블 C] 교재 저작권 인세(도서 인세) · 위탁 도서 판매대금 산출 명세</div>
             <span style="font-size:11.5px; color:#64748b;">3PL 출고 완료 및 구매확정(D+7) 반품 차감 기준</span>
           </div>
           <table class="table" style="width:100%; font-size:12px;">

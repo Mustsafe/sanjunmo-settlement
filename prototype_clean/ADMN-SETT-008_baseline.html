@@ -651,7 +651,7 @@ code, pre, kbd, samp,
                   <th>파라미터 한글 명칭</th>
                   <th>시스템 파라미터 코드</th>
                   <th>설정 기준값</th>
-                  <th>운영 통제 규칙 (정산 기준 · 정산 기준 · 부록 B)</th>
+                  <th>운영 통제 규칙 (정산 기준 · 부록 B)</th>
                 </tr>
               </thead>
               <tbody>
@@ -1217,7 +1217,7 @@ code, pre, kbd, samp,
         <div>
           <div style="font-size:15px; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
             <span>[ADMN-SETT-008-P1] 과세유형 전환 승인 및 유효일자 행 분할 확정</span>
-            <span class="badge badge-primary">17.5절 하드락</span>
+            <span class="badge badge-primary">국세청 과세유형 검증</span>
           </div>
           <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">
             국세청 API 과세유형 전환 감지 건에 대해 기존 행을 종료하고 신규 유효일자 행을 분할 생성합니다.
@@ -1226,7 +1226,7 @@ code, pre, kbd, samp,
         <button type="button" class="btn btn-sm" onclick="closeTaxTransitionModal()">✕</button>
       </div>
       <div style="padding:18px 20px; overflow-y:auto; max-height:calc(85vh - 130px);">
-        <!-- 17.5절 하드락 안내 박스 -->
+        <!-- 국세청 과세유형 검증 안내 박스 -->
         <div style="background:#FEF2F2; border:1.5px solid #FECACA; border-radius:8px; padding:12px 14px; margin-bottom:16px; font-size:12px; color:#991B1B; line-height:1.55;">
           <strong>⚠️ 정산 기준 하드락 규칙:</strong> 국세청 API 응답의 <code>tax_type_change_dt</code>가 빈값("")일 때 7월 1일 등으로 일괄 가정하는 것을 엄격히 금지하며, 수취한 정정 사업자등록증상 실제 전환 효력일을 기준으로 기존 행 종료 및 신규 행을 분할 생성합니다.
         </div>

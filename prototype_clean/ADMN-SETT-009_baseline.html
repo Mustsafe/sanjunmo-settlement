@@ -294,7 +294,7 @@ code, pre, kbd, samp,
       <div class="policy-banner">
         <div>
           <div style="font-weight:800; color:#1e3a8a; font-size:13.5px;">
-            🔒 [권한 분리 및 외부 유출 차단 원칙 (정산 기준 · 정산 기준 · Case 11·12)]
+            🔒 [권한 분리 및 외부 유출 차단 원칙 (정산 기준 · Case 11·12)]
           </div>
           <div style="font-size:12.5px; color:#334155; margin-top:3px;">
             본 화면은 <strong>자사 계정(주식회사 엘캠퍼스, <code>is_internal = true</code>) 귀속분</strong>과 <strong>일반 상품 판매매출(일반상품 매출, <code>TX-13</code>)</strong>을 외부 권리자 지급액과 함께 대조하는 <strong>조회 전용(View-only)</strong> 화면입니다. 자사 귀속 라인은 펌뱅킹 이체 리스트 및 전자(세금)계산서 역발행 루프에서 <strong>자동 제외(Bypass)</strong>되며, 매출연동 개발지원금 확정액은 외부 공동권리자 지분을 침해하지 않고 <strong>자사 귀속 몫에서만 차감</strong>됩니다.
@@ -338,7 +338,7 @@ code, pre, kbd, samp,
       <div>
         <div class="tabs">
           <button class="tab-btn active" id="tabBtn-overview" onclick="switchTab('overview')">1. 파이프라인별 전사 손익 · 권리자/자사 대조표 </button>
-          <button class="tab-btn" id="tabBtn-support" onclick="switchTab('support')">2. 자사 지분 내 개발지원금(개발지원금) 차감 검증 (정산 기준 · 검증규칙·16)</button>
+          <button class="tab-btn" id="tabBtn-support" onclick="switchTab('support')">2. 자사 지분 내 개발지원금 차감 검증 (정산 기준 · 검증규칙·16)</button>
           <button class="tab-btn" id="tabBtn-goods" onclick="switchTab('goods')">3. 일반 소비재(일반상품 매출) 및 비인입 도서(Case 11·12) 명세</button>
           <button class="tab-btn" id="tabBtn-taxreport" onclick="switchTab('taxreport')">4. 월별·연간 세무 신고 기초 산출물 센터 </button>
         </div>
@@ -353,7 +353,7 @@ code, pre, kbd, samp,
               <option value="P2_1">자사 발행 도서 인세 및 자사저작권 (도서 인세)</option>
               <option value="P2_2">위탁 도서 판매대금 정산 (위탁도서 정산)</option>
               <option value="P2_3">일반 상품 판매매출 (일반상품 매출 · 소비재)</option>
-              <option value="P5_1">매출연동 개발지원금 (개발지원금)</option>
+              <option value="P5_1">매출연동 개발지원금</option>
               <option value="INTERNAL">자사 귀속(RH-INTERNAL) 포함 건만</option>
               <option value="EXTERNAL">외부 권리자 지급 포함 건만</option>
             </select>
@@ -367,7 +367,7 @@ code, pre, kbd, samp,
             <table>
               <thead>
                 <tr>
-                  <th>정산 입력 구분 (Pipeline)</th>
+                  <th>정산 입력 구분</th>
                   <th>상품/SKU 코드 및 명칭</th>
                   <th>과·면세 / 세무케이스</th>
                   <th class="num">당월 확정 매출<br><span style="font-size:10.5px;font-weight:500;">(공급가액 / 부가세)</span></th>
@@ -384,10 +384,10 @@ code, pre, kbd, samp,
           </div>
         </div>
 
-        <!-- TAB 2: 자사 지분 내 개발지원금(Pipeline 5.1) 차감 검증 -->
+        <!-- TAB 2: 자사 지분 내 개발지원금 차감 검증 -->
         <div class="card" id="tabPanel-support" style="display:none; border-top-left-radius:0;">
           <div class="card-hd">
-            <h3>🛡️ 개발지원금(개발지원금) 자사 지분(`RH-INTERNAL`) 내 차감 및 잔여 귀속 대사 (정산 기준 · 부록 검증규칙 · 검증규칙)</h3>
+            <h3>🛡️ 개발지원금 자사 지분(`RH-INTERNAL`) 내 차감 및 잔여 귀속 대사 (정산 기준 · 부록 검증규칙 · 검증규칙)</h3>
             <span class="badge b-pri">외부 공동권리자 1계층 정산금 침해 0원 검증 완료</span>
           </div>
           <div class="card-bd">
@@ -485,11 +485,11 @@ code, pre, kbd, samp,
           </div>
         </div>
 
-        <!-- TAB 3: 일반 소비재(Pipeline 2.3) 및 비인입 도서(Case 11·12) 명세 -->
+        <!-- TAB 3: 일반 소비재(일반상품 매출) 및 비인입 도서(Case 11·12) 명세 -->
         <div class="card" id="tabPanel-goods" style="display:none; border-top-left-radius:0;">
           <div class="card-hd">
             <h3>📦 일반 상품 판매매출(일반상품 매출 · TX-13) 및 매입 재판매 도서(Case 11) 내부 집계</h3>
-            <span class="badge b-teal">제18장 정산 기준 · Case 11 · Case 12 정합</span>
+            <span class="badge b-teal">내부 정산 손익 기준 · Case 11 · Case 12 정합</span>
           </div>
           <div class="card-bd">
             <div style="margin-bottom:14px; font-size:12.5px; color:var(--muted);">
@@ -658,7 +658,7 @@ code, pre, kbd, samp,
   const LEDGER_ROWS = [
     {
       pipeCode: "P1_1",
-      pipeName: "온라인 강좌 수익배분 (Pipeline 1.1)",
+      pipeName: "온라인 강좌 수익배분",
       sku: "CRS-1001",
       title: "2026 산업안전기사 필기+실기 올인원 패스",
       taxBadge: "교육용역 면세 (부가세 0원)",
@@ -677,7 +677,7 @@ code, pre, kbd, samp,
     },
     {
       pipeCode: "P1_1",
-      pipeName: "온라인 강좌 수익배분 (Pipeline 1.1)",
+      pipeName: "온라인 강좌 수익배분",
       sku: "CRS-1002",
       title: "2026 위험물산업기사 실기 시뮬레이션 특강 (D-16)",
       taxBadge: "교육용역 면세 (부가세 0원)",
@@ -696,7 +696,7 @@ code, pre, kbd, samp,
     },
     {
       pipeCode: "P1_1",
-      pipeName: "온라인 강좌 수익배분 (Pipeline 1.1)",
+      pipeName: "온라인 강좌 수익배분",
       sku: "CRS-1005",
       title: "[자사직강] 산준모 법규 핵심 특강 (자사 권리 100%)",
       taxBadge: "교육용역 면세 (부가세 0원)",
@@ -715,7 +715,7 @@ code, pre, kbd, samp,
     },
     {
       pipeCode: "P2_1",
-      pipeName: "자사 발행 도서 인세 (Pipeline 2.1)",
+      pipeName: "자사 발행 도서 인세",
       sku: "PROD-BK-1001",
       title: "2026 산준모 산업안전기사 필기 기본서 (인세 10%)",
       taxBadge: "도서 재화 면세 / 인세 TX-08",
@@ -737,7 +737,7 @@ code, pre, kbd, samp,
       pipeName: "자사저작권 도서 + 개발지원금 (Pipeline 2.1 / 5.1)",
       sku: "PROD-BK-1004",
       title: "[자사저작권] 정종대 산업안전 실기 빈출문제집 (D-15)",
-      taxBadge: "own_copyright_yn = true (TX-08)",
+      taxBadge: "자사 저작권 보유 (TX-08)",
       salesTotal: 12000000,
       salesSupply: 12000000,
       salesVat: 0,
@@ -753,7 +753,7 @@ code, pre, kbd, samp,
     },
     {
       pipeCode: "P2_2",
-      pipeName: "위탁 도서 판매대금 정산 (Pipeline 2.2)",
+      pipeName: "위탁 도서 판매대금 정산",
       sku: "PROD-BK-3001",
       title: "소방설비기사 실기 위탁 수험서 (한국소방학회 위탁)",
       taxBadge: "위탁 도서 면세 (TX-11) / 수수료 25%",
@@ -764,7 +764,7 @@ code, pre, kbd, samp,
       extBasicDesc: "위탁 정산순액 150만원 (실지급 145만원·수수료VAT 차감)",
       internalInit: 500000,
       supportDeduct: 0,
-      supportDesc: "지원금 모수 제외 (5.2절)",
+      supportDesc: "지원금 모수 제외",
       internalNet: 500000,
       bypassText: "당사 위탁수수료 매출 500,000원 (부가세 50,000원 별도)",
       hasInternal: true,

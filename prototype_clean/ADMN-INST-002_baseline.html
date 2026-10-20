@@ -724,7 +724,7 @@ code, pre, kbd, samp,
         isBusinessEntity: true,
         category: "SUPPORT_RS_ONCE",
         categoryLabel: "개발지원금 (매출연동 R/S 약정 체결 1회 검수)",
-        title: "[자사저작권 도서+강좌] 정종대 산업안전 필기 개발지원금 (Pipeline 5.1)",
+        title: "[자사저작권 도서+강좌] 정종대 산업안전 필기 개발지원금",
         amount: 0, // 매출연동형은 요율로 산정
         rateText: "지원금 요율 15.00% (rate_type=SUPPORT, 기준모수 SAME_AS_BASIC)",
         paymentMethod: "REVENUE_SHARE",
@@ -733,7 +733,7 @@ code, pre, kbd, samp,
         capType: "CAPPED",
         totalCapAmount: 15000000,
         settlementScope: "PIPELINE_1_1_2_1",
-        targetCount: 2, // CRS-1001, PROD-BK-1004 (own_copyright_yn=true 자사지분 100%)
+        targetCount: 2, // CRS-1001, PROD-BK-1004 (자사 저작권 보유 자사지분 100%)
         endBasis: "CONTRACT_LINKED",
         onTerminationPolicy: "FORFEIT",
         // Gate A: 소득 구분
@@ -919,7 +919,7 @@ code, pre, kbd, samp,
       gateAMsg = "차단: 기타소득(OTHER) 선택 시 기타소득 호 구분(C15/C05/C19 등) 필수 지정";
     }
 
-    // Gate B: 매출연동(REVENUE_SHARE) 지원금 필수값 (5.2절 · 7.2절)
+    // Gate B: 매출연동(REVENUE_SHARE) 지원금 필수값
     let gateBPass = true;
     let gateBMsg = "해당 없음 (비정기 단건 마일스톤)";
     if (item.category === "SUPPORT_RS_ONCE") {
@@ -981,7 +981,7 @@ code, pre, kbd, samp,
     const rsApprovedCount = approved.filter(x => x.category === "SUPPORT_RS_ONCE").length;
 
     document.getElementById("footerSummaryText").innerHTML =
-      `2026-10 귀속월 이관 승인 완료: <strong>${approved.length}건</strong> (7단계 비정기 가산금 합계 <strong>${lumpSumApproved.toLocaleString()}원</strong> + Pipeline 5.1 매출연동 약정 활성화 <strong>${rsApprovedCount}건</strong>)`;
+      `2026-10 귀속월 이관 승인 완료: <strong>${approved.length}건</strong> (7단계 비정기 가산금 합계 <strong>${lumpSumApproved.toLocaleString()}원</strong> + 매출연동 지원금 약정 활성화 <strong>${rsApprovedCount}건</strong>)`;
   }
 
   function renderTable() {
@@ -1022,7 +1022,7 @@ code, pre, kbd, samp,
         : `<span class="badge badge-primary" style="margin-top:3px;">증빙 첨부형</span>`;
 
       const amountHtml = item.category === "SUPPORT_RS_ONCE"
-        ? `<span class="badge badge-purple">Pipeline 5.1 (R/S 1회)</span><div style="font-size:11px; color:var(--text-sub); margin-top:2px;">${item.rateText}</div>`
+        ? `<span class="badge badge-purple">매출연동 지원금 (1회)</span><div style="font-size:11px; color:var(--text-sub); margin-top:2px;">${item.rateText}</div>`
         : `<strong>${item.amount.toLocaleString()}원</strong><div style="font-size:11px; color:var(--text-muted);">${item.paymentMethod}</div>`;
 
       const incomeText = item.incomeCategory
@@ -1084,7 +1084,7 @@ code, pre, kbd, samp,
 
     const buyoutLegalWarning = item.category === "BUYOUT" ? `
       <div style="background:#fffbeb; border:1px solid #fde68a; border-radius:7px; padding:9px 12px; font-size:11.5px; color:#92400e;">
-        <strong>⚖️ [6.4절 · TX-03 매절(권리 양도) 세무 근거 통제]</strong><br>
+        <strong>⚖️ [TX-03 매절(권리 양도) 세무 근거 통제]</strong><br>
         매절은 저작권 양도 거래이므로 '사용료' 조항인 <strong>부가가치세법 시행령 제42조 제1호 아목을 단독 인용하지 않습니다.</strong>
         독립 저술 용역(같은 호 <strong>가목</strong>) 및 도서 면세 부수 공급 예규(<strong>서삼46015-10392</strong>)를 병기하며, 기타소득 시 원작자 여부에 따라 <code>C15(60% 경비)</code> 또는 <code>C05(승계·경비 0%)</code>로 분기합니다.
       </div>
@@ -1093,7 +1093,7 @@ code, pre, kbd, samp,
     const rsSupportSection = item.category === "SUPPORT_RS_ONCE" ? `
       <div style="background:#f5f3ff; border:1px solid #ddd6fe; border-radius:8px; padding:11px 13px; display:flex; flex-direction:column; gap:8px;">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <strong style="color:var(--purple); font-size:12.5px;">🟣 매출연동(REVENUE_SHARE) 지원금 약정 체결 1회 필수값 검증 (5.2절 · 7.2절)</strong>
+          <strong style="color:var(--purple); font-size:12.5px;">🟣 매출연동(REVENUE_SHARE) 지원금 약정 체결 1회 필수값 검증</strong>
           ${item.targetCount === 0 ? `<button class="btn btn-sm btn-primary" onclick="fixMissingRsTargets('${item.id}')">+ 약정 대상(자사지분>0%) 매핑 불러오기</button>` : ""}
         </div>
         <div class="kv-grid" style="font-size:12px;">
@@ -1120,7 +1120,7 @@ code, pre, kbd, samp,
         <div class="kv-label">약정 금액 / 지급방식</div>
         <div class="mono">
           ${item.category === "SUPPORT_RS_ONCE"
-            ? `<strong style="color:var(--purple);">매출연동 자동산출 (Pipeline 5.1)</strong>`
+            ? `<strong style="color:var(--purple);">매출연동 자동산출 (개발지원금)</strong>`
             : `<strong>${item.amount.toLocaleString()}원</strong> (${item.paymentMethod})`}
         </div>
         <div class="kv-label">선급금 상계 연동</div>
@@ -1136,10 +1136,10 @@ code, pre, kbd, samp,
       ${buyoutLegalWarning}
       ${rsSupportSection}
 
-      <!-- 3대 하드 게이트 체크박스 (7.2절) -->
+      <!-- 3대 하드 게이트 체크박스 -->
       <div class="gate-box">
         <div class="gate-box-title">
-          <span>🔒 [7.2절] 마일스톤 검수 승인 3대 필수 게이트 판정</span>
+          <span>🔒 마일스톤 검수 승인 3대 필수 게이트 판정</span>
           <span class="mono">${g.allPass ? "ALL PASS" : "BLOCKED"}</span>
         </div>
         <div class="gate-item ${g.gateAPass ?"pass" : "fail"}">
@@ -1182,7 +1182,7 @@ code, pre, kbd, samp,
 
       <div class="form-row">
         <div class="form-group">
-          <label class="form-label">이원화 검수 방식 선택 (7.2절)</label>
+          <label class="form-label">이원화 검수 방식 선택</label>
           <select id="editInspectMode" class="select" onchange="onInspectModeChange('${item.id}')" ${isApproved ? "disabled" : ""}>
             <option value="EVIDENCE_FILE" ${item.inspectionMode === "EVIDENCE_FILE" ? "selected" : ""}>증빙 첨부형 검수 (완강확인서·양도서 등)</option>
             <option value="MANUAL_NOTE" ${item.inspectionMode === "MANUAL_NOTE" ? "selected" : ""}>담당자 수기 소명형 ('수기 검수(내부확인)' 배지)</option>
@@ -1288,7 +1288,7 @@ code, pre, kbd, samp,
       time: "2026-10-14 15:10:00",
       actor: "재무담당자 (white)",
       targetId: `${item.id} (${item.contractId})`,
-      mode: "국세청 API 연동(제17장)",
+      mode: "국세청 API 연동",
       action: "사업자 상태 수시 재조회 (MILESTONE_APPROVAL 트리거)",
       reason: "90일 유효기간 경과에 따른 즉시 재조회 → 계속사업자 확인 완료 (Gate C 통과)"
     });
@@ -1316,7 +1316,7 @@ code, pre, kbd, samp,
     if (!item) return;
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
+      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n마감된 월에는 약정금 라인을 소급 인입할 수 없습니다.`);
       return;
     }
     item.targetMonth = tMonth;
@@ -1336,7 +1336,7 @@ code, pre, kbd, samp,
 
     const tMonth = document.getElementById("editTargetMonth").value;
     if (LOCKED_MONTHS.includes(tMonth)) {
-      alert(`[7.0절 마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
+      alert(`[마감 상태별 인입 통제]\n선택하신 '${tMonth}'은 이미 정산 마감 확정(Locked = True)된 데이터 기준 월입니다.\n미마감 월(2026-10 등)로 귀속월을 지정하세요.`);
       return;
     }
 
@@ -1348,7 +1348,7 @@ code, pre, kbd, samp,
 
     const memo = document.getElementById("editMemo").value.trim();
     if (item.inspectionMode === "MANUAL_NOTE" && memo.length < 10) {
-      alert("[7.2절 담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
+      alert("[담당자 수기 소명형 검수 규칙]\n수기 검수(내부확인) 선택 시 최소 10자 이상의 구체적인 검수 의견 및 승인 근거 작성이 필수입니다.");
       return;
     }
     if (item.inspectionMode === "EVIDENCE_FILE") {
@@ -1369,7 +1369,7 @@ code, pre, kbd, samp,
 
     const modeLabel = item.inspectionMode === "MANUAL_NOTE" ? "수기 검수(내부확인)" : "증빙 첨부 검수";
     const actionDesc = item.category === "SUPPORT_RS_ONCE"
-      ? `매출연동(Pipeline 5.1) 지원금 약정 1회 검수 승인 (${item.targetMonth}부터 자동 연산 활성화)`
+      ? `매출연동 지원금 약정 1회 검수 승인 (${item.targetMonth}부터 자동 연산 활성화)`
       : `약정금 ${item.amount.toLocaleString()}원 검수 승인 → ${item.targetMonth} 정산서 7단계(LUMPSUM_ADD) 이관`;
 
     state.auditLogs.unshift({
