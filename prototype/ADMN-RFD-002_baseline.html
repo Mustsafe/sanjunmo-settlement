@@ -1137,7 +1137,7 @@ code, pre, kbd, samp,
                   <td>박영희</td>
                   <td class="num">385,000원</td>
                   <td class="num"><strong>297,111원</strong></td>
-                  <td><span class="badge badge-purple">유상 15,000P LIFO 복원 (만료분 D+7 유예 부여)</span></td>
+                  <td><span class="badge badge-purple">적립 P 15,000P LIFO 복원 (만료분 D+7 유예 부여)</span></td>
                   <td><span class="badge badge-green">2026-10 정산 반영</span></td>
                   <td><button type="button" class="btn btn-sm btn-outline" onclick="openRefundAdjustModal('RFD-2026-001120')">+ 보정 거래 생성</button></td>
                 </tr>
@@ -1438,7 +1438,7 @@ code, pre, kbd, samp,
       } else if (viewName === 'done') {
         document.getElementById('view-done').classList.add('active');
         code.textContent = 'ADMN-RFD-003';
-        title.textContent = '환불 완료 내역 및 LIFO 유상 포인트 복원 (조회 전용)';
+        title.textContent = '환불 완료 내역 및 LIFO 구매적립 포인트(적립 P) 복원 (조회 전용)';
       } else if (viewName === 'detail') {
         document.getElementById('view-detail').classList.add('active');
         code.textContent = 'ADMN-RFD-002';
@@ -2114,7 +2114,7 @@ code, pre, kbd, samp,
           </label>
           <label class="m3f-type-card" data-type="POINT">
             <input type="radio" name="m3f-ra-type" value="POINT" onchange="m3fRaTypeChange()" />
-            <span><strong>포인트 단독 보정 (P)</strong><small>현금 변동 없이 LIFO 복원 유상 포인트 또는 마이너스 부채 포인트 보정</small></span>
+            <span><strong>포인트 단독 보정 (P)</strong><small>현금 변동 없이 LIFO 복원 구매적립 포인트(적립 P) 또는 마이너스 부채 포인트 보정</small></span>
           </label>
         </div>
       </div>
