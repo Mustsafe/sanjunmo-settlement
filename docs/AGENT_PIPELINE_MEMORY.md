@@ -67,3 +67,4 @@
 | 2026-10-20 | 역할 고정 메모리 생성, Skill 2(금지어·내부 암호 스캐너) 구축 및 최초 스캔 | `.antigravity/RULES.md`, `docs/AGENT_PIPELINE_MEMORY.md`, `scripts/qa/skill_jargon_scan.py`, `docs/JARGON_SCAN_REPORT.md` |
 | 2026-10-20 | `patch_missing_3_features.py` 실행 — USER-004 진도율 보정 원장(카드 4·5번)·USER-006 태그 생성/그룹-태그 연결(카드 1·2번)·RFD-003-S2 별도 보정 거래, prototype/·prototype_clean/ 동기 적용 | `prototype*/ADMN-USER-001_baseline.html`, `prototype*/ADMN-RFD-002_baseline.html`, `docs/JARGON_SCAN_REPORT.md` |
 | 2026-10-20 | `hotfix_ssr_initial_rows.py` 실행 — USER-001 차시·보정이력·그룹 3개 테이블 SSR 초기 행 내장 및 Skill 4(Playwright E2E 검수기) 구축·38/38 PASS 검증 | `prototype*/ADMN-USER-001_baseline.html`, `scripts/qa/skill_playwright_e2e.py`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
+| 2026-10-20 | `fix_rfd002_ssr_row.py` 실행 — RFD-002 보정 거래 원장(m3f-rfd-adj-body) SSR 초기 행 내장 완료, 38/38 PASS 유지 | `prototype*/ADMN-RFD-002_baseline.html`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
