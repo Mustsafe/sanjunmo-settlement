@@ -1,6 +1,6 @@
 # JARGON SCAN REPORT — 기획서 내부 암호 · SSOT 금지어 전수 스캔
 
-- 생성 시각: `2026-10-20 03:30:01`
+- 생성 시각: `2026-10-20 05:50:31`
 - 실행 스킬: `scripts/qa/skill_jargon_scan.py` (Skill 2, 읽기 전용)
 - 스캔 대상: `prototype_clean/*.html` — **38개 화면**
 - **[A] DOM 가시 텍스트 탐지: 333건** (텍스트 노드 + placeholder/title/alt/aria-label/버튼 value)
@@ -269,13 +269,13 @@
 
 | 라인 | 출처 | 분류 | 규칙 | 매칭 | 문맥 |
 | ---: | :--- | :--- | :--- | :--- | :--- |
-| 645 | text | 금지어 | BAN_CIRCLED | `①` | ① 합격증 사본 이미지, ② 플랫폼 및 산준모 카페 … |
-| 645 | text | 금지어 | BAN_CIRCLED | `②` | ① 합격증 사본 이미지, ② 플랫폼 및 산준모 카페 등록 합격수기 아웃링크 작… |
-| 645 | text | 금지어 | BAN_CIRCLED | `③` | …폼 및 산준모 카페 등록 합격수기 아웃링크 작성, ③ 환급금 입금용 통장 사본, ④ 시중 1금융권 은행… |
-| 645 | text | 금지어 | BAN_CIRCLED | `④` | …기 아웃링크 작성, ③ 환급금 입금용 통장 사본, ④ 시중 1금융권 은행명 및 실명 계좌번호 입력 수집… |
-| 647 | text | 내부암호 | CODE_C | `C-01` | ADMN-SETT-006 C-01 |
-| 757 | text | 내부암호 | SNAKE_ID | `order_item_id` | order_item_id |
-| 1214 | text | 내부암호 | CODE_C | `C-01` | ADMN-SETT-006 C-01 |
+| 673 | text | 금지어 | BAN_CIRCLED | `①` | ① 합격증 사본 이미지, ② 플랫폼 및 산준모 카페 … |
+| 673 | text | 금지어 | BAN_CIRCLED | `②` | ① 합격증 사본 이미지, ② 플랫폼 및 산준모 카페 등록 합격수기 아웃링크 작… |
+| 673 | text | 금지어 | BAN_CIRCLED | `③` | …폼 및 산준모 카페 등록 합격수기 아웃링크 작성, ③ 환급금 입금용 통장 사본, ④ 시중 1금융권 은행… |
+| 673 | text | 금지어 | BAN_CIRCLED | `④` | …기 아웃링크 작성, ③ 환급금 입금용 통장 사본, ④ 시중 1금융권 은행명 및 실명 계좌번호 입력 수집… |
+| 675 | text | 내부암호 | CODE_C | `C-01` | ADMN-SETT-006 C-01 |
+| 785 | text | 내부암호 | SNAKE_ID | `order_item_id` | order_item_id |
+| 1280 | text | 내부암호 | CODE_C | `C-01` | ADMN-SETT-006 C-01 |
 
 ### `ADMN-SETT-001_baseline.html` — 6건
 
@@ -488,7 +488,7 @@
 
 | 라인 | 출처 | 분류 | 규칙 | 매칭 | 문맥 |
 | ---: | :--- | :--- | :--- | :--- | :--- |
-| 1250 | text | 내부암호 | SNAKE_ID | `cafe_member_id` | users.cafe_member_id IS NOT NULL |
+| 1355 | text | 내부암호 | SNAKE_ID | `cafe_member_id` | users.cafe_member_id IS NOT NULL |
 
 ### `ADMN-USER-007_baseline.html` — 20건
 
@@ -609,14 +609,14 @@
 
 | 라인 | 출처 | 분류 | 규칙 | 매칭 | 문맥 |
 | ---: | :--- | :--- | :--- | :--- | :--- |
-| 1837 | js-string | 금지어 | BAN_CIRCLED | `①` | … 대조 및 4대 증빙 미완료 — 승인 잠금] 위 ① 합격증 사본, ② 통장 사본(1금융권 실명계좌),… |
-| 1837 | js-string | 금지어 | BAN_CIRCLED | `②` | …빙 미완료 — 승인 잠금] 위 ① 합격증 사본, ② 통장 사본(1금융권 실명계좌), ③ 산준모 카페/… |
-| 1837 | js-string | 금지어 | BAN_CIRCLED | `③` | …합격증 사본, ② 통장 사본(1금융권 실명계좌), ③ 산준모 카페/플랫폼 합격수기 아웃링크 확인 체크박… |
-| 1887 | js-string | 금지어 | BAN_CIRCLED | `①` | … ① 합격증 사본 이미지 대조 … |
-| 1887 | js-string | 금지어 | BAN_CIRCLED | `②` | … ② 환급금 입금용 통장 사본 · 시중 1금융권 실명계… |
-| 1887 | js-string | 금지어 | BAN_CIRCLED | `③` | … ③ 플랫폼 및 산준모 카페 등록 합격수기 아웃링크 확… |
-| 1887 | js-string | 금지어 | BAN_CIRCLED | `④` | … ④ 환급금 산출 및 정산 분담 연동 명세 … |
-| 1887 | js-string | 금지어 | BAN_CIRCLED | `⑤` | … ⑤ 최종 심사 판정 선택 * … |
+| 1903 | js-string | 금지어 | BAN_CIRCLED | `①` | … 대조 및 4대 증빙 미완료 — 승인 잠금] 위 ① 합격증 사본, ② 통장 사본(1금융권 실명계좌),… |
+| 1903 | js-string | 금지어 | BAN_CIRCLED | `②` | …빙 미완료 — 승인 잠금] 위 ① 합격증 사본, ② 통장 사본(1금융권 실명계좌), ③ 산준모 카페/… |
+| 1903 | js-string | 금지어 | BAN_CIRCLED | `③` | …합격증 사본, ② 통장 사본(1금융권 실명계좌), ③ 산준모 카페/플랫폼 합격수기 아웃링크 확인 체크박… |
+| 1953 | js-string | 금지어 | BAN_CIRCLED | `①` | … ① 합격증 사본 이미지 대조 … |
+| 1953 | js-string | 금지어 | BAN_CIRCLED | `②` | … ② 환급금 입금용 통장 사본 · 시중 1금융권 실명계… |
+| 1953 | js-string | 금지어 | BAN_CIRCLED | `③` | … ③ 플랫폼 및 산준모 카페 등록 합격수기 아웃링크 확… |
+| 1953 | js-string | 금지어 | BAN_CIRCLED | `④` | … ④ 환급금 산출 및 정산 분담 연동 명세 … |
+| 1953 | js-string | 금지어 | BAN_CIRCLED | `⑤` | … ⑤ 최종 심사 판정 선택 * … |
 
 ### `ADMN-SETT-001_baseline.html` — 31건
 

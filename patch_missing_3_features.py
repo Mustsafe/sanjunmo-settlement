@@ -120,10 +120,10 @@ USER_CSS = r'''
 '''
 
 USER_COURSE_SECTIONS = r'''
-        <!-- [M3F-PATCH-v1] 작업 1-A: ADMN-USER-004 차시별 진도율 · 이어보기 지점 조회 및 수동 보정 -->
+        <!-- [M3F-PATCH-v1] 작업 1-A(카드 4): ADMN-USER-004 차시별 진도율 · 이어보기 지점 조회 및 수동 보정 -->
         <div class="card" id="m3f-progress-card">
           <div class="card-header">
-            <div class="card-title">3. 강의 차시별 진도율 · 이어보기 지점 조회 및 수동 보정 (ADMN-USER-004)</div>
+            <div class="card-title">4. 강의 차시별 진도율 · 이어보기 지점 조회 및 수동 보정 (ADMN-USER-004)</div>
             <span class="badge badge-blue">합격환급 심사 기준 진도율 실시간 연동</span>
           </div>
           <div class="card-body">
@@ -164,10 +164,10 @@ USER_COURSE_SECTIONS = r'''
           </div>
         </div>
 
-        <!-- [M3F-PATCH-v1] 작업 1-B: 진도율 수동 보정 이력 원장 -->
+        <!-- [M3F-PATCH-v1] 작업 1-B(카드 5): 진도율 수동 보정 이력 원장 -->
         <div class="card" id="m3f-adjlog-card">
           <div class="card-header">
-            <div class="card-title">4. 진도율 수동 보정 이력 원장 (환급 심사 ADMN-RFD-001 자동 연동)</div>
+            <div class="card-title">5. 진도율 수동 보정 이력 원장 (환급 심사 ADMN-RFD-001 자동 연동)</div>
             <a href="ADMN-RFD-002_baseline.html?view=pass" class="btn btn-sm btn-outline">합격환급 심사 화면 ↗</a>
           </div>
           <div class="card-body">
@@ -952,11 +952,20 @@ def patch_user_001(src):
     src = insert_before(src, "  </style>\n</head>", USER_CSS, "USER: </style></head>")
 
     # 1) view=course 하단 섹션 A/B (view-tags 직전의 </section>)
+    #    기존 카드 번호 1(계약 목록)·2(기간 조정)·3(동시 접속 제어)과 겹치지 않도록 4·5번 부여
     src = insert_before(
         src,
         "      </section>\n\n      <!-- ================================================================= -->\n      <!-- VIEW 4: ADMN-USER-006",
         USER_COURSE_SECTIONS,
         "USER: view-course 종료부",
+    )
+
+    # 2-0) 태그 목록 카드에 번호 부여 (신규 '2.' 카드와 순번 정합)
+    src = replace_once(
+        src,
+        '<div class="card-title">수평적 다중 태그(N:M) 그룹 관리',
+        '<div class="card-title">1. 수평적 다중 태그(N:M) 그룹 관리',
+        "USER: 태그 목록 카드 제목",
     )
 
     # 2-1) 신규 태그 생성 버튼 바인딩

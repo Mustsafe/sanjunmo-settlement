@@ -393,6 +393,34 @@ code, pre, kbd, samp,
   letter-spacing: -0.01em !important;
 }
 
+
+    /* === [M3F-PATCH-v1] ADMN-RFD-003-S2 환불 완료 후 별도 보정 거래 스타일 === */
+    #modalRefundAdjust { background: rgba(15, 23, 42, 0.55); }
+    #modalRefundAdjust .modal-box { max-width: 780px; width: 95%; }
+    .m3f-principle { background:#FFFBEB; border:1px solid #FDE68A; border-left:4px solid #D97706; border-radius:8px; padding:11px 14px; font-size:12.5px; color:#78350F; line-height:1.6; }
+    .m3f-sec { border:1px solid #E2E8F0; border-radius:8px; padding:12px 14px; margin-bottom:12px; background:#FFFFFF; }
+    .m3f-sec-title { font-size:12.5px; font-weight:800; color:#0F172A; margin-bottom:8px; }
+    .m3f-req { color:#DC2626; }
+    .m3f-lbl { display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#334155; }
+    .m3f-sum-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:8px; font-size:12px; }
+    .m3f-sum-grid > div { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:6px; padding:8px 10px; }
+    .m3f-sum-grid span { display:block; color:#64748B; font-size:11px; font-weight:600; margin-bottom:2px; }
+    .m3f-type-row { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+    .m3f-type-card { display:flex; gap:8px; align-items:flex-start; border:1px solid #CBD5E1; border-radius:8px; padding:9px 10px; cursor:pointer; font-size:12px; }
+    .m3f-type-card strong { display:block; font-size:12.5px; margin-bottom:2px; }
+    .m3f-type-card small { color:#64748B; line-height:1.45; }
+    .m3f-type-card.on { border-color:#2563EB; background:#EFF6FF; }
+    .m3f-grid3 { display:grid; grid-template-columns:1fr 1fr 1.3fr; gap:10px; }
+    .m3f-settle { margin-top:8px; padding:8px 10px; border-radius:6px; background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; font-size:12px; font-weight:700; }
+    .m3f-prev-table { width:100%; border-collapse:collapse; font-size:12px; }
+    .m3f-prev-table th, .m3f-prev-table td { border:1px solid #E2E8F0; padding:7px 9px; text-align:right; }
+    .m3f-prev-table th { background:#F8FAFC; color:#475569; font-weight:700; }
+    .m3f-prev-table td:first-child, .m3f-prev-table th:first-child { text-align:left; }
+    .m3f-warn { display:none; margin-top:8px; padding:8px 10px; border-radius:6px; background:#FEF2F2; border:1px solid #FECACA; color:#991B1B; font-size:12px; font-weight:700; }
+    .m3f-hint { font-size:11.5px; color:#64748B; margin-top:4px; }
+    .m3f-flash td { animation: m3fFlash 2.6s ease-out; }
+    @keyframes m3fFlash { 0% { background:#DCFCE7; } 100% { background:transparent; } }
+    .m3f-toast { position:fixed; right:26px; bottom:26px; z-index:12000; max-width:520px; background:#0F172A; color:#FFFFFF; padding:13px 18px; border-radius:10px; font-size:13px; font-weight:700; box-shadow:0 12px 28px rgba(15,23,42,0.28); display:none; line-height:1.5; }
   </style>
     <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
   <script id="v4-common-snb" src="common-snb.js" defer></script>
@@ -1084,7 +1112,7 @@ code, pre, kbd, samp,
               <span class="badge badge-green">PG 정산 대사(ADMN-SETT-004) 연동</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-sm btn-primary" onclick="openRfdAdjustModal()">➕ 사후 보정 거래 등록 (003-S2)</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="openRefundAdjustModal()">+ 환불 완료 건 별도 보정 거래 등록</button>
               <button class="btn btn-sm btn-outline">📥 PG 대사용 엑셀 다운로드</button>
             </div>
           </div>
@@ -1099,6 +1127,7 @@ code, pre, kbd, samp,
                   <th class="num">최종 PG 취소액</th>
                   <th>포인트 처리 결과 (LIFO 복원 / 마이너스 전환)</th>
                   <th>정산 차감 반영월</th>
+                  <th>사후 보정</th>
                 </tr>
               </thead>
               <tbody>
@@ -1110,6 +1139,7 @@ code, pre, kbd, samp,
                   <td class="num"><strong>297,111원</strong></td>
                   <td><span class="badge badge-purple">유상 15,000P LIFO 복원 (만료분 D+7 유예 부여)</span></td>
                   <td><span class="badge badge-green">2026-10 정산 반영</span></td>
+                  <td><button type="button" class="btn btn-sm btn-outline" onclick="openRefundAdjustModal('RFD-2026-001120')">+ 보정 거래 생성</button></td>
                 </tr>
                 <tr>
                   <td><strong>RFD-2026-001098</strong> (2026-10-03)</td>
@@ -1119,7 +1149,43 @@ code, pre, kbd, samp,
                   <td class="num"><strong>22,933원</strong></td>
                   <td><span class="badge badge-red">−32,200 P 마이너스 전환 (탈퇴 차단 USER-MYPAGE-003)</span></td>
                   <td><span class="badge badge-blue">원귀속 2026-08 ➔ 2026-10 공제</span></td>
+                  <td><button type="button" class="btn btn-sm btn-outline" onclick="openRefundAdjustModal('RFD-2026-001098')">+ 보정 거래 생성</button></td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- [M3F-PATCH-v1] ADMN-RFD-003-S2 환불 완료 후 별도 보정 거래 원장 -->
+        <div class="card" id="m3f-rfd-adj-card" style="margin-top:16px;">
+          <div class="card-header">
+            <div class="card-title">
+              <span>환불 완료 후 별도 보정 거래 원장 (원 거래 불변 · 사후 추가환불 / 환수 / 포인트 보정)</span>
+              <span class="badge badge-purple">ADMN-RFD-003-S2</span>
+            </div>
+            <span class="badge badge-gray" id="m3f-rfd-adj-count">보정 거래 2건</span>
+          </div>
+          <div class="card-body" style="padding-bottom:4px;">
+            <div class="m3f-principle">
+              🔒 <strong>원 거래 불변 원칙</strong> — 이미 완료된 환불 원장(원 거래)의 금액과 이력은 회계 감사 추적을 위해 절대 직접 수정(Overwrite)하지 않으며, 착오 정정·추가 환불·과오납 회수·만료 포인트 추가 복원이 필요한 경우 원 환불번호에 연결된 <strong>[별도 보정 거래(Adjustment)]</strong> 전표를 생성하여 처리합니다.
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>보정거래번호 / 등록일시</th>
+                  <th>연결 원 환불번호 (주문번호)</th>
+                  <th>회원명</th>
+                  <th>보정 거래 유형</th>
+                  <th class="num">금회 보정 금액 / 포인트</th>
+                  <th class="num">보정 후 누적 환불액</th>
+                  <th>집행 수단 · 정산 반영월</th>
+                  <th>사유 및 처리자</th>
+                </tr>
+              </thead>
+              <tbody id="m3f-rfd-adj-body">
+                <tr><td colspan="8" style="text-align:center; color:#64748B;">보정 거래 원장을 불러오는 중입니다…</td></tr>
               </tbody>
             </table>
           </div>
@@ -1995,6 +2061,312 @@ code, pre, kbd, samp,
     modal.style.setProperty('display', 'flex', 'important');
     window.updateRfd001S1Gate();
   };
+})();
+</script>
+
+<!-- ==================== [M3F-PATCH-v1] ADMN-RFD-003-S2 환불 완료 건 별도 보정 거래 등록 모달 ==================== -->
+<div class="modal-backdrop" id="modalRefundAdjust" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-header" style="background:#EFF6FF; color:#1E3A8A; display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-weight:800; font-size:13.5px;">➕ 환불 완료 건 별도 보정 거래 등록 (ADMN-RFD-003-S2 · 원 거래 불변)</span>
+      <button type="button" class="btn btn-sm btn-outline" onclick="closeRefundAdjustModal()">✕</button>
+    </div>
+    <div class="modal-body" style="max-height:72vh; overflow-y:auto;">
+
+      <div class="m3f-sec">
+        <div class="m3f-sec-title">1. 대상 원 환불 건 선택 및 요약 (읽기 전용)</div>
+        <select class="form-select" id="m3f-ra-rfd" style="width:100%; height:34px;" onchange="m3fRaRefresh()">
+          <option value="RFD-2026-001120">RFD-2026-001120 | 박영희 | 원결제 385,000원 | 기 환불확정 297,111원 | 2026-10 정산반영</option>
+          <option value="RFD-2026-001098">RFD-2026-001098 | 이민호 | 원결제 180,000원 | 기 환불확정 22,933원 | 원귀속 2026-08</option>
+        </select>
+        <div class="m3f-sum-grid" id="m3f-ra-summary"></div>
+      </div>
+
+      <div class="m3f-sec">
+        <div class="m3f-sec-title">2. 보정 거래 유형 선택 <span class="m3f-req">*</span></div>
+        <div class="m3f-type-row">
+          <label class="m3f-type-card on" data-type="ADD">
+            <input type="radio" name="m3f-ra-type" value="ADD" checked onchange="m3fRaTypeChange()" />
+            <span><strong>추가 환불 지급 (+)</strong><small>이용일수·위약금 재산정에 따른 추가 환불금 지급</small></span>
+          </label>
+          <label class="m3f-type-card" data-type="RECOVER">
+            <input type="radio" name="m3f-ra-type" value="RECOVER" onchange="m3fRaTypeChange()" />
+            <span><strong>과오납 환불금 회수 (−)</strong><small>초과 환불금 고객 입금 환수 및 정산 복원</small></span>
+          </label>
+          <label class="m3f-type-card" data-type="POINT">
+            <input type="radio" name="m3f-ra-type" value="POINT" onchange="m3fRaTypeChange()" />
+            <span><strong>포인트 단독 보정 (P)</strong><small>현금 변동 없이 LIFO 복원 유상 포인트 또는 마이너스 부채 포인트 보정</small></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="m3f-sec">
+        <div class="m3f-sec-title">3. 금회 보정 금액 · 포인트 및 집행 / 정산 연동 방식</div>
+        <div class="m3f-grid3">
+          <div>
+            <label class="m3f-lbl" for="m3f-ra-amount">금회 보정 금액 (원)</label>
+            <input type="number" class="form-control" id="m3f-ra-amount" min="0" step="1" placeholder="예: 15824" style="width:100%; height:34px; font-weight:700;" oninput="m3fRaRefresh()" />
+            <div class="m3f-hint" id="m3f-ra-amount-hint">양수로 입력 · 부호는 보정 유형에 따라 자동 적용</div>
+          </div>
+          <div>
+            <label class="m3f-lbl" for="m3f-ra-point">금회 보정 포인트 (P)</label>
+            <input type="number" class="form-control" id="m3f-ra-point" step="1" placeholder="예: 0" style="width:100%; height:34px; font-weight:700;" oninput="m3fRaRefresh()" />
+            <div class="m3f-hint">복원은 양수(+), 차감은 음수(−)로 입력</div>
+          </div>
+          <div>
+            <label class="m3f-lbl" for="m3f-ra-exec">금융 집행 방식</label>
+            <select class="form-select" id="m3f-ra-exec" style="width:100%; height:34px;" onchange="m3fRaRefresh()">
+              <option>토스페이먼츠 PG 추가 부분취소</option>
+              <option>고객 환불계좌 무통장 입금</option>
+              <option>고객 과오납 환수 입금 확인</option>
+              <option>포인트 원장만 조정</option>
+            </select>
+          </div>
+        </div>
+        <div class="m3f-settle" id="m3f-ra-settle">정산 연동: 당월(2026-10) 미마감 ➔ 4단계 환불 공제 자동 합산</div>
+      </div>
+
+      <div class="m3f-sec">
+        <div class="m3f-sec-title">4. 보정 전 · 후 누적 비교 프리뷰</div>
+        <table class="m3f-prev-table">
+          <thead>
+            <tr><th>구분</th><th>기 확정 내역 (원 거래 불변)</th><th>금회 보정 증감</th><th>보정 반영 후 누적 최종값</th></tr>
+          </thead>
+          <tbody id="m3f-ra-preview"></tbody>
+        </table>
+        <div class="m3f-warn" id="m3f-ra-warn"></div>
+      </div>
+
+      <div class="m3f-sec" style="margin-bottom:0;">
+        <div class="m3f-sec-title">5. 보정 거래 등록 사유 <span class="m3f-req">*</span> <span style="font-weight:500; color:#64748B;">(최소 10자 · 감사 로그 영구 기록)</span></div>
+        <textarea class="form-control" id="m3f-ra-reason" rows="2" style="width:100%; font-size:12px;" placeholder="예) 휴강 일수(3일) 일할 계산 누락분 사후 추가 환불 (재무 이정산)" oninput="m3fRaReasonCount()"></textarea>
+        <div class="m3f-hint" id="m3f-ra-reason-count">현재 0자 / 최소 10자</div>
+      </div>
+    </div>
+    <div class="modal-footer" style="padding:12px 20px; background:#F8FAFC; border-top:1px solid #E2E8F0; display:flex; justify-content:flex-end; gap:8px;">
+      <button type="button" class="btn btn-outline" onclick="closeRefundAdjustModal()">취소</button>
+      <button type="button" class="btn btn-primary" id="m3f-ra-submit" onclick="submitRefundAdjust()">✓ 별도 보정 거래 전표 생성</button>
+    </div>
+  </div>
+</div>
+<div class="m3f-toast" id="m3f-toast"></div>
+
+<script data-m3f="rfd-002">
+/* === [M3F-PATCH-v1] ADMN-RFD-003-S2 환불 완료 후 별도 보정 거래 (원 거래 불변) === */
+(function () {
+  'use strict';
+
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function pad(n, w) { n = String(n); while (n.length < w) n = '0' + n; return n; }
+  function won(n) { return Number(n).toLocaleString('ko-KR') + '원'; }
+  function pts(n) { return Number(n).toLocaleString('ko-KR') + ' P'; }
+  function signed(n, unit) { return (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ko-KR') + unit; }
+  function nowText() {
+    var d = new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1, 2) + '-' + pad(d.getDate(), 2) + ' ' + pad(d.getHours(), 2) + ':' + pad(d.getMinutes(), 2);
+  }
+  function toast(msg) {
+    var t = $('m3f-toast');
+    if (!t) { alert(msg); return; }
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(window.__m3fToastTimer);
+    window.__m3fToastTimer = setTimeout(function () { t.style.display = 'none'; }, 4200);
+  }
+
+  var OPERATOR = '운영1팀 이지훈';
+  var CURRENT_MONTH = '2026-10';
+  var EXEC_BY_TYPE = { ADD: '토스페이먼츠 PG 추가 부분취소', RECOVER: '고객 과오납 환수 입금 확인', POINT: '포인트 원장만 조정' };
+
+  /* 원 환불 건 (원 거래 금액은 불변 · 보정 누적은 별도 필드로 관리) */
+  var RFD = {
+    'RFD-2026-001120': { name: '박영희', order: 'SJM-20261001-002190', paid: 385000, origRefund: 297111, cumRefund: 312935, origPoint: 15000, cumPoint: 15000, month: '2026-10', closed: false, adjCount: 1 },
+    'RFD-2026-001098': { name: '이민호', order: 'SJM-20260822-003110', paid: 180000, origRefund: 22933, cumRefund: 22933, origPoint: -32200, cumPoint: -31200, month: '2026-08', closed: true, adjCount: 1 }
+  };
+
+  var ledger = [
+    { id: 'ADJ-2026-000032', at: '2026-10-16 14:20', rfd: 'RFD-2026-001120', type: 'ADD', typeLabel: '추가 환불 지급 (+현금)', amountText: '+15,824원 (포인트 0P)', cumText: '297,111원 ➔ 312,935원', execText: 'PG 추가 부분취소 · 2026-10 당월 정산 차감 반영', reason: '휴강 일수(3일) 일할 계산 누락분 사후 추가 환불', operator: '재무 이정산' },
+    { id: 'ADJ-2026-000031', at: '2026-10-11 11:02', rfd: 'RFD-2026-001098', type: 'POINT', typeLabel: '포인트 보정 (+유상P 복원)', amountText: '0원 (+1,000 P 추가 복원)', cumText: '22,933원 (변동없음)', execText: '포인트 원장 직권 보정 (D+7 만료유예 부여) · 정산 무관', reason: 'LIFO 복원 시 만료일 경계 차감 오차 +1,000P 사후 복원', operator: 'CS 김상담' }
+  ];
+  var adjSeq = 32;
+
+  var TYPE_BADGE = { ADD: 'badge-blue', RECOVER: 'badge-red', POINT: 'badge-purple' };
+
+  function renderLedger() {
+    var body = $('m3f-rfd-adj-body');
+    if (!body) return;
+    body.innerHTML = ledger.map(function (r) {
+      var o = RFD[r.rfd] || {};
+      return '<tr data-adj="' + esc(r.id) + '">' +
+        '<td><strong>' + esc(r.id) + '</strong><br><span style="font-size:11.5px; color:#64748B;">' + esc(r.at) + '</span></td>' +
+        '<td><strong>' + esc(r.rfd) + '</strong><br><span style="font-size:11.5px; color:#64748B;">(' + esc(o.order || '') + ')</span></td>' +
+        '<td>' + esc(o.name || '') + '</td>' +
+        '<td><span class="badge ' + (TYPE_BADGE[r.type] || 'badge-gray') + '">' + esc(r.typeLabel) + '</span></td>' +
+        '<td class="num"><strong>' + esc(r.amountText) + '</strong></td>' +
+        '<td class="num">' + esc(r.cumText) + '</td>' +
+        '<td>' + esc(r.execText) + '</td>' +
+        '<td>' + esc(r.reason) + ' <span style="color:#64748B;">(' + esc(r.operator) + ')</span></td></tr>';
+    }).join('');
+    var c = $('m3f-rfd-adj-count');
+    if (c) c.textContent = '보정 거래 ' + ledger.length + '건';
+  }
+
+  function currentType() { return (document.querySelector('input[name="m3f-ra-type"]:checked') || {}).value || 'ADD'; }
+
+  function settleInfo(o, type) {
+    if (type === 'POINT') return { full: '정산 연동: 포인트 원장 직권 보정 ➔ 정산 무관 (현금 변동 없음)', short: '정산 무관' };
+    if (!o.closed) {
+      return {
+        full: '정산 연동: 당월(' + CURRENT_MONTH + ') 미마감 ➔ 4단계 환불 공제 자동 합산',
+        short: CURRENT_MONTH + ' 당월 정산 ' + (type === 'RECOVER' ? '복원' : '차감') + ' 반영'
+      };
+    }
+    return {
+      full: '정산 연동: 전월 마감 건 (원귀속 ' + o.month + ') ➔ 정산 수동 조정 전표 자동 생성 (ADMN-SETT-005 화면 이관)',
+      short: '원귀속 ' + o.month + ' 마감 ➔ 정산 수동 조정 전표 생성'
+    };
+  }
+
+  function readInputs() {
+    var o = RFD[$('m3f-ra-rfd').value];
+    var type = currentType();
+    var amt = parseInt($('m3f-ra-amount').value, 10);
+    var pt = parseInt($('m3f-ra-point').value, 10);
+    amt = isNaN(amt) ? 0 : Math.abs(amt);
+    pt = isNaN(pt) ? 0 : pt;
+    if (type === 'POINT') amt = 0;
+    var delta = type === 'RECOVER' ? -amt : amt;
+    return { o: o, type: type, amt: amt, delta: delta, pt: pt, exec: $('m3f-ra-exec').value, reason: $('m3f-ra-reason').value.trim() };
+  }
+
+  function validate(v) {
+    var finalRefund = v.o.cumRefund + v.delta;
+    if (v.type === 'POINT') {
+      if (v.pt === 0) return '포인트 단독 보정은 0이 아닌 보정 포인트(복원 +, 차감 −)를 입력해 주세요.';
+      if (v.exec !== EXEC_BY_TYPE.POINT) return '포인트 단독 보정은 집행 방식을 [포인트 원장만 조정]으로 선택해 주세요.';
+    } else {
+      if (v.amt <= 0) return '금회 보정 금액(원)을 1원 이상 입력해 주세요.';
+      if (v.exec === EXEC_BY_TYPE.POINT) return '현금 보정 거래는 [포인트 원장만 조정]을 집행 방식으로 선택할 수 없습니다.';
+      if (v.type === 'ADD' && v.exec === EXEC_BY_TYPE.RECOVER) return '추가 환불 지급은 [고객 과오납 환수 입금 확인]을 집행 방식으로 선택할 수 없습니다.';
+      if (v.type === 'RECOVER' && v.exec !== EXEC_BY_TYPE.RECOVER) return '과오납 환불금 회수는 집행 방식을 [고객 과오납 환수 입금 확인]으로 선택해 주세요.';
+    }
+    if (finalRefund > v.o.paid) return '보정 후 누적 환불액(' + won(finalRefund) + ')이 원 결제금액(' + won(v.o.paid) + ')을 초과합니다.';
+    if (finalRefund < 0) return '회수 금액이 현재 누적 환불액(' + won(v.o.cumRefund) + ')을 초과합니다.';
+    return '';
+  }
+
+  window.m3fRaRefresh = function () {
+    var v = readInputs();
+    var o = v.o;
+    var finalRefund = o.cumRefund + v.delta;
+    var finalPoint = o.cumPoint + v.pt;
+
+    $('m3f-ra-summary').innerHTML =
+      '<div><span>회원 / 주문번호</span><strong>' + esc(o.name) + '</strong><br>' + esc(o.order) + '</div>' +
+      '<div><span>원 결제금액</span><strong>' + won(o.paid) + '</strong></div>' +
+      '<div><span>원 환불확정액 (불변)</span><strong>' + won(o.origRefund) + '</strong><br>포인트 ' + signed(o.origPoint, ' P') + '</div>' +
+      '<div><span>현재 누적 (기 보정 ' + o.adjCount + '건 포함)</span><strong style="color:#2563EB;">' + won(o.cumRefund) + '</strong><br>포인트 ' + signed(o.cumPoint, ' P') + '</div>';
+
+    $('m3f-ra-amount').disabled = (v.type === 'POINT');
+    $('m3f-ra-amount').style.background = (v.type === 'POINT') ? '#F1F5F9' : '#FFFFFF';
+    $('m3f-ra-amount-hint').textContent = v.type === 'POINT' ? '포인트 단독 보정은 현금 변동 0원 고정' : (v.type === 'RECOVER' ? '양수로 입력 · 회수(−)로 자동 적용' : '양수로 입력 · 추가 지급(+)으로 자동 적용');
+    $('m3f-ra-settle').textContent = settleInfo(o, v.type).full;
+
+    var rateBefore = (o.cumRefund / o.paid * 100).toFixed(1);
+    var rateAfter = (finalRefund / o.paid * 100).toFixed(1);
+    $('m3f-ra-preview').innerHTML =
+      '<tr><td>누적 환불액 (현금)</td><td>' + won(o.cumRefund) + '</td><td style="color:' + (v.delta < 0 ? '#DC2626' : '#2563EB') + '; font-weight:700;">' + signed(v.delta, '원') + '</td><td><strong>' + won(finalRefund) + '</strong></td></tr>' +
+      '<tr><td>포인트 처리 누적</td><td>' + signed(o.cumPoint, ' P') + '</td><td style="font-weight:700;">' + signed(v.pt, ' P') + '</td><td><strong>' + signed(finalPoint, ' P') + '</strong></td></tr>' +
+      '<tr><td>원 결제금액 대비 환불률</td><td>' + rateBefore + '%</td><td>—</td><td><strong>' + rateAfter + '%</strong></td></tr>' +
+      '<tr><td>원 환불 거래 (' + esc($('m3f-ra-rfd').value) + ')</td><td>' + won(o.origRefund) + '</td><td>변경 없음 (불변)</td><td>' + won(o.origRefund) + '</td></tr>';
+
+    var err = validate(v);
+    var warn = $('m3f-ra-warn');
+    var touched = $('m3f-ra-amount').value !== '' || $('m3f-ra-point').value !== '';
+    warn.style.display = (err && touched) ? 'block' : 'none';
+    warn.textContent = err ? '⚠ ' + err : '';
+  };
+
+  window.m3fRaTypeChange = function () {
+    var type = currentType();
+    document.querySelectorAll('#modalRefundAdjust .m3f-type-card').forEach(function (c) { c.classList.toggle('on', c.getAttribute('data-type') === type); });
+    $('m3f-ra-exec').value = EXEC_BY_TYPE[type];
+    if (type === 'POINT') $('m3f-ra-amount').value = '';
+    window.m3fRaRefresh();
+  };
+
+  window.m3fRaReasonCount = function () {
+    var len = $('m3f-ra-reason').value.trim().length;
+    var el = $('m3f-ra-reason-count');
+    el.textContent = '현재 ' + len + '자 / 최소 10자';
+    el.style.color = len >= 10 ? '#059669' : '#64748B';
+  };
+
+  window.openRefundAdjustModal = function (rfdNo) {
+    var sel = $('m3f-ra-rfd');
+    if (rfdNo && RFD[rfdNo]) sel.value = rfdNo;
+    document.querySelectorAll('input[name="m3f-ra-type"]').forEach(function (r) { r.checked = (r.value === 'ADD'); });
+    $('m3f-ra-amount').value = '';
+    $('m3f-ra-point').value = '';
+    $('m3f-ra-reason').value = '';
+    window.m3fRaTypeChange();
+    window.m3fRaReasonCount();
+    var el = $('modalRefundAdjust');
+    el.classList.remove('force-closed');
+    el.style.removeProperty('display');
+    el.classList.add('show');
+    el.setAttribute('aria-hidden', 'false');
+  };
+
+  window.closeRefundAdjustModal = function () {
+    var el = $('modalRefundAdjust');
+    if (!el) return;
+    el.classList.remove('show', 'open', 'active');
+    el.setAttribute('aria-hidden', 'true');
+  };
+
+  window.submitRefundAdjust = function () {
+    var v = readInputs();
+    var err = validate(v);
+    if (err) { toast('⚠ ' + err); $('m3f-ra-warn').style.display = 'block'; $('m3f-ra-warn').textContent = '⚠ ' + err; return; }
+    if (v.reason.length < 10) { toast('⚠ 보정 거래 등록 사유를 최소 10자 이상 입력해 주세요 (감사 로그 기록).'); $('m3f-ra-reason').focus(); return; }
+
+    var o = v.o;
+    var rfdNo = $('m3f-ra-rfd').value;
+    var before = o.cumRefund;
+    var after = before + v.delta;
+    var st = settleInfo(o, v.type);
+    var typeLabel = v.type === 'ADD' ? '추가 환불 지급 (+현금)'
+      : v.type === 'RECOVER' ? '과오납 환불금 회수 (−현금)'
+      : (v.pt > 0 ? '포인트 보정 (+유상P 복원)' : '포인트 보정 (−P 차감)');
+    var amountText = v.type === 'POINT'
+      ? '0원 (' + signed(v.pt, ' P') + (v.pt > 0 ? ' 추가 복원' : ' 차감') + ')'
+      : signed(v.delta, '원') + ' (포인트 ' + (v.pt ? signed(v.pt, ' P') : '0P') + ')';
+    var cumText = v.delta !== 0 ? won(before) + ' ➔ ' + won(after) : won(before) + ' (변동없음)';
+    var execShort = v.exec === EXEC_BY_TYPE.POINT ? '포인트 원장 직권 보정' : v.exec.replace('토스페이먼츠 ', '');
+
+    var row = { id: 'ADJ-2026-' + pad(++adjSeq, 6), at: nowText(), rfd: rfdNo, type: v.type, typeLabel: typeLabel, amountText: amountText, cumText: cumText, execText: execShort + ' · ' + st.short, reason: v.reason, operator: OPERATOR };
+
+    o.cumRefund = after;
+    o.cumPoint += v.pt;
+    o.adjCount += 1;
+    ledger.unshift(row);
+    renderLedger();
+
+    var tr = document.querySelector('#m3f-rfd-adj-body tr[data-adj="' + row.id + '"]');
+    if (tr) { tr.classList.add('m3f-flash'); }
+    window.closeRefundAdjustModal();
+    toast('✅ 보정 거래 전표 ' + row.id + ' 생성 완료 — 원 환불 ' + rfdNo + ' 불변 · ' + amountText + ' · ' + st.short);
+    var card = $('m3f-rfd-adj-card');
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  renderLedger();
 })();
 </script>
 </body>
