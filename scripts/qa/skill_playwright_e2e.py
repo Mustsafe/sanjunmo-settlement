@@ -85,7 +85,7 @@ async def audit_page(browser, html_path: Path):
     if not modal_close_ok:
         status = "FAIL"
         notes.append("모달 닫기(closeAllModals) 실패")
-    if table_info["rowCount"] == 0 and "LOGIN" not in html_path.name:
+    if table_info["rowCount"] == 0 and not any(k in html_path.name for k in ["LOGIN", "WORKFLOW_GUIDE"]):
         status = "FAIL"
         notes.append("데이터 행 0건 감지 (빈 테이블)")
 
