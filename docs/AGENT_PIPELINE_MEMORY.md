@@ -37,7 +37,7 @@
 ### 1-3. 리포트 발행 및 Git / 구글 드라이브 동기화
 1. 패치 실행 및 스킬 검수 결과를 `docs/` 하위 마크다운 리포트(예: `docs/QA_SCAN_REPORT.md`, `docs/JARGON_SCAN_REPORT.md`)로 저장한다.
 2. 즉시 `git add -A && git commit -m "<type(scope): 설명>" && git push origin main` 수행.
-3. 구글 드라이브 동기화: Windows 로컬에서 `powershell -ExecutionPolicy Bypass -File sync_to_gdrive.ps1` 실행.
+3. 구글 드라이브 동기화: Windows 로컬에서 `pwsh -ExecutionPolicy Bypass -File sync_to_gdrive.ps1` 실행.
 4. 분석 AI는 GitHub Raw URL로 리포트를 즉시 읽는다:
    `https://raw.githubusercontent.com/whiteceo/sanjunmo-settlement/main/docs/<REPORT>.md`
 

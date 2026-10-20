@@ -16,7 +16,7 @@
 ## R3. 리포트 발행 및 동기화
 - 결과는 `docs/*_REPORT.md`로 저장.
 - 즉시 `git add -A && git commit && git push origin main`.
-- 구글 드라이브 동기화: `sync_to_gdrive.ps1` 실행 (Windows 로컬).
+- 구글 드라이브 동기화: `pwsh -ExecutionPolicy Bypass -File sync_to_gdrive.ps1` 실행 (Windows 로컬).
 
 ## R4. 기준선
 - prototype/·prototype_clean/ 38개 화면 동기화, ORD-001·PROD-003·PROD-005 면세(EXEMPT) 정합화,
