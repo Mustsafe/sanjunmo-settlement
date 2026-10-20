@@ -71,3 +71,4 @@
 | 2026-10-20 | `clean_all_jargon_zero.py` (v2) 실행 — JS 100% 보호형 DOM 가시 텍스트 기획서 암호·금지어 일괄 정제 (333건➔37건, 89% 감축, 38/38 ALL PASS 유지) | `prototype*/*.html`, `docs/JARGON_SCAN_REPORT.md`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
 | 2026-10-20 | `clean_remaining_jargon_v3.py` 실행 — 잔여 DOM 34건 및 고정 문자열 핀셋 정제 (DOM 잔여 3건으로 99.1% 종결, 28개 화면 무결, 38/38 ALL PASS 유지) | `prototype*/*.html`, `docs/JARGON_SCAN_REPORT.md`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
 | 2026-10-20 | `update_book_discount_policy.py` 실행 — 도서정가제 기본할인 최대 10% 허용 및 실결제액 기준 정산/인세/무료배송 반영, 위탁도서 모수선택권 정본·프로토타입 전수 동기화 (38/38 ALL PASS 유지) | `README.md`, `docs/*.md`, `prototype*/*.html`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
+| 2026-10-20 | `sync_all_docs_book_policy_v2.py` 실행 — 잔여 기획서(01/03/04/B2C) 및 ADMN-INST-001 위탁도서 정산모수 선택 UI/정책 동기화 (38/38 ALL PASS 유지) | `docs/*.md`, `prototype*/*.html`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |

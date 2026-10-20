@@ -624,7 +624,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">패키지(강좌·교재) 결제 금액 분할 및 환급반 연동</span>
           <div class="policy-text">
-            패키지 상품은 <strong>단과 강좌(교육용역 면세 VAT 0%)</strong>와 <strong>교재(면세 VAT 0% · 도서정가제 할인 0% 고정)</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
+            패키지 상품은 <strong>단과 강좌(교육용역 면세 VAT 0%)</strong>와 <strong>교재(면세 VAT 0% · 도서 기본할인 최대 10% (쿠폰·포인트 0% 고정))</strong>를 결합하여 구성하며, 패키지 할인은 <strong>강좌 금액에만 적용</strong>됩니다.
             환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리(ADMN-SETT-006)</strong> 심사 원장 및 권리자 계약(환급금 부담 옵션 A/B/C)과 직결됩니다.
           </div>
         </div>
@@ -998,7 +998,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">3. 구성 교재 매핑 (ADMN-PROD-004 연동 · 면세 분리 및 도서정가제 할인 0% 고정)</h3>
+              <h3 class="card-title">3. 구성 교재 매핑 (ADMN-PROD-004 연동 · 면세 분리 및 도서 기본할인 최대 10% (쿠폰·포인트 0% 고정))</h3>
               <span class="card-subtitle">패키지에 포함된 교재는 할인 없이 정가 100%로 합산되며, PG 결제 시 면세 금액으로 분리 승인됩니다.</span>
             </div>
             <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal()">+ 패키지 교재 추가 (ADMN-PROD-004)</button>
@@ -1011,7 +1011,7 @@ code, pre, kbd, samp,
                   <th style="width:110px;">교재 SKU</th>
                   <th>교재명</th>
                   <th style="width:140px;">ISBN-13</th>
-                  <th class="text-right" style="width:120px;">도서 정가 (할인 0%)</th>
+                  <th class="text-right" style="width:120px;">도서 정가 / 실판매가(최대 10%↓)</th>
                   <th class="text-center" style="width:100px;">현재 재고</th>
                   <th class="text-center" style="width:85px;">제외</th>
                 </tr>
@@ -1060,7 +1060,7 @@ code, pre, kbd, samp,
                   <td>
                     <div class="input-with-unit" style="width:230px;">
                       <input type="text" id="f-book-net-price" class="form-input text-right" style="font-weight:800; color:var(--emerald);" value="72,000" readonly="">
-                      <span class="input-unit">원 (면세 · 할인 0%)</span>
+                      <span class="input-unit">원 (면세 · 최대 10% 기본할인 반영 실결제액)</span>
                     </div>
                   </td>
                 </tr>
