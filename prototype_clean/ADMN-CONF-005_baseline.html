@@ -339,7 +339,7 @@ code, pre, kbd, samp,
     <section id="view-accounts" class="view-section active">
       <div class="info-callout">
         <strong>[ADMN-CONF-005] 외부 파트너 권한 3분류 분리 정책:</strong><br/>
-        기존 단일 그룹이던 외부 파트너를 역할과 정산·업무 범위에 따라 <strong>[1] 파트너 강사(<code>ROLE_PARTNER_INST</code>)</strong>, <strong>[2] 교재 저작권자/출판사(<code>ROLE_PARTNER_COPYRIGHT</code>)</strong>, <strong>[3] 외부 물류 3PL(<code>ROLE_PARTNER_3PL</code>)</strong>로 명확히 분리하여, 타 파트너의 매출·정산서·회원 개인정보에 접근할 수 없도록 <strong>데이터 스코프(Data Scope ID)</strong>를 강제 바인딩합니다.
+        기존 단일 그룹이던 외부 파트너를 역할과 정산·업무 범위에 따라 <strong>[1] 파트너 강사(<code>ROLE_PARTNER_INST</code>)</strong>, <strong>[2] 교재 저작권자/출판사(<code>ROLE_PARTNER_COPYRIGHT</code>)</strong>, <strong>[3] 외부 물류 3PL(<code>ROLE_PARTNER_3PL</code>)</strong>로 명확히 분리하여, 타 파트너의 매출·정산서·회원 개인정보에 접근할 수 없도록 <strong>데이터 스코프(Data Scope: 본인 ID 격리)</strong>와 <strong>기능 스코프(Action Scope: 조회·본인승인 전용, 마감/이체/삭제 차단)</strong> 2단 통제를 강제 바인딩합니다. (※ 2계층 분할 수취인 중 원천징수 대상자는 계정 발급 없이 정산서 PDF 발송, 사업자 수취인은 정산서 확인·역발행 승인 화면만 부여)
       </div>
 
       <div class="role-cards-grid">
@@ -351,7 +351,7 @@ code, pre, kbd, samp,
         <div class="role-card partner">
           <span class="badge badge-blue">ROLE_PARTNER_COPYRIGHT</span>
           <h4>[2] 교재 저작권자 / 출판사 권한</h4>
-          <p>• <strong>접근 허용:</strong> 본인 저작 도서 판매량·인세(Royalty) 정산내역서 조회, 교재 정답지(<code>ADMN-BRD-009</code>) 등록·수정<br/>• <strong>데이터 스코프:</strong> 바인딩된 저작권 계약코드(<code>CR-*</code> / <code>BOOK-*</code>)에 한정한 열람 허용</p>
+          <p>• <strong>접근 허용:</strong> 본인 저작 도서 판매량·인세(Royalty) 정산내역서 조회, 정답지(<code>ADMN-BRD-009</code>) 등록·수정<br/>• <strong>데이터 스코프:</strong> 바인딩된 저작권 계약코드(<code>CR-*</code> / <code>BOOK-*</code>)에 한정한 열람 허용</p>
         </div>
         <div class="role-card partner">
           <span class="badge badge-amber">ROLE_PARTNER_3PL</span>
@@ -468,13 +468,13 @@ code, pre, kbd, samp,
               <td>✕ 접근불가</td>
             </tr>
             <tr>
-              <td style="font-weight:700;">학습 Q&amp;A / 교재 정답지 (BRD)</td>
+              <td style="font-weight:700;">학습 Q&amp;A / 정답지 (BRD)</td>
               <td>전체</td>
               <td>✕ 접근불가</td>
               <td>전체</td>
               <td>1:1문의/FAQ</td>
               <td><strong>✓ 본인 강좌 Q&amp;A 답변</strong></td>
-              <td><strong>✓ 본인 교재 정답지 등록</strong></td>
+              <td><strong>✓ 본인 정답지 등록</strong></td>
               <td>✕ 접근불가</td>
             </tr>
           </tbody>
@@ -566,14 +566,14 @@ code, pre, kbd, samp,
     { id: 'ops_content', name: '박운영 (교육콘텐츠팀)', role: 'ROLE_OPS_ADMIN', scope: 'PROD / PROM / BRD (강좌·프로모션·게시판)', sec: '2FA OTP', lastLogin: '2026-10-19 09:50', status: 'ACTIVE' },
     { id: 'cs_lead01', name: '최상담 (고객감동팀)', role: 'ROLE_CS_ADMIN', scope: 'USER / ORD / BRD (CS 상담 및 환불접수)', sec: '2FA OTP', lastLogin: '2026-10-19 11:05', status: 'ACTIVE' },
     { id: 'inst_leejh', name: '정종대 강사 (대표강사 파트너 · RH-0025)', role: 'ROLE_PARTNER_INST', scope: 'RH-0025 / CON-2026-001 (정종대 강사 · 본인 담당 강좌 Q&A 및 정산서 ADMN-SETT-002-S2 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 21:10', status: 'ACTIVE' },
-    { id: 'copy_sanjunbook', name: '한출판 대표 (산준모북스 저작권자)', role: 'ROLE_PARTNER_COPYRIGHT', scope: 'CR-2026-002 / BK-2026-101 (본인 저작 도서 인세 정산서 ADMN-SETT-002-S2 및 교재 정답지 ADMN-BRD-009 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 16:30', status: 'ACTIVE' },
+    { id: 'copy_sanjunbook', name: '한출판 대표 (산준모북스 저작권자)', role: 'ROLE_PARTNER_COPYRIGHT', scope: 'CR-2026-002 / BK-2026-101 (본인 저작 도서 인세 정산서 ADMN-SETT-002-S2 및 정답지 ADMN-BRD-009 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 16:30', status: 'ACTIVE' },
     { id: '3pl_cjlogis', name: '정물류 매니저 (CJ파주물류센터 3PL)', role: 'ROLE_PARTNER_3PL', scope: '3PL-PAJU-01 (실물 교재 출고대상 열람 및 송장 업로드 전용 / 금액 비노출)', sec: '물류센터 고정 IP 제한', lastLogin: '2026-10-19 08:30', status: 'ACTIVE' }
   ];
 
   let AUDIT_LOGS = [
     { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CON-2026-001) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
     { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
-    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '교재 정답지 등록', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 교재 정답지(ANSWER_SHEET) 웹 에디터 수정', ip: '58.120.89.11' },
+    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정답지 등록', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 정답지(ANSWER_SHEET) 웹 에디터 수정', ip: '58.120.89.11' },
     { id: 'AUD-9918', dt: '2026-10-18 14:12', actor: 'admin_white (최고관리자)', type: '파트너 권한 분리 설정', detail: '한출판 계정에 ROLE_PARTNER_COPYRIGHT(교재 저작권자 전용) 권한 및 도서 스코프 부여', ip: '211.45.120.10' }
   ];
 

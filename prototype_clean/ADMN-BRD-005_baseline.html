@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>수강후기·합격수기·무료특강(빈출문제)·교재 정답지 관리 — 산준모 백오피스</title>
+  <title>수강후기·합격수기·무료특강(빈출문제)·정답지 관리 — 산준모 백오피스</title>
 
   <link rel="stylesheet" href="common-v84.css" />
 
@@ -711,9 +711,9 @@ code, pre, kbd, samp,
 
         <span class="code-badge" id="current-screen-code">ADMN-BRD-005</span>
 
-        <h1 id="current-screen-title">수강후기·합격수기 분리 관리 및 무료특강(빈출문제)·교재 정답지</h1>
+        <h1 id="current-screen-title">수강후기·합격수기 분리 관리 및 무료특강(빈출문제)·정답지</h1>
 
-        <p>수강후기(진도율/별점)와 합격수기(자격증 합격증빙 검수)를 분리 운영하고, 무료특강/빈출문제 및 교재 정답지(웹 에디터)를 관리합니다.</p>
+        <p>수강후기(진도율/별점)와 합격수기(자격증 합격증빙 검수)를 분리 운영하고, 무료특강/빈출문제 및 정답지(웹 에디터)를 관리합니다.</p>
 
       </div>
 
@@ -749,7 +749,7 @@ code, pre, kbd, samp,
 
       <button class="sub-tab-btn" onclick="switchTab('errata')" id="tab-btn-errata">
 
-        📘 교재 정답지 관리 (ADMN-BRD-009) <span class="cnt" id="cnt-errata">4</span>
+        📘 정답지 관리 (ADMN-BRD-009) <span class="cnt" id="cnt-errata">4</span>
 
       </button>
 
@@ -1013,10 +1013,10 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 4. 교재 정답지 관리 (ADMN-BRD-009) ==================== -->
+    <!-- ==================== 4. 정답지 관리 (ADMN-BRD-009) ==================== -->
     <section id="view-errata" class="view-section">
       <div class="info-callout">
-        <strong>[ADMN-BRD-009] 교재 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[교재 정답지 및 상세 해설 (<code>ANSWER_SHEET</code>)]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
+        <strong>[ADMN-BRD-009] 정답지 관리 (웹 에디터 적용):</strong> 수험서 교재별 <strong>[정답지 및 상세 해설 (<code>ANSWER_SHEET</code>)]</strong>을 관리합니다. 등록/수정 시 <strong>리치 웹 에디터(문항별 정답표/해설/수식/이미지 본문 작성 및 HTML 편집)</strong>와 첨부파일(PDF/HWP) 업로드를 지원하며, 연결된 교재 상세(<code>USER-BOOK-002</code>) 및 학습지원센터에 즉시 노출됩니다.
       </div>
 
       <div class="card">
@@ -1031,7 +1031,7 @@ code, pre, kbd, samp,
             <input type="text" id="er-keyword" placeholder="연결 교재명, 정답지 제목, 단원/회차 검색..." oninput="renderErrata()" style="width:280px;" />
           </div>
           <div class="filter-right">
-            <button class="btn btn-primary" onclick="openErrataModal()">+ 교재 정답지 등록 (웹 에디터)</button>
+            <button class="btn btn-primary" onclick="openErrataModal()">+ 정답지 등록 (웹 에디터)</button>
           </div>
         </div>
       </div>
@@ -1247,11 +1247,11 @@ code, pre, kbd, samp,
 
 
 
-<!-- ==================== 모달 C: 교재 정답지 등록/수정 (ADMN-BRD-009 웹 에디터) ==================== -->
+<!-- ==================== 모달 C: 정답지 등록/수정 (ADMN-BRD-009 웹 에디터) ==================== -->
 <div class="modal-backdrop" id="modal-errata">
   <div class="modal-box" style="max-width:920px;">
     <div class="modal-header">
-      <h3 id="er-modal-title">[ADMN-BRD-009] 교재 정답지 등록 및 수정 (웹 에디터)</h3>
+      <h3 id="er-modal-title">[ADMN-BRD-009] 정답지 등록 및 수정 (웹 에디터)</h3>
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-errata')">닫기 ✕</button>
     </div>
     <div class="modal-body">
@@ -1304,7 +1304,7 @@ code, pre, kbd, samp,
     </div>
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('modal-errata')">취소</button>
-      <button class="btn btn-primary" onclick="saveErrata()">교재 정답지 저장</button>
+      <button class="btn btn-primary" onclick="saveErrata()">정답지 저장</button>
     </div>
   </div>
 </div>
@@ -1365,7 +1365,7 @@ code, pre, kbd, samp,
 
 
 
-  // 4. 교재 정답지 (ADMN-BRD-009) - 웹 에디터 본문 포함
+  // 4. 정답지 (ADMN-BRD-009) - 웹 에디터 본문 포함
   let ERRATA_LIST = [
     {
       id: 'ANS-404',
@@ -1443,7 +1443,7 @@ code, pre, kbd, samp,
 
       freeLecture: ['ADMN-BRD-006', '무료특강 및 빈출문제 관리'],
 
-      errata: ['ADMN-BRD-009', '교재 정답지 관리 (웹 에디터)'],
+      errata: ['ADMN-BRD-009', '정답지 관리 (웹 에디터)'],
 
       report: ['ADMN-BRD-007/008', '커뮤니티 게시글 및 신고 관리']
 
@@ -1673,7 +1673,7 @@ code, pre, kbd, samp,
 
         <div style="font-weight:800; margin-bottom:6px;">${p.title}</div>
 
-        <p style="margin:0; color:var(--text-sub); line-height:1.6;">산준모 정규 커리큘럼과 빈출문제 무료특강, 교재 정답지 해설을 반복 회독하여 비전공자임에도 동차 합격할 수 있었습니다.</p>
+        <p style="margin:0; color:var(--text-sub); line-height:1.6;">산준모 정규 커리큘럼과 빈출문제 무료특강, 정답지 해설을 반복 회독하여 비전공자임에도 동차 합격할 수 있었습니다.</p>
 
       </div>
 
@@ -1845,7 +1845,7 @@ code, pre, kbd, samp,
 
 
 
-  // 4. 교재 정답지 (ADMN-BRD-009)
+  // 4. 정답지 (ADMN-BRD-009)
   function renderErrata() {
     const tp = document.getElementById('er-type-filter').value;
     const kw = (document.getElementById('er-keyword').value || '').trim().toLowerCase();
@@ -1877,8 +1877,8 @@ code, pre, kbd, samp,
     const item = ERRATA_LIST.find(e => e.id === id);
     document.getElementById('er-edit-id').value = item ? item.id : '';
     document.getElementById('er-modal-title').textContent = item
-      ? `[ADMN-BRD-009] 교재 정답지 수정 (${item.id})`
-      : '[ADMN-BRD-009] 교재 정답지 신규 등록 (웹 에디터)';
+      ? `[ADMN-BRD-009] 정답지 수정 (${item.id})`
+      : '[ADMN-BRD-009] 정답지 신규 등록 (웹 에디터)';
     document.getElementById('er-form-type').value = item ? item.type : '산업안전기사';
     document.getElementById('er-form-book').value = item ? item.book : '[BK-2026-101 / BOOK-2601] 2026 산준모 산업안전기사 필기 한권끝장';
     document.getElementById('er-form-page').value = item ? item.page : '2026년판 / 전 단원 빈출문제';
@@ -1961,7 +1961,7 @@ code, pre, kbd, samp,
     }
     closeModal('modal-errata');
     renderErrata();
-    showToast('교재 정답지가 저장되어 교재 상세 페이지 및 학습지원센터에 반영되었습니다.');
+    showToast('정답지가 저장되어 교재 상세 페이지 및 학습지원센터에 반영되었습니다.');
   }
 
   // 5. 신고 렌더링

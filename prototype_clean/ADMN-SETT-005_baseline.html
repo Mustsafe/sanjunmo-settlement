@@ -519,7 +519,7 @@ code, pre, kbd, samp,
           <div class="k-sub">1,000,000원 이하 일반 조정</div>
         </div>
         <div class="kpi-card" data-filter="TAX_CORRECTION">
-          <div class="k-title">📄 증빙·원천세 정정 연동 (4채널)</div>
+          <div class="k-title">📄 세무증빙·원천세 정정 연동 (4대 유형)</div>
           <div class="k-num" id="kpiTaxMod" style="color:var(--danger);">4건</div>
           <div class="k-sub">1:N 복수 정정 채널 자동 분기됨</div>
         </div>
@@ -618,8 +618,8 @@ code, pre, kbd, samp,
                   <td class="mono"><strong>ADJ-202610-01</strong><br>(원귀속: 2026-08)</td>
                   <td>정종대 (개인사업자)<br><span class="mono">면세사업자 (TX-08)</span></td>
                   <td>
-                    <span class="badge badge-primary">채널 2: 수정 전자계산서 역발행</span><br>
-                    <span class="badge badge-danger" style="margin-top:3px;">채널 3-a: 원천세 수정신고 병행</span>
+                    <span class="badge badge-primary">[유형 2] 면세 수정 전자계산서 역발행</span><br>
+                    <span class="badge badge-danger" style="margin-top:3px;">[유형 3] 원천세·지급명세서 수정신고 병행</span>
                   </td>
                   <td class="mono">과세표준: 2,000,000원<br>원천세(3.3%): 66,000원</td>
                   <td class="mono">과세표준: 3,250,000원 (<strong>+1,250,000원</strong>)<br>원천세: 107,250원 (<strong>+41,250원</strong>)</td>
@@ -639,8 +639,8 @@ code, pre, kbd, samp,
                   <td class="mono"><strong>ADJ-202610-05</strong><br>(원귀속: 2026-09)</td>
                   <td>한국소방학회 (위탁자)<br><span class="mono">위탁 도서 공급 (TX-11)</span></td>
                   <td>
-                    <span class="badge badge-warn">채널 4: 위탁자 수정 계산서 수취 재요청</span><br>
-                    <span class="badge badge-primary" style="margin-top:3px;">채널 1: 당사 위탁수수료 수정 세금계산서</span>
+                    <span class="badge badge-warn">[유형 4] 위탁자 수정 계산서 수취 재요청</span><br>
+                    <span class="badge badge-primary" style="margin-top:3px;">[유형 1] 당사 위탁수수료 수정 세금계산서</span>
                   </td>
                   <td class="mono">위탁 정산: 2,800,000원<br>수수료 부가세: 120,000원</td>
                   <td class="mono">위탁 정산: 3,000,000원 (<strong>+200,000원</strong>)<br>수수료 부가세: 100,000원 (<strong>-20,000원</strong>)</td>
@@ -854,7 +854,7 @@ code, pre, kbd, samp,
         requireSecondApproval: true,
         requireReasonText: "조정 금액 절대값(1,250,000원) > 승인 임계액(1,000,000원) 초과로 재무 책임자 2차 승인 필수",
         channels: [
-          "채널 2: 수정 전자계산서 역발행 (면세 공급가액 +1,250,000원 변동)",
+          "[유형 2] 면세 수정 전자계산서 역발행 (면세 공급가액 +1,250,000원 변동)",
           "채널 3-a: 원천세 수정신고 및 사업소득 지급명세서 수정 제출 (원천세 차액 +41,250원)"
         ],
         explanation: "2026년 8월 귀속 산업안전 실기 단과반 프로모션 특약 요율(50%)이 계약 원장에 40%로 오기재되어 마감된 건에 대해 차액(+1,250,000원)을 2026년 10월 반영 기준월로 소급 가산 조정함.",
