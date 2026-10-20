@@ -465,7 +465,79 @@ code, pre, kbd, samp,
 
         <!-- 우측 본문 -->
         <main class="main">
-            <section class="hero">
+            <!-- Set 1 ~ Set 4 전사 End-to-End 실무 운영 플로우 (프론트/오프라인 출발 ➔ 백오피스 분기·완결) -->
+        <section class="section" id="set1-4-e2e-workflows" style="margin-top: 28px;">
+            <div class="sec-head">
+                <div>
+                    <span class="badge b-pri" style="margin-bottom:6px;">통합 상세 설계서 v4.0 · Set 1 ~ Set 4 기준</span>
+                    <h2 style="margin:0; font-size:18px; font-weight:800;">0️⃣ [Set 1 ~ Set 4] 실무자 End-to-End 표준 업무 플로우 (프론트/오프라인 출발 ➔ 백오피스 완결)</h2>
+                    <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">
+                        수험생의 프론트 화면 액션(1:1 문의·결제·환불·환급신청) 및 오프라인 신규/변경 계약 체결에서 출발하여 백오피스 각 화면으로 분기·처리·완결되는 핵심 실무 SOP입니다.
+                    </p>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap:16px; margin-top:14px;">
+                <!-- Set 1 Card -->
+                <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; box-shadow:var(--shadow);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span class="badge b-pri">Set 1 · 회원 / 수강제어 / 프로모션</span>
+                        <span style="font-size:12px; color:var(--sub); font-weight:600;">USER-AUTH/VOD/PROM ↔ ADMN-USER/PROM</span>
+                    </div>
+                    <h3 style="margin:0 0 8px; font-size:15px; font-weight:800;">회원 혜택 발급 · 수강 불편(세션/진도율/홀딩) · 기획전 통제</h3>
+                    <ol style="margin:0; padding-left:18px; font-size:13px; color:var(--ink); line-height:1.65;">
+                        <li><strong>[가입/웰컴혜택]</strong> 프론트 본인인증 가입(<code>USER-AUTH-002</code>, 탈퇴 30일 재가입 검증) ➔ 웰컴 <strong>무상 P(5,000P·2년)</strong> + 웰컴쿠폰(<code>D+21</code>) 자동 발급</li>
+                        <li><strong>[세션/기기 잠김 CS]</strong> 프론트 1세션 중복차단 문의 인입 ➔ <a href="ADMN-USER-001_baseline.html" style="color:var(--pri); font-weight:700;">회원관리(ADMN-USER-001/003)</a> 진입 ➔ 비정상 IP <strong>[강제 로그아웃]</strong> 또는 <strong>[기기 초기화]</strong></li>
+                        <li><strong>[0초 OT 진도율 보정 / 홀딩]</strong> 플레이어 오류·0초 강의 왜곡 시 <code>ADMN-USER-004</code>에서 <strong>[진도율 100% 수동 보정]</strong>(환급반 판정 즉시 연동) / 수강 홀딩(최대 3회·30일) 처리</li>
+                        <li><strong>[기획전 혜택 잠금]</strong> <a href="ADMN-PROM-001_baseline.html" style="color:var(--pri); font-weight:700;">이벤트 관리(ADMN-PROM-001)</a>에서 특가 기획전 등록 시 <code>쿠폰/적립 차단(S1)</code> 스위치 ON ➔ 프론트 결제창 혜택 자동 잠금</li>
+                    </ol>
+                </div>
+
+                <!-- Set 2 Card -->
+                <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; box-shadow:var(--shadow);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span class="badge b-ok">Set 2 · 오프라인 계약 / 도서 / 강좌 / 패키지</span>
+                        <span style="font-size:12px; color:var(--sub); font-weight:600;">오프라인 계약서 ↔ ADMN-INST/BOOK/PROD/SETT-001</span>
+                    </div>
+                    <h3 style="margin:0 0 8px; font-size:15px; font-weight:800;">신규/변경 파트너 계약 체결 · 도서(10% 할인) · 패키지 판매 오픈</h3>
+                    <ol style="margin:0; padding-left:18px; font-size:13px; color:var(--ink); line-height:1.65;">
+                        <li><strong>[신규 계약 체결 출발]</strong> 오프라인 계약서 날인 및 사업자등록증·통장사본 수취 ➔ <a href="ADMN-INST-001_baseline.html" style="color:var(--pri); font-weight:700;">권리자 계약원장(ADMN-INST-001)</a> 등록 + <a href="ADMN-SETT-008_baseline.html" style="color:var(--pri); font-weight:700;">국세청 조회(SETT-008)</a>(장애 시 증빙첨부 수기지정) + <a href="ADMN-CONF-005_baseline.html" style="color:var(--pri); font-weight:700;">파트너 계정 스코프 발급(CONF-005)</a></li>
+                        <li><strong>[계약 조건 변경(재계약)]</strong> 변경 합의서 날인 시 과거 마감월 보호를 위해 기존 행 덮어쓰기 금지 ➔ <code>ADMN-INST-001</code>에 <strong>신규 효력 시작일(<code>effective_from</code>) 이력 행 추가</strong></li>
+                        <li><strong>[도서/강좌/패키지 오픈]</strong> <a href="ADMN-BOOK-001_baseline.html" style="color:var(--pri); font-weight:700;">도서원장(BOOK-001)</a> SKU 등록 ➔ <a href="ADMN-PROD-004_baseline.html" style="color:var(--pri); font-weight:700;">교재관리(PROD-004)</a> <strong>정가 및 최대 10% 할인율(실판매가)</strong> 세팅 ➔ <a href="ADMN-SETT-001_baseline.html" style="color:var(--pri); font-weight:700;">지분 100% 매핑(SETT-001)</a> 잠금해제 ➔ <a href="ADMN-PROD-005_baseline.html" style="color:var(--pri); font-weight:700;">패키지(PROD-005)</a> 환급 진도율 변수 설정 후 판매 오픈</li>
+                    </ol>
+                </div>
+
+                <!-- Set 3 Card -->
+                <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; box-shadow:var(--shadow);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span class="badge" style="background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn-line);">Set 3 · 복합결제 / 3PL 출고·송장 / 반품·환불</span>
+                        <span style="font-size:12px; color:var(--sub); font-weight:600;">USER-PAY/MY ↔ ADMN-ORD-001/002/RFD-002</span>
+                    </div>
+                    <h3 style="margin:0 0 8px; font-size:15px; font-weight:800;">일일 교재 출고 · 운송장 엑셀 업로드 · 반품검수 및 복합환불</h3>
+                    <ol style="margin:0; padding-left:18px; font-size:13px; color:var(--ink); line-height:1.65;">
+                        <li><strong>[출고지시 엑셀 다운로드 & 취소 잠금]</strong> 프론트 복합결제(도서 실결제액 3만원↑ 무료배송) ➔ 매일 오전 <a href="ADMN-ORD-001_baseline.html" style="color:var(--pri); font-weight:700;">주문/출고(ADMN-ORD-002)</a>에서 <strong>[3PL 출고지시 엑셀 다운로드]</strong> 클릭 ➔ 즉시 <code>배송준비중</code> 전환 및 프론트 수험생 직접취소 잠금(Lock)</li>
+                        <li><strong>[운송장 엑셀 일괄 업로드]</strong> 3PL 창고 포장 후 송장 채번 ➔ <code>ADMN-ORD-002</code>에 <strong>[운송장 엑셀 일괄 업로드]</strong> 실행 ➔ 즉시 <code>배송중</code> 전환 + 재고 차감 + 수험생 배송출발 알림톡 발송</li>
+                        <li><strong>[반품 입고 검수 & 복합환불]</strong> 프론트(<code>USER-MY-006</code>) 또는 1:1 문의발 환불 접수 ➔ 3PL 반품 도서 도착 시 <strong>[반품입고 검수완료]</strong> 체크 ➔ <a href="ADMN-RFD-002_baseline.html" style="color:var(--pri); font-weight:700;">복합환불(ADMN-RFD-002)</a>에서 기수강 공제 + 훼손교재 실판매가 공제 + <strong>기적립 <code>적립 P</code> 회수(부족 시 현금차감/마이너스 부채 전환)</strong> 후 PG 취소</li>
+                    </ol>
+                </div>
+
+                <!-- Set 4 Card -->
+                <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; box-shadow:var(--shadow);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <span class="badge" style="background:var(--purple-soft); color:var(--purple); border:1px solid #ddd6fe;">Set 4 · 1:1 문의 분기 / 합격환급 / 월간정산</span>
+                        <span style="font-size:12px; color:var(--sub); font-weight:600;">USER-CS-003/MY-011 ↔ ADMN-BRD-002/SETT-006/002</span>
+                    </div>
+                    <h3 style="margin:0 0 8px; font-size:15px; font-weight:800;">프론트 1:1 문의 5대 분기 처리 · 합격환급 심사 · 월간 정산 마감</h3>
+                    <ol style="margin:0; padding-left:18px; font-size:13px; color:var(--ink); line-height:1.65;">
+                        <li><strong>[프론트 1:1 문의 접수 & 5대 분기]</strong> 수험생이 프론트(<code>USER-CS-003</code>) 문의 등록(학습질문은 네이버 카페 아웃링크 분리) ➔ <a href="ADMN-BRD-006_baseline.html" style="color:var(--pri); font-weight:700;">1:1 문의 허브(ADMN-BRD-002)</a> 인입 후 <strong>①환불이관(<code>RFD-002</code>) ②배송/출고제어(<code>ORD-002</code>) ③기기/진도율보정(<code>USER-003/004</code>) ④환급/혜택(<code>SETT-006</code>) ⑤정답지(<code>BRD-009</code>)</strong>로 즉시 분기 처리 후 답변 알림톡 발송</li>
+                        <li><strong>[합격환급 심사 & 강사 차감]</strong> 프론트 환급신청(<code>USER-MY-011-S1</code>) ➔ <a href="ADMN-SETT-006_baseline.html" style="color:var(--pri); font-weight:700;">환급반 관리(ADMN-SETT-006)</a>에서 상품별 목표 진도율 및 4대 증빙 승인 ➔ 22% 세액 공제 지급 + 강사 분담 차감(지원금 한도 자동 복원)</li>
+                        <li><strong>[월간 정산 마감 & 사후 보정]</strong> 사전 대사(<code>SETT-004/008/009</code>) ➔ <a href="ADMN-SETT-002_baseline.html" style="color:var(--pri); font-weight:700;">1~11단계 배치(SETT-002)</a> ➔ 파트너 역발행 승인 후 마감(<code>Locked</code>) / 마감 후 오류는 <a href="ADMN-SETT-005_baseline.html" style="color:var(--pri); font-weight:700;">전기오류수정(SETT-005)</a>에서 4가지 과세유형별 증빙 정정 처리</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero">
                 <div>
                     <div style="display:flex; gap:8px; margin-bottom:8px;">
                         <span class="badge b-pri" style="background:rgba(255,255,255,0.16); color:#fff; border-color:rgba(255,255,255,0.3);">산준모
