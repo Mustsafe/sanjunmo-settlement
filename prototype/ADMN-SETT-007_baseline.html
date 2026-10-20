@@ -728,6 +728,9 @@ code, pre, kbd, samp,
       document.getElementById("viewPanel-" + id).style.display = (id === viewId) ? "block" : "none";
     });
     if (viewId === "list") renderListTable();
+    /* Init SETT-007 Audits and Pickers */
+    if (typeof renderAuditTable === 'function') renderAuditTable();
+    if (typeof renderContractPickerList === 'function') renderContractPickerList();
     if (viewId === "editor") renderEditorWorkspace();
     if (viewId === "rules") renderAuditTable();
   }
@@ -1267,6 +1270,9 @@ code, pre, kbd, samp,
     });
     showToast(`[저장 완료] ${c.id} 계약의 2계층 수취인 분할 비율(100.00%)이 저장되었습니다.`);
     renderListTable();
+    /* Init SETT-007 Audits and Pickers */
+    if (typeof renderAuditTable === 'function') renderAuditTable();
+    if (typeof renderContractPickerList === 'function') renderContractPickerList();
   }
 
   function renderAuditTable() {
@@ -1287,6 +1293,9 @@ code, pre, kbd, samp,
     const params = new URLSearchParams(window.location.search);
     const cid = params.get("contractId");
     renderListTable();
+    /* Init SETT-007 Audits and Pickers */
+    if (typeof renderAuditTable === 'function') renderAuditTable();
+    if (typeof renderContractPickerList === 'function') renderContractPickerList();
     if (cid && CONTRACTS.some(c => c.id === cid)) {
       openContractEditor(cid);
     }

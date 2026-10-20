@@ -1291,6 +1291,8 @@ code, pre, kbd, samp,
         document.getElementById('top-crumb-code').textContent = 'ADMN-CONF-002';
 
         renderTermsMasterList();
+      /* Init Term History */
+      if (typeof renderTermHistoryTable === 'function') renderTermHistoryTable();
 
       }
 
@@ -1835,6 +1837,8 @@ code, pre, kbd, samp,
     document.addEventListener('DOMContentLoaded', () => {
 
       renderTermsMasterList();
+      /* Init Term History */
+      if (typeof renderTermHistoryTable === 'function') renderTermHistoryTable();
 
       const params = new URLSearchParams(window.location.search);
 

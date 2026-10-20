@@ -842,6 +842,9 @@ code, pre, kbd, samp,
       document.getElementById("tabPanel-" + id).style.display = (id === tabId) ? "block" : "none";
     });
     if (tabId === "vault") renderVaultTable();
+  /* Init USER-007 Retention and Access */
+  if (typeof renderRetentionTable === 'function') renderRetentionTable();
+  if (typeof renderAccessLogs === 'function') renderAccessLogs();
     if (tabId === "retention") renderRetentionTable();
     if (tabId === "fieldmap") renderAccessLogs();
   }
@@ -922,6 +925,9 @@ code, pre, kbd, samp,
     if (mode === "UNMASK" && rec.remainingSec > 0) {
       rec.remainingSec = 0;
       renderVaultTable();
+  /* Init USER-007 Retention and Access */
+  if (typeof renderRetentionTable === 'function') renderRetentionTable();
+  if (typeof renderAccessLogs === 'function') renderAccessLogs();
       showToast(`${rec.name}(${rec.id})의 민감 정보가 즉시 재마스킹되었습니다.`);
       return;
     }
@@ -986,6 +992,9 @@ code, pre, kbd, samp,
         stateText: "30초 카운트다운 진행 중"
       });
       renderVaultTable();
+  /* Init USER-007 Retention and Access */
+  if (typeof renderRetentionTable === 'function') renderRetentionTable();
+  if (typeof renderAccessLogs === 'function') renderAccessLogs();
       showToast(`[감사 로그 기록 완료] ${rec.name}의 민감 정보가 30초간 일시 해제됩니다.`);
     } else {
       ACCESS_LOGS.unshift({
@@ -1026,6 +1035,9 @@ code, pre, kbd, samp,
   function maskAllNow() {
     PII_RECORDS.forEach(r => { r.remainingSec = 0; });
     renderVaultTable();
+  /* Init USER-007 Retention and Access */
+  if (typeof renderRetentionTable === 'function') renderRetentionTable();
+  if (typeof renderAccessLogs === 'function') renderAccessLogs();
     showToast("열람 중이던 모든 민감 정보가 즉시 마스킹(별표) 상태로 복귀되었습니다.");
   }
 
@@ -1042,6 +1054,9 @@ code, pre, kbd, samp,
       }
     });
     if (changed) renderVaultTable();
+  /* Init USER-007 Retention and Access */
+  if (typeof renderRetentionTable === 'function') renderRetentionTable();
+  if (typeof renderAccessLogs === 'function') renderAccessLogs();
   }, 1000);
 
   function renderRetentionTable() {
@@ -1129,6 +1144,9 @@ code, pre, kbd, samp,
   }
 
   renderVaultTable();
+  /* Init USER-007 Retention and Access */
+  if (typeof renderRetentionTable === 'function') renderRetentionTable();
+  if (typeof renderAccessLogs === 'function') renderAccessLogs();
 </script><script>
 /* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
 (function() {

@@ -1512,6 +1512,15 @@ code, pre, kbd, samp,
         renderFormCourses();
         renderFormBooks();
         recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
       }
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -1642,6 +1651,15 @@ code, pre, kbd, samp,
       document.getElementById("f-pkg-settlement-sim").value = p.settlementShare === 100 ? "100" : "70";
       applyPkgSettlementLock();
       recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
     }
 
     /* =========================================================================
@@ -1714,12 +1732,30 @@ code, pre, kbd, samp,
 
       renderFormCourses();
       recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
       showToast("단과 기준 판매가 비례로 정산 안분 가중치(합계 100.00%)가 자동 계산되었습니다.");
     }
 
     function updateCourseWeight(idx, val) {
       mappedPkgCourses[idx].weight = Number(val || 0);
       recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
     }
 
     function removeCourseFromPkg(idx) {
@@ -1793,6 +1829,15 @@ code, pre, kbd, samp,
       mappedPkgBooks.splice(idx, 1);
       renderFormBooks();
       recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
     }
 
     function recalcPackagePricing() {
@@ -1915,6 +1960,15 @@ code, pre, kbd, samp,
       closeBookPickerModal();
       renderFormBooks();
       recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
       showToast("선택한 교재가 패키지에 추가되었습니다.");
     }
 
@@ -1981,6 +2035,15 @@ code, pre, kbd, samp,
       renderFormCourses();
       renderFormBooks();
       recalcPackagePricing();
+      /* Pre-populate picker tables */
+      var ctb = document.getElementById('modal-course-picker-tbody');
+      if (ctb && typeof COURSE_POOL !== 'undefined') {
+        ctb.innerHTML = COURSE_POOL.map(c => `<tr><td class="text-center"><input type="checkbox" class="course-pick-chk" value="${c.code}"/></td><td><span class="code-pill">${c.code}</span></td><td style="font-weight:600;">${c.title}</td><td>${c.instructor}</td><td class="text-right">${formatNumber(c.price)}원</td></tr>`).join("");
+      }
+      var btb = document.getElementById('modal-book-picker-tbody');
+      if (btb && typeof BOOK_POOL !== 'undefined') {
+        btb.innerHTML = BOOK_POOL.map(b => `<tr><td class="text-center"><input type="checkbox" class="book-pick-chk" value="${b.sku}"/></td><td><span class="code-pill">${b.sku}</span></td><td style="font-weight:600;">${b.title}</td><td>${b.isbn}</td><td class="text-right">${formatNumber(b.price)}원</td></tr>`).join("");
+      }
     });
   </script><script>
 /* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */

@@ -2720,6 +2720,8 @@ code, pre, kbd, samp,
       : '2026-10-19 기프티콘 알림톡 발송 완료';
 
     renderWinnerView();
+    /* Init FAQ Cat Modal */
+    if (typeof renderFaqCatModalTable === 'function') renderFaqCatModalTable();
 
     showToast(`${w.userName}님에게 [${w.prize}] 지급 처리가 완료되었습니다.`);
 
@@ -2744,6 +2746,8 @@ code, pre, kbd, samp,
     w.meta = `CJ대한통운 (${tracking}) 출고완료`;
 
     renderWinnerView();
+    /* Init FAQ Cat Modal */
+    if (typeof renderFaqCatModalTable === 'function') renderFaqCatModalTable();
 
     showToast(`실물 경품 송장번호(${tracking})가 등록되고 당첨자에게 배송 알림톡이 발송되었습니다.`);
 
@@ -2790,6 +2794,8 @@ code, pre, kbd, samp,
     });
 
     renderWinnerView();
+    /* Init FAQ Cat Modal */
+    if (typeof renderFaqCatModalTable === 'function') renderFaqCatModalTable();
 
     showToast(`선택한 당첨자 ${cnt}명에 대한 일괄 경품 지급 및 알림톡 발송이 완료되었습니다.`);
 
@@ -2974,6 +2980,8 @@ code, pre, kbd, samp,
     closeModal('modal-winner-post');
 
     renderWinnerView();
+    /* Init FAQ Cat Modal */
+    if (typeof renderFaqCatModalTable === 'function') renderFaqCatModalTable();
 
     showToast('당첨자 발표글 및 프론트 노출 설정이 저장되었습니다.');
 
@@ -3038,6 +3046,8 @@ code, pre, kbd, samp,
     closeModal('modal-winner-row');
 
     renderWinnerView();
+    /* Init FAQ Cat Modal */
+    if (typeof renderFaqCatModalTable === 'function') renderFaqCatModalTable();
 
     showToast('당첨자 명단에 추가되었으며 프론트 마스킹이 자동 적용되었습니다.');
 
@@ -3106,6 +3116,8 @@ code, pre, kbd, samp,
     populateWinnerSelect();
 
     renderWinnerView();
+    /* Init FAQ Cat Modal */
+    if (typeof renderFaqCatModalTable === 'function') renderFaqCatModalTable();
 
 
 

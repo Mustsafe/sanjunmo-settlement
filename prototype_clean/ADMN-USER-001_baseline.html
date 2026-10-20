@@ -1800,6 +1800,8 @@ code, pre, kbd, samp,
       const v = params.get('view') || 'list';
       switchView(v);
       renderMemberDetail();
+      /* Init USER-001 Blacklist Modal */
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
     });
 
     function selectMember(id, trEl) {
@@ -1813,6 +1815,8 @@ code, pre, kbd, samp,
         trEl.classList.add('selected-row');
       }
       renderMemberDetail();
+      /* Init USER-001 Blacklist Modal */
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
     }
 
     function renderMemberDetail() {
@@ -1878,6 +1882,8 @@ code, pre, kbd, samp,
     function unmaskMemberDetail() {
       isUnmasked = !isUnmasked;
       renderMemberDetail();
+      /* Init USER-001 Blacklist Modal */
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
       if (isUnmasked) {
         document.getElementById('unmask-timer-badge').style.display = 'inline-flex';
         document.getElementById('btn-unmask').textContent = '🔒 즉시 재마스킹';
@@ -1892,6 +1898,8 @@ code, pre, kbd, samp,
     function unlockPw5() {
       MEMBERS[currentMemberId].lockHtml = '<span class="badge badge-green">잠금 해제 완료 (is_locked=false)</span>';
       renderMemberDetail();
+      /* Init USER-001 Blacklist Modal */
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
       showToast('비밀번호 5회 오류 잠금(auto_5fail)이 즉시 해제되었습니다.');
     }
 
@@ -2265,6 +2273,8 @@ code, pre, kbd, samp,
 
       m.freeP = mode === 'PLUS' ? (m.freeP + amt) : (m.freeP - amt);
       renderMemberDetail();
+      /* Init USER-001 Blacklist Modal */
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
 
       const tbody = document.querySelector('#dt-point-ledger tbody');
       const tr = document.createElement('tr');
@@ -2296,6 +2306,8 @@ code, pre, kbd, samp,
       const st = document.getElementById('modal-st-val').value;
       MEMBERS[currentMemberId].status = st;
       renderMemberDetail();
+      /* Init USER-001 Blacklist Modal */
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
       closeModal('modal-status');
       showToast(`회원 상태가 [${st}]로 변경되고 관리 이력 타임라인에 영구 기록되었습니다.`);
     }
