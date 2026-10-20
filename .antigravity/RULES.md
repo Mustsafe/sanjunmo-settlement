@@ -1,6 +1,6 @@
 # ANTIGRAVITY AGENT RULES (영구 고정 — 매 작업 시작 전 필독)
 
-> 상세 메모리: `docs/AGENT_PIPELINE_MEMORY.md` (반드시 함께 열람)
+> 상세 메모리: `.antigravity/AGENT_PIPELINE_MEMORY.md` (반드시 함께 열람)
 
 ## R1. 임의 코딩 금지
 - 백오피스 HTML/JS/CSS 구현 및 패치 스크립트 작성 = 분석 AI(젠스파크 Chat) + 코딩 전담 AI(Opus)의 역할.

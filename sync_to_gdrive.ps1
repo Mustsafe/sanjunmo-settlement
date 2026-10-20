@@ -163,7 +163,10 @@ $obsoleteDocs = @(
     "04_QA_정산케이스스펙_및_회귀테스트_법령근거_v4.0.0.md",
     "산준모닷컴 구축 통합 상세 설계서_v4.0_통합본.md",
     "SET1_TO_4_ALIGNMENT_PLAN.md",
-    "BACKOFFICE_ALIGNMENT_MASTER_PLAN.md"
+    "BACKOFFICE_ALIGNMENT_MASTER_PLAN.md",
+    "AGENT_PIPELINE_MEMORY.md",
+    "JARGON_SCAN_REPORT.md",
+    "PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md"
 )
 foreach ($obsDoc in $obsoleteDocs) {
     $obsDocPath = Join-Path $gdriveDocs $obsDoc

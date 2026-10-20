@@ -16,7 +16,7 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 CLEAN_DIR = Path("prototype_clean").resolve()
-REPORT_PATH = Path("docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md")
+REPORT_PATH = Path(".antigravity/reports/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md")
 
 
 async def audit_page(browser, html_path: Path):
