@@ -1,6 +1,6 @@
 # JARGON SCAN REPORT — 기획서 내부 암호 · SSOT 금지어 전수 스캔
 
-- 생성 시각: `2026-10-20 05:50:31`
+- 생성 시각: `2026-10-20 15:09:13`
 - 실행 스킬: `scripts/qa/skill_jargon_scan.py` (Skill 2, 읽기 전용)
 - 스캔 대상: `prototype_clean/*.html` — **38개 화면**
 - **[A] DOM 가시 텍스트 탐지: 333건** (텍스트 노드 + placeholder/title/alt/aria-label/버튼 value)
@@ -488,7 +488,7 @@
 
 | 라인 | 출처 | 분류 | 규칙 | 매칭 | 문맥 |
 | ---: | :--- | :--- | :--- | :--- | :--- |
-| 1355 | text | 내부암호 | SNAKE_ID | `cafe_member_id` | users.cafe_member_id IS NOT NULL |
+| 1415 | text | 내부암호 | SNAKE_ID | `cafe_member_id` | users.cafe_member_id IS NOT NULL |
 
 ### `ADMN-USER-007_baseline.html` — 20건
 

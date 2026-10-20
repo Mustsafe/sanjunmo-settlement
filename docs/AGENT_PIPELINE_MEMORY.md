@@ -32,7 +32,7 @@
 | Skill 1 | `scripts/qa/skill_static_lint.py` | 38개 HTML 내 `<script>` 추출 → `node --check` 문법 검사, 깨진 링크(`href`), 중복 ID, 빈 `<tbody>` 초고속 스캔 | 미구축 |
 | Skill 2 | `scripts/qa/skill_jargon_scan.py` | 금지어(`기출`, `정오표`, `Vimeo`, `80%`, `①~⑭`, `[마커`) 및 기획서 내부 암호(`C-01`, `D-1`, `P5.1`, `15.2절`, `mmg_promo_overlap_flag`, `Pipeline 1.1` 등), 번역 중복어(`실결제금액(실결제금액)`) 정규식 전수 탐지 → `docs/JARGON_SCAN_REPORT.md` | **구축 완료** |
 | Skill 3 | `scripts/qa/skill_cross_data_check.py` | 동일 강사(`RH-0025` 등)·동일 도서(`BK-2026-101` / `BOOK-2601`)의 정가·요율·계약번호 화면 간 불일치 파싱 대조 | 미구축 |
-| Skill 4 | `scripts/qa/skill_playwright_e2e.py` | Playwright 기반 모달 열기/닫기, 탭 전환, 레이아웃 겹침 검수 | 미구축 |
+| Skill 4 | `scripts/qa/skill_playwright_e2e.py` | Playwright 기반 모달 열기/닫기, 탭 전환, 레이아웃 겹침 검수 | **구축 완료** |
 
 ### 1-3. 리포트 발행 및 Git / 구글 드라이브 동기화
 1. 패치 실행 및 스킬 검수 결과를 `docs/` 하위 마크다운 리포트(예: `docs/QA_SCAN_REPORT.md`, `docs/JARGON_SCAN_REPORT.md`)로 저장한다.
@@ -66,3 +66,4 @@
 | :--- | :--- | :--- |
 | 2026-10-20 | 역할 고정 메모리 생성, Skill 2(금지어·내부 암호 스캐너) 구축 및 최초 스캔 | `.antigravity/RULES.md`, `docs/AGENT_PIPELINE_MEMORY.md`, `scripts/qa/skill_jargon_scan.py`, `docs/JARGON_SCAN_REPORT.md` |
 | 2026-10-20 | `patch_missing_3_features.py` 실행 — USER-004 진도율 보정 원장(카드 4·5번)·USER-006 태그 생성/그룹-태그 연결(카드 1·2번)·RFD-003-S2 별도 보정 거래, prototype/·prototype_clean/ 동기 적용 | `prototype*/ADMN-USER-001_baseline.html`, `prototype*/ADMN-RFD-002_baseline.html`, `docs/JARGON_SCAN_REPORT.md` |
+| 2026-10-20 | `hotfix_ssr_initial_rows.py` 실행 — USER-001 차시·보정이력·그룹 3개 테이블 SSR 초기 행 내장 및 Skill 4(Playwright E2E 검수기) 구축·38/38 PASS 검증 | `prototype*/ADMN-USER-001_baseline.html`, `scripts/qa/skill_playwright_e2e.py`, `docs/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` |
