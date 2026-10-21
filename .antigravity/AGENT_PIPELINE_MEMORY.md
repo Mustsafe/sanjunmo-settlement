@@ -2,7 +2,7 @@
 
 > **이 문서는 세션 압축·신규 세션에도 휘발되지 않는 영구 메모리다.**
 > 에이전트는 **매 작업 시작 전 반드시** 이 문서와 `.antigravity/RULES.md`를 먼저 열람한다.
-> 최초 등록: 2026-10-20 · 최종 갱신: 2026-10-22 (v6.4 기준)
+> 최초 등록: 2026-10-20 · 최종 갱신: 2026-10-22 (v6.6 기준)
 >
 > **2026-10-21 역할 재편 (v6.2):** 진단·패치·실행·검증·커밋은 Claude Code가 한곳에서 수행한다. 현행 작업 규칙은 `.claude/CLAUDE.md`가 우선한다.
 > 아래 0·1절과 `RULES.md`의 젠스파크/안티그래비티 역할 구분은 이력 보존용이다. 안티그래비티는 대량·기계적 작업(전체 E2E, 일괄 스캔)을 맡길 때만 쓴다.
@@ -107,7 +107,7 @@
 
 ---
 
-## 5. 현재 상태 및 다음 작업 (2026-10-22 · v6.4 기준)
+## 5. 현재 상태 및 다음 작업 (2026-10-22 · v6.6 기준)
 
 **상태**
 - 활성 화면 37개(양쪽 폴더). E2E `prototype_clean` 37/37, `prototype` 37/37 PASS (v6.1 기준), 콘솔 에러 0건.
@@ -119,7 +119,6 @@
 - ORD-001 "도서 인세 (+1권)": 원 문구 미확인 상태에서 정한 판단값.
 - Skill 1(정적 문법 검사)·Skill 3(화면 간 데이터 대조) 미구축.
 - README 화면 수 표기(38개) 갱신 여부 확인 필요.
-- 예전 드라이브 사본 `04.설계서/docs`(hook이 만든 평면 구조, 접두어 뗀 중복 md 포함) 보관·정리 여부 미정. 그 안의 `정산 및 계약 기획 합의서_V4.0.0_FINAL.md`는 저장소에 없는 문서로, 저장소 편입 여부 미정.
 
 **다음 세션 작업: 개별 HTML 점검 및 동작 오류 세부 수정**
 1. white가 화면·증상을 지정(스크린샷 포함 가능).
@@ -160,4 +159,5 @@
 | 2026-10-21 | v6.2 역할 재편(Claude Code 단일 체계) — 루트 `CLAUDE.md` 신설, 본 문서·`RULES.md`에 재편 안내 추가 | `CLAUDE.md`, `.antigravity/AGENT_PIPELINE_MEMORY.md`, `.antigravity/RULES.md`, 커밋 `f132a42` |
 | 2026-10-22 | v6.3 드라이브 동기화 전환 — Apps Script 양방향 동기화 가동(정산시스템 폴더 221개 파일, GitHub blob 해시 전수 일치 확인), post-commit hook 비활성화, `sync_to_gdrive.ps1` 보관 | `scripts/gas/sync_settlement.gs`, `_archive/scripts/sync_to_gdrive.ps1`, `CLAUDE.md`, 커밋 `d7ee6ed`·`a683e3b` |
 | 2026-10-22 | v6.4 완료 산출물 정리 — `_archive/` 144개(예전 백업·패치 스크립트·구 설계서 등), `.antigravity/reports/` 37개, `WORKFLOW_REDESIGN_PLAN.md`, 루트 일회성 py 2개, `extract_paren_src.py` 삭제(추적 파일 304 → 119개). `_archive/backup/`·`.antigravity/reports/` `.gitignore` 등록, `scan_paren_dup.py` 리포트 폴더 자동 생성, `CLAUDE.md`를 `.claude/CLAUDE.md`로 이동 | `.gitignore`, `.claude/CLAUDE.md`, `scripts/qa/scan_paren_dup.py`, 커밋 `75f6221` |
-| 2026-10-22 | v6.5 GitHub Pages 첫 화면을 `prototype_clean/` 업무플로우 가이드로 변경(기획 검수용 `prototype/`은 주소 직접 입력으로 접근) | `index.html` |
+| 2026-10-22 | v6.5 GitHub Pages 첫 화면을 `prototype_clean/` 업무플로우 가이드로 변경(기획 검수용 `prototype/`은 주소 직접 입력으로 접근) | `index.html`, 커밋 `525f4e0` |
+| 2026-10-22 | v6.6 드라이브 예전 사본 `04.설계서/docs` 삭제(white 직접, 통합 설계서는 저장소 정본과 동일 확인 후). 저장소에 없던 `정산 및 계약 기획 합의서_V4.0.0_FINAL.md`도 white가 삭제. 통합 설계서 정본은 저장소 `docs/`로 확정 | `.claude/CLAUDE.md` |
