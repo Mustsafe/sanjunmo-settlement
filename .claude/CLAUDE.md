@@ -62,7 +62,7 @@
 - E2E(폴더별 2회, UTF-8 출력):
   - `PYTHONIOENCODING=utf-8 python scripts/qa/skill_playwright_e2e.py prototype`
   - `PYTHONIOENCODING=utf-8 python scripts/qa/skill_playwright_e2e.py prototype_clean`
-- 기준선: 양쪽 37/37 PASS, 콘솔 에러 0건.
+- 기준선: 양쪽 38/38 PASS, 콘솔 에러 0건.
 - 그 밖의 QA 도구(금지어·괄호 중복 스캔)는 `PROJECT_STATE.md` 2절.
 
 ## 커밋 규칙
@@ -73,3 +73,5 @@
 
 ## 알려진 함정
 - 공통 모달 닫기 핫픽스(`UNIVERSAL-MODAL-CLOSER-HOTFIX`, 각 HTML 두 번째 `<script>`)는 로드 시 모든 모달 백드롭에 인라인 `display:none !important`를 건다. `hidden` 클래스만 떼서 여는 모달은 열리지 않는다. 열 때 `open` 클래스를 붙이고 인라인 `display`를 지우고, 닫을 때 `open`을 뗀다(SETT-005 v6.0·v6.1 참고).
+- clean 공통 CSS(`prototype_clean/common-v84.css` "SAFE CSS PRESENTATION LAYER")는 `.info-callout`, `.policy-banner`, `.policy-note`, `.rule-banner` 등을 기획 설명으로 보고 숨긴다. 운영자에게 보여야 하는 안내(경고 배너, 모달 안 대상 정보, 권한 안내)는 이 클래스를 쓰지 않는다(BRD-001 `.ctx-note`, BRD-007 `.access-notice` 참고).
+- clean 문구 치환기는 원문자(`①~⑭`)를 지우므로 샘플 데이터에도 쓰지 않는다("3번"처럼 쓴다).

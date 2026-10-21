@@ -68,4 +68,4 @@
 - **상품 · 강좌 · 교재 · 패키지 · VOD · 도서원장 (8종):** `ADMN-PROD-001` ~ `ADMN-PROD-007`, `ADMN-BOOK-001`
 - **주문 · 3PL 출고/송장 · 복합환불 (4종):** `ADMN-ORD-001`(주문 001 + 3PL 출고/송장/반품검수 002 통합), `ADMN-RFD-002`, `ADMN-RFD-003`, `ADMN-RFD-004`
 - **권리자 계약 · 월간 정산 · 세무 · 3PL 정산 (9종):** `ADMN-INST-001`, `ADMN-INST-002`, `ADMN-SETT-001`, `ADMN-SETT-002`, `ADMN-SETT-004` ~ `ADMN-SETT-009`, `ADMN-SETT-011` (`ADMN-SETT-003` 결번 제외)
-- **게시판/CS · 사이트 환경설정 · RBAC 권한 (6종):** `ADMN-BRD-001`(공지 001·FAQ 006·학습 Q&A 004·당첨자 009 통합), `ADMN-BRD-002`(1:1 문의 분기 허브), `ADMN-BRD-005`(후기 005·무료콘텐츠 010 통합), `ADMN-CONF-001` ~ `ADMN-CONF-005`, `ADMN-CONF-007`
+- **게시판/CS · 사이트 환경설정 · RBAC 권한 (6종):** `ADMN-BRD-001`(공지 001·FAQ 006·상품 Q&A 003·학습 Q&A 004·당첨자 009 통합), `ADMN-BRD-002`(1:1 문의 분기 허브), `ADMN-BRD-005`(후기 005·무료콘텐츠 010 통합), `ADMN-BRD-007`(1:1 문의 분류), `ADMN-CONF-001` ~ `ADMN-CONF-005`, `ADMN-CONF-007`

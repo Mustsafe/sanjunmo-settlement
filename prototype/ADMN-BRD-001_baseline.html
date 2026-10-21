@@ -707,6 +707,17 @@
 
     }
 
+    /* 운영 안내(clean에서도 노출): info-callout은 clean에서 숨김 처리되므로 별도 클래스 사용 */
+    .ctx-note {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
     .info-callout {
 
       background: #eff6ff;
@@ -797,7 +808,7 @@ code, pre, kbd, samp,
 
         <h1 id="current-screen-title">공지사항·FAQ·문의·이벤트 당첨자 통합 관리</h1>
 
-        <p>고객센터 게시판(공지/FAQ/1:1문의/강사Q&amp;A) 및 이벤트 당첨자 발표 게시·경품 지급 원장을 관리합니다.</p>
+        <p>고객센터 게시판(공지/FAQ/상품 Q&amp;A/학습 Q&amp;A) 및 이벤트 당첨자 발표 게시·경품 지급 원장을 관리합니다.</p>
 
       </div>
 
@@ -824,6 +835,12 @@ code, pre, kbd, samp,
         <button class="sub-tab-btn" onclick="switchTab('faq')" id="tab-btn-faq">
 
           ❓ 자주 묻는 질문 (FAQ) <span class="cnt" id="cnt-faq">7</span>
+
+        </button>
+
+        <button class="sub-tab-btn" onclick="switchTab('pqna')" id="tab-btn-pqna">
+
+          🛒 상품 Q&amp;A <span class="cnt" id="cnt-pqna">0</span>
 
         </button>
 
@@ -1001,7 +1018,101 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 3. 강좌 학습 Q&A (ADMN-BRD-004) ==================== -->
+    <!-- ==================== 3. 상품 Q&A (ADMN-BRD-003) ==================== -->
+    <section id="view-pqna" class="view-section">
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">상품 문의 (최근 30일)</div>
+          <div class="kpi-val" id="pqna-kpi-total">0건</div>
+          <div class="kpi-sub" id="pqna-kpi-split">교재 0건 · 강좌 0건</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">미답변</div>
+          <div class="kpi-val" style="color:#d97706;" id="pqna-kpi-wait">0건</div>
+          <div class="kpi-sub">답변 등록 시 작성 회원에게 알림톡 발송</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">담당 미지정</div>
+          <div class="kpi-val" style="color:#dc2626;" id="pqna-kpi-unassigned">0건</div>
+          <div class="kpi-sub">담당자 일괄 지정으로 물류팀 · 조교 · CS에 배분</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">파손 다발 상품</div>
+          <div class="kpi-val" id="pqna-kpi-damage">0개</div>
+          <div class="kpi-sub">같은 상품 파손/오배송 문의 30일 내 5건 이상</div>
+        </div>
+      </div>
+      <div class="ctx-note" id="pqna-damage-banner" style="display:none; background:#fef2f2; border-color:#fecaca; color:#991b1b;"></div>
+      <div class="card">
+        <div class="filter-grid">
+          <div class="filter-left">
+            <input type="text" id="pqna-keyword" placeholder="상품명 · 상품 ID · 제목 · 회원 검색..." oninput="renderPqna()" style="width:240px;" />
+            <select id="pqna-type" onchange="renderPqna()">
+              <option value="ALL">문의 유형 전체</option>
+              <option>파손/오배송</option>
+              <option>배송문의</option>
+              <option>오탈자/내용 오류</option>
+              <option>재고/재입고</option>
+              <option>강좌 수강</option>
+            </select>
+            <select id="pqna-owner" onchange="renderPqna()">
+              <option value="ALL">담당 부서 전체</option>
+              <option value="물류팀">물류팀</option>
+              <option value="조교">조교</option>
+              <option value="CS">CS</option>
+              <option value="NONE">담당 미지정</option>
+            </select>
+            <select id="pqna-status" onchange="renderPqna()">
+              <option value="ALL">처리 상태 전체</option>
+              <option value="WAITING" selected>미답변</option>
+              <option value="DONE">답변완료</option>
+              <option value="HIDDEN">숨김</option>
+            </select>
+            <select id="pqna-open" onchange="renderPqna()">
+              <option value="ALL">공개 여부 전체</option>
+              <option value="PUBLIC">공개</option>
+              <option value="SECRET">비밀글</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="resetPqnaFilter()">초기화</button>
+          </div>
+        </div>
+        <div class="cat-pill-bar" id="pqna-kind-pills" style="margin-top:12px;"></div>
+      </div>
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div class="filter-grid" style="padding:12px 16px; border-bottom:1px solid var(--border);">
+          <div class="filter-left"><strong id="pqna-summary">0건 · 미답변 0건</strong></div>
+          <div class="filter-right">
+            <select id="pqna-bulk-owner">
+              <option value="물류팀">물류팀</option>
+              <option value="조교(정종대)">조교(정종대)</option>
+              <option value="CS">CS</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="bulkAssignPqna()">담당자 일괄 지정</button>
+            <button class="btn btn-outline btn-sm" onclick="bulkHidePqna()">선택 숨김</button>
+            <button class="btn btn-outline btn-sm" onclick="showToast('현재 조회 조건의 상품 Q&A 목록 엑셀 다운로드를 시작합니다.')">엑셀 다운로드</button>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:36px;"><input type="checkbox" id="pqna-check-all" onchange="toggleAllPqna(this.checked)" /></th>
+              <th style="width:80px;">문의일</th>
+              <th style="width:60px;">구분</th>
+              <th style="width:210px;">상품 (자동 매핑)</th>
+              <th>제목</th>
+              <th style="width:120px;">회원</th>
+              <th style="width:50px;">첨부</th>
+              <th style="width:110px;">담당</th>
+              <th style="width:70px;">공개</th>
+              <th style="width:80px;">상태</th>
+              <th style="width:80px;">처리</th>
+            </tr>
+          </thead>
+          <tbody id="pqna-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+    <!-- ==================== 4. 강좌 학습 Q&A (ADMN-BRD-004) ==================== -->
 
     <section id="view-qna" class="view-section">
 
@@ -1041,7 +1152,7 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 4. 이벤트 당첨자 발표 및 상품 지급 (ADMN-BRD-009) ==================== -->
+    <!-- ==================== 5. 이벤트 당첨자 발표 및 상품 지급 (ADMN-BRD-009) ==================== -->
 
     <section id="view-winner" class="view-section">
 
@@ -1571,6 +1682,52 @@ code, pre, kbd, samp,
 
 
 
+<!-- ==================== 모달: 상품 Q&A 답변 등록 (ADMN-BRD-003-S1) ==================== -->
+<div class="modal-backdrop" id="modal-pqna">
+  <div class="modal-box" style="max-width:720px;">
+    <div class="modal-header">
+      <h3 id="pqna-modal-title">상품 Q&amp;A 답변 등록</h3>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-pqna')">닫기 ✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="ctx-note" id="pqna-modal-product"></div>
+      <div class="ctx-note" id="pqna-modal-order" style="background:#f8fafc; border-color:#e2e8f0; color:#334155;"></div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">문의 내용</label>
+          <div id="pqna-modal-question" style="padding:12px 14px; border:1px solid var(--border); border-radius:8px; background:#f8fafc; line-height:1.6;"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">담당 *</label>
+          <select id="pqna-modal-owner">
+            <option value="">담당 미지정</option>
+            <option value="물류팀">물류팀</option>
+            <option value="조교(정종대)">조교(정종대)</option>
+            <option value="CS">CS</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">공개 설정</label>
+          <select id="pqna-modal-open">
+            <option value="PUBLIC">공개 (상품 상세에 노출)</option>
+            <option value="SECRET">비밀글 (작성 회원만 열람)</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">답변 본문 *</label>
+          <textarea id="pqna-modal-answer" rows="6" style="width:100%;" placeholder="회원에게 노출될 답변을 입력하세요. 등록 즉시 알림톡이 발송됩니다."></textarea>
+        </div>
+      </div>
+      <div class="ctx-note" id="pqna-modal-errata" style="display:none; margin-top:12px;">오탈자/내용 오류 문의는 주간 리포트로 담당 강사 · 조교에게 전달되며, 확인된 오류는 공지사항 탭에서 오탈자 정정 공지로 안내합니다.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="hidePqna()">숨김 처리</button>
+      <button class="btn btn-outline" onclick="closeModal('modal-pqna')">취소</button>
+      <button class="btn btn-primary" id="pqna-modal-save" onclick="savePqnaAnswer()">답변 등록 · 알림톡 발송</button>
+    </div>
+  </div>
+</div>
+
 <!-- ==================== 모달 5: 공지사항 등록/수정 ==================== -->
 
 <div class="modal-backdrop" id="modal-notice-form">
@@ -1731,7 +1888,21 @@ code, pre, kbd, samp,
 
 
 
-  // 3. 학습 Q&A 데이터
+  // 3. 상품 Q&A 데이터 (상품 상세 [문의하기]로만 생성되므로 상품 ID가 항상 채워진다)
+  const PQNA_TODAY = '2026-10-19';
+  let PQNA_LIST = [
+    { id: 'PQ-2610-118', date: '2026-10-19 09:12', kind: 'BOOK', productId: 'BK-2026-0142', productName: '산업안전기사 실기 필답형 기본서', stock: 38, type: '파손/오배송', title: '표지 모서리가 눌려서 왔어요. 교환되나요?', body: '오늘 받은 교재 표지 모서리가 눌려 있습니다. 사진 2장 첨부합니다. 교환 가능한지 문의드립니다.', user: '홍길동 (gdhong)', attach: 2, owner: '물류팀', open: 'SECRET', status: 'WAITING', order: { no: 'ORD-20261016-0412', ship: '배송완료 (10.18)' } },
+    { id: 'PQ-2610-117', date: '2026-10-18 21:40', kind: 'BOOK', productId: 'BK-2026-0138', productName: '산업안전기사 필기 빈출문제집', stock: 112, type: '오탈자/내용 오류', title: '184페이지 정답이 3번인데 해설은 4번으로 되어 있습니다', body: '2025년 3회 빈출 17번 문제입니다. 정답표는 3번, 해설은 4번으로 되어 있어 어느 쪽이 맞는지 확인 부탁드립니다.', user: '김수연 (sooyeon_k)', attach: 1, owner: '조교(정종대)', open: 'PUBLIC', status: 'WAITING', order: { no: 'ORD-20261002-0187', ship: '배송완료 (10.04)' } },
+    { id: 'PQ-2610-116', date: '2026-10-18 14:05', kind: 'COURSE', productId: 'LC-2026-0031', productName: '산업안전기사 필기+실기 올패스', stock: null, type: '강좌 수강', title: '올패스에 실기 작업형 교재도 포함되어 있나요?', body: '올패스 구매를 고민 중입니다. 실기 작업형 교재가 구성에 포함되는지 궁금합니다.', user: '박정우 (jwpark)', attach: 0, owner: 'CS', open: 'PUBLIC', status: 'DONE', order: null, answer: '올패스에는 필기 · 실기 필답형 교재 2권이 포함되며, 작업형 워크북은 별도 구매 상품입니다.' },
+    { id: 'PQ-2610-115', date: '2026-10-17 11:30', kind: 'BOOK', productId: 'BK-2026-0142', productName: '산업안전기사 실기 필답형 기본서', stock: 38, type: '파손/오배송', title: '책등이 찢어진 상태로 배송됐습니다', body: '책등 아래쪽이 3cm 정도 찢어져 있습니다.', user: '이서준 (seojun_l)', attach: 1, owner: '', open: 'SECRET', status: 'WAITING', order: { no: 'ORD-20261014-0233', ship: '배송완료 (10.16)' } },
+    { id: 'PQ-2610-114', date: '2026-10-16 18:22', kind: 'BOOK', productId: 'BK-2026-0142', productName: '산업안전기사 실기 필답형 기본서', stock: 38, type: '파손/오배송', title: '비닐 포장이 뜯겨 있고 페이지가 접혀 있어요', body: '포장 비닐이 뜯긴 채로 왔고 앞쪽 20페이지가 접혀 있습니다.', user: '최민아 (mina_c)', attach: 2, owner: '물류팀', open: 'SECRET', status: 'DONE', order: { no: 'ORD-20261012-0098', ship: '교환 재출고 (10.17)' }, answer: '불편을 드려 죄송합니다. 교환 재출고를 접수했으며 10.17 출고되었습니다.' },
+    { id: 'PQ-2610-113', date: '2026-10-15 10:08', kind: 'BOOK', productId: 'BK-2026-0139', productName: '건설안전기사 실기 작업형 워크북', stock: 0, type: '재고/재입고', title: '품절 표시인데 언제 재입고 되나요?', body: '11월 시험 전에 받아야 하는데 재입고 일정을 알 수 있을까요?', user: '정하늘 (haneul_j)', attach: 0, owner: '', open: 'PUBLIC', status: 'WAITING', order: null },
+    { id: 'PQ-2610-112', date: '2026-10-14 16:47', kind: 'BOOK', productId: 'BK-2026-0142', productName: '산업안전기사 실기 필답형 기본서', stock: 38, type: '파손/오배송', title: '모서리가 찍혀서 왔습니다. 사진 첨부합니다', body: '뒤표지 모서리가 찍혀 있습니다.', user: '윤서연 (syyoon)', attach: 3, owner: '물류팀', open: 'SECRET', status: 'DONE', order: { no: 'ORD-20261010-0311', ship: '배송완료 (10.13)' }, answer: '사진 확인했습니다. 교환을 원하시면 반품 수거를 접수해 드리겠습니다.' },
+    { id: 'PQ-2610-111', date: '2026-10-12 13:15', kind: 'COURSE', productId: 'LC-2026-0018', productName: '건설안전기사 실기 작업형 단과', stock: null, type: '강좌 수강', title: '수강 기간이 며칠인가요? 연장도 되나요?', body: '수강 기간과 연장 가능 여부가 궁금합니다.', user: '한승우 (swhan)', attach: 0, owner: 'CS', open: 'PUBLIC', status: 'DONE', order: { no: 'ORD-20261001-0042', ship: '수강중' }, answer: '수강 기간은 결제일로부터 180일이며, 마이페이지에서 30일 단위 유료 연장이 가능합니다.' },
+    { id: 'PQ-2610-110', date: '2026-10-10 09:51', kind: 'BOOK', productId: 'BK-2026-0142', productName: '산업안전기사 실기 필답형 기본서', stock: 38, type: '파손/오배송', title: '다른 사람 이름의 송장이 붙어서 왔습니다(오배송)', body: '받는 사람이 다른 송장이 붙은 상자가 왔습니다.', user: '오지훈 (jihoon_o)', attach: 3, owner: '물류팀', open: 'SECRET', status: 'HIDDEN', order: { no: 'ORD-20261007-0156', ship: '오배송 회수 (10.11)' } },
+    { id: 'PQ-2610-109', date: '2026-10-08 20:33', kind: 'BOOK', productId: 'BK-2026-0138', productName: '산업안전기사 필기 빈출문제집', stock: 112, type: '배송문의', title: '주문 후 3일째인데 아직 배송준비중입니다', body: '10.05에 주문했는데 아직 배송준비중으로 나옵니다.', user: '강민재 (minjae_k)', attach: 0, owner: '', open: 'PUBLIC', status: 'WAITING', order: { no: 'ORD-20261005-0277', ship: '배송준비중' } }
+  ];
+  // 4. 학습 Q&A 데이터
 
 
 
@@ -1747,7 +1918,7 @@ code, pre, kbd, samp,
 
 
 
-  // 4. 이벤트 당첨자 발표 및 지급 원장 (ADMN-BRD-009)
+  // 5. 이벤트 당첨자 발표 및 지급 원장 (ADMN-BRD-009)
 
   let WINNER_POSTS = [
 
@@ -1866,6 +2037,8 @@ code, pre, kbd, samp,
       notice: ['ADMN-BRD-001', '공지사항 관리'],
 
       faq: ['ADMN-BRD-006', '자주 묻는 질문 (FAQ) 및 동적 카테고리 관리'],
+
+      pqna: ['ADMN-BRD-003', '상품 Q&A 관리 (상품 ID 자동 매핑)'],
 
       qna: ['ADMN-BRD-004', '강좌별 학습 Q&A 관리'],
 
@@ -2349,6 +2522,150 @@ code, pre, kbd, samp,
 
 
 
+  // 상품 Q&A 렌더링 (ADMN-BRD-003)
+  let pqnaKind = 'ALL';
+  let pqnaEditingId = null;
+  function pqnaInLast30(p) {
+    return (new Date(PQNA_TODAY) - new Date(p.date.slice(0, 10))) / 86400000 <= 30;
+  }
+  function pqnaFiltered(ignoreKind) {
+    const kw = (document.getElementById('pqna-keyword').value || '').trim().toLowerCase();
+    const type = document.getElementById('pqna-type').value;
+    const owner = document.getElementById('pqna-owner').value;
+    const st = document.getElementById('pqna-status').value;
+    const open = document.getElementById('pqna-open').value;
+    return PQNA_LIST.filter(p =>
+      pqnaInLast30(p) &&
+      (ignoreKind || pqnaKind === 'ALL' || p.kind === pqnaKind) &&
+      (!kw || [p.productId, p.productName, p.title, p.user].some(v => v.toLowerCase().includes(kw))) &&
+      (type === 'ALL' || p.type === type) &&
+      (owner === 'ALL' || (owner === 'NONE' ? !p.owner : p.owner.startsWith(owner))) &&
+      (st === 'ALL' || p.status === st) &&
+      (open === 'ALL' || p.open === open)
+    ).sort((a, b) => a.date.localeCompare(b.date));
+  }
+  function renderPqna() {
+    const recent = PQNA_LIST.filter(pqnaInLast30);
+    document.getElementById('cnt-pqna').textContent = PQNA_LIST.length;
+    document.getElementById('pqna-kpi-total').textContent = recent.length + '건';
+    document.getElementById('pqna-kpi-split').textContent = `교재 ${recent.filter(p => p.kind === 'BOOK').length}건 · 강좌 ${recent.filter(p => p.kind === 'COURSE').length}건`;
+    document.getElementById('pqna-kpi-wait').textContent = recent.filter(p => p.status === 'WAITING').length + '건';
+    document.getElementById('pqna-kpi-unassigned').textContent = recent.filter(p => !p.owner && p.status !== 'HIDDEN').length + '건';
+    const damage = {};
+    recent.filter(p => p.type === '파손/오배송').forEach(p => {
+      damage[p.productId] = damage[p.productId] || { name: p.productName, cnt: 0 };
+      damage[p.productId].cnt++;
+    });
+    const hot = Object.entries(damage).filter(([, v]) => v.cnt >= 5);
+    document.getElementById('pqna-kpi-damage').textContent = hot.length + '개';
+    const banner = document.getElementById('pqna-damage-banner');
+    banner.style.display = hot.length ? 'block' : 'none';
+    banner.innerHTML = hot.map(([id, v]) => `<strong>⚠️ 파손 다발 상품:</strong> ${v.name} (${id}) — 최근 30일 파손/오배송 문의 ${v.cnt}건. 포장 개선 또는 인쇄 불량 회수 여부를 검토하세요.`).join('<br/>');
+    const base = pqnaFiltered(true);
+    const kinds = [['ALL', '전체'], ['BOOK', '교재'], ['COURSE', '강좌']];
+    document.getElementById('pqna-kind-pills').innerHTML = kinds.map(([k, label]) => {
+      const cnt = k === 'ALL' ? base.length : base.filter(p => p.kind === k).length;
+      return `<button class="cat-pill ${pqnaKind === k ? 'active' : ''}" onclick="selectPqnaKind('${k}')">${label} (${cnt})</button>`;
+    }).join('');
+    const list = pqnaFiltered(false);
+    document.getElementById('pqna-summary').textContent = `${list.length}건 · 미답변 ${list.filter(p => p.status === 'WAITING').length}건`;
+    document.getElementById('pqna-check-all').checked = false;
+    const tbody = document.getElementById('pqna-tbody');
+    if (!list.length) {
+      tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:28px; color:var(--text-sub);">조건에 맞는 상품 문의가 없습니다. <button class="btn btn-outline btn-sm" onclick="resetPqnaFilter()">조건 초기화</button></td></tr>`;
+      return;
+    }
+    const stBadge = { WAITING: ['badge-amber', '미답변'], DONE: ['badge-green', '답변완료'], HIDDEN: ['badge-slate', '숨김'] };
+    tbody.innerHTML = list.map(p => {
+      const href = p.kind === 'BOOK' ? 'ADMN-PROD-004_baseline.html' : 'ADMN-PROD-003_baseline.html';
+      const stock = p.kind !== 'BOOK' ? '' : (p.stock > 0 ? `재고 ${p.stock}권` : '<span style="color:#dc2626; font-weight:700;">품절</span>');
+      const owner = p.owner ? p.owner : '<span class="badge badge-red">미지정</span>';
+      return `
+      <tr style="${p.status === 'HIDDEN' ? 'opacity:0.55;' : ''}">
+        <td><input type="checkbox" class="pqna-check" value="${p.id}" /></td>
+        <td>${p.date.slice(5, 10).replace('-', '.')}</td>
+        <td><span class="badge ${p.kind === 'BOOK' ? 'badge-blue' : 'badge-purple'}">${p.kind === 'BOOK' ? '교재' : '강좌'}</span></td>
+        <td><a href="${href}" target="_blank" style="font-weight:700; color:var(--primary);">${p.productId}</a><div>${p.productName}</div><div style="font-size:11px; color:var(--text-sub);">${stock}</div></td>
+        <td style="font-weight:700;"><span class="badge badge-slate" style="margin-right:6px;">${p.type}</span>${p.title}</td>
+        <td>${p.user}</td>
+        <td>${p.attach || '—'}</td>
+        <td>${owner}</td>
+        <td>${p.open === 'SECRET' ? '비밀글' : '공개'}</td>
+        <td><span class="badge ${stBadge[p.status][0]}">${stBadge[p.status][1]}</span></td>
+        <td><button class="btn btn-outline btn-sm" onclick="openPqnaModal('${p.id}')">${p.status === 'WAITING' ? '답변' : '상세'}</button></td>
+      </tr>`;
+    }).join('');
+  }
+  function selectPqnaKind(kind) {
+    pqnaKind = kind;
+    renderPqna();
+  }
+  function resetPqnaFilter() {
+    document.getElementById('pqna-keyword').value = '';
+    ['pqna-type', 'pqna-owner', 'pqna-status', 'pqna-open'].forEach(id => { document.getElementById(id).value = 'ALL'; });
+    pqnaKind = 'ALL';
+    renderPqna();
+  }
+  function toggleAllPqna(on) {
+    document.querySelectorAll('.pqna-check').forEach(c => { c.checked = on; });
+  }
+  function checkedPqnaIds() {
+    return Array.from(document.querySelectorAll('.pqna-check:checked')).map(c => c.value);
+  }
+  function bulkAssignPqna() {
+    const ids = checkedPqnaIds();
+    if (!ids.length) { showToast('담당자를 지정할 문의를 선택해 주세요.'); return; }
+    const owner = document.getElementById('pqna-bulk-owner').value;
+    PQNA_LIST.filter(p => ids.includes(p.id)).forEach(p => { p.owner = owner; });
+    renderPqna();
+    showToast(`선택한 ${ids.length}건의 담당을 ${owner}(으)로 지정했습니다.`);
+  }
+  function bulkHidePqna() {
+    const ids = checkedPqnaIds();
+    if (!ids.length) { showToast('숨김 처리할 문의를 선택해 주세요.'); return; }
+    PQNA_LIST.filter(p => ids.includes(p.id)).forEach(p => { p.status = 'HIDDEN'; });
+    renderPqna();
+    showToast(`선택한 ${ids.length}건을 숨김 처리했습니다. 상품 상세에서 더 이상 노출되지 않습니다.`);
+  }
+  function openPqnaModal(id) {
+    const p = PQNA_LIST.find(x => x.id === id);
+    if (!p) return;
+    pqnaEditingId = id;
+    const stock = p.kind !== 'BOOK' ? '' : ` · ${p.stock > 0 ? '재고 ' + p.stock + '권' : '품절'}`;
+    document.getElementById('pqna-modal-title').textContent = p.status === 'WAITING' ? `상품 Q&A 답변 등록 (${p.id})` : `상품 Q&A 상세 (${p.id})`;
+    document.getElementById('pqna-modal-product').innerHTML = `<strong>대상 상품:</strong> ${p.productName} (${p.productId}) · ${p.kind === 'BOOK' ? '교재' : '강좌'}${stock}`;
+    document.getElementById('pqna-modal-order').innerHTML = p.order ? `<strong>주문 연결:</strong> ${p.order.no} · ${p.order.ship}` : '<strong>구매 전 문의</strong> — 이 회원의 해당 상품 구매 이력이 없습니다.';
+    document.getElementById('pqna-modal-question').innerHTML = `<div style="font-weight:800; margin-bottom:6px;">[${p.type}] ${p.title}</div><div>${p.body}</div><div style="margin-top:8px; font-size:11.5px; color:var(--text-sub);">${p.user} · ${p.date} · 첨부 ${p.attach}개${p.attach ? ' (클릭 시 확대)' : ''}</div>`;
+    document.getElementById('pqna-modal-owner').value = p.owner;
+    document.getElementById('pqna-modal-open').value = p.open;
+    document.getElementById('pqna-modal-answer').value = p.answer || '';
+    document.getElementById('pqna-modal-errata').style.display = p.type === '오탈자/내용 오류' ? 'block' : 'none';
+    document.getElementById('pqna-modal-save').textContent = p.status === 'WAITING' ? '답변 등록 · 알림톡 발송' : '답변 수정 저장';
+    const modal = document.getElementById('modal-pqna');
+    modal.style.removeProperty('display');
+    modal.classList.add('open');
+  }
+  function savePqnaAnswer() {
+    const p = PQNA_LIST.find(x => x.id === pqnaEditingId);
+    if (!p) return;
+    const answer = document.getElementById('pqna-modal-answer').value.trim();
+    const owner = document.getElementById('pqna-modal-owner').value;
+    if (!owner) { showToast('담당을 지정해 주세요.'); return; }
+    if (!answer) { showToast('답변 본문을 입력해 주세요.'); return; }
+    const first = p.status !== 'DONE';
+    Object.assign(p, { answer, owner, open: document.getElementById('pqna-modal-open').value, status: 'DONE' });
+    closeModal('modal-pqna');
+    renderPqna();
+    showToast(first ? `${p.id} 답변이 등록되고 작성 회원에게 알림톡이 발송되었습니다.` : `${p.id} 답변이 수정되었습니다.`);
+  }
+  function hidePqna() {
+    const p = PQNA_LIST.find(x => x.id === pqnaEditingId);
+    if (!p) return;
+    p.status = 'HIDDEN';
+    closeModal('modal-pqna');
+    renderPqna();
+    showToast(`${p.id} 문의를 숨김 처리했습니다.`);
+  }
   // 학습 Q&A 렌더링
   function renderQna() {
 
@@ -2980,6 +3297,7 @@ code, pre, kbd, samp,
 
     renderFaqs();
 
+    renderPqna();
     renderQna();
 
     populateWinnerSelect();
@@ -2994,7 +3312,7 @@ code, pre, kbd, samp,
 
     const view = params.get('view') || params.get('tab');
 
-    if (view && ['notice', 'faq', 'qna', 'winner'].includes(view)) {
+    if (view && ['notice', 'faq', 'pqna', 'qna', 'winner'].includes(view)) {
 
       switchTab(view);
 

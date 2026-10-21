@@ -84,7 +84,7 @@
         { code: "ORD-001", label: "주문 · 배송 · 3PL 관리", href: "ADMN-ORD-001_baseline.html" },
         { code: "RFD-002", label: "환불 요청 · 심사 관리", href: "ADMN-RFD-002_baseline.html" },
         { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" },
-        { code: "BRD-001", label: "공지사항 · FAQ · 당첨자 발표", href: "ADMN-BRD-001_baseline.html?view=notice", screenCode: "ADMN-BRD-001" },
+        { code: "BRD-001", label: "공지 · FAQ · Q&A · 당첨자 발표", href: "ADMN-BRD-001_baseline.html?view=notice", screenCode: "ADMN-BRD-001" },
         { code: "BRD-005", label: "수강·합격수기 · 무료특강(빈출)", href: "ADMN-BRD-005_baseline.html?view=review", screenCode: "ADMN-BRD-005" },
         { code: "PROM-001", label: "이벤트 · 기획전 관리 (Slug·특가)", href: "ADMN-PROM-001_baseline.html", screenCode: "ADMN-PROM-001" },
         { code: "PROM-002", label: "쿠폰 마스터 등록 · 발급 관리", href: "ADMN-PROM-002_baseline.html?view=list", screenCode: "ADMN-PROM-002" },
@@ -145,6 +145,7 @@
         { code: "CONF-003", label: "플레이어 · 동시접속 · 인증 설정", href: "ADMN-CONF-003_baseline.html?view=player", screenCode: "ADMN-CONF-003" },
         { code: "CONF-004", label: "메시지 템플릿 관리 (알림톡·문자·메일)", href: "ADMN-CONF-004_baseline.html?view=template", screenCode: "ADMN-CONF-004" },
         { code: "CONF-004-S1", label: "타겟 메시지 발송 · 내역", href: "ADMN-CONF-004_baseline.html?view=send", screenCode: "ADMN-CONF-004-S1" },
+        { code: "BRD-007", label: "1:1 문의 분류 관리", href: "ADMN-BRD-007_baseline.html", screenCode: "ADMN-BRD-007" },
         { code: "CONF-005", label: "운영자 계정 · 역할 권한(RBAC)", href: "ADMN-CONF-005_baseline.html", screenCode: "ADMN-CONF-005" }
       ]
     }
@@ -349,6 +350,7 @@
     ["ADMN-PROM-003", "포인트 원장 관리"],
     ["ADMN-BRD-001", "공지사항 관리"],
     ["ADMN-BRD-002", "1:1 문의 허브"],
+    ["ADMN-BRD-003", "상품 Q&A 관리"],
     ["ADMN-BRD-005", "후기·무료특강"],
     ["ADMN-BRD-009", "당첨자 발표 관리"],
     ["ADMN-CONF-004-S1", "타겟 메시지 발송"],
@@ -393,6 +395,7 @@
     ["ADMN-LOGIN-003", "계정 잠금 해제"],
     ["ADMN-BRD-004", "학습 Q&A 관리"],
     ["ADMN-BRD-006", "FAQ 관리"],
+    ["ADMN-BRD-007", "1:1 문의 분류 관리"],
     ["ADMN-BRD-010", "무료특강·빈출문제"],
     // 기술 파라미터 및 DB 컬럼명
     ["tax_type", "과세유형"],

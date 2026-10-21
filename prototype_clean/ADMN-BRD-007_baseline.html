@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1:1 문의 분류 관리 — 산준모 백오피스</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg-body: #F3F5F9; --bg-card: #FFFFFF; --bg-subtle: #F8FAFC;
+      --text-main: #0F172A; --text-sub: #475569; --text-muted: #64748B;
+      --border: #E2E8F0; --border-strong: #CBD5E1;
+      --primary: #2563EB; --primary-hover: #1D4ED8;
+      --success: #16A34A; --warning: #D97706; --danger: #DC2626;
+      --radius-md: 8px; --radius-lg: 12px; --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Pretendard", -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-body); color: var(--text-main); font-size: 13px; line-height: 1.5; min-width: 1440px; }
+    #v4-root-shell { margin-left: 260px; min-height: 100vh; display: flex; flex-direction: column; }
+    .top-bar.v4-gen3-topbar { height: 60px; background: #FFF; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; position: sticky; top: 0; z-index: 100; }
+    .crumb-wrap { display: flex; align-items: center; gap: 10px; }
+    .crumb-code { background: #1E293B; color: #F8FAFC; font-weight: 700; font-size: 11px; padding: 3px 8px; border-radius: 4px; }
+    .crumb-title { font-size: 16px; font-weight: 800; color: var(--text-main); }
+    .crumb-sub { font-size: 12px; color: var(--text-muted); margin-left: 6px; }
+    .main-container { padding: 24px 28px 60px; max-width: 1640px; width: 100%; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-sm); }
+    .kpi-card .k-title { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 8px; }
+    .kpi-card .k-num { font-family: "Pretendard", sans-serif; font-size: 22px; font-weight: 800; color: var(--text-main); text-align: left; margin-bottom: 6px; }
+    .kpi-card .k-sub { font-size: 11.5px; color: var(--text-muted); }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); margin-bottom: 20px; overflow: hidden; }
+    .card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: #FAFBFD; }
+    .card-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .card-actions { display: flex; gap: 8px; align-items: center; }
+    .card-body { padding: 18px 20px; }
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+    .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 8px; }
+
+    .access-notice { background: #FFF7ED; border: 1px solid #FED7AA; border-left: 4px solid var(--warning); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 18px; font-size: 12px; color: #7C2D12; line-height: 1.6; }
+    .f-input, .f-select { height: 34px; padding: 0 10px; border: 1px solid var(--border-strong); border-radius: 6px; font-size: 12.5px; font-family: inherit; color: var(--text-main); background: #FFF; }
+    .f-input[readonly] { background: var(--bg-subtle); color: var(--text-sub); }
+    .btn { height: 34px; padding: 0 14px; border-radius: 6px; font-size: 12.5px; font-weight: 700; border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; text-decoration: none; }
+    .btn-sm { height: 28px; padding: 0 10px; font-size: 11.5px; }
+    .btn-primary { background: var(--primary); color: #FFF; }
+    .btn-outline { background: #FFF; border-color: var(--border-strong); color: var(--text-main); }
+    .btn-danger { background: #FEF2F2; border-color: #FECACA; color: var(--danger); }
+
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; margin: 1px 2px 1px 0; }
+    .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+    .badge-green { background: #DCFCE7; color: #15803D; }
+    .badge-amber { background: #FEF3C7; color: #B45309; }
+    .badge-gray { background: #F1F5F9; color: #475569; }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .data-table th { background: #F8FAFC; color: var(--text-sub); font-weight: 700; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    .data-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); }
+    .data-table tr.row-off td { color: #94A3B8; background: #FAFAFA; }
+    .data-table tr.row-off .badge { opacity: 0.7; }
+    .data-table tr.row-click { cursor: pointer; }
+    .data-table tr.row-click:hover td { background: #F8FAFC; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-backdrop.open { display: flex; }
+    .modal-box { background: #FFF; border-radius: var(--radius-lg); width: 100%; max-width: 640px; box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25); overflow: hidden; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .modal-header h3 { font-size: 15px; font-weight: 800; }
+    .modal-body { padding: 18px 20px; max-height: 70vh; overflow-y: auto; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--border); background: #FAFBFD; }
+    .form-row { display: grid; grid-template-columns: 140px 1fr; gap: 12px; align-items: start; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+    .form-row:last-child { border-bottom: none; }
+    .form-row > label { font-size: 12px; font-weight: 700; color: var(--text-sub); padding-top: 8px; }
+    .form-help { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+    .check-group { display: flex; flex-wrap: wrap; gap: 6px 14px; padding-top: 7px; }
+    .check-group label { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; }
+    .form-error { display: none; background: #FEF2F2; border: 1px solid #FECACA; color: #B91C1C; border-radius: var(--radius-md); padding: 10px 12px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+
+    #toast-box { position: fixed; bottom: 24px; right: 24px; background: #0F172A; color: #FFF; padding: 12px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 700; display: none; z-index: 12000; }
+    code { background: #F1F5F9; padding: 2px 5px; border-radius: 4px; font-size: 11.5px; }
+
+/* === [GLOBAL-PRETENDARD-FONT-LOCK: NO-BROWSER-MONOSPACE] === */
+:root {
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+*, *::before, *::after,
+html, body,
+code, pre, kbd, samp, tt, var,
+button, input, select, textarea, optgroup, option,
+table, thead, tbody, tfoot, tr, th, td,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+code, pre, kbd, samp,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+
+  </style>
+  <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-snb" src="common-snb.js" defer></script>
+</head>
+<body>
+  <aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
+  <div id="v4-root-shell">
+    <header class="top-bar v4-gen3-topbar">
+      <div class="crumb-wrap">
+        <span class="crumb-code" id="top-crumb-code">ADMN-BRD-007</span>
+        <h1 class="crumb-title">1:1 문의 분류 관리</h1>
+        <span class="crumb-sub">사이트 · 약관 · 메시지 설정 &gt; 1:1 문의 분류 관리 (VoC 분류 마스터)</span>
+      </div>
+      <a class="btn btn-outline btn-sm" href="ADMN-BRD-002_baseline.html">1:1 문의 허브로 이동 →</a>
+    </header>
+
+    <div id="v4-page-body" class="main-container">
+      <div class="access-notice">
+        <strong>🔒 운영 관리자 이상 전용 화면입니다.</strong> 분류와 자동 배정 화면을 바꾸면 이후 접수되는 문의가 다른 담당 부서 큐로 들어가므로, CS 담당자 계정에는 이 메뉴가 열리지 않습니다(운영자 권한 관리에서 설정).<br />
+        여기서 추가 · 수정한 분류는 사용자 1:1 문의 작성 화면의 분류 드롭다운과 1:1 문의 허브의 분기 라우팅에 즉시 반영됩니다.
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="k-title"><span>대분류</span><span class="badge badge-blue">드롭다운 1단계</span></div>
+          <div class="k-num" id="kpi-major">0건</div>
+          <div class="k-sub" id="kpi-major-sub">사용 0 · 미사용 0</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>소분류 (사용)</span><span class="badge badge-green">사용자 노출</span></div>
+          <div class="k-num" id="kpi-minor">0건</div>
+          <div class="k-sub">사용자 문의 작성 화면 드롭다운에 노출 중</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>미사용 소분류</span><span class="badge badge-gray">정리 대상</span></div>
+          <div class="k-num" id="kpi-off">0건</div>
+          <div class="k-sub">쓰지 않는 분류가 쌓이지 않도록 주기적으로 정리</div>
+        </div>
+        <div class="kpi-card">
+          <div class="k-title"><span>자동 배정 화면</span><span class="badge badge-amber">분기 대상</span></div>
+          <div class="k-num" id="kpi-screens">0개</div>
+          <div class="k-sub">사용 중인 소분류가 연결된 관리자 화면 수</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">📂 분류 마스터</div>
+          <div class="card-actions">
+            <button type="button" class="btn btn-outline btn-sm" onclick="openMajorModal()">대분류 관리</button>
+            <button type="button" class="btn btn-primary btn-sm" onclick="openCatModal(null)">＋ 분류 추가</button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="toolbar-left">
+            <select class="f-select" id="flt-major" onchange="renderCats()"></select>
+            <select class="f-select" id="flt-status" onchange="renderCats()">
+              <option value="ALL">상태 전체</option>
+              <option value="ON">사용</option>
+              <option value="OFF">미사용</option>
+            </select>
+            <span id="cat-summary" style="font-weight:700; color:var(--text-sub);"></span>
+          </div>
+          <div class="toolbar-right">
+            <span style="font-size:12px; color:var(--text-muted);">선택한 분류를</span>
+            <button type="button" class="btn btn-outline btn-sm" onclick="bulkSetStatus('ON')">사용으로 변경</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="bulkSetStatus('OFF')">미사용으로 변경</button>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:36px;"><input type="checkbox" id="cat-check-all" onchange="toggleAllCats(this.checked)" /></th>
+              <th style="width:120px;">분류 코드</th>
+              <th style="width:130px;">대분류</th>
+              <th>소분류 명칭</th>
+              <th style="width:260px;">자동 배정 화면</th>
+              <th style="width:200px;">담당 부서 큐</th>
+              <th style="width:80px;">상태</th>
+              <th style="width:80px;">노출 순서</th>
+              <th style="width:70px;">관리</th>
+            </tr>
+          </thead>
+          <tbody id="cat-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🕘 분류 변경 이력</div>
+          <span style="font-size:12px; color:var(--text-muted);">추가 · 수정 · 상태 변경은 변경 전후 값이 감사 로그에 남습니다.</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th style="width:150px;">변경 일시</th><th style="width:160px;">관리자</th><th style="width:140px;">대상</th><th>변경 내용 (전 → 후)</th></tr>
+          </thead>
+          <tbody id="log-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 분류 등록 · 수정 (ADMN-BRD-007-S1) -->
+  <div class="modal-backdrop" id="modal-cat-form">
+    <div class="modal-box" style="max-width:680px;">
+      <div class="modal-header">
+        <h3 id="cat-form-title">분류 등록</h3>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-cat-form')">닫기 ✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-error" id="cat-form-error"></div>
+        <div class="form-row">
+          <label>대분류 *</label>
+          <div><select class="f-select" id="cf-major" style="width:100%;" onchange="previewCatCode()"></select></div>
+        </div>
+        <div class="form-row">
+          <label>소분류 명칭 *</label>
+          <div>
+            <input class="f-input" id="cf-name" style="width:100%;" placeholder="예: 상담 필요 (관리자 판단)" />
+            <div class="form-help">사용자 문의 작성 화면 드롭다운에 이 문구가 그대로 노출됩니다.</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>분류 코드 *</label>
+          <div>
+            <input class="f-input" id="cf-code" style="width:220px;" readonly />
+            <div class="form-help">최초 저장 시 자동 채번되며 이후 변경할 수 없습니다.</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>자동 배정 화면 *</label>
+          <div>
+            <select class="f-select" id="cf-screen" style="width:100%;"></select>
+            <div class="form-help">접수 건은 1:1 문의 허브 목록에 들어오고, 상세를 열면 이 화면의 분기 패널이 함께 열립니다.</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>담당 부서 큐 *</label>
+          <div class="check-group" id="cf-depts"></div>
+        </div>
+        <div class="form-row">
+          <label>상태</label>
+          <div class="check-group">
+            <label><input type="radio" name="cf-status" value="ON" checked /> 사용</label>
+            <label><input type="radio" name="cf-status" value="OFF" /> 미사용 (드롭다운에서 숨김)</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>노출 순서</label>
+          <div><input class="f-input" id="cf-order" type="number" min="1" style="width:100px;" /></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-cat-form')">취소</button>
+        <button type="button" class="btn btn-primary" onclick="saveCat()">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 대분류 관리 -->
+  <div class="modal-backdrop" id="modal-major">
+    <div class="modal-box" style="max-width:620px;">
+      <div class="modal-header">
+        <h3>대분류 관리</h3>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-major')">닫기 ✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-error" id="major-error"></div>
+        <table class="data-table">
+          <thead><tr><th style="width:90px;">코드 접두</th><th>대분류 명칭</th><th style="width:90px;">소분류</th><th style="width:110px;">상태</th></tr></thead>
+          <tbody id="major-tbody"></tbody>
+        </table>
+        <div style="display:flex; gap:8px; margin-top:14px;">
+          <input class="f-input" id="new-major-name" style="flex:1;" placeholder="새 대분류 명칭 (예: 제휴 · 단체 수강)" />
+          <input class="f-input" id="new-major-prefix" style="width:110px;" placeholder="접두 (예: B2B)" />
+          <button type="button" class="btn btn-outline" onclick="addMajor()">대분류 추가</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-major')">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-box"></div>
+
+  <script>
+    const NOW = '2026.10.22 10:30';
+    const ADMIN = '운영관리자 (admin_ops)';
+
+    // 대분류 — 사용자 문의 작성 화면 드롭다운 1단계
+    let MAJORS = [
+      { prefix: 'PAY', name: '결제 · 환불', on: true },
+      { prefix: 'SHIP', name: '배송 · 교재', on: true },
+      { prefix: 'LECT', name: '수강 · 기기', on: true },
+      { prefix: 'PASS', name: '합격환급 · 혜택', on: true },
+      { prefix: 'STUDY', name: '학습 · 자료', on: true },
+      { prefix: 'ETC', name: '회원 · 기타', on: true }
+    ];
+
+    // 자동 배정 화면 — 1:1 문의 허브 분기 패널 대상
+    const SCREENS = [
+      { code: 'ADMN-RFD-002-S1', name: '환불 관리 상세 뷰' },
+      { code: 'ADMN-ORD-001-S1', name: '주문 상세 · 수동 보정' },
+      { code: 'ADMN-ORD-002', name: '배송 관리 · 3PL 출고' },
+      { code: 'ADMN-USER-003', name: '회원 수강 · 기기 제어' },
+      { code: 'ADMN-USER-004', name: '진도율 보정' },
+      { code: 'ADMN-SETT-006', name: '합격 환급반 관리' },
+      { code: 'ADMN-USER-002', name: '회원 상세 (포인트 · 혜택)' },
+      { code: 'ADMN-BRD-004', name: '학습 Q&A (1차 오픈: 카페 질문게시판 안내)' },
+      { code: 'ADMN-BRD-010', name: '무료콘텐츠 관리 (정답지)' },
+      { code: 'ADMN-BRD-002', name: '1:1 문의 허브 직접 답변' }
+    ];
+
+    const DEPTS = ['CS', '환불 심사', '물류팀', '수강 지원', '환급 심사', '조교', '마케팅'];
+
+    let CATS = [
+      { code: 'VOC-PAY-01', major: 'PAY', name: '카드 · 간편결제 취소', screen: 'ADMN-RFD-002-S1', depts: ['환불 심사'], on: true, order: 1 },
+      { code: 'VOC-PAY-02', major: 'PAY', name: '가상계좌 · 무통장 입금 확인', screen: 'ADMN-RFD-002-S1', depts: ['CS', '환불 심사'], on: true, order: 2 },
+      { code: 'VOC-PAY-03', major: 'PAY', name: '휴대폰 결제 환불', screen: 'ADMN-RFD-002-S1', depts: ['환불 심사'], on: true, order: 3 },
+      { code: 'VOC-PAY-04', major: 'PAY', name: '영수증 · 증빙 발급', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 4 },
+      { code: 'VOC-PAY-05', major: 'PAY', name: '상담 필요 (관리자 판단)', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 5 },
+      { code: 'VOC-SHIP-01', major: 'SHIP', name: '배송지 변경', screen: 'ADMN-ORD-001-S1', depts: ['물류팀'], on: true, order: 1 },
+      { code: 'VOC-SHIP-02', major: 'SHIP', name: '배송 지연 · 배송 조회', screen: 'ADMN-ORD-002', depts: ['물류팀', 'CS'], on: true, order: 2 },
+      { code: 'VOC-SHIP-03', major: 'SHIP', name: '파손 · 오배송 교환', screen: 'ADMN-ORD-002', depts: ['물류팀'], on: true, order: 3 },
+      { code: 'VOC-SHIP-04', major: 'SHIP', name: '교재 낙장 · 인쇄 불량', screen: 'ADMN-ORD-002', depts: ['물류팀'], on: true, order: 4 },
+      { code: 'VOC-LECT-01', major: 'LECT', name: '동시접속 · 세션 차단', screen: 'ADMN-USER-003', depts: ['수강 지원'], on: true, order: 1 },
+      { code: 'VOC-LECT-02', major: 'LECT', name: '수강 기간 연장', screen: 'ADMN-USER-003', depts: ['수강 지원', 'CS'], on: true, order: 2 },
+      { code: 'VOC-LECT-03', major: 'LECT', name: '진도율 누락 · 플레이어 오류', screen: 'ADMN-USER-004', depts: ['수강 지원'], on: true, order: 3 },
+      { code: 'VOC-LECT-04', major: 'LECT', name: '기기 등록 초기화 (2차 고도화)', screen: 'ADMN-USER-003', depts: ['수강 지원'], on: false, order: 4 },
+      { code: 'VOC-PASS-01', major: 'PASS', name: '합격환급 서류 보완', screen: 'ADMN-SETT-006', depts: ['환급 심사'], on: true, order: 1 },
+      { code: 'VOC-PASS-02', major: 'PASS', name: '포인트 · 쿠폰 누락', screen: 'ADMN-USER-002', depts: ['CS'], on: true, order: 2 },
+      { code: 'VOC-PASS-03', major: 'PASS', name: '이벤트 경품 미수령', screen: 'ADMN-USER-002', depts: ['마케팅', 'CS'], on: true, order: 3 },
+      { code: 'VOC-STUDY-01', major: 'STUDY', name: '강의 내용 질문', screen: 'ADMN-BRD-004', depts: ['조교'], on: true, order: 1 },
+      { code: 'VOC-STUDY-02', major: 'STUDY', name: '교재 정답지 요청', screen: 'ADMN-BRD-010', depts: ['조교', 'CS'], on: true, order: 2 },
+      { code: 'VOC-ETC-01', major: 'ETC', name: '회원정보 변경', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 1 },
+      { code: 'VOC-ETC-02', major: 'ETC', name: '탈퇴 · 개인정보 처리', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 2 },
+      { code: 'VOC-ETC-03', major: 'ETC', name: '기타 문의', screen: 'ADMN-BRD-002', depts: ['CS'], on: false, order: 3 }
+    ];
+
+    let LOGS = [
+      { dt: '2026.10.20 16:12', admin: '운영관리자 (admin_ops)', target: 'VOC-ETC-03', change: '상태: 사용 → 미사용 (상담 필요 분류로 통합)' },
+      { dt: '2026.10.18 11:40', admin: '최고관리자 (admin_root)', target: 'VOC-STUDY-01', change: '자동 배정 화면: 1:1 문의 허브 직접 답변 → 학습 Q&A (1차 오픈: 카페 질문게시판 안내)' },
+      { dt: '2026.10.15 09:05', admin: '운영관리자 (admin_ops)', target: 'VOC-SHIP-04', change: '신규 등록 · 담당 부서 큐: 물류팀' }
+    ];
+
+    let editingCode = null;
+
+    const majorOf = p => MAJORS.find(m => m.prefix === p);
+    const screenOf = c => SCREENS.find(s => s.code === c);
+    const screenLabel = c => { const s = screenOf(c); return s ? `${s.name} (${s.code})` : c; };
+
+    function renderKpis() {
+      document.getElementById('kpi-major').textContent = MAJORS.length + '건';
+      document.getElementById('kpi-major-sub').textContent = `사용 ${MAJORS.filter(m => m.on).length} · 미사용 ${MAJORS.filter(m => !m.on).length}`;
+      document.getElementById('kpi-minor').textContent = CATS.filter(c => c.on).length + '건';
+      document.getElementById('kpi-off').textContent = CATS.filter(c => !c.on).length + '건';
+      document.getElementById('kpi-screens').textContent = new Set(CATS.filter(c => c.on).map(c => c.screen)).size + '개';
+    }
+
+    function renderMajorOptions() {
+      const flt = document.getElementById('flt-major');
+      const cur = flt.value || 'ALL';
+      flt.innerHTML = '<option value="ALL">대분류 전체</option>' + MAJORS.map(m => `<option value="${m.prefix}">${m.name}${m.on ? '' : ' (미사용)'}</option>`).join('');
+      flt.value = MAJORS.some(m => m.prefix === cur) ? cur : 'ALL';
+    }
+
+    function renderCats() {
+      const fm = document.getElementById('flt-major').value;
+      const fs = document.getElementById('flt-status').value;
+      const majorRank = p => MAJORS.findIndex(m => m.prefix === p);
+      const list = CATS
+        .filter(c => (fm === 'ALL' || c.major === fm) && (fs === 'ALL' || (fs === 'ON') === c.on))
+        .sort((a, b) => majorRank(a.major) - majorRank(b.major) || a.order - b.order);
+      document.getElementById('cat-summary').textContent = `대분류 ${MAJORS.length}건 · 소분류 ${CATS.length}건 · 미사용 ${CATS.filter(c => !c.on).length}건 (조회 ${list.length}건)`;
+      document.getElementById('cat-check-all').checked = false;
+      const tbody = document.getElementById('cat-tbody');
+      if (!list.length) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:28px; color:var(--text-muted);">조건에 맞는 분류가 없습니다. <button type="button" class="btn btn-outline btn-sm" onclick="resetCatFilter()">조건 초기화</button></td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(c => `
+        <tr class="row-click ${c.on ? '' : 'row-off'}" onclick="if (event.target.type !== 'checkbox') openCatModal('${c.code}')">
+          <td><input type="checkbox" class="cat-check" value="${c.code}" /></td>
+          <td><code>${c.code}</code></td>
+          <td>${majorOf(c.major) ? majorOf(c.major).name : c.major}</td>
+          <td><strong>${c.name}</strong></td>
+          <td>${screenLabel(c.screen)}</td>
+          <td>${c.depts.map(d => `<span class="badge badge-blue">${d}</span>`).join('')}</td>
+          <td><span class="badge ${c.on ? 'badge-green' : 'badge-gray'}">${c.on ? '사용' : '미사용'}</span></td>
+          <td>${c.order}</td>
+          <td><button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openCatModal('${c.code}')">수정</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderLogs() {
+      document.getElementById('log-tbody').innerHTML = LOGS.map(l => `
+        <tr><td>${l.dt}</td><td>${l.admin}</td><td><code>${l.target}</code></td><td>${l.change}</td></tr>
+      `).join('');
+    }
+
+    function renderAll() {
+      renderKpis();
+      renderMajorOptions();
+      renderCats();
+      renderLogs();
+    }
+
+    function addLog(target, change) {
+      LOGS.unshift({ dt: NOW, admin: ADMIN, target, change });
+    }
+
+    function resetCatFilter() {
+      document.getElementById('flt-major').value = 'ALL';
+      document.getElementById('flt-status').value = 'ALL';
+      renderCats();
+    }
+
+    function toggleAllCats(on) {
+      document.querySelectorAll('.cat-check').forEach(c => { c.checked = on; });
+    }
+
+    function bulkSetStatus(status) {
+      const codes = Array.from(document.querySelectorAll('.cat-check:checked')).map(c => c.value);
+      if (!codes.length) { showToast('상태를 바꿀 분류를 선택해 주십시오.'); return; }
+      const on = status === 'ON';
+      const blocked = on ? CATS.filter(c => codes.includes(c.code) && !majorOf(c.major).on) : [];
+      if (blocked.length) { showToast('미사용 대분류에 속한 분류는 사용으로 바꿀 수 없습니다. 대분류를 먼저 사용으로 바꿔 주십시오.'); return; }
+      CATS.filter(c => codes.includes(c.code) && c.on !== on).forEach(c => {
+        c.on = on;
+        addLog(c.code, `상태: ${on ? '미사용 → 사용' : '사용 → 미사용'}`);
+      });
+      renderAll();
+      showToast(`선택한 ${codes.length}건을 ${on ? '사용' : '미사용'}으로 변경했습니다.`);
+    }
+
+    function openModalEl(id) {
+      const el = document.getElementById(id);
+      el.style.removeProperty('display');
+      el.classList.add('open');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    function nextCatCode(prefix) {
+      const nums = CATS.filter(c => c.major === prefix).map(c => parseInt(c.code.split('-').pop(), 10));
+      const n = (nums.length ? Math.max(...nums) : 0) + 1;
+      return `VOC-${prefix}-${String(n).padStart(2, '0')}`;
+    }
+
+    function previewCatCode() {
+      if (editingCode) return;
+      document.getElementById('cf-code').value = nextCatCode(document.getElementById('cf-major').value) + ' (저장 시 확정)';
+    }
+
+    function openCatModal(code) {
+      editingCode = code;
+      const c = code ? CATS.find(x => x.code === code) : null;
+      document.getElementById('cat-form-title').textContent = c ? `분류 수정 — ${c.code}` : '분류 등록';
+      document.getElementById('cat-form-error').style.display = 'none';
+      const majorSel = document.getElementById('cf-major');
+      majorSel.innerHTML = MAJORS.filter(m => m.on || (c && c.major === m.prefix)).map(m => `<option value="${m.prefix}">${m.name}</option>`).join('');
+      majorSel.value = c ? c.major : MAJORS.find(m => m.on).prefix;
+      majorSel.disabled = !!c;
+      document.getElementById('cf-name').value = c ? c.name : '';
+      document.getElementById('cf-screen').innerHTML = '<option value="">관리자 화면 선택</option>' + SCREENS.map(s => `<option value="${s.code}">${s.name} (${s.code})</option>`).join('');
+      document.getElementById('cf-screen').value = c ? c.screen : '';
+      document.getElementById('cf-depts').innerHTML = DEPTS.map(d => `<label><input type="checkbox" class="cf-dept" value="${d}" ${c && c.depts.includes(d) ? 'checked' : ''} /> ${d}</label>`).join('');
+      document.querySelectorAll('input[name="cf-status"]').forEach(r => { r.checked = r.value === (c && !c.on ? 'OFF' : 'ON'); });
+      document.getElementById('cf-order').value = c ? c.order : CATS.filter(x => x.major === majorSel.value).length + 1;
+      if (c) document.getElementById('cf-code').value = c.code + ' 🔒';
+      else previewCatCode();
+      openModalEl('modal-cat-form');
+    }
+
+    function catFormError(msg) {
+      const box = document.getElementById('cat-form-error');
+      box.textContent = msg;
+      box.style.display = 'block';
+    }
+
+    function saveCat() {
+      const major = document.getElementById('cf-major').value;
+      const name = document.getElementById('cf-name').value.trim();
+      const screen = document.getElementById('cf-screen').value;
+      const depts = Array.from(document.querySelectorAll('.cf-dept:checked')).map(d => d.value);
+      const on = document.querySelector('input[name="cf-status"]:checked').value === 'ON';
+      const order = parseInt(document.getElementById('cf-order').value, 10) || 1;
+      if (!name) return catFormError('소분류 명칭을 입력해 주십시오.');
+      if (CATS.some(c => c.major === major && c.name === name && c.code !== editingCode)) return catFormError('같은 대분류에 동일한 명칭이 이미 있습니다.');
+      if (!depts.length) return catFormError('담당 부서를 1개 이상 선택해 주십시오.');
+      if (!screen) return catFormError('접수 건을 배정할 관리자 화면을 선택해 주십시오.');
+      if (editingCode) {
+        const c = CATS.find(x => x.code === editingCode);
+        const changes = [];
+        if (c.name !== name) changes.push(`명칭: ${c.name} → ${name}`);
+        if (c.screen !== screen) changes.push(`자동 배정 화면: ${screenOf(c.screen).name} → ${screenOf(screen).name}`);
+        if (c.depts.join(',') !== depts.join(',')) changes.push(`담당 부서 큐: ${c.depts.join(' · ')} → ${depts.join(' · ')}`);
+        if (c.on !== on) changes.push(`상태: ${c.on ? '사용 → 미사용' : '미사용 → 사용'}`);
+        if (c.order !== order) changes.push(`노출 순서: ${c.order} → ${order}`);
+        Object.assign(c, { name, screen, depts, on, order });
+        if (changes.length) addLog(c.code, changes.join(' / '));
+        showToast(`${c.code} 분류를 저장했습니다.`);
+      } else {
+        const code = nextCatCode(major);
+        CATS.push({ code, major, name, screen, depts, on, order });
+        addLog(code, `신규 등록 · 자동 배정 화면: ${screenOf(screen).name} · 담당 부서 큐: ${depts.join(' · ')}`);
+        showToast(`${code} 분류를 등록했습니다. 사용자 문의 작성 화면에 즉시 반영됩니다.`);
+      }
+      closeModal('modal-cat-form');
+      renderAll();
+    }
+
+    function openMajorModal() {
+      document.getElementById('major-error').style.display = 'none';
+      renderMajors();
+      openModalEl('modal-major');
+    }
+
+    function renderMajors() {
+      document.getElementById('major-tbody').innerHTML = MAJORS.map(m => {
+        const active = CATS.filter(c => c.major === m.prefix && c.on).length;
+        const total = CATS.filter(c => c.major === m.prefix).length;
+        return `
+        <tr>
+          <td><code>${m.prefix}</code></td>
+          <td><strong>${m.name}</strong></td>
+          <td>${active} / ${total}</td>
+          <td>
+            <select class="f-select" style="height:28px;" onchange="setMajorStatus('${m.prefix}', this.value)">
+              <option value="ON" ${m.on ? 'selected' : ''}>사용</option>
+              <option value="OFF" ${m.on ? '' : 'selected'}>미사용</option>
+            </select>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function setMajorStatus(prefix, value) {
+      const m = majorOf(prefix);
+      const err = document.getElementById('major-error');
+      err.style.display = 'none';
+      if (value === 'OFF' && CATS.some(c => c.major === prefix && c.on)) {
+        err.textContent = '이 대분류에 사용 중인 소분류가 있습니다. 먼저 정리해 주십시오.';
+        err.style.display = 'block';
+        renderMajors();
+        return;
+      }
+      if (m.on !== (value === 'ON')) {
+        m.on = value === 'ON';
+        addLog(`대분류 ${prefix}`, `상태: ${m.on ? '미사용 → 사용' : '사용 → 미사용'}`);
+        renderAll();
+        renderMajors();
+        showToast(`대분류 '${m.name}'을(를) ${m.on ? '사용' : '미사용'}으로 변경했습니다.`);
+      }
+    }
+
+    function addMajor() {
+      const name = document.getElementById('new-major-name').value.trim();
+      const prefix = document.getElementById('new-major-prefix').value.trim().toUpperCase();
+      const err = document.getElementById('major-error');
+      err.style.display = 'none';
+      if (!name || !/^[A-Z]{2,5}$/.test(prefix)) {
+        err.textContent = '대분류 명칭과 코드 접두(영문 대문자 2~5자)를 입력해 주십시오.';
+        err.style.display = 'block';
+        return;
+      }
+      if (MAJORS.some(m => m.prefix === prefix || m.name === name)) {
+        err.textContent = '이미 있는 대분류 명칭 또는 코드 접두입니다.';
+        err.style.display = 'block';
+        return;
+      }
+      MAJORS.push({ prefix, name, on: true });
+      addLog(`대분류 ${prefix}`, `신규 등록 · ${name}`);
+      document.getElementById('new-major-name').value = '';
+      document.getElementById('new-major-prefix').value = '';
+      renderAll();
+      renderMajors();
+      showToast(`대분류 '${name}'을(를) 추가했습니다. 소분류를 등록하면 사용자 화면에 노출됩니다.`);
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      box.textContent = msg;
+      box.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAll();
+      // 목록 외 진입: ?id=분류코드 → 수정 모드, ?mode=new → 등록 모드
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (id && CATS.some(c => c.code === id)) openCatModal(id);
+      else if (params.get('mode') === 'new') openCatModal(null);
+    });
+  </script>
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
+</body>
+</html>
