@@ -174,3 +174,10 @@ Set 4 의 '월간 정산 마감' 항목은 삭제 → '월 정산 흐름 보기 
 - 런타임 보완: 코드 밖·이름 안 패턴('ADMN-X (이름)')은 이름만 남김, 줄바꿈 뒤 괄호·strong/b/small로 감싼 코드도 괄호째 제거.
 - clean HTML 원문 중복(이름(이름 (CODE)) 등)·코드+설명 혼합 괄호 직접 수정. prototype/은 정본 용어 병기 의도로 유지.
 - 보류: USER-007 '정산 감사로그(감사 로그)', ORD-001 '인세 도서(인세도서)' — 재스캔 후 확인.
+
+### v5.8 괄호 중복 마무리
+- BOOK-001: <code>book_supply_type</code>(공급 형태)을 → <code>book_supply_type</code>를
+- ORD-001: <code>ROYALTY_BOOK(인세도서)</code> → <code>ROYALTY_BOOK</code>
+- ORD-001: '도서 인세 도서 인세 (+1권)' → '도서 인세 (+1권)' (원 문구 미확인, 판단값)
+- 잔여: SETT-006 '플랫폼 보전금(120만원)'은 금액 표기로 유지
+- prototype/ 은 기획 검수용 기준에 따라 미수정
