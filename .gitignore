@@ -23,7 +23,7 @@ tests/output/
 
 # Local-only: 패치 전 백업, QA 스크립트가 매번 새로 만드는 리포트, Claude Code 개인 설정
 _archive/backup/
-.antigravity/reports/
+scripts/qa/reports/
 .claude/settings.local.json
 
 # Dependencies

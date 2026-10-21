@@ -245,7 +245,7 @@ def build_report(target, files, results):
 def main():
     ap = argparse.ArgumentParser(description="SSOT 금지어 & 기획서 내부 암호 스캐너")
     ap.add_argument("--target", default="prototype_clean", help="스캔 대상 폴더 (프로젝트 루트 기준)")
-    ap.add_argument("--out", default=".antigravity/reports/JARGON_SCAN_REPORT.md", help="리포트 출력 경로")
+    ap.add_argument("--out", default="scripts/qa/reports/JARGON_SCAN_REPORT.md", help="리포트 출력 경로")
     ap.add_argument("--strict", action="store_true", help="[A] 탐지 1건 이상이면 exit 1")
     args = ap.parse_args()
 

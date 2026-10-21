@@ -20,7 +20,7 @@ CLEAN_DIR = Path("prototype_clean").resolve()
 import sys as _sys, os as _os
 if len(_sys.argv) > 1:
     CLEAN_DIR = type(CLEAN_DIR)(_os.path.abspath(_sys.argv[1]))
-REPORT_PATH = Path(".antigravity/reports/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md")
+REPORT_PATH = Path("scripts/qa/reports/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md")
 
 
 async def audit_page(browser, html_path: Path):
