@@ -19,7 +19,17 @@
 | Claude Code | 진단, 패치 작성·실행, Playwright 검증, 커밋·푸시까지 한곳에서 수행 |
 | 안티그래비티 | 사용량이 빠듯할 때만 대량·기계적 작업(양쪽 37개 화면 전체 E2E, 전 파일 일괄 스캔). 결과는 PASS/FAIL 합계와 FAIL 줄만 받는다. 리포트 편집 금지 |
 | 젠스파크 | 이 프로젝트에서는 사용하지 않음 |
-| 구글 드라이브 | Apps Script가 GitHub ↔ 공유 문서함 `산준모 닷컴/04.설계서/정산시스템`을 6시간마다 양방향 동기화(설정 중). `sync_to_gdrive.ps1`은 실행하지 않는다 |
+| 구글 드라이브 | 아래 "구글 드라이브 동기화" 참고 |
+
+## 구글 드라이브 동기화 (2026-10-22 가동)
+- Apps Script(`scripts/gas/sync_settlement.gs`)가 GitHub `main` ↔ 공유 문서함 `산준모 닷컴/04.설계서/정산시스템`을 6시간마다 양방향 동기화한다. `_archive/backup/`은 제외.
+  - 드라이브에서 고친 파일은 `drive-sync:` 커밋으로 올라온다 → 작업 전 `git pull` 필수.
+  - 양쪽이 같은 파일을 고치면 원래 이름엔 GitHub 버전, 드라이브 버전은 `_drive충돌_` 사본으로 남고 메일이 온다.
+  - 동기화 스크립트를 고치면 `sync_settlement.gs`와 Apps Script 편집기 양쪽에 반영한다. 토큰(`GH_TOKEN`)은 스크립트 속성에만 둔다.
+- 예전 방식은 쓰지 않는다.
+  - `_archive/scripts/sync_to_gdrive.ps1`: 커밋마다 `04.설계서/docs`에 덮어쓰던 스크립트. 실행 금지.
+  - 이 PC의 `.git/hooks/post-commit`은 `post-commit.disabled`로 꺼둠. 되살리지 않는다.
+  - `04.설계서/docs`는 예전 사본이며 더 이상 갱신되지 않는다.
 
 ## 수정 작업 규칙
 - 기능 패치는 `prototype/`·`prototype_clean/` 동명 파일에 동시 반영한다. 두 폴더의 성격 차이와 확정 기준은 메모리 문서 0-2절을 따른다.
