@@ -431,6 +431,8 @@
       border-left: 4px solid var(--primary);
     }
     .hidden { display: none !important; }
+    /* v6.0 SETT-005: 공통 모달 숨김 규칙보다 우선해 신규 조정 모달 표시 */
+    #newAdjModal.modal-backdrop:not(.hidden) { display: flex !important; }
   
 /* === [GLOBAL-PRETENDARD-FONT-LOCK: NO-BROWSER-MONOSPACE] === */
 :root {
@@ -1168,6 +1170,7 @@ code, pre, kbd, samp,
   function openNewAdjModal(preselectStmtId) {
     const modal = document.getElementById("newAdjModal");
     modal.classList.remove("hidden");
+    modal.style.removeProperty("display"); // v6.0 SETT-005: 공통 모달 인라인 잠금 해제
     if (preselectStmtId) {
       const sel = document.getElementById("newOriginStmt");
       for (let i = 0; i < sel.options.length; i++) {
