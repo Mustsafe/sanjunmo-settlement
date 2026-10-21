@@ -149,3 +149,4 @@ Set 4 의 '월간 정산 마감' 항목은 삭제 → '월 정산 흐름 보기 
 - 6단계 완료: prototype/00_WORKFLOW_GUIDE_baseline.html = clean본 (이 페이지 한정 예외)
 - 회원·수강 노드의 USER-003 라벨 3회 반복은 제목이 달라 유지
 - 다음 과제: 정답지 정리 패치(BRD-005 정답지 탭·제목·SNB명, BRD-009 매핑, CONF-005 권한 문구·'정답지 등록' 배지), CONF-005 탭명 괄호 중복, 옛 groupTitle 잔재(BOOK-001·PROD-003~006·patch_all_snb_v3.html)
+- 6단계 실제 완료(v5.3b): v5.3 참조 검사 오탐(script 내 문자열 조합을 경로로 인식)으로 보류됐던 덮어쓰기를 script/style 제외 검사로 재실행
