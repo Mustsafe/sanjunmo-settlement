@@ -1171,6 +1171,7 @@ code, pre, kbd, samp,
     const modal = document.getElementById("newAdjModal");
     modal.classList.remove("hidden");
     modal.style.removeProperty("display"); // v6.0 SETT-005: 공통 모달 인라인 잠금 해제
+    modal.classList.add("open"); // v6.1 SETT-005: 공통 핫픽스 로드 시점 잠금 예외 대상
     if (preselectStmtId) {
       const sel = document.getElementById("newOriginStmt");
       for (let i = 0; i < sel.options.length; i++) {
@@ -1184,6 +1185,7 @@ code, pre, kbd, samp,
   }
 
   function closeNewAdjModal() {
+    document.getElementById("newAdjModal").classList.remove("open"); // v6.1 SETT-005
     document.getElementById("newAdjModal").classList.add("hidden");
   }
 
