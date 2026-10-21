@@ -540,7 +540,7 @@ code, pre, kbd, samp,
       <div class="policy-note">
         <div>
           <strong>📌 [정산 기준 · 통합설계서 표 5.1-A 토스페이먼츠 5대 결제수단(신용/체크·계좌이체·가상계좌 DONE·간편결제 5종·휴대폰) 1:1 대사 및 이원화 임계값 통제]</strong>
-          매입 재판매 도서(<code>매입 재판매 도서 (PURCHASED_RESALE)</code>) 및 사은품(<code>강좌 부속·사은품 (BUNDLED)</code>), 배송비(<code>SHIPPING_FEE</code>)는 정산 엔진 비인입 대상이므로 <strong>정산서 총액과 전사 결제 매출 총액은 구조적으로 일치하지 않습니다.</strong> 본 화면은 오직 <strong>자체 결제 DB(<code>payments / order_items</code>)와 PG사 정산 원장 간의 1:1 대사</strong>만 수행합니다.
+          매입 재판매 도서 및 강좌 부속 사은품, 배송비(<code>SHIPPING_FEE</code>)는 정산 엔진 비인입 대상이므로 <strong>정산서 총액과 전사 결제 매출 총액은 구조적으로 일치하지 않습니다.</strong> 본 화면은 오직 <strong>자체 결제 DB(<code>payments / order_items</code>)와 PG사 정산 원장 간의 1:1 대사</strong>만 수행합니다.
         </div>
         <span class="badge badge-neutral">3계층 과·면세 분할 승인 연동됨</span>
       </div>

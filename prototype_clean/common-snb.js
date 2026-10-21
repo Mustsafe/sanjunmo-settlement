@@ -27,17 +27,18 @@
     });
   }
   var PAREN = /\s*\(\s*([^()]{2,80}?)\s*\)/g;
+  var CODE_OUT = /\b(?:ADMN-)?[A-Z]{2,5}-\d{3}(?:-S\d+)?\s*\(\s*([^()]{2,40}?)\s*\)/g;
   var LEAD = /[가-힣A-Za-z0-9%)\]]\s*$/;
   window.__wfStripCodeParens = function (str, src) {
-    if (!str || typeof str !== "string" || str.indexOf("(") === -1) return str;
+    if (!str || typeof str !== "string" || str.indexOf("(") === -1) return str; str = str.replace(CODE_OUT, function (m, inner) { return /[가-힣]/.test(inner) && !isCode(inner, src) ? inner : m; });
     return str.replace(PAREN, function (m, inner, off, whole) {
-      if (!LEAD.test(whole.slice(0, off))) return m;
+      var pre = whole.slice(0, off); if (pre.trim() && !LEAD.test(pre)) return m;
       return isCode(inner, src) ? "" : m;
     });
   };
   window.__wfStripCodeElParens = function (root, src) {
     if (!root || !root.querySelectorAll) return;
-    var els = root.querySelectorAll("code");
+    var els = root.querySelectorAll("code,strong,b,small");
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
       if (el.classList.contains("raw-keep") || el.children.length) continue;
@@ -45,7 +46,7 @@
       if (!prev || !next || prev.nodeType !== 3 || next.nodeType !== 3) continue;
       if (!/\(\s*$/.test(prev.nodeValue) || !/^\s*\)/.test(next.nodeValue)) continue;
       var before = prev.nodeValue.replace(/\s*\(\s*$/, "");
-      if (!LEAD.test(before)) continue;
+      if (before.trim() && !LEAD.test(before)) continue;
       if (!isCode(el.textContent.trim(), src)) continue;
       prev.nodeValue = before;
       next.nodeValue = next.nodeValue.replace(/^\s*\)/, "");
