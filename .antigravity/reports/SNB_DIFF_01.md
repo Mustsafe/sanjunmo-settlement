@@ -1,7 +1,8 @@
 # SNB DIFF 01
 
-## 1. prototype/common-snb.js 와 prototype_clean/common-snb.js 의 줄 수, 그리고 unified diff 전체
+[A. SNB 두 폴더 비교]
 
+### 1. 줄 수 및 unified diff
 - prototype/common-snb.js: 266줄
 - prototype_clean/common-snb.js: 775줄
 
@@ -615,9 +616,8 @@
  /* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
 ```
 
-## 2. 두 파일 각각에서 SNB 그룹 제목이 정의된 줄 전부 (줄 번호 + 원문)
-
-### prototype/common-snb.js
+### 2. 두 파일 각각에서 SNB 그룹 제목이 정의된 줄 전부 (줄 번호 + 원문)
+#### prototype/common-snb.js
 7:       title: "0단계 · 대시보드 · 통계 · 플로우",
 16:       title: "회원 · 수강 · 태그 관리 (USER)",
 25:       title: "주문 · 배송 · 환불 · CS 관리 (ORD/RFD/BRD)",
@@ -628,7 +628,7 @@
 77:       title: "4단계 · 보안 및 감사 통제",
 84:       title: "사이트 · 약관 · 메시지 관리 (CONF)",
 
-### prototype_clean/common-snb.js
+#### prototype_clean/common-snb.js
 7:       title: "대시보드 · 통계",
 16:       title: "회원 · 수강 관리",
 25:       title: "주문 · 환불 · CS · 프로모션",
@@ -639,22 +639,115 @@
 77:       title: "개인정보 · 보안 감사",
 84:       title: "사이트 · 약관 · 메시지 설정",
 
-## 3. 두 파일 각각에서 메뉴 배열이 시작하는 줄과 끝나는 줄 번호
-
-### prototype/common-snb.js
+### 3. 두 파일 각각에서 메뉴 배열이 시작하는 줄과 끝나는 줄 번호
+#### prototype/common-snb.js
 - 시작 줄 번호: 5 (  const SNB_GROUPS = [)
 - 끝 줄 번호: 94 (  ];)
 
-### prototype_clean/common-snb.js
+#### prototype_clean/common-snb.js
 - 시작 줄 번호: 5 (  const SNB_GROUPS = [)
 - 끝 줄 번호: 94 (  ];)
 
-## 4. 두 파일 각각에서 치환표·사전 성격의 배열/객체가 시작하는 줄 번호와 변수명
-
-### prototype/common-snb.js
+### 4. 두 파일 각각에서 치환표·사전 성격의 배열/객체가 시작하는 줄 번호, 끝나는 줄 번호, 변수명
+#### prototype/common-snb.js
 0건
 
-### prototype_clean/common-snb.js
-- 171: const TEXT_REPLACEMENTS = [ (변수명: TEXT_REPLACEMENTS)
-- 353: const REGEX_CLEANERS = [ (변수명: REGEX_CLEANERS)
-- 437: const EXTRA_MAP = { (변수명: EXTRA_MAP)
+#### prototype_clean/common-snb.js
+- 시작 줄 번호: 171, 끝 줄 번호: 351, 변수명: TEXT_REPLACEMENTS
+- 시작 줄 번호: 353, 끝 줄 번호: 371, 변수명: REGEX_CLEANERS
+- 시작 줄 번호: 437, 끝 줄 번호: 627, 변수명: EXTRA_MAP
+
+### 5. prototype/*.html 전체에서 class="crumb-group" 이 들어간 줄 (파일명 + 줄 번호 + 원문)
+- prototype/00_WORKFLOW_GUIDE_baseline.html:451:       <span class="crumb-group">0단계 · 전체 업무 플로우 안내</span>
+- prototype/ADMN-BOOK-001_baseline.html:649:       <span class="crumb-group">1단계 · 계약 · 상품 · 매핑 설정</span>
+- prototype/ADMN-CONF-010_baseline.html:277:       <span class="crumb-group">4단계 · 보안 및 감사 통제</span>
+- prototype/ADMN-INST-001_baseline.html:279:       <span class="crumb-group">1단계 · 계약 · 상품 · 매핑 설정</span>
+- prototype/ADMN-INST-002_baseline.html:456:       <span class="crumb-group">2단계 · 월마감 전 검증 (Gate)</span>
+- prototype/ADMN-ORD-001_baseline.html:531:         <div class="crumb-group">
+- prototype/ADMN-PROD-001_baseline.html:374:       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+- prototype/ADMN-PROD-002_baseline.html:331:       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+- prototype/ADMN-PROD-003_baseline.html:630:       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+- prototype/ADMN-PROD-004_baseline.html:683:       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+- prototype/ADMN-PROD-005_baseline.html:588:       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+- prototype/ADMN-PROD-006_baseline.html:531:       <span class="crumb-group">상품 · 강좌 · 교재 관리 (PROD)</span>
+- prototype/ADMN-RFD-002_baseline.html:480:         <span class="crumb-group">주문 · 배송 · 환불 관리 (ORD/RFD)</span>
+- prototype/ADMN-SETT-001_baseline.html:236:       <span class="crumb-group">1단계 · 계약 · 상품 · 매핑 설정</span>
+- prototype/ADMN-SETT-002_baseline.html:955:       <span class="crumb-group">3단계 · 월간 정산 · 집행 · 조회</span>
+- prototype/ADMN-SETT-004_baseline.html:479:       <span class="crumb-group">2단계 · 월마감 전 검증 (Gate)</span>
+- prototype/ADMN-SETT-005_baseline.html:474:       <span class="crumb-group">3단계 · 월간 정산 · 집행 · 조회</span>
+- prototype/ADMN-SETT-007_baseline.html:300:       <span class="crumb-group">1단계 · 계약 · 상품 · 매핑 설정</span>
+- prototype/ADMN-SETT-008_baseline.html:446:       <span class="crumb-group">2단계 · 월마감 전 검증 (Gate)</span>
+- prototype/ADMN-SETT-009_baseline.html:270:       <span class="crumb-group">3단계 · 월간 정산 · 집행 · 조회</span>
+- prototype/ADMN-USER-007_baseline.html:283:       <span class="crumb-group">4단계 · 보안 및 감사 통제</span>
+- prototype/patch_all_snb_v3.html:949:       <span class="crumb-group">${meta.groupTitle}</span>
+
+[B. v5.2 노드 이름 변경 전체]
+
+### 6. 커밋 6d6034f 에서 prototype_clean/00_WORKFLOW_GUIDE_baseline.html 의 diff 중 class="wf-node-scr" 가 들어간 줄 (바뀌기 전(-) 줄과 바뀐 뒤(+) 줄 짝, 노드 wf-node-do 표기)
+#### 강제 로그아웃·기기 초기화
+- <span class="wf-node-scr">일반 회원 관리 <code class="wf-code">USER-003</code></span>
++ <span class="wf-node-scr">회원 수강 · 기간 · 기기 제어<code class="wf-code">USER-003</code></span>
+
+#### 진도율 수동 보정
+- <span class="wf-node-scr">일반 회원 관리 <code class="wf-code">USER-004</code></span>
++ <span class="wf-node-scr">회원 수강 · 기간 · 기기 제어<code class="wf-code">USER-003</code></span>
+
+#### 수강 홀딩
+- <span class="wf-node-scr">일반 회원 관리 <code class="wf-code">USER-003</code></span>
++ <span class="wf-node-scr">회원 수강 · 기간 · 기기 제어<code class="wf-code">USER-003</code></span>
+
+#### 쿠폰·적립 차단 켜기
+- <span class="wf-node-scr">이벤트·기획전 관리 <code class="wf-code">PROM-001</code></span>
++ <span class="wf-node-scr">이벤트 · 기획전 관리 (Slug·특가)<code class="wf-code">PROM-001</code></span>
+
+#### 출고지시 다운로드
+- <span class="wf-node-scr">주문·배송·3PL 관리 <code class="wf-code">ORD-002</code></span>
++ <span class="wf-node-scr">주문 · 배송 · 3PL 관리<code class="wf-code">ORD-001</code></span>
+
+#### 송장 일괄 업로드
+- <span class="wf-node-scr">주문·배송·3PL 관리 <code class="wf-code">ORD-002</code></span>
++ <span class="wf-node-scr">주문 · 배송 · 3PL 관리<code class="wf-code">ORD-001</code></span>
+
+#### 반품 입고 검수
+- <span class="wf-node-scr">주문·배송·3PL 관리 <code class="wf-code">ORD-002</code></span>
++ <span class="wf-node-scr">주문 · 배송 · 3PL 관리<code class="wf-code">ORD-001</code></span>
+
+#### 환불 처리
+- <span class="wf-node-scr">환불 요청·심사 관리 <code class="wf-code">RFD-002</code></span>
++ <span class="wf-node-scr">환불 요청 · 심사 관리<code class="wf-code">RFD-002</code></span>
+
+#### 문의 접수·분류
+- <span class="wf-node-scr">1:1 문의 관리 <code class="wf-code">BRD-002</code></span>
++ <span class="wf-node-scr">1:1 문의 관리 (문의 분기 허브)<code class="wf-code">BRD-002</code></span>
+
+#### 결제·환불
+- <span class="wf-node-scr">환불 요청·심사 관리 <code class="wf-code">RFD-002</code></span>
++ <span class="wf-node-scr">환불 요청 · 심사 관리<code class="wf-code">RFD-002</code></span>
+
+#### 배송 잠금
+- <span class="wf-node-scr">주문·배송·3PL 관리 <code class="wf-code">ORD-002</code></span>
++ <span class="wf-node-scr">주문 · 배송 · 3PL 관리<code class="wf-code">ORD-001</code></span>
+
+#### 세션 초기화
+- <span class="wf-node-scr">일반 회원 관리 <code class="wf-code">USER-003</code></span>
++ <span class="wf-node-scr">회원 수강 · 기간 · 기기 제어<code class="wf-code">USER-003</code></span>
+
+#### 패키지 판매 오픈
+- <span class="wf-node-scr">패키지·환급반 상품 관리 <code class="wf-code">PROD-005</code></span>
++ <span class="wf-node-scr">패키지 · 환급반 상품 관리<code class="wf-code">PROD-005</code></span>
+
+#### 자사 몫 조회
+- <span class="wf-node-scr">내부 정산 조회 <code class="wf-code">SETT-009</code></span>
++ <span class="wf-node-scr">내부 정산 조회 - 조회 전용<code class="wf-code">SETT-009</code></span>
+
+#### 신고 자료 추출
+- <span class="wf-node-scr">내부 정산 조회 <code class="wf-code">SETT-009</code></span>
++ <span class="wf-node-scr">내부 정산 조회 - 조회 전용<code class="wf-code">SETT-009</code></span>
+
+[C. 레이아웃 확인 캡처]
+
+### 7. 캡처 이미지 경로 및 해상도
+- .antigravity/reports/screens/v5_2_ops_set1.png: 1116×509px
+- .antigravity/reports/screens/v5_2_stage01.png: 1116×896px
+- .antigravity/reports/screens/v5_2_always.png: 1002×260px
+- .antigravity/reports/screens/v5_2_dir.png: 1116×841px
