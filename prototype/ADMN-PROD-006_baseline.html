@@ -981,83 +981,9 @@ code, pre, kbd, samp,
     /* =========================================================================
        1. SNB 마스터 렌더링 (20개 전체 화면 · 현재 ADMN-PROD-006 active)
        ========================================================================= */
-    const MASTER_NAV_GROUPS = [
-      {
-        groupTitle: "0단계 · 전체 업무 플로우 안내",
-        items: [
-          { code: "WORKFLOW-GUIDE", title: "전체 업무 플로우 가이드", file: "00_WORKFLOW_GUIDE_baseline.html" }
-        ]
-      },
-      {
-        groupTitle: "상품 · 강좌 · 교재 관리 (PROD)",
-        items: [
-          { code: "ADMN-PROD-001", title: "카테고리 관리", file: "ADMN-PROD-001_baseline.html" },
-          { code: "ADMN-PROD-002", title: "강의 관리 (영상 단품)", file: "ADMN-PROD-002_baseline.html" },
-          { code: "ADMN-PROD-003", title: "단과 강좌 관리", file: "ADMN-PROD-003_baseline.html" },
-          { code: "ADMN-PROD-004", title: "교재 관리", file: "ADMN-PROD-004_baseline.html" },
-          { code: "ADMN-PROD-005", title: "패키지 · 환급반 상품 관리", file: "ADMN-PROD-005_baseline.html" },
-          { code: "ADMN-PROD-006", title: "강사 노출 정보 관리", file: "ADMN-PROD-006_baseline.html" },
-          { code: "ADMN-PROD-007", title: "일반상품 관리", file: "ADMN-PROD-007_baseline.html" }
-        ]
-      },
-      {
-        groupTitle: "1단계 · 계약 · 상품 · 매핑 설정",
-        items: [
-          { code: "ADMN-INST-001", title: "권리자 계약 원장", file: "ADMN-INST-001_baseline.html" },
-          { code: "ADMN-SETT-007", title: "수취인 분할 관리", file: "ADMN-SETT-007_baseline.html" },
-          { code: "ADMN-BOOK-001", title: "도서 공급 원장", file: "ADMN-BOOK-001_baseline.html" },
-          { code: "ADMN-SETT-001", title: "상품별 권리자 매핑", file: "ADMN-SETT-001_baseline.html" }
-        ]
-      },
-      {
-        groupTitle: "2단계 · 월마감 전 검증 (Gate)",
-        items: [
-          { code: "ADMN-SETT-004", title: "PG 정산 원장 대사", file: "ADMN-SETT-004_baseline.html" },
-          { code: "ADMN-INST-002", title: "약정금 마일스톤 검수", file: "ADMN-INST-002_baseline.html" },
-          { code: "ADMN-SETT-006", title: "합격 환급반 관리", file: "ADMN-SETT-006_baseline.html" },
-          { code: "ADMN-SETT-008", title: "사업자등록 확인 이력", file: "ADMN-SETT-008_baseline.html" }
-        ]
-      },
-      {
-        groupTitle: "3단계 · 월간 정산 · 집행 · 조회",
-        items: [
-          { code: "ADMN-SETT-002", title: "월간 정산 및 집행", file: "ADMN-SETT-002_baseline.html" },
-          { code: "ADMN-SETT-005", title: "정산 수동 조정", file: "ADMN-SETT-005_baseline.html" },
-          { code: "ADMN-SETT-009", title: "내부 정산 조회 - 조회 전용", file: "ADMN-SETT-009_baseline.html" }
-        ]
-      },
-      {
-        groupTitle: "4단계 · 보안 및 감사 통제",
-        items: [
-          { code: "ADMN-USER-007", title: "민감 정보 열람 통제", file: "ADMN-USER-007_baseline.html" },
-          { code: "ADMN-CONF-010", title: "정산 감사 로그", file: "ADMN-CONF-010_baseline.html" }
-        ]
-      }
-    ];
 
     const CURRENT_SCREEN_CODE = "ADMN-PROD-006";
 
-    function renderMasterSnb() { if (true) return; if (true) return; if (true) return; if (true) return; if (true) return;
-      const container = document.getElementById("snb-scroll-area");
-      container.innerHTML = MASTER_NAV_GROUPS.map(g => `
-        <div class="snb-group">
-          <div class="snb-group-title">${g.groupTitle}</div>
-          <div class="snb-list">
-            ${g.items.map(item => {
-              const isActive = item.code === CURRENT_SCREEN_CODE ? "active" : "";
-              return `
-                <a class="snb-item ${isActive}" href="${item.file}">
-                  <span class="snb-item-left">
-                    <span class="snb-code">${item.code}</span>
-                    <span>${item.title}</span>
-                  </span>
-                </a>
-              `;
-            }).join("")}
-          </div>
-        </div>
-      `).join("");
-    }
 
     /* =========================================================================
        2. 강사 노출 프로필 샘플 데이터
@@ -1430,7 +1356,6 @@ code, pre, kbd, samp,
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      renderMasterSnb();
       window.__currentInst = instructorsData[0];
       renderInstList();
       renderDetailView();

@@ -1,6 +1,6 @@
 # Playwright 기능·인터랙션(E2E) 전수 검수 리포트
-- 검수 대상: `prototype_clean/*.html` (38개 화면)
-- 통과 현황: **38 / 38 PASS**
+- 검수 대상: `prototype_clean/*.html` (37개 화면)
+- 통과 현황: **37 / 37 PASS**
 
 | 화면 파일명 | 판정 | JS 에러 | 탭 전환 검증 | 렌더링 데이터 행(tr) | 모달 열기/닫기 | 비고 |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -8,7 +8,7 @@
 | `ADMN-BOOK-001_baseline.html` | **PASS** | 0건 | 2개 탭 | 23행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-BRD-001_baseline.html` | **PASS** | 0건 | 0개 탭 | 28행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-BRD-002_baseline.html` | **PASS** | 0건 | 2개 탭 | 5행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
-| `ADMN-BRD-005_baseline.html` | **PASS** | 0건 | 0개 탭 | 19행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
+| `ADMN-BRD-005_baseline.html` | **PASS** | 0건 | 0개 탭 | 15행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-CONF-001_baseline.html` | **PASS** | 0건 | 0개 탭 | 18행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-CONF-002_baseline.html` | **PASS** | 0건 | 0개 탭 | 9행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-CONF-003_baseline.html` | **PASS** | 0건 | 0개 탭 | 13행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
@@ -41,4 +41,3 @@
 | `ADMN-SETT-011_baseline.html` | **PASS** | 0건 | 0개 탭 | 9행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-USER-001_baseline.html` | **PASS** | 0건 | 0개 탭 | 63행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
 | `ADMN-USER-007_baseline.html` | **PASS** | 0건 | 3개 탭 | 19행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |
-| `patch_all_snb_v3.html` | **PASS** | 0건 | 0개 탭 | 1행 | ✓ 정상 | 정상 (모달/탭/렌더링 통과) |

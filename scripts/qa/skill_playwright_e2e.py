@@ -15,7 +15,11 @@ import asyncio
 from pathlib import Path
 from playwright.async_api import async_playwright
 
-CLEAN_DIR = Path("prototype_clean").resolve()
+CLEAN_DIR = Path("prototype_clean").resolve()
+# v5.4 검수 폴더 인자 — python scripts/qa/skill_playwright_e2e.py prototype  # WF_TARGET_DIR
+import sys as _sys, os as _os
+if len(_sys.argv) > 1:
+    CLEAN_DIR = type(CLEAN_DIR)(_os.path.abspath(_sys.argv[1]))
 REPORT_PATH = Path(".antigravity/reports/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md")
 
 
