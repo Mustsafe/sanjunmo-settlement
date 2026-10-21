@@ -27,7 +27,7 @@
   - 양쪽이 같은 파일을 고치면 원래 이름엔 GitHub 버전, 드라이브 버전은 `_drive충돌_` 사본으로 남고 메일이 온다.
   - 동기화 스크립트를 고치면 `sync_settlement.gs`와 Apps Script 편집기 양쪽에 반영한다. 토큰(`GH_TOKEN`)은 스크립트 속성에만 둔다.
 - 예전 방식은 쓰지 않는다.
-  - `_archive/scripts/sync_to_gdrive.ps1`: 커밋마다 `04.설계서/docs`에 덮어쓰던 스크립트. 실행 금지.
+  - `sync_to_gdrive.ps1`: 커밋마다 `04.설계서/docs`에 덮어쓰던 스크립트. v6.4에서 삭제(git 이력에만 있음). 되살려 실행하지 않는다.
   - 이 PC의 `.git/hooks/post-commit`은 `post-commit.disabled`로 꺼둠. 되살리지 않는다.
   - `04.설계서/docs`는 예전 사본이며 더 이상 갱신되지 않는다.
 
@@ -35,10 +35,11 @@
 - 기능 패치는 `prototype/`·`prototype_clean/` 동명 파일에 동시 반영한다. 두 폴더의 성격 차이와 확정 기준은 메모리 문서 0-2절을 따른다.
 - 줄 번호가 아니라 문구로 찾는다. 대상 건수가 기대값과 다르면 전체 중단하고 파일을 바꾸지 않는다.
 - 스크립트로 일괄 수정할 때
-  - 저장 전 `_archive/backup/v<버전>_<시각>/` 에 백업한다(백업은 커밋하지 않는다).
+  - 저장 전 `_archive/backup/v<버전>_<시각>/` 에 백업한다(`.gitignore` 등록, 로컬 전용).
   - 저장 후 Playwright로 해당 동작을 검증하고, 실패하면 원본으로 되돌린다.
   - 상단에 `sys.stdout.reconfigure(encoding="utf-8")`, 파일 입출력은 `newline=""`로 CRLF/LF를 보존한다.
-  - 실행한 패치 스크립트는 `_archive/scripts/`로 옮기고, 결과는 `.antigravity/reports/V<버전>_RESULT.md`에 남긴다. 일회성 진단 스크립트와 출력은 커밋하지 않는다.
+  - 패치·진단 스크립트와 리포트는 저장소에 남기지 않는다. 검증 결과 요약은 커밋 메시지 본문과 메모리 문서 작업 로그에 적는다. 지난 산출물은 git 이력에서 꺼내 본다(2026-10-22 v6.4에서 `_archive/`, `.antigravity/reports/` 정리).
+  - `.antigravity/reports/`는 QA 스크립트 출력 폴더로만 쓰며 `.gitignore`에 등록돼 있다.
 - 화면 문구 검사는 HTML grep이 아니라 Playwright 렌더링 기준으로 한다(`prototype_clean/common-snb.js`가 로드 후 문구를 런타임 치환).
 
 ## 검증

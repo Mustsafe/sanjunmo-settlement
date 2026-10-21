@@ -13,6 +13,7 @@ except Exception:
 ROOT = Path.cwd()
 FOLDERS = ["prototype_clean", "prototype"]
 REP = ROOT / ".antigravity" / "reports"
+REP.mkdir(parents=True, exist_ok=True)
 OUT_A = REP / "PAREN_DUP_SCAN.md"
 OUT_B = REP / "PAREN_DUP_STATIC.md"
 
