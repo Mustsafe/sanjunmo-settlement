@@ -2,7 +2,11 @@
 
 > **이 문서는 세션 압축·신규 세션에도 휘발되지 않는 영구 메모리다.**
 > 에이전트는 **매 작업 시작 전 반드시** 이 문서와 `.antigravity/RULES.md`를 먼저 열람한다.
-> 최초 등록: 2026-10-20 · 최종 갱신: 2026-10-21 (v5.8 기준)
+> 최초 등록: 2026-10-20 · 최종 갱신: 2026-10-21 (v6.2 기준)
+>
+> **2026-10-21 역할 재편 (v6.2):** 진단·패치·실행·검증·커밋은 Claude Code가 한곳에서 수행한다. 현행 작업 규칙은 루트 `CLAUDE.md`가 우선한다.
+> 아래 0·1절과 `RULES.md`의 젠스파크/안티그래비티 역할 구분은 이력 보존용이다. 안티그래비티는 대량·기계적 작업(전체 E2E, 일괄 스캔)을 맡길 때만 쓴다.
+> 구글 드라이브 동기화는 Apps Script(GitHub ↔ 공유 문서함 `04.설계서/정산시스템`)로 넘어가며 `sync_to_gdrive.ps1`은 실행하지 않는다.
 
 ---
 
@@ -89,6 +93,7 @@
 - (2026-10-21) 업무플로우 페이지 v5 전면 개편 및 prototype/ 반영, SNB 9개 그룹·메뉴 43개 양쪽 정렬, 전 화면 브레드크럼 정본 그룹명 적용
 - (2026-10-21) 정답지 독립 화면 폐지(BRD-005 탭 정리, CONF-005 저작권자 권한 문구 정리), 미실행 옛 SNB 코드 삭제
 - (2026-10-21) clean 렌더링 괄호 중복 163건 → 1건(SETT-006 금액 표기, 정상 유지)
+- (2026-10-21) SETT-005 "신규 수동 조정 등록" 모달 3개 진입 경로(카드 버튼·상단 버튼·SETT-002 `?fromStmt=` 자동 오픈) 정상화
 
 ---
 
@@ -102,17 +107,20 @@
 
 ---
 
-## 5. 현재 상태 및 다음 작업 (2026-10-21 · v5.8 기준)
+## 5. 현재 상태 및 다음 작업 (2026-10-21 · v6.2 기준)
 
 **상태**
-- 활성 화면 37개(양쪽 폴더). E2E `prototype_clean` 37/37, `prototype` 37/37 PASS, 콘솔 에러 0건.
+- 활성 화면 37개(양쪽 폴더). E2E `prototype_clean` 37/37, `prototype` 37/37 PASS (v6.1 기준), 콘솔 에러 0건.
 - 괄호 중복: clean 1건(정상), prototype 6건(기획 검수용 기준으로 유지).
+- 공통 모달 닫기 핫픽스(`UNIVERSAL-MODAL-CLOSER-HOTFIX`)는 로드 시 모든 모달 백드롭에 인라인 `display:none !important`를 건다. `hidden` 클래스만 떼서 여는 모달(특히 `addEventListener`로 연결된 버튼)은 열리지 않으므로, 다른 화면의 "눌러도 반응 없음" 증상은 이 원인부터 확인한다(해결 방식: v6.0·v6.1).
 
 **미결 사항**
 - clean HTML 원문의 `ADMN-` 코드 251자리: 런타임 치환으로 화면에는 안 보임. 원문 정리 여부 미정.
 - ORD-001 "도서 인세 (+1권)": 원 문구 미확인 상태에서 정한 판단값.
 - Skill 1(정적 문법 검사)·Skill 3(화면 간 데이터 대조) 미구축.
 - README 화면 수 표기(38개) 갱신 여부 확인 필요.
+- 로컬 전용 백업 `_archive/backup/v6.0_*`, `v6.1_*`는 저장소에 올리지 않는다(`.gitignore` 미등록, `git add` 경로 지정으로 관리).
+- Apps Script 양방향 동기화 설정 중: 공유 문서함 `04.설계서/정산시스템` 폴더 생성·이동 → `previewSync` 미리보기 확인 전. `sync_to_gdrive.ps1` 정리(삭제 또는 `_archive/`) 미정.
 
 **다음 세션 작업: 개별 HTML 점검 및 동작 오류 세부 수정**
 1. white가 화면·증상을 지정(스크린샷 포함 가능).
@@ -145,3 +153,7 @@
 | 2026-10-21 | v5.5 CONF-005 저작권자 권한 정답지 문구 제거, E2E 스크립트 LF 복원 | `prototype*/ADMN-CONF-005_baseline.html`, 커밋 `3ed5618` |
 | 2026-10-21 | v5.6~v5.8 clean 괄호 중복 정리(코드만 든 괄호 선제거, 원문 중복 수정) 163건 → 1건, `scan_paren_dup.py` 구축 | `prototype_clean/common-snb.js`, `prototype_clean/*.html`, 커밋 `790d650` 외 |
 | 2026-10-21 | v5.9 파이프라인 메모리 갱신(운영 규칙 0-2, 현재 상태 5절) | `.antigravity/AGENT_PIPELINE_MEMORY.md` |
+| 2026-10-21 | v6.0 SETT-005 신규 수동 조정 모달 표시 수정 — `#newAdjModal` ID 우선 표시 CSS 1줄, `openNewAdjModal()`에서 인라인 display 잠금 해제(상단 버튼 포함), 검증 T1~T5 PASS, E2E 양쪽 37/37 | `prototype*/ADMN-SETT-005_baseline.html`, `.antigravity/reports/V6.0_RESULT.md`, 커밋 `9768b9d` |
+| 2026-10-21 | v6.1 SETT-002 → SETT-005 `?fromStmt=` 자동 오픈 수정 — 열 때 `open` 클래스 부여·닫을 때 제거(핫픽스 로드 시점 잠금 예외), 검증 T1~T7 PASS, E2E 양쪽 37/37 | `prototype*/ADMN-SETT-005_baseline.html`, `.antigravity/reports/V6.1_RESULT.md`, 커밋 `2645a08` |
+| 2026-10-21 | v6.1-c SETT-005 진단 리포트 4개·진단 스크립트 4개 삭제, v6.0 백업 추적 해제(로컬 유지) | 커밋 `eb18c45` |
+| 2026-10-21 | v6.2 역할 재편(Claude Code 단일 체계) — 루트 `CLAUDE.md` 신설, 본 문서·`RULES.md`에 재편 안내 추가 | `CLAUDE.md`, `.antigravity/AGENT_PIPELINE_MEMORY.md`, `.antigravity/RULES.md` |
