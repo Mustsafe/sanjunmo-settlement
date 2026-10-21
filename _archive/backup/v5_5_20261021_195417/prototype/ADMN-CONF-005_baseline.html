@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[ADMN-CONF-005] 관리자·파트너(강사/저작권자/3PL) 권한 및 감사로그 관리 — 산준모 백오피스</title>
+  <link rel="stylesheet" href="common-v84.css" />
+  <script src="common-snb.js" defer></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-body: #f8fafc;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      font-size: 13px;
+    }
+    #v4-page-body {
+      padding: 24px 28px 60px;
+      max-width: 1640px;
+      margin: 0 auto;
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+      gap: 16px;
+    }
+    .page-title-wrap h1 {
+      margin: 4px 0 6px;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .page-title-wrap p { margin: 0; color: var(--text-sub); font-size: 13px; }
+    .code-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e293b;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .domain-switch-bar {
+      display: flex;
+      gap: 8px;
+      background: #fff;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .sub-tab-btn {
+      padding: 9px 15px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-sub);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s;
+    }
+    .sub-tab-btn:hover { background: #f1f5f9; color: var(--text-main); }
+    .sub-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.22);
+    }
+
+    .role-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .role-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .role-card.partner {
+      border-left: 4px solid #7c3aed;
+      background: #faf5ff;
+    }
+    .role-card h4 {
+      margin: 4px 0 6px;
+      font-size: 14.5px;
+      font-weight: 800;
+    }
+    .role-card p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+    .filter-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .filter-left, .filter-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    input[type="text"], select {
+      padding: 8px 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--text-main);
+      background: #fff;
+    }
+    .btn {
+      padding: 8px 14px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-outline { background: #fff; border-color: #cbd5e1; color: var(--text-main); }
+    .btn-sm { padding: 5px 10px; font-size: 11.5px; border-radius: 6px; }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    table.data-table th {
+      background: #f8fafc;
+      color: #475569;
+      font-weight: 700;
+      text-align: left;
+      padding: 11px 12px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    table.data-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+    table.data-table tr:hover td { background: #f8fafc; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .badge-blue { background: #dbeafe; color: #1d4ed8; }
+    .badge-green { background: #d1fae5; color: #047857; }
+    .badge-amber { background: #fef3c7; color: #b45309; }
+    .badge-red { background: #fee2e2; color: #b91c1c; }
+    .badge-slate { background: #e2e8f0; color: #334155; }
+    .badge-purple { background: #ede9fe; color: #6d28d9; }
+
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    .info-callout {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+    .modal-header h3 { margin: 0; font-size: 16px; font-weight: 800; }
+    .modal-body { padding: 20px 22px; overflow-y: auto; }
+    .modal-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      background: #f8fafc;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label { font-size: 12px; font-weight: 700; color: #334155; }
+
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 3000;
+      display: none;
+    }
+  
+/* === [GLOBAL-PRETENDARD-FONT-LOCK: NO-BROWSER-MONOSPACE] === */
+:root {
+  --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  --font-mono: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+*, *::before, *::after,
+html, body,
+code, pre, kbd, samp, tt, var,
+button, input, select, textarea, optgroup, option,
+table, thead, tbody, tfoot, tr, th, td,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+code, pre, kbd, samp,
+.code, .code-pill, .code-badge, .code-tag, .crumb-code, .nav-code, .snb-code, .screen-id-badge, .mono, .num, .k-num {
+  font-variant-numeric: tabular-nums !important;
+  letter-spacing: -0.01em !important;
+}
+
+  </style>
+</head>
+<body>
+<div id="v4-root-shell">
+  <div id="v4-page-body">
+    <div class="page-header">
+      <div class="page-title-wrap">
+        <span class="code-badge" id="current-screen-code">ADMN-CONF-005</span>
+        <h1 id="current-screen-title">관리자·외부 파트너(강사/저작권자/3PL) RBAC 권한 및 감사로그</h1>
+        <p>내부 운영진 4종과 외부 파트너 3종(강사·저작권자·외부물류 3PL)의 메뉴 접근 권한 및 데이터 스코프(Data Scope)를 엄격히 분리 관리합니다.</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="openAccountModal()">+ 신규 관리자 / 파트너 계정 발급</button>
+      </div>
+    </div>
+
+    <div class="domain-switch-bar">
+      <button class="sub-tab-btn active" onclick="switchTab('accounts')" id="tab-btn-accounts">
+        👥 관리자 및 외부 파트너 계정 목록 (ADMN-CONF-005)
+      </button>
+      <button class="sub-tab-btn" onclick="switchTab('matrix')" id="tab-btn-matrix">
+        🔐 7대 RBAC 권한 그룹 매트릭스 (강사 / 저작권자 / 3PL 분리)
+      </button>
+      <button class="sub-tab-btn" onclick="switchTab('audit')" id="tab-btn-audit">
+        🛡️ 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006)
+      </button>
+    </div>
+
+    <!-- ==================== 1. 계정 목록 및 파트너 분리 (ADMN-CONF-005) ==================== -->
+    <section id="view-accounts" class="view-section active">
+      <div class="info-callout">
+        <strong>[ADMN-CONF-005] 외부 파트너 권한 3분류 분리 정책:</strong><br/>
+        기존 단일 그룹이던 외부 파트너를 역할과 정산·업무 범위에 따라 <strong>[1] 파트너 강사(<code>ROLE_PARTNER_INST</code>)</strong>, <strong>[2] 교재 저작권자/출판사(<code>ROLE_PARTNER_COPYRIGHT</code>)</strong>, <strong>[3] 외부 물류 3PL(<code>ROLE_PARTNER_3PL</code>)</strong>로 명확히 분리하여, 타 파트너의 매출·정산서·회원 개인정보에 접근할 수 없도록 <strong>데이터 스코프(Data Scope: 본인 ID 격리)</strong>와 <strong>기능 스코프(Action Scope: 조회·본인승인 전용, 마감/이체/삭제 차단)</strong> 2단 통제를 강제 바인딩합니다. (※ 2계층 분할 수취인 중 원천징수 대상자는 계정 발급 없이 정산서 PDF 발송, 사업자 수취인은 정산서 확인·역발행 승인 화면만 부여)
+      </div>
+
+      <div class="role-cards-grid">
+        <div class="role-card partner">
+          <span class="badge badge-purple">ROLE_PARTNER_INST</span>
+          <h4>[1] 파트너 강사 전용 권한</h4>
+          <p>• <strong>접근 허용:</strong> 본인 담당 강좌 학습 Q&amp;A(<code>ADMN-BRD-004</code>) 답변 작성, 본인 권리자 정산내역서(<code>ADMN-SETT-002-S2</code>) 조회/확인<br/>• <strong>데이터 스코프:</strong> 바인딩된 강사코드(<code>INST-*</code>) 외 타 강사 매출/교재 인세/회원DB 열람 원천 차단</p>
+        </div>
+        <div class="role-card partner">
+          <span class="badge badge-blue">ROLE_PARTNER_COPYRIGHT</span>
+          <h4>[2] 교재 저작권자 / 출판사 권한</h4>
+          <p>• <strong>접근 허용:</strong> 본인 저작 도서 판매량·인세(Royalty) 정산내역서 조회, 정답지(<code>ADMN-BRD-009</code>) 등록·수정<br/>• <strong>데이터 스코프:</strong> 바인딩된 저작권 계약코드(<code>CR-*</code> / <code>BOOK-*</code>)에 한정한 열람 허용</p>
+        </div>
+        <div class="role-card partner">
+          <span class="badge badge-amber">ROLE_PARTNER_3PL</span>
+          <h4>[3] 외부 물류 (3PL 배송대행사) 권한</h4>
+          <p>• <strong>접근 허용:</strong> 실물 교재 출고 대기 목록(<code>ADMN-ORD-002</code>) 열람 및 택배 송장번호 엑셀 일괄 업로드 전용<br/>• <strong>데이터 스코프:</strong> 결제금액·정산원장·수강내역 비노출 (배송 수취인 정보만 제한적 표시)</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="filter-grid">
+          <div class="filter-left">
+            <select id="acc-role-filter" onchange="renderAccounts()">
+              <option value="ALL">권한 그룹 전체 (내부 4종 + 파트너 3종)</option>
+              <option value="ROLE_SUPER_ADMIN">[내부] 최고관리자 (ROLE_SUPER_ADMIN)</option>
+              <option value="ROLE_FINANCE_ADMIN">[내부] 정산/재무 담당 (ROLE_FINANCE_ADMIN)</option>
+              <option value="ROLE_OPS_ADMIN">[내부] 서비스/콘텐츠 운영 (ROLE_OPS_ADMIN)</option>
+              <option value="ROLE_CS_ADMIN">[내부] 고객센터 CS 전담 (ROLE_CS_ADMIN)</option>
+              <option value="ROLE_PARTNER_INST">[파트너] 강사 전용 (ROLE_PARTNER_INST)</option>
+              <option value="ROLE_PARTNER_COPYRIGHT">[파트너] 교재 저작권자 (ROLE_PARTNER_COPYRIGHT)</option>
+              <option value="ROLE_PARTNER_3PL">[파트너] 외부 물류 3PL (ROLE_PARTNER_3PL)</option>
+            </select>
+            <input type="text" id="acc-keyword" placeholder="이름, 계정ID, 소속/스코프 코드 검색..." oninput="renderAccounts()" style="width:260px;" />
+          </div>
+          <div class="filter-right">
+            <button class="btn btn-primary" onclick="openAccountModal()">+ 신규 계정 발급</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:130px;">계정 ID</th>
+              <th style="width:140px;">성명 / 소속</th>
+              <th style="width:230px;">RBAC 권한 그룹</th>
+              <th>데이터 스코프 (Data Scope 바인딩)</th>
+              <th style="width:120px;">2FA 인증 / IP제한</th>
+              <th style="width:140px;">최근 접속일시</th>
+              <th style="width:100px;">상태</th>
+              <th style="width:110px;">관리</th>
+            </tr>
+          </thead>
+          <tbody id="acc-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== 2. 7대 RBAC 권한 그룹 매트릭스 ==================== -->
+    <section id="view-matrix" class="view-section">
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:210px;">백오피스 도메인 / 메뉴</th>
+              <th>최고관리자<br/>(SUPER)</th>
+              <th>재무/정산<br/>(FINANCE)</th>
+              <th>서비스운영<br/>(OPS)</th>
+              <th>고객센터<br/>(CS)</th>
+              <th style="background:#f5f3ff; color:#6d28d9;">파트너 강사<br/>(PARTNER_INST)</th>
+              <th style="background:#eff6ff; color:#1d4ed8;">교재 저작권자<br/>(COPYRIGHT)</th>
+              <th style="background:#fffbeb; color:#b45309;">외부 물류 3PL<br/>(PARTNER_3PL)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700;">회원관리 / 블랙리스트 (USER)</td>
+              <td>전체 (마스킹해제)</td>
+              <td>조회만</td>
+              <td>전체</td>
+              <td>전체 (CS메모)</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">강사 / 저작권자 계약율 (INST)</td>
+              <td>전체 (승인/수정)</td>
+              <td>전체 (계좌검증)</td>
+              <td>조회만</td>
+              <td>✕ 접근불가</td>
+              <td>본인 계약서만 열람</td>
+              <td>본인 저작권 계약만 열람</td>
+              <td>✕ 접근불가</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">상품 / 강좌 / 교재 등록 (PROD)</td>
+              <td>전체</td>
+              <td>조회만</td>
+              <td>전체</td>
+              <td>조회만</td>
+              <td>본인 강좌 조회</td>
+              <td>본인 도서 판매량 조회</td>
+              <td>✕ 접근불가</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">교재 출고 / 송장 관리 (ORD-002)</td>
+              <td>전체</td>
+              <td>조회만</td>
+              <td>전체</td>
+              <td>배송지 변경</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td><strong>✓ 출고목록 조회 / 송장업로드</strong></td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">강사료 / 인세 정산원장 (SETT)</td>
+              <td>전체 (확정/마감)</td>
+              <td>전체 (지급집행)</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td><strong>✓ 본인 강의 정산서 확인</strong></td>
+              <td><strong>✓ 본인 도서 인세 정산서 확인</strong></td>
+              <td>✕ 접근불가</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">학습 Q&amp;A / 정답지 (BRD)</td>
+              <td>전체</td>
+              <td>✕ 접근불가</td>
+              <td>전체</td>
+              <td>1:1문의/FAQ</td>
+              <td><strong>✓ 본인 강좌 Q&amp;A 답변</strong></td>
+              <td><strong>✓ 본인 정답지 등록</strong></td>
+              <td>✕ 접근불가</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ==================== 3. 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006) ==================== -->
+    <section id="view-audit" class="view-section">
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:140px;">로그 ID</th>
+              <th style="width:150px;">발생 일시</th>
+              <th style="width:170px;">행위자 (계정 / 권한)</th>
+              <th style="width:160px;">감사 이벤트 유형</th>
+              <th>상세 수행 내역 및 열람 사유</th>
+              <th style="width:130px;">접속 IP</th>
+            </tr>
+          </thead>
+          <tbody id="audit-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ==================== 모달: 관리자 및 파트너 계정 등록/수정 ==================== -->
+<div class="modal-backdrop" id="modal-account">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="acc-modal-title">[ADMN-CONF-005] 관리자 / 외부 파트너 계정 설정</h3>
+      <button class="btn btn-outline btn-sm" onclick="closeModal('modal-account')">닫기 ✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="acc-edit-id" />
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">계정 로그인 ID *</label>
+          <input type="text" id="acc-form-id" placeholder="예: partner_copyright_02" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">성명 / 파트너 업체명 *</label>
+          <input type="text" id="acc-form-name" placeholder="예: 박저작 (안전북스 출판)" />
+        </div>
+        <div class="form-group full">
+          <label class="form-label">RBAC 권한 그룹 선택 (외부 파트너는 강사 / 저작권자 / 3PL 엄격 구분) *</label>
+          <select id="acc-form-role" onchange="onChangeRoleSelect()">
+            <option value="ROLE_SUPER_ADMIN">[내부] 최고관리자 (ROLE_SUPER_ADMIN)</option>
+            <option value="ROLE_FINANCE_ADMIN">[내부] 정산/재무 관리자 (ROLE_FINANCE_ADMIN)</option>
+            <option value="ROLE_OPS_ADMIN">[내부] 서비스/콘텐츠 운영자 (ROLE_OPS_ADMIN)</option>
+            <option value="ROLE_CS_ADMIN">[내부] 고객센터 CS 전담 (ROLE_CS_ADMIN)</option>
+            <option value="ROLE_PARTNER_INST">[외부 파트너] 강사 전용 (ROLE_PARTNER_INST — 본인 강좌 Q&amp;A 및 강의 정산서)</option>
+            <option value="ROLE_PARTNER_COPYRIGHT">[외부 파트너] 교재 저작권자/출판사 (ROLE_PARTNER_COPYRIGHT — 도서 인세 정산서 및 정답지 관리)</option>
+            <option value="ROLE_PARTNER_3PL">[외부 파트너] 외부 물류 3PL (ROLE_PARTNER_3PL — 교재 출고지시서 및 송장 등록)</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label" id="scope-label">데이터 스코프 바인딩 코드 (파트너 본인 데이터만 격리 조회) *</label>
+          <input type="text" id="acc-form-scope" placeholder="예: CR-2026-004 (안전북스 산업안전기사 필기 교재 저작권)" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">보안 옵션</label>
+          <input type="text" id="acc-form-sec" value="2FA OTP 필수 / 허용 IP 제한" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">계정 상태</label>
+          <select id="acc-form-status">
+            <option value="ACTIVE">정상 활성 (ACTIVE)</option>
+            <option value="LOCKED">잠김/중지 (LOCKED)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-account')">취소</button>
+      <button class="btn btn-primary" onclick="saveAccount()">계정 및 권한 저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-box" id="toast-box"></div>
+
+<script>
+  let ACCOUNTS = [
+    { id: 'admin_white', name: '김총괄 (기획/PO)', role: 'ROLE_SUPER_ADMIN', scope: 'ALL (전사 마스터 스코프)', sec: '2FA OTP + 사내망 IP', lastLogin: '2026-10-19 11:40', status: 'ACTIVE' },
+    { id: 'fin_manager', name: '이재무 (재무회계팀)', role: 'ROLE_FINANCE_ADMIN', scope: 'SETT / RFD / ORD (정산·세무·환불 전체)', sec: '2FA OTP + 사내망 IP', lastLogin: '2026-10-19 10:15', status: 'ACTIVE' },
+    { id: 'ops_content', name: '박운영 (교육콘텐츠팀)', role: 'ROLE_OPS_ADMIN', scope: 'PROD / PROM / BRD (강좌·프로모션·게시판)', sec: '2FA OTP', lastLogin: '2026-10-19 09:50', status: 'ACTIVE' },
+    { id: 'cs_lead01', name: '최상담 (고객감동팀)', role: 'ROLE_CS_ADMIN', scope: 'USER / ORD / BRD (CS 상담 및 환불접수)', sec: '2FA OTP', lastLogin: '2026-10-19 11:05', status: 'ACTIVE' },
+    { id: 'inst_leejh', name: '정종대 강사 (대표강사 파트너 · RH-0025)', role: 'ROLE_PARTNER_INST', scope: 'RH-0025 / CON-2026-001 (정종대 강사 · 본인 담당 강좌 Q&A 및 정산서 ADMN-SETT-002-S2 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 21:10', status: 'ACTIVE' },
+    { id: 'copy_sanjunbook', name: '한출판 대표 (산준모북스 저작권자)', role: 'ROLE_PARTNER_COPYRIGHT', scope: 'CR-2026-002 / BK-2026-101 (본인 저작 도서 인세 정산서 ADMN-SETT-002-S2 및 정답지 ADMN-BRD-009 전용)', sec: '2FA 모바일 인증', lastLogin: '2026-10-18 16:30', status: 'ACTIVE' },
+    { id: '3pl_cjlogis', name: '정물류 매니저 (CJ파주물류센터 3PL)', role: 'ROLE_PARTNER_3PL', scope: '3PL-PAJU-01 (실물 교재 출고대상 열람 및 송장 업로드 전용 / 금액 비노출)', sec: '물류센터 고정 IP 제한', lastLogin: '2026-10-19 08:30', status: 'ACTIVE' }
+  ];
+
+  let AUDIT_LOGS = [
+    { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CON-2026-001) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
+    { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
+    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정답지 등록', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 정답지(ANSWER_SHEET) 웹 에디터 수정', ip: '58.120.89.11' },
+    { id: 'AUD-9918', dt: '2026-10-18 14:12', actor: 'admin_white (최고관리자)', type: '파트너 권한 분리 설정', detail: '한출판 계정에 ROLE_PARTNER_COPYRIGHT(교재 저작권자 전용) 권한 및 도서 스코프 부여', ip: '211.45.120.10' }
+  ];
+
+  const ROLE_BADGE_MAP = {
+    ROLE_SUPER_ADMIN: '<span class="badge badge-red">내부 · 최고관리자 (SUPER)</span>',
+    ROLE_FINANCE_ADMIN: '<span class="badge badge-green">내부 · 정산/재무 (FINANCE)</span>',
+    ROLE_OPS_ADMIN: '<span class="badge badge-slate">내부 · 서비스운영 (OPS)</span>',
+    ROLE_CS_ADMIN: '<span class="badge badge-slate">내부 · 고객센터 (CS)</span>',
+    ROLE_PARTNER_INST: '<span class="badge badge-purple">파트너 [1] 강사 전용 (PARTNER_INST)</span>',
+    ROLE_PARTNER_COPYRIGHT: '<span class="badge badge-blue">파트너 [2] 교재 저작권자 (COPYRIGHT)</span>',
+    ROLE_PARTNER_3PL: '<span class="badge badge-amber">파트너 [3] 외부물류 3PL (PARTNER_3PL)</span>'
+  };
+
+  function switchTab(tab) {
+    document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('tab-btn-' + tab).classList.add('active');
+    document.getElementById('view-' + tab).classList.add('active');
+    document.getElementById('current-screen-code').textContent = tab === 'audit' ? 'ADMN-CONF-006' : 'ADMN-CONF-005';
+  }
+
+  function renderAccounts() {
+    const rf = document.getElementById('acc-role-filter').value;
+    const kw = (document.getElementById('acc-keyword').value || '').trim().toLowerCase();
+    const list = ACCOUNTS.filter(a =>
+      (rf === 'ALL' || a.role === rf) &&
+      (!kw || a.id.toLowerCase().includes(kw) || a.name.toLowerCase().includes(kw) || a.scope.toLowerCase().includes(kw))
+    );
+    document.getElementById('acc-tbody').innerHTML = list.map(a => `
+      <tr>
+        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:800;">${a.id}</td>
+        <td style="font-weight:700;">${a.name}</td>
+        <td>${ROLE_BADGE_MAP[a.role] || a.role}</td>
+        <td style="font-size:12px; color:#1e40af; font-weight:600;">${a.scope}</td>
+        <td style="font-size:11.5px; color:var(--text-sub);">${a.sec}</td>
+        <td>${a.lastLogin}</td>
+        <td><span class="badge ${a.status === 'ACTIVE' ? 'badge-green' : 'badge-red'}">${a.status}</span></td>
+        <td>
+          <button class="btn btn-outline btn-sm" onclick="openAccountModal('${a.id}')">권한/스코프 수정</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function openAccountModal(id) {
+    const acc = ACCOUNTS.find(a => a.id === id);
+    document.getElementById('acc-edit-id').value = acc ? acc.id : '';
+    document.getElementById('acc-form-id').value = acc ? acc.id : '';
+    document.getElementById('acc-form-name').value = acc ? acc.name : '';
+    document.getElementById('acc-form-role').value = acc ? acc.role : 'ROLE_PARTNER_COPYRIGHT';
+    document.getElementById('acc-form-scope').value = acc ? acc.scope : '';
+    document.getElementById('acc-form-sec').value = acc ? acc.sec : '2FA 모바일 인증 필수';
+    document.getElementById('acc-form-status').value = acc ? acc.status : 'ACTIVE';
+    if (!acc) onChangeRoleSelect();
+    document.getElementById('modal-account').classList.add('open');
+  }
+
+  function onChangeRoleSelect() {
+    const r = document.getElementById('acc-form-role').value;
+    const scopeInp = document.getElementById('acc-form-scope');
+    if (r === 'ROLE_PARTNER_INST') {
+      scopeInp.value = 'INST-2026-005 (본인 담당 강좌 Q&A 및 강의 정산서 전용)';
+    } else if (r === 'ROLE_PARTNER_COPYRIGHT') {
+      scopeInp.value = 'CR-2026-004 / BOOK-2605 (본인 저작 도서 인세 정산서 및 정답지 관리 전용)';
+    } else if (r === 'ROLE_PARTNER_3PL') {
+      scopeInp.value = '3PL-LOGIS-02 (실물 교재 출고 목록 조회 및 송장 등록 전용)';
+    } else {
+      scopeInp.value = '내부 운영 도메인 스코프';
+    }
+  }
+
+  function saveAccount() {
+    const editId = document.getElementById('acc-edit-id').value;
+    const id = document.getElementById('acc-form-id').value.trim();
+    const name = document.getElementById('acc-form-name').value.trim();
+    const role = document.getElementById('acc-form-role').value;
+    const scope = document.getElementById('acc-form-scope').value.trim();
+    const sec = document.getElementById('acc-form-sec').value.trim();
+    const status = document.getElementById('acc-form-status').value;
+
+    if (!id || !name) { alert('계정 ID와 성명/업체명을 입력해주세요.'); return; }
+    if (editId) {
+      const target = ACCOUNTS.find(a => a.id === editId);
+      if (target) Object.assign(target, { id, name, role, scope, sec, status });
+    } else {
+      ACCOUNTS.unshift({ id, name, role, scope, sec, lastLogin: '신규 발급 (미접속)', status });
+    }
+    closeModal('modal-account');
+    renderAccounts();
+    showToast(`계정 [${id}] 권한 그룹(${role}) 및 데이터 스코프가 저장되었습니다.`);
+  }
+
+  function renderAuditLogs() {
+    document.getElementById('audit-tbody').innerHTML = AUDIT_LOGS.map(l => `
+      <tr>
+        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:700;">${l.id}</td>
+        <td>${l.dt}</td>
+        <td style="font-weight:700;">${l.actor}</td>
+        <td><span class="badge badge-blue">${l.type}</span></td>
+        <td>${l.detail}</td>
+        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;">${l.ip}</td>
+      </tr>
+    `).join('');
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+
+  function showToast(msg) {
+    const box = document.getElementById('toast-box');
+    box.textContent = msg;
+    box.style.display = 'block';
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => { box.style.display = 'none'; }, 3000);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    renderAccounts();
+    renderAuditLogs();
+    const params = new URLSearchParams(window.location.search);
+    const view = params.get('view');
+    if (view === 'ADMN-CONF-006') switchTab('audit');
+  });
+</script>
+<script>
+/* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
+(function() {
+  if (window.__sjmModalCloserInstalled) return;
+  window.__sjmModalCloserInstalled = true;
+
+  function forceCloseModalEl(backdrop) {
+    if (!backdrop) return;
+    backdrop.classList.remove('show', 'open', 'active');
+    backdrop.style.setProperty('display', 'none', 'important');
+    backdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  window.closeAllModals = function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(forceCloseModalEl);
+  };
+
+  // 페이지 진입 시 실수로 열려 있는 모달 초기화 (단, URL 해시/쿼리로 의도적 오픈된 경우 제외)
+  window.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(el) {
+      if (!el.classList.contains('show') && !el.classList.contains('open') && !el.classList.contains('active')) {
+        el.style.setProperty('display', 'none', 'important');
+      }
+    });
+  });
+
+  // 클릭 이벤트 위임 (배경 클릭 또는 닫기/취소/✕ 버튼 클릭 시 즉시 닫기)
+  document.addEventListener('click', function(e) {
+    if (e.target && (
+      e.target.classList.contains('modal-backdrop') ||
+      e.target.classList.contains('p1-modal-backdrop') ||
+      e.target.classList.contains('s1-modal-backdrop') ||
+      e.target.classList.contains('s2-modal-backdrop')
+    )) {
+      forceCloseModalEl(e.target);
+      return;
+    }
+
+    var btn = e.target.closest('button, a, span, [role="button"]');
+    if (!btn) return;
+
+    // 1) 모달 열기 버튼 클릭 시 inline display:none 강제 잠금 해제
+    var onclickAttr = (btn.getAttribute('onclick') || '');
+    if (onclickAttr.indexOf('open') !== -1 || onclickAttr.indexOf('Open') !== -1 || onclickAttr.indexOf('Modal') !== -1) {
+      if (onclickAttr.indexOf('close') === -1 && onclickAttr.indexOf('Close') === -1) {
+        document.querySelectorAll('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop').forEach(function(m) {
+          m.style.removeProperty('display');
+        });
+      }
+    }
+
+    // 2) 모달 내부 닫기 버튼 판정
+    var backdrop = btn.closest('.modal-backdrop, .p1-modal-backdrop, .s1-modal-backdrop, .s2-modal-backdrop');
+    if (!backdrop) return;
+
+    var txt = (btn.textContent || '').trim();
+    var isCloseBtn = (
+      txt === '✕' || txt === '×' || txt === 'X' || txt === 'x' ||
+      txt === '취소' || txt === '닫기' || txt === '창 닫기' ||
+      onclickAttr.indexOf('close') !== -1 ||
+      onclickAttr.indexOf('Close') !== -1 ||
+      btn.classList.contains('modal-close') ||
+      btn.classList.contains('btn-close')
+    );
+
+    if (isCloseBtn) {
+      setTimeout(function() { forceCloseModalEl(backdrop); }, 0);
+    }
+  }, true);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeAllModals();
+  });
+})();
+</script>
+</body>
+</html>
