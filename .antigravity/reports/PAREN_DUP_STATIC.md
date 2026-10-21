@@ -1,0 +1,255 @@
+# PAREN_DUP_STATIC — prototype_clean 원문의 (ADMN-코드) 자리 (script/style 제외)
+
+총 251건
+
+- ADMN-BOOK-001_baseline.html:743: <strong>도서 공급 원장(ADMN-BOOK-001)</strong>에
+- ADMN-BOOK-001_baseline.html:743: MN-BOOK-001)</strong>에 등록된 <strong>단위 매입/제조원가 및 공급률(%)</strong>은 월간 정산(<code>ADMN-SETT-002</code>) 시 도서 매출원가
+- ADMN-BOOK-001_baseline.html:767: ADMN-SETT-001_baseline.html" class="btn btn-outline btn-sm">1계층 지분 매핑 (ADMN-SETT-001) ↗</a>
+- ADMN-BOOK-001_baseline.html:1015: nt-size:16px; font-weight:800;" id="form-mode-title">도서 공급 원장 등록 / 수정 (ADMN-BOOK-001-S1)</h2>
+- ADMN-BOOK-001_baseline.html:1038: <span>[1] 계약원장(ADMN-INST-001) 가채번 도서 불러
+- ADMN-BOOK-001_baseline.html:1042: 권리자 계약 원장(<code>ADMN-INST-001</code>)에서 가채번(<co
+- ADMN-BOOK-001_baseline.html:1055: <span>[2] 교재관리(ADMN-PROD-004) 선등록 SKU 원
+- ADMN-BOOK-001_baseline.html:1072: <span>[3] 공급원장(ADMN-BOOK-001)에서 최초 신규 S
+- ADMN-BOOK-001_baseline.html:1117: <th>계약원장 가채번 코드<br>(ADMN-INST-001)</th>
+- ADMN-BOOK-001_baseline.html:1253: <div class="modal-title">[1] 계약원장(ADMN-INST-001) 가채번 도서 불러
+- ADMN-BOOK-001_baseline.html:1299: <div class="modal-title">[2] 교재관리(ADMN-PROD-004) 선등록 원가 미입
+- ADMN-BRD-001_baseline.html:806: "ADMN-BRD-005_baseline.html" class="btn btn-outline">수강/합격후기·무료특강·정답지 (ADMN-BRD-005) 이동 →</a>
+- ADMN-BRD-001_baseline.html:844: 🎁 이벤트 당첨자 발표·지급 (ADMN-BRD-010) <span cla
+- ADMN-BRD-001_baseline.html:854: <!-- ==================== 1. 공지사항 (ADMN-BRD-001) =========
+- ADMN-BRD-001_baseline.html:932: <!-- ==================== 2. FAQ 관리 + 카테고리 동적 관리 (ADMN-BRD-002) =========
+- ADMN-BRD-001_baseline.html:1008: <!-- ==================== 3. 1:1 고객문의 CS (ADMN-BRD-003) =========
+- ADMN-BRD-001_baseline.html:1072: <!-- ==================== 4. 강좌 학습 Q&A (ADMN-BRD-004) =========
+- ADMN-BRD-001_baseline.html:1112: <!-- ==================== 5. 이벤트 당첨자 발표 및 상품 지급 (ADMN-BRD-010) =========
+- ADMN-BRD-001_baseline.html:1144: <div class="kpi-sub">포인트 원장(ADMN-PROM-003) 및 알림톡 연동<
+- ADMN-BRD-001_baseline.html:1170: g> <code>포인트/쿠폰</code>은 <strong>[선택 당첨자 일괄 즉시 지급]</strong> 시 회원 포인트 원장(<code>ADMN-PROM-003</code>)에 즉시 적립되고,
+- ADMN-BRD-001_baseline.html:1276: <!-- ==================== 모달 1: FAQ 카테고리 동적 관리 (ADMN-BRD-002) =========
+- ADMN-BRD-001_baseline.html:1434: <!-- ==================== 모달 3: 이벤트 당첨자 발표 등록/수정 (ADMN-BRD-010) =========
+- ADMN-BRD-001_baseline.html:1456: <label class="form-label">연결할 프로모션/이벤트 (ADMN-PROM-001) *</label>
+- ADMN-BRD-001_baseline.html:1512: t type="checkbox" id="winpost-send-alim" checked /> 게시와 동시에 당첨자 개별 알림톡(<code>ADMN-CONF-004</code>) 발송</label
+- ADMN-BRD-002_baseline.html:478: <a href="ADMN-RFD-002_baseline.html" class="btn btn-sm">⇄ 환불 심사 큐 (ADMN-RFD-002)</a>
+- ADMN-BRD-002_baseline.html:479: <a href="ADMN-ORD-001_baseline.html" class="btn btn-sm">📦 주문·3PL 배송 (ADMN-ORD-001)</a>
+- ADMN-BRD-002_baseline.html:540: <h3>🔀 1:1 문의 허브 (ADMN-BRD-002) — 5대 문의유형
+- ADMN-BRD-002_baseline.html:588: VIEW 1: 1:1 문의 목록 (ADMN-BRD-002)
+- ADMN-BRD-002_baseline.html:798: VIEW 2: 1:1 문의 상세 및 유형별 분기 워크스페이스 (ADMN-BRD-002-S1)
+- ADMN-BRD-002_baseline.html:923: 사 이관:</strong> 고객이 교재 반품/환불 실행을 요청한 경우 아래 버튼으로 <strong>환불 요청 심사 워크스페이스(<code>ADMN-RFD-002-S1</code>)</strong>로
+- ADMN-BRD-002_baseline.html:928: <div style="color:var(--text-secondary);">• 3PL 반품 입고 검수(<code>ADMN-ORD-002-S3</code>) 양품 판정 후 P
+- ADMN-BRD-002_baseline.html:931: on" class="btn btn-danger" onclick="transferToRefundQueue()">🚀 환불 심사 큐(ADMN-RFD-002)로 즉시 이관</b
+- ADMN-BRD-002_baseline.html:951: <a href="ADMN-ORD-001_baseline.html" class="btn btn-primary">주문 상세(ADMN-ORD-001-S1)에서 [출고지시 회
+- ADMN-BRD-002_baseline.html:994: <div>• <strong>환급 정산 귀속 옵션:</strong> 계약별 부담 옵션(A/B/C) 자동 연동 (<code>ADMN-SETT-006</code>)</div>
+- ADMN-BRD-002_baseline.html:998: <a href="ADMN-SETT-006_baseline.html" class="btn">합격 환급반 관리(ADMN-SETT-006) 열기 ↗</a>
+- ADMN-BRD-002_baseline.html:1045: <option value="REFUND">[결제·환불] ➔ 환불 심사 워크스페이스 (ADMN-RFD-002-S1) 이관</optio
+- ADMN-BRD-002_baseline.html:1046: <option value="SHIPPING">[배송·교재] ➔ 주문·3PL 출고지시 관리 (ADMN-ORD-001/002)</option>
+- ADMN-BRD-002_baseline.html:1048: <option value="BENEFIT">[합격환급·포인트] ➔ 합격환급반 심사 (ADMN-SETT-006)</option>
+- ADMN-BRD-002_baseline.html:1054: 키지 내 미개봉 실물 교재 3종만 부분 환불 희망함. 최근 주문 ORD-20261012-0041 바인딩 완료하여 환불 심사 큐(ADMN-RFD-002)로 이관함.</te
+- ADMN-BRD-005_baseline.html:722: DMN-BRD-001_baseline.html" class="btn btn-outline">← 공지·FAQ·문의·당첨자 발표 (ADMN-BRD-001)</a>
+- ADMN-BRD-005_baseline.html:746: 🎬 무료특강 및 빈출문제 (ADMN-BRD-006) <span cla
+- ADMN-BRD-005_baseline.html:753: 🚨 커뮤니티/신고 관리 (ADMN-BRD-007/008) <span cla
+- ADMN-BRD-005_baseline.html:917: <!-- ==================== 3. 무료특강 및 빈출문제 (ADMN-BRD-006) =========
+- ADMN-BRD-005_baseline.html:1012: <!-- ==================== 5. 커뮤니티/신고 관리 (ADMN-BRD-007/008) =========
+- ADMN-BRD-005_baseline.html:1086: <!-- ==================== 모달 B: 무료특강 및 빈출문제 등록/수정 (ADMN-BRD-006) =========
+- ADMN-CONF-001_baseline.html:140: "tab-domain-banner" onclick="switchDomainTab('banner')">🖼️ 메인 슬라이드 배너 (ADMN-CONF-001)</button>
+- ADMN-CONF-001_baseline.html:141: d="tab-domain-strip" onclick="switchDomainTab('strip')">📏 상단 · 서브 띠배너 (ADMN-CONF-001-S1)</button>
+- ADMN-CONF-001_baseline.html:142: " id="tab-domain-popup" onclick="switchDomainTab('popup')">🪟 모달 팝업 관리 (ADMN-CONF-001-S2)</button>
+- ADMN-CONF-001_baseline.html:150: <strong>[메인 슬라이드 배너(ADMN-CONF-001) 운영 규칙]</s
+- ADMN-CONF-001_baseline.html:188: btn btn-sm btn-outline" onclick="switchDomainTab('banner')">← 배너 목록으로 (ADMN-CONF-001)</button>
+- ADMN-CONF-001_baseline.html:255: <strong>[띠배너(ADMN-CONF-001-S1) 운영 규칙]</s
+- ADMN-CONF-001_baseline.html:260: <div class="card-title"><span>📏 상단 · 서브 띠배너 목록 (ADMN-CONF-001-S1)</span></d
+- ADMN-CONF-001_baseline.html:287: btn btn-sm btn-outline" onclick="switchDomainTab('strip')">← 띠배너 목록으로 (ADMN-CONF-001-S1)</button>
+- ADMN-CONF-001_baseline.html:355: <strong>[모달 팝업(ADMN-CONF-001-S2) 운영 규칙]</s
+- ADMN-CONF-001_baseline.html:360: <div class="card-title"><span>🪟 모달 팝업 목록 (ADMN-CONF-001-S2)</span></d
+- ADMN-CONF-001_baseline.html:387: n btn-sm btn-outline" onclick="switchDomainTab('popup')">← 모달 팝업 목록으로 (ADMN-CONF-001-S2)</button>
+- ADMN-CONF-002_baseline.html:491: 절차 대신, <strong>법정 사전 공고 기간(일반 7일 / 불리·중대 30일) 동안 사이트 공지 및 전체 회원 개정 고지(ADMN-CONF-004-S1)</strong>를
+- ADMN-CONF-002_baseline.html:573: class="btn btn-sm btn-outline" onclick="switchView('list')">← 약관 목록으로 (ADMN-CONF-002)</button>
+- ADMN-CONF-002_baseline.html:973: • 저장 즉시 버전별 변경 이력(<code>terms_version_history</code>) 및 관리자 보안 감사 로그(<code>ADMN-CONF-006</code>)에 기록됩니다.<b
+- ADMN-CONF-002_baseline.html:975: • 신규 개정 공시 등록 후에는 <strong>[전체 회원 개정 고지 발송 (ADMN-CONF-004-S1)]</strong>
+- ADMN-CONF-003_baseline.html:132: -player" onclick="switchConfTab('player')">🎬 플레이어 · 워터마크 · 동시접속 제어 설정 (ADMN-CONF-003)</button>
+- ADMN-CONF-003_baseline.html:133: btn-auth" onclick="switchConfTab('auth')">🔐 SMS 본인인증 발송 제한 · 허용 IP 관리 (ADMN-CONF-008)</button>
+- ADMN-CONF-003_baseline.html:145: <div class="card-title"><span>🎬 StarPlayer+ 동적 워터마크 · 재생 제어 · 동시접속 설정 (ADMN-CONF-003)</span></d
+- ADMN-CONF-003_baseline.html:206: nput" style="width:65px;" value="5" /> 개 초과 접속 시 부정수강 의심 알림 및 계정 보호 잠금(<code>ADMN-USER-005</code>) 연동
+- ADMN-CONF-003_baseline.html:251: <div class="card-title"><span>🔐 SMS 본인인증 발송 제한 설정 (ADMN-CONF-008)</span></d
+- ADMN-CONF-004_baseline.html:390: 📋 3채널 템플릿 &amp; 카카오 검수 관리 (ADMN-CONF-004) <span cla
+- ADMN-CONF-004_baseline.html:393: 🚀 타겟 메시지 수동/예약 발송 (ADMN-CONF-004-S1)
+- ADMN-CONF-004_baseline.html:396: 📊 통합 발송 이력 및 실패 재발송 (ADMN-CONF-007) <span cla
+- ADMN-CONF-004_baseline.html:401: <!-- ==================== 1. 템플릿 및 카카오 검수 관리 (ADMN-CONF-004) =========
+- ADMN-CONF-004_baseline.html:484: <!-- ==================== 2. 타겟 수동/예약 발송 (ADMN-CONF-004-S1) =========
+- ADMN-CONF-004_baseline.html:547: <!-- ==================== 3. 통합 발송 이력 (ADMN-CONF-007) =========
+- ADMN-CONF-004_baseline.html:601: <option value="주문/결제 (ADMN-ORD)">주문/결제 완료
+- ADMN-CONF-004_baseline.html:602: <option value="교재배송 (ADMN-ORD-004)">택배 송장 등록
+- ADMN-CONF-004_baseline.html:603: <option value="환불/환급 (ADMN-RFD)">환불/합격환급
+- ADMN-CONF-004_baseline.html:604: <option value="게시판/CS (ADMN-BRD)">1:1 문의 답
+- ADMN-CONF-004_baseline.html:605: <option value="마케팅/수동 (ADMN-PROM)">마케팅 타겟 수
+- ADMN-CONF-005_baseline.html:328: 👥 관리자 및 외부 파트너 계정 목록 (ADMN-CONF-005)
+- ADMN-CONF-005_baseline.html:334: 🛡️ 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006)
+- ADMN-CONF-005_baseline.html:338: <!-- ==================== 1. 계정 목록 및 파트너 분리 (ADMN-CONF-005) =========
+- ADMN-CONF-005_baseline.html:349: <p>• <strong>접근 허용:</strong> 본인 담당 강좌 학습 Q&amp;A(<code>ADMN-BRD-004</code>) 답변 작성, 본인
+- ADMN-CONF-005_baseline.html:349: ng> 본인 담당 강좌 학습 Q&amp;A(<code>ADMN-BRD-004</code>) 답변 작성, 본인 권리자 정산내역서(<code>ADMN-SETT-002-S2</code>) 조회/확인<br/
+- ADMN-CONF-005_baseline.html:359: <p>• <strong>접근 허용:</strong> 실물 교재 출고 대기 목록(<code>ADMN-ORD-002</code>) 열람 및 택배 송
+- ADMN-CONF-005_baseline.html:485: <!-- ==================== 3. 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006) =========
+- ADMN-DASH-001_baseline.html:426: <div class="topbar-sub">역할별 권한(ADMN-CONF-005)에 따라 노출 블록
+- ADMN-DASH-001_baseline.html:437: <a href="ADMN-LOGIN-001_baseline.html" class="btn btn-xs">🔐 로그인 화면(ADMN-LOGIN-001)</a>
+- ADMN-DASH-001_baseline.html:446: 📊 대시보드 홈 (ADMN-DASH-001)
+- ADMN-DASH-001_baseline.html:449: 📈 매출 통계 · 기간별 추이 (ADMN-STAT-001)
+- ADMN-DASH-001_baseline.html:452: 🏆 상품 통계 · 인기 순위 (ADMN-STAT-002)
+- ADMN-DASH-001_baseline.html:462: VIEW 1: 대시보드 홈 (ADMN-DASH-001)
+- ADMN-DASH-001_baseline.html:575: ="btn btn-xs btn-primary" onclick="switchView('stat-sales')">매출 통계 상세 (ADMN-STAT-001) →</button
+- ADMN-DASH-001_baseline.html:667: <a href="ADMN-CONF-010_baseline.html" class="btn btn-xs">감사 로그 전체 (ADMN-CONF-010) ↗</a>
+- ADMN-DASH-001_baseline.html:716: VIEW 2: 매출 통계 (ADMN-STAT-001)
+- ADMN-DASH-001_baseline.html:811: VIEW 3: 상품 통계 (ADMN-STAT-002)
+- ADMN-DASH-001_baseline.html:922: a href="ADMN-CONF-004_baseline.html?view=send" class="btn">발송 내역 전체 화면(ADMN-CONF-004-S1) 이동</a>
+- ADMN-INST-001_baseline.html:371: >100.00%</code> 하드락 검증을 위해 실제 지분 편집 및 적용 계약 지정은 반드시 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong>
+- ADMN-INST-001_baseline.html:375: button" onclick="openInst001RateLockModalP1()">🔒 요율 잠금 · 상태 동기화 영향 안내 (ADMN-INST-001-P1)</button>
+- ADMN-INST-001_baseline.html:376: -decoration:none; display:inline-flex; align-items:center;">상품별 권리자 매핑(ADMN-SETT-001) 이동 ↗</a>
+- ADMN-INST-001_baseline.html:381: 지정) 1건 감지:</strong> 적용 계약(<code>계약번호</code>)이 미지정된 강의·도서 SKU는 월간 정산 배치(<code>ADMN-SETT-002</code>) 인입이 차단되며
+- ADMN-INST-001_baseline.html:714: <div class="sub">승계 계약 지정 또는 매핑 종료를 대상별로 지정합니다. 실제 매핑 적용은 상품별 권리자 매핑(ADMN-SETT-001)에서 수행합니다.<
+- ADMN-INST-001_baseline.html:755: <div class="note">검수 승인·지급 집행은 약정금 마일스톤 검수(ADMN-INST-002)에서 처리합니다.
+- ADMN-INST-001_baseline.html:975: <div class="fixed">강의별 권리자 지분은 상품별 권리자 매핑(ADMN-SETT-001)에서 관리합니다.
+- ADMN-INST-001_baseline.html:1015: 공동 저자 지분은 상품별 권리자 매핑(ADMN-SETT-001)에서 관리합니다.
+- ADMN-INST-002_baseline.html:518: <button class="tab-btn" data-tab="tabAudit">3. 검수 · 수기 소명 감사 로그 (ADMN-CONF-010)</button>
+- ADMN-LOGIN-001_baseline.html:226: dc2626; border-radius:6px;" onclick="triggerLockoutState()">🔒 5회 실패 잠금(ADMN-LOGIN-001-P1) 시연</butto
+- ADMN-LOGIN-001_baseline.html:269: <!-- 5회 실패 잠금 안내 (ADMN-LOGIN-001-P1) -->
+- ADMN-LOGIN-001_baseline.html:274: • 또는 최고관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에
+- ADMN-LOGIN-001_baseline.html:303: ="button" class="link-btn" onclick="switchAuthMode('find-id')">아이디 찾기 (ADMN-LOGIN-002)</button>
+- ADMN-LOGIN-001_baseline.html:304: class="link-btn" onclick="switchAuthMode('reset-pw')">비밀번호 찾기 · 잠금 해제 (ADMN-LOGIN-003)</button>
+- ADMN-LOGIN-001_baseline.html:309: MODE 2: 아이디 찾기 (ADMN-LOGIN-002)
+- ADMN-LOGIN-001_baseline.html:343: MODE 3: 비밀번호 재설정 (ADMN-LOGIN-003)
+- ADMN-ORD-001_baseline.html:961: ass="btn btn-dark" onclick="saveReturnInspection()">💾 검수 결과 저장 · 환불 심사(ADMN-RFD-002)로 전달</butt
+- ADMN-ORD-001_baseline.html:1026: btn btn-sm btn-outline" style="margin-left:6px;" onclick="alert('회원 상세(ADMN-MBR-001) 화면으로 이동합니
+- ADMN-ORD-001_baseline.html:1257: btn-danger" style="margin-left:6px;text-decoration:none;">환불 심사 화면 이동 (ADMN-RFD-002)</a>
+- ADMN-ORD-001_baseline.html:1748: ※ 사유는 불변 감사 로그(ADMN-CONF-010) 및 수강권 히스토
+- ADMN-PROD-002_baseline.html:453: nclick="window.location.href='ADMN-SETT-001_baseline.html'">상품별 권리자 매핑(ADMN-SETT-001)</a>에서만 수행
+- ADMN-PROD-003_baseline.html:669: 단과 강좌의 커리큘럼은 <strong>강의 관리(ADMN-PROD-002)</strong>
+- ADMN-PROD-003_baseline.html:669: 의 관리(ADMN-PROD-002)</strong> 원장을 호출하여 구성하며, 총 강의시간 합산값은 <strong>합격 환급반(ADMN-SETT-006)</strong>
+- ADMN-PROD-003_baseline.html:670: 또한 <strong>상품별 권리자 매핑(ADMN-SETT-001)</strong>의
+- ADMN-PROD-003_baseline.html:811: <a class="btn btn-soft" href="ADMN-SETT-001_baseline.html">정산 지분 매핑 (ADMN-SETT-001)</a>
+- ADMN-PROD-003_baseline.html:881: <span class="card-subtitle">ADMN-PROD-002(강의 원장) 연동 · 환급반(ADMN-SETT-006) 출석/진도 판정
+- ADMN-PROD-003_baseline.html:1205: lass="btn btn-soft btn-sm" onclick="openTextbookModal()">+ 교재 검색 및 추가 (ADMN-PROD-004)</button>
+- ADMN-PROD-004_baseline.html:908: a class="btn btn-outline" href="ADMN-BOOK-001_baseline.html">도서 공급 원장 (ADMN-BOOK-001)</a>
+- ADMN-PROD-004_baseline.html:917: <span class="card-subtitle">계약원장 가채번 코드 및 도서 공급 원장(ADMN-BOOK-001) 연결 상태</sp
+- ADMN-PROD-004_baseline.html:927: <th>계약원장 가채번 코드<br>(ADMN-INST-001)</th>
+- ADMN-PROD-004_baseline.html:954: <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료
+- ADMN-PROD-004_baseline.html:954: <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료 · 권리자 매핑(ADMN-SETT-001) 저자인세 10%
+- ADMN-PROD-004_baseline.html:1025: <span>[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러
+- ADMN-PROD-004_baseline.html:1043: <span>[경로 2] 도서 공급원장(ADMN-BOOK-001) 기등록 SKU 불
+- ADMN-PROD-004_baseline.html:1047: 재무/출판 담당자가 <strong>도서 공급 원장(<code>ADMN-BOOK-001</code>)</strong>에
+- ADMN-PROD-004_baseline.html:1081: 계약원장(ADMN-INST-001)에서 저자(김안전
+- ADMN-PROD-004_baseline.html:1111: <th>계약원장 가채번 코드<br>(ADMN-INST-001)</th>
+- ADMN-PROD-004_baseline.html:1176: <h3 class="card-title">2. 도서정가제 가격 · 세무(면세) · 도서 공급 원장(ADMN-BOOK-001) 바인딩</h3>
+- ADMN-PROD-004_baseline.html:1214: <th>도서 공급 원장 연결<br>(ADMN-BOOK-001)</th>
+- ADMN-PROD-004_baseline.html:1221: <option value="미등록(후속입력)">[미등록] 도서 공급 원장(ADMN-BOOK-001) 원가 미입력 상태
+- ADMN-PROD-004_baseline.html:1365: <div class="modal-title">[경로 1] 계약원장(ADMN-INST-001) 가채번 도서 불러
+- ADMN-PROD-004_baseline.html:1370: 권리자 계약 원장(<code>ADMN-INST-001</code>)에서 출판/인세 계
+- ADMN-PROD-004_baseline.html:1417: <div class="modal-title">[경로 2] 도서 공급 원장(ADMN-BOOK-001) 기등록 SKU 불
+- ADMN-PROD-004_baseline.html:1422: 도서 공급 원장(<code>ADMN-BOOK-001</code>)에서 SKU와 공급
+- ADMN-PROD-004_baseline.html:1422: 도서 공급 원장(<code>ADMN-BOOK-001</code>)에서 SKU와 공급원가가 먼저 등록되었으나 아직 상품 전시(<code>ADMN-PROD-004</code>) 상세 정보가 입력
+- ADMN-PROD-005_baseline.html:628: 환급반 지정 시 설정된 <strong>출석률 · 진도율 기준</strong>은 <strong>합격 환급반 관리(ADMN-SETT-006)</strong>
+- ADMN-PROD-005_baseline.html:761: <a class="btn btn-soft" href="ADMN-SETT-006_baseline.html">환급 심사 원장 (ADMN-SETT-006)</a>
+- ADMN-PROD-005_baseline.html:771: pan class="card-subtitle">도서정가제 준수를 위한 강좌(교육면세)·교재(도서면세) 결제 분리 및 정산 원장(ADMN-SETT-002) 안분 기준</sp
+- ADMN-PROD-005_baseline.html:883: t-size:16px; font-weight:800;" id="form-mode-title">패키지 · 환급반 등록 / 수정 (ADMN-PROD-005-S1)</h2>
+- ADMN-PROD-005_baseline.html:964: ss="btn btn-soft btn-sm" onclick="openCoursePickerModal()">+ 단과 강좌 추가 (ADMN-PROD-003)</button>
+- ADMN-PROD-005_baseline.html:1004: ass="btn btn-soft btn-sm" onclick="openBookPickerModal()">+ 패키지 교재 추가 (ADMN-PROD-004)</button>
+- ADMN-PROD-005_baseline.html:1156: <span class="card-subtitle">환급반 유형 선택 시 활성화 · 합격 환급 심사(ADMN-SETT-006)의 자동 판정 기준
+- ADMN-PROD-005_baseline.html:1170: <div class="field-hint">포함된 단과 강좌(ADMN-PROD-003) 전체 차시 기준
+- ADMN-PROD-006_baseline.html:570: 강사 노출 정보는 <strong>권리자 계약 원장(ADMN-INST-001)</strong>에
+- ADMN-PROD-006_baseline.html:601: <label>권리자 계약 상태 (ADMN-INST-001)</label>
+- ADMN-PROD-006_baseline.html:694: class="btn btn-soft" href="ADMN-INST-001_baseline.html">권리자 계약 원장 조회 (ADMN-INST-001)</a>
+- ADMN-PROD-006_baseline.html:703: <h3 class="card-title">1. 권리자 계약 원장(ADMN-INST-001) 매핑 및 프론트
+- ADMN-PROD-006_baseline.html:812: nt-size:16px; font-weight:800;" id="form-mode-title">강사 노출 정보 등록 / 수정 (ADMN-PROD-006-S1)</h2>
+- ADMN-PROD-006_baseline.html:820: <!-- 1. 권리자 계약 원장(ADMN-INST-001) 바인딩 및 상태
+- ADMN-PROD-006_baseline.html:824: <h3 class="card-title">1. 권리자 계약 원장(ADMN-INST-001) 마스터 연결 및
+- ADMN-PROD-006_baseline.html:836: <th>권리자 마스터 선택 <span class="req-star">*</span><br>(ADMN-INST-001)</th>
+- ADMN-PROD-007_baseline.html:342: "ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 (ADMN-SETT-009) ↗</a>
+- ADMN-PROD-007_baseline.html:343: DMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 (ADMN-SETT-001) ↗</a>
+- ADMN-PROD-007_baseline.html:456: ton" class="btn btn-sm btn-primary" onclick="openForm('NEW')">＋ 상품 등록 (ADMN-PROD-007-S1)</button>
+- ADMN-PROD-007_baseline.html:489: n" class="btn btn-sm btn-outline" onclick="switchView('list')">← 목록으로 (ADMN-PROD-007)</button>
+- ADMN-PROD-007_baseline.html:490: <span style="margin-left:6px;" id="form-header-title">일반상품 등록 · 수정 (ADMN-PROD-007-S1)</span>
+- ADMN-PROD-007_baseline.html:537: <th>권리자 매핑 (<code>ADMN-SETT-001</code>)</th>
+- ADMN-PROD-007_baseline.html:585: margin-left:6px;" onclick="openStockAdjustModal(currentEditId)">재고 조정 (ADMN-PROD-007-P1)</button>
+- ADMN-PROD-007_baseline.html:586: tn-inline-hist" onclick="openStockHistoryModal(currentEditId)">입출고 이력 (ADMN-PROD-007-P2)</button>
+- ADMN-PROD-007_baseline.html:645: <span>재고 조정 (ADMN-PROD-007-P1)</span>
+- ADMN-PROM-001_baseline.html:359: href="ADMN-PROM-002_baseline.html" class="btn btn-xs">🎟️ 쿠폰 · 포인트 관리 (ADMN-PROM-002/003)</a>
+- ADMN-PROM-001_baseline.html:360: DMN-BRD-001_baseline.html?view=winner" class="btn btn-xs">🏆 당첨자 발표 관리 (ADMN-BRD-009)</a>
+- ADMN-PROM-001_baseline.html:367: VIEW 1: 이벤트 · 기획전 목록 (ADMN-PROM-001)
+- ADMN-PROM-001_baseline.html:396: <span>📋 기획전 · 이벤트 통합 목록 (ADMN-PROM-001)</span>
+- ADMN-PROM-001_baseline.html:399: lass="btn btn-primary" onclick="openPromoFormNew()">＋ 신규 기획전 · 이벤트 등록 (ADMN-PROM-001-S3)</button>
+- ADMN-PROM-001_baseline.html:454: ="button" class="btn btn-xs" onclick="switchPromoView('list')">← 목록으로 (ADMN-PROM-001)</button>
+- ADMN-PROM-001_baseline.html:455: <span id="form-header-title">✏️ 기획전 · 이벤트 등록 및 수정 (ADMN-PROM-001-S3)</span>
+- ADMN-PROM-001_baseline.html:615: <!-- 4. 대상 상품군 매핑 및 중복 할인 일괄 차단 스케줄러 (ADMN-PROM-001-S1) -->
+- ADMN-PROM-002_baseline.html:378: <span class="crumb-title" id="top-crumb-title">쿠폰 마스터 관리 (ADMN-PROM-002) 및 포인트 적립
+- ADMN-PROM-002_baseline.html:378: id="top-crumb-title">쿠폰 마스터 관리 (ADMN-PROM-002) 및 포인트 적립 정책 · 원장 내역 관리 (ADMN-PROM-003)</span>
+- ADMN-PROM-002_baseline.html:555: <strong id="form-header-title" style="font-size:14px;">쿠폰 마스터 등록 (ADMN-PROM-002)</strong>
+- ADMN-PROM-002_baseline.html:648: <b>자동 바인딩</b>되며 관리자가 해제할 수 없습니다(체크 고정 · 비활성). 패키지에 교재가 묶여 있어도 장바구니 분할(<code>ADMN-PROD-005</code>)을 통해 <b>강좌
+- ADMN-PROM-002_baseline.html:923: p이 작동해 감면액이 깎인 주문은 <code>order_discount.cap_applied = 1</code> 기록 및 정산(<code>ADMN-SETT-002</code>) 시 <b>실감면액
+- ADMN-PROM-002_baseline.html:959: <!-- 1. 포인트 자동 적립 · 지급 · 유효기간 정책 설정 (ADMN-PROM-003) -->
+- ADMN-PROM-002_baseline.html:963: <span>⚙️ 포인트 자동 적립 · 보상 지급 · 유효기간 정책 설정 (ADMN-PROM-003)</span>
+- ADMN-PROM-002_baseline.html:998: <span style="margin-left:8px;">베스트 후기 · 합격수기(<code>ADMN-BRD-005</code>) 승인:</span
+- ADMN-PROM-002_baseline.html:1024: <span>📋 전체 회원 포인트 적립 · 사용 · 환불차감 · 소멸 내역 원장 (ADMN-PROM-003)</span>
+- ADMN-PROM-002_baseline.html:1050: <td>수강·합격후기 검수 승인(<code>ADMN-BRD-005</code>) 베스트 후기 선정
+- ADMN-PROM-002_baseline.html:1068: <td>적립 포인트 기사용 후 강좌 환불(<code>ADMN-RFD-002</code>) 회수 — 무상(0
+- ADMN-RFD-002_baseline.html:500: <!-- [화면 1] 환불 요청 관리 목록 (ADMN-RFD-004) — 첫 진입 화면
+- ADMN-RFD-002_baseline.html:849: <span>📝 고객 환불 신청서 원문 (<code>ADMN-RFD-002</code>)</span>
+- ADMN-RFD-002_baseline.html:853: <span>💬 연관 1:1 문의 원문 & 답변 (<code>ADMN-RFD-002-S1</code>)</span>
+- ADMN-RFD-002_baseline.html:885: btn-outline" style="margin-left:6px;" onclick="unmaskBank()">🔓 마스킹 해제(ADMN-USER-007)</button>
+- ADMN-RFD-002_baseline.html:904: <button class="btn btn-sm btn-outline" onclick="alert('선택한 담당 부서 게시판 큐(ADMN-BRD-002)로 실시간 이관합니
+- ADMN-RFD-002_baseline.html:1105: <!-- [화면 3] 환불 완료 내역 조회 (ADMN-RFD-003)
+- ADMN-RFD-002_baseline.html:1112: <span class="badge badge-green">PG 정산 대사(ADMN-SETT-004) 연동</span>
+- ADMN-SETT-002_baseline.html:965: <button class="btn" id="btnOpenCarryModal">📋 이월 발생 내역 원장 (ADMN-SETT-002-P1)</button>
+- ADMN-SETT-002_baseline.html:2047: ton" class="btn btn-sm" onclick="unmaskS1Identity()">🔓 실명번호·계좌 마스킹 해제 (ADMN-USER-007)</button>
+- ADMN-SETT-002_baseline.html:2100: <div class="s1-card-title">📝 재무팀 검토 메모 및 마감 후 수동 조정(ADMN-SETT-005) 연동</div>
+- ADMN-SETT-002_baseline.html:2116: nt.getElementById('selS1Holder').value, 'OPERATOR')">📋 이월 발생 내역 상세 모달 (ADMN-SETT-002-P1)</button>
+- ADMN-SETT-002_baseline.html:2117: ById('selS1Holder').value, 'OPERATOR_PREVIEW');">📤 권리자 제공 정산서 미리보기·발송 (ADMN-SETT-002-S2)</button>
+- ADMN-SETT-002_baseline.html:2120: ype="button" class="btn btn-sm" onclick="showToast('📄 내부 보관용 통합 정산서 상세(ADMN-SETT-002-S1) PDF 다운로드가
+- ADMN-SETT-002_baseline.html:2214: .getElementById('selS2Holder').value, 'PARTNER')">📋 지난 정산 이월 발생 내역 보기 (ADMN-SETT-002-P1)</button>
+- ADMN-SETT-002_baseline.html:2223: tton" class="btn btn-sm btn-primary" onclick="showToast('📄 권리자 제공용 정산서(ADMN-SETT-002-S2) PDF 파일 다운
+- ADMN-SETT-004_baseline.html:582: <button class="tab-btn" data-tab="tabAudit">4. 대사 · 소명 감사 로그 (ADMN-CONF-010)</button>
+- ADMN-SETT-005_baseline.html:498: [1] <strong>월간 정산 및 집행(<code>ADMN-SETT-002</code>)</strong>에
+- ADMN-SETT-005_baseline.html:537: <button class="tab-btn" data-tab="tabAudit">3. 수동 조정 감사 로그 (ADMN-CONF-010)</button>
+- ADMN-SETT-005_baseline.html:805: <span style="font-size:11.5px; color:var(--text-sub);">* 등록 시 감사 로그(<code>ADMN-CONF-010</code>)에 원 정산서 연결
+- ADMN-SETT-011_baseline.html:105: <a class="btn btn-sm" href="ADMN-ORD-001_baseline.html">📦 주문·출고지시 (ADMN-ORD-001/002)</a>
+- ADMN-SETT-011_baseline.html:106: class="btn btn-sm" href="ADMN-SETT-009_baseline.html">📊 월간 재무 손익 리포트 (ADMN-SETT-009)</a>
+- ADMN-SETT-011_baseline.html:198: <h2 class="card-title">월별 택배 대리점 운임 · 배송비 대사 목록 (ADMN-SETT-011)</h2>
+- ADMN-SETT-011_baseline.html:282: <button class="btn" onclick="backToList()">← 월별 목록으로 (ADMN-SETT-011)</button>
+- ADMN-USER-001_baseline.html:453: "ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">감사·보안 로그 (ADMN-CONF-006/010) ↗</a>
+- ADMN-USER-001_baseline.html:603: ; border-color:#FECACA;" onclick="switchView('blacklist')">🚫 블랙리스트 관리 (ADMN-USER-005)</button>
+- ADMN-USER-001_baseline.html:604: ="btn btn-sm btn-outline" onclick="openBulkTagModal()">선택 회원 그룹·태그 부여 (ADMN-USER-006)</button>
+- ADMN-USER-001_baseline.html:605: "btn btn-sm btn-primary" onclick="sendBulkMsg()">💬 선택 회원 메시지 · 이메일 발송 (ADMN-CONF-004-S1)</button>
+- ADMN-USER-001_baseline.html:745: class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로 (ADMN-USER-001)</button>
+- ADMN-USER-001_baseline.html:746: <span style="margin-left:6px;">회원 상세 정보 (ADMN-USER-002)</span>
+- ADMN-USER-001_baseline.html:750: -primary" onclick="openDirectMsgModal('ALIMTALK')">💬 1:1 메시지 · 이메일 발송 (ADMN-USER-002-P3)</button>
+- ADMN-USER-001_baseline.html:752: ss="btn btn-sm btn-outline" onclick="switchView('course')">수강 · 기기 제어 (ADMN-USER-003) →</button
+- ADMN-USER-001_baseline.html:753: ; border-color:#FECACA;" onclick="switchView('blacklist')">🚫 블랙리스트 관리 (ADMN-USER-005)</button>
+- ADMN-USER-001_baseline.html:754: btn-sm btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 · 정지 등재 (ADMN-USER-005)</button>
+- ADMN-USER-001_baseline.html:853: ss="btn btn-sm btn-primary" onclick="openPointModal()">＋ 포인트 수동 지급/차감 (ADMN-USER-002-P1)</button>
+- ADMN-USER-001_baseline.html:939: ="ADMN-ORD-001_baseline.html" class="btn btn-sm btn-outline">전체 주문 보기 (ADMN-ORD-001) ↗</a>
+- ADMN-USER-001_baseline.html:962: ="ADMN-RFD-002_baseline.html" class="btn btn-sm btn-outline">전체 환불 보기 (ADMN-RFD-002) ↗</a>
+- ADMN-USER-001_baseline.html:990: ="ADMN-BRD-002_baseline.html" class="btn btn-sm btn-outline">전체 문의 보기 (ADMN-BRD-002) ↗</a>
+- ADMN-USER-001_baseline.html:1031: n btn-sm btn-primary" onclick="switchView('course')">수강 기간 · 기기/세션 제어 (ADMN-USER-003) →</button
+- ADMN-USER-001_baseline.html:1077: N-PROM-002_baseline.html" class="btn btn-sm btn-outline">전체 포인트 원장 보기 (ADMN-PROM-002) ↗</a>
+- ADMN-USER-001_baseline.html:1112: CONF-010_baseline.html" class="btn btn-sm btn-outline">보안 감사 로그 전체 보기 (ADMN-CONF-006/010) ↗</a>
+- ADMN-USER-001_baseline.html:1118: "button" class="btn btn-outline" onclick="switchView('list')">← 회원 목록 (ADMN-USER-001)</button>
+- ADMN-USER-001_baseline.html:1120: on" class="btn btn-outline" onclick="switchView('course')">수강 · 기기 제어 (ADMN-USER-003)</button>
+- ADMN-USER-001_baseline.html:1121: class="btn btn-danger" onclick="openStatusModal('BLOCKED')">블랙리스트 등재 (ADMN-USER-005)</button>
+- ADMN-USER-001_baseline.html:1136: lass="btn btn-sm btn-outline" onclick="switchView('detail')">← 회원 상세로 (ADMN-USER-002)</button>
+- ADMN-USER-001_baseline.html:1155: <th>가중평균 진도율 (ADMN-USER-004)</th>
+- ADMN-USER-001_baseline.html:1258: <div class="card-title">4. 강의 차시별 진도율 · 이어보기 지점 조회 및 수동 보정 (ADMN-USER-004)</div>
+- ADMN-USER-001_baseline.html:1401: </th><th>조합 조건 (N:M)</th><th class="tr-right">소속 회원 수</th><th>연동 프로모션 (ADMN-PROM-002)</th><th>관
+- ADMN-USER-001_baseline.html:1452: <div class="card-title">2. 다중 태그 조합 타겟팅 &amp; 회원 그룹 생성 · 태그 연결 (ADMN-USER-006-S2)</div>
+- ADMN-USER-001_baseline.html:1453: <span class="badge badge-purple">쿠폰 대량 발급(ADMN-PROM-002) · 단체 메시지(
+- ADMN-USER-001_baseline.html:1453: <span class="badge badge-purple">쿠폰 대량 발급(ADMN-PROM-002) · 단체 메시지(ADMN-CONF-004) 연동</span>
+- ADMN-USER-001_baseline.html:1602: class="btn btn-sm btn-outline" onclick="switchView('list')">← 회원 목록으로 (ADMN-USER-001)</button>
+- ADMN-USER-001_baseline.html:1603: <span style="margin-left:6px;">🚫 블랙리스트 및 부정사용자 제재 원장 (ADMN-USER-005)</span>
+- ADMN-USER-001_baseline.html:1678: <span>🔒 개인정보 포함 파일 다운로드 (ADMN-USER-001-P1)</span>
+- ADMN-USER-001_baseline.html:1731: <span>＋ 수동 무상 포인트 지급 · 차감 (ADMN-USER-002-P1)</span>
+- ADMN-USER-001_baseline.html:1806: <!-- MODAL 3: 회원 상태 변경 / 블랙리스트 등재 (ADMN-USER-005) -->
+- ADMN-USER-001_baseline.html:1810: <span>회원 상태 변경 · 블랙리스트 통제 (ADMN-USER-005)</span>
+- ADMN-USER-001_baseline.html:1841: <span>💬 1:1 개별 메시지 · 이메일 즉시 발송 (ADMN-USER-002-P3)</span>
+- ADMN-USER-001_baseline.html:1848: -top:2px;">※ 1:1 CS/운영 안내는 정보성 메시지로 발송되며, 발송 내역은 회원 상세 CS 타임라인 및 발송 이력(ADMN-CONF-004-S1)에 자동 기록됩니다
+- ADMN-USER-001_baseline.html:1940: <div style="font-size:11.5px; color:#1E40AF; margin-top:2px;">• 환불 심사(ADMN-RFD-002) 및 합격환급 심사
+- ADMN-USER-001_baseline.html:1940: 1.5px; color:#1E40AF; margin-top:2px;">• 환불 심사(ADMN-RFD-002) 및 합격환급 심사(ADMN-SETT-006)의 기준 진도율로
+- ADMN-USER-001_baseline.html:2954: <!-- 모달: 진도율 수동 보정 등록 (ADMN-USER-004-P1) -->
+- ADMN-USER-001_baseline.html:2958: <span>🛠 진도율 수동 보정 등록 (ADMN-USER-004-P1)</span>
+- ADMN-USER-001_baseline.html:3010: <!-- 모달: 신규 태그 생성 · 규칙 설정 (ADMN-USER-006-S1) -->
+- ADMN-USER-001_baseline.html:3014: <span>🏷 신규 태그 생성 · 규칙 설정 (ADMN-USER-006-S1)</span>
+- ADMN-USER-001_baseline.html:3083: <!-- 모달: 조건 그룹 저장 확인 (ADMN-USER-006-S2) -->
+- ADMN-USER-001_baseline.html:3087: <span>👥 회원 그룹 생성 · 태그 연결 저장 (ADMN-USER-006-S2)</span>
+- ADMN-USER-007_baseline.html:500: 보호 대상입니다. 열람 또는 사본 다운로드 시 <strong>작업자 ID, IP, 열람 시각, 입력 사유가 시스템 감사 로그(<code>ADMN-CONF-010</code>)에 즉시 기록</s
+- ADMN-USER-007_baseline.html:627: • 파기 작업 감사 로그 (ADMN-CONF-010)
