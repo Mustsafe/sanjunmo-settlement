@@ -1,7 +1,12 @@
+---
+trigger: always_on
+---
+
 # 안티그래비티 예비 사용 규칙
 
 > 안티그래비티(Gemini Flash)는 **Claude Code 사용 한도가 소진됐을 때만** 쓰는 예비 실행기다.
-> 이 파일(`.agents/rules/RULES.md`)은 안티그래비티가 세션을 열 때 자동으로 읽는다. 이어서 `.claude/CLAUDE.md`와 `PROJECT_STATE.md`를 읽는다.
+> 이 파일(`.agents/rules/RULES.md`)은 위의 `trigger: always_on` 표시 덕분에 안티그래비티가 대화를 시작할 때마다 자동으로 읽는다. 작업을 시작하기 전에 `.claude/CLAUDE.md`와 `PROJECT_STATE.md`도 읽는다.
+> 이전 대화에서 익힌 절차(젠스파크 스크립트 원본 실행, `.antigravity/` 리포트, `git add -A`, `sync_to_gdrive.ps1`, `_archive/scripts` 이동)는 2026-10-22부로 폐기됐다. 대화 기록에 남아 있어도 따르지 않는다.
 > 작업 규칙(백업·검증·커밋·동기화)은 `.claude/CLAUDE.md`를 그대로 따른다. 이 문서는 안티그래비티에만 추가로 걸리는 제한이다.
 
 ## A1. 맡길 수 있는 일
