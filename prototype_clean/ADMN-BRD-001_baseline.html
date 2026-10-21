@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>공지사항·FAQ·문의·당첨자 통합 관리 — 산준모 백오피스</title>
+  <title>공지사항·FAQ·학습 Q&A·당첨자 통합 관리 — 산준모 백오피스</title>
 
   <link rel="stylesheet" href="common-v84.css" />
 
@@ -827,12 +827,6 @@ code, pre, kbd, samp,
 
         </button>
 
-        <button class="sub-tab-btn" onclick="switchTab('cs')" id="tab-btn-cs">
-
-          💬 1:1 고객문의 (CS) <span class="cnt" id="cnt-cs">4</span>
-
-        </button>
-
         <button class="sub-tab-btn" onclick="switchTab('qna')" id="tab-btn-qna">
 
           🎓 강좌 학습 Q&amp;A <span class="cnt" id="cnt-qna">3</span>
@@ -841,7 +835,7 @@ code, pre, kbd, samp,
 
         <button class="sub-tab-btn" onclick="switchTab('winner')" id="tab-btn-winner">
 
-          🎁 이벤트 당첨자 발표·지급 (ADMN-BRD-010) <span class="cnt" id="cnt-winner">3</span>
+          🎁 이벤트 당첨자 발표·지급 (ADMN-BRD-009) <span class="cnt" id="cnt-winner">3</span>
 
         </button>
 
@@ -929,7 +923,7 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 2. FAQ 관리 + 카테고리 동적 관리 (ADMN-BRD-002) ==================== -->
+    <!-- ==================== 2. FAQ 관리 + 카테고리 동적 관리 (ADMN-BRD-006) ==================== -->
 
     <section id="view-faq" class="view-section">
 
@@ -937,7 +931,7 @@ code, pre, kbd, samp,
 
         <div class="info-callout">
 
-          <strong>[ADMN-BRD-002] FAQ 동적 카테고리 관리:</strong> 고정된 분류 외에 <code>[기타]</code>, <code>[모바일/플레이어]</code> 등 신규 FAQ 카테고리를 자유롭게 추가·이름 수정·노출 순서 조정할 수 있으며, 사용자 고객센터(<code>USER-CS-002</code>) 탭에 즉시 반영됩니다.
+          <strong>[ADMN-BRD-006] FAQ 동적 카테고리 관리:</strong> 고정된 분류 외에 <code>[기타]</code>, <code>[모바일/플레이어]</code> 등 신규 FAQ 카테고리를 자유롭게 추가·이름 수정·노출 순서 조정할 수 있으며, 사용자 고객센터(<code>USER-CS-002</code>) 탭에 즉시 반영됩니다.
 
         </div>
 
@@ -1005,71 +999,9 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 3. 1:1 고객문의 CS (ADMN-BRD-003) ==================== -->
-
-    <section id="view-cs" class="view-section">
-
-      <div class="card">
-
-        <div class="filter-grid">
-
-          <div class="filter-left">
-
-            <select id="cs-status-filter" onchange="renderCs()">
-
-              <option value="ALL">답변상태 전체</option>
-
-              <option value="WAITING">답변대기 (SLA 대상)</option>
-
-              <option value="DONE">답변완료</option>
-
-            </select>
-
-            <input type="text" id="cs-keyword" placeholder="작성자명, 회원ID, 문의제목 검색..." oninput="renderCs()" style="width:260px;" />
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="card" style="padding:0; overflow:hidden;">
-
-        <table class="data-table">
-
-          <thead>
-
-            <tr>
-
-              <th style="width:110px;">문의번호</th>
-
-              <th style="width:120px;">문의유형</th>
-
-              <th>문의 제목</th>
-
-              <th style="width:150px;">작성 회원</th>
-
-              <th style="width:140px;">접수일시</th>
-
-              <th style="width:110px;">상태</th>
-
-              <th style="width:130px;">관리</th>
-
-            </tr>
-
-          </thead>
-
-          <tbody id="cs-tbody"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
 
 
-
-    <!-- ==================== 4. 강좌 학습 Q&A (ADMN-BRD-004) ==================== -->
+    <!-- ==================== 3. 강좌 학습 Q&A (ADMN-BRD-004) ==================== -->
 
     <section id="view-qna" class="view-section">
 
@@ -1109,7 +1041,7 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 5. 이벤트 당첨자 발표 및 상품 지급 (ADMN-BRD-010) ==================== -->
+    <!-- ==================== 4. 이벤트 당첨자 발표 및 상품 지급 (ADMN-BRD-009) ==================== -->
 
     <section id="view-winner" class="view-section">
 
@@ -1163,7 +1095,7 @@ code, pre, kbd, samp,
 
         <div class="info-callout">
 
-          <strong>[ADMN-BRD-010] 당첨자 발표 프론트 노출 위치 및 지급 플로우:</strong><br/>
+          <strong>[ADMN-BRD-009] 당첨자 발표 프론트 노출 위치 및 지급 플로우:</strong><br/>
 
           [1] <strong>프론트 노출:</strong> 발표글 등록 시 <strong>사용자 웹 [이벤트 &gt; 당첨자 발표 탭(<code>USER-PROM-001</code>)]</strong>에 기본 노출되며, 옵션 선택 시 <strong>[고객센터 &gt; 공지사항(<code>USER-CS-001</code>)] 상단 배너</strong>에 동시 노출됩니다.<br/>
 
@@ -1273,7 +1205,7 @@ code, pre, kbd, samp,
 
 
 
-<!-- ==================== 모달 1: FAQ 카테고리 동적 관리 (ADMN-BRD-002) ==================== -->
+<!-- ==================== 모달 1: FAQ 카테고리 동적 관리 (ADMN-BRD-006) ==================== -->
 
 <div class="modal-backdrop" id="modal-faq-cat">
 
@@ -1431,7 +1363,7 @@ code, pre, kbd, samp,
 
 
 
-<!-- ==================== 모달 3: 이벤트 당첨자 발표 등록/수정 (ADMN-BRD-010) ==================== -->
+<!-- ==================== 모달 3: 이벤트 당첨자 발표 등록/수정 (ADMN-BRD-009) ==================== -->
 
 <div class="modal-backdrop" id="modal-winner-post">
 
@@ -1439,7 +1371,7 @@ code, pre, kbd, samp,
 
     <div class="modal-header">
 
-      <h3 id="winner-post-modal-title">[ADMN-BRD-010] 이벤트 당첨자 발표 등록 및 노출 설정</h3>
+      <h3 id="winner-post-modal-title">[ADMN-BRD-009] 이벤트 당첨자 발표 등록 및 노출 설정</h3>
 
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-winner-post')">닫기 ✕</button>
 
@@ -1799,19 +1731,7 @@ code, pre, kbd, samp,
 
 
 
-  // 3. 1:1 CS 및 Q&A 데이터
-
-  let CS_LIST = [
-
-    { id: 'CS-2610-091', type: '결제/환불', title: '무통장입금 주문자명을 다르게 입금했는데 확인 부탁드립니다.', user: '이현우 (hwlee88)', date: '2026-10-19 10:15', status: 'WAITING' },
-
-    { id: 'CS-2610-090', type: '교재/배송', title: '산업안전기사 실기 필답형 교재 배송지 변경 요청', user: '박지민 (jimin_p)', date: '2026-10-19 09:42', status: 'WAITING' },
-
-    { id: 'CS-2610-089', type: '수강/플레이어', title: '아이패드 사파리에서 배속 재생 설정 문의', user: '최동훈 (dhchoi)', date: '2026-10-18 17:20', status: 'DONE' },
-
-    { id: 'CS-2610-088', type: '합격환급반', title: '큐넷 국가기술자격증 사본 업로드 파일 형식 문의', user: '정수빈 (subin_j)', date: '2026-10-18 14:05', status: 'DONE' }
-
-  ];
+  // 3. 학습 Q&A 데이터
 
 
 
@@ -1827,7 +1747,7 @@ code, pre, kbd, samp,
 
 
 
-  // 4. 이벤트 당첨자 발표 및 지급 원장 (ADMN-BRD-010)
+  // 4. 이벤트 당첨자 발표 및 지급 원장 (ADMN-BRD-009)
 
   let WINNER_POSTS = [
 
@@ -1945,13 +1865,11 @@ code, pre, kbd, samp,
 
       notice: ['ADMN-BRD-001', '공지사항 관리'],
 
-      faq: ['ADMN-BRD-002', '자주 묻는 질문 (FAQ) 및 동적 카테고리 관리'],
-
-      cs: ['ADMN-BRD-003', '1:1 고객문의 (CS) 통합 관리'],
+      faq: ['ADMN-BRD-006', '자주 묻는 질문 (FAQ) 및 동적 카테고리 관리'],
 
       qna: ['ADMN-BRD-004', '강좌별 학습 Q&A 관리'],
 
-      winner: ['ADMN-BRD-010', '이벤트 당첨자 발표 및 경품 지급 관리']
+      winner: ['ADMN-BRD-009', '이벤트 당첨자 발표 및 경품 지급 관리']
 
     };
 
@@ -2431,62 +2349,7 @@ code, pre, kbd, samp,
 
 
 
-  // CS 및 Q&A 렌더링
-
-  function renderCs() {
-
-    const st = document.getElementById('cs-status-filter').value;
-
-    const kw = (document.getElementById('cs-keyword').value || '').trim().toLowerCase();
-
-    const list = CS_LIST.filter(c => (st === 'ALL' || c.status === st) && (!kw || c.title.toLowerCase().includes(kw) || c.user.toLowerCase().includes(kw)));
-
-    document.getElementById('cnt-cs').textContent = CS_LIST.length;
-
-    document.getElementById('cs-tbody').innerHTML = list.map(c => `
-
-      <tr>
-
-        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:700;">${c.id}</td>
-
-        <td><span class="badge badge-slate">${c.type}</span></td>
-
-        <td style="font-weight:700;">${c.title}</td>
-
-        <td>${c.user}</td>
-
-        <td>${c.date}</td>
-
-        <td><span class="badge ${c.status === 'DONE' ? 'badge-green' : 'badge-amber'}">${c.status === 'DONE' ? '답변완료' : '답변대기'}</span></td>
-
-        <td><button class="btn btn-outline btn-sm" onclick="toggleCsAnswer('${c.id}')">${c.status === 'DONE' ? '답변확인' : '답변작성'}</button></td>
-
-      </tr>
-
-    `).join('');
-
-  }
-
-
-
-  function toggleCsAnswer(id) {
-
-    const item = CS_LIST.find(c => c.id === id);
-
-    if (item) {
-
-      item.status = 'DONE';
-
-      renderCs();
-
-      showToast(`${id} 문의에 대한 답변 등록 및 알림톡 발송이 완료되었습니다.`);
-
-    }
-
-  }
-
-
-
+  // 학습 Q&A 렌더링
   function renderQna() {
 
     document.getElementById('cnt-qna').textContent = QNA_LIST.length;
@@ -2507,7 +2370,7 @@ code, pre, kbd, samp,
 
         <td><span class="badge ${q.status === 'DONE' ? 'badge-green' : 'badge-amber'}">${q.status === 'DONE' ? '답변완료' : '답변대기'}</span></td>
 
-        <td><button class="btn btn-outline btn-sm" onclick="q.status='DONE'; showToast('강사 답변이 등록되었습니다.');">답변관리</button></td>
+        <td><button class="btn btn-outline btn-sm" onclick="answerQna('${q.id}')">답변관리</button></td>
 
       </tr>
 
@@ -2517,7 +2380,15 @@ code, pre, kbd, samp,
 
 
 
-  // 이벤트 당첨자 발표 및 지급 관리 (ADMN-BRD-010)
+  function answerQna(id) {
+    const item = QNA_LIST.find(q => q.id === id);
+    if (item) {
+      item.status = 'DONE';
+      renderQna();
+      showToast(`${id} 질문에 강사 답변이 등록되었습니다.`);
+    }
+  }
+  // 이벤트 당첨자 발표 및 지급 관리 (ADMN-BRD-009)
 
   function populateWinnerSelect() {
 
@@ -2811,7 +2682,7 @@ code, pre, kbd, samp,
 
       const post = getSelectedWinnerPost();
 
-      document.getElementById('winner-post-modal-title').textContent = `[ADMN-BRD-010] 당첨자 발표글 수정 (${post.postId})`;
+      document.getElementById('winner-post-modal-title').textContent = `[ADMN-BRD-009] 당첨자 발표글 수정 (${post.postId})`;
 
       document.getElementById('winpost-event-code').value = post.eventCode;
 
@@ -2831,7 +2702,7 @@ code, pre, kbd, samp,
 
     } else {
 
-      document.getElementById('winner-post-modal-title').textContent = '[ADMN-BRD-010] 신규 이벤트 당첨자 발표 등록';
+      document.getElementById('winner-post-modal-title').textContent = '[ADMN-BRD-009] 신규 이벤트 당첨자 발표 등록';
 
       document.getElementById('winpost-title').value = '[당첨자 발표] 2026 가을 대비 프리패스 얼리버드 경품 추첨 결과 안내';
 
@@ -3109,8 +2980,6 @@ code, pre, kbd, samp,
 
     renderFaqs();
 
-    renderCs();
-
     renderQna();
 
     populateWinnerSelect();
@@ -3125,7 +2994,7 @@ code, pre, kbd, samp,
 
     const view = params.get('view') || params.get('tab');
 
-    if (view && ['notice', 'faq', 'cs', 'qna', 'winner'].includes(view)) {
+    if (view && ['notice', 'faq', 'qna', 'winner'].includes(view)) {
 
       switchTab(view);
 

@@ -743,16 +743,10 @@ code, pre, kbd, samp,
 
       <button class="sub-tab-btn" onclick="switchTab('freeLecture')" id="tab-btn-freeLecture">
 
-        🎬 무료특강 및 빈출문제 (ADMN-BRD-006) <span class="cnt" id="cnt-freeLecture">4</span>
+        🎬 무료특강 및 빈출문제 (ADMN-BRD-010) <span class="cnt" id="cnt-freeLecture">4</span>
 
       </button>
 
-
-      <button class="sub-tab-btn" onclick="switchTab('report')" id="tab-btn-report">
-
-        🚨 커뮤니티/신고 관리 (ADMN-BRD-007/008) <span class="cnt" id="cnt-report">3</span>
-
-      </button>
 
     </div>
 
@@ -914,13 +908,13 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 3. 무료특강 및 빈출문제 (ADMN-BRD-006) ==================== -->
+    <!-- ==================== 3. 무료특강 및 빈출문제 (ADMN-BRD-010) ==================== -->
 
     <section id="view-freeLecture" class="view-section">
 
       <div class="info-callout">
 
-        <strong>[ADMN-BRD-006] 무료특강 및 빈출문제 운영 정책:</strong> 사용자 웹 <code>USER-FREE-001 ~ 003</code>에 노출되는 무료 학습 콘텐츠입니다. 콘텐츠 구분은 <strong>[무료특강 영상 (<code>FREE_LECTURE</code>)]</strong>과 <strong>[빈출문제 해설 (<code>FREQ_EXAM</code>)]</strong>로 운영하며, 빈출문제 PDF 시험지/해설지 다운로드 및 플레이어 VOD 연동을 지원합니다.
+        <strong>[ADMN-BRD-010] 무료특강 및 빈출문제 운영 정책:</strong> 사용자 웹 <code>USER-FREE-001 ~ 003</code>에 노출되는 무료 학습 콘텐츠입니다. 콘텐츠 구분은 <strong>[무료특강 영상 (<code>FREE_LECTURE</code>)]</strong>과 <strong>[빈출문제 해설 (<code>FREQ_EXAM</code>)]</strong>로 운영하며, 빈출문제 PDF 시험지/해설지 다운로드 및 플레이어 VOD 연동을 지원합니다.
 
       </div>
 
@@ -1009,44 +1003,6 @@ code, pre, kbd, samp,
 
 
 
-    <!-- ==================== 5. 커뮤니티/신고 관리 (ADMN-BRD-007/008) ==================== -->
-
-    <section id="view-report" class="view-section">
-
-      <div class="card" style="padding:0; overflow:hidden;">
-
-        <table class="data-table">
-
-          <thead>
-
-            <tr>
-
-              <th style="width:100px;">신고번호</th>
-
-              <th style="width:130px;">신고 사유</th>
-
-              <th>대상 게시글/댓글 내용</th>
-
-              <th style="width:140px;">피신고 회원</th>
-
-              <th style="width:110px;">누적 신고수</th>
-
-              <th style="width:120px;">처리 상태</th>
-
-              <th style="width:180px;">제재 액션</th>
-
-            </tr>
-
-          </thead>
-
-          <tbody id="rp-tbody"></tbody>
-
-        </table>
-
-      </div>
-
-    </section>
-
   </div>
 
 </div>
@@ -1083,7 +1039,7 @@ code, pre, kbd, samp,
 
 
 
-<!-- ==================== 모달 B: 무료특강 및 빈출문제 등록/수정 (ADMN-BRD-006) ==================== -->
+<!-- ==================== 모달 B: 무료특강 및 빈출문제 등록/수정 (ADMN-BRD-010) ==================== -->
 
 <div class="modal-backdrop" id="modal-free-lecture">
 
@@ -1091,7 +1047,7 @@ code, pre, kbd, samp,
 
     <div class="modal-header">
 
-      <h3 id="fl-modal-title">[ADMN-BRD-006] 무료특강 및 빈출문제 등록</h3>
+      <h3 id="fl-modal-title">[ADMN-BRD-010] 무료특강 및 빈출문제 등록</h3>
 
       <button class="btn btn-outline btn-sm" onclick="closeModal('modal-free-lecture')">닫기 ✕</button>
 
@@ -1242,7 +1198,7 @@ code, pre, kbd, samp,
 
 
 
-  // 3. 무료특강 및 빈출문제 (ADMN-BRD-006) - '빈출문제'로 전수 일원화
+  // 3. 무료특강 및 빈출문제 (ADMN-BRD-010) - '빈출문제'로 전수 일원화
 
   let FREE_LECTURES = [
 
@@ -1258,18 +1214,6 @@ code, pre, kbd, samp,
 
 
 
-
-  // 5. 신고 관리
-
-  let REPORT_LIST = [
-
-    { id: 'RPT-103', reason: '불법 강의 공유/양도 시도', content: '산준모 산업안전기사 실기 패스 계정 반값에 공유하실 분 구합니다.', user: '양도꾼 (share_id99)', count: 6, status: 'PENDING' },
-
-    { id: 'RPT-102', reason: '상업적 광고/홍보 스팸', content: '타 학원 자격증 홍보 링크 도배 게시글', user: '스팸봇 (ad_bot12)', count: 4, status: 'BLINDED' },
-
-    { id: 'RPT-101', reason: '욕설/비방', content: '자유게시판 댓글 비속어 포함', user: '김철수 (cskim44)', count: 2, status: 'PENDING' }
-
-  ];
 
 
 
@@ -1291,10 +1235,7 @@ code, pre, kbd, samp,
 
       passEssay: ['ADMN-BRD-005-B', '합격수기 검수 관리 (자격증 합격증빙 심사·축하 포인트)'],
 
-      freeLecture: ['ADMN-BRD-006', '무료특강 및 빈출문제 관리'],
-
-
-      report: ['ADMN-BRD-007/008', '커뮤니티 게시글 및 신고 관리']
+      freeLecture: ['ADMN-BRD-010', '무료특강 및 빈출문제 관리']
 
     };
 
@@ -1556,7 +1497,7 @@ code, pre, kbd, samp,
 
 
 
-  // 3. 무료특강 및 빈출문제 (ADMN-BRD-006)
+  // 3. 무료특강 및 빈출문제 (ADMN-BRD-010)
 
   function renderFreeLectures() {
 
@@ -1622,7 +1563,7 @@ code, pre, kbd, samp,
 
     document.getElementById('fl-edit-id').value = item ? item.id : '';
 
-    document.getElementById('fl-modal-title').textContent = item ? `[ADMN-BRD-006] 무료특강 / 빈출문제 수정 (${item.id})` : '[ADMN-BRD-006] 무료특강 / 빈출문제 신규 등록';
+    document.getElementById('fl-modal-title').textContent = item ? `[ADMN-BRD-010] 무료특강 / 빈출문제 수정 (${item.id})` : '[ADMN-BRD-010] 무료특강 / 빈출문제 신규 등록';
 
     document.getElementById('fl-form-type').value = item ? item.type : 'FREQ_EXAM';
 
@@ -1694,42 +1635,6 @@ code, pre, kbd, samp,
 
 
 
-  // 5. 신고 렌더링
-
-  function renderReports() {
-
-    document.getElementById('cnt-report').textContent = REPORT_LIST.length;
-
-    document.getElementById('rp-tbody').innerHTML = REPORT_LIST.map(r => `
-
-      <tr>
-
-        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:700;">${r.id}</td>
-
-        <td><span class="badge badge-red">${r.reason}</span></td>
-
-        <td style="font-weight:700;">${r.content}</td>
-
-        <td>${r.user}</td>
-
-        <td><span class="badge badge-amber">🚨 ${r.count}회 누적</span></td>
-
-        <td><span class="badge ${r.status === 'BLINDED' ? 'badge-slate' : 'badge-amber'}">${r.status === 'BLINDED' ? '블라인드 완료' : '검토대기'}</span></td>
-
-        <td>
-
-          <button class="btn btn-danger btn-sm" onclick="r.status='BLINDED'; renderReports(); showToast('즉시 블라인드 처리되었습니다.');">블라인드</button>
-
-          <a href="ADMN-USER-001_baseline.html?view=ADMN-USER-005" class="btn btn-outline btn-sm">블랙리스트 이관</a>
-
-        </td>
-
-      </tr>
-
-    `).join('');
-
-  }
-
 
 
   function execCmd(targetId, cmd) {
@@ -1777,15 +1682,13 @@ code, pre, kbd, samp,
     renderFreeLectures();
 
 
-    renderReports();
-
 
 
     const params = new URLSearchParams(window.location.search);
 
     const view = params.get('view') || params.get('tab');
 
-    if (view && ['courseReview', 'passEssay', 'freeLecture', 'report'].includes(view)) {
+    if (view && ['courseReview', 'passEssay', 'freeLecture'].includes(view)) {
 
       switchTab(view);
 
