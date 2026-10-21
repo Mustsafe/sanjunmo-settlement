@@ -1,3 +1,59 @@
+/* v5.6 코드뿐인 괄호 제거 — 치환표 적용 전에 실행 (clean 전용) */
+(function () {
+  if (window.__wfStripCodeParens) return;
+  var ADMN = /^(?:ADMN-)?[A-Z]{2,5}-\d{3}(?:-[A-Z0-9]+)?(?:\/\d{3})?$/;
+  var USNAKE = /^[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+$/;
+  var LSNAKE = /^[a-z][a-z0-9]*(?:_[a-z0-9]+)+$/;
+  var CODEKEY = /^[A-Z0-9_\-\/]+$/;
+  var cache = new WeakMap();
+  function keySet(src) {
+    if (!src || typeof src !== "object") return null;
+    if (cache.has(src)) return cache.get(src);
+    var arr = Array.isArray(src)
+      ? src.map(function (r) { return Array.isArray(r) ? r[0] : r; })
+      : Object.keys(src);
+    var s = new Set(arr.filter(function (k) {
+      return typeof k === "string" && k.length >= 4 && /[A-Z]/.test(k) && CODEKEY.test(k);
+    }));
+    cache.set(src, s);
+    return s;
+  }
+  function isCode(inner, src) {
+    var parts = inner.replace(/[`'"]/g, "").split(/\s*[·,]\s*|\s+\/\s+/);
+    var ks = keySet(src);
+    return parts.length > 0 && parts.every(function (p) {
+      p = p.trim();
+      return !!p && (ADMN.test(p) || USNAKE.test(p) || LSNAKE.test(p) || (ks && ks.has(p)));
+    });
+  }
+  var PAREN = /\s*\(\s*([^()]{2,80}?)\s*\)/g;
+  var LEAD = /[가-힣A-Za-z0-9%)\]]\s*$/;
+  window.__wfStripCodeParens = function (str, src) {
+    if (!str || typeof str !== "string" || str.indexOf("(") === -1) return str;
+    return str.replace(PAREN, function (m, inner, off, whole) {
+      if (!LEAD.test(whole.slice(0, off))) return m;
+      return isCode(inner, src) ? "" : m;
+    });
+  };
+  window.__wfStripCodeElParens = function (root, src) {
+    if (!root || !root.querySelectorAll) return;
+    var els = root.querySelectorAll("code");
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (el.classList.contains("raw-keep") || el.children.length) continue;
+      var prev = el.previousSibling, next = el.nextSibling;
+      if (!prev || !next || prev.nodeType !== 3 || next.nodeType !== 3) continue;
+      if (!/\(\s*$/.test(prev.nodeValue) || !/^\s*\)/.test(next.nodeValue)) continue;
+      var before = prev.nodeValue.replace(/\s*\(\s*$/, "");
+      if (!LEAD.test(before)) continue;
+      if (!isCode(el.textContent.trim(), src)) continue;
+      prev.nodeValue = before;
+      next.nodeValue = next.nodeValue.replace(/^\s*\)/, "");
+      el.parentNode.removeChild(el);
+    }
+  };
+})();
+
 /**
  * SANJUNMO BACKOFFICE v8.4 FINAL — MASTER SNB INJECTOR (common-snb.js)
  */
@@ -371,6 +427,7 @@
   function transformText(str) {
     if (!str || typeof str !== "string" || !str.trim()) return str;
     let out = str;
+    out = window.__wfStripCodeParens(out, TEXT_REPLACEMENTS);
     for (let i = 0; i < TEXT_REPLACEMENTS.length; i++) {
       const target = TEXT_REPLACEMENTS[i][0];
       if (out.indexOf(target) !== -1) {
@@ -385,6 +442,7 @@
 
   function walkAndClean(root) {
     if (!root) return;
+    window.__wfStripCodeElParens(root, TEXT_REPLACEMENTS);
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
     const textNodes = [];
     let node;
@@ -629,6 +687,7 @@
   function cleanString(str) {
     if (!str || typeof str !== 'string') return str;
     let out = str;
+    out = window.__wfStripCodeParens(out, EXTRA_MAP);
     for (const [k, v] of Object.entries(EXTRA_MAP)) {
       if (out.includes(k)) out = out.split(k).join(v);
     }
@@ -638,6 +697,7 @@
 
   function runEnhancedClean(root) {
     if (!root) return;
+    window.__wfStripCodeElParens(root, EXTRA_MAP);
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
     let node;
     while ((node = walker.nextNode())) {
