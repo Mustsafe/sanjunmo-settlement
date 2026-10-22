@@ -248,6 +248,13 @@
     }
   };
 
+  // 2계층 사업자 수취인 — 원천은 수취인 2계층 분할(ADMN-SETT-007). 현재 분할 몫이 있고 세금계산서 · 계산서 역발행 승인이 필요한
+  // 사업자 수취인만 둔다(원천징수 대상 개인 수취인은 계정 없이 정산서 PDF 발송). 소속은 권리자이며 데이터 범위는 본인 수취 몫
+  var PAYEE_SEED = [
+    { id: "PY-0025-B", name: "(주)산준교육 에이전시", entity: "법인 일반과세자", bizNo: "120-86-99381", contract: "CON-2026-001", holderId: "RH-0025", holderName: "정종대", ratio: 20, evidence: "세금계산서 역발행" },
+    { id: "PY-9001", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자", bizNo: "106-81-55210", contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", ratio: 30, evidence: "세금계산서 역발행" }
+  ];
+
   var rightsHolders = {
     list: function () { return clone(RIGHTS_HOLDER_SEED); },
     get: function (id) {
@@ -262,6 +269,11 @@
       if (!h) return out;
       h.contracts.forEach(function (c) { c.types.forEach(function (t) { if (!seen[t]) { seen[t] = true; out.push(t); } }); });
       return out;
+    },
+    payees: function () { return clone(PAYEE_SEED); },
+    payee: function (id) {
+      for (var i = 0; i < PAYEE_SEED.length; i++) if (PAYEE_SEED[i].id === id) return clone(PAYEE_SEED[i]);
+      return null;
     }
   };
 
