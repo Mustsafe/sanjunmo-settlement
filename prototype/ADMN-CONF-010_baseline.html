@@ -3,7 +3,7 @@
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>[ADMN-CONF-010] 정산 감사 로그 — 산준모 백오피스 v4.0.0</title>
+  <title>[ADMN-CONF-010] 시스템 감사 로그 — 산준모 백오피스 v4.0.0</title>
   <style>
     :root {
       --bg: #f3f6fb;
@@ -277,7 +277,7 @@ code, pre, kbd, samp,
       <span class="crumb-group">개인정보 · 보안 감사</span>
       <span class="crumb-sep">›</span>
       <span class="crumb-code" id="header-screen-code">ADMN-CONF-010</span>
-      <h1 class="crumb-title" id="header-screen-title">정산 감사 로그 (전 원장 변경 · 열람 불변 이력)</h1>
+      <h1 class="crumb-title" id="header-screen-title">시스템 감사 로그 (정산 원장 변경 · 개인정보 열람 · 운영자 작업 불변 이력)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
       <button class="btn" onclick="verifyHashChain()">🛡️ 해시 체인 위변조 무결성 검증</button> <button class="btn btn-pri" onclick="exportAuditCsv()">⬇ 현재 조회 월·기간 감사 원장 추출 (CSV/JSON)</button>
@@ -357,6 +357,7 @@ code, pre, kbd, samp,
         <div class="tabs">
           <button class="tab-btn active" id="tabBtn-logs" onclick="switchTab('logs')">1. 감사 이벤트 건별 상세 원장 (Before / After JSON 비교)</button>
           <button class="tab-btn" id="tabBtn-monthly" onclick="switchTab('monthly')">2. 정산월별 감사 통계 요약 및 월마감 스냅샷 아카이브</button>
+          <button class="tab-btn" id="tabBtn-access" onclick="switchTab('access')">3. 운영자 접근 · 권한 · 다운로드 로그 (계정 단위)</button>
         </div>
 
         <!-- TAB 1: 건별 상세 원장 -->
@@ -403,6 +404,29 @@ code, pre, kbd, samp,
                 </tr>
               </thead>
               <tbody id="auditListTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: 운영자 접근 · 권한 · 다운로드 로그 (구 ADMN-CONF-006, 운영자 권한 관리 탭에서 이전) -->
+        <div class="card" id="tabPanel-access" style="display:none; border-top-left-radius:0;">
+          <div class="card-hd">
+            <h3>🛡️ 운영자 · 파트너 계정 접근 · 권한 변경 · 다운로드 로그</h3>
+            <span class="badge b-pri">계정 단위 · 접속 IP 기록</span>
+          </div>
+          <div style="padding:0;">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:120px;">로그 ID</th>
+                  <th style="width:150px;">발생 일시</th>
+                  <th style="width:200px;">행위자 (계정 / 권한)</th>
+                  <th style="width:170px;">이벤트 유형</th>
+                  <th>상세 수행 내역 및 열람 사유</th>
+                  <th style="width:130px;">접속 IP</th>
+                </tr>
+              </thead>
+              <tbody id="accessLogTbody"></tbody>
             </table>
           </div>
         </div>
@@ -907,7 +931,7 @@ code, pre, kbd, samp,
   }
 
   function switchTab(tabId) {
-    ["logs", "monthly"].forEach(id => {
+    ["logs", "monthly", "access"].forEach(id => {
       document.getElementById("tabBtn-" + id).classList.toggle("active", id === tabId);
       document.getElementById("tabPanel-" + id).style.display = (id === tabId) ? "block" : "none";
     });
@@ -1103,7 +1127,33 @@ code, pre, kbd, samp,
     showToast(`[${m === 'ALL' ? '전체 기간' : m}] 불변 감사 원장(CSV + JSON 스냅샷 패키지)을 다운로드했습니다.`);
   }
 
+  // 운영자 접근 · 권한 · 다운로드 로그 (구 ADMN-CONF-006)
+  const ACCESS_LOGS = [
+    { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CON-2026-001) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
+    { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
+    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정산서 열람', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 도서 인세 정산서 PDF 다운로드', ip: '58.120.89.11' },
+    { id: 'AUD-9918', dt: '2026-10-18 14:12', actor: 'admin_white (최고관리자)', type: '파트너 권한 분리 설정', detail: '한출판 계정에 ROLE_PARTNER_COPYRIGHT(교재 저작권자 전용) 권한 및 도서 스코프 부여', ip: '211.45.120.10' }
+  ];
+
+  function renderAccessLogs() {
+    document.getElementById("accessLogTbody").innerHTML = ACCESS_LOGS.map(l => `
+      <tr>
+        <td style="font-weight:700;">${l.id}</td>
+        <td>${l.dt}</td>
+        <td style="font-weight:700;">${l.actor}</td>
+        <td><span class="badge b-pri">${l.type}</span></td>
+        <td>${l.detail}</td>
+        <td>${l.ip}</td>
+      </tr>
+    `).join("");
+  }
+
   renderAuditRows();
+  renderAccessLogs();
+  (function () {
+    const v = new URLSearchParams(window.location.search).get("view");
+    if (v === "access" || v === "ADMN-CONF-006") switchTab("access");
+  })();
 </script><script>
 /* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
 (function() {

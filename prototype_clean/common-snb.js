@@ -127,14 +127,14 @@
         { code: "SETT-002", label: "월간 정산 및 집행", href: "ADMN-SETT-002_baseline.html", screenCode: "ADMN-SETT-002" },
         { code: "SETT-005", label: "정산 수동 조정", href: "ADMN-SETT-005_baseline.html", screenCode: "ADMN-SETT-005" },
         { code: "SETT-009", label: "내부 정산 조회 · 조회 전용", href: "ADMN-SETT-009_baseline.html", screenCode: "ADMN-SETT-009" },
-        { code: "SETT-011", label: "택배 대리점 운임 · 배송비 대사", href: "ADMN-SETT-011_baseline.html", screenCode: "ADMN-SETT-011" }
+        { code: "SETT-011", label: "물류비 대사 (3PL)", href: "ADMN-SETT-011_baseline.html", screenCode: "ADMN-SETT-011" }
       ]
     },
     {
       title: "개인정보 · 보안 감사",
       items: [
         { code: "USER-007", label: "민감 정보 열람 통제", href: "ADMN-USER-007_baseline.html", screenCode: "ADMN-USER-007" },
-        { code: "CONF-010", label: "정산 감사 로그", href: "ADMN-CONF-010_baseline.html", screenCode: "ADMN-CONF-010" },
+        { code: "CONF-010", label: "시스템 감사 로그", href: "ADMN-CONF-010_baseline.html", screenCode: "ADMN-CONF-010" },
       ]
     },
     {
@@ -237,8 +237,7 @@
     ["월간 정산(ADMN-SETT-002)", "월간 정산"],
     ["정산 원장(ADMN-SETT-002)", "월간 정산 원장"],
     ["정산 원장(SETT-002)", "월간 정산 원장"],
-    ["감사 로그(ADMN-CONF-010)", "정산 감사 로그"],
-    ["감사·보안 로그 (ADMN-CONF-006/010)", "감사 · 보안 로그"],
+    ["감사 로그(ADMN-CONF-010)", "시스템 감사 로그"],
     ["수동 무상 포인트 지급/차감 (002-P1)", "수동 포인트 지급 · 차감"],
     ["엑셀 다운로드 (001-P1)", "엑셀 다운로드"],
     ["이월 발생 내역 원장 (ADMN-SETT-002-P1)", "이월 발생 내역 원장"],
@@ -332,7 +331,7 @@
     ["ADMN-SETT-007", "수취인 분할 관리"],
     ["ADMN-SETT-008", "사업자 과세유형 확인"],
     ["ADMN-SETT-009", "내부 정산 조회"],
-    ["ADMN-SETT-011", "택배 운임 대사"],
+    ["ADMN-SETT-011", "물류비 대사(3PL)"],
     ["ADMN-INST-001", "권리자 계약 원장"],
     ["ADMN-INST-002", "약정금 마일스톤 검수"],
     ["ADMN-BOOK-001", "도서 공급 원장"],
@@ -355,8 +354,7 @@
     ["ADMN-BRD-009", "당첨자 발표 관리"],
     ["ADMN-CONF-004-S1", "타겟 메시지 발송"],
     ["ADMN-CONF-004", "메시지 템플릿 관리"],
-    ["ADMN-CONF-006", "보안 감사로그"],
-    ["ADMN-CONF-010", "정산 감사로그"],
+    ["ADMN-CONF-010", "시스템 감사로그"],
     ["Pipeline 1.1", "강좌 수익배분"],
     ["Pipeline 2.1", "자사발행 도서 인세"],
     ["Pipeline 2.2", "위탁 도서 판매대금"],
@@ -379,7 +377,6 @@
     ["ROLE_PARTNER_3PL", "물류(3PL) 파트너"],
     ["ROLE_STUDENT", "일반 회원"],
     // 미등록 화면 코드 번역
-    ["ADMN-SETT-003", "정산 마감 확정"],
     ["ADMN-STAT-001", "매출·정산 통계"],
     ["ADMN-DASH-001", "대시보드"],
     ["ADMN-CONF-001-S1", "약관 개정 이력"],

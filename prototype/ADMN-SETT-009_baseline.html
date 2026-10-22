@@ -935,6 +935,11 @@ code, pre, kbd, samp,
   }
 
   renderOverviewTable();
+  // ?view=taxreport(업무플로우 링크는 tax-report)로 들어오면 세무 신고 기초 산출물 탭을 연다
+  (function () {
+    const v = new URLSearchParams(window.location.search).get("view");
+    if (v === "taxreport" || v === "tax-report") switchTab("taxreport");
+  })();
 </script><script>
 /* === [UNIVERSAL-MODAL-CLOSER-HOTFIX] === */
 (function() {

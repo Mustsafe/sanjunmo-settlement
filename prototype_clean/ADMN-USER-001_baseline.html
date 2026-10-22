@@ -450,7 +450,7 @@ code, pre, kbd, samp,
       <div style="display:flex; align-items:center; gap:8px;">
         <span class="badge badge-blue">개인정보 기본 마스킹 (상세에서 해제 시 10분 후 자동 재마스킹)</span>
         <span class="badge badge-purple">유상 P(LIFO 부활) / 무상 P(환불 회수) 분리</span>
-        <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">감사·보안 로그 (ADMN-CONF-006/010) ↗</a>
+        <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">시스템 감사 로그 (ADMN-CONF-010) ↗</a>
       </div>
     </header>
 
@@ -1109,7 +1109,7 @@ code, pre, kbd, samp,
                 </table>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:11.5px; color:var(--text-muted);">
                   <span>최근 <strong>10</strong>건만 표시 · 수정/삭제 불가(Append-only, 5년 보존)</span>
-                  <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">보안 감사 로그 전체 보기 (ADMN-CONF-006/010) ↗</a>
+                  <a href="ADMN-CONF-010_baseline.html" class="btn btn-sm btn-outline">시스템 감사 로그 전체 보기 (ADMN-CONF-010) ↗</a>
                 </div>
               </div>
             </div>
@@ -1343,7 +1343,7 @@ code, pre, kbd, samp,
         <div class="card" id="m3f-adjlog-card">
           <div class="card-header">
             <div class="card-title">5. 진도율 수동 보정 이력 원장 (환급 심사 ADMN-RFD-001 자동 연동)</div>
-            <a href="ADMN-RFD-002_baseline.html?view=pass" class="btn btn-sm btn-outline">합격환급 심사 화면 ↗</a>
+            <a href="ADMN-SETT-006_baseline.html" class="btn btn-sm btn-outline">합격환급 심사 화면 ↗</a>
           </div>
           <div class="card-body">
             <div class="m3f-info">
@@ -2643,7 +2643,7 @@ code, pre, kbd, samp,
 
     function resetDevice(btn) {
       btn.closest('tr').innerHTML = '<td colspan="4" style="color:var(--success); font-weight:700;">모바일 등록 기기 리셋 완료 (DRM 서버 트랜잭션 동기화 완료 · 당월 잔여 리셋 2회)</td>';
-      showToast('동시접속 1세션(IP/세션 토큰) 강제 로그아웃 및 기기 세션 초기화가 완료되었습니다 (ADMN-CONF-006 감사로그 적재).');
+      showToast('동시접속 1세션(IP/세션 토큰) 강제 로그아웃 및 기기 세션 초기화가 완료되었습니다 (ADMN-CONF-010 감사로그 적재).');
     }
 
     
@@ -2757,7 +2757,7 @@ code, pre, kbd, samp,
 
       <!-- STEP 4: 상세 사유 및 증빙 -->
       <div>
-        <label style="display:block; font-size:12px; font-weight:800; color:#334155; margin-bottom:6px;">STEP 4. 상세 적발 경위 및 증빙 로그 기록 (감사로그 ADMN-CONF-006 자동 기록) *</label>
+        <label style="display:block; font-size:12px; font-weight:800; color:#334155; margin-bottom:6px;">STEP 4. 상세 적발 경위 및 증빙 로그 기록 (감사로그 ADMN-CONF-010 자동 기록) *</label>
         <textarea id="bl-detail-memo" rows="3" placeholder="예: 2026-10-19 중고거래 카페 내 계정 공유 판매글 적발 및 서로 다른 4개 광역시 IP 동시 스트리밍 로그 확인" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:7px; font-size:13px;"></textarea>
       </div>
     </div>

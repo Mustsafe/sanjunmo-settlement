@@ -485,9 +485,9 @@ code, pre, kbd, samp,
       <div class="top-bar-right" id="v4-topbar-right-slot" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
         <div class="subview-switcher" style="display:inline-flex;background:#F1F5F9;padding:3px;border-radius:8px;border:1px solid #CBD5E1;gap:4px;">
           <button type="button" class="btn btn-sm btn-primary" id="sw-rfd-list" onclick="showMainView('list')">📋 1. 환불 요청 목록 (RFD-004)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-pass" onclick="showMainView('pass')">🎓 2. 합격환급반 심사 (RFD-001)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-detail" onclick="showMainView('detail')">🔍 3. 환불 처리 상세 (RFD-002)</button>
-          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-done" onclick="showMainView('done')">✅ 4. 환불 완료 내역 (RFD-003)</button>
+          <a class="btn btn-sm btn-outline" href="ADMN-SETT-006_baseline.html">🎓 합격환급 심사는 합격 환급반 관리에서 (ADMN-SETT-006) →</a>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-detail" onclick="showMainView('detail')">🔍 2. 환불 처리 상세 (RFD-002)</button>
+          <button type="button" class="btn btn-sm btn-outline" id="sw-rfd-done" onclick="showMainView('done')">✅ 3. 환불 완료 내역 (RFD-003)</button>
         </div>
         <span class="badge badge-blue">PG: 토스페이먼츠 (전 수단)</span>
         <a class="btn btn-sm btn-outline" href="ADMN-SETT-002_baseline.html">정산 원장(SETT-002) ↗</a>
@@ -634,124 +634,6 @@ code, pre, kbd, samp,
         </div>
       </section>
 
-      <!-- ========================================================================= -->
-      <!-- [화면 1-B] ADMN-RFD-001 : 올패스 100% 합격환급 신청 심사 & 제세공과금 22% 원천징수 -->
-      <!-- ========================================================================= -->
-      <section class="view-section" id="view-pass-refund">
-        <!-- 4단 스코어카드 -->
-        <div class="kpi-grid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:14px;">
-          <div class="card" style="padding:12px 14px; background:#fff; border-left:4px solid var(--primary);">
-            <div style="font-size:11.5px; color:var(--text-muted); font-weight:700;">전체 접수 건수</div>
-            <div style="font-size:20px; font-weight:800; color:var(--text-main); margin-top:2px;">12건</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">2026년 1·2회 기사/산업기사</div>
-          </div>
-          <div class="card" style="padding:12px 14px; background:#fff; border-left:4px solid var(--danger);">
-            <div style="font-size:11.5px; color:var(--danger); font-weight:700;">심사대기 (D+3 초과)</div>
-            <div style="font-size:20px; font-weight:800; color:var(--danger); margin-top:2px;">4건</div>
-            <div style="font-size:11px; color:var(--danger); margin-top:2px;">🚨 SLA 기한 임박 집중 처리</div>
-          </div>
-          <div class="card" style="padding:12px 14px; background:#fff; border-left:4px solid var(--warning);">
-            <div style="font-size:11.5px; color:var(--warning); font-weight:700;">승인 · 지급 대기</div>
-            <div style="font-size:20px; font-weight:800; color:var(--warning); margin-top:2px;">7건</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">제세공과금 영수증 발급 대기</div>
-          </div>
-          <div class="card" style="padding:12px 14px; background:#fff; border-left:4px solid var(--success);">
-            <div style="font-size:11.5px; color:var(--success); font-weight:700;">당월 지급완료</div>
-            <div style="font-size:20px; font-weight:800; color:var(--success); margin-top:2px;">58건 (18,548,400원)</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">원천징수 22% 차감 후 계좌입금</div>
-          </div>
-          <div class="card" style="padding:12px 14px; background:#fff; border-left:4px solid #64748B;">
-            <div style="font-size:11.5px; color:#64748B; font-weight:700;">심사 반려 (불합격/위조)</div>
-            <div style="font-size:20px; font-weight:800; color:#64748B; margin-top:2px;">3건</div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">수기 미작성 및 불일치 사유</div>
-          </div>
-        </div>
-
-        <!-- 안내 배너 -->
-        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:12px 16px; margin-bottom:14px; font-size:12px; line-height:1.6; color:#1E3A8A;">
-          💡 <b>합격환급반 심사 및 제세공과금(22%) · 정산 분담 기준:</b><br>
-          • <b>수강생 필수 제출 4대 자료:</b> [1] 합격증 사본 이미지, [2] 플랫폼 및 산준모 카페 등록 합격수기 아웃링크 작성, [3] 환급금 입금용 통장 사본, [4] 시중 1금융권 은행명 및 실명 계좌번호 입력 수집 (명의 3중 대조 필수)<br>• <b>환급 모수:</b> 전체 결제액(450,000원) 중 도서정가제 대상인 실물 교재 정가(40,000원)를 제외한 순수 교습비(410,000원)만 환급 대상입니다.<br>
-          • <b>제세공과금 원천징수 22%:</b> 교습비 환급금은 소득세법상 기타소득(과세율 20% + 지방소득세 2% = 22%) 원천징수 대상이며, 22%(90,200원) 차감 후 319,800원을 회원 등록계좌로 입금합니다.<br>
-          • <b>정산 분담 옵션:</b> 계약서 옵션 B(강사 50% 분담) 적용 시, 강사 R/S 원장에서 교습비 환급금의 50%가 자동 공제(<code>ADMN-</code>)됩니다.
-        </div>
-
-        <!-- 합격환급 신청 목록 테이블 -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              <span>합격환급 미션 신청자 심사 대기열</span>
-              <span class="badge badge-blue">총 12건 접수 (큐넷 자격증 대조 필수)</span>
-            </div>
-            <span style="font-size:12px; color:var(--text-muted);">
-              ※ [심사 및 지급 승인] 버튼을 누르면 증빙 서류 대조 모달(RFD-001-S1)이 호출됩니다.
-            </span>
-          </div>
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>신청번호 / 일시</th>
-                  <th>회원명 (ID)</th>
-                  <th>신청 환급반 상품</th>
-                  <th>큐넷 자격증 번호 검증</th>
-                  <th>합격수기 아웃링크 · 통장사본 · 1금융 계좌</th>
-                  <th class="num">실결제액</th>
-                  <th class="num">환급 모수 (교재비 제외)</th>
-                  <th class="num">제세공과금 (22%)</th>
-                  <th class="num">실지급 환급액</th>
-                  <th>정산 분담 옵션</th>
-                  <th>상태</th>
-                  <th>심사 액션</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>PASS-2026-0041</strong><br><span style="font-size:11px; color:var(--text-muted);">2026-10-14</span></td>
-                  <td><strong>홍길동</strong><br><span class="mono" style="font-size:11px;">hong88</span></td>
-                  <td>[패키지] 2026 산업안전기사 100% 환급반</td>
-                  <td><span class="badge badge-green">26-01-09821 (큐넷 일치)</span></td>
-                  <td><span class="badge badge-purple">카페·플랫폼 수기링크 O</span> <span class="badge badge-green">통장사본·KB국민 실명계좌 O</span></td>
-                  <td class="num">450,000원</td>
-                  <td class="num"><strong>410,000원</strong></td>
-                  <td class="num" style="color:var(--danger); font-weight:700;">−90,200원</td>
-                  <td class="num"><strong style="color:var(--primary); font-size:13px;">319,800원</strong></td>
-                  <td><span class="badge badge-blue">옵션 B (강사 50% 공동 분담)</span></td>
-                  <td><span class="badge badge-amber">심사대기</span></td>
-                  <td><button class="btn btn-sm btn-primary" onclick="openPassInspectModal('PASS-2026-0041', '홍길동', '26-01-09821', 410000, 90200, 319800)">🔍 합격 심사 (S1)</button></td>
-                </tr>
-                <tr>
-                  <td><strong>PASS-2026-0038</strong><br><span style="font-size:11px; color:var(--text-muted);">2026-10-12</span></td>
-                  <td><strong>강도현</strong><br><span class="mono" style="font-size:11px;">dh_kang</span></td>
-                  <td>[패키지] 산업안전산업기사 환급반</td>
-                  <td><span class="badge badge-green">26-01-08732 (큐넷 일치)</span></td>
-                  <td><span class="badge badge-amber">카페 수기 아웃링크 미등록 (보완요청)</span></td>
-                  <td class="num">450,000원</td>
-                  <td class="num"><strong>410,000원</strong></td>
-                  <td class="num" style="color:var(--danger);">−90,200원</td>
-                  <td class="num"><strong>319,800원</strong></td>
-                  <td><span class="badge badge-blue">옵션 A (회사 100% 분담)</span></td>
-                  <td><span class="badge badge-red">보완요청</span></td>
-                  <td><button class="btn btn-sm btn-outline" onclick="openPassInspectModal('PASS-2026-0038', '강도현', '26-01-08732', 410000, 90200, 319800)">재심사 (S1)</button></td>
-                </tr>
-                <tr>
-                  <td><strong>PASS-2026-0029</strong><br><span style="font-size:11px; color:var(--text-muted);">2026-10-08</span></td>
-                  <td><strong>최유진</strong><br><span class="mono" style="font-size:11px;">yj_choi</span></td>
-                  <td>[패키지] 산업안전기사 환급반</td>
-                  <td><span class="badge badge-green">26-01-07119 (일치)</span></td>
-                  <td><span class="badge badge-purple">BRD-005 승인완료</span></td>
-                  <td class="num">450,000원</td>
-                  <td class="num">410,000원</td>
-                  <td class="num" style="color:var(--danger);">−90,200원</td>
-                  <td class="num"><strong>319,800원</strong></td>
-                  <td><span class="badge badge-blue">옵션 B (강사 50% 분담)</span></td>
-                  <td><span class="badge badge-green">지급완료 (10/10)</span></td>
-                  <td><button class="btn btn-sm btn-outline" onclick="alert('이미 지급 완료된 합격환급 건입니다 (원천징수영수증 발행완료).')">영수증 보기</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
 
 
       <!-- ========================================================================= -->
@@ -1247,77 +1129,6 @@ code, pre, kbd, samp,
 
 
 
-  <!-- ========================================================================= -->
-  <!-- [모달] ADMN-RFD-001-S1 : 합격환급반 100% 환급 심사 및 제세공과금 원천징수 승인 모달 -->
-  <!-- ========================================================================= -->
-  <div class="modal-overlay" id="modal-pass-inspect">
-    <div class="modal-box" style="max-width:700px;">
-      <div class="modal-header" style="background:#EFF6FF; color:var(--primary); display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight:800; font-size:13.5px;">🎓 [ADMN-RFD-001-S1] 합격환급반 증빙 대조 및 100% 환급 심사 확정</span>
-        <button type="button" class="btn btn-sm btn-outline" onclick="closePassInspectModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:6px; padding:10px 12px; margin-bottom:12px; font-size:12px; color:#92400E; line-height:1.5;">
-          ⚠️ <b>국세청 기타소득 원천징수 규정:</b> 본 환급금은 소득세법 제21조제1항제17호에 따른 기타소득으로 <b>제세공과금 22%(소득세 20% + 지방소득세 2%)</b>를 원천징수 후 지급해야 하며, 익월 10일까지 홈택스에 원천징수이행상황신고서 및 간이지급명세서가 제출됩니다.
-        </div>
-
-        <table class="data-table" style="margin-bottom:12px;">
-          <tbody>
-            <tr>
-              <th style="width:140px;">신청 건 정보</th>
-              <td><strong id="pass-modal-target">PASS-2026-0041 (홍길동)</strong></td>
-            </tr>
-            <tr>
-              <th>큐넷 자격증 대조</th>
-              <td>
-                <span class="badge badge-green" id="pass-modal-qnet">자격증번호 26-01-09821 (한국산업인력공단 API 일치)</span>
-                <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px;" onclick="alert('한국산업인력공단 큐넷 진위확인 API 조회 결과: 정상 합격자로 검증되었습니다.')">큐넷 실시간 조회</button>
-              </td>
-            </tr>
-            <tr>
-              <th>합격수기 아웃링크 · 통장사본 · 1금융 계좌</th>
-              <td>
-                <span class="badge badge-purple">합격수기 등록 확인 (1,450자 · 사진 2매)</span>
-                <a href="ADMN-BRD-005_baseline.html" target="_blank" class="btn btn-sm btn-outline" style="margin-left:6px; text-decoration:none;">수기 게시글 열람 ↗</a>
-              </td>
-            </tr>
-            <tr>
-              <th>환급금 산출 내역</th>
-              <td>
-                <div style="font-size:12px; line-height:1.6;">
-                  • 총 결제액: 450,000원<br>
-                  • 실물 교재비(도서정가제) 제외 환급 모수: <strong id="pass-modal-base">410,000원</strong><br>
-                  • <b>제세공과금 (22% 원천징수):</b> <strong style="color:var(--danger);" id="pass-modal-tax">−90,200원</strong> (소득세 82,000 + 지방세 8,200)<br>
-                  • <b>최종 계좌 실지급액:</b> <strong style="color:var(--primary); font-size:14px;" id="pass-modal-net">319,800원</strong>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>정산 연동 (SETT-006)</th>
-              <td>
-                <div style="font-size:12px; color:var(--text-sub);">
-                  적용 옵션: <b>옵션 B (50:50 강사 분담)</b> ➔ 당월 <code>ADMN-</code>에서 정종대 강사(RH-0025) 귀속분 <b>205,000원 상계 차감</b> 자동 반영
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th>환급 수취 계좌</th>
-              <td>
-                <span>신한은행 <code>110-***-**8291</code> (예금주: 홍길동 · 실명인증 완료)</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer" style="padding:12px 20px; background:var(--bg-subtle); display:flex; justify-content:space-between; align-items:center;">
-        <button type="button" class="btn btn-danger" onclick="rejectPassInspect()">❌ 반려 (사유 통보)</button>
-        <div style="display:flex; gap:8px;">
-          <button type="button" class="btn btn-outline" onclick="closePassInspectModal()">취소</button>
-          <button type="button" class="btn btn-primary" onclick="confirmPassInspect()">✔ 제세공과금 22% 원천징수 및 환급 승인</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- [ADMN-RFD-003-S2] 기 완료 환불 건 사후 보정 거래 등록 모달 -->
   <div class="modal-overlay" id="modal-rfd-adjust">
@@ -1388,41 +1199,13 @@ code, pre, kbd, samp,
     let currentMember = 'HONG'; // 'HONG' | 'KIM' | 'CHOI'
 
 
-    // 0-B. 합격환급반 (ADMN-RFD-001) 뷰 및 모달 제어
-    function openPassInspectModal(passId, name, qnetNo, baseAmt, taxAmt, netAmt) {
-      document.getElementById('pass-modal-target').textContent = `${passId} (${name})`;
-      document.getElementById('pass-modal-qnet').textContent = `자격증번호 ${qnetNo} (한국산업인력공단 API 일치)`;
-      document.getElementById('pass-modal-base').textContent = Number(baseAmt).toLocaleString() + '원';
-      document.getElementById('pass-modal-tax').textContent = '−' + Number(taxAmt).toLocaleString() + '원';
-      document.getElementById('pass-modal-net').textContent = Number(netAmt).toLocaleString() + '원';
-      document.getElementById('modal-pass-inspect').classList.add('open');
-    }
-
-    function closePassInspectModal() {
-      document.getElementById('modal-pass-inspect').classList.remove('open');
-    }
-
-    function confirmPassInspect() {
-      closePassInspectModal();
-      alert("✅ [합격환급 승인 및 원천징수 완료]\n• 제세공과금 22% 원천징수영수증이 발급되었습니다.\n• 실지급 환급액(319,800원)이 은행 계좌 지급 큐로 이관되었습니다.\n• 정산 엔진(합격 환급반 정산 관리)에 강사 50% 분담 차감이 예약되었습니다.");
-      showMainView('done');
-    }
-
-    function rejectPassInspect() {
-      const reason = prompt("반려 사유를 입력해 주세요 (고객 알림톡 발송):", "큐넷 합격증명서 상의 수험자 성명/생년월일이 회원 정보와 불일치합니다.");
-      if (reason) {
-        closePassInspectModal();
-        alert(`❌ 합격환급 신청이 반려 처리되었습니다.\n사유: ${reason}`);
-      }
-    }
-
-    // 1. 4개 메인 서브뷰 전환 (목록 vs 합격환급 vs 상세 vs 완료내역)
+    // 1. 3개 메인 서브뷰 전환 (목록 vs 상세 vs 완료내역) — 합격환급 심사는 ADMN-SETT-006
     function showMainView(viewName) {
       document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
       const code = document.getElementById('topbar-code');
       const title = document.getElementById('topbar-breadcrumb');
 
-      ['list', 'pass', 'detail', 'done'].forEach(v => {
+      ['list', 'detail', 'done'].forEach(v => {
         const btn = document.getElementById('sw-rfd-' + v);
         if (btn) btn.className = (v === viewName) ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline';
       });
@@ -1431,10 +1214,6 @@ code, pre, kbd, samp,
         document.getElementById('view-list').classList.add('active');
         code.textContent = 'ADMN-RFD-004';
         title.textContent = '환불 요청 관리 (통합 목록 · 접수대기)';
-      } else if (viewName === 'pass') {
-        document.getElementById('view-pass-refund').classList.add('active');
-        code.textContent = 'ADMN-RFD-001';
-        title.textContent = '올패스 100% 합격환급 신청 심사 — 큐넷 증빙 대조 & 제세공과금 22% 원천징수';
       } else if (viewName === 'done') {
         document.getElementById('view-done').classList.add('active');
         code.textContent = 'ADMN-RFD-003';
@@ -1697,7 +1476,7 @@ code, pre, kbd, samp,
       var params = new URLSearchParams(window.location.search);
       var v = params.get("view");
       if (v && typeof showMainView === "function") {
-        if (v === "pass" || v === "RFD-001" || v === "ADMN-RFD-001") showMainView("pass");
+        if (v === "pass" || v === "RFD-001" || v === "ADMN-RFD-001") window.location.href = "ADMN-SETT-006_baseline.html";
         else if (v === "detail" || v === "RFD-002" || v === "ADMN-RFD-002") showMainView("detail");
         else if (v === "done" || v === "RFD-003" || v === "ADMN-RFD-003") showMainView("done");
         else if (v === "list" || v === "RFD-004" || v === "ADMN-RFD-004") showMainView("list");
@@ -1781,305 +1560,6 @@ code, pre, kbd, samp,
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') window.closeAllModals();
   });
-})();
-</script>
-<script>
-/* === [ADMN-RFD-001-S1 SPEC FULL UPGRADE] === */
-(function() {
-  const PASS_CASES = {
-    'PASS-2026-0041': {
-      id: 'PASS-2026-0041',
-      appliedAt: '2026-10-14 11:20:05',
-      memberName: '홍길동',
-      memberId: 'hong88',
-      cafeId: 'sanjun_hong88',
-      courseTitle: '[패키지] 2026 산업안전기사 100% 환급반 (인강+교재)',
-      progressRate: '92.4% (기준 90.0% 충족 · 재생시간 가중평균)',
-      hasAdjustedProgress: false,
-      adjustedNote: '수동 진도율 보정 이력 없음 (전체 차시 정상 수강)',
-      certImage: '합격증사본_국가기술자격_홍길동_2026.jpg',
-      certNo: '26-01-09821 (산업안전기사 · 2026년 제2회 최종합격)',
-      bankbookImage: '통장사본_KB국민은행_홍길동.png',
-      bankName: 'KB국민은행 (시중 1금융권 정상)',
-      bankTier1Ok: true,
-      accountNo: '123-45-****-890 (예금주: 홍길동)',
-      cafeOutlink: 'https://cafe.naver.com/sanjunmo/984120',
-      platformReviewId: 'BRD-005-REV-0412 (본문 1,420자 · 작성자 카페ID sanjun_hong88 일치)',
-      totalPaid: 450000,
-      bookExcluded: 40000,
-      refundBase: 410000,
-      tax22: 90200,
-      netPayout: 319800,
-      burdenLabel: '옵션 B (강사 50% 공동 분담 · 정종대 강사 R/S 및 지원금 차감 연동)'
-    },
-    'PASS-2026-0040': {
-      id: 'PASS-2026-0040',
-      appliedAt: '2026-10-13 16:05:12',
-      memberName: '박정우',
-      memberId: 'jw_park',
-      cafeId: 'park_jw90',
-      courseTitle: '[패키지] 2026 산업안전기사 필기+실기 환급반',
-      progressRate: '100.0% (기준 90.0% 충족 · 수동 진도율 보정 1강 포함)',
-      hasAdjustedProgress: true,
-      adjustedNote: '[보정 차시 포함] 실기 14강 (82% → 100% 보정 / 사유: CDN 일시 순단 로그 확인 · 처리자: 운영팀 김검수)',
-      certImage: '합격증사본_국가기술자격_박정우_2026.jpg',
-      certNo: '26-01-11204 (산업안전기사 · 2026년 제2회 최종합격)',
-      bankbookImage: '통장사본_케이뱅크_박정우.png',
-      bankName: '⚠ 시중 1금융권 외 은행 (계좌 재등록 요청 대상)',
-      bankTier1Ok: false,
-      accountNo: '100-123-****90 (예금주: 박정우)',
-      cafeOutlink: 'https://cafe.naver.com/sanjunmo/983995',
-      platformReviewId: 'BRD-005-REV-0405 (본문 1,180자 · 작성자 카페ID park_jw90 일치)',
-      totalPaid: 450000,
-      bookExcluded: 40000,
-      refundBase: 410000,
-      tax22: 90200,
-      netPayout: 319800,
-      burdenLabel: '옵션 B (강사 50% 공동 분담)'
-    },
-    'PASS-2026-0038': {
-      id: 'PASS-2026-0038',
-      appliedAt: '2026-10-12 09:40:00',
-      memberName: '강도현',
-      memberId: 'dh_kang',
-      cafeId: 'kang_safe',
-      courseTitle: '[패키지] 산업안전산업기사 환급반',
-      progressRate: '91.5% (기준 90.0% 충족)',
-      hasAdjustedProgress: false,
-      adjustedNote: '수동 진도율 보정 이력 없음',
-      certImage: '합격증사본_산업안전산업기사_강도현.jpg',
-      certNo: '26-01-08732 (산업안전산업기사 · 최종합격)',
-      bankbookImage: '통장사본_신한은행_강도현.png',
-      bankName: '신한은행 (시중 1금융권 정상)',
-      bankTier1Ok: true,
-      accountNo: '110-492-****11 (예금주: 강도현)',
-      cafeOutlink: 'https://cafe.naver.com/sanjunmo/983501',
-      platformReviewId: '⚠ 카페 게시글 본문 글자수 미달 (420자 / 기준 1,000자 미달)',
-      totalPaid: 450000,
-      bookExcluded: 40000,
-      refundBase: 410000,
-      tax22: 90200,
-      netPayout: 319800,
-      burdenLabel: '옵션 A (플랫폼 100% 부담)'
-    },
-    'PASS-2026-0029': {
-      id: 'PASS-2026-0029',
-      appliedAt: '2026-10-08 14:15:00',
-      memberName: '최유진',
-      memberId: 'yj_choi',
-      cafeId: 'choi_pass',
-      courseTitle: '[패키지] 건설안전기사 필기+실기 환급반',
-      progressRate: '95.0% (기준 90.0% 충족)',
-      hasAdjustedProgress: false,
-      adjustedNote: '수동 진도율 보정 이력 없음',
-      certImage: '합격증사본_건설안전기사_최유진.jpg',
-      certNo: '26-01-07119 (건설안전기사 · 최종합격)',
-      bankbookImage: '통장사본_하나은행_최유진.jpg',
-      bankName: '하나은행 (시중 1금융권 정상)',
-      bankTier1Ok: true,
-      accountNo: '391-910***-**107 (예금주: 최유진)',
-      cafeOutlink: 'https://cafe.naver.com/sanjunmo/982400',
-      platformReviewId: 'BRD-005-REV-0319 (본문 1,650자 · 카페ID 일치 · 검수승인 완료)',
-      totalPaid: 338000,
-      bookExcluded: 38000,
-      refundBase: 300000,
-      tax22: 66000,
-      netPayout: 234000,
-      burdenLabel: '옵션 A (플랫폼 100% 부담)'
-    }
-  };
-
-  function fmtWon(n) {
-    return Number(n || 0).toLocaleString('ko-KR') + '원';
-  }
-
-  window.updateRfd001S1Gate = function() {
-    var c1 = document.getElementById('chk-rfd-cert')?.checked;
-    var c2 = document.getElementById('chk-rfd-bank')?.checked;
-    var c3 = document.getElementById('chk-rfd-review')?.checked;
-    var c4El = document.getElementById('chk-rfd-adj');
-    var c4 = c4El ? c4El.checked : true;
-
-    var banner = document.getElementById('rfd001-triple-banner');
-    var decisionApprove = document.getElementById('rad-rfd-approve')?.checked;
-    var decisionReject = document.getElementById('rad-rfd-reject')?.checked;
-    var rejectBox = document.getElementById('rfd001-reject-reason');
-    var btnApprove = document.getElementById('btn-rfd001-approve');
-    var btnReject = document.getElementById('btn-rfd001-reject');
-
-    var allVerified = Boolean(c1 && c2 && c3 && c4);
-
-    if (banner) {
-      if (allVerified) {
-        banner.style.background = '#ECFDF5';
-        banner.style.borderColor = '#A7F3D0';
-        banner.style.color = '#065F46';
-        banner.innerHTML = '<strong>✓ [명의 3중 대조 및 4대 증빙 확인 완료]</strong> 가입 회원 성명 = 합격증 사본 성명 = 통장 사본 예금주 실명이 100% 일치하며, 카페 합격수기 아웃링크 및 진도율 검증이 완료되었습니다.';
-      } else {
-        banner.style.background = '#FEF2F2';
-        banner.style.borderColor = '#FECACA';
-        banner.style.color = '#991B1B';
-        banner.innerHTML = '<strong>🚨 [명의 3중 대조 및 4대 증빙 미완료 — 승인 잠금]</strong> 위 [1] 합격증 사본, [2] 통장 사본(1금융권 실명계좌), [3] 산준모 카페/플랫폼 합격수기 아웃링크 확인 체크박스를 모두 대조·체크해야 [승인 처리]가 활성화됩니다.';
-      }
-    }
-
-    if (rejectBox) {
-      rejectBox.disabled = !decisionReject;
-      rejectBox.style.background = decisionReject ? '#FFFFFF' : '#F1F5F9';
-    }
-    if (btnApprove) {
-      btnApprove.disabled = !(allVerified && decisionApprove);
-      btnApprove.style.opacity = (allVerified && decisionApprove) ? '1' : '0.45';
-    }
-    if (btnReject) {
-      btnReject.disabled = !decisionReject;
-      btnReject.style.opacity = decisionReject ? '1' : '0.45';
-    }
-  };
-
-  window.submitRfd001S1Decision = function(mode, passId) {
-    if (mode === 'REJECT') {
-      var reason = (document.getElementById('rfd001-reject-reason')?.value || '').trim();
-      if (reason.length < 5) {
-        alert('반려 처리 시 수험생에게 알림톡으로 발송될 구체적인 반려/보완 사유(5자 이상)를 입력해 주세요.');
-        return;
-      }
-      alert('[' + passId + '] 합격환급 신청이 반려(보완 요청) 처리되었으며, 수험생에게 사유 안내 알림톡이 발송되었습니다.');
-    } else {
-      alert('[' + passId + '] 합격환급 심사가 최종 [승인]되어 지급 예정 원장에 등록되었으며, 합격 환급반 정산 관리(ADMN-SETT-006)로 자동 이관되었습니다.');
-    }
-    if (typeof window.closeAllModals === 'function') window.closeAllModals();
-  };
-
-  window.openPassInspectModal = function(passId) {
-    var data = PASS_CASES[passId] || PASS_CASES['PASS-2026-0041'];
-    var modal = document.getElementById('modal-pass-inspect') || document.querySelector('.modal-backdrop');
-    if (!modal) return;
-
-    var adjHtml = data.hasAdjustedProgress
-      ? `<div style="margin-top:8px; padding:10px 12px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:6px; font-size:12px;">
-           <div style="font-weight:700; color:#B45309; margin-bottom:4px;">⚠ ${data.adjustedNote} <a href="ADMN-USER-001_baseline.html?view=course" target="_blank" style="color:#2563EB; margin-left:6px; text-decoration:underline;">[보정 이력 열람 ↗]</a></div>
-           <label style="display:inline-flex; align-items:center; gap:6px; font-weight:700; cursor:pointer; color:#92400E;">
-             <input type="checkbox" id="chk-rfd-adj" onchange="updateRfd001S1Gate()" /> [필수] 진도율 수동 보정 사유 및 근거를 확인했습니다.
-           </label>
-         </div>`
-      : `<div style="margin-top:4px; font-size:11.5px; color:#059669; font-weight:600;">✓ ${data.adjustedNote}</div>`;
-
-    var box = modal.querySelector('.modal-box, .modal-content, .modal-card') || modal.firstElementChild;
-    if (box) {
-      box.style.maxWidth = '860px';
-      box.style.width = '95%';
-      box.innerHTML = `
-        <div style="padding:16px 22px; border-bottom:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center; background:#F8FAFC; border-radius:12px 12px 0 0;">
-          <div>
-            <span class="badge badge-blue" style="margin-right:6px;">합격환급 자격 심사 상세</span>
-            <strong style="font-size:15px;">올패스 100% 합격환급 4대 증빙 · 명의 3중 대조 (${data.id})</strong>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline" onclick="closeAllModals()">✕ 닫기</button>
-        </div>
-
-        <div style="padding:18px 22px; max-height:78vh; overflow-y:auto; display:flex; flex-direction:column; gap:14px;">
-          <!-- 1. 신청자 및 인정 진도율 요약 -->
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; background:#F8FAFC; padding:12px 16px; border:1px solid #E2E8F0; border-radius:8px; font-size:12.5px;">
-            <div><span style="color:#64748B; font-weight:600;">신청 회원 / 카페 ID:</span> <strong>${data.memberName}</strong> (<code>${data.memberId}</code> / 카페: <code>${data.cafeId}</code>)</div>
-            <div><span style="color:#64748B; font-weight:600;">신청 일시:</span> ${data.appliedAt}</div>
-            <div style="grid-column:1 / -1;"><span style="color:#64748B; font-weight:600;">환급 대상 상품:</span> <strong>${data.courseTitle}</strong></div>
-            <div style="grid-column:1 / -1;">
-              <span style="color:#64748B; font-weight:600;">인정 진도율 검증:</span> <strong style="color:#2563EB;">${data.progressRate}</strong>
-              ${adjHtml}
-            </div>
-          </div>
-
-          <!-- 2. 4대 필수 수집 자료 대조 (합격증 사본 / 통장 사본 / 1금융 실명계좌 / 카페·플랫폼 합격수기 아웃링크) -->
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <!-- 좌: [1] 합격증 사본 이미지 -->
-            <div style="border:1px solid #CBD5E1; border-radius:8px; padding:12px 14px; background:#FFFFFF;">
-              <div style="font-weight:800; font-size:12.5px; color:#0F172A; margin-bottom:6px;">[1] 합격증 사본 이미지 대조</div>
-              <div style="background:#F1F5F9; border:1px dashed #94A3B8; border-radius:6px; padding:10px; margin-bottom:8px; font-size:12px;">
-                📎 <code>${data.certImage}</code><br>
-                <span style="color:#475569; font-size:11.5px;">자격번호: <strong>${data.certNo}</strong></span>
-              </div>
-              <label style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#1E40AF; cursor:pointer;">
-                <input type="checkbox" id="chk-rfd-cert" checked onchange="updateRfd001S1Gate()" />
-                합격증 성명(${data.memberName}) · 자격종목 · 합격일 일치 확인
-              </label>
-            </div>
-
-            <!-- 우: [2] 통장 사본 이미지 & 시중 1금융권 실명 계좌번호 -->
-            <div style="border:1px solid #CBD5E1; border-radius:8px; padding:12px 14px; background:#FFFFFF;">
-              <div style="font-weight:800; font-size:12.5px; color:#0F172A; margin-bottom:6px;">[2] 환급금 입금용 통장 사본 · 시중 1금융권 실명계좌</div>
-              <div style="background:#F1F5F9; border:1px dashed #94A3B8; border-radius:6px; padding:10px; margin-bottom:8px; font-size:12px;">
-                📎 <code>${data.bankbookImage}</code><br>
-                <span style="color:${data.bankTier1Ok ? '#059669' : '#DC2626'}; font-weight:700;">🏦 ${data.bankName}</span> · <code>${data.accountNo}</code>
-              </div>
-              <label style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:${data.bankTier1Ok ? '#1E40AF' : '#DC2626'}; cursor:pointer;">
-                <input type="checkbox" id="chk-rfd-bank" ${data.bankTier1Ok ? 'checked' : ''} onchange="updateRfd001S1Gate()" />
-                시중 1금융권 정상 계좌 및 통장 예금주(${data.memberName}) 실명 일치 확인
-              </label>
-            </div>
-          </div>
-
-          <!-- [3] 플랫폼 및 산준모 카페 등록 합격 수기 아웃링크 -->
-          <div style="border:1px solid #CBD5E1; border-radius:8px; padding:12px 14px; background:#FFFFFF;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <span style="font-weight:800; font-size:12.5px; color:#0F172A;">[3] 플랫폼 및 산준모 카페 등록 합격수기 아웃링크 확인</span>
-              <a href="${data.cafeOutlink}" target="_blank" rel="noopener" class="btn btn-sm btn-outline" style="padding:3px 9px; font-size:11.5px;">🔗 산준모 카페 수기 새 창에서 열기 ↗</a>
-            </div>
-            <div style="font-size:12px; color:#334155; margin-bottom:8px;">
-              • 제출 아웃링크: <a href="${data.cafeOutlink}" target="_blank" style="color:#2563EB; text-decoration:underline;">${data.cafeOutlink}</a> <span class="badge badge-green">HTTP 200 정상</span><br>
-              • 플랫폼/카페 연동 검증: <strong>${data.platformReviewId}</strong>
-            </div>
-            <label style="display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#1E40AF; cursor:pointer;">
-              <input type="checkbox" id="chk-rfd-review" ${data.id === 'PASS-2026-0038' ? '' : 'checked'} onchange="updateRfd001S1Gate()" />
-              산준모 카페 및 플랫폼 합격수기 정상 게시(작성자 카페 ID 일치)를 육안 확인했습니다.
-            </label>
-          </div>
-
-          <!-- 3. 명의 3중 대조 배너 -->
-          <div id="rfd001-triple-banner" style="padding:11px 14px; border-radius:8px; border:1px solid #A7F3D0; background:#ECFDF5; color:#065F46; font-size:12.5px;"></div>
-
-          <!-- 4. 환급금 지급 정보 (교재비 제외 & 제세공과금 22% 공제) -->
-          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:12px 16px;">
-            <div style="font-weight:800; font-size:12.5px; margin-bottom:6px;">[4] 환급금 산출 및 정산 분담 연동 명세</div>
-            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; font-size:12px;">
-              <div><span style="color:#64748B;">패키지 실결제액:</span><br><strong>${fmtWon(data.totalPaid)}</strong> (교재 ${fmtWon(data.bookExcluded)} 제외)</div>
-              <div><span style="color:#64748B;">환급 모수(순수 강좌):</span><br><strong style="color:#2563EB;">${fmtWon(data.refundBase)}</strong></div>
-              <div><span style="color:#64748B;">제세공과금(22% 공제):</span><br><strong style="color:#DC2626;">−${fmtWon(data.tax22)}</strong></div>
-              <div><span style="color:#64748B;">수강생 실입금액:</span><br><strong style="color:#059669; font-size:13.5px;">${fmtWon(data.netPayout)}</strong></div>
-            </div>
-            <div style="margin-top:8px; padding-top:8px; border-top:1px dashed #CBD5E1; font-size:12px; color:#475569;">
-              • <strong>권리자 정산 반영 방식:</strong> ${data.burdenLabel}
-            </div>
-          </div>
-
-          <!-- 5. [승인 / 반려] 최종 처리 라디오 & 6. 정밀 반려 사유 입력창 -->
-          <div style="border:1px solid #CBD5E1; border-radius:8px; padding:12px 16px; background:#FFFFFF;">
-            <div style="display:flex; align-items:center; gap:20px; margin-bottom:8px;">
-              <span style="font-weight:800; font-size:12.5px;">[5] 최종 심사 판정 선택 <span style="color:#DC2626;">*</span></span>
-              <label style="display:inline-flex; align-items:center; gap:6px; font-weight:700; color:#059669; cursor:pointer;">
-                <input type="radio" name="rfd001-decision" id="rad-rfd-approve" ${data.bankTier1Ok && data.id !== 'PASS-2026-0038' ? 'checked' : ''} onchange="updateRfd001S1Gate()" /> 승인 처리 (환급 지급대기 및 정산 이관)
-              </label>
-              <label style="display:inline-flex; align-items:center; gap:6px; font-weight:700; color:#DC2626; cursor:pointer;">
-                <input type="radio" name="rfd001-decision" id="rad-rfd-reject" ${(!data.bankTier1Ok || data.id === 'PASS-2026-0038') ? 'checked' : ''} onchange="updateRfd001S1Gate()" /> 반려 / 계좌·수기 보완 요청
-              </label>
-            </div>
-            <input type="text" id="rfd001-reject-reason" class="form-control" placeholder="반려 또는 보완 요청 시 수험생 알림톡으로 발송될 상세 사유를 입력하세요 (반려 시 필수 입력)" value="${!data.bankTier1Ok ? '시중 1금융권 본인 명의 계좌 및 통장사본으로 재등록 요청드립니다.' : (data.id === 'PASS-2026-0038' ? '산준모 카페 합격수기 분량 기준 미달로 보완 후 재신청 바랍니다.' : '')}" />
-          </div>
-        </div>
-
-        <div style="padding:14px 22px; border-top:1px solid #E2E8F0; display:flex; justify-content:flex-end; gap:8px; background:#F8FAFC; border-radius:0 0 12px 12px;">
-          <button type="button" class="btn btn-outline" onclick="closeAllModals()">취소</button>
-          <button type="button" id="btn-rfd001-reject" class="btn btn-danger" onclick="submitRfd001S1Decision('REJECT', '${data.id}')">반려 · 보완요청 발송</button>
-          <button type="button" id="btn-rfd001-approve" class="btn btn-primary" onclick="submitRfd001S1Decision('APPROVE', '${data.id}')">✓ 승인 확정 (정산 이관)</button>
-        </div>
-      `;
-    }
-
-    modal.classList.remove('force-closed');
-    modal.classList.add('show');
-    modal.style.setProperty('display', 'flex', 'important');
-    window.updateRfd001S1Gate();
-  };
 })();
 </script>
 

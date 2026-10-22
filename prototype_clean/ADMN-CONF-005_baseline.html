@@ -330,9 +330,9 @@ code, pre, kbd, samp,
       <button class="sub-tab-btn" onclick="switchTab('matrix')" id="tab-btn-matrix">
         🔐 7대 RBAC 권한 그룹 매트릭스 (강사 / 저작권자 / 3PL 분리)
       </button>
-      <button class="sub-tab-btn" onclick="switchTab('audit')" id="tab-btn-audit">
-        🛡️ 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006)
-      </button>
+      <a class="sub-tab-btn" href="ADMN-CONF-010_baseline.html?view=access">
+        🛡️ 운영자 작업 · 보안 감사 로그는 시스템 감사 로그에서 (ADMN-CONF-010) →
+      </a>
     </div>
 
     <!-- ==================== 1. 계정 목록 및 파트너 분리 (ADMN-CONF-005) ==================== -->
@@ -477,29 +477,31 @@ code, pre, kbd, samp,
               <td>✕ 접근불가</td>
               <td>✕ 접근불가</td>
             </tr>
+            <tr>
+              <td style="font-weight:700;">1:1 문의 분류 · 라우팅 (BRD-007)</td>
+              <td>전체</td>
+              <td>✕ 접근불가</td>
+              <td>전체</td>
+              <td>✕ 메뉴 비노출</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+            </tr>
+            <tr>
+              <td style="font-weight:700;">시스템 감사 로그 (CONF-010)</td>
+              <td>전체 (내보내기)</td>
+              <td>조회만</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+              <td>✕ 접근불가</td>
+            </tr>
           </tbody>
         </table>
       </div>
     </section>
 
-    <!-- ==================== 3. 개인정보 열람 및 보안 감사로그 (ADMN-CONF-006) ==================== -->
-    <section id="view-audit" class="view-section">
-      <div class="card" style="padding:0; overflow:hidden;">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th style="width:140px;">로그 ID</th>
-              <th style="width:150px;">발생 일시</th>
-              <th style="width:170px;">행위자 (계정 / 권한)</th>
-              <th style="width:160px;">감사 이벤트 유형</th>
-              <th>상세 수행 내역 및 열람 사유</th>
-              <th style="width:130px;">접속 IP</th>
-            </tr>
-          </thead>
-          <tbody id="audit-tbody"></tbody>
-        </table>
-      </div>
-    </section>
   </div>
 </div>
 
@@ -570,13 +572,6 @@ code, pre, kbd, samp,
     { id: '3pl_cjlogis', name: '정물류 매니저 (CJ파주물류센터 3PL)', role: 'ROLE_PARTNER_3PL', scope: '3PL-PAJU-01 (실물 교재 출고대상 열람 및 송장 업로드 전용 / 금액 비노출)', sec: '물류센터 고정 IP 제한', lastLogin: '2026-10-19 08:30', status: 'ACTIVE' }
   ];
 
-  let AUDIT_LOGS = [
-    { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CON-2026-001) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
-    { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
-    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정산서 열람', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 도서 인세 정산서 PDF 다운로드', ip: '58.120.89.11' },
-    { id: 'AUD-9918', dt: '2026-10-18 14:12', actor: 'admin_white (최고관리자)', type: '파트너 권한 분리 설정', detail: '한출판 계정에 ROLE_PARTNER_COPYRIGHT(교재 저작권자 전용) 권한 및 도서 스코프 부여', ip: '211.45.120.10' }
-  ];
-
   const ROLE_BADGE_MAP = {
     ROLE_SUPER_ADMIN: '<span class="badge badge-red">내부 · 최고관리자 (SUPER)</span>',
     ROLE_FINANCE_ADMIN: '<span class="badge badge-green">내부 · 정산/재무 (FINANCE)</span>',
@@ -592,7 +587,7 @@ code, pre, kbd, samp,
     document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
     document.getElementById('tab-btn-' + tab).classList.add('active');
     document.getElementById('view-' + tab).classList.add('active');
-    document.getElementById('current-screen-code').textContent = tab === 'audit' ? 'ADMN-CONF-006' : 'ADMN-CONF-005';
+    document.getElementById('current-screen-code').textContent = 'ADMN-CONF-005';
   }
 
   function renderAccounts() {
@@ -666,19 +661,6 @@ code, pre, kbd, samp,
     showToast(`계정 [${id}] 권한 그룹(${role}) 및 데이터 스코프가 저장되었습니다.`);
   }
 
-  function renderAuditLogs() {
-    document.getElementById('audit-tbody').innerHTML = AUDIT_LOGS.map(l => `
-      <tr>
-        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:700;">${l.id}</td>
-        <td>${l.dt}</td>
-        <td style="font-weight:700;">${l.actor}</td>
-        <td><span class="badge badge-blue">${l.type}</span></td>
-        <td>${l.detail}</td>
-        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums;">${l.ip}</td>
-      </tr>
-    `).join('');
-  }
-
   function closeModal(id) {
     document.getElementById(id).classList.remove('open');
   }
@@ -693,10 +675,9 @@ code, pre, kbd, samp,
 
   window.addEventListener('DOMContentLoaded', () => {
     renderAccounts();
-    renderAuditLogs();
     const params = new URLSearchParams(window.location.search);
     const view = params.get('view');
-    if (view === 'ADMN-CONF-006') switchTab('audit');
+    if (view === 'ADMN-CONF-006') window.location.href = 'ADMN-CONF-010_baseline.html?view=access';
   });
 </script>
 <script>
