@@ -729,14 +729,14 @@ code, pre, kbd, samp,
             <span class="badge badge-info">도서 3원장 통합 워크플로우 가이드</span>
             <span>교재는 출발점(강사 인세 계약 vs 외부 사입)에 따라 아래 4단계 원장이 유기적으로 연결됩니다. 각 카드를 클릭하면 해당 원장으로 이동합니다.</span>
           </div>
-          <span style="font-size:11.5px; color:var(--slate-500); font-weight:600;" id="stepper-target-label">현재 선택 도서: [BK-2026-101 / BOOK-2601] 산안기 필기 한권완성</span>
+          <span style="font-size:11.5px; color:var(--slate-500); font-weight:600;" id="stepper-target-label">현재 선택 도서: [PROD-BK-1011] 산안기 필기 한권완성</span>
         </div>
 
         <div class="stepper-grid">
           <a class="step-node" href="ADMN-INST-001_baseline.html">
             <div class="step-node-top">
               <span class="step-num">Step 1. 권리자 계약 원장 (인세도서 가채번)</span>
-              <span class="step-light light-green" id="step1-light">🟢 가채번 완료 (TMP-BK-01)</span>
+              <span class="step-light light-green" id="step1-light">🟢 가채번 완료 (BK-REQ-2026-0011)</span>
             </div>
             <div class="step-desc">
               <code>ADMN-INST-001</code> · 강사 저자 계약 시 임시 도서코드(가채번)를 먼저 생성합니다. (외부 사입 도서는 생략 가능)
@@ -749,7 +749,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step2-light">🟢 공급원장 등록됨</span>
             </div>
             <div class="step-desc">
-              <code>ADMN-BOOK-001</code> · 정식 SKU(<code>BOOK-XXXX</code>)를 부여하고 출판사 공급률·제조원가·인세율을 확정합니다.
+              <code>ADMN-BOOK-001</code> · 정식 SKU(<code>PROD-BK-NNNN</code>)를 부여하고 출판사 공급률·제조원가·인세율을 확정합니다.
             </div>
           </a>
 
@@ -759,7 +759,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step3-light">🟢 계약원장 자동상속</span>
             </div>
             <div class="step-desc">
-              <code>ADMN-SETT-001</code> · 가채번 도서는 자동 매핑되며, 계약원장 없이 신규 생성한 도서는 여기서 권리자를 수동 매핑합니다.
+              <code>ADMN-SETT-001</code> · 가채번 도서는 계약 지분이 자동 상속되며(공동 저자는 여기서 지분 확인), 계약원장 없이 신규 생성한 도서는 여기서 권리자를 수동 매핑합니다.
             </div>
           </a>
 
@@ -845,7 +845,7 @@ code, pre, kbd, samp,
               </div>
               <div class="filter-field filter-span-2">
                 <label>검색어 (교재명 / SKU 코드 / 가채번 코드 / ISBN-13 / 저자명)</label>
-                <input type="text" id="filter-keyword" class="form-input" placeholder="교재명, BOOK-XXXX, TMP-BK-XX, ISBN-13, 저자명 입력">
+                <input type="text" id="filter-keyword" class="form-input" placeholder="교재명, PROD-BK-NNNN, BK-REQ-YYYY-SEQ, ISBN-13, 저자명 입력">
               </div>
               <div class="filter-field" style="display:flex; justify-content:flex-end; gap:8px;">
                 <button type="button" class="btn btn-outline" onclick="resetBookFilters()">초기화</button>
@@ -899,7 +899,7 @@ code, pre, kbd, samp,
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
-            <span class="code-pill" id="d-sku-badge">BOOK-2601</span>
+            <span class="code-pill" id="d-sku-badge">PROD-BK-1011</span>
             <h2 style="font-size:16px; font-weight:800;" id="d-book-title">2026 산준모 산업안전기사 필기 한권완성 이론+빈출</h2>
             <span id="d-status-badge" class="badge badge-sale">판매중</span>
           </div>
@@ -923,9 +923,9 @@ code, pre, kbd, samp,
               <tbody>
                 <tr>
                   <th>교재 SKU 코드</th>
-                  <td><span class="code-pill" id="d-sku">BOOK-2601</span></td>
+                  <td><span class="code-pill" id="d-sku">PROD-BK-1011</span></td>
                   <th>계약원장 가채번 코드<br>(ADMN-INST-001)</th>
-                  <td id="d-temp-code"><span class="code-pill">TMP-BK-2601</span> (김안전 저자 출판계약서 자동 상속)</td>
+                  <td id="d-temp-code"><span class="code-pill">BK-REQ-2026-0011</span> (김안전 저자 출판계약서 자동 상속)</td>
                 </tr>
                 <tr>
                   <th>교재명</th>
@@ -1026,12 +1026,12 @@ code, pre, kbd, samp,
                     <span class="badge badge-sale">강사 인세도서 권장</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    강사와 저자 인세 계약을 먼저 체결하여 <strong>가채번(<code>TMP-BK-XX</code>)</strong>된 도서를 불러옵니다.<br>
-                    저자명·인세율·권리자 지분이 자동 상속되므로 <strong>별도의 권리자 매핑(SETT-001) 작업이 필요 없습니다.</strong>
+                    강사와 저자 인세 계약을 먼저 체결하여 <strong>가채번(<code>BK-REQ-YYYY-SEQ</code>)</strong>된 도서를 불러옵니다.<br>
+                    저자명·인세율·권리자 지분이 자동 상속됩니다. <strong>단독 저자는 권리자 매핑(SETT-001)이 따로 필요 없고, 공동 저자는 SETT-001에서 저자별 지분을 확인합니다.</strong>
                   </div>
                 </div>
                 <div class="entry-mode-foot">
-                  <span style="color:var(--primary);" id="entry-status-INST_TEMP">현재 바인딩: TMP-BK-2601 (김안전 10%)</span>
+                  <span style="color:var(--primary);" id="entry-status-INST_TEMP">현재 바인딩: BK-REQ-2026-0011 (김안전 10%)</span>
                   <button type="button" class="btn btn-soft btn-sm" onclick="event.stopPropagation(); openTempBookModal();">가채번 도서 검색 →</button>
                 </div>
               </div>
@@ -1062,7 +1062,7 @@ code, pre, kbd, samp,
                     <span class="badge badge-warn">후속 매핑 필수</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    계약원장·공급원장 등록 전에 최고 관리자가 먼저 <strong>신규 SKU(<code>BOOK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
+                    계약원장·공급원장 등록 전에 최고 관리자가 먼저 <strong>신규 SKU(<code>PROD-BK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
                     단, 저장 후 <strong>공급원장 원가 입력(BOOK-001)</strong> 및 <strong>권리자 매핑(SETT-001)</strong>을 완료하기 전에는 <strong>[판매대기]</strong>로 잠금됩니다.
                   </div>
                 </div>
@@ -1076,7 +1076,7 @@ code, pre, kbd, samp,
             <!-- 경로 선택에 따른 실시간 체크리스트 알림 박스 -->
             <div id="entry-mode-alert" class="ledger-sync-box ok" style="margin-top:14px;">
               <div>
-                <strong id="entry-alert-title">[경로 1 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 완료]</strong>
+                <strong id="entry-alert-title">[경로 1 선택됨 — 계약원장 가채번(BK-REQ-2026-0011) 연동 완료]</strong>
                 <div style="font-size:12px; margin-top:2px;" id="entry-alert-desc">
                   계약원장(ADMN-INST-001)에서 저자(김안전 · RH-0019) 및 인세율(10%) 정보가 자동 연동되었습니다. 표지 이미지와 재고만 입력하면 즉시 [판매중]으로 전시할 수 있습니다.
                 </div>
@@ -1104,14 +1104,14 @@ code, pre, kbd, samp,
                   <th>교재 SKU 코드 <span class="req-star">*</span></th>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <input type="text" id="f-sku" class="form-input" style="width:190px; font-weight:700;" value="BOOK-2601" readonly="">
-                      <span class="field-hint" style="margin:0;">공급원장 연동 또는 신규 자동채번(<code>BOOK-YYNN</code>)</span>
+                      <input type="text" id="f-sku" class="form-input" style="width:190px; font-weight:700;" value="PROD-BK-1011" readonly="">
+                      <span class="field-hint" style="margin:0;">공급원장 연동 또는 신규 자동채번(<code>PROD-BK-NNNN</code>)</span>
                     </div>
                   </td>
                   <th>계약원장 가채번 코드<br>(ADMN-INST-001)</th>
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
-                      <input type="text" id="f-temp-code" class="form-input" style="width:170px;" value="TMP-BK-2601" readonly="">
+                      <input type="text" id="f-temp-code" class="form-input" style="width:170px;" value="BK-REQ-2026-0011" readonly="">
                       <button type="button" class="btn btn-soft btn-sm" onclick="openTempBookModal()">가채번 변경</button>
                     </div>
                   </td>
@@ -1382,23 +1382,23 @@ code, pre, kbd, samp,
           </thead>
           <tbody>
             <tr>
-              <td><span class="code-pill">TMP-BK-2601</span></td>
-              <td><span class="code-pill">BOOK-2601</span></td>
+              <td><span class="code-pill">BK-REQ-2026-0011</span></td>
+              <td><span class="code-pill">PROD-BK-1011</span></td>
               <td style="font-weight:700;">2026 산준모 산업안전기사 필기 한권완성 이론+빈출</td>
               <td>김안전 (RH-0019)</td>
               <td class="text-center"><span class="badge badge-sale">인세 10%</span></td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applyTempBookSelection('TMP-BK-2601', 'BOOK-2601', '2026 산준모 산업안전기사 필기 한권완성 이론+빈출', '김안전', '산준모북스', 38000)">불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applyTempBookSelection('BK-REQ-2026-0011', 'PROD-BK-1011', '2026 산준모 산업안전기사 필기 한권완성 이론+빈출', '김안전', '산준모북스', 38000)">불러오기</button>
               </td>
             </tr>
             <tr>
-              <td><span class="code-pill">TMP-BK-2606</span></td>
-              <td><span class="code-pill">BOOK-2606</span></td>
+              <td><span class="code-pill">BK-REQ-2026-0016</span></td>
+              <td><span class="code-pill">PROD-BK-1016</span></td>
               <td style="font-weight:700;">2026 건설안전기사 실기 작업형 고득점 핵심노트 (신규 가채번)</td>
               <td>이건설 (RH-0046)</td>
               <td class="text-center"><span class="badge badge-sale">인세 12%</span></td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applyTempBookSelection('TMP-BK-2606', 'BOOK-2606', '2026 건설안전기사 실기 작업형 고득점 핵심노트', '이건설', '산준모북스', 33000)">불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applyTempBookSelection('BK-REQ-2026-0016', 'PROD-BK-1016', '2026 건설안전기사 실기 작업형 고득점 핵심노트', '이건설', '산준모북스', 33000)">불러오기</button>
               </td>
             </tr>
           </tbody>
@@ -1434,23 +1434,23 @@ code, pre, kbd, samp,
           </thead>
           <tbody>
             <tr>
-              <td><span class="code-pill">BOOK-2607</span></td>
+              <td><span class="code-pill">PROD-BK-3004</span></td>
               <td><span class="badge badge-info">위탁판매 (65%)</span></td>
               <td style="font-weight:700;">2026 인간공학기사 필기 빈출문제 7개년 총정리</td>
               <td>안전기술출판</td>
               <td class="text-right">32,000원</td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('BOOK-2607', '2026 인간공학기사 필기 빈출문제 7개년 총정리', '박보건', '안전기술출판', 32000, '위탁판매')">SKU 불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('PROD-BK-3004', '2026 인간공학기사 필기 빈출문제 7개년 총정리', '박보건', '안전기술출판', 32000, '위탁판매')">SKU 불러오기</button>
               </td>
             </tr>
             <tr>
-              <td><span class="code-pill">BOOK-2608</span></td>
+              <td><span class="code-pill">PROD-BK-3002</span></td>
               <td><span class="badge badge-preorder">사입판매 (60%)</span></td>
               <td style="font-weight:700;">2026 소방설비기사(전기) 핵심이론 기본서</td>
               <td>한국자격교재총판</td>
               <td class="text-right">40,000원</td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('BOOK-2608', '2026 소방설비기사(전기) 핵심이론 기본서', '외부저자팀', '한국자격교재총판', 40000, '사입판매')">SKU 불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('PROD-BK-3002', '2026 소방설비기사(전기) 핵심이론 기본서', '외부저자팀', '한국자격교재총판', 40000, '사입판매')">SKU 불러오기</button>
               </td>
             </tr>
           </tbody>
@@ -1474,7 +1474,7 @@ code, pre, kbd, samp,
           <tbody>
             <tr>
               <th>대상 교재</th>
-              <td id="modal-stock-book-name" style="font-weight:700;">[BOOK-2601] 2026 산준모 산업안전기사 필기 한권완성 이론+빈출</td>
+              <td id="modal-stock-book-name" style="font-weight:700;">[PROD-BK-1011] 2026 산준모 산업안전기사 필기 한권완성 이론+빈출</td>
             </tr>
             <tr>
               <th>수불 처리 유형 <span class="req-star">*</span></th>
@@ -1532,8 +1532,8 @@ code, pre, kbd, samp,
 
     let booksData = [
       {
-        sku: "BOOK-2601",
-        tempCode: "TMP-BK-2601",
+        sku: "PROD-BK-1011",
+        tempCode: "BK-REQ-2026-0011",
         originMode: "INST_TEMP",
         cat: "산업안전기사",
         title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출",
@@ -1558,8 +1558,8 @@ code, pre, kbd, samp,
         createdAt: "2026-01-05"
       },
       {
-        sku: "BOOK-2602",
-        tempCode: "TMP-BK-2602",
+        sku: "PROD-BK-1012",
+        tempCode: "BK-REQ-2026-0012",
         originMode: "INST_TEMP",
         cat: "산업안전기사",
         title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집",
@@ -1584,11 +1584,11 @@ code, pre, kbd, samp,
         createdAt: "2026-01-12"
       },
       {
-        sku: "BOOK-2604",
+        sku: "PROD-BK-3003",
         tempCode: "-",
         originMode: "BOOK_LEDGER",
         cat: "건설안전기사",
-        title: "2026 건설안전기사 필기 핵심이론 + 과년도 빈출문제",
+        title: "2026 건설안전기사 필기 핵심이론 + 과년도 빈출",
         subtitle: "건설안전기술 표준안전작업지침 개정판 완전 반영",
         author: "이건설",
         publisher: "안전기술출판",
@@ -1610,7 +1610,7 @@ code, pre, kbd, samp,
         createdAt: "2026-02-01"
       },
       {
-        sku: "BOOK-2605",
+        sku: "PROD-BK-1015",
         tempCode: "-",
         originMode: "PROD_DIRECT",
         cat: "산업안전지도사",
@@ -1912,10 +1912,10 @@ code, pre, kbd, samp,
 
       if (mode === "INST_TEMP") {
         alertBox.className = "ledger-sync-box ok";
-        alertTitle.textContent = "[경로 1 선택됨 — 계약원장 가채번(TMP-BK-2601) 연동 모드]";
-        alertDesc.textContent = "계약원장(ADMN-INST-001)에서 저자 및 인세율이 자동 상속되므로 별도의 권리자 매핑(SETT-001) 없이 즉시 [판매중] 설정이 가능합니다.";
-        document.getElementById("f-temp-code").value = "TMP-BK-2601";
-        document.getElementById("f-sku").value = "BOOK-2601";
+        alertTitle.textContent = "[경로 1 선택됨 — 계약원장 가채번(BK-REQ-2026-0011) 연동 모드]";
+        alertDesc.textContent = "계약원장(ADMN-INST-001)의 저자·인세율·권리자 지분이 자동 상속됩니다. 공동 저자 도서는 권리자 매핑(SETT-001)에서 지분 합계 100%를 확인한 뒤 [판매중]으로 바꿉니다.";
+        document.getElementById("f-temp-code").value = "BK-REQ-2026-0011";
+        document.getElementById("f-sku").value = "PROD-BK-1011";
         radioSale.disabled = false;
       } else if (mode === "BOOK_LEDGER") {
         alertBox.className = "ledger-sync-box ok";
@@ -1926,8 +1926,8 @@ code, pre, kbd, samp,
       } else if (mode === "PROD_DIRECT") {
         alertBox.className = "ledger-sync-box warn";
         alertTitle.textContent = "[경로 3 선택됨 — PROD-004 직접 신규 SKU 채번 (후속 원장 매핑 필수)]";
-        alertDesc.textContent = "⚠️ 계약원장·공급원장 없이 여기서 바로 SKU를 생성합니다. 저장 후 [1] ADMN-BOOK-001 공급원가 입력 및 [2] ADMN-SETT-001 권리자 매핑을 완료하기 전까지 판매 상태는 [판매대기]로 강제 고정됩니다.";
-        document.getElementById("f-sku").value = "BOOK-AUTO (즉시 신규채번)";
+        alertDesc.textContent = "⚠️ 계약원장·공급원장 없이 여기서 바로 SKU를 생성합니다. 저장 후 ADMN-BOOK-001 공급원가 입력과 ADMN-SETT-001 권리자 매핑을 모두 완료하기 전까지 판매 상태는 [판매대기]로 강제 고정됩니다.";
+        document.getElementById("f-sku").value = "PROD-BK-AUTO (즉시 신규채번)";
         document.getElementById("f-temp-code").value = "- (미연동)";
         document.getElementById("f-supply-ledger").value = "미등록(후속입력)";
         radioReady.checked = true;
@@ -2145,7 +2145,7 @@ code, pre, kbd, samp,
 
       const rawSku = document.getElementById("f-sku").value;
       const isNew = rawSku.includes("AUTO");
-      const finalSku = isNew ? `BOOK-260${booksData.length + 5}` : rawSku;
+      const finalSku = isNew ? `PROD-BK-${1016 + booksData.length}` : rawSku;
       const price = Number(document.getElementById("f-list-price").value || 0);
       const stock = Number(document.getElementById("f-stock-qty").value || 0);
       const status = document.querySelector('input[name="f-book-status"]:checked').value;

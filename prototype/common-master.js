@@ -256,10 +256,12 @@
     }
   };
 
-  // 2계층 사업자 수취인 — 원천은 수취인 2계층 분할(ADMN-SETT-007). 현재 분할 몫이 있고 세금계산서 · 계산서 발행 · 제출이 필요한
-  // 사업자 수취인만 둔다(원천징수 대상 개인 수취인은 계정 없이 정산서 PDF 발송). 소속은 권리자이며 데이터 범위는 본인 수취 몫
+  // 2계층 수취인 — 원천은 수취인 2계층 분할(ADMN-SETT-007). 현재 분할 몫이 있는 수취인 중 원 권리자 본인이 아닌 사람 · 사업자를 둔다.
+  // 소속은 권리자, 데이터 범위는 본인 수취 몫. 개인 · 사업자 모두 계정을 받을 수 있고, 세금계산서 · 계산서 제출 기능은 사업자에게만 붙는다(biz)
   var PAYEE_SEED = [
-    { id: "PY-9001", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자", bizNo: "106-81-55210", contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", ratio: 30, evidence: "세금계산서 제출" }
+    { id: "PY-9001", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자", biz: true, bizNo: "106-81-55210", contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", ratio: 30, evidence: "세금계산서 제출" },
+    { id: "PY-0018-S1", name: "박승계 (상속인)", entity: "개인 · 원천징수", biz: false, contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", ratio: 60, evidence: "원천징수 영수증 조회" },
+    { id: "PY-0018-S2", name: "박자녀 (상속인)", entity: "개인 · 원천징수", biz: false, contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", ratio: 40, evidence: "원천징수 영수증 조회" }
   ];
 
   var rightsHolders = {

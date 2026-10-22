@@ -1,0 +1,496 @@
+<title>업무 동선 매뉴얼</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* 노선도: 작업 하나 = 노선 하나, 화면 하나 = 역 하나. 앞 역에서 생긴 코드를 다음 역에서 고른다. */
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --ink: #18202c;
+  --ink-2: #4a5566;
+  --ink-3: #7a8494;
+  --rule: #dde2e9;
+  --tint: #eaeef3;
+  --warn: #b4410f;
+  --warn-bg: #fdf0e8;
+  --ok: #1f7a4d;
+  --ok-bg: #e7f4ec;
+  --l-a: #1d63c9; --l-b: #0f8a7a; --l-c: #c2560c; --l-d: #7b3fc4; --l-e: #c22f5b; --l-f: #5c6f12; --l-g: #5b6472;
+  --font-body: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11151b; --surface: #1a2029; --ink: #e8ecf2; --ink-2: #b3bcc9; --ink-3: #8691a1; --rule: #2c3440; --tint: #222a35;
+  --warn: #f2915c; --warn-bg: #3a2418; --ok: #5cc98f; --ok-bg: #173226;
+  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #11151b; --surface: #1a2029; --ink: #e8ecf2; --ink-2: #b3bcc9; --ink-3: #8691a1; --rule: #2c3440; --tint: #222a35;
+  --warn: #f2915c; --warn-bg: #3a2418; --ok: #5cc98f; --ok-bg: #173226;
+  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 40px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 56px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.3; }
+h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 16px; font-weight: 600; }
+p { margin: 0; }
+code, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--l-a); outline-offset: 2px; border-radius: 4px; }
+
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink-3); }
+.lead { color: var(--ink-2); max-width: 64ch; }
+header.top { display: grid; gap: 12px; }
+
+/* 작업 고르기 */
+.picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.pick { all: unset; cursor: pointer; display: grid; gap: 10px; padding: 16px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); min-width: 0; }
+.pick:hover { border-color: var(--line); }
+.pick[aria-pressed="true"] { border-color: var(--line); box-shadow: inset 0 0 0 1px var(--line); }
+.pick:focus-visible { outline: 2px solid var(--line); outline-offset: 2px; }
+.pick-hd { display: flex; gap: 10px; align-items: center; }
+.badge { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--line); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; font-family: var(--font-mono); }
+.pick-title { font-weight: 600; }
+.pick-when { font-size: 13px; color: var(--ink-2); }
+.mini { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.mini span { font-family: var(--font-mono); font-size: 11.5px; padding: 1px 6px; border-radius: 4px; background: var(--tint); color: var(--ink-2); }
+.mini i { width: 10px; height: 2px; background: var(--line); display: inline-block; }
+
+/* 노선 상세 */
+.route-hd { display: grid; gap: 8px; padding-bottom: 20px; border-bottom: 2px solid var(--line); }
+.route-hd .row { display: flex; gap: 12px; align-items: center; }
+.route-hd .badge { width: 36px; height: 36px; font-size: 17px; }
+.route { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; }
+.stop { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; position: relative; }
+.stop::before { content: ""; position: absolute; left: 19px; top: 0; bottom: 0; width: 6px; background: var(--line); }
+.stop:first-child::before { top: 22px; }
+.stop:last-child::before { bottom: auto; height: 22px; }
+.stop.opt::before { background: repeating-linear-gradient(var(--line) 0 8px, transparent 8px 14px); }
+.dot { position: relative; z-index: 1; margin-top: 8px; width: 30px; height: 30px; margin-left: 7px; border-radius: 50%; background: var(--surface); border: 6px solid var(--line); }
+.stop.start .dot { background: var(--line); }
+.stop-body { padding: 6px 0 28px; display: grid; gap: 10px; min-width: 0; }
+.stop.start .stop-body { padding-bottom: 20px; }
+.start-label { font-weight: 600; }
+.start-label small { display: block; font-weight: 400; color: var(--ink-2); font-size: 13px; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); padding: 16px 18px; display: grid; gap: 12px; }
+.where { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.where h3 { font-size: 17px; }
+.where .code { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.where .path { font-size: 12.5px; color: var(--ink-3); width: 100%; }
+.where a.open { margin-left: auto; font-size: 12.5px; color: var(--line); text-decoration: none; font-weight: 600; white-space: nowrap; }
+.where a.open:hover { text-decoration: underline; }
+.opt-tag { font-size: 11.5px; font-weight: 600; color: var(--ink-3); border: 1px solid var(--rule); border-radius: 4px; padding: 0 6px; }
+ol.do { margin: 0; padding-left: 20px; display: grid; gap: 4px; color: var(--ink); }
+ol.do li::marker { color: var(--ink-3); font-family: var(--font-mono); font-size: 12px; }
+.io { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
+.io > div { border-radius: 8px; padding: 8px 12px; background: var(--tint); font-size: 13.5px; min-width: 0; }
+.io b { display: block; font-size: 11.5px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; margin-bottom: 2px; }
+.io .take { background: color-mix(in srgb, var(--line) 12%, var(--surface)); }
+.io .take b { color: var(--line); }
+.token { display: inline-block; font-family: var(--font-mono); font-size: 12px; font-weight: 600; padding: 0 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--line); background: var(--surface); margin-right: 4px; }
+.note { font-size: 13.5px; padding: 8px 12px; border-radius: 8px; display: flex; gap: 8px; }
+.note.lock { background: var(--warn-bg); color: var(--warn); }
+.note.tip { background: var(--ok-bg); color: var(--ok); }
+.note b { white-space: nowrap; }
+.note span { color: var(--ink); }
+.done { margin-top: 4px; display: grid; gap: 8px; padding: 16px 18px; border-radius: var(--r); border: 1px dashed var(--line); }
+.done ul { margin: 0; padding-left: 20px; display: grid; gap: 2px; }
+
+/* 헷갈리는 짝 */
+.pairs { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin-top: 16px; }
+.pair { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); padding: 16px 18px; display: grid; gap: 10px; min-width: 0; }
+.pair .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pair .vs > div { display: grid; gap: 4px; font-size: 13.5px; align-content: start; }
+.pair .vs strong { font-size: 14.5px; }
+.pair .vs .code { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-3); }
+.pair .rule-line { font-size: 13.5px; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 10px; }
+
+/* 표 */
+.table-wrap { overflow-x: auto; margin-top: 16px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 14px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-size: 12px; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; background: var(--tint); }
+tr:last-child td { border-bottom: 0; }
+td .sym { font-weight: 600; color: var(--warn); }
+td .scr { white-space: nowrap; font-weight: 600; }
+td .scr code { color: var(--ink-3); font-weight: 500; margin-left: 4px; }
+.codes td:first-child { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
+
+footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 16px; }
+
+@media (max-width: 560px) {
+  h1 { font-size: 25px; }
+  .stop { grid-template-columns: 32px minmax(0, 1fr); column-gap: 10px; }
+  .stop::before { left: 13px; width: 5px; }
+  .dot { width: 24px; height: 24px; margin-left: 4px; border-width: 5px; }
+  .pair .vs { grid-template-columns: 1fr; }
+  .where a.open { margin-left: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .route .stop { animation: in .25s ease-out both; }
+  @keyframes in { from { transform: translateY(4px); } to { transform: none; } }
+}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">산준모닷컴 백오피스 · 운영자용</span>
+    <h1>업무 동선 매뉴얼</h1>
+    <p class="lead">한 화면에서 끝나지 않는 작업을 노선도로 정리했습니다. 앞 화면에서 만든 코드를 다음 화면에서 골라 쓰기 때문에 순서가 바뀌면 고를 대상이 목록에 나타나지 않습니다. 하려는 작업을 고르고 위에서 아래로 따라가세요.</p>
+  </header>
+
+  <section aria-labelledby="pick-h">
+    <h2 id="pick-h">어떤 작업인가요?</h2>
+    <div class="picker" id="picker" style="margin-top:16px"></div>
+  </section>
+
+  <section id="route" aria-live="polite"></section>
+
+  <section aria-labelledby="pair-h">
+    <h2 id="pair-h">이름이 비슷해서 헷갈리는 화면</h2>
+    <p class="lead" style="margin-top:6px">무엇을 정하는 화면인지 한 줄로 구분해 두었습니다.</p>
+    <div class="pairs">
+      <div class="pair">
+        <div class="vs">
+          <div><strong>상품별 권리자 매핑</strong><span class="code">SETT-001</span><span>이 상품의 매출이 <b>누구 몫</b>인가</span><span>강좌·도서마다 권리자 지분 합계 100%</span></div>
+          <div><strong>수취인 분할 관리</strong><span class="code">SETT-007</span><span>그 권리자 몫을 <b>누구 통장으로</b> 나눠 받는가</span><span>계약마다 공동수취·에이전시·상속인 비율</span></div>
+        </div>
+        <p class="rule-line">공동 저자는 SETT-001(상품 지분), 저자 한 명의 정산금을 에이전시와 나누는 건 SETT-007입니다.</p>
+      </div>
+      <div class="pair">
+        <div class="vs">
+          <div><strong>도서 공급 원장</strong><span class="code">BOOK-001</span><span>재무·출판 담당</span><span>정식 SKU, ISBN, 정가, 공급률, 원가</span></div>
+          <div><strong>교재 관리</strong><span class="code">PROD-004</span><span>상품 전시 담당</span><span>표지, 목차, 미리보기, 재고, 할인율, 판매 상태</span></div>
+        </div>
+        <p class="rule-line">돈과 관련된 값은 도서 공급 원장, 수험생에게 보이는 값은 교재 관리에서 넣습니다.</p>
+      </div>
+      <div class="pair">
+        <div class="vs">
+          <div><strong>권리자</strong><span class="code">권리자 계약 원장 · INST-001</span><span>계약에 따라 <b>정산금</b>을 받는 상대</span><span>강사, 저자, 위탁 출판사, 자사(엘캠퍼스)</span></div>
+          <div><strong>거래처</strong><span class="code">거래처 관리 · VEND-001</span><span>우리가 <b>대금</b>을 치르는 상대</span><span>도서·상품 매입처, 물류 대행사(3PL)</span></div>
+        </div>
+        <p class="rule-line">판매 대금을 정산받는 위탁 출판사는 거래처가 아니라 권리자로 등록합니다.</p>
+      </div>
+      <div class="pair">
+        <div class="vs">
+          <div><strong>도서 임시코드(가채번)</strong><span class="code">BK-REQ-YYYY-NNNN · 권리자 계약 원장에서 생성</span><span>출간 전 저서를 계약에 묶어 두는 번호</span><span>정식 SKU가 생겨도 지우지 않고 남습니다</span></div>
+          <div><strong>정식 SKU</strong><span class="code">PROD-BK-NNNN</span><span>판매·재고·정산에 쓰는 번호</span><span>도서 공급 원장이나 교재 관리에서 부여</span></div>
+        </div>
+        <p class="rule-line">임시코드만 있는 저서는 계약 저장은 되지만 정산 대상에 들어가지 않습니다. SKU 연결까지 마쳐야 합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="lock-h">
+    <h2 id="lock-h">판매나 저장이 막혔을 때</h2>
+    <p class="lead" style="margin-top:6px">막힌 화면이 아니라 앞 단계 화면에 원인이 있는 경우가 대부분입니다. 증상을 찾아 오른쪽 화면으로 가세요.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:30%">이렇게 보이면</th><th style="width:38%">원인</th><th>가서 할 일</th></tr></thead>
+        <tbody id="locks"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="code-h">
+    <h2 id="code-h">코드는 어디서 생기고 어디서 고르나</h2>
+    <div class="table-wrap codes">
+      <table>
+        <thead><tr><th>코드</th><th>무엇</th><th>생기는 화면</th><th>골라 쓰는 화면</th></tr></thead>
+        <tbody>
+          <tr><td>RH-NNNN</td><td>권리자 (자사는 RH-INTERNAL · 엘캠퍼스)</td><td>권리자 계약 원장</td><td>상품별 권리자 매핑, 강사 노출 정보, 수취인 분할, 운영자 권한(파트너 계정)</td></tr>
+          <tr><td>CT-YYYY-NNNN</td><td>계약</td><td>권리자 계약 원장</td><td>수취인 분할, 약정금 마일스톤 검수, 월간 정산</td></tr>
+          <tr><td>BK-REQ-YYYY-NNNN</td><td>도서 임시코드 · 출간 전 저서 (가채번)</td><td>권리자 계약 원장 · 계약 대상 저서</td><td>도서 공급 원장 · 교재 관리 경로 1</td></tr>
+          <tr><td>PROD-BK-NNNN</td><td>도서 정식 SKU (앞자리 1 자사 발행 · 2 사입 · 3 위탁 · 4 비매품)</td><td>도서 공급 원장 (또는 교재 관리 경로 3)</td><td>교재 관리, 상품별 권리자 매핑, 단과 강좌·패키지 연계 교재</td></tr>
+          <tr><td>PY-NNNN</td><td>2계층 수취인</td><td>수취인 분할 관리</td><td>월간 정산, 운영자 권한(세금계산서 발행 사업자만)</td></tr>
+          <tr><td>SUP-NNNN</td><td>거래처 (매입처·3PL)</td><td>거래처 관리</td><td>도서 공급 원장(공급처), 일반상품, 물류비 대사</td></tr>
+          <tr><td>GDS-NNNN</td><td>일반상품</td><td>일반상품 관리 (저장 시 자동)</td><td>주문·배송</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>프로토타입(prototype_clean) 화면 기준으로 정리했습니다. 각 단계의 “화면 열기”는 공개 프로토타입으로 연결됩니다. 2026-10-23</footer>
+</div>
+
+<script>
+const BASE = "https://whiteceo.github.io/sanjunmo-settlement/prototype_clean/";
+const G_RH = "권리자 · 거래처 · 지분 매핑", G_PROD = "상품 · 강좌 · 교재 관리", G_PRE = "정산 마감 전 사전 대사", G_SETT = "월간 정산 · 지급 · 조회", G_CONF = "사이트 · 약관 · 메시지 설정";
+
+const FLOWS = [
+  {
+    id: "royalty", key: "A", color: "--l-a",
+    title: "강사 저서(인세 도서) 판매 오픈",
+    when: "강사·저자와 출간 전 저서 인세 계약을 맺었을 때",
+    start: ["강사와 저서 인세 계약서 체결", "계약서·사업자등록증(또는 신분 확인)·통장사본 수취"],
+    stops: [
+      { name: "권리자 계약 원장", code: "INST-001", group: G_RH, file: "ADMN-INST-001_baseline.html",
+        do: ["강사가 원장에 없으면 권리자로 먼저 등록합니다 (권리자 유형, 세무 속성, 소득 구분).",
+             "계약을 등록하고 요율·기간을 입력합니다.",
+             "‘계약 대상 저서’에서 [신규 저서 인세 계약 등록] → 저서명, 출간 예정일, 인세 요율, 산정 기준(정가 / 실구매가)을 입력합니다."],
+        out: ["RH", "권리자 코드"], out2: ["CT", "계약 코드"], out3: ["임시", "도서 임시코드"],
+        tip: "자사 권리자(엘캠퍼스)는 이미 원장에 있습니다. 새로 만들지 않습니다." },
+      { name: "도서 공급 원장", code: "BOOK-001", group: G_RH, file: "ADMN-BOOK-001_baseline.html",
+        do: ["생성 경로에서 [경로 1] ‘계약원장 가채번 도서 불러오기’를 고릅니다.",
+             "[가채번 도서 선택]에서 앞 단계에서 만든 임시코드를 선택합니다.",
+             "정식 SKU가 붙으면 ISBN, 정가, 출판사 공급률, 제조원가를 입력해 원가를 확정합니다."],
+        take: ["임시", "앞에서 만든 도서 임시코드"], out: ["PROD-BK", "정식 SKU"] },
+      { name: "상품별 권리자 매핑", code: "SETT-001", group: G_RH, file: "ADMN-SETT-001_baseline.html",
+        do: ["임시코드로 출발한 도서는 계약의 권리자·지분이 자동으로 넘어옵니다. 지분 합계가 100.00%인지 확인만 합니다.",
+             "공동 저자라면 저자별 지분을 입력하고, 남는 지분은 [잔여 지분 자사(엘캠퍼스) 자동 채우기]로 채웁니다."],
+        take: ["PROD-BK", "정식 SKU"],
+        lock: "합계가 100.00%가 안 되면 이 도서는 판매가 차단된 상태로 남습니다." },
+      { name: "교재 관리", code: "PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html",
+        do: ["[교재 등록]에서 공급원장에 등록된 SKU를 불러옵니다. 저자·인세율·지분은 자동으로 채워집니다.",
+             "표지, 목차, 미리보기 PDF, 재고, 기본 할인율(0~10%)을 입력합니다.",
+             "판매 상태를 [판매중]으로 바꿉니다."],
+        take: ["PROD-BK", "정식 SKU"],
+        tip: "SKU 검색창은 임시코드로도 찾을 수 있습니다." },
+      { name: "단과 강좌 · 패키지에 교재 연결", code: "PROD-003 · PROD-005", group: G_PROD, file: "ADMN-PROD-003_baseline.html", optional: true,
+        do: ["강좌 주교재·부교재로 쓰려면 단과 강좌 관리 ‘연계 교재 매핑’에서 이 교재를 추가합니다.",
+             "패키지에 넣으려면 패키지 · 환급반 상품 관리 ‘구성 교재 매핑’에서 추가합니다."],
+        take: ["PROD-BK", "판매중인 교재"] }
+    ],
+    done: ["계약 원장에 계약이 ‘계약 중’", "도서 공급 원장에서 원가 확정", "상품별 권리자 매핑 100.00%", "교재 관리에서 판매중"]
+  },
+  {
+    id: "consign", key: "B", color: "--l-b",
+    title: "외부 출판사 도서(위탁·사입) 판매 오픈",
+    when: "강사 인세 계약 없이 출판사 책을 받아 팔 때",
+    start: ["출판사와 공급 조건 합의", "위탁인지(팔린 만큼 출판사에 정산) 사입인지(우리가 사서 재판매) 먼저 정합니다"],
+    stops: [
+      { name: "권리자 계약 원장 또는 거래처 관리", code: "INST-001 · VEND-001", group: G_RH, file: "ADMN-INST-001_baseline.html",
+        do: ["위탁: 출판사를 권리자로 등록하고 위탁 계약을 맺습니다. 정산 기준(실결제액 / 도서 정가)을 계약에서 고릅니다.",
+             "사입: 거래처 관리에서 출판사를 매입처로 등록합니다. 국세청 상태조회를 먼저 해야 저장됩니다."],
+        out: ["RH", "위탁사 권리자"], out2: ["SUP", "매입처 거래처"],
+        tip: "이미 등록된 출판사면 이 단계는 건너뜁니다." },
+      { name: "도서 공급 원장", code: "BOOK-001", group: G_RH, file: "ADMN-BOOK-001_baseline.html",
+        do: ["생성 경로에서 [경로 2] ‘공급원장에서 최초 신규 SKU 생성’을 고릅니다.",
+             "공급처(출판사), ISBN, 정가, 공급률, 매입원가를 입력합니다."],
+        take: ["RH/SUP", "앞에서 등록한 출판사"], out: ["PROD-BK", "정식 SKU"] },
+      { name: "상품별 권리자 매핑", code: "SETT-001", group: G_RH, file: "ADMN-SETT-001_baseline.html",
+        do: ["이 경로는 자동 상속이 없습니다. 목록에서 ‘미매핑 · 판매차단’ 상태인 이 도서를 찾아 [권리자 매핑하기]를 누릅니다.",
+             "위탁 도서는 위탁사 권리자를, 그 밖에는 자사 지분을 넣어 합계 100.00%를 맞춥니다."],
+        take: ["PROD-BK", "정식 SKU"],
+        lock: "매핑 전까지 이 도서는 신규 결제가 차단됩니다." },
+      { name: "교재 관리", code: "PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html",
+        do: ["[경로 2] ‘도서 공급원장 기등록 SKU 불러오기’로 SKU를 선택합니다. SKU·정가·출판사·원가가 자동으로 채워집니다.",
+             "표지, 목차, 재고, 할인율(0~10%)을 입력하고 [판매중]으로 바꿉니다."],
+        take: ["PROD-BK", "정식 SKU"] }
+    ],
+    done: ["출판사가 권리자 또는 거래처로 등록됨", "공급 원장 원가 확정", "권리자 매핑 100.00%", "교재 판매중"]
+  },
+  {
+    id: "prod-first", key: "C", color: "--l-c",
+    title: "교재 화면에서 먼저 등록한 경우",
+    when: "급하게 교재를 먼저 만들어 두고 원장을 나중에 채울 때",
+    start: ["교재 상세 정보만 먼저 받은 상태", "인세 계약 도서라면 이 경로 대신 A를 쓰세요"],
+    stops: [
+      { name: "교재 관리", code: "PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html",
+        do: ["[경로 3] ‘이 화면에서 즉시 신규 SKU 생성’을 고르고 교재 정보를 저장합니다."],
+        out: ["PROD-BK", "선등록 SKU"],
+        lock: "저장하면 [판매대기]로 잠깁니다. 아래 두 단계를 마쳐야 풀립니다." },
+      { name: "도서 공급 원장", code: "BOOK-001", group: G_RH, file: "ADMN-BOOK-001_baseline.html",
+        do: ["생성 경로에서 [경로 3] ‘교재관리 선등록 SKU 원가 완성’을 고릅니다.",
+             "목록에 ‘원가 미입력’으로 대기 중인 SKU를 불러와 공급처·공급률·매입원가를 입력합니다."],
+        take: ["PROD-BK", "선등록 SKU"] },
+      { name: "상품별 권리자 매핑", code: "SETT-001", group: G_RH, file: "ADMN-SETT-001_baseline.html",
+        do: ["‘미매핑 · 판매차단’ 목록에서 이 SKU를 찾아 권리자 지분 100.00%를 입력합니다."],
+        take: ["PROD-BK", "선등록 SKU"] },
+      { name: "교재 관리로 돌아가기", code: "PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html",
+        do: ["판매대기가 풀렸는지 확인하고 [판매중]으로 바꿉니다."],
+        take: ["PROD-BK", "선등록 SKU"] }
+    ],
+    done: ["공급 원장 원가 입력", "권리자 매핑 100.00%", "교재 판매대기 해제 후 판매중"]
+  },
+  {
+    id: "course", key: "D", color: "--l-d",
+    title: "강좌·패키지 판매 오픈",
+    when: "새 강사의 강의를 올려 단과 강좌나 패키지로 팔 때",
+    start: ["강사와 강의 계약서 체결", "강의 영상 촬영·업로드 완료 (VOD Key 발급)"],
+    stops: [
+      { name: "권리자 계약 원장", code: "INST-001", group: G_RH, file: "ADMN-INST-001_baseline.html",
+        do: ["강사를 권리자로 등록하고 강의 계약(배분 요율, 지원금, 선급금)을 저장합니다."],
+        out: ["RH", "권리자 코드"], out2: ["CT", "계약 코드"] },
+      { name: "강사 노출 정보 관리", code: "PROD-006", group: G_PROD, file: "ADMN-PROD-006_baseline.html",
+        do: ["권리자 코드를 골라 원장과 연결합니다.", "프로필 이미지, OT 홍보 영상, 약력을 입력하고 강사관 노출을 켭니다."],
+        take: ["RH", "강사 권리자 코드"],
+        tip: "실명·계좌·요율은 여기서 고치지 않습니다. 계약 원장에서만 바꿉니다." },
+      { name: "강의 관리 (영상 단품)", code: "PROD-002", group: G_PROD, file: "ADMN-PROD-002_baseline.html",
+        do: ["강의를 등록하고 VOD Key를 입력해 유효성 검사를 합니다.", "재생시간을 확인합니다."],
+        out: ["강의", "강의(영상 단품)"] },
+      { name: "상품별 권리자 매핑", code: "SETT-001", group: G_RH, file: "ADMN-SETT-001_baseline.html",
+        do: ["강의·강좌의 권리자 지분을 입력해 합계 100.00%를 맞춥니다.", "공동 강의라면 강사별 지분을 나눠 넣습니다."],
+        take: ["RH", "강사 권리자"],
+        lock: "100.00% 전에는 이 강의가 들어간 강좌를 판매할 수 없습니다." },
+      { name: "단과 강좌 관리", code: "PROD-003", group: G_PROD, file: "ADMN-PROD-003_baseline.html",
+        do: ["커리큘럼에서 [차시 추가]로 앞에서 등록한 강의를 고릅니다.",
+             "연계 교재가 있으면 ‘연계 교재 매핑’에서 판매중인 교재를 추가합니다.",
+             "가격, 수강기간을 입력하고 [판매중]을 고릅니다."],
+        take: ["강의", "등록한 강의"],
+        lock: "지분 합계가 100% 미만이면 [판매중] 버튼이 잠겨 있습니다." },
+      { name: "패키지 · 환급반 상품 관리", code: "PROD-005", group: G_PROD, file: "ADMN-PROD-005_baseline.html", optional: true,
+        do: ["구성 단과 강좌와 교재를 추가하고 강좌별 매출 안분 비율을 입력합니다.",
+             "환급반이면 환급 인정 진도율·출석일 조건을 설정합니다."],
+        take: ["강좌", "판매중인 단과 강좌"],
+        lock: "포함 강좌 중 하나라도 지분이 모자라면 패키지도 판매중으로 바꿀 수 없습니다." }
+    ],
+    done: ["강사관 노출 켜짐", "강의 VOD Key 검증", "권리자 매핑 100.00%", "단과 강좌(·패키지) 판매중"]
+  },
+  {
+    id: "split", key: "E", color: "--l-e",
+    title: "정산금을 여러 명이 나눠 받을 때",
+    when: "에이전시·공동수취인·상속인이 권리자 몫을 나눠 받을 때",
+    start: ["분할 수취 합의서·상속 증빙 수취"],
+    stops: [
+      { name: "권리자 계약 원장", code: "INST-001", group: G_RH, file: "ADMN-INST-001_baseline.html",
+        do: ["원 권리자의 계약이 ‘계약 중’인지, 선급금 잔액이 남았는지 확인합니다."],
+        out: ["CT", "계약 코드"],
+        lock: "선급금 잔액이 남은 계약은 분할 등록이 막힙니다. 상계가 끝날 때까지 원 권리자 100%로 정산됩니다." },
+      { name: "수취인 분할 관리", code: "SETT-007", group: G_RH, file: "ADMN-SETT-007_baseline.html",
+        do: ["계약을 고르고 2계층 수취인을 추가합니다.", "수취인별 비율을 입력해 합계 100%를 맞춥니다."],
+        take: ["CT", "계약 코드"], out: ["PY", "수취인 코드"],
+        tip: "공동 저자처럼 상품 자체의 지분을 나누는 건 이 화면이 아니라 상품별 권리자 매핑입니다." },
+      { name: "운영자 권한 관리", code: "CONF-005", group: G_CONF, file: "ADMN-CONF-005_baseline.html", optional: true,
+        do: ["정산서를 웹에서 보려는 수취인에게 파트너 계정을 만들고 소속을 ‘권리자’, 대상을 그 수취인으로 지정합니다. 개인·사업자 모두 만들 수 있습니다.",
+             "사업자 수취인 계정에는 세금계산서 제출 기능이 함께 붙습니다. 정산서 PDF 메일은 계정이 없어도 매월 발송됩니다."],
+        take: ["PY", "2계층 수취인"] }
+    ],
+    done: ["선급금 잔액 없음 확인", "수취인 비율 합계 100%", "원하는 수취인에게 파트너 계정 발급"]
+  },
+  {
+    id: "advance", key: "F", color: "--l-f",
+    title: "선급금·지원금을 정산에 반영",
+    when: "계약금·제작지원금을 회차별로 지급하고 정산에서 상계할 때",
+    start: ["마일스톤 증빙 접수 (원고 납품, 촬영 완료 등)"],
+    stops: [
+      { name: "권리자 계약 원장", code: "INST-001", group: G_RH, file: "ADMN-INST-001_baseline.html",
+        do: ["계약에 ‘회차별 지급 마일스톤’, ‘지원금 요율 라인’, ‘선급금 원장 라인’을 등록해 둡니다. 계약 등록 때 한 번입니다."],
+        out: ["CT", "계약 · 마일스톤"] },
+      { name: "약정금 마일스톤 검수", code: "INST-002", group: G_PRE, file: "ADMN-INST-002_baseline.html",
+        do: ["검수 큐에서 마일스톤을 고르고 증빙을 확인합니다.", "승인하면 해당 월 정산서로 이관됩니다."],
+        take: ["CT", "계약 · 마일스톤"],
+        lock: "국세청 사업자 확인이 90일을 넘었거나 소득 구분이 비어 있으면 승인 게이트가 막힙니다. 마감된 월로는 이관할 수 없습니다." },
+      { name: "월간 정산 및 집행", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html",
+        do: ["정산을 실행하면 선급금이 상계되고 남은 금액이 지급 대상이 됩니다.", "대량이체 엑셀로 지급하고 결과 파일로 대사합니다."] },
+      { name: "정산 수동 조정", code: "SETT-005", group: G_SETT, file: "ADMN-SETT-005_baseline.html", optional: true,
+        do: ["마감 뒤 오류가 발견되면 수취인 과세유형에 맞는 정정 방식으로 조정 거래를 등록합니다."] }
+    ],
+    done: ["마일스톤 승인·이관", "정산서에 상계 반영", "지급·결과 대사 완료"]
+  },
+  {
+    id: "goods", key: "G", color: "--l-g",
+    title: "일반상품(굿즈·계산기) 판매 오픈",
+    when: "책·강의가 아닌 상품을 팔 때",
+    start: ["상품 공급처 확정"],
+    stops: [
+      { name: "거래처 관리", code: "VEND-001", group: G_RH, file: "ADMN-VEND-001_baseline.html", optional: true,
+        do: ["사서 되파는 상품이면 매입처를 거래처로 등록합니다. 국세청 상태조회를 먼저 해야 저장됩니다."],
+        out: ["SUP", "매입처"] },
+      { name: "일반상품 관리", code: "PROD-007", group: G_PROD, file: "ADMN-PROD-007_baseline.html",
+        do: ["공급 형태(매입 재판매 / 자사 직접 판매)를 고르고 상품을 저장합니다.", "권리자는 자사 100%로 자동 매핑되므로 상품별 권리자 매핑에 갈 필요가 없습니다."],
+        take: ["SUP", "매입처"], out: ["GDS", "상품 코드"],
+        lock: "한 번이라도 팔리면 공급 형태를 바꿀 수 없습니다. 바꿔야 하면 새 상품으로 등록합니다." }
+    ],
+    done: ["상품 판매중", "재고 0이 되면 결제 자동 차단"]
+  }
+];
+
+const LOCKS = [
+  ["교재 목록에 ‘판매대기(매핑 미완)’", "교재 화면에서 먼저 만든 SKU의 원가 또는 권리자 지분이 비어 있음", ["도서 공급 원장", "BOOK-001", "경로 3으로 원가 입력"], ["상품별 권리자 매핑", "SETT-001", "지분 100%"]],
+  ["상품 목록에 ‘미매핑 · 판매차단’", "권리자 지분 합계가 100.00%가 아님", ["상품별 권리자 매핑", "SETT-001", "지분 입력 또는 잔여 지분 자사 채우기"]],
+  ["단과 강좌 [판매중] 버튼이 눌리지 않음", "강좌에 편성된 강의의 지분이 100% 미달", ["상품별 권리자 매핑", "SETT-001", "해당 강의·강좌 지분 완성"]],
+  ["패키지 판매중 전환 차단", "포함된 단과 강좌 중 지분 미달 강좌가 있음", ["패키지 · 환급반 상품 관리", "PROD-005", "차단 메시지에서 강좌 확인"], ["상품별 권리자 매핑", "SETT-001", "그 강좌 지분 완성"]],
+  ["도서 공급 원장에 가채번 도서가 안 보임", "계약 원장에서 ‘계약 대상 저서’를 등록하지 않았음", ["권리자 계약 원장", "INST-001", "신규 저서 인세 계약 등록"]],
+  ["강사관 노출(Y)이 잠김", "계약 원장에서 계약이 종료·해지됨", ["권리자 계약 원장", "INST-001", "재계약 또는 노출 중단 유지"]],
+  ["수취인 분할 저장이 막힘", "선급금 잔액이 남은 계약", ["월간 정산 및 집행", "SETT-002", "상계 완료 후 다시 등록"]],
+  ["마일스톤 승인 게이트 차단", "사업자 확인 90일 초과 또는 소득 구분 미지정", ["사업자등록 확인 이력", "SETT-008", "재확인"], ["권리자 계약 원장", "INST-001", "소득 구분 지정"]],
+  ["거래처 저장이 안 됨", "국세청 상태조회를 하지 않았거나 휴·폐업 사업자", ["거래처 관리", "VEND-001", "상태조회 먼저"]],
+  ["일반상품 공급 형태를 바꿀 수 없음", "판매 이력이 있음", ["일반상품 관리", "PROD-007", "새 상품으로 등록"]]
+];
+
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tok = (t) => t ? `<span class="token">${esc(t[0])}</span>${esc(t[1])}` : "";
+
+function renderPicker(active) {
+  $("#picker").innerHTML = FLOWS.map((f) => `
+    <button class="pick" type="button" data-id="${f.id}" aria-pressed="${f.id === active}" style="--line: var(${f.color})">
+      <span class="pick-hd"><span class="badge">${f.key}</span><span class="pick-title">${esc(f.title)}</span></span>
+      <span class="pick-when">${esc(f.when)}</span>
+      <span class="mini">${f.stops.map((s) => `<span>${esc(s.code.split(" · ")[0])}</span>`).join("<i></i>")}</span>
+    </button>`).join("");
+}
+
+function renderRoute(id) {
+  const f = FLOWS.find((x) => x.id === id) || FLOWS[0];
+  const stops = f.stops.map((s, i) => {
+    const outs = [s.out, s.out2, s.out3].filter(Boolean).map(tok).join("<br>");
+    return `
+    <li class="stop${s.optional ? " opt" : ""}">
+      <span class="dot" aria-hidden="true"></span>
+      <div class="stop-body">
+        <div class="card">
+          <div class="where">
+            <h3>${i + 1}. ${esc(s.name)}</h3><span class="code">${esc(s.code)}</span>
+            ${s.optional ? `<span class="opt-tag">필요할 때만</span>` : ""}
+            <a class="open" href="${BASE + s.file}" target="_blank" rel="noopener">화면 열기 ↗</a>
+            <span class="path">왼쪽 메뉴 › ${esc(s.group)}</span>
+          </div>
+          <ol class="do">${s.do.map((d) => `<li>${esc(d)}</li>`).join("")}</ol>
+          ${(s.take || outs) ? `<div class="io">
+            ${s.take ? `<div class="take"><b>여기서 고르는 것</b>${tok(s.take)}</div>` : ""}
+            ${outs ? `<div><b>다음 화면으로 넘기는 것</b>${outs}</div>` : ""}
+          </div>` : ""}
+          ${s.lock ? `<p class="note lock"><b>막힘</b><span>${esc(s.lock)}</span></p>` : ""}
+          ${s.tip ? `<p class="note tip"><b>참고</b><span>${esc(s.tip)}</span></p>` : ""}
+        </div>
+      </div>
+    </li>`;
+  }).join("");
+  $("#route").style.setProperty("--line", `var(${f.color})`);
+  $("#route").innerHTML = `
+    <div class="route-hd">
+      <div class="row"><span class="badge">${f.key}</span><h2>${esc(f.title)}</h2></div>
+      <p class="lead">${esc(f.when)}. 화면 ${f.stops.length}곳을 순서대로 거칩니다. 점선 구간은 필요할 때만 갑니다.</p>
+    </div>
+    <ol class="route">
+      <li class="stop start"><span class="dot" aria-hidden="true"></span>
+        <div class="stop-body"><p class="start-label">${esc(f.start[0])}${f.start[1] ? `<small>${esc(f.start[1])}</small>` : ""}</p></div>
+      </li>
+      ${stops}
+    </ol>
+    <div class="done"><h3>끝났는지 확인</h3><ul>${f.done.map((d) => `<li>${esc(d)}</li>`).join("")}</ul></div>`;
+}
+
+function renderLocks() {
+  const go = (g) => `<span class="scr">${esc(g[0])}<code>${esc(g[1])}</code></span><br>${esc(g[2])}`;
+  $("#locks").innerHTML = LOCKS.map((r) => `
+    <tr><td><span class="sym">${esc(r[0])}</span></td><td>${esc(r[1])}</td>
+    <td>${go(r[2])}${r[3] ? `<br><span style="color:var(--ink-3)">그다음</span> ${go(r[3])}` : ""}</td></tr>`).join("");
+}
+
+function select(id, push) {
+  if (!FLOWS.some((f) => f.id === id)) id = FLOWS[0].id;
+  renderPicker(id);
+  renderRoute(id);
+  if (push) { try { history.replaceState(null, "", "#" + id); } catch (e) {} }
+}
+
+$("#picker").addEventListener("click", (e) => {
+  const b = e.target.closest(".pick");
+  if (!b) return;
+  select(b.dataset.id, true);
+  $("#route").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+});
+window.addEventListener("hashchange", () => select(location.hash.slice(1), false));
+renderLocks();
+select(location.hash.slice(1), false);
+</script>

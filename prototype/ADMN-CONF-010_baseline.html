@@ -899,12 +899,12 @@ code, pre, kbd, samp,
       screenCode: "ADMN-BOOK-001",
       screenFile: "ADMN-BOOK-001_baseline.html",
       eventName: "자사 저작권 도서(자사 저작권 보유) 신규 SKU 등록 및 가채번 매칭",
-      targetId: "PROD-BK-1004 ([자사저작권] 정종대 산업안전 필기 빈출문제집)",
-      reason: "출간 완료에 따른 가채번(BK-REQ-2026-0001) 정식 SKU 연결 및 자사 저작권 100% + 정종대 개발지원금 모수 설정",
+      targetId: "PROD-BK-1004 ([자사저작권] 산준모 산업안전 실기 빈출문제집)",
+      reason: "출간 완료에 따른 가채번(BK-REQ-2026-0004) 정식 SKU 연결 및 자사 저작권 100% + 정종대 개발지원금 모수 설정",
       actor: "도서MD 최출판",
       ip: "10.20.19.12",
       hash: "SHA256:1d04f920a8812c33b90124ef7712c712",
-      beforeJson: { temp_book_code: "BK-REQ-2026-0001", sku: null, status: "PENDING_PUBLICATION" },
+      beforeJson: { temp_book_code: "BK-REQ-2026-0004", sku: null, status: "PENDING_PUBLICATION" },
       afterJson: {
         sku: "PROD-BK-1004",
         book_supply_type: "OWN_PUBLISHED (자사 발행)",
@@ -1131,7 +1131,7 @@ code, pre, kbd, samp,
   const ACCESS_LOGS = [
     { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CT-2026-0501) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
     { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
-    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정산서 열람', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 도서 인세 정산서 PDF 다운로드', ip: '58.120.89.11' },
+    { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정산서 열람', detail: '[PROD-BK-1011] 2026 산준모 산업안전기사 필기 한권완성 도서 인세 정산서 PDF 다운로드', ip: '58.120.89.11' },
     { id: 'AUD-9918', dt: '2026-10-18 14:12', actor: 'admin_white (최고 관리자)', type: '파트너 권한 분리 설정', detail: '한출판 계정에 ROLE_PARTNER_COPYRIGHT(교재 저작권자 전용) 권한 및 도서 스코프 부여', ip: '211.45.120.10' }
   ];
 

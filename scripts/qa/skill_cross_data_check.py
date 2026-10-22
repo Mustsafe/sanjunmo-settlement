@@ -13,9 +13,11 @@
   [2b] 스크립트 데이터       → 한 객체 안의 권리자 코드 키(holderId · rightsHolderId · payeeId 등)와
                               이름 키(holderName · rightsHolderName 등)를 짝지어, 같은 RH 코드에 다른 이름이 붙으면 오류.
                               계약 코드 키(id · contractId)와 권리자 코드 키를 짝지어, 같은 계약이 다른 권리자를 가리키면 오류
-  [3] 도서 BK-YYYY-N…       → 일련번호 자릿수가 섞여 있으면 오류(형식 불일치)
-                              같은 도서명이 서로 다른 BK 코드로 적혀 있으면 오류
-                              같은 BK 코드에 붙은 도서명이 여럿이면 참고(약칭일 수 있음)
+  [3] 도서 SKU PROD-BK-NNNN → 옛 형식(BOOK-NNNN · BK-YYYY-NNN · TMP-BK-*)이 남아 있으면 오류
+                              임시코드는 BK-REQ-YYYY-NNNN만 허용(자릿수가 다르면 오류)
+                              같은 도서명이 서로 다른 SKU로 적혀 있으면 오류
+                              같은 SKU에 붙은 도서명이 여럿이면 참고(약칭일 수 있음)
+                              스크립트 객체 안의 SKU 키(sku · productId · id)와 이름 키(title · productName · name)도 짝짓는다
   [4] 이름 → 코드 역방향    → 같은 권리자 이름이 서로 다른 RH 코드로 적혀 있으면 오류
 
 사용법:
@@ -30,7 +32,7 @@ import html
 import os
 import re
 import sys
-from collections import Counter, defaultdict
+from collections import defaultdict
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -60,12 +62,15 @@ def lead_name(s):
 def objects(raw):
     """스크립트 객체 리터럴 조각 — 중괄호 안쪽(중첩 없는 가장 안쪽 객체)"""
     return re.findall(r"\{[^{}]{0,2000}\}", raw)
-BK = r"BK-\d{4}-\d+"
+BK = r"PROD-BK-\d{4}"
+BK_OLD = r"\bBOOK-(?:\d{4}|X{4}|AUTO)\b|(?<![A-Z-])BK-\d{4}-\d+|TMP-BK-[0-9A-Z*]+"
+BK_REQ = r"BK-REQ-\d{4}-\d+"
 TITLE_CH = r"[^()<>'\"\n|·:\[\]{}]"
 NOT_NAME = {"강사", "대표", "저자", "본인", "정산", "계약", "권리", "수취", "위탁", "전속", "인세", "도서", "산업", "소방", "선택", "현재", "공동", "단독", "해지", "대상", "주권", "외부", "권리자", "정상", "사단법인", "재단법인", "주식회사"}
 
 
 def plain(text):
+    text = re.sub(r"/\*.*?\*/|<!--.*?-->", " ", text, flags=re.S)   # 주석은 화면 데이터가 아니다
     text = re.sub(r"<[^>]+>", " ", text)
     return html.unescape(text)
 
@@ -85,11 +90,18 @@ def scan(folder):
     bk_titles = defaultdict(lambda: defaultdict(set))    # BK → 도서명 → 파일
     title_bk = defaultdict(lambda: defaultdict(set))     # 도서명 → BK → 파일
     bk_files = defaultdict(set)
+    bk_old = defaultdict(set)                            # 옛 도서 코드 형식 → 파일
     obj_rh_names = defaultdict(lambda: defaultdict(set))  # 스크립트 객체: RH → 이름 → 파일
     obj_ct_rh = defaultdict(lambda: defaultdict(set))     # 스크립트 객체: 계약 → RH → 파일
     for f in files:
         raw = open(os.path.join(base, f), encoding="utf-8").read()
         for o in objects(raw):
+            sku = re.search(r"""\b(?:sku|productId|id)\s*:\s*["'](""" + BK + r""")["']""", o)
+            ttl = re.search(r"""\b(?:title|productName|name)\s*:\s*["']([^"']{4,80})["']""", o)
+            if sku and ttl and re.search(r"[가-힣]", ttl.group(1)):
+                title = norm_title(ttl.group(1))
+                bk_titles[sku.group(1)][title].add(f)
+                title_bk[title][sku.group(1)].add(f)
             rid = re.search(RH_KEY + r"""\s*:\s*["'](""" + RH + r""")["']""", o)
             if not rid:
                 continue
@@ -116,6 +128,11 @@ def scan(folder):
                 con_rh[m.group(0)][r].add(f)
         for m in re.finditer(BK, t):
             bk_files[m.group(0)].add(f)
+        for m in re.finditer(BK_OLD, raw):
+            bk_old[m.group(0)].add(f)
+        for m in re.finditer(BK_REQ, raw):
+            if len(m.group(0).rsplit("-", 1)[1]) != 4:
+                bk_old[m.group(0)].add(f)
         pats = [
             (r"(" + TITLE_CH + r"{4,40}?)\s*\(\s*(?:ISBN [\d-]+\s*·\s*SKU:\s*)?(" + BK + r")\s*\)", 1, 2),
             (r"(" + BK + r")\s*\(\s*(" + TITLE_CH + r"{4,40}?)\s*[)…]", 2, 1),
@@ -127,7 +144,7 @@ def scan(folder):
                 if len(title) >= 4 and re.search(r"[가-힣]", title):
                     bk_titles[m.group(ci)][title].add(f)
                     title_bk[title][m.group(ci)].add(f)
-    return files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, obj_rh_names, obj_ct_rh
+    return files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, bk_old, obj_rh_names, obj_ct_rh
 
 
 def fmt(d):
@@ -139,7 +156,7 @@ def main():
     ap.add_argument("folder", nargs="?", default="prototype_clean")
     ap.add_argument("--strict", action="store_true")
     args = ap.parse_args()
-    files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, obj_rh_names, obj_ct_rh = scan(args.folder)
+    files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, bk_old, obj_rh_names, obj_ct_rh = scan(args.folder)
 
     errors, notes = [], []
     for code, names in sorted(rh_names.items()):
@@ -164,15 +181,8 @@ def main():
     for code, rhs in sorted(obj_ct_rh.items()):
         if len(rhs) > 1:
             errors.append(("계약 ↔ 권리자 불일치(스크립트 데이터)", code, fmt(rhs)))
-    # 다수 형식은 코드 개수가 아니라 등장 화면 수로 정한다(한 화면에 몰린 샘플이 기준을 뒤집지 않도록)
-    lens = Counter()
-    for c, fs in bk_files.items():
-        lens[len(c.rsplit("-", 1)[1])] += len(fs)
-    if len(lens) > 1:
-        major = lens.most_common(1)[0][0]
-        for c in sorted(bk_files):
-            if len(c.rsplit("-", 1)[1]) != major:
-                errors.append(("도서 코드 형식 불일치", c, f"일련번호 {len(c.rsplit('-', 1)[1])}자리(다수 형식 {major}자리) — " + ", ".join(sorted(bk_files[c]))))
+    for c in sorted(bk_old):
+        errors.append(("도서 코드 형식 불일치", c, "SKU는 PROD-BK-NNNN, 임시코드는 BK-REQ-YYYY-NNNN — " + ", ".join(sorted(bk_old[c]))))
     for title, codes in sorted(title_bk.items()):
         if len(codes) > 1:
             errors.append(("같은 도서명 · 다른 도서 코드", title, fmt(codes)))

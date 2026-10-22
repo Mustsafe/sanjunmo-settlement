@@ -286,7 +286,7 @@ code, pre, kbd, samp,
         <div class="form-row"><label>소속 *</label><div>
           <div class="check-group">
             <label><input type="radio" name="af-kind" value="STAFF" onchange="renderAffTarget()" /> 내부 직원</label>
-            <label><input type="radio" name="af-kind" value="RH" onchange="renderAffTarget()" /> 권리자 (계약 당사자 · 사업자 수취인)</label>
+            <label><input type="radio" name="af-kind" value="RH" onchange="renderAffTarget()" /> 권리자 (계약 당사자 · 2계층 수취인)</label>
             <label><input type="radio" name="af-kind" value="VENDOR" onchange="renderAffTarget()" /> 거래처</label>
           </div>
           <div id="af-target" style="margin-top:8px;"></div>
@@ -345,7 +345,7 @@ code, pre, kbd, samp,
       if (aff.kind === 'RH' && String(aff.ref).startsWith('PY-')) {
         const p = M.rightsHolders.payee(aff.ref);
         if (!p) return `<span class="badge badge-red">수취인 ${aff.ref} 없음</span>`;
-        return `<span class="badge badge-blue">권리자</span> ${p.name} <code>${p.id}</code><div style="margin-top:2px;"><span class="badge badge-amber">2계층 사업자 수취인</span></div><div style="font-size:11px; color:var(--text-muted);">계약 ${p.contract} (1계층 ${p.holderName} ${p.holderId}) 중 본인 수취 몫 ${p.ratio}%만 · 정산서 확인 · ${p.evidence}</div>`;
+        return `<span class="badge badge-blue">권리자</span> ${p.name} <code>${p.id}</code><div style="margin-top:2px;"><span class="badge badge-amber">2계층 ${p.biz ? '사업자' : '개인'} 수취인</span></div><div style="font-size:11px; color:var(--text-muted);">계약 ${p.contract} (1계층 ${p.holderName} ${p.holderId}) 중 본인 수취 몫 ${p.ratio}%만 · 정산서 확인 · ${p.evidence}</div>`;
       }
       if (aff.kind === 'RH') {
         const h = M.rightsHolders.get(aff.ref);
@@ -359,7 +359,7 @@ code, pre, kbd, samp,
     }
     function affText(aff) {
       if (!aff || aff.kind === 'STAFF') return '내부 직원';
-      if (aff.kind === 'RH' && String(aff.ref).startsWith('PY-')) { const p = M.rightsHolders.payee(aff.ref); return `권리자(2계층 사업자 수취인) ${aff.ref}${p ? ' ' + p.name : ''}`; }
+      if (aff.kind === 'RH' && String(aff.ref).startsWith('PY-')) { const p = M.rightsHolders.payee(aff.ref); return `권리자(2계층 ${p && p.biz ? '사업자' : '개인'} 수취인) ${aff.ref}${p ? ' ' + p.name : ''}`; }
       if (aff.kind === 'RH') { const h = M.rightsHolders.get(aff.ref); return `권리자 ${aff.ref}${h ? ' ' + h.name : ''}`; }
       return `거래처 ${aff.ref} ${M.vendors.name(aff.ref)}`;
     }
@@ -426,8 +426,8 @@ code, pre, kbd, samp,
       if (kind === 'STAFF') {
         box.innerHTML = '';
       } else if (kind === 'RH') {
-        box.innerHTML = `<select class="f-select" id="af-ref" style="width:100%;" onchange="previewScope()"><optgroup label="계약 당사자 (권리자 계약 원장)">${M.rightsHolders.list().map(h => `<option value="${h.id}" ${h.id === ref ? 'selected' : ''}>${h.name} (${h.id}) — ${M.rightsHolders.types(h.id).join(' · ')}</option>`).join('')}</optgroup><optgroup label="2계층 사업자 수취인 (수취인 분할)">${M.rightsHolders.payees().map(p => `<option value="${p.id}" ${p.id === ref ? 'selected' : ''}>${p.name} (${p.id}) — ${p.holderName} 계약 ${p.ratio}% 수취</option>`).join('')}</optgroup></select>
-          <div class="form-help">권리자 계약 원장(ADMN-INST-001)의 계약 당사자와, <a href="ADMN-SETT-007_baseline.html">수취인 분할</a>에 등재된 사업자 수취인(세금계산서 발행 · 제출 필요)만 고를 수 있습니다. 원천징수 대상 개인 수취인은 계정 없이 정산서를 발송합니다.</div>`;
+        box.innerHTML = `<select class="f-select" id="af-ref" style="width:100%;" onchange="previewScope()"><optgroup label="계약 당사자 (권리자 계약 원장)">${M.rightsHolders.list().map(h => `<option value="${h.id}" ${h.id === ref ? 'selected' : ''}>${h.name} (${h.id}) — ${M.rightsHolders.types(h.id).join(' · ')}</option>`).join('')}</optgroup><optgroup label="2계층 수취인 (수취인 분할)">${M.rightsHolders.payees().map(p => `<option value="${p.id}" ${p.id === ref ? 'selected' : ''}>${p.name} (${p.id}) — ${p.entity} · ${p.holderName} 계약 ${p.ratio}% 수취</option>`).join('')}</optgroup></select>
+          <div class="form-help">권리자 계약 원장(ADMN-INST-001)의 계약 당사자와, <a href="ADMN-SETT-007_baseline.html">수취인 분할</a>에 등재된 2계층 수취인을 고를 수 있습니다. 개인 · 사업자 모두 본인 수취 몫의 정산서를 조회하고, 세금계산서 · 계산서 제출은 사업자 수취인만 합니다. 정산서 PDF 메일은 계정과 관계없이 발송됩니다.</div>`;
       } else {
         box.innerHTML = `<select class="f-select" id="af-ref" style="width:100%;" onchange="previewScope()">${M.vendors.list().filter(v => v.on || v.id === ref).map(v => `<option value="${v.id}" ${v.id === ref ? 'selected' : ''}>${v.name} (${v.id}) — ${(M.vendors.type(v.type) || {}).name || ''}</option>`).join('')}</select>
           <div class="form-help"><a href="ADMN-VEND-001_baseline.html">거래처 관리</a>에 등록된 거래 중 거래처만 고를 수 있습니다.</div>`;
