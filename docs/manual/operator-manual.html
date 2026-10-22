@@ -17,7 +17,7 @@
   --warn-bg: #fdf0e8;
   --ok: #1f7a4d;
   --ok-bg: #e7f4ec;
-  --l-a: #1d63c9; --l-b: #0f8a7a; --l-c: #c2560c; --l-d: #7b3fc4; --l-e: #c22f5b; --l-f: #5c6f12; --l-g: #5b6472;
+  --l-a: #1d63c9; --l-b: #0f8a7a; --l-c: #c2560c; --l-d: #7b3fc4; --l-e: #c22f5b; --l-f: #5c6f12; --l-g: #5b6472; --l-m: #0b6e8a;
   --font-body: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
   --r: 10px;
@@ -25,17 +25,18 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #11151b; --surface: #1a2029; --ink: #e8ecf2; --ink-2: #b3bcc9; --ink-3: #8691a1; --rule: #2c3440; --tint: #222a35;
   --warn: #f2915c; --warn-bg: #3a2418; --ok: #5cc98f; --ok-bg: #173226;
-  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1;
+  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1; --l-m: #4cc3e0;
   color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #11151b; --surface: #1a2029; --ink: #e8ecf2; --ink-2: #b3bcc9; --ink-3: #8691a1; --rule: #2c3440; --tint: #222a35;
   --warn: #f2915c; --warn-bg: #3a2418; --ok: #5cc98f; --ok-bg: #173226;
-  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1;
+  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1; --l-m: #4cc3e0;
   color-scheme: dark; }
 
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; }
 .wrap { max-width: 1080px; margin: 0 auto; padding-block: 40px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 56px; }
+.wrap > * { min-width: 0; }
 h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.3; }
 h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
 h2 { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; }
@@ -123,6 +124,41 @@ td .scr { white-space: nowrap; font-weight: 600; }
 td .scr code { color: var(--ink-3); font-weight: 500; margin-left: 4px; }
 .codes td:first-child { font-family: var(--font-mono); font-weight: 600; white-space: nowrap; }
 
+/* 바로가기 · 일정 미정 안내 */
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.jump a { text-decoration: none; font-size: 13.5px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink-2); }
+.jump a:hover { color: var(--ink); border-color: var(--ink-3); }
+.callout { margin-top: 14px; padding: 12px 16px; border-radius: 8px; background: var(--warn-bg); color: var(--ink); font-size: 14px; display: grid; gap: 4px; max-width: 80ch; }
+.callout b { color: var(--warn); }
+.due { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.due.set { background: var(--ok-bg); color: var(--ok); }
+.due.unset { background: var(--tint); color: var(--ink-3); border: 1px dashed var(--ink-3); }
+
+/* 매일: 시간대 블록 → 업무 행 */
+.day { display: grid; gap: 14px; margin-top: 18px; }
+.slot { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); }
+.slot-hd { display: grid; gap: 6px; align-content: start; }
+.slot-hd h3 { font-size: 16px; }
+.tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; min-width: 0; }
+.task { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--rule); align-items: start; }
+.task:first-child { border-top: 0; padding-top: 0; }
+.who { font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--tint); border-radius: 4px; padding: 1px 6px; text-align: center; }
+.task-main { display: grid; gap: 2px; min-width: 0; }
+.task-main b { font-weight: 600; }
+.task-main span { font-size: 13.5px; color: var(--ink-2); }
+.task-main a { font-size: 12.5px; color: var(--l-m); text-decoration: none; font-weight: 600; }
+.task-main a:hover { text-decoration: underline; }
+.task-main a code { color: var(--ink-3); font-weight: 500; margin-left: 4px; }
+.events { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; margin-top: 12px; }
+.event { padding: 12px 14px; border: 1px dashed var(--rule); border-radius: 8px; display: grid; gap: 4px; font-size: 14px; min-width: 0; }
+.event b { font-weight: 600; }
+.event span { color: var(--ink-2); font-size: 13.5px; }
+@media (max-width: 640px) {
+  .slot { grid-template-columns: 1fr; gap: 10px; }
+  .task { grid-template-columns: 56px minmax(0, 1fr); }
+  .task .due { grid-column: 2; justify-self: start; }
+}
+
 footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 16px; }
 
 @media (max-width: 560px) {
@@ -143,11 +179,35 @@ footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule)
   <header class="top">
     <span class="eyebrow">산준모닷컴 백오피스 · 운영자용</span>
     <h1>업무 동선 매뉴얼</h1>
-    <p class="lead">한 화면에서 끝나지 않는 작업을 노선도로 정리했습니다. 앞 화면에서 만든 코드를 다음 화면에서 골라 쓰기 때문에 순서가 바뀌면 고를 대상이 목록에 나타나지 않습니다. 하려는 작업을 고르고 위에서 아래로 따라가세요.</p>
+    <p class="lead">한 화면에서 끝나지 않는 업무를 언제 하는 일인지에 따라 세 갈래로 정리했습니다. 매일 반복하는 일, 매달 정산을 마감하는 일, 계약·상품을 처음 한 번 설정하는 일입니다. 앞 화면에서 만든 결과를 다음 화면에서 골라 쓰기 때문에 순서를 지켜야 합니다.</p>
+    <nav class="jump" aria-label="바로가기">
+      <a href="#daily">매일 하는 일</a>
+      <a href="#monthly">월 정산 마감</a>
+      <a href="#setup">처음 한 번 하는 설정</a>
+      <a href="#lock-h">막혔을 때</a>
+      <a href="#code-h">코드</a>
+    </nav>
   </header>
 
-  <section aria-labelledby="pick-h">
-    <h2 id="pick-h">어떤 작업인가요?</h2>
+  <section id="daily" aria-labelledby="daily-h">
+    <span class="eyebrow">매일</span>
+    <h2 id="daily-h">매일 하는 일</h2>
+    <p class="lead" style="margin-top:6px">하루를 네 시간대로 나눴습니다. 각 줄의 왼쪽은 담당, 오른쪽은 처리 기한입니다. 대시보드의 처리 대기 큐가 하루의 시작과 끝입니다.</p>
+    <div class="callout"><b>운영 시각을 정해야 합니다</b><span>기준이 정해진 시각과 기한만 적었습니다. 평일 14시 당일 출고 마감, 1:1 문의 24시간, 환불·합격환급 심사 5영업일입니다. 업무 시작·마감 시각과 시간대별 담당자는 운영 일정으로 정해 이 표의 ‘시각 미정’ 칸을 채워야 합니다.</span></div>
+    <div class="day" id="day"></div>
+    <h3 style="margin-top:28px">요청이 들어오면 바로 처리하는 일</h3>
+    <div class="events" id="events"></div>
+  </section>
+
+  <section id="monthly" aria-labelledby="monthly-h">
+    <span class="eyebrow">매월</span>
+    <div id="route-monthly"></div>
+  </section>
+
+  <section id="setup" aria-labelledby="pick-h">
+    <span class="eyebrow">처음 한 번</span>
+    <h2 id="pick-h">처음 한 번 하는 설정 작업</h2>
+    <p class="lead" style="margin-top:6px">계약을 맺거나 상품을 새로 열 때 한 번 하는 작업입니다. 하려는 작업을 고르고 위에서 아래로 따라가세요.</p>
     <div class="picker" id="picker" style="margin-top:16px"></div>
   </section>
 
@@ -189,7 +249,7 @@ footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule)
   </section>
 
   <section aria-labelledby="lock-h">
-    <h2 id="lock-h">판매나 저장이 막혔을 때</h2>
+    <h2 id="lock-h">막혔을 때</h2>
     <p class="lead" style="margin-top:6px">막힌 화면이 아니라 앞 단계 화면에 원인이 있는 경우가 대부분입니다. 증상을 찾아 오른쪽 화면으로 가세요.</p>
     <div class="table-wrap">
       <table>
@@ -405,6 +465,98 @@ const FLOWS = [
   }
 ];
 
+const G_DASH = "대시보드 · 통계", G_ORD = "주문 · 환불 · CS · 프로모션", G_USER = "회원 · 수강 관리";
+const SET = (t) => ({ t, set: true }), UNSET = (t) => ({ t, set: false });
+
+// 매일: 시간대 → 업무. due.set=false는 운영 일정으로 정해야 하는 칸
+const DAILY = [
+  { slot: "업무 시작", time: UNSET("시각 미정"), tasks: [
+    { who: "전원", title: "처리 대기 큐 · 외부 연동 상태 확인", detail: "대기 큐 5종(환불 심사, 합격환급 기한 초과, 월간 정산 미확정, PG 대사 불일치, 교재 반품)의 건수와 최장 경과일을 보고 담당 화면으로 갑니다. 외부 연동 6종에 ‘주의’ 배지가 있으면 담당자에게 알립니다.",
+      scr: "통합 대시보드 홈", code: "DASH-001", file: "ADMN-DASH-001_baseline.html?view=dash" },
+    { who: "CS", title: "밤사이 들어온 1:1 문의 분류 · 이관", detail: "문의를 분류해 결제·환불, 교재·배송, 수강·기기, 합격환급 담당 화면으로 넘깁니다. SLA 임박 건부터 처리합니다.",
+      scr: "1:1 문의 관리", code: "BRD-002", file: "ADMN-BRD-002_baseline.html", due: SET("접수 후 24시간") },
+    { who: "CS", title: "상품 Q&A 답변", detail: "미답변 문의를 열면 내가 담당자가 됩니다. 다른 사람이 먼저 연 문의는 읽기 전용입니다.",
+      scr: "공지 · FAQ · Q&A", code: "BRD-001", file: "ADMN-BRD-001_baseline.html?view=pqna" }
+  ]},
+  { slot: "오전", time: UNSET("시각 미정"), tasks: [
+    { who: "CS · 재무", title: "환불 심사 · 처리", detail: "기한이 임박한 건이 위에 고정됩니다. 수강분·훼손분을 공제하고 적립 P를 회수한 뒤 PG 취소합니다. 교재가 포함된 건은 반품 입고 검수가 끝나야 확정됩니다.",
+      scr: "환불 요청 · 심사 관리", code: "RFD-002", file: "ADMN-RFD-002_baseline.html", due: SET("5영업일") },
+    { who: "CS · 재무", title: "합격환급 신청 심사 · 지급", detail: "합격증, 합격수기, 통장 사본, 실명계좌 4종을 확인합니다. 교재 금액을 빼고 제세공과금 22%를 공제해 지급합니다.",
+      scr: "합격 환급반 관리", code: "SETT-006", file: "ADMN-SETT-006_baseline.html", due: SET("5영업일") },
+    { who: "재무", title: "전날 결제 · 환불 대사 확인", detail: "PG 승인액과 주문 결제액이 다르거나 취소가 누락된 건, 가상계좌 입금 대기 건을 확인하고 원인을 적어 둡니다. 월말에 몰리면 마감이 늦어집니다.",
+      scr: "PG 정산 원장 대사", code: "SETT-004", file: "ADMN-SETT-004_baseline.html" }
+  ]},
+  { slot: "당일 출고 마감", time: SET("평일 14시"), tasks: [
+    { who: "물류", title: "출고지시 엑셀 다운로드 → 3PL 전달", detail: "14시까지 결제된 교재 주문이 당일 출고 대상입니다. 다운로드하는 순간 ‘배송준비중’으로 바뀌고 수험생 취소와 배송지 변경이 잠깁니다.",
+      scr: "주문 · 배송 · 3PL 관리", code: "ORD-001", file: "ADMN-ORD-001_baseline.html", due: SET("평일 14시") }
+  ]},
+  { slot: "오후 · 업무 마감 전", time: UNSET("시각 미정"), tasks: [
+    { who: "물류", title: "3PL 송장 회신 엑셀 일괄 업로드", detail: "업로드하면 ‘배송중’으로 바뀌고 재고가 차감되며 수험생에게 알림톡이 나갑니다.",
+      scr: "주문 · 배송 · 3PL 관리", code: "ORD-001", file: "ADMN-ORD-001_baseline.html" },
+    { who: "물류", title: "반품 입고 검수 → 환불 심사로 이관", detail: "파손·오배송을 확인하고 귀책을 적습니다. 검수가 끝난 건은 환불 심사에서 확정할 수 있습니다.",
+      scr: "주문 · 배송 · 3PL 관리", code: "ORD-001", file: "ADMN-ORD-001_baseline.html" },
+    { who: "전원", title: "남은 대기 건 확인 · 인계", detail: "대기 큐에 남은 건과 기한이 넘은 건을 확인하고 다음 날 담당자에게 넘깁니다.",
+      scr: "통합 대시보드 홈", code: "DASH-001", file: "ADMN-DASH-001_baseline.html?view=dash" }
+  ]}
+];
+
+const EVENTS = [
+  { when: "중복 로그인 · 기기 문의", what: "강제 로그아웃 · 기기 초기화 (1계정 1세션)", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
+  { when: "진도율 오류 · 0초 강의", what: "사유를 적고 진도율을 수동 보정합니다. 환급 판정에 바로 반영됩니다.", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
+  { when: "수강 일시정지 요청", what: "수강 홀딩 (최대 3회 · 30일), 수강 기간이 그만큼 늘어납니다.", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
+  { when: "휴대폰 결제 익월 취소 불가", what: "등록된 본인 계좌로 현금 환불합니다. 계좌를 볼 때 열람 사유를 남깁니다.", scr: "환불 요청 · 심사 관리", code: "RFD-002", file: "ADMN-RFD-002_baseline.html" },
+  { when: "알림톡 템플릿 새로 필요", what: "SENS 콘솔에서 등록 · 검수 요청(영업일 1~2일) 후, 승인되면 템플릿 코드를 연결합니다.", scr: "메시지 템플릿 관리", code: "CONF-004", file: "ADMN-CONF-004_baseline.html?view=template" },
+  { when: "특가 기획전 오픈", what: "기획전을 만들고 쿠폰 · 적립 차단을 켭니다. 결제창 혜택이 자동으로 잠깁니다.", scr: "이벤트 · 기획전 관리", code: "PROM-001", file: "ADMN-PROM-001_baseline.html" }
+];
+
+// 매월: 순서만 정해져 있다. due.set=false는 매월 고정 날짜를 정해 채워야 하는 칸
+const MONTHLY = {
+  id: "monthly", key: "월", color: "--l-m",
+  title: "월 정산 마감",
+  when: "매달 전월 매출을 정산해 권리자에게 지급하고 세무 자료를 만들 때",
+  notice: "매월 진행할 고정 날짜를 정해야 합니다. 지금은 순서만 정해져 있습니다. 각 단계의 ‘매월 __일’ 칸을 운영 일정으로 채우고, 사전 검증(1~4)이 마감 확정(6)보다 앞서도록 날짜를 잡으세요. 법정 기한이 있는 단계만 기한을 적었습니다.",
+  start: ["전월 매출 · 환불이 모두 들어온 뒤 시작", "사전 검증 1~4는 서로 순서가 없어 동시에 진행해도 됩니다"],
+  stops: [
+    { name: "PG 정산 원장 대사", code: "SETT-004", group: G_PRE, file: "ADMN-SETT-004_baseline.html", due: UNSET("매월 __일"),
+      do: ["[PG 원장 배치 재대사 실행]으로 한 달 치를 다시 맞춰 봅니다.", "차이 난 건마다 원인 코드와 소명을 입력합니다. 1,000원 이내 단수차액은 자동 대체할 수 있습니다.", "가상계좌 입금이 월말 · 월초에 걸친 건의 귀속 월을 확인합니다."],
+      out: ["게이트 1", "PG 미대사 0건"] },
+    { name: "사업자등록 확인 이력", code: "SETT-008", group: G_PRE, file: "ADMN-SETT-008_baseline.html", due: UNSET("매월 __일"),
+      do: ["정기 상태조회와 실패 건 재조회를 실행합니다.", "과세유형이 바뀌었거나 휴 · 폐업한 권리자의 후속 처리를 하고 세무 판정 보류 건을 해소합니다."],
+      out: ["게이트 2", "세무 판정 보류 0건"],
+      lock: "확인한 지 90일이 지난 권리자는 약정금 승인이 막힙니다." },
+    { name: "약정금 마일스톤 검수", code: "INST-002", group: G_PRE, file: "ADMN-INST-002_baseline.html", due: UNSET("매월 __일"),
+      do: ["검수 큐에서 이번 달 마일스톤의 증빙을 확인하고 승인합니다.", "승인하면 이번 달 정산서로 이관됩니다."],
+      out: ["결과", "이번 달 약정금"],
+      lock: "이미 마감한 달로는 이관할 수 없습니다. 마감 확정 전에 끝내야 합니다." },
+    { name: "합격 환급반 관리", code: "SETT-006", group: G_PRE, file: "ADMN-SETT-006_baseline.html", due: UNSET("매월 __일"),
+      do: ["이번 달 승인된 환급 건을 골라 [선택 건 일괄 정산반영 확정]을 누릅니다."],
+      out: ["결과", "환급 공제 · 지원금 한도 복원"] },
+    { name: "월간 정산 — 연산 · 검토", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html", due: UNSET("매월 __일"),
+      do: ["[1~11단계 통합 연산 배치 재실행]을 누릅니다.", "수취인별 정산서를 검토합니다. 지급 대상, 지급 보류(최소 지급액 10만 원 미만 → 다음 달 이월), 청구서로 나뉩니다."],
+      take: ["입력", "1~4단계 결과"],
+      tip: "마감 전에는 몇 번이든 다시 실행할 수 있습니다. 금액이 틀리면 계약이나 지분 매핑을 고친 뒤 다시 실행합니다." },
+    { name: "월간 정산 — 마감 확정", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html", due: UNSET("매월 __일"),
+      do: ["[당월 정산 마감 확정]을 누릅니다.", "게이트 3개(PG 미대사 0건, 세무 판정 보류 0건, 이월 금액 일치)를 모두 통과해야 확정됩니다."],
+      out: ["결과", "지급 예약 (대량이체 대기)"],
+      lock: "마감하면 그 달은 다시 실행하거나 고칠 수 없습니다. 이후 오류는 정산 수동 조정으로 처리합니다." },
+    { name: "월간 정산 — 대량이체 · 결과 대사", code: "SETT-002 · 4번 탭", group: G_SETT, file: "ADMN-SETT-002_baseline.html", due: UNSET("매월 __일"),
+      do: ["[대량이체 엑셀 다운로드]로 은행 양식을 내려받아 인터넷뱅킹으로 이체합니다.", "은행 결과 파일을 [은행 이체 결과 파일 등록 · 대사]에 올립니다."],
+      tip: "이름이 아니라 지급 지시 번호로 맞춥니다. 실패한 건은 지급 예약만 풀리고 다음 달로 이월되며, 마감한 원장은 그대로입니다." },
+    { name: "월간 정산 — 세금계산서 대사", code: "SETT-002 · 3번 탭", group: G_SETT, file: "ADMN-SETT-002_baseline.html", due: SET("법정 기한 익월 10일"),
+      do: ["권리자가 홈택스에서 직접 발행해 제출한 세금계산서 · 계산서를 확인합니다.", "[홈택스 매입 내역 엑셀 업로드 · 대사]로 승인번호와 금액을 맞춥니다.", "미제출 권리자에게 재발송하거나 운영자가 대리 등록합니다. 위탁 계산서 수취 여부도 여기서 봅니다."],
+      tip: "미제출은 지급 보류 사유가 아닙니다. 기한 3영업일 전에 미제출 알림이 뜹니다." },
+    { name: "내부 정산 조회 — 세무 자료", code: "SETT-009 · 4번 탭", group: G_SETT, file: "ADMN-SETT-009_baseline.html?view=taxreport", due: SET("원천세 신고 · 납부 익월 10일"),
+      do: ["원천세 · 부가세 신고 기초 자료를 CSV나 홈택스 TXT로 내려받아 신고합니다."] },
+    { name: "정산 수동 조정", code: "SETT-005", group: G_SETT, file: "ADMN-SETT-005_baseline.html", optional: true,
+      do: ["마감한 달에서 오류가 나오면 그 달을 고치지 않고 조정 건을 새로 등록합니다.", "수취인 과세유형에 맞는 증빙 정정 방식을 고릅니다."],
+      lock: "100만 원을 넘는 조정은 재무 2차 승인이 필요합니다." },
+    { name: "물류비 대사 (3PL)", code: "SETT-011", group: G_SETT, file: "ADMN-SETT-011_baseline.html", optional: true, due: UNSET("매월 __일"),
+      do: ["3PL 명세서를 올리고 [대사 실행] 후 불일치 건의 처리 결과와 메모를 적고 [대사 완료 처리]합니다.", "배송비 · 반품 귀책과 도서 매입 계산서도 같은 화면 탭에서 맞춥니다."],
+      tip: "권리자 정산이 아니라 거래처(3PL) 대금입니다. 마감 게이트와 관계없이 따로 진행합니다." }
+  ],
+  done: ["게이트 3개 통과 후 마감 확정", "이체 결과 대사 완료 (실패 건 이월 확인)", "세금계산서 대사 · 원천세 신고 자료 추출 (익월 10일 전)"]
+};
+
 const LOCKS = [
   ["교재 목록에 ‘판매대기(매핑 미완)’", "교재 화면에서 먼저 만든 SKU의 원가 또는 권리자 지분이 비어 있음", ["도서 공급 원장", "BOOK-001", "경로 3으로 원가 입력"], ["상품별 권리자 매핑", "SETT-001", "지분 100%"]],
   ["상품 목록에 ‘미매핑 · 판매차단’", "권리자 지분 합계가 100.00%가 아님", ["상품별 권리자 매핑", "SETT-001", "지분 입력 또는 잔여 지분 자사 채우기"]],
@@ -416,7 +568,11 @@ const LOCKS = [
   ["수취인 분할에서 고를 사람이 목록에 없음", "그 사람이 권리자로 등록되지 않았거나 이 계약에 연결되지 않음", ["권리자 계약 원장", "INST-001", "2계층 수취인 카드에서 등록 · 연결"]],
   ["마일스톤 승인 게이트 차단", "사업자 확인 90일 초과 또는 소득 구분 미지정", ["사업자등록 확인 이력", "SETT-008", "재확인"], ["권리자 계약 원장", "INST-001", "소득 구분 지정"]],
   ["거래처 저장이 안 됨", "국세청 상태조회를 하지 않았거나 휴·폐업 사업자", ["거래처 관리", "VEND-001", "상태조회 먼저"]],
-  ["일반상품 공급 형태를 바꿀 수 없음", "판매 이력이 있음", ["일반상품 관리", "PROD-007", "새 상품으로 등록"]]
+  ["일반상품 공급 형태를 바꿀 수 없음", "판매 이력이 있음", ["일반상품 관리", "PROD-007", "새 상품으로 등록"]],
+  ["[당월 정산 마감 확정]이 게이트에서 막힘", "PG 미대사 건, 세무 판정 보류 건, 이월 금액 불일치 중 하나가 남음", ["PG 정산 원장 대사", "SETT-004", "미대사 0건으로"], ["사업자등록 확인 이력", "SETT-008", "보류 0건으로"]],
+  ["약정금을 정산서로 이관할 수 없음", "이미 마감한 달을 골랐음", ["약정금 마일스톤 검수", "INST-002", "마감 전 달로 이관 (마감 후엔 다음 달)"]],
+  ["은행 이체가 일부 실패함", "계좌 오류 등 — 마감 원장은 되돌리지 않음", ["월간 정산 및 집행", "SETT-002", "결과 파일 대사 → 실패 건 다음 달 이월 확인"]],
+  ["마감한 달의 금액이 틀림", "마감한 달은 다시 실행하거나 고칠 수 없음", ["정산 수동 조정", "SETT-005", "조정 건 등록 (100만 원 초과는 재무 승인)"]]
 ];
 
 const $ = (s) => document.querySelector(s);
@@ -432,8 +588,9 @@ function renderPicker(active) {
     </button>`).join("");
 }
 
-function renderRoute(id) {
-  const f = FLOWS.find((x) => x.id === id) || FLOWS[0];
+const dueChip = (d) => d ? `<span class="due ${d.set ? "set" : "unset"}">${esc(d.t)}</span>` : "";
+
+function renderRoute(f, el) {
   const stops = f.stops.map((s, i) => {
     const outs = [s.out, s.out2, s.out3].filter(Boolean).map(tok).join("<br>");
     return `
@@ -444,6 +601,7 @@ function renderRoute(id) {
           <div class="where">
             <h3>${i + 1}. ${esc(s.name)}</h3><span class="code">${esc(s.code)}</span>
             ${s.optional ? `<span class="opt-tag">필요할 때만</span>` : ""}
+            ${dueChip(s.due)}
             <a class="open" href="${BASE + s.file}" target="_blank" rel="noopener">화면 열기 ↗</a>
             <span class="path">왼쪽 메뉴 › ${esc(s.group)}</span>
           </div>
@@ -458,11 +616,12 @@ function renderRoute(id) {
       </div>
     </li>`;
   }).join("");
-  $("#route").style.setProperty("--line", `var(${f.color})`);
-  $("#route").innerHTML = `
+  el.style.setProperty("--line", `var(${f.color})`);
+  el.innerHTML = `
     <div class="route-hd">
-      <div class="row"><span class="badge">${f.key}</span><h2>${esc(f.title)}</h2></div>
-      <p class="lead">${esc(f.when)}. 화면 ${f.stops.length}곳을 순서대로 거칩니다. 점선 구간은 필요할 때만 갑니다.</p>
+      <div class="row"><span class="badge">${esc(f.key)}</span><h2 id="${f.id}-h">${esc(f.title)}</h2></div>
+      <p class="lead">${esc(f.when)}. ${f.stops.length}단계를 순서대로 거칩니다. 점선 구간은 필요할 때만 갑니다.</p>
+      ${f.notice ? `<div class="callout"><b>날짜를 정해야 합니다</b><span>${esc(f.notice)}</span></div>` : ""}
     </div>
     <ol class="route">
       <li class="stop start"><span class="dot" aria-hidden="true"></span>
@@ -480,10 +639,27 @@ function renderLocks() {
     <td>${go(r[2])}${r[3] ? `<br><span style="color:var(--ink-3)">그다음</span> ${go(r[3])}` : ""}</td></tr>`).join("");
 }
 
+function renderDaily() {
+  const link = (t) => `<a href="${BASE + t.file}" target="_blank" rel="noopener">${esc(t.scr)}<code>${esc(t.code)}</code> ↗</a>`;
+  $("#day").innerHTML = DAILY.map((b) => `
+    <div class="slot">
+      <div class="slot-hd"><h3>${esc(b.slot)}</h3>${dueChip(b.time)}</div>
+      <ul class="tasks">${b.tasks.map((t) => `
+        <li class="task">
+          <span class="who">${esc(t.who)}</span>
+          <div class="task-main"><b>${esc(t.title)}</b><span>${esc(t.detail)}</span>${link(t)}</div>
+          ${dueChip(t.due)}
+        </li>`).join("")}</ul>
+    </div>`).join("");
+  $("#events").innerHTML = EVENTS.map((e) => `
+    <div class="event"><b>${esc(e.when)}</b><span>${esc(e.what)}</span>
+      <div class="task-main">${link(e)}</div></div>`).join("");
+}
+
 function select(id, push) {
   if (!FLOWS.some((f) => f.id === id)) id = FLOWS[0].id;
   renderPicker(id);
-  renderRoute(id);
+  renderRoute(FLOWS.find((x) => x.id === id), $("#route"));
   if (push) { try { history.replaceState(null, "", "#" + id); } catch (e) {} }
 }
 
@@ -493,7 +669,11 @@ $("#picker").addEventListener("click", (e) => {
   select(b.dataset.id, true);
   $("#route").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
 });
-window.addEventListener("hashchange", () => select(location.hash.slice(1), false));
+// 바로가기(#daily 등)는 설정 작업 선택을 바꾸지 않는다
+const flowHash = () => { const h = location.hash.slice(1); return FLOWS.some((f) => f.id === h) ? h : null; };
+window.addEventListener("hashchange", () => { const h = flowHash(); if (h) select(h, false); });
+renderDaily();
+renderRoute(MONTHLY, $("#route-monthly"));
 renderLocks();
-select(location.hash.slice(1), false);
+select(flowHash(), false);
 </script>
