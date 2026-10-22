@@ -271,6 +271,7 @@ code, pre, kbd, samp,
 
 
 <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 
@@ -469,6 +470,7 @@ code, pre, kbd, samp,
           <a href="#consignment">위탁</a>
           <a href="#allowance">기타 수당</a>
           <a href="#advance">선급금</a>
+          <a href="#payees">2계층 수취인</a>
           <a href="#evidence">증빙·메모</a>
         </div>
 
@@ -1184,6 +1186,21 @@ code, pre, kbd, samp,
               이 화면의 수동 상계 입력은 집행이 아니라 검토 대기 요청입니다.
             </div>
             <div class="note">승인 임계액 1,000,000원은 첨부 화면의 시연 설정값입니다. 실제 운영에서는 권한·승인 정책 설정을 적용합니다.</div>
+          </div>
+        </section>
+
+        <!-- 2계층 수취인 -->
+        <section class="card" id="payees">
+          <div class="cardhead">
+            <h2>2계층 수취인 · 공동 서명 · 상속 승계</h2>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn" type="button" data-action="payeeLink">원장에서 권리자 연결</button>
+              <button class="btn pr" type="button" data-action="payeeNew">신규 수취인 권리자 등록</button>
+            </div>
+          </div>
+          <div class="body">
+            <div class="guide">이 계약의 정산금을 나눠 받는 공동 서명 수취인 · 상속 승계인도 권리자로 등록해 이 계약에 연결합니다. 분할 비율은 수취인 분할 관리(ADMN-SETT-007)에서 정하며, 여기 연결된 권리자만 수취인으로 고를 수 있습니다.</div>
+            <div class="tablewrap" id="payeeTable"></div>
           </div>
         </section>
 
@@ -2104,6 +2121,93 @@ function advanceModal(){
     return true;
   },"검토 요청 등록");
 }
+/* 2계층 수취인 — 공동 서명 수취인 · 상속 승계인도 권리자 원장에 권리자로 등록하고 이 계약에 연결한다(공통 기준정보 SJM_MASTER) */
+const RHM = () => window.SJM_MASTER ? window.SJM_MASTER.rightsHolders : null;
+function payeeContract(){
+  return contractCatalog.find(x => x.id === currentContractId) || contractCatalog[0];
+}
+function renderPayees(){
+  const box=$("payeeTable");
+  if(!box||!RHM()) return;
+  const c=payeeContract();
+  const list=RHM().coSigners(c.id);
+  box.innerHTML=`<table>
+    <thead><tr><th>권리자</th><th>개인 · 사업자</th><th>이 계약에서의 역할</th><th>세무 처리</th><th>저작자 본인</th><th class="num">현재 분할 몫</th></tr></thead>
+    <tbody>${list.length?list.map(h=>`<tr>
+      <td><b>${esc(h.name)}</b><div class="note">${esc(h.id)}</div></td>
+      <td>${h.biz?"사업자":"개인"}<div class="note">${esc(h.entity)}</div></td>
+      <td>${esc(h.link.role)}${h.link.kind==="SUCCESSOR"?`<div class="note">상속 승계 · ${esc(h.link.since)}</div>`:""}</td>
+      <td>${esc(h.taxCase)}</td>
+      <td>${h.isAuthor?"본인":"아님"}</td>
+      <td class="num">${h.link.ratio?esc(h.link.ratio)+"%":"—"}</td>
+    </tr>`).join(""):emptyRow(6,"이 계약에 연결된 2계층 수취인이 없습니다. 계약 당사자가 정산금을 단독으로 받습니다.")}</tbody>
+  </table>`;
+}
+function payeeLinkFields(){
+  return `<div class="row c2">
+      <div>${selectField("이 계약에서의 역할","kind",[["CO_SIGNER","공동 서명 수취인"],["SUCCESSOR","상속 승계인"]])}</div>
+      <div>${field("역할 설명 (예: 소속사, 법정 상속인)","role","text","",'maxlength="40"')}</div>
+    </div>
+    ${field("승계 확정일 (상속 승계인만)","since","date","")}`;
+}
+function readPayeeLink(data,c){
+  const kind=data.get("kind");
+  const since=data.get("since")||"";
+  if(kind==="SUCCESSOR"&&!since) return null;
+  const role=(data.get("role")||"").trim()||(kind==="SUCCESSOR"?"상속 승계인":"공동 서명 수취인");
+  return {contract:c.id,holderId:c.holderId,holderName:c.holderName,role,kind,since,ratio:0};
+}
+function payeeNewModal(){
+  if(!RHM()) return toast("공통 기준정보를 불러오지 못했습니다.");
+  const c=payeeContract();
+  openModal("신규 수취인 권리자 등록",`
+    <div class="guide">[${esc(c.id)}] ${esc(c.holderName)} 계약의 정산금을 나눠 받는 사람을 권리자로 등록하고 이 계약에 연결합니다.</div>
+    <div class="row c2">
+      <div>${selectField("권리자 유형","party",[["PERSON","개인"],["BUSINESS","사업자 (개인사업자 · 법인)"]])}</div>
+      <div>${field("성명 / 상호","name","text","",'maxlength="60"')}</div>
+    </div>
+    <div class="row c2">
+      <div>${field("사업자등록번호 (사업자만)","bizNo","text","",'placeholder="000-00-00000"')}</div>
+      <div>${selectField("세무 처리","tax",[["사업소득 원천징수 3.3%","사업소득 원천징수 3.3%"],["기타소득 C05 (저작자 아닌 수취인 · 22%)","기타소득 C05 (저작자 아닌 수취인)"],["일반과세 세금계산서 권리자 발행 (TX-07)","일반과세 세금계산서"],["면세 전자계산서 권리자 발행 (TX-08)","면세 계산서"]])}</div>
+    </div>
+    ${selectField("저작자 본인 여부","author",[["NO","아님 (소속사 · 상속인 등)"],["YES","저작자 본인"]])}
+    ${payeeLinkFields()}
+    <div class="fixed">개인의 주민등록번호와 지급 계좌는 이 화면에 적지 않고 민감 정보 열람 통제(ADMN-USER-007)에 보관합니다. 분할 비율은 수취인 분할 관리(ADMN-SETT-007)에서 정합니다.</div>
+  `,data=>{
+    const name=(data.get("name")||"").trim();
+    const biz=data.get("party")==="BUSINESS";
+    const bizNo=(data.get("bizNo")||"").trim();
+    if(!name) return modalError("성명 또는 상호를 입력하세요.");
+    if(biz&&!/^\d{3}-\d{2}-\d{5}$/.test(bizNo)) return modalError("사업자는 사업자등록번호(000-00-00000)를 입력하세요.");
+    const link=readPayeeLink(data,c);
+    if(!link) return modalError("상속 승계인은 승계 확정일을 입력하세요.");
+    const id=RHM().addPayee({name,entity:biz?`사업자 (${bizNo})`:"개인",biz,taxCase:data.get("tax"),isAuthor:data.get("author")==="YES"},link);
+    changed("2계층 수취인 권리자 등록",`${name} · ${id} → ${c.id} ${link.role}`);
+    renderPayees();
+    toast(`${name}을(를) 권리자 ${id}로 등록하고 ${c.id} 계약에 연결했습니다. 수취인 분할 관리에서 비율을 정하세요.`);
+    return true;
+  },"권리자 등록 · 연결");
+}
+function payeeLinkModal(){
+  if(!RHM()) return toast("공통 기준정보를 불러오지 못했습니다.");
+  const c=payeeContract();
+  const linked=RHM().coSigners(c.id).map(h=>h.id);
+  const options=RHM().all().filter(h=>h.id!==c.holderId&&!linked.includes(h.id));
+  openModal("원장에서 권리자 연결",`
+    <div class="guide">이미 원장에 있는 권리자를 [${esc(c.id)}] 계약의 2계층 수취인으로 연결합니다.</div>
+    ${selectField("권리자","rh",[["","선택"],...options.map(h=>[h.id,`${h.name} · ${h.id}`])])}
+    ${payeeLinkFields()}
+  `,data=>{
+    const id=data.get("rh");
+    if(!id) return modalError("권리자를 선택하세요.");
+    const link=readPayeeLink(data,c);
+    if(!link) return modalError("상속 승계인은 승계 확정일을 입력하세요.");
+    RHM().link(id,link);
+    changed("2계층 수취인 연결",`${id} → ${c.id} ${link.role}`);
+    renderPayees();
+    return true;
+  },"연결");
+}
 function splitModal(){
   openModal("수취인 분할 조회 상태 시연",`
     <div class="fixed">실제 분할 비율 등록은 수취인 분할 관리(ADMN-SETT-007)에서 수행합니다. 여기서는 조회 상태만 시연합니다.</div>
@@ -2329,6 +2433,8 @@ const actions={
     },"승인");
   },
   split:()=>splitModal(),
+  payeeNew:()=>payeeNewModal(),
+  payeeLink:()=>payeeLinkModal(),
   clawback:()=>clawbackModal(),
   verify:()=>verifyModal(),
   approveSuspended:()=>{
@@ -2916,6 +3022,7 @@ const contractCatalog = [
 ];
 
 let currentContractId = "CT-2026-0412";
+renderPayees();
 
 function switchMainTab(tab){
   document.querySelectorAll("[data-tab]").forEach(b=>{
@@ -3053,6 +3160,7 @@ function loadContractPreset(contractId){
   }
 
   refresh();
+  renderPayees();
   switchMainTab("contract");
   toast(`[${c.id}] ${c.holderName} 계약 원장을 불러왔습니다.`);
 }

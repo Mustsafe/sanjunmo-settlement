@@ -256,34 +256,95 @@
     }
   };
 
-  // 2계층 수취인 — 원천은 수취인 2계층 분할(ADMN-SETT-007). 현재 분할 몫이 있는 수취인 중 원 권리자 본인이 아닌 사람 · 사업자를 둔다.
-  // 소속은 권리자, 데이터 범위는 본인 수취 몫. 개인 · 사업자 모두 계정을 받을 수 있고, 세금계산서 · 계산서 제출 기능은 사업자에게만 붙는다(biz)
-  var PAYEE_SEED = [
-    { id: "PY-9001", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자", biz: true, bizNo: "106-81-55210", contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", ratio: 30, evidence: "세금계산서 제출" },
-    { id: "PY-0018-S1", name: "박승계 (상속인)", entity: "개인 · 원천징수", biz: false, contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", ratio: 60, evidence: "원천징수 영수증 조회" },
-    { id: "PY-0018-S2", name: "박자녀 (상속인)", entity: "개인 · 원천징수", biz: false, contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", ratio: 40, evidence: "원천징수 영수증 조회" }
+  // 2계층 수취인 — 계약 당사자는 아니지만 그 계약의 정산금을 나눠 받는 권리자(공동 서명 수취인 · 상속 승계인).
+  // 수취인도 권리자 계약 원장(ADMN-INST-001)에 권리자로 등록하고 계약에 연결한다(payeeOf). 수취인 분할(ADMN-SETT-007)은 연결된 권리자만 고른다.
+  // ratio는 수취인 분할의 현재 몫(시연값). 개인 · 사업자 모두 계정을 받을 수 있고, 세금계산서 · 계산서 제출 기능은 사업자에게만 붙는다(biz)
+  var PAYEE_HOLDER_SEED = [
+    { id: "RH-0071", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자 (106-81-55210)", biz: true, taxCase: "일반과세 세금계산서 권리자 발행 (TX-07 · 부가세 10%)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", role: "공동서명 소속사", kind: "CO_SIGNER", since: "", ratio: 30 }] },
+    { id: "RH-0072", name: "한국기술콘텐츠에이전시", entity: "개인 일반과세자 (211-08-33190)", biz: true, taxCase: "일반과세 세금계산서 권리자 발행 (TX-07 · 부가세 10%)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", role: "공동서명 기획사", kind: "CO_SIGNER", since: "", ratio: 0 }] },
+    { id: "RH-0073", name: "(주)안전교육파트너스", entity: "법인 일반과세자 (119-86-11203)", biz: true, taxCase: "일반과세 세금계산서 권리자 발행 (TX-07)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2026-0501", holderId: "RH-0025", holderName: "정종대", role: "공동서명 후보 소속사", kind: "CO_SIGNER", since: "", ratio: 0 }] },
+    { id: "RH-0074", name: "(주)산준미디어제작센터", entity: "법인 일반과세자 (105-81-99120)", biz: true, taxCase: "일반과세 세금계산서 권리자 발행 (TX-07)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2026-0412", holderId: "RH-0012", holderName: "산준교육 콘텐츠 주식회사", role: "공동서명 제작계열사", kind: "CO_SIGNER", since: "", ratio: 0 }] },
+    { id: "RH-0075", name: "스튜디오픽셀아트", entity: "개인 일반과세자 (142-19-88210)", biz: true, taxCase: "일반과세 세금계산서 권리자 발행 (TX-07)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2026-0702", holderId: "RH-0042", holderName: "최그래픽", role: "공동서명 스튜디오", kind: "CO_SIGNER", since: "", ratio: 0 }] },
+    { id: "RH-0076", name: "박승계", entity: "개인 비사업자 (상속 승계)", biz: false, taxCase: "기타소득 C05 (payee_is_author=false · 필요경비 0% · 세율 22% TX-03 확정)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", role: "법정 상속인 (배우자)", kind: "SUCCESSOR", since: "2026-09-01", ratio: 60 }] },
+    { id: "RH-0077", name: "박자녀", entity: "개인 비사업자 (상속 승계)", biz: false, taxCase: "기타소득 C05 (payee_is_author=false · 필요경비 0% · 세율 22% TX-03 확정)", isAuthor: false, contracts: [],
+      payeeOf: [{ contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", role: "법정 상속인 (자녀)", kind: "SUCCESSOR", since: "2026-09-01", ratio: 40 }] }
   ];
+  var holderStore = store("sjm.master.rightsHolders.v1", RIGHTS_HOLDER_SEED.concat(PAYEE_HOLDER_SEED));
+
+  function findHolder(id) {
+    var list = holderStore.get();
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
 
   var rightsHolders = {
-    list: function () { return clone(RIGHTS_HOLDER_SEED); },
-    get: function (id) {
-      for (var i = 0; i < RIGHTS_HOLDER_SEED.length; i++) if (RIGHTS_HOLDER_SEED[i].id === id) return clone(RIGHTS_HOLDER_SEED[i]);
-      return null;
-    },
+    all: function () { return clone(holderStore.get()); },
+    // 계약 당사자(본인 계약이 있는 권리자) — 외부 계정 소속의 '계약 당사자' 묶음
+    list: function () { return clone(holderStore.get().filter(function (h) { return h.contracts && h.contracts.length; })); },
+    get: function (id) { var h = findHolder(id); return h ? clone(h) : null; },
     // 계약 유형 합집합 — 이 권리자가 어떤 성격의 파트너인지는 계약 유형으로 판단한다
     types: function (id) {
-      var h = rightsHolders.get(id);
+      var h = findHolder(id);
       var seen = {};
       var out = [];
       if (!h) return out;
-      h.contracts.forEach(function (c) { c.types.forEach(function (t) { if (!seen[t]) { seen[t] = true; out.push(t); } }); });
+      (h.contracts || []).forEach(function (c) { c.types.forEach(function (t) { if (!seen[t]) { seen[t] = true; out.push(t); } }); });
       return out;
     },
-    payees: function () { return clone(PAYEE_SEED); },
+    // 본인 계약 없이 다른 계약의 수취인으로만 연결된 권리자인지
+    isPayeeOnly: function (id) {
+      var h = findHolder(id);
+      return !!h && !(h.contracts && h.contracts.length) && !!(h.payeeOf && h.payeeOf.length);
+    },
+    // 계약에 연결된 2계층 수취인 — 각 항목에 link(그 계약과의 관계)를 붙여 돌려준다
+    coSigners: function (contractNo) {
+      var out = [];
+      holderStore.get().forEach(function (h) {
+        (h.payeeOf || []).forEach(function (l) { if (l.contract === contractNo) { var c = clone(h); c.link = clone(l); out.push(c); } });
+      });
+      return out;
+    },
+    // 현재 분할 몫이 있는 2계층 수취인 — 외부 계정 소속의 '2계층 수취인' 묶음(데이터 범위는 본인 수취 몫)
+    payees: function () {
+      var out = [];
+      holderStore.get().forEach(function (h) {
+        (h.payeeOf || []).forEach(function (l) {
+          if (l.ratio > 0) out.push({ id: h.id, name: h.name, entity: h.entity, biz: !!h.biz, contract: l.contract, holderId: l.holderId, holderName: l.holderName, ratio: l.ratio, evidence: h.biz ? "세금계산서 제출" : "원천징수 영수증 조회" });
+        });
+      });
+      return out;
+    },
     payee: function (id) {
-      for (var i = 0; i < PAYEE_SEED.length; i++) if (PAYEE_SEED[i].id === id) return clone(PAYEE_SEED[i]);
-      return null;
-    }
+      var p = rightsHolders.payees().filter(function (x) { return x.id === id; });
+      return p.length ? p[0] : null;
+    },
+    // 신규 수취인 권리자 등록 — 번호는 원장 전체의 다음 RH 번호(실제 채번은 서버에서 중복 없이)
+    addPayee: function (rec, link) {
+      var list = clone(holderStore.get());
+      rec.id = rightsHolders.nextId();
+      rec.contracts = [];
+      rec.payeeOf = [link];
+      list.push(rec);
+      holderStore.set(list);
+      return rec.id;
+    },
+    link: function (id, link) {
+      var list = clone(holderStore.get());
+      list.forEach(function (h) { if (h.id === id) h.payeeOf = (h.payeeOf || []).concat([link]); });
+      holderStore.set(list);
+    },
+    nextId: function () {
+      var max = 0;
+      holderStore.get().forEach(function (h) { var n = parseInt(String(h.id).replace("RH-", ""), 10); if (n > max) max = n; });
+      return "RH-" + ("000" + (max + 1)).slice(-4);
+    },
+    reset: function () { holderStore.reset(); }
   };
 
   window.SJM_MASTER = { menus: MENUS, roles: roles, inquiry: inquiry, vendors: vendors, rightsHolders: rightsHolders };

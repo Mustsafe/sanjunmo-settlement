@@ -19,6 +19,7 @@
                               같은 SKU에 붙은 도서명이 여럿이면 참고(약칭일 수 있음)
                               스크립트 객체 안의 SKU 키(sku · productId · id)와 이름 키(title · productName · name)도 짝짓는다
   [4] 이름 → 코드 역방향    → 같은 권리자 이름이 서로 다른 RH 코드로 적혀 있으면 오류
+  [5] 수취인 코드           → 2계층 수취인도 권리자 원장의 RH 코드를 쓴다. 옛 수취인 코드(PY-NNNN)가 남아 있으면 오류
 
 사용법:
   python scripts/qa/skill_cross_data_check.py                  # prototype_clean 기준(두 폴더는 데이터가 같음)
@@ -91,6 +92,7 @@ def scan(folder):
     title_bk = defaultdict(lambda: defaultdict(set))     # 도서명 → BK → 파일
     bk_files = defaultdict(set)
     bk_old = defaultdict(set)                            # 옛 도서 코드 형식 → 파일
+    py_old = defaultdict(set)                            # 옛 수취인 코드 → 파일
     obj_rh_names = defaultdict(lambda: defaultdict(set))  # 스크립트 객체: RH → 이름 → 파일
     obj_ct_rh = defaultdict(lambda: defaultdict(set))     # 스크립트 객체: 계약 → RH → 파일
     for f in files:
@@ -130,6 +132,8 @@ def scan(folder):
             bk_files[m.group(0)].add(f)
         for m in re.finditer(BK_OLD, raw):
             bk_old[m.group(0)].add(f)
+        for m in re.finditer(r"\bPY-\d{4}(?:-S\d)?", raw):
+            py_old[m.group(0)].add(f)
         for m in re.finditer(BK_REQ, raw):
             if len(m.group(0).rsplit("-", 1)[1]) != 4:
                 bk_old[m.group(0)].add(f)
@@ -144,7 +148,7 @@ def scan(folder):
                 if len(title) >= 4 and re.search(r"[가-힣]", title):
                     bk_titles[m.group(ci)][title].add(f)
                     title_bk[title][m.group(ci)].add(f)
-    return files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, bk_old, obj_rh_names, obj_ct_rh
+    return files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, bk_old, py_old, obj_rh_names, obj_ct_rh
 
 
 def fmt(d):
@@ -156,7 +160,7 @@ def main():
     ap.add_argument("folder", nargs="?", default="prototype_clean")
     ap.add_argument("--strict", action="store_true")
     args = ap.parse_args()
-    files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, bk_old, obj_rh_names, obj_ct_rh = scan(args.folder)
+    files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, bk_old, py_old, obj_rh_names, obj_ct_rh = scan(args.folder)
 
     errors, notes = [], []
     for code, names in sorted(rh_names.items()):
@@ -183,6 +187,8 @@ def main():
             errors.append(("계약 ↔ 권리자 불일치(스크립트 데이터)", code, fmt(rhs)))
     for c in sorted(bk_old):
         errors.append(("도서 코드 형식 불일치", c, "SKU는 PROD-BK-NNNN, 임시코드는 BK-REQ-YYYY-NNNN — " + ", ".join(sorted(bk_old[c]))))
+    for c in sorted(py_old):
+        errors.append(("옛 수취인 코드", c, "2계층 수취인도 권리자 원장의 RH 코드를 쓴다 — " + ", ".join(sorted(py_old[c]))))
     for title, codes in sorted(title_bk.items()):
         if len(codes) > 1:
             errors.append(("같은 도서명 · 다른 도서 코드", title, fmt(codes)))
