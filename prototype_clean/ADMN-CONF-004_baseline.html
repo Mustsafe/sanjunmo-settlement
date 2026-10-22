@@ -395,12 +395,12 @@ code, pre, kbd, samp,
 
   <div id="v4-page-body" class="main-container">
 
-    <p class="page-desc">카카오 알림톡(솔라피 검수 상태 관리)·문자(SMS/LMS)·이메일 템플릿을 등록/검수하고 타겟 수동 발송(S1) 및 발송 이력(007)을 통합 관리합니다.</p>
+    <p class="page-desc">카카오 알림톡(SENS 템플릿 코드 연결 · 검수 상태 동기화)·문자(SMS/LMS)·이메일 템플릿을 관리하고 타겟 수동 발송(S1) 및 발송 이력(007)을 통합 관리합니다.</p>
 
     <div class="domain-switch-bar">
       <div class="sub-tabs">
         <button class="sub-tab-btn active" onclick="switchTab('tpl')" id="tab-btn-tpl">
-          📋 3채널 템플릿 &amp; 카카오 검수 관리 (ADMN-CONF-004) <span class="cnt" id="cnt-tpl">7</span>
+          📋 3채널 템플릿 &amp; SENS 검수 상태 (ADMN-CONF-004) <span class="cnt" id="cnt-tpl">7</span>
         </button>
         <button class="sub-tab-btn" onclick="switchTab('send')" id="tab-btn-send">
           🚀 타겟 메시지 수동/예약 발송 (ADMN-CONF-004-S1)
@@ -420,31 +420,31 @@ code, pre, kbd, samp,
           <div class="kpi-sub">알림톡 / SMS·LMS / 이메일</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">카카오 검수승인 (APPROVED)</div>
+          <div class="kpi-label">검수 완료 · 발송 가능 (APPROVED)</div>
           <div class="kpi-val" style="color:var(--success);" id="kpi-tpl-app">4건</div>
           <div class="kpi-sub">즉시/자동 트리거 발송 가능</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">카카오 검수중 (INSPECT_REQ)</div>
+          <div class="kpi-label">SENS 검수 중 (INSPECT_REQ)</div>
           <div class="kpi-val" style="color:var(--primary);" id="kpi-tpl-req">1건</div>
-          <div class="kpi-sub">솔라피/카카오 심사 대기 (영업일 1~2일)</div>
+          <div class="kpi-sub">SENS 콘솔 검수 요청 · 카카오 심사 (영업일 1~2일)</div>
         </div>
         <div class="kpi-card">
           <div class="kpi-label">검수반려 (REJECTED)</div>
           <div class="kpi-val" style="color:var(--danger);" id="kpi-tpl-rej">1건</div>
-          <div class="kpi-sub">반려사유 수정 후 재검수 요청 필요</div>
+          <div class="kpi-sub">SENS 콘솔에서 수정 후 재검수 요청</div>
         </div>
         <div class="kpi-card">
-          <div class="kpi-label">작성초안 (DRAFT)</div>
+          <div class="kpi-label">초안 · SENS 미등록 (DRAFT)</div>
           <div class="kpi-val" style="color:var(--text-sub);" id="kpi-tpl-drf">1건</div>
-          <div class="kpi-sub">검수 요청 전 임시저장 상태</div>
+          <div class="kpi-sub">SENS 콘솔 등록 · 템플릿 코드 연결 필요</div>
         </div>
       </div>
 
       <div class="card">
         <div class="info-callout">
           <strong>[ADMN-CONF-004] 카카오 알림톡 검수 프로세스 및 발송 제어 정책:</strong><br/>
-          • <strong>알림톡(ALIMTALK):</strong> 신규 템플릿 등록 시 <code>작성초안(DRAFT)</code>으로 생성되며, <strong>[카카오 검수 요청]</strong>을 통해 <code>검수중(INSPECT_REQ)</code> → <code>검수승인(APPROVED)</code> 완료 후에만 실제 발송 트리거에 연결됩니다. <code>검수반려(REJECTED)</code> 건은 반려 사유를 확인하고 문구 수정 후 재심사를 요청할 수 있습니다.<br/>
+          • <strong>알림톡(ALIMTALK):</strong> SENS는 템플릿 생성 · 검수 요청 API를 제공하지 않으므로 템플릿 등록과 카카오 검수 요청은 <strong>SENS 콘솔</strong>에서 합니다. 이 화면에서는 SENS 템플릿 코드를 연결하고 <strong>[SENS 상태 동기화]</strong>로 검수 상태와 반려 사유를 받아오며, <code>검수 완료 · 정상(APPROVED)</code> 템플릿만 실제 발송 트리거에 연결됩니다.<br/>
           • <strong>문자(SMS/LMS) 및 이메일(EMAIL):</strong> 별도 카카오 사전 검수 없이 등록 즉시 <code>발송가능(APPROVED)</code> 상태로 활성화되며, 알림톡 발송 실패 시 대체문자(Fallback) 문구로 자동 활용됩니다.
         </div>
 
@@ -459,9 +459,9 @@ code, pre, kbd, samp,
             <select id="tpl-status-filter" onchange="renderTemplates()">
               <option value="ALL">검수/승인 상태 전체</option>
               <option value="APPROVED">검수승인 / 발송가능 (APPROVED)</option>
-              <option value="INSPECT_REQ">카카오 검수중 (INSPECT_REQ)</option>
+              <option value="INSPECT_REQ">SENS 검수 중 (INSPECT_REQ)</option>
               <option value="REJECTED">검수반려 (REJECTED)</option>
-              <option value="DRAFT">작성초안 (DRAFT)</option>
+              <option value="DRAFT">초안 · SENS 미등록 (DRAFT)</option>
             </select>
             <select id="tpl-type-filter" onchange="renderTemplates()">
               <option value="ALL">메시지 성격 전체</option>
@@ -471,6 +471,7 @@ code, pre, kbd, samp,
             <input type="text" id="tpl-keyword" placeholder="템플릿 코드, 제목, 본문 변수 검색..." oninput="renderTemplates()" style="width:240px;" />
           </div>
           <div class="filter-right">
+            <button class="btn btn-outline" onclick="syncAllSens()">🔄 SENS 검수 상태 전체 동기화</button>
             <button class="btn btn-primary" onclick="openTemplateModal()">+ 신규 메시지 템플릿 등록</button>
           </div>
         </div>
@@ -484,9 +485,9 @@ code, pre, kbd, samp,
               <th style="width:120px;">채널 / 성격</th>
               <th style="width:160px;">연동 도메인 / 트리거</th>
               <th>템플릿명 및 본문 요약</th>
-              <th style="width:155px;">카카오/발송 검수 상태</th>
+              <th style="width:155px;">SENS 검수 상태</th>
               <th style="width:110px;">대체문자(Fallback)</th>
-              <th style="width:210px;">검수 요청 / 수정 / 발송 액션</th>
+              <th style="width:210px;">SENS 동기화 / 수정 / 발송 액션</th>
             </tr>
           </thead>
           <tbody id="tpl-tbody"></tbody>
@@ -596,7 +597,7 @@ code, pre, kbd, samp,
         <div class="form-group">
           <label class="form-label">발송 채널 선택 *</label>
           <select id="tpl-form-channel" onchange="onChangeModalChannel()">
-            <option value="ALIMTALK">카카오 알림톡 (ALIMTALK — 솔라피 검수 필수)</option>
+            <option value="ALIMTALK">카카오 알림톡 (ALIMTALK — SENS 콘솔 등록 · 카카오 검수 필요)</option>
             <option value="SMS_LMS">문자 SMS/LMS (즉시 사용 가능)</option>
             <option value="EMAIL">이메일 EMAIL (즉시 사용 가능)</option>
           </select>
@@ -627,19 +628,20 @@ code, pre, kbd, samp,
         <div class="form-group full" id="kakao-inspect-box" style="background:#fefce8; border:1px solid #fde047; padding:12px 14px; border-radius:8px;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
             <div>
-              <div style="font-weight:800; color:#854d0e; font-size:12.5px;">💛 카카오 알림톡 딜러사(솔라피) 검수 상태 관리</div>
-              <div style="font-size:11.5px; color:#713f12; margin-top:2px;">알림톡은 카카오 검수승인(APPROVED) 상태에서만 발송됩니다. 반려(REJECTED) 시 반려사유를 반영하여 재검수를 요청하세요.</div>
+              <div style="font-weight:800; color:#854d0e; font-size:12.5px;">💛 SENS 알림톡 템플릿 연결 · 검수 상태</div>
+              <div style="font-size:11.5px; color:#713f12; margin-top:2px;">알림톡 템플릿은 SENS 콘솔에서 등록하고 카카오 검수를 요청합니다. 여기서는 SENS 템플릿 코드를 연결하고, 검수 상태 · 반려 사유는 [SENS 상태 동기화]로 받아옵니다(직접 바꾸지 않음).</div>
+              <div style="margin-top:8px;"><label class="form-label" for="tpl-form-sens-code">SENS 템플릿 코드 (알림톡 필수)</label><input type="text" id="tpl-form-sens-code" placeholder="SENS 콘솔에서 등록한 템플릿 코드 (예: SJM_ORDER_PAID)" style="width:280px;" /></div>
             </div>
-            <select id="tpl-form-status" onchange="toggleRejectReasonInput()" style="font-weight:700;">
-              <option value="DRAFT">작성초안 (DRAFT)</option>
-              <option value="INSPECT_REQ">카카오 검수중 (INSPECT_REQ)</option>
+            <select id="tpl-form-status" onchange="toggleRejectReasonInput()" style="font-weight:700;" disabled title="검수 상태는 SENS 동기화로만 바뀝니다">
+              <option value="DRAFT">초안 · SENS 미등록 (DRAFT)</option>
+              <option value="INSPECT_REQ">SENS 검수 중 (INSPECT_REQ)</option>
               <option value="APPROVED">검수승인 완료 (APPROVED)</option>
               <option value="REJECTED">검수반려 (REJECTED)</option>
             </select>
           </div>
           <div id="reject-reason-wrap" style="margin-top:10px; display:none;">
-            <label class="form-label" style="color:#b91c1c;">카카오 검수 반려 사유 (솔라피 수신 사유 기록)</label>
-            <input type="text" id="tpl-form-reject-reason" placeholder="예: 정보성 알림톡 템플릿 내에 이벤트/할인 쿠폰 홍보 문구가 포함되어 반려됨" style="width:100%; border-color:#fca5a5;" />
+            <label class="form-label" style="color:#b91c1c;">카카오 검수 반려 사유 (SENS 동기화)</label>
+            <input type="text" id="tpl-form-reject-reason" placeholder="SENS 동기화 시 반려 사유가 표시됩니다" style="width:100%; border-color:#fca5a5;" readonly />
           </div>
         </div>
 
@@ -675,8 +677,7 @@ code, pre, kbd, samp,
     </div>
     <div class="modal-footer">
       <div style="display:flex; gap:6px;">
-        <button class="btn btn-warning" type="button" onclick="saveTemplateWithStatus('INSPECT_REQ')">📤 저장 후 카카오 검수 요청 (INSPECT_REQ)</button>
-        <button class="btn btn-success" type="button" onclick="saveTemplateWithStatus('APPROVED')">✓ 검수승인(APPROVED) 즉시 반영</button>
+        <button class="btn btn-warning" type="button" onclick="saveTemplateWithStatus('SYNC')">🔄 저장 후 SENS 상태 동기화</button>
       </div>
       <div style="display:flex; gap:6px;">
         <button class="btn btn-outline" type="button" onclick="closeModal('modal-template')">취소</button>
@@ -693,6 +694,7 @@ code, pre, kbd, samp,
     {
       code: 'TPL-ALIM-001',
       channel: 'ALIMTALK',
+      sensCode: 'SJM_ORDER_PAID',
       type: 'INFO',
       domain: '주문/결제 (ADMN-ORD)',
       title: '[산준모] 수강신청 및 결제 완료 안내',
@@ -705,6 +707,7 @@ code, pre, kbd, samp,
     {
       code: 'TPL-ALIM-002',
       channel: 'ALIMTALK',
+      sensCode: 'SJM_BOOK_SHIPPED',
       type: 'INFO',
       domain: '교재배송 (ADMN-ORD-004)',
       title: '[산준모] 교재 출고 및 송장번호 안내',
@@ -717,6 +720,7 @@ code, pre, kbd, samp,
     {
       code: 'TPL-ALIM-003',
       channel: 'ALIMTALK',
+      sensCode: 'SJM_REFUND_PASS',
       type: 'INFO',
       domain: '환불/환급 (ADMN-RFD)',
       title: '[산준모] 합격환급금 심사 승인 및 입금 예정 안내',
@@ -729,6 +733,7 @@ code, pre, kbd, samp,
     {
       code: 'TPL-ALIM-004',
       channel: 'ALIMTALK',
+      sensCode: 'SJM_EVENT_WINNER',
       type: 'INFO',
       domain: '게시판/CS (ADMN-BRD)',
       title: '[산준모] 이벤트 당첨 및 경품 지급 안내',
@@ -741,6 +746,7 @@ code, pre, kbd, samp,
     {
       code: 'TPL-ALIM-005',
       channel: 'ALIMTALK',
+      sensCode: 'SJM_ANSWER_UPDATE',
       type: 'INFO',
       domain: '게시판/CS (ADMN-BRD)',
       title: '[산준모] 정답지 업데이트 알림',
@@ -753,6 +759,7 @@ code, pre, kbd, samp,
     {
       code: 'TPL-ALIM-006',
       channel: 'ALIMTALK',
+      sensCode: 'SJM_REENROLL_OFFER',
       type: 'INFO',
       domain: '마케팅/수동 (ADMN-PROM)',
       title: '[산준모] 수강만료 예정자 재수강 연장 특별할인 안내',
@@ -828,14 +835,14 @@ code, pre, kbd, samp,
     };
     const stBadge = {
       APPROVED: '<span class="badge badge-green">✓ 검수승인 (발송가능)</span>',
-      INSPECT_REQ: '<span class="badge badge-blue">⏳ 카카오 검수중</span>',
+      INSPECT_REQ: '<span class="badge badge-blue">⏳ SENS 검수 중</span>',
       REJECTED: '<span class="badge badge-red">✕ 검수반려 (사유확인)</span>',
-      DRAFT: '<span class="badge badge-slate">📝 작성초안</span>'
+      DRAFT: '<span class="badge badge-slate">📝 초안 · SENS 미등록</span>'
     };
 
     document.getElementById('tpl-tbody').innerHTML = list.map(t => `
       <tr>
-        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:800;">${t.code}</td>
+        <td style="font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Malgun Gothic', sans-serif; font-variant-numeric: tabular-nums; font-weight:800;">${t.code}${t.sensCode ? `<div style="font-size:11px; font-weight:600; color:var(--text-muted);">SENS ${t.sensCode}</div>` : ''}</td>
         <td>
           ${chBadge[t.channel]}<br/>
           <span class="badge ${t.type === 'AD' ? 'badge-amber' : 'badge-slate'}" style="margin-top:4px;">
@@ -856,12 +863,10 @@ code, pre, kbd, samp,
         <td>
           <div style="display:flex; gap:5px; flex-wrap:wrap;">
             <button class="btn btn-outline btn-sm" onclick="openTemplateModal('${t.code}')">상세/수정</button>
-            ${t.status === 'DRAFT' || t.status === 'REJECTED'
-              ? `<button class="btn btn-warning btn-sm" onclick="quickChangeTplStatus('${t.code}', 'INSPECT_REQ')">검수요청</button>`
-              : ''
-            }
-            ${t.status === 'INSPECT_REQ'
-              ? `<button class="btn btn-success btn-sm" onclick="quickChangeTplStatus('${t.code}', 'APPROVED')">승인완료 처리</button>`
+            ${t.channel === 'ALIMTALK'
+              ? (t.sensCode
+                ? `<button class="btn btn-outline btn-sm" onclick="syncSensStatus('${t.code}')">🔄 SENS 동기화</button>`
+                : `<span class="badge badge-slate">SENS 콘솔 등록 필요</span>`)
               : ''
             }
             ${t.status === 'APPROVED'
@@ -874,16 +879,26 @@ code, pre, kbd, samp,
     `).join('');
   }
 
-  function quickChangeTplStatus(code, nextStatus) {
+  // SENS 알림톡 템플릿 조회 API로 검수 상태를 받아온다 (SENS는 템플릿 생성 · 검수 요청 API가 없어 등록 · 검수 요청은 SENS 콘솔에서 한다)
+  // 시연: 검수 중(INSPECT_REQ) 템플릿은 SENS에서 검수 완료(COMPLETE)로 바뀐 것으로 받아온다
+  function applySensStatus(t) {
+    if (t.channel !== 'ALIMTALK' || !t.sensCode) return null;
+    if (t.status === 'INSPECT_REQ') { t.status = 'APPROVED'; t.rejectReason = ''; }
+    return t.status;
+  }
+  const SENS_LABEL = { APPROVED: '검수 완료 · 정상', INSPECT_REQ: '검수 중', REJECTED: '반려', DRAFT: '미등록' };
+  function syncSensStatus(code) {
     const t = TEMPLATES.find(item => item.code === code);
     if (!t) return;
-    t.status = nextStatus;
-    if (nextStatus === 'APPROVED') t.rejectReason = '';
+    const st = applySensStatus(t);
     renderTemplates();
-    const msg = nextStatus === 'INSPECT_REQ'
-      ? `[${code}] 솔라피/카카오 알림톡 검수 요청이 접수되었습니다.`
-      : `[${code}] 카카오 검수승인(APPROVED) 처리되어 즉시 발송이 가능합니다.`;
-    showToast(msg);
+    showToast(st ? `[${code}] SENS 템플릿 ${t.sensCode} 상태 동기화: ${SENS_LABEL[st]}` : `[${code}] SENS 템플릿 코드가 없습니다. SENS 콘솔에서 등록한 뒤 코드를 연결하세요.`);
+  }
+  function syncAllSens() {
+    const targets = TEMPLATES.filter(t => t.channel === 'ALIMTALK' && t.sensCode);
+    targets.forEach(applySensStatus);
+    renderTemplates();
+    showToast(`🔄 SENS 알림톡 템플릿 ${targets.length}건 검수 상태를 동기화했습니다.`);
   }
 
   function openTemplateModal(code) {
@@ -898,6 +913,7 @@ code, pre, kbd, samp,
     document.getElementById('tpl-form-domain').value = item ? item.domain : '게시판/CS (ADMN-BRD)';
     document.getElementById('tpl-form-title').value = item ? item.title : '';
     document.getElementById('tpl-form-status').value = item ? item.status : 'DRAFT';
+    document.getElementById('tpl-form-sens-code').value = item ? (item.sensCode || '') : '';
     document.getElementById('tpl-form-reject-reason').value = item ? (item.rejectReason || '') : '';
     document.getElementById('tpl-form-body').value = item
       ? item.body
@@ -943,7 +959,8 @@ code, pre, kbd, samp,
     const type = document.getElementById('tpl-form-type').value;
     const domain = document.getElementById('tpl-form-domain').value;
     const title = document.getElementById('tpl-form-title').value.trim();
-    const status = forcedStatus || document.getElementById('tpl-form-status').value;
+    const status = document.getElementById('tpl-form-status').value;
+    const sensCode = document.getElementById('tpl-form-sens-code').value.trim();
     const rejectReason = document.getElementById('tpl-form-reject-reason').value.trim();
     const body = document.getElementById('tpl-form-body').value.trim();
     const btnName = document.getElementById('tpl-form-btn-name').value.trim();
@@ -953,17 +970,22 @@ code, pre, kbd, samp,
       alert('템플릿 코드, 제목, 본문을 모두 입력해주세요.');
       return;
     }
+    if (forcedStatus === 'SYNC' && channel === 'ALIMTALK' && !sensCode) {
+      alert('SENS 템플릿 코드를 입력해 주세요. 알림톡 템플릿은 SENS 콘솔에서 먼저 등록합니다.');
+      return;
+    }
 
     if (editCode) {
       const target = TEMPLATES.find(t => t.code === editCode);
       if (target) {
-        Object.assign(target, { code, channel, type, domain, title, status, rejectReason, body, btnName, fallback });
+        Object.assign(target, { code, sensCode, channel, type, domain, title, status, rejectReason, body, btnName, fallback });
       }
     } else {
-      TEMPLATES.unshift({ code, channel, type, domain, title, status, rejectReason, body, btnName, fallback });
+      TEMPLATES.unshift({ code, sensCode, channel, type, domain, title, status, rejectReason, body, btnName, fallback });
     }
 
     closeModal('modal-template');
+    if (forcedStatus === 'SYNC') { syncSensStatus(code); return; }
     renderTemplates();
     showToast(`템플릿 [${code}] 저장 완료 (상태: ${status})`);
   }

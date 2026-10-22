@@ -845,7 +845,7 @@ code, pre, kbd, samp,
         memo: "전속계약 체결 및 사업자등록 상태(계속사업자) 확인 완료. 2026-10 정산서 7단계(LUMPSUM_ADD) 이관 완료.",
         approvedBy: "재무책임자 (박정산)",
         approvedAt: "2026-10-12 11:20:00",
-        bankReceiptLinked: "이체확인증 대기 (SETT-002 펌뱅킹 실행 후 자동 바인딩)"
+        bankReceiptLinked: "이체확인증 대기 (SETT-002 대량이체 결과 대사 후 자동 바인딩)"
       },
       {
         id: "MS-2026-006",
@@ -874,7 +874,7 @@ code, pre, kbd, samp,
         memo: "계약 만료(2026-10-14) 및 on_termination_policy=LUMP_SETTLE 약정에 따라 미소진 한도(1,800,000원) 7단계 일시 정산 승인. (5단계 한도 소진액 가산 및 COMPLETED 전이 연동)",
         approvedBy: "재무책임자 (박정산)",
         approvedAt: "2026-10-14 09:40:11",
-        bankReceiptLinked: "이체확인증 대기 (SETT-002 펌뱅킹 실행 후 자동 바인딩)"
+        bankReceiptLinked: "이체확인증 대기 (SETT-002 대량이체 결과 대사 후 자동 바인딩)"
       }
     ],
     auditLogs: [
@@ -1211,7 +1211,7 @@ code, pre, kbd, samp,
       ${isApproved ? `
         <div style="background:var(--success-soft); border:1px solid #bbf7d0; border-radius:7px; padding:10px 12px; font-size:12px; color:#15803d;">
           <div>✔ <strong>승인 완료:</strong> ${item.approvedBy} (${item.approvedAt}) → <strong>${item.targetMonth}</strong> 정산서 이관됨</div>
-          <div style="margin-top:3px; font-size:11.5px;">🔗 <strong>송금 증빙 바인딩(7.2절):</strong> ${item.bankReceiptLinked || "SETT-002 펌뱅킹 완료 시 자동 바인딩"}</div>
+          <div style="margin-top:3px; font-size:11.5px;">🔗 <strong>송금 증빙 바인딩(7.2절):</strong> ${item.bankReceiptLinked || "SETT-002 대량이체 결과 대사 시 자동 바인딩"}</div>
         </div>
       ` : ""}
 
@@ -1365,7 +1365,7 @@ code, pre, kbd, samp,
     item.status = "APPROVED";
     item.approvedBy = "재무담당자 (white)";
     item.approvedAt = "2026-10-14 15:15:00";
-    item.bankReceiptLinked = "이체확인증 대기 (SETT-002 펌뱅킹 실행 후 자동 바인딩)";
+    item.bankReceiptLinked = "이체확인증 대기 (SETT-002 대량이체 결과 대사 후 자동 바인딩)";
 
     const modeLabel = item.inspectionMode === "MANUAL_NOTE" ? "수기 검수(내부확인)" : "증빙 첨부 검수";
     const actionDesc = item.category === "SUPPORT_RS_ONCE"

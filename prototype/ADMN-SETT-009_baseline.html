@@ -297,7 +297,7 @@ code, pre, kbd, samp,
             🔒 [권한 분리 및 외부 유출 차단 원칙 (정산 기준 · Case 11·12)]
           </div>
           <div style="font-size:12.5px; color:#334155; margin-top:3px;">
-            본 화면은 <strong>자사 계정(주식회사 엘캠퍼스, <code>is_internal = true</code>) 귀속분</strong>과 <strong>일반 상품 판매매출(Pipeline 2.3, <code>TX-13</code>)</strong>을 외부 권리자 지급액과 함께 대조하는 <strong>조회 전용(View-only)</strong> 화면입니다. 자사 귀속 라인은 펌뱅킹 이체 리스트 및 전자(세금)계산서 역발행 루프에서 <strong>자동 제외(Bypass)</strong>되며, 매출연동 개발지원금 확정액은 외부 공동권리자 지분을 침해하지 않고 <strong>자사 귀속 몫에서만 차감</strong>됩니다.
+            본 화면은 <strong>자사 계정(주식회사 엘캠퍼스, <code>is_internal = true</code>) 귀속분</strong>과 <strong>일반 상품 판매매출(Pipeline 2.3, <code>TX-13</code>)</strong>을 외부 권리자 지급액과 함께 대조하는 <strong>조회 전용(View-only)</strong> 화면입니다. 자사 귀속 라인은 대량이체 지급 리스트 및 전자(세금)계산서 발행 요청 루프에서 <strong>자동 제외(Bypass)</strong>되며, 매출연동 개발지원금 확정액은 외부 공동권리자 지분을 침해하지 않고 <strong>자사 귀속 몫에서만 차감</strong>됩니다.
           </div>
         </div>
         <div id="lockStatusBadge">
@@ -330,7 +330,7 @@ code, pre, kbd, samp,
         <div class="kpi-card" id="kpi-INTERNAL" onclick="setPipelineFilter('INTERNAL')">
           <div class="k-title"><span>자사 최종 잔여 귀속 순액</span><span class="badge b-ok">Bypass 확정</span></div>
           <div class="k-num" style="color:var(--ok);" id="kpiInternalNet">41,100,000원</div>
-          <div class="k-sub">외부 집행(펌뱅킹·역발행) 제외 · 당사 손익 귀속</div>
+          <div class="k-sub">외부 집행(대량이체·증빙 발행 요청) 제외 · 당사 손익 귀속</div>
         </div>
       </div>
 
@@ -375,7 +375,7 @@ code, pre, kbd, samp,
                   <th class="num">자사 초기 귀속액<br><span style="font-size:10.5px;font-weight:500;">(지원금 차감 전)</span></th>
                   <th class="num">개발지원금 차감<br><span style="font-size:10.5px;font-weight:500;">(Pipeline 5.1 · 자사부담)</span></th>
                   <th class="num">자사 최종 잔여 귀속<br><span style="font-size:10.5px;font-weight:500;">(RH-INTERNAL 순액)</span></th>
-                  <th>외부 집행 (펌뱅킹/역발행)</th>
+                  <th>외부 집행 (대량이체/증빙 발행 요청)</th>
                 </tr>
               </thead>
               <tbody id="overviewTbody"></tbody>
@@ -522,7 +522,7 @@ code, pre, kbd, samp,
                   <td class="num" style="color:var(--pri);">3,000,000원</td>
                   <td class="num" style="color:var(--warn);">300,000원</td>
                   <td class="num">1,650,000원<br><span style="font-size:10.5px; color:var(--muted);">(5,500원×300 · AP지급)</span></td>
-                  <td><span class="badge b-ok">자사 100% 귀속 (펌뱅킹/역발행 Bypass)</span></td>
+                  <td><span class="badge b-ok">자사 100% 귀속 (대량이체/증빙 발행 요청 Bypass)</span></td>
                 </tr>
                 <tr>
                   <td><span class="badge b-teal">일반 상품 판매매출 (일반상품 매출)</span></td>
@@ -637,7 +637,7 @@ code, pre, kbd, samp,
       <div style="display:flex; align-items:center; gap:12px;">
         <span class="badge b-teal">READ-ONLY VIEW</span>
         <span style="font-size:12.5px; color:#cbd5e1;">
-          <strong>[ADMN-SETT-009 권한 통제]</strong> 본 화면에서는 자금 집행(펌뱅킹 이체 생성) 및 정산 마감 확정(Locked 전환)을 수행할 수 없습니다. 자금 집행은 <strong>[ADMN-SETT-002 월간 정산 및 집행]</strong> 화면에서만 가능합니다.
+          <strong>[ADMN-SETT-009 권한 통제]</strong> 본 화면에서는 자금 집행(대량이체 엑셀 생성) 및 정산 마감 확정(Locked 전환)을 수행할 수 없습니다. 자금 집행은 <strong>[ADMN-SETT-002 월간 정산 및 집행]</strong> 화면에서만 가능합니다.
         </span>
       </div>
       <div style="display:flex; gap:10px; align-items:center;">
@@ -709,7 +709,7 @@ code, pre, kbd, samp,
       supportDeduct: 0,
       supportDesc: "-",
       internalNet: 9000000,
-      bypassText: "전액 자사 귀속 (펌뱅킹·역발행 100% Bypass)",
+      bypassText: "전액 자사 귀속 (대량이체·증빙 발행 요청 100% Bypass)",
       hasInternal: true,
       hasExternal: false
     },
@@ -785,7 +785,7 @@ code, pre, kbd, samp,
       supportDeduct: 0,
       supportDesc: "-",
       internalNet: 1080000,
-      bypassText: "100% 자사 매출 귀속 (펌뱅킹·역발행 제외)",
+      bypassText: "100% 자사 매출 귀속 (대량이체·증빙 발행 요청 제외)",
       hasInternal: true,
       hasExternal: false
     },

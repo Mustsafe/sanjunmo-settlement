@@ -29,3 +29,6 @@ scripts/qa/reports/
 # Dependencies
 node_modules/
 
+
+# Local-only: 개발 자료 비밀 값 (plans/*.local.md)
+plans/*.local.md

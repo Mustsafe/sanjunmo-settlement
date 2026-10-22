@@ -504,7 +504,7 @@
   "LUMPSUM_ADD": "비정기 약정·매절 가산",
   "PAYEE_SPLIT": "수취인 분할",
   "CLAIM": "반환·최소 청구 검증",
-  "PAYOUT": "최소 지급 검증·펌뱅킹 확정",
+  "PAYOUT": "최소 지급 검증·대량이체 확정",
   "UNKNOWN_MISMATCH": "원인 미분류 불일치",
   "REVENUE_SHARE": "매출 비례 정산",
   "LUMP_SUM": "일시금",

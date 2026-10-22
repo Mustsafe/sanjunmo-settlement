@@ -1032,7 +1032,7 @@ code, pre, kbd, samp,
         <div class="kpi-card" data-filter="PAYOUT_TARGET">
           <div class="k-title">💸 당월 실지급 대상 (≥10만원/강제)</div>
           <div class="k-num" id="kpiPayout" style="color:var(--primary);">5건 (15,543,740원)</div>
-          <div class="k-sub">11단계 지급 판정 통과 · 펌뱅킹 대상</div>
+          <div class="k-sub">11단계 지급 판정 통과 · 대량이체 대상</div>
         </div>
         <div class="kpi-card" data-filter="CARRYOVER_HOLD">
           <div class="k-title">⏸️ 지급 보류 · 차월 이월 적재</div>
@@ -1045,7 +1045,7 @@ code, pre, kbd, samp,
           <div class="k-sub">전속계약금 일할반환 + 만료 미상계 선급금</div>
         </div>
         <div class="kpi-card" data-filter="INVOICE_PENDING">
-          <div class="k-title">📄 2채널 역발행·수취 증빙 대기</div>
+          <div class="k-title">📄 2채널 증빙 제출·수취 대기</div>
           <div class="k-num" id="kpiInvoice" style="color:var(--purple);">2건</div>
           <div class="k-sub">익월 10일 지연발급 가산세 기한 통제</div>
         </div>
@@ -1055,8 +1055,8 @@ code, pre, kbd, samp,
       <div class="tabs">
         <button class="tab-btn active" data-tab="tabStatements">1. 수취인별 통합 정산서 및 1~11단계 연산 명세</button>
         <button class="tab-btn" data-tab="tabSupportLedger">2. 개발지원금 소진 원장 (확정·한도소진·실지급 3분리 · 정산 기준)</button>
-        <button class="tab-btn" data-tab="tabTaxInvoice">3. 2채널 전자(세금)계산서 역발행 및 위탁 계산서 수취 게이트웨이 (제10·12장)</button>
-        <button class="tab-btn" data-tab="tabFirmbanking">4. 펌뱅킹 대량이체 추출 및 은행 결과 파일 1:1 대사 </button>
+        <button class="tab-btn" data-tab="tabTaxInvoice">3. 2채널 증빙 제출 · 홈택스 대사 및 위탁 계산서 수취</button>
+        <button class="tab-btn" data-tab="tabFirmbanking">4. 대량이체 엑셀 생성 및 은행 결과 파일 1:1 대사 </button>
       </div>
 
       <!-- 탭 1: 수취인별 통합 정산서 워크스페이스 -->
@@ -1184,17 +1184,21 @@ code, pre, kbd, samp,
         </div>
       </section>
 
-      <!-- 탭 3: 2채널 역발행 및 수취 증빙 게이트웨이 (6.5절 · 10장 · 12장) -->
+      <!-- 탭 3: 2채널 증빙 제출 · 홈택스 대사 및 수취 증빙 (제1권 6.5절 · 제2권 제9장) -->
       <section id="tabTaxInvoice" class="tab-panel hidden">
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">2채널 전자(세금)계산서 역발행 및 위탁 면세 계산서 수취 추적 게이트웨이 (정산 기준)</div>
+              <div class="card-title">2채널 전자(세금)계산서 발행 요청 · 제출 · 홈택스 대사 및 위탁 계산서 수취 추적 (정산 기준)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                익월 10일 지연발급 가산세(공급가액의 1~2%) 기한 3영업일 전 미승인 알럿 및 위탁 정산금 지급 후 10일 경과 미수취 알럿을 자동 통제합니다.
+                권리자가 홈택스에서 직접 발행해 제출한 승인번호를 홈택스 매입 내역 엑셀로 대사합니다. 익월 10일 지연발급 가산세(공급가액의 1~2%) 기한 3영업일 전 미제출 알럿과 위탁 정산금 지급 후 10일 경과 미수취 알럿을 자동 통제합니다. 미제출은 지급 보류 사유가 아닙니다.
               </div>
             </div>
-            <button class="btn btn-sm btn-primary" onclick="showToast('📨 미승인 사업자 2곳에 역발행 전자서명 요청 알림톡 및 이메일을 재발송했습니다.')">📨 미승인 권리자 알림톡·이메일 일괄 재발송</button>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-sm" onclick="remindTaxSubmit()">📨 미제출 권리자 알림톡·이메일 재발송</button>
+              <button class="btn btn-sm" onclick="openTaxSubmitModal('OPERATOR')">✍️ 운영자 대리 등록</button>
+              <button class="btn btn-sm btn-primary" onclick="runHometaxRecon()">📥 홈택스 매입 내역 엑셀 업로드 · 대사</button>
+            </div>
           </div>
           <div class="table-wrap">
             <table>
@@ -1202,64 +1206,34 @@ code, pre, kbd, samp,
                 <tr>
                   <th>수취인 / 매트릭스 케이스</th>
                   <th>증빙 방향 및 종류</th>
-                  <th>채널 구분 (2채널)</th>
+                  <th>제출 · 대사 경로</th>
                   <th class="num">공급가액</th>
                   <th class="num">부가가치세</th>
                   <th class="num">합계 금액</th>
                   <th>법정 기한 / 알럿 상태</th>
-                  <th>전자서명 / 수취 상태</th>
+                  <th>제출 · 대사 상태</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><strong>정종대 (개인사업자)</strong><br><span class="mono">면세사업자 (TX-08)</span></td>
-                  <td>역발행 전자계산서 (면세)</td>
-                  <td>채널 A (팝빌 연동 API)</td>
-                  <td class="num">13,018,750원</td>
-                  <td class="num">0원</td>
-                  <td class="num"><strong>13,018,750원</strong></td>
-                  <td>2026-11-10 기한</td>
-                  <td><span class="badge badge-success">권리자 역발행 서명 완료</span></td>
-                </tr>
-                <tr>
-                  <td><strong>산준교육 주식회사 (법인)</strong><br><span class="mono">일반과세자 (TX-07 / TX-09)</span></td>
-                  <td>역발행 전자세금계산서 (과세 10%)</td>
-                  <td>채널 A (팝빌 연동 API)</td>
-                  <td class="num">4,800,000원</td>
-                  <td class="num">480,000원</td>
-                  <td class="num"><strong>5,280,000원</strong></td>
-                  <td><span class="badge badge-warn">익월 10일 기한 (서명 대기)</span></td>
-                  <td><span class="badge badge-warn">역발행 발송됨 · 서명 대기</span></td>
-                </tr>
-                <tr>
-                  <td><strong>한국소방학회 (위탁출판사)</strong><br><span class="mono">도서 재화 공급 (TX-11)</span></td>
-                  <td>[1] [수취] 도서 판매대금 면세 계산서<br>[2] [당사 발행] 위탁 수수료 과세 세금계산서</td>
-                  <td>채널 B (홈택스 확인 + 당사 발행)</td>
-                  <td class="num">도서: 4,000,000원<br>수수료: 1,000,000원</td>
-                  <td class="num">도서: 0원<br>수수료: 100,000원</td>
-                  <td class="num"><strong>위탁 실지급: 2,900,000원</strong><br><span style="font-size:10px; color:var(--text-muted);">(수수료 차감지급 NET_DEDUCT)</span></td>
-                  <td>지급 후 10일 내 수취 확인</td>
-                  <td><span class="badge badge-primary">수수료 발행완료 · 계산서 수취대기</span></td>
-                </tr>
-              </tbody>
+              <tbody id="taxInvoiceBody"></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- 탭 4: 펌뱅킹 대량이체 추출 및 은행 결과 대사 (7.2절 · QA D-13) -->
+      <!-- 탭 4: 대량이체 엑셀 생성 및 은행 결과 대사 (7.2절 · QA D-13) -->
       <section id="tabFirmbanking" class="tab-panel hidden">
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">펌뱅킹 대량이체 집행 리스트 및 은행 결과 파일 1:1 식별자 매핑 (정산 기준 · QA 검증규칙)</div>
+              <div class="card-title">대량이체 지급 리스트(은행 업로드 엑셀) 및 은행 결과 파일 1:1 식별자 매핑 (정산 기준 · QA 검증규칙)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
                 이름만으로 자동 매핑하지 않고 지급 지시 식별자로 대조합니다. <strong>마감 후 송금 실패 시 마감 원장(Locked)이나 지원금 한도를 되돌리지 않고, 지급 예약(RESERVED)만 해제하여 미지급 소득을 세전 계정(PRE_TAX)에 적재</strong>합니다.
               </div>
             </div>
             <div style="display:flex; gap:8px;">
               <button class="btn btn-sm" onclick="simulateBankFailure()">🧪 [QA 검증규칙 시연] 은행 계좌오류 송금 실패 시뮬레이션</button>
-              <button class="btn btn-sm btn-primary" onclick="showToast('📥 펌뱅킹 대량이체 CMS 파일(3건, 12,739,650원)을 다운로드했습니다.')">📥 펌뱅킹 대량이체 파일 추출</button>
+              <button class="btn btn-sm btn-primary" onclick="showToast('📤 은행 이체 결과 파일을 지급 지시 식별자로 대조했습니다: 성공 5건 · 실패 0건 (실패 행은 예약 해제 후 세전 이월로 적재)')">📤 은행 이체 결과 파일 등록 · 대사</button>
+              <button class="btn btn-sm btn-primary" onclick="showToast('📥 은행 대량이체 업로드 엑셀(5건, 15,543,740원)을 내려받았습니다. 인터넷뱅킹에 올려 이체한 뒤 결과 파일을 등록하세요.')">📥 대량이체 엑셀 다운로드 (은행 양식)</button>
             </div>
           </div>
           <div class="table-wrap">
@@ -1286,7 +1260,7 @@ code, pre, kbd, samp,
       <div class="savebar-status">
         <span id="footerLockBadge" class="badge badge-warn">마감 전 (Unlocked)</span>
         <span id="footerSummaryText">
-          2026-10 통합 연산 완료: 당월 실지급 총액 <strong>12,739,650원 (3건)</strong> / 지급보류 세전이월 <strong>72,000원 (1건)</strong> / 공식 청구서 <strong>-4,818,767원 (1건)</strong>
+          2026-10 통합 연산 완료: 당월 실지급 총액 <strong>15,543,740원 (5건)</strong> / 지급보류 세전이월 <strong>72,000원 (1건)</strong> / 공식 청구서 <strong>-4,818,767원 (1건)</strong>
         </span>
       </div>
       <div style="display:flex; gap:8px;">
@@ -1418,7 +1392,7 @@ code, pre, kbd, samp,
         payeeId: "RH-0025",
         payeeName: "정종대 (개인사업자 · 면세)",
         contractId: "CT-2026-0501",
-        matrixCase: "면세사업자 계산서 역발행 + 사업소득 원천징수 (TX-08)",
+        matrixCase: "면세사업자 계산서(권리자 발행) + 사업소득 원천징수 (TX-08)",
         pipelines: ["P1_1", "P2_1", "P5_1"],
         pipelineText: "강좌(1.1) + 인세(2.1) + 지원금(5.1) + 전속계약금(7단계)",
         step1PreTaxCarry: -120000,
@@ -1450,7 +1424,7 @@ code, pre, kbd, samp,
         payeeId: "RH-0012",
         payeeName: "산준교육 주식회사 (법인 · 일반과세)",
         contractId: "CT-2026-0412",
-        matrixCase: "법인 일반과세자 세금계산서 역발행 (TX-07)",
+        matrixCase: "법인 일반과세자 세금계산서(권리자 발행) (TX-07)",
         pipelines: ["P1_1"],
         pipelineText: "강좌(1.1) + 지원금 종료 일시정산(7단계)",
         step1PreTaxCarry: 0,
@@ -1471,9 +1445,9 @@ code, pre, kbd, samp,
         step10PostTaxAdjust: 0,
         step11NetPayout: 2280000,
         payoutCategory: "PAYOUT_TARGET",
-        payoutStatusLabel: "실지급 확정 (역발행 서명 대기)",
+        payoutStatusLabel: "실지급 확정 (세금계산서 제출 대기 · 지급 보류 아님)",
         bankInfo: "국민은행 042-81-******* (예금주: 산준교육(주) 일치)",
-        bankTransferStatus: "역발행 세금계산서 서명 대기",
+        bankTransferStatus: "지급 대기 (세금계산서 제출 대기)",
         diffReasonNote: "공급대가 총액(5,280,000원) 대비 실지급액(2,280,000원) 차이는 [6단계 선급금 상계(-3,000,000원)] 반영 결과입니다. 상계 대상은 강좌 수익배분 3,000,000원 전액(법인 · 원천세 없음)이며, 지원금 종료 일시정산 1,800,000원은 비상계(NON_OFFSET) 약정이라 상계하지 않습니다.",
       },
       {
@@ -1891,7 +1865,7 @@ code, pre, kbd, samp,
 
     state.statements.forEach(s => {
       if (s.payoutCategory === "PAYOUT_TARGET") {
-        s.bankTransferStatus = "지급 예약 완료 (RESERVED · 펌뱅킹 대기)";
+        s.bankTransferStatus = "지급 예약 완료 (RESERVED · 대량이체 대기)";
       }
     });
 
@@ -1913,7 +1887,7 @@ code, pre, kbd, samp,
     target.bankTransferStatus = "이체 실패 (계좌오류) → 예약 해제(NONE) · 세전 이월(PRE_TAX) 적재 완료";
     renderDetail();
     renderFirmbanking();
-    showToast("🧪 펌뱅킹 실패 시 마감 원장(Locked)이나 지원금 한도는 되돌리지 않고, 지급 예약(RESERVED)만 해제하여 미지급분을 세전 이월(PRE_TAX)로 적재했습니다.");
+    showToast("🧪 대량이체 실패 시 마감 원장(Locked)이나 지원금 한도는 되돌리지 않고, 지급 예약(RESERVED)만 해제하여 미지급분을 세전 이월(PRE_TAX)로 적재했습니다.");
   }
 
   document.getElementById("btnRunEngine").addEventListener("click", () => {
@@ -2286,7 +2260,7 @@ code, pre, kbd, samp,
       </div>
       <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
         <!-- 파트너 전용 액션 -->
-        <button type="button" id="btnS2PartnerConfirm" class="btn btn-sm" style="background:#16a34a; color:#fff; border-color:#15803d;" onclick="showToast('✍️ [파트너 확인 완료] 당월 정산 내역 확인 및 역발행 전자(세금)계산서 승인이 완료되었습니다.')">✍️ 정산내역 확인 · 역발행 증빙 승인</button>
+        <button type="button" id="btnS2PartnerConfirm" class="btn btn-sm" style="background:#16a34a; color:#fff; border-color:#15803d;" onclick="openTaxSubmitModal('PARTNER')">📤 세금계산서 제출 (승인번호 · PDF)</button>
         <!-- 운영자 전용 발송 액션 -->
         <button type="button" id="btnS2OperatorSendMail" class="btn btn-sm" onclick="showToast('📧 권리자 등록 이메일 및 카카오 알림톡으로 외부 제공용 정산서(PDF)가 발송되었습니다.')">📧 권리자 이메일·알림톡 발송</button>
         <!-- 공통 PDF 출력 -->
@@ -2466,8 +2440,8 @@ code, pre, kbd, samp,
     "PY-0025": {
       holderId: "PY-0025",
       holderName: "정종대 (원 권리자 · 단독 100%)",
-      entityType: "개인 면세사업자 (단독 수취 · 원천징수 3.3% + 계산서 역발행)",
-      taxCode: "TX-08 (면세사업자 원천징수 3.3% + 면세 계산서 역발행)",
+      entityType: "개인 면세사업자 (단독 수취 · 원천징수 3.3% + 계산서 권리자 발행)",
+      taxCode: "TX-08 (면세사업자 원천징수 3.3% + 면세 계산서 권리자 발행 · 제출)",
       lockStatus: "READY (검증 통과 · 마감 가능)",
       ssnMasked: "214-19-***** (주민 680412-1******)",
       ssnRaw: "214-19-99881 (주민 680412-1482910)",
@@ -2486,7 +2460,7 @@ code, pre, kbd, samp,
         taxAmount: -429610,
         finalPayout: 9089140
       },
-      diffEquation: "수취인 분할 없음(원 권리자 100%) — 과세표준 13,018,750원(계산서 역발행 금액, 전속계약금 5,000,000원 포함) − 선급금 상계 3,500,000원(잔액 전부) − 원천징수세액(3.3%) 429,610원 = 최종 실지급액 9,089,140원 (차액 3,929,610원 = 선급금 상계 + 원천세)",
+      diffEquation: "수취인 분할 없음(원 권리자 100%) — 과세표준 13,018,750원(권리자 발행 계산서 금액, 전속계약금 5,000,000원 포함) − 선급금 상계 3,500,000원(잔액 전부) − 원천징수세액(3.3%) 429,610원 = 최종 실지급액 9,089,140원 (차액 3,929,610원 = 선급금 상계 + 원천세)",
       carryoverRows: [
         { type: "PRE_TAX (세전 음수이월)", origin: "2026-09", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: -120000, delta: 120000, stmtImpact: -120000, newAdd: 0, closing: 0, note: "9월 환불 초과 세전 음수이월(-120,000원) 당월 1단계 상쇄 완료" }
       ],
@@ -2518,9 +2492,9 @@ code, pre, kbd, samp,
         { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가 → 과세표준 13,018,750원 · 상계 후 잔액 9,518,750원 전액 정종대 귀속", delta: 0, bal: 9518750 },
         { step: "9단계 (TAX)", title: "면세사업자 원천징수세액(3.3%) 산출 (TX-08)", rule: "과세표준 13,018,750원 기준 → 소득세 Floor(390,560) + 지방세 Floor(39,050) = -429,610원", delta: -429610, bal: 9089140 },
         { step: "10단계 (CLAIM)", title: "최소지급 기준액(100,000원) 판정", rule: "9,089,140원 ≥ 100,000원 (정상 지급 적격)", delta: 0, bal: 9089140 },
-        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (펌뱅킹 이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 9,089,140원", delta: 0, bal: 9089140 }
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (대량이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 9,089,140원", delta: 0, bal: 9089140 }
       ],
-      evidenceInfo: "복합 증빙(TX-08): [1] 면세 계산서 역발행 공급가액 13,018,750원 승인완료 + [2] 사업소득 원천징수(3.3%, 429,610원) 동시 수행 (채널 2 + 3-a)",
+      evidenceInfo: "복합 증빙(TX-08): [1] 면세 계산서(권리자 발행) 공급가액 13,018,750원 제출 · 홈택스 대사 완료 + [2] 사업소득 원천징수(3.3%, 429,610원) 동시 수행 (채널 2 + 3-a)",
       auditMemos: [
         "[2026-10-31 19:05] 재무팀 김회계: 정종대 단독 100% 귀속(미상계 선급금 계약 · 수취인 분할 차단) 및 선급금 잔액 350만원 전부 상계(원장 종결) 검증 완료."
       ]
@@ -2529,8 +2503,8 @@ code, pre, kbd, samp,
       holderId: "PY-0012",
       holderName: "산준교육 주식회사 (법인 · 원 권리자 단독 100%)",
       entityType: "법인사업자 (일반과세자 · 강좌 수익배분 + 지원금 종료 일시정산)",
-      taxCode: "TX-07 (법인 일반과세 · 세금계산서 역발행 VAT 10% 별도)",
-      lockStatus: "WAIT_APPROVAL (역발행 전자서명 대기)",
+      taxCode: "TX-07 (법인 일반과세 · 세금계산서 권리자 발행 · VAT 10% 별도)",
+      lockStatus: "WAIT_SUBMIT (세금계산서 제출 대기)",
       ssnMasked: "120-88-*****",
       ssnRaw: "120-88-00001",
       bankMasked: "국민은행 042-81-******* (예금주: 산준교육(주))",
@@ -2569,11 +2543,11 @@ code, pre, kbd, samp,
         { step: "7단계 (LUMPSUM_ADD)", title: "지원금 종료 일시정산 합산 (ADMN-INST-002)", rule: "MS-2026-006 지원금 종료 일시정산 +1,800,000원 (비상계 NON_OFFSET 약정 → 상계 제외)", delta: 1800000, bal: 1800000 },
         { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가", delta: 0, bal: 1800000 },
         { step: "9단계 (TAX)", title: "법인 일반과세 부가가치세(10%) 가산 (TX-07)", rule: "공급가액 4,800,000원 × 10% = +480,000원 (원천징수 비대상)", delta: 480000, bal: 2280000 },
-        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (역발행 승인 대기)", rule: "공급대가 5,280,000원 − 선급금 상계 3,000,000원 = 2,280,000원", delta: 0, bal: 2280000 }
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (세금계산서 제출 대기 · 지급 보류 아님)", rule: "공급대가 5,280,000원 − 선급금 상계 3,000,000원 = 2,280,000원", delta: 0, bal: 2280000 }
       ],
-      evidenceInfo: "전자세금계산서 역발행(TX-07): 공급가액 4,800,000원 / 부가세 480,000원 (합계 5,280,000원) — 현재 수취인 역발행 전자서명 대기 중",
+      evidenceInfo: "전자세금계산서(TX-07 · 권리자 발행): 공급가액 4,800,000원 / 부가세 480,000원 (합계 5,280,000원) — 발행 요청 후 제출 대기 중",
       auditMemos: [
-        "[2026-10-31 19:10] 재무팀 박세무: 산준교육(주) 역발행 세금계산서 승인 리마인드 알림톡 발송 완료."
+        "[2026-10-31 19:10] 재무팀 박세무: 산준교육(주) 세금계산서 발행 · 제출 리마인드 알림톡 발송 완료."
       ]
     },
     "PY-0051": {
@@ -2997,7 +2971,7 @@ code, pre, kbd, samp,
       showToast("🔒 개인정보 및 계좌번호 마스킹이 다시 적용되었습니다.");
       return;
     }
-    const reason = prompt("[ADMN-USER-007 개인정보 3계층 보안 통제]\n마스킹 해제 사유를 10자 이상 입력해 주세요 (감사 로그 즉시 기록):", "2026년 10월 귀속 원천세 신고 및 펌뱅킹 지급 계좌 대조 검수");
+    const reason = prompt("[ADMN-USER-007 개인정보 3계층 보안 통제]\n마스킹 해제 사유를 10자 이상 입력해 주세요 (감사 로그 즉시 기록):", "2026년 10월 귀속 원천세 신고 및 대량이체 지급 계좌 대조 검수");
     if (!reason || reason.trim().length < 10) {
       alert("열람 사유를 10자 이상 입력해야 마스킹이 해제됩니다.");
       return;
@@ -3035,7 +3009,7 @@ code, pre, kbd, samp,
         <div style="font-size:11px; color:#64748b; margin-top:2px;">배치 시각: ${c.batchTimestamp}</div>
       </div>
       <div class="s1-meta-item">
-        <div class="s1-meta-label">지급 계좌 정보 (펌뱅킹 연동)</div>
+        <div class="s1-meta-label">지급 계좌 정보 (대량이체 엑셀 연동)</div>
         <div class="s1-meta-val">${bankText}</div>
         <div style="font-size:11px; color:#16a34a; margin-top:2px;">✔ 예금주 실명조회 일치 완료</div>
       </div>
@@ -3734,4 +3708,138 @@ code, pre, kbd, samp,
   });
 })();
 </script>
+<!-- 세금계산서 제출 (권리자 제출 / 운영자 대리 등록) — 제2권 제9장 -->
+<style>
+  .ti-modal-backdrop { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: center; justify-content: center; z-index: 10600; padding: 16px; } /* 공통 CSS의 정산서 창(10500) 위 */
+  .ti-modal-backdrop.open { display: flex; }
+  .ti-modal { background: #fff; border-radius: 12px; width: 100%; max-width: 560px; box-shadow: 0 24px 50px rgba(15, 23, 42, 0.35); }
+  .ti-modal-head, .ti-modal-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 12px 18px; }
+  .ti-modal-head { border-bottom: 1px solid var(--border, #e2e8f0); }
+  .ti-modal-foot { border-top: 1px solid var(--border, #e2e8f0); justify-content: flex-end; }
+  .ti-modal-body { padding: 14px 18px; display: grid; gap: 10px; }
+  .ti-row { display: grid; grid-template-columns: 130px 1fr; align-items: center; gap: 10px; font-size: 13px; }
+  .ti-row label { font-weight: 700; color: var(--text-sub, #475569); }
+  .ti-row input, .ti-row select { height: 34px; border: 1px solid var(--border, #cbd5e1); border-radius: 6px; padding: 0 10px; }
+  .ti-guide { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 12.5px; line-height: 1.6; }
+  .ti-error { display: none; color: var(--danger, #dc2626); font-size: 12.5px; font-weight: 700; }
+</style>
+<div class="ti-modal-backdrop" id="modalTaxSubmit">
+  <div class="ti-modal">
+    <div class="ti-modal-head"><strong id="tiModalTitle">세금계산서 제출</strong><button type="button" class="btn btn-sm" onclick="closeTaxSubmitModal()">닫기</button></div>
+    <div class="ti-modal-body">
+      <div class="ti-row"><label for="tiTarget">대상 정산서</label><select id="tiTarget" onchange="fillTaxSubmitGuide()"></select></div>
+      <div class="ti-guide" id="tiGuide"></div>
+      <div class="ti-row"><label for="tiApproval">승인번호 *</label><input id="tiApproval" placeholder="예: 20261103-41000000-00012345" /></div>
+      <div class="ti-row"><label for="tiDate">작성일자 *</label><input type="date" id="tiDate" /></div>
+      <div class="ti-row"><label for="tiSupply">공급가액 *</label><input type="number" id="tiSupply" /></div>
+      <div class="ti-row"><label for="tiVat">세액 *</label><input type="number" id="tiVat" /></div>
+      <div class="ti-row"><label for="tiFile">증빙 파일 (PDF) *</label><input type="file" id="tiFile" accept="application/pdf" /></div>
+      <div class="ti-error" id="tiError"></div>
+    </div>
+    <div class="ti-modal-foot"><button type="button" class="btn btn-sm" onclick="closeTaxSubmitModal()">취소</button><button type="button" class="btn btn-sm btn-primary" onclick="submitTaxDoc()">제출</button></div>
+  </div>
+</div>
+<script>
+  // 권리자 발행 증빙: 발행 요청 → 제출(권리자 · 운영자 대리) → 홈택스 매입 내역 대사 (제2권 9.1 · 9.4절)
+  window.TAX_DOCS = [
+    { key: "PY-0025", holder: "정종대 (개인사업자)", matrix: "면세사업자 (TX-08)", kind: "전자계산서", kindLabel: "[발행 요청] 전자계산서 (면세 · 권리자 발행)", supply: 13018750, vat: 0, deadline: "2026-11-10", status: "SUBMITTED", approvalNo: "20261103-41000000-00012345", by: "권리자 제출" },
+    { key: "PY-0012", holder: "산준교육 주식회사 (법인)", matrix: "일반과세자 (TX-07 / TX-09)", kind: "전자세금계산서", kindLabel: "[발행 요청] 전자세금계산서 (과세 10% · 권리자 발행)", supply: 4800000, vat: 480000, deadline: "2026-11-10", status: "REQUESTED", approvalNo: "", by: "" }
+  ];
+  window.TAX_RECEIVE_DONE = false;
+  window.taxSubmitMode = "OPERATOR";
+  const TAX_STATUS = {
+    REQUESTED: '<span class="badge badge-warn">발행 요청 · 제출 대기</span>',
+    SUBMITTED: '<span class="badge badge-primary">제출 완료 · 대사 대기</span>',
+    MATCHED: '<span class="badge badge-success">홈택스 대사 완료</span>',
+    MISMATCH: '<span class="badge badge-danger">금액 불일치 · 수정 발행 요청</span>'
+  };
+  function taxWon(n) { return Number(n).toLocaleString() + "원"; }
+  function renderTaxDocs() {
+    const body = document.getElementById("taxInvoiceBody");
+    if (!body) return;
+    body.innerHTML = window.TAX_DOCS.map(d => `
+      <tr>
+        <td><strong>${d.holder}</strong><br><span class="mono">${d.matrix}</span></td>
+        <td>${d.kindLabel}</td>
+        <td>권리자 홈택스 발행 · 제출 → 홈택스 매입 내역 엑셀 대사</td>
+        <td class="num">${taxWon(d.supply)}</td>
+        <td class="num">${taxWon(d.vat)}</td>
+        <td class="num"><strong>${taxWon(d.supply + d.vat)}</strong></td>
+        <td>${d.status === "REQUESTED" ? '<span class="badge badge-warn">' + d.deadline + ' 기한 (미제출)</span>' : d.deadline + ' 기한'}</td>
+        <td>${TAX_STATUS[d.status]}${d.approvalNo ? '<div style="font-size:11px; color:var(--text-muted); margin-top:3px;">승인번호 ' + d.approvalNo + ' · ' + d.by + '</div>' : ''}</td>
+      </tr>`).join("") + `
+      <tr>
+        <td><strong>한국소방학회 (위탁출판사)</strong><br><span class="mono">도서 재화 공급 (TX-11)</span></td>
+        <td>[1] [수취] 도서 판매대금 면세 계산서<br>[2] [당사 발행] 위탁 수수료 과세 세금계산서</td>
+        <td>[수취] 홈택스 매입 내역 대사 / [발행] 당사 발행</td>
+        <td class="num">도서: 4,000,000원<br>수수료: 1,000,000원</td>
+        <td class="num">도서: 0원<br>수수료: 100,000원</td>
+        <td class="num"><strong>위탁 실지급: 2,900,000원</strong><br><span style="font-size:10px; color:var(--text-muted);">(수수료 차감지급 NET_DEDUCT)</span></td>
+        <td>지급 후 10일 내 수취 확인</td>
+        <td>${window.TAX_RECEIVE_DONE ? '<span class="badge badge-success">수수료 발행완료 · 계산서 수취 완료</span>' : '<span class="badge badge-primary">수수료 발행완료 · 계산서 수취대기</span>'}</td>
+      </tr>`;
+  }
+  function remindTaxSubmit() {
+    const n = window.TAX_DOCS.filter(d => d.status === "REQUESTED").length;
+    showToast(n ? `📨 미제출 권리자 ${n}곳에 세금계산서 발행 요청 알림톡 및 이메일을 재발송했습니다.` : "미제출 권리자가 없습니다.");
+  }
+  function runHometaxRecon() {
+    let matched = 0, mismatch = 0;
+    window.TAX_DOCS.forEach(d => {
+      if (d.status !== "SUBMITTED") return;
+      if (/^\d{8}-\d{8}-\d{8}$/.test(d.approvalNo)) { d.status = "MATCHED"; matched++; } else { d.status = "MISMATCH"; mismatch++; }
+    });
+    window.TAX_RECEIVE_DONE = true;
+    const open = window.TAX_DOCS.filter(d => d.status === "REQUESTED").length;
+    renderTaxDocs();
+    showToast(`📥 홈택스 매입 내역 대사: 일치 ${matched}건 · 불일치 ${mismatch}건 · 미제출 ${open}건 · 위탁 수취 계산서 1건 수취 완료`);
+  }
+  function openTaxSubmitModal(mode) {
+    window.taxSubmitMode = mode;
+    const sel = document.getElementById("tiTarget");
+    let docs = window.TAX_DOCS;
+    if (mode === "PARTNER") {
+      const key = (document.getElementById("selS2Holder") || {}).value;
+      docs = window.TAX_DOCS.filter(d => d.key === key);
+      if (!docs.length) { showToast("이 정산서는 세금계산서 제출 대상이 아닙니다 (원천징수 · 위탁 수취 건)."); return; }
+    }
+    sel.innerHTML = docs.map(d => `<option value="${d.key}">${d.holder} · ${d.kind}</option>`).join("");
+    sel.disabled = mode === "PARTNER";
+    document.getElementById("tiModalTitle").textContent = mode === "PARTNER" ? "세금계산서 제출 (권리자)" : "세금계산서 대리 등록 (운영자)";
+    ["tiApproval", "tiDate", "tiFile"].forEach(id => { document.getElementById(id).value = ""; });
+    document.getElementById("tiError").style.display = "none";
+    fillTaxSubmitGuide();
+    const el = document.getElementById("modalTaxSubmit");
+    el.style.removeProperty("display");
+    el.classList.add("open");
+  }
+  function closeTaxSubmitModal() { document.getElementById("modalTaxSubmit").classList.remove("open"); }
+  function fillTaxSubmitGuide() {
+    const d = window.TAX_DOCS.find(x => x.key === document.getElementById("tiTarget").value);
+    if (!d) return;
+    document.getElementById("tiGuide").innerHTML = `<strong>발행 안내</strong> — ${d.kind} · 공급받는 자: 주식회사 엘캠퍼스(산준모닷컴)<br>공급가액 <strong>${taxWon(d.supply)}</strong> · 세액 <strong>${taxWon(d.vat)}</strong> · 작성일자는 공급시기(정산 귀속월 말일) · 발행 기한 ${d.deadline}`;
+    document.getElementById("tiSupply").value = d.supply;
+    document.getElementById("tiVat").value = d.vat;
+  }
+  function submitTaxDoc() {
+    const err = document.getElementById("tiError");
+    const fail = m => { err.textContent = m; err.style.display = "block"; };
+    err.style.display = "none";
+    const d = window.TAX_DOCS.find(x => x.key === document.getElementById("tiTarget").value);
+    const no = document.getElementById("tiApproval").value.trim();
+    if (!/^\d{8}-\d{8}-\d{8}$/.test(no)) return fail("승인번호 형식(8자리-8자리-8자리, 24자리)을 확인해 주십시오.");
+    if (!document.getElementById("tiDate").value) return fail("작성일자를 입력해 주십시오.");
+    if (Number(document.getElementById("tiSupply").value) !== d.supply || Number(document.getElementById("tiVat").value) !== d.vat)
+      return fail(`안내 금액(공급가액 ${taxWon(d.supply)} · 세액 ${taxWon(d.vat)})과 다릅니다. 금액을 확인해 다시 발행하거나 정산서에 이견을 접수해 주십시오.`);
+    if (!document.getElementById("tiFile").files.length) return fail("증빙 파일(PDF)을 첨부해 주십시오.");
+    d.status = "SUBMITTED";
+    d.approvalNo = no;
+    d.by = window.taxSubmitMode === "PARTNER" ? "권리자 제출" : "운영자 대리 등록 (fin_manager)";
+    closeTaxSubmitModal();
+    renderTaxDocs();
+    showToast(`📤 ${d.holder} ${d.kind} 제출을 등록했습니다. 홈택스 매입 내역 대사 후 완료됩니다.`);
+  }
+  document.addEventListener("DOMContentLoaded", renderTaxDocs);
+</script>
+
 </body></html>

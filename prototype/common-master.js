@@ -52,7 +52,7 @@
     { key: "vendor", label: "거래처 관리", screens: "VEND-001" },
     { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 006 · 008 · INST-002" },
     { key: "settle", label: "월간 정산 · 지급 · 조회", screens: "SETT-002 · 005 · 009 · 011" },
-    { key: "statement", label: "본인 정산서 확인 · 역발행 승인", screens: "SETT-002-S2" },
+    { key: "statement", label: "본인 정산서 확인 · 세금계산서 제출", screens: "SETT-002-S2" },
     { key: "privacy", label: "민감 정보 · 시스템 감사 로그", screens: "USER-007 · CONF-010" },
     { key: "site", label: "사이트 · 약관 · 메시지 설정", screens: "CONF-001~004" },
     { key: "inqcat", label: "1:1 문의 분류", screens: "BRD-007" },
@@ -83,7 +83,7 @@
       desc: "소속 강사 강좌 학습 Q&A · 상품 Q&A 내용 오류 답변",
       perms: { lqna: "RW", pqna: "RW" } },
     { id: "RG-07", name: "저작권자", side: "EXTERNAL", queue: false, on: true, order: 7,
-      desc: "본인 도서 인세 정산서 확인 · 역발행 승인",
+      desc: "본인 도서 인세 정산서 확인 · 세금계산서 제출",
       perms: { statement: "RW" } },
     { id: "RG-08", name: "외부 3PL", side: "EXTERNAL", queue: false, on: true, order: 8,
       desc: "출고 대상 조회 · 송장 업로드 (금액 비노출)",
@@ -256,10 +256,10 @@
     }
   };
 
-  // 2계층 사업자 수취인 — 원천은 수취인 2계층 분할(ADMN-SETT-007). 현재 분할 몫이 있고 세금계산서 · 계산서 역발행 승인이 필요한
+  // 2계층 사업자 수취인 — 원천은 수취인 2계층 분할(ADMN-SETT-007). 현재 분할 몫이 있고 세금계산서 · 계산서 발행 · 제출이 필요한
   // 사업자 수취인만 둔다(원천징수 대상 개인 수취인은 계정 없이 정산서 PDF 발송). 소속은 권리자이며 데이터 범위는 본인 수취 몫
   var PAYEE_SEED = [
-    { id: "PY-9001", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자", bizNo: "106-81-55210", contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", ratio: 30, evidence: "세금계산서 역발행" }
+    { id: "PY-9001", name: "(주)스타에듀매니지먼트", entity: "법인 일반과세자", bizNo: "106-81-55210", contract: "CT-2026-0715", holderId: "RH-0019", holderName: "김안전", ratio: 30, evidence: "세금계산서 제출" }
   ];
 
   var rightsHolders = {

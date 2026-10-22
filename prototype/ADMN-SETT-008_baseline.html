@@ -590,7 +590,7 @@ code, pre, kbd, samp,
                   <td>부가가치세 일반과세자</td>
                   <td>일반과세자 (<code>GENERAL</code>)</td>
                   <td><span class="badge badge-success">가능 (true)</span></td>
-                  <td>기본 <strong>TX-07</strong> (세금계산서 역발행) / 법인·단체가 인세 수취 시 <strong>TX-09</strong> / 도서 재화 공급 시 <strong>TX-11</strong></td>
+                  <td>기본 <strong>TX-07</strong> (세금계산서 권리자 발행) / 법인·단체가 인세 수취 시 <strong>TX-09</strong> / 도서 재화 공급 시 <strong>TX-11</strong></td>
                 </tr>
                 <tr>
                   <td class="mono"><strong>02</strong></td>
@@ -604,14 +604,14 @@ code, pre, kbd, samp,
                   <td>부가가치세 간이과세자(세금계산서 발급사업자)</td>
                   <td>간이과세자-세금계산서발급 (<code>SIMPLIFIED_INVOICE</code>)</td>
                   <td><span class="badge badge-success">가능 (true)</span></td>
-                  <td><strong>TX-06</strong> (세금계산서 역발행 경로 · 당사가 4,800만 원 기준을 직접 계산하지 않고 API 코드로 직결)</td>
+                  <td><strong>TX-06</strong> (세금계산서 권리자 발행 경로 · 당사가 4,800만 원 기준을 직접 계산하지 않고 API 코드로 직결)</td>
                 </tr>
                 <tr>
                   <td class="mono"><strong>04</strong></td>
                   <td>부가가치세 면세사업자</td>
                   <td>면세사업자 (<code>EXEMPT</code>)</td>
                   <td><span class="badge badge-neutral">불가 (계산서 대상)</span></td>
-                  <td>개인 사업자는 <strong>TX-08</strong> (면세 계산서 역발행) / <strong>법인(법인번호 보유)은 인적용역 면세 배제 → 후보 TX-09 또는 TX-07 부여 후 <code>세무 판정 보류(PENDING_REVIEW)</code> 격리</strong></td>
+                  <td>개인 사업자는 <strong>TX-08</strong> (면세 계산서 권리자 발행) / <strong>법인(법인번호 보유)은 인적용역 면세 배제 → 후보 TX-09 또는 TX-07 부여 후 <code>세무 판정 보류(PENDING_REVIEW)</code> 격리</strong></td>
                 </tr>
                 <tr>
                   <td class="mono"><strong>05 / 06</strong></td>
@@ -855,7 +855,7 @@ code, pre, kbd, samp,
         ledgerTaxTypeLabel: "면세사업자 (EXEMPT)",
         apiTaxTypeLabel: "면세사업자 (EXEMPT · 코드 04)",
         apiTaxTypeCd: "04",
-        matrixCaseLabel: "면세사업자 역발행 계산서 (TX-08)",
+        matrixCaseLabel: "면세사업자 계산서 권리자 발행 (TX-08)",
         invoiceEligibleText: "세금계산서 불가 (계산서 대상)",
         taxTypeChangeDt: "-",
         invoiceApplyDt: "-",
@@ -1045,7 +1045,7 @@ code, pre, kbd, samp,
           </div>
           <div class="form-group">
             <label class="form-label">재무 확인 근거 메모 (필수)</label>
-            <textarea id="inputReviewMemo" class="input" placeholder="예: 수익사업 개시신고 확인증 및 전자세금계산서 발급 가능 단체임을 확인하여 TX-07/TX-09 확정함.">수익사업 개시신고필증 제출 확인 완료 → 세금계산서 역발행(TX-07/TX-09) 확정</textarea>
+            <textarea id="inputReviewMemo" class="input" placeholder="예: 수익사업 개시신고 확인증 및 전자세금계산서 발급 가능 단체임을 확인하여 TX-07/TX-09 확정함.">수익사업 개시신고필증 제출 확인 완료 → 세금계산서 권리자 발행(TX-07/TX-09) 확정</textarea>
           </div>
           <div style="display:flex; justify-content:flex-end;">
             <button class="btn btn-primary" onclick="resolvePendingReview('${r.id}')">
@@ -1058,7 +1058,7 @@ code, pre, kbd, samp,
       actionPanel = `
         <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px 14px; font-size:12px; color:#991b1b;">
           <strong>🚨 [17.5절 폐업 사업자 후속 통제 작동 중]</strong><br>
-          1) 신규 역발행 요청 및 미승인 증빙 리마인더 발송 자동 중단됨<br>
+          1) 신규 증빙 발행 요청 및 미제출 리마인더 발송 자동 중단됨<br>
           2) 미지급 정산금 잔액은 <strong>강제 정산 트리거(7.3절)</strong>에 의해 최소 지급 하한(100,000원)과 무관하게 당월 지급 실행 대상으로 이관됨<br>
           3) 폐업일(${r.endDt}) 이후 공급분 및 수취 계산서 미확보 건은 채널 4(증빙불비 소명 절차)로 분기됨
         </div>
@@ -1264,7 +1264,7 @@ code, pre, kbd, samp,
         </div>
 
         <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">
-          ※ 승인 즉시 기 마감 정산월은 소급 변경되지 않으며, 효력일 이후 인입되는 정산 라인부터 신규 과세유형(TX-06 또는 TX-07)으로 전자세금계산서 역발행이 적용됩니다.
+          ※ 승인 즉시 기 마감 정산월은 소급 변경되지 않으며, 효력일 이후 인입되는 정산 라인부터 신규 과세유형(TX-06 또는 TX-07)으로 전자세금계산서 발행 요청이 적용됩니다.
         </div>
       </div>
       <div style="padding:12px 20px; background:var(--bg); border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:8px;">
