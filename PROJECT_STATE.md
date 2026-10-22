@@ -2,7 +2,7 @@
 
 > 이 문서는 **지금 어디까지 왔나**를 기록한다: 확정 기준, 기준선, 현재 상태·미결, 작업 로그.
 > 작업 방법은 `.claude/CLAUDE.md`, 프로젝트 소개·정책·화면 목록은 `README.md`, 안티그래비티 예비 사용법은 `.agents/rules/RULES.md`.
-> 최초 등록: 2026-10-20(`.antigravity/AGENT_PIPELINE_MEMORY.md`) · 2026-10-22 v6.7에서 저장소 루트로 옮기고 역할 규칙을 덜어냄 · 최종 갱신: 2026-10-22 (v6.15 기준)
+> 최초 등록: 2026-10-20(`.antigravity/AGENT_PIPELINE_MEMORY.md`) · 2026-10-22 v6.7에서 저장소 루트로 옮기고 역할 규칙을 덜어냄 · 최종 갱신: 2026-10-22 (v6.16 기준)
 
 ---
 
@@ -53,7 +53,7 @@
 
 ---
 
-## 4. 현재 상태 및 다음 작업 (2026-10-22 · v6.15 기준)
+## 4. 현재 상태 및 다음 작업 (2026-10-22 · v6.16 기준)
 
 **상태**
 - 활성 화면 38개(양쪽 폴더). E2E `prototype_clean` 38/38, `prototype` 38/38 PASS (v6.10 기준), 콘솔 에러 0건.
@@ -112,3 +112,4 @@
 | 2026-10-22 | v6.13 미결 코드 충돌 정리(white 결정) — ① 합격환급 심사 SETT-006 일원화: RFD-002의 RFD-001 뷰·심사 모달·S1 업그레이드 블록 제거, `?view=pass`는 SETT-006으로 이동 ② 감사 로그 CONF-010 통합: CONF-010 "시스템 감사 로그"로 개명, 3번 탭에 운영자 접근·권한·다운로드 로그(구 CONF-006) 이전, CONF-005 탭은 바로가기로, `?view=ADMN-CONF-006`은 CONF-010으로, CONF-005 권한 매트릭스에 BRD-007(CS 메뉴 비노출)·CONF-010 행 추가 ③ SETT-011을 v12 기준 3PL 물류비 대사로 새로 작성(출고·수수료 대사 — 스코어카드·불일치 붉은 표시·처리 결과+메모 필수·대사 완료 잠금, 배송비·반품 대사 — 반품 귀책 CS 판정, 도서 매입 계산서 대조 — 수취 상태 4종·폐업 매입처 경고, `?tab=` 유지, 10월 명세서 미수령 빈 상태) ④ USER-007 "민감 정보 보관·열람 통제"로 정의 통일, SETT-010 미사용 명시, SETT-009 `?view=tax-report` 처리 추가, clean 치환표 SETT-003 항목 제거. 문서: 03권 대조표·16.1(USER-007·CONF-010·SETT-011), 00권 인덱스, 01권 v4.0.1 개정 이력, 통합설계서 Ver. 3.2.2, README. Playwright 48/48 + v6.10 회귀 97/97, E2E 양쪽 38/38 ×2 | `prototype*/ADMN-RFD-002·USER-001·SETT-006·CONF-001·002·005·010·SETT-009·011_baseline.html`, `prototype*/00_WORKFLOW_GUIDE_baseline.html`, `prototype*/common-snb.js`, `docs/*.md`, `README.md`, `PROJECT_STATE.md` |
 | 2026-10-22 | v6.14 남은 미결 처리 — S1 화면은 프로토타입 모달·개발은 v12 별도 페이지, clean 원문 화면 코드 유지를 확정 기준으로 기록. ORD-001 교재 라인 문구 '도서 인세 (+1권)' → '자사 발행 도서 인세 · 판매 1권 집계'(prototype은 'Pipeline 2.1' 접두 유지). QA 도구 2종 구축: `skill_static_lint.py`(문법·링크·중복 ID·빈 tbody·에셋 규격, 오류 0건), `skill_cross_data_check.py`(권리자·계약·도서 대조). 대조 결과에 따라 v6.10·v6.13에서 넣은 도서 샘플 코드를 기존 형식(BK-2026-NNN)으로 정렬(BRD-001 → 103·204·206, SETT-011 → 201~206). 기존 데이터의 `김안전` RH-0012/0019 혼용과 공통 에셋 id 미준수 4개 화면은 미결로 기록 | `prototype*/ADMN-ORD-001·BRD-001·SETT-011_baseline.html`, `scripts/qa/skill_static_lint.py`, `scripts/qa/skill_cross_data_check.py`, `PROJECT_STATE.md`, `.claude/CLAUDE.md` |
 | 2026-10-22 | v6.15 마지막 미결 2건 처리 — 샘플 권리자 코드 일원화(white: 임의 생성 데이터라 어느 쪽이든 일원화만): 김안전 = RH-0019, 산준교육(콘텐츠·에이전시·법인) = RH-0012로 통일. SETT-007·USER-007은 두 코드를 맞바꿔 쓰고 있어 교환, SETT-004·CONF-010은 김안전 자리만 RH-0019로. 공통 에셋 `id`(README 3.2) 누락 4개 화면(BRD-001·005, CONF-004·005) 보완. 데이터 대조 오류 1→0, 정적 검사 에셋 경고 8→0, E2E 양쪽 38/38 ×2, Playwright 48/48·97/97 | `prototype*/ADMN-SETT-004·007·USER-007·CONF-010·BRD-001·005·CONF-004·005_baseline.html`, `PROJECT_STATE.md`, `.claude/CLAUDE.md` |
+| 2026-10-22 | v6.16 BRD-001·BRD-005 머리말을 공통 구조로 통일 — 두 화면만 공통 상단 바 없이 자체 page-header를 본문에 두고 `#v4-page-body`에 `main-container`가 없어, 공통 CSS가 본문 여백을 0으로 만들며 제목이 SNB 옆 맨 위에 붙던 문제. `header.top-bar.v4-gen3-topbar`(그룹 › 코드 · 제목, 오른쪽 이동 버튼) + `#v4-page-body.main-container`로 바꾸고 설명은 본문 첫 줄(`.page-desc`)로 이동, 탭 전환 시 제목 변경용 id 유지. BRD-001 초기 제목·BRD-005 이동 버튼의 '문의'(v6.9에서 없앤 탭) 문구 정리, 상단 바 버튼 밑줄 제거. 본문 시작 위치 x=288·y=82로 다른 화면과 동일, E2E 양쪽 38/38 ×2, Playwright BRD 회귀 통과, 정적·대조 오류 0 | `prototype*/ADMN-BRD-001·005_baseline.html`, `PROJECT_STATE.md` |

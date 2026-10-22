@@ -71,6 +71,14 @@
 
     }
 
+    /* 상단 바 이동 버튼은 다른 화면처럼 밑줄 없이 */
+    header.top-bar .btn { text-decoration: none; }
+    /* 공통 상단 바 아래 화면 설명 한 줄 */
+    .page-desc {
+      margin: 0 0 16px;
+      color: var(--text-sub);
+      font-size: 13px;
+    }
     .page-header {
 
       display: flex;
@@ -795,32 +803,24 @@ code, pre, kbd, samp,
 </head>
 
 <body>
+<aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
 
 <div id="v4-root-shell">
-
-  <div id="v4-page-body">
-
-    <div class="page-header">
-
-      <div class="page-title-wrap">
-
-        <span class="code-badge" id="current-screen-code">ADMN-BRD-001</span>
-
-        <h1 id="current-screen-title">공지사항·FAQ·문의·이벤트 당첨자 통합 관리</h1>
-
-        <p>고객센터 게시판(공지/FAQ/상품 Q&amp;A/학습 Q&amp;A) 및 이벤트 당첨자 발표 게시·경품 지급 원장을 관리합니다.</p>
-
-      </div>
-
-      <div style="display:flex; gap:8px; align-items:center;">
-
-        <a href="ADMN-BRD-005_baseline.html" class="btn btn-outline">수강/합격후기·무료특강·정답지 (ADMN-BRD-005) 이동 →</a>
-
-      </div>
-
+  <header class="top-bar v4-gen3-topbar">
+    <div class="top-bar-left">
+      <span class="crumb-group">주문 · 환불 · CS · 프로모션</span>
+      <span class="crumb-sep">›</span>
+      <span class="crumb-code" id="current-screen-code">ADMN-BRD-001</span>
+      <h1 class="crumb-title" id="current-screen-title">공지사항·FAQ·Q&amp;A·당첨자 통합 관리</h1>
     </div>
+    <div class="top-bar-right">
+      <a href="ADMN-BRD-005_baseline.html" class="btn btn-outline btn-sm">수강/합격후기·무료특강·정답지 (ADMN-BRD-005) 이동 →</a>
+    </div>
+  </header>
 
+  <div id="v4-page-body" class="main-container">
 
+    <p class="page-desc">고객센터 게시판(공지/FAQ/상품 Q&amp;A/학습 Q&amp;A) 및 이벤트 당첨자 발표 게시·경품 지급 원장을 관리합니다.</p>
 
     <div class="domain-switch-bar">
 
