@@ -435,6 +435,26 @@ code, pre, kbd, samp,
     .m3f-sum-table { width:100%; border-collapse:collapse; font-size:12.5px; }
     .m3f-sum-table th { text-align:left; width:130px; background:#F8FAFC; color:#475569; padding:7px 10px; border:1px solid #E2E8F0; }
     .m3f-sum-table td { padding:7px 10px; border:1px solid #E2E8F0; }
+    /* ADMN-USER-002 관리자 메모 · CS 상담 이력 타임라인 */
+    .cm-wrap { margin-top: 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+    .cm-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .cm-title { font-size: 13px; font-weight: 800; }
+    .cm-form { display: grid; grid-template-columns: 170px 190px 150px 170px 1fr; gap: 8px; padding: 12px 14px; background: #F8FAFC; border-bottom: 1px solid var(--border); align-items: end; }
+    .cm-form label { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-sub); margin-bottom: 3px; }
+    .cm-form .cm-full { grid-column: 1 / -1; }
+    .cm-form textarea { width: 100%; min-height: 58px; resize: vertical; }
+    .cm-err { display: none; grid-column: 1 / -1; color: var(--danger); font-size: 12px; font-weight: 700; }
+    .cm-timeline { list-style: none; margin: 0; padding: 12px 14px 4px 34px; position: relative; max-height: 420px; overflow-y: auto; }
+    .cm-timeline::before { content: ""; position: absolute; left: 20px; top: 14px; bottom: 10px; width: 2px; background: #E2E8F0; }
+    .cm-item { position: relative; padding: 0 0 14px 6px; }
+    .cm-item::before { content: ""; position: absolute; left: -19px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary); border: 2px solid #fff; box-shadow: 0 0 0 1px var(--primary); }
+    .cm-item.cm-open::before { background: #F59E0B; box-shadow: 0 0 0 1px #F59E0B; }
+    .cm-meta { font-size: 12px; color: var(--text-sub); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .cm-meta strong { color: var(--text-main, #0F172A); }
+    .cm-body { margin-top: 4px; font-size: 13px; line-height: 1.55; white-space: pre-wrap; }
+    .cm-result { margin-top: 4px; font-size: 12px; color: var(--text-sub); }
+    .cm-empty { padding: 18px 0; color: var(--text-muted); font-size: 12.5px; }
+    .cm-foot { padding: 8px 14px 12px; font-size: 11.5px; color: var(--text-muted); }
   </style>
 </head>
 <body>
@@ -829,9 +849,10 @@ code, pre, kbd, samp,
                     <button type="button" class="btn btn-sm btn-outline" onclick="showToast('가입 이메일로 8자리 임시 비밀번호(24시간 유효)를 발송했습니다. 화면에는 비밀번호를 노출하지 않습니다.')">임시 비밀번호 메일 발송</button>
                     <button type="button" class="btn btn-sm btn-warning" onclick="openPwResetModal()">비밀번호 수동 초기화 (SUPER_ADMIN)</button>
                   </td>
-                  <th>관리자 내부 메모</th>
+                  <th>관리자 메모 (CS 상담 이력)</th>
                   <td>
-                    <input type="text" id="dt-admin-memo" class="f-input" style="width:100%;" placeholder="내부 메모 — 고객 화면·알림톡에 노출되지 않으며 수정 시 이전 내용이 이력으로 남습니다." value="산업안전기사 필기+실기 올패스 수강생. 교재 배송지 확인 완료." />
+                    <div id="dt-memo-latest" style="font-size:12.5px;"></div>
+                    <button type="button" class="btn btn-sm btn-outline" style="margin-top:4px;" onclick="document.getElementById('cs-memo-section').scrollIntoView({ behavior: 'smooth', block: 'start' })">상담 이력 보기 · 기록 추가 ↓</button>
                   </td>
                 </tr>
               </tbody>
@@ -840,9 +861,42 @@ code, pre, kbd, samp,
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding:10px 14px; background:#F8FAFC; border:1px solid var(--border); border-radius:8px;">
               <span style="font-size:11.5px; color:var(--text-sub);">
                 ※ <strong>즉시 반영 항목(모달 확인):</strong> 회원 상태 변경, 비밀번호 잠금 해제/초기화, 소셜 연동 해제, 수동 포인트 지급 &nbsp;|&nbsp;
-                <strong>일괄 저장 항목:</strong> 산준모 카페 ID, 마케팅 수신 동의, 관리자 내부 메모
+                <strong>일괄 저장 항목:</strong> 산준모 카페 ID, 마케팅 수신 동의 &nbsp;|&nbsp; <strong>상담 이력:</strong> [상담 기록 추가] 즉시 누적
               </span>
               <button type="button" class="btn btn-primary" onclick="saveMemberProfile()">💾 일반 정보 변경사항 저장</button>
+            </div>
+
+            <div class="cm-wrap" id="cs-memo-section">
+              <div class="cm-head">
+                <div class="cm-title">📝 관리자 메모 · CS 상담 이력 <span class="badge badge-gray" id="cm-count">0건</span> <span class="badge badge-amber" id="cm-open-count" style="display:none;"></span></div>
+                <div style="display:flex; gap:6px; align-items:center;">
+                  <select id="cm-filter" class="f-select" style="height:30px;" onchange="renderCsMemo()">
+                    <option value="ALL">처리 결과 전체</option>
+                    <option value="처리 완료">처리 완료</option>
+                    <option value="처리 중">처리 중</option>
+                    <option value="고객 회신 대기">고객 회신 대기</option>
+                    <option value="타 부서 이관">타 부서 이관</option>
+                  </select>
+                </div>
+              </div>
+              <div class="cm-form">
+                <div><label for="cm-at">상담 일시 *</label><input type="datetime-local" id="cm-at" class="f-input" style="width:100%;" /></div>
+                <div><label for="cm-admin">담당자</label><input type="text" id="cm-admin" class="f-input" style="width:100%;" value="CS 김상담 (admin_kim)" readonly /></div>
+                <div><label for="cm-channel">상담 채널 *</label>
+                  <select id="cm-channel" class="f-select" style="width:100%;">
+                    <option value="전화">전화</option><option value="1:1 문의">1:1 문의</option><option value="채팅">채팅 (카카오톡)</option><option value="이메일">이메일</option><option value="기타">기타</option>
+                  </select></div>
+                <div><label for="cm-result">처리 결과 *</label>
+                  <select id="cm-result" class="f-select" style="width:100%;">
+                    <option value="처리 완료">처리 완료</option><option value="처리 중">처리 중</option><option value="고객 회신 대기">고객 회신 대기</option><option value="타 부서 이관">타 부서 이관</option>
+                  </select></div>
+                <div><label for="cm-result-note">처리 결과 메모</label><input type="text" id="cm-result-note" class="f-input" style="width:100%;" placeholder="예: 배송지 변경 반영 · 물류팀 이관(이관 시 필수)" /></div>
+                <div class="cm-full"><label for="cm-content">상담 내용 * (10자 이상)</label><textarea id="cm-content" class="f-input" placeholder="문의 요지와 안내한 내용을 적습니다. 고객 화면·알림톡에는 노출되지 않습니다."></textarea></div>
+                <div class="cm-err" id="cm-error"></div>
+                <div class="cm-full" style="display:flex; justify-content:flex-end;"><button type="button" class="btn btn-primary btn-sm" onclick="addCsMemo()">＋ 상담 기록 추가</button></div>
+              </div>
+              <ol class="cm-timeline" id="cm-timeline"></ol>
+              <div class="cm-foot">상담 이력은 최신순으로 누적되며 수정 · 삭제하지 않습니다(정정은 새 기록으로 남김). 기록을 추가하면 아래 관리 이력(감사 타임라인)에도 남습니다.</div>
             </div>
 
             <div style="margin-top:18px;">
@@ -2086,6 +2140,77 @@ code, pre, kbd, samp,
     };
 
     let currentMemberId = '100482';
+
+    // 관리자 메모 · CS 상담 이력 (회원별 누적 · 수정/삭제 없음)
+    const CS_LOGS = {
+      '100482': [
+        { at: '2026.10.17 10:05', admin: 'CS 김상담 (admin_kim)', channel: '전화', content: '교재 배송지 변경 문의 — 출고 전 마곡 주소로 변경 요청.', result: '처리 완료', note: '배송지 변경 반영 (주문 · 배송 관리)' },
+        { at: '2026.10.12 15:40', admin: 'CS 이지원 (cs_lee02)', channel: '1:1 문의', content: '필기 + 실기 올패스 수강 기간 연장 가능 여부 문의.', result: '고객 회신 대기', note: '합격환급반 조건(연장 불가) 안내 후 회신 대기' },
+        { at: '2026.08.20 09:30', admin: 'CS 김상담 (admin_kim)', channel: '기타', content: '산업안전기사 필기+실기 올패스 수강생. 교재 배송지 확인 완료.', result: '처리 완료', note: '기존 관리자 내부 메모 이관' }
+      ],
+      '100479': [
+        { at: '2026.10.02 11:12', admin: 'CS 김상담 (admin_kim)', channel: '채팅', content: '모바일 앱 동영상 재생 끊김 문의 — 기기 2대 등록 상태 확인.', result: '처리 완료', note: '기기 1대 해제 후 정상 재생 확인' }
+      ]
+    };
+    const CS_ADMIN = 'CS 김상담 (admin_kim)';
+    const CS_NOW = '2026-10-17T14:30';
+
+    function csEsc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]); }
+    function csResultBadge(r) {
+      const cls = r === '처리 완료' ? 'badge-green' : (r === '타 부서 이관' ? 'badge-blue' : 'badge-amber');
+      return `<span class="badge ${cls}">${csEsc(r)}</span>`;
+    }
+
+    function renderCsMemo() {
+      const logs = CS_LOGS[currentMemberId] || [];
+      const f = document.getElementById('cm-filter').value;
+      const list = logs.filter(l => f === 'ALL' || l.result === f);
+      const open = logs.filter(l => l.result !== '처리 완료').length;
+      document.getElementById('cm-count').textContent = `${logs.length}건`;
+      const oc = document.getElementById('cm-open-count');
+      oc.style.display = open ? '' : 'none';
+      oc.textContent = `미완료 ${open}건`;
+      document.getElementById('cm-timeline').innerHTML = list.length ? list.map(l => `
+        <li class="cm-item ${l.result === '처리 완료' ? '' : 'cm-open'}">
+          <div class="cm-meta"><strong>${csEsc(l.at)}</strong> · ${csEsc(l.admin)} · <span class="badge badge-gray">${csEsc(l.channel)}</span> ${csResultBadge(l.result)}</div>
+          <div class="cm-body">${csEsc(l.content)}</div>
+          ${l.note ? `<div class="cm-result">처리 결과: ${csEsc(l.note)}</div>` : ''}
+        </li>`).join('') : `<li class="cm-empty">${logs.length ? '조건에 맞는 상담 이력이 없습니다.' : '아직 상담 이력이 없습니다. 위에서 첫 기록을 추가하세요.'}</li>`;
+      const last = logs[0];
+      document.getElementById('dt-memo-latest').innerHTML = last
+        ? `<strong>${csEsc(last.at)}</strong> ${csResultBadge(last.result)} ${csEsc(last.content.length > 40 ? last.content.slice(0, 40) + '…' : last.content)} <span style="color:var(--text-muted);">(총 ${logs.length}건)</span>`
+        : '<span style="color:var(--text-muted);">상담 이력 없음</span>';
+      if (!document.getElementById('cm-at').value) document.getElementById('cm-at').value = CS_NOW;
+    }
+
+    function addCsMemo() {
+      const err = document.getElementById('cm-error');
+      const fail = msg => { err.textContent = msg; err.style.display = 'block'; };
+      err.style.display = 'none';
+      const at = document.getElementById('cm-at').value;
+      const channel = document.getElementById('cm-channel').value;
+      const result = document.getElementById('cm-result').value;
+      const note = document.getElementById('cm-result-note').value.trim();
+      const content = document.getElementById('cm-content').value.trim();
+      if (!at) return fail('상담 일시를 입력해 주십시오.');
+      if (content.length < 10) return fail('상담 내용을 10자 이상 입력해 주십시오.');
+      if (result === '타 부서 이관' && !note) return fail('타 부서 이관은 처리 결과 메모에 이관 부서와 사유를 적어 주십시오.');
+      const atText = at.replace('T', ' ').replace(/-/g, '.');
+      const logs = CS_LOGS[currentMemberId] || (CS_LOGS[currentMemberId] = []);
+      logs.unshift({ at: atText, admin: CS_ADMIN, channel, content, result, note });
+      logs.sort((a, b) => b.at.localeCompare(a.at));
+      document.getElementById('cm-content').value = '';
+      document.getElementById('cm-result-note').value = '';
+      document.getElementById('cm-filter').value = 'ALL';
+      renderCsMemo();
+      const tbody = document.querySelector('#dt-audit-timeline tbody');
+      if (tbody) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>2026.10.17 14:30</td><td>${CS_ADMIN}</td><td><span class="badge badge-blue">상담 이력 추가</span></td><td>${csEsc(atText)} · ${csEsc(channel)} · ${csEsc(result)}</td><td><code>121.***.7.90</code></td>`;
+        tbody.prepend(tr);
+      }
+      showToast('상담 이력을 추가했습니다. (관리 이력에 기록)');
+    }
     let isUnmasked = false;
 
     function switchView(view) {
@@ -2160,6 +2285,7 @@ code, pre, kbd, samp,
 
       document.getElementById('dt-paid-amt').textContent = m.paidAmt;
       document.getElementById('dt-rfd-amt').textContent = m.rfdAmt;
+      renderCsMemo();
     }
 
     function saveMemberProfile() {
@@ -2176,12 +2302,12 @@ code, pre, kbd, samp,
           <td>2026.10.17 14:22</td>
           <td>CS 김상담 (admin_kim)</td>
           <td><span class="badge badge-blue">회원정보 저장</span></td>
-          <td>카페 ID(<code>${cafeVal || '미입력'}</code>) · 마케팅 수신 동의(<code>${mktAgreed ? '동의' : '거부'}</code>) · 내부 메모 저장</td>
+          <td>카페 ID(<code>${cafeVal || '미입력'}</code>) · 마케팅 수신 동의(<code>${mktAgreed ? '동의' : '거부'}</code>)</td>
           <td><code>121.***.7.90</code></td>
         `;
         tbody.prepend(tr);
       }
-      showToast('산준모 카페 ID, 마케팅 수신 동의(단일 필드), 관리자 내부 메모가 저장되고 관리 이력에 기록되었습니다.');
+      showToast('산준모 카페 ID, 마케팅 수신 동의(단일 필드)가 저장되고 관리 이력에 기록되었습니다.');
     }
 
     function unmaskMemberDetail() {

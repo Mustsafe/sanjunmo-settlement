@@ -646,7 +646,7 @@ code, pre, kbd, samp,
             <div>
               <div class="card-title">주문 품목(order_item_id) 단위 3계층 과·면세 분할 승인 및 도서정가제 안분 대사 (정산 기준)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                복합 결제(MIXED) 시 교재 정가 할인 0% 고정(`book_discount_rate_limit = 0%`) → 순수 강좌 결제 풀 안분 → 마지막 강좌 잔여 차액 배정 규칙 검증
+                복합 결제(MIXED) 시 교재는 기본 할인(최대 10%, `book_discount_rate_limit = 10%`) 반영 실판매가 고정 · 쿠폰 · 포인트 0% → 순수 강좌 결제 풀 안분 → 마지막 강좌 잔여 차액 배정 규칙 검증
               </div>
             </div>
             <span class="badge badge-success">전 품목 분할 검증 통과</span>
