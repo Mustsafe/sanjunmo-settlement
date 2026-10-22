@@ -1031,7 +1031,7 @@ code, pre, kbd, samp,
         </div>
         <div class="kpi-card" data-filter="PAYOUT_TARGET">
           <div class="k-title">💸 당월 실지급 대상 (≥10만원/강제)</div>
-          <div class="k-num" id="kpiPayout" style="color:var(--primary);">5건 (18,982,670원)</div>
+          <div class="k-num" id="kpiPayout" style="color:var(--primary);">5건 (15,543,740원)</div>
           <div class="k-sub">11단계 지급 판정 통과 · 펌뱅킹 대상</div>
         </div>
         <div class="kpi-card" data-filter="CARRYOVER_HOLD">
@@ -1430,19 +1430,19 @@ code, pre, kbd, samp,
         step4LectureDeduct: -581250,
         step4SupportDeduct: -325000,
         step5SupportConfirmed: 720000,
-        step6PrepayEligible: 8018750,
-        step6PrepayOffset: -1500000,
+        step6PrepayEligible: 8138750,
+        step6PrepayOffset: -3500000,
         step7LumpSumAdd: 5000000,
         step8TaxableBaseSum: 13018750,
         step9VatAmount: 0,
         step9WithholdingTax: 429610,
         step10PostTaxAdjust: 0,
-        step11NetPayout: 11089140,
+        step11NetPayout: 9089140,
         payoutCategory: "PAYOUT_TARGET",
         payoutStatusLabel: "실지급 확정 (≥10만원)",
         bankInfo: "신한은행 110-428-****** (예금주: 정종대 일치)",
         bankTransferStatus: "지급 대기 (마감 확정 후 이체 예약)",
-        diffReasonNote: "과세표준 합계(13,018,750원, 전속계약금 5,000,000원 포함)와 실지급액(11,089,140원)의 차이는 [6단계 선급금 상계(-1,500,000원) — 미상계 선급금 잔액이 있어 수취인 분할 없이 원 권리자 단독 귀속] 및 [9단계 원천징수(-429,610원)]입니다."
+        diffReasonNote: "과세표준 합계(13,018,750원, 전속계약금 5,000,000원 포함)와 실지급액(9,089,140원)의 차이는 [6단계 선급금 상계(-3,500,000원) — 상계 가능액(7,870,180원)이 잔액보다 커서 잔액 전부를 상계, 선급금 원장 종결] 및 [9단계 원천징수(-429,610원)]입니다.",
       },
       {
         id: "STMT-02",
@@ -1463,18 +1463,18 @@ code, pre, kbd, samp,
         step4SupportDeduct: 0,
         step5SupportConfirmed: 0,
         step6PrepayEligible: 3000000,
-        step6PrepayOffset: -1556120,
+        step6PrepayOffset: -3000000,
         step7LumpSumAdd: 1800000,
         step8TaxableBaseSum: 4800000,
         step9VatAmount: 480000,
         step9WithholdingTax: 0,
         step10PostTaxAdjust: 0,
-        step11NetPayout: 3723880,
+        step11NetPayout: 2280000,
         payoutCategory: "PAYOUT_TARGET",
         payoutStatusLabel: "실지급 확정 (역발행 서명 대기)",
         bankInfo: "국민은행 042-81-******* (예금주: 산준교육(주) 일치)",
         bankTransferStatus: "역발행 세금계산서 서명 대기",
-        diffReasonNote: "공급대가 총액(5,280,000원) 대비 실지급액(3,723,880원) 차이는 [6단계 선급금 상계 회수(-1,556,120원)] 반영 결과입니다."
+        diffReasonNote: "공급대가 총액(5,280,000원) 대비 실지급액(2,280,000원) 차이는 [6단계 선급금 상계(-3,000,000원)] 반영 결과입니다. 상계 대상은 강좌 수익배분 3,000,000원 전액(법인 · 원천세 없음)이며, 지원금 종료 일시정산 1,800,000원은 비상계(NON_OFFSET) 약정이라 상계하지 않습니다.",
       },
       {
         id: "STMT-03",
@@ -1592,18 +1592,18 @@ code, pre, kbd, samp,
         step4SupportDeduct: 0,
         step5SupportConfirmed: 0,
         step6PrepayEligible: 150000,
-        step6PrepayOffset: -150000,
+        step6PrepayOffset: -145050,
         step7LumpSumAdd: 0,
         step8TaxableBaseSum: 950000,
         step9VatAmount: 0,
         step9WithholdingTax: 31350,
         step10PostTaxAdjust: 0,
-        step11NetPayout: 768650,
+        step11NetPayout: 773600,
         payoutCategory: "PAYOUT_TARGET",
         payoutStatusLabel: "실지급 확정 (비상계 MMG 보호분 · 선급금 환수청구 분리)",
         bankInfo: "하나은행 392-910283-***** (예금주: 이중도 일치)",
         bankTransferStatus: "지급 대기 (환수청구서 CLM-202610-01 별도 발행)",
-        diffReasonNote: "순수 강좌 R/S 150,000원은 6단계 선급금 상계로 전액 차감되고, 비상계 보호 MMG 보전금 800,000원에서 원천세(과세표준 950,000원 × 3.3% = 31,350원)를 뺀 768,650원을 지급합니다. 미상계 선급금 잔액 1,200,000원은 교차상계 없이 별도 환수청구서로 분리합니다."
+        diffReasonNote: "순수 강좌 R/S 150,000원에서 예상 원천세 4,950원을 뺀 145,050원만 6단계에서 상계하고(대여금 방식), 비상계 보호 MMG 보전금 800,000원은 상계하지 않습니다. 세전 잔액 804,950원 − 원천세(과세표준 950,000원 × 3.3% = 31,350원) = 773,600원 지급. 미상계 선급금 잔액 1,204,950원은 교차상계 없이 별도 환수청구서로 분리합니다.",
       },
       {
         id: "STMT-07",
@@ -2420,8 +2420,8 @@ code, pre, kbd, samp,
       pipeline: "Pipeline 1.1 (선급금 해지 강제청구)",
       accountType: "PRE_TAX",
       accountLabel: "해지 강제청구 종결 (CLAIMED)",
-      operatorReason: "계약 중도해지(2026-10-20)로 미상계 선급금 잔액(-1,200,000원)을 차월 이월하지 않고 10단계(CLAIM)에서 즉시 강제 환수 청구 전환하여 선급금 원장 잔액 0원 종결(C-03·C-04)",
-      partnerReason: "계약 해지(2026-10-20)에 따라 미상계 선급금 잔액(1,200,000원)은 차월 이월 없이 별도 반환 청구서로 확정됨 (비상계 MMG 800,000원은 정상 지급)",
+      operatorReason: "계약 중도해지(2026-10-20)로 미상계 선급금 잔액(-1,204,950원)을 차월 이월하지 않고 10단계(CLAIM)에서 즉시 강제 환수 청구 전환하여 선급금 원장 종결 (비상계 MMG 보전금과 교차상계 차단)",
+      partnerReason: "계약 해지(2026-10-20)에 따라 미상계 선급금 잔액(1,204,950원)은 차월 이월 없이 별도 반환 청구서로 확정됨 (비상계 MMG 800,000원은 정상 지급)",
       sourceRef: "STMT-202610-06 / CLM-202610-01",
       offsetScope: "TERMINATION_CLAIM_ISOLATED (비상계 MMG와 교차상계 차단)",
       openingAmt: 0,
@@ -2474,7 +2474,7 @@ code, pre, kbd, samp,
       bankMasked: "신한은행 110-428-****** (예금주: 정종대)",
       bankRaw: "신한은행 110-428-991024 (예금주: 정종대)",
       contractSummary: "CT-2026-0501 | 1계층 단독 100% · 수취인 분할 없음 (미상계 선급금 잔액이 있는 계약은 분할 불가)",
-      prepaySummary: "당월 상계 -1,500,000원 전액 원 권리자 귀속 (기초 잔액 3,500,000원 → 기말 잔액 2,000,000원)",
+      prepaySummary: "당월 상계 -3,500,000원(잔액 전부) 원 권리자 귀속 (기초 잔액 3,500,000원 → 기말 0원 · 선급금 원장 종결)",
       limitsSummary: "최소지급 100,000원 / 최소청구 -100,000원",
       batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
       scores: {
@@ -2482,11 +2482,11 @@ code, pre, kbd, samp,
         grossGenerated: 14170000,
         deductions: -1031250,
         taxBase: 13018750,
-        prepayAndPostCarry: -1500000,
+        prepayAndPostCarry: -3500000,
         taxAmount: -429610,
-        finalPayout: 11089140
+        finalPayout: 9089140
       },
-      diffEquation: "수취인 분할 없음(원 권리자 100%) — 과세표준 13,018,750원(계산서 역발행 금액, 전속계약금 5,000,000원 포함) − 선급금 상계 1,500,000원 − 원천징수세액(3.3%) 429,610원 = 최종 실지급액 11,089,140원 (차액 1,929,610원 = 선급금 상계 + 원천세)",
+      diffEquation: "수취인 분할 없음(원 권리자 100%) — 과세표준 13,018,750원(계산서 역발행 금액, 전속계약금 5,000,000원 포함) − 선급금 상계 3,500,000원(잔액 전부) − 원천징수세액(3.3%) 429,610원 = 최종 실지급액 9,089,140원 (차액 3,929,610원 = 선급금 상계 + 원천세)",
       carryoverRows: [
         { type: "PRE_TAX (세전 음수이월)", origin: "2026-09", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: -120000, delta: 120000, stmtImpact: -120000, newAdd: 0, closing: 0, note: "9월 환불 초과 세전 음수이월(-120,000원) 당월 1단계 상쇄 완료" }
       ],
@@ -2502,10 +2502,10 @@ code, pre, kbd, samp,
         { type: "전속계약금 (7단계 LUMPSUM_ADD · ADMN-INST-002 MS-2026-005)", capTotal: 5000000, usedBefore: 0, calcCurrent: 5000000, capApplied: 5000000, offsetRule: "NON_OFFSET (일회성 비상계)", remainCap: 0, note: "2년 전속 체결 계약금 10월 승인분 일시 지급 (선급금 상계 대상 아님)" }
       ],
       prepayRows: [
-        { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 8018750, offsetApplied: -1500000, closingBal: 2000000, allocDetail: "선급금 잔액이 있는 계약은 수취인 분할을 둘 수 없으므로 상계액 -1,500,000원 전액 원 권리자(정종대) 귀속" }
+        { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 8138750, offsetApplied: -3500000, closingBal: 0, allocDetail: "상계 대상 8,138,750원(강좌 6,548,750 + 인세 870,000 + 상계 허용 지원금 720,000) − 예상 원천세 268,570원 = 상계 가능액 7,870,180원 ≥ 잔액 → 잔액 3,500,000원 전부 상계, 원 권리자(정종대) 단독 귀속" }
       ],
       payeeSplitRows: [
-        { payeeId: "PY-0025", name: "정종대 (원 권리자 · 저자 겸 강사)", role: "원 권리자 (단독 수취)", ratio: "100.00%", preTaxSplit: 13018750, prepaySplit: -1500000, note: "분할 없음 — 미상계 선급금 잔액 계약 (과세표준 13,018,750원 / 선급금상계 -1,500,000원)" }
+        { payeeId: "PY-0025", name: "정종대 (원 권리자 · 저자 겸 강사)", role: "원 권리자 (단독 수취)", ratio: "100.00%", preTaxSplit: 13018750, prepaySplit: -3500000, note: "분할 없음 — 미상계 선급금 잔액 계약 (과세표준 13,018,750원 / 선급금상계 -3,500,000원)" }
       ],
       waterfall: [
         { step: "1단계 (CARRY_IN)", title: "전월 세전 음수 이월금 상쇄", rule: "9월 수강환불 초과 세전 음수이월 -120,000원 반영", delta: -120000, bal: -120000 },
@@ -2513,16 +2513,16 @@ code, pre, kbd, samp,
         { step: "3단계 (MMG_ADJ)", title: "최저보장 정산금(MMG) 보전", rule: "당월 실적 > MMG 기준액 (보전금 0원)", delta: 0, bal: 9050000 },
         { step: "4단계 (DEDUCT)", title: "수강환불 · 합격환급반(옵션 B) 공제", rule: "일반환불 -581,250원 + 옵션 B 지원금 비례공제 -325,000원", delta: -906250, bal: 8143750 },
         { step: "5단계 (SUPPORT_CAP)", title: "개발지원금 누적 한도 캡 통제", rule: "지원금 845,000원 → 잔여 한도 720,000원 (초과 -125,000원 차감)", delta: -125000, bal: 8018750 },
-        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (-1,500,000원)", rule: "상계 적격 세전액 8,018,750원 중 강좌(1.1)·도서(2.1)·상계허용 지원금(5.1) 비례 안분 상계", delta: -1500000, bal: 6518750 },
-        { step: "7단계 (LUMPSUM_ADD)", title: "비정기 약정금 합산 (ADMN-INST-002)", rule: "MS-2026-005 전속계약금 +5,000,000원 (일회성 비상계 · 10월 승인)", delta: 5000000, bal: 11518750 },
-        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가 → 과세표준 13,018,750원 · 상계 후 잔액 11,518,750원 전액 정종대 귀속", delta: 0, bal: 11518750 },
-        { step: "9단계 (TAX)", title: "면세사업자 원천징수세액(3.3%) 산출 (TX-08)", rule: "과세표준 13,018,750원 기준 → 소득세 Floor(390,560) + 지방세 Floor(39,050) = -429,610원", delta: -429610, bal: 11089140 },
-        { step: "10단계 (CLAIM)", title: "최소지급 기준액(100,000원) 판정", rule: "11,089,140원 ≥ 100,000원 (정상 지급 적격)", delta: 0, bal: 11089140 },
-        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (펌뱅킹 이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 11,089,140원", delta: 0, bal: 11089140 }
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (-3,500,000원 · 잔액 전부)", rule: "상계 대상 8,138,750원 − 예상 원천세 268,570원 = 상계 가능 7,870,180원 ≥ 잔액 3,500,000원 → 잔액 전부 상계 (강좌·도서·상계 허용 지원금 비례 안분)", delta: -3500000, bal: 4518750 },
+        { step: "7단계 (LUMPSUM_ADD)", title: "비정기 약정금 합산 (ADMN-INST-002)", rule: "MS-2026-005 전속계약금 +5,000,000원 (일회성 비상계 · 10월 승인)", delta: 5000000, bal: 9518750 },
+        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가 → 과세표준 13,018,750원 · 상계 후 잔액 9,518,750원 전액 정종대 귀속", delta: 0, bal: 9518750 },
+        { step: "9단계 (TAX)", title: "면세사업자 원천징수세액(3.3%) 산출 (TX-08)", rule: "과세표준 13,018,750원 기준 → 소득세 Floor(390,560) + 지방세 Floor(39,050) = -429,610원", delta: -429610, bal: 9089140 },
+        { step: "10단계 (CLAIM)", title: "최소지급 기준액(100,000원) 판정", rule: "9,089,140원 ≥ 100,000원 (정상 지급 적격)", delta: 0, bal: 9089140 },
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (펌뱅킹 이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 9,089,140원", delta: 0, bal: 9089140 }
       ],
       evidenceInfo: "복합 증빙(TX-08): [1] 면세 계산서 역발행 공급가액 13,018,750원 승인완료 + [2] 사업소득 원천징수(3.3%, 429,610원) 동시 수행 (채널 2 + 3-a)",
       auditMemos: [
-        "[2026-10-31 19:05] 재무팀 김회계: 정종대 단독 100% 귀속(미상계 선급금 계약 · 수취인 분할 차단) 및 선급금 150만원 상계 검증 완료."
+        "[2026-10-31 19:05] 재무팀 김회계: 정종대 단독 100% 귀속(미상계 선급금 계약 · 수취인 분할 차단) 및 선급금 잔액 350만원 전부 상계(원장 종결) 검증 완료."
       ]
     },
     "PY-0012": {
@@ -2536,7 +2536,7 @@ code, pre, kbd, samp,
       bankMasked: "국민은행 042-81-******* (예금주: 산준교육(주))",
       bankRaw: "국민은행 042-81-0039127 (예금주: 산준교육(주))",
       contractSummary: "CT-2026-0412 | 1계층 단독 100% · 수취인 분할 없음 (미상계 선급금 잔액이 있는 계약은 분할 불가)",
-      prepaySummary: "당월 상계 -1,556,120원 전액 원 권리자 귀속 (기초 잔액 8,500,000원 → 기말 잔액 6,943,880원)",
+      prepaySummary: "당월 상계 -3,000,000원 원 권리자 귀속 (기초 잔액 8,500,000원 → 기말 잔액 5,500,000원) · 지원금 종료 일시정산은 비상계 약정이라 상계 제외",
       limitsSummary: "최소지급 100,000원 (VAT 포함 기준)",
       batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
       scores: {
@@ -2544,11 +2544,11 @@ code, pre, kbd, samp,
         grossGenerated: 4800000,
         deductions: 0,
         taxBase: 4800000,
-        prepayAndPostCarry: -1556120,
+        prepayAndPostCarry: -3000000,
         taxAmount: 480000,
-        finalPayout: 3723880
+        finalPayout: 2280000
       },
-      diffEquation: "공급가액(과세표준) 4,800,000원(강좌 수익배분 3,000,000원 + 지원금 종료 일시정산 1,800,000원) + 부가가치세(10%) 480,000원(세금계산서 합계 5,280,000원) − 선급금 상계 1,556,120원 = 최종 실지급액 3,723,880원",
+      diffEquation: "공급가액(과세표준) 4,800,000원(강좌 수익배분 3,000,000원 + 지원금 종료 일시정산 1,800,000원) + 부가가치세(10%) 480,000원(세금계산서 합계 5,280,000원) − 선급금 상계 3,000,000원 = 최종 실지급액 2,280,000원",
       carryoverRows: [],
       lectureRows: [
         { prodCode: "CT-2026-0412-LEC", prodName: "[법인 계약] 산업안전 온라인 강좌 수익배분 합계", pkgType: "단과 직접결제", count: 60, allocBase: "6,000,000.0000", shareRatio: "100.00%", rsRate: "50.00%", refundDeduct: 0, calcRaw: "3,000,000.0000", finalFloor: 3000000 }
@@ -2558,18 +2558,18 @@ code, pre, kbd, samp,
         { type: "지원금 종료 일시정산 (7단계 LUMPSUM_ADD · ADMN-INST-002 MS-2026-006)", capTotal: 1800000, usedBefore: 0, calcCurrent: 1800000, capApplied: 1800000, offsetRule: "CONDITIONAL (상계 허용)", remainCap: 0, note: "지원금 약정 종료에 따른 일시정산액 당월 7단계 인입" }
       ],
       prepayRows: [
-        { prepayId: "PP-2026-0412", totalLoan: 8500000, openingBal: 8500000, eligiblePreTax: 3000000, offsetApplied: -1556120, closingBal: 6943880, allocDetail: "수취인 분할 없음 — 상계액 -1,556,120원 전액 원 권리자(산준교육) 귀속" }
+        { prepayId: "PP-2026-0412", totalLoan: 8500000, openingBal: 8500000, eligiblePreTax: 3000000, offsetApplied: -3000000, closingBal: 5500000, allocDetail: "상계 대상 = 강좌 수익배분 3,000,000원(법인 · 예상 원천세 0원) — 지원금 종료 일시정산 1,800,000원은 비상계(NON_OFFSET) 약정이라 제외 → 3,000,000원 상계" }
       ],
       payeeSplitRows: [
-        { payeeId: "PY-0012", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -1556120, note: "분할 없음 — 미상계 선급금 잔액 계약" }
+        { payeeId: "PY-0012", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -3000000, note: "분할 없음 — 미상계 선급금 잔액 계약" }
       ],
       waterfall: [
         { step: "2단계 (ACCRUAL)", title: "당월 강좌(1.1) 수익배분 발생", rule: "법인 계약 강좌 수익배분 3,000,000원", delta: 3000000, bal: 3000000 },
-        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계", rule: "상계 적격 세전액 3,000,000원 중 -1,556,120원 회수 (기말 잔액 6,943,880원)", delta: -1556120, bal: 1443880 },
-        { step: "7단계 (LUMPSUM_ADD)", title: "지원금 종료 일시정산 합산 (ADMN-INST-002)", rule: "MS-2026-006 지원금 종료 일시정산 +1,800,000원", delta: 1800000, bal: 3243880 },
-        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가", delta: 0, bal: 3243880 },
-        { step: "9단계 (TAX)", title: "법인 일반과세 부가가치세(10%) 가산 (TX-07)", rule: "공급가액 4,800,000원 × 10% = +480,000원 (원천징수 비대상)", delta: 480000, bal: 3723880 },
-        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (역발행 승인 대기)", rule: "공급대가 5,280,000원 − 선급금 상계 1,556,120원 = 3,723,880원", delta: 0, bal: 3723880 }
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계", rule: "상계 대상 강좌 3,000,000원 − 예상 원천세 0원(법인) = 3,000,000원 ≤ 잔액 8,500,000원 → 3,000,000원 상계 (기말 잔액 5,500,000원)", delta: -3000000, bal: 0 },
+        { step: "7단계 (LUMPSUM_ADD)", title: "지원금 종료 일시정산 합산 (ADMN-INST-002)", rule: "MS-2026-006 지원금 종료 일시정산 +1,800,000원 (비상계 NON_OFFSET 약정 → 상계 제외)", delta: 1800000, bal: 1800000 },
+        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가", delta: 0, bal: 1800000 },
+        { step: "9단계 (TAX)", title: "법인 일반과세 부가가치세(10%) 가산 (TX-07)", rule: "공급가액 4,800,000원 × 10% = +480,000원 (원천징수 비대상)", delta: 480000, bal: 2280000 },
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (역발행 승인 대기)", rule: "공급대가 5,280,000원 − 선급금 상계 3,000,000원 = 2,280,000원", delta: 0, bal: 2280000 }
       ],
       evidenceInfo: "전자세금계산서 역발행(TX-07): 공급가액 4,800,000원 / 부가세 480,000원 (합계 5,280,000원) — 현재 수취인 역발행 전자서명 대기 중",
       auditMemos: [
@@ -2674,8 +2674,8 @@ code, pre, kbd, samp,
       ssnRaw: "810219-1239841",
       bankMasked: "하나은행 392-910283-***** (예금주: 이중도)",
       bankRaw: "하나은행 392-910283-41902 (예금주: 이중도)",
-      contractSummary: "CT-2026-0322 (2026-10-20 해지) | 비상계 MMG 보전 800,000원 / 미상계 선급금 1,200,000원 강제청구",
-      prepaySummary: "기초 미상계 1,350,000원 → 6단계 순수 R/S(150,000원)만 상계 → 잔액 1,200,000원 해지 강제청구(CLAIMED_ON_TERMINATION)",
+      contractSummary: "CT-2026-0322 (2026-10-20 해지) | 비상계 MMG 보전 800,000원 / 미상계 선급금 1,204,950원 강제청구",
+      prepaySummary: "기초 미상계 1,350,000원 → 6단계 순수 R/S 150,000원 − 예상 원천세 4,950원 = 145,050원 상계 → 잔액 1,204,950원 해지 강제청구(CLAIMED_ON_TERMINATION)",
       limitsSummary: "C-02·C-03 가드레일: 3단계 MMG 보전금(800,000원)은 선급금 상계 모수 유입 및 10단계 교차상계 절대 금지",
       batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
       scores: {
@@ -2683,11 +2683,11 @@ code, pre, kbd, samp,
         grossGenerated: 980000,
         deductions: -30000,
         taxBase: 950000,
-        prepayAndPostCarry: -150000,
+        prepayAndPostCarry: -145050,
         taxAmount: -31350,
-        finalPayout: 768650
+        finalPayout: 773600
       },
-      diffEquation: "순수 강좌 R/S 150,000원(6단계 선급금 상계로 전액 차감 → 0원) + 비상계 보호 MMG 보전금 800,000원(상계 차단) = 세전 잔액 800,000원 − 원천세(과세표준 950,000원 × 3.3% = 31,350원) = 실지급액 768,650원 (※ 미상계 선급금 잔액 -1,200,000원은 10단계 별도 환수 청구서 발행)",
+      diffEquation: "순수 강좌 R/S 150,000원 중 145,050원(예상 원천세 4,950원 제외) 6단계 상계 + 비상계 보호 MMG 보전금 800,000원(상계 차단) = 세전 잔액 804,950원 − 원천세(과세표준 950,000원 × 3.3% = 31,350원) = 실지급액 773,600원 (※ 미상계 선급금 잔액 -1,204,950원은 10단계 별도 환수 청구서 발행)",
       carryoverRows: [],
       lectureRows: [
         { prodCode: "CRS-2026-055", prodName: "[단과] 전기산업기사 회로이론 핵심완성 (해지일 이전 결제분)", pkgType: "단과 직접결제", count: 9, allocBase: "450,000.0000", shareRatio: "100.00%", rsRate: "40.00%", refundDeduct: -30000, calcRaw: "150,000.0000", finalFloor: 150000 }
@@ -2697,21 +2697,21 @@ code, pre, kbd, samp,
         { type: "최저보장 정산금 보전 (3단계 MMG_ADJ · 비상계 보호)", capTotal: 950000, usedBefore: 150000, calcCurrent: 800000, capApplied: 800000, offsetRule: "NON_OFFSET (선급금 상계 절대 금지 · C-02/C-03)", remainCap: 0, note: "보장액 대비 부족분 800,000원 보전 (6단계 선급금 상계 모수에서 제외되어 전액 보호)" }
       ],
       prepayRows: [
-        { prepayId: "PP-2026-055", totalLoan: 2000000, openingBal: 1350000, eligiblePreTax: 150000, offsetApplied: -150000, closingBal: 0, allocDetail: "6단계 순수 강좌 R/S(150,000원)만 상계 후, 미상계 잔액 1,200,000원은 10단계 해지 강제청구(CLAIM) 전환으로 원장 잔액 0원 종결" }
+        { prepayId: "PP-2026-055", totalLoan: 2000000, openingBal: 1350000, eligiblePreTax: 150000, offsetApplied: -145050, closingBal: 0, allocDetail: "6단계 순수 강좌 R/S 150,000원 − 예상 원천세 4,950원 = 145,050원 상계 후, 미상계 잔액 1,204,950원은 10단계 해지 강제청구(CLAIM) 전환으로 원장 잔액 0원 종결" }
       ],
       payeeSplitRows: [],
       waterfall: [
         { step: "2단계 (ACCRUAL)", title: "당월 강좌 R/S 발생", rule: "해지일 이전 결제 강좌 R/S +180,000원", delta: 180000, bal: 180000 },
         { step: "3단계 (MMG_ADJ)", title: "최저보장 정산금(MMG) 보전 (비상계 보호)", rule: "최저보장 보전금 +800,000원 가산 (6단계 상계 모수 유입 차단)", delta: 800000, bal: 980000 },
         { step: "4단계 (DEDUCT)", title: "당월 수강환불 차감", rule: "중도환불 분담금 -30,000원", delta: -30000, bal: 950000 },
-        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (순수 R/S 150,000원 한도)", rule: "Max(0, 2단계 180,000 − 4단계 30,000) = 150,000원만 상계 (MMG 800,000원 보호)", delta: -150000, bal: 800000 },
-        { step: "9단계 (TAX)", title: "사업소득(3.3%) 원천징수세액 산출 (TX-02)", rule: "과세표준 950,000원 × 3.3% = 소득세 28,500 + 지방세 2,850 = -31,350원", delta: -31350, bal: 768650 },
-        { step: "10단계 (CLAIM)", title: "중도해지 미상계 선급금 강제 환수청구 분리 발행 (C-03·C-04)", rule: "미상계 선급금 잔액 -1,200,000원 별도 청구서 발행 (비상계 보호 실지급액 768,650원과 교차상계 차단)", delta: 0, bal: 768650 },
-        { step: "11단계 (PAYOUT)", title: "비상계 보호 금액 실지급 확정", rule: "실지급액 768,650원 이체 확정 + 환수청구액 1,200,000원 채권 원장 이관", delta: 0, bal: 768650 }
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (상계 가능액 145,050원)", rule: "Max(0, 2단계 180,000 − 4단계 30,000) = 150,000원 − 예상 원천세 4,950원 = 145,050원 상계 (MMG 800,000원 보호)", delta: -145050, bal: 804950 },
+        { step: "9단계 (TAX)", title: "사업소득(3.3%) 원천징수세액 산출 (TX-02)", rule: "과세표준 950,000원 × 3.3% = 소득세 28,500 + 지방세 2,850 = -31,350원", delta: -31350, bal: 773600 },
+        { step: "10단계 (CLAIM)", title: "중도해지 미상계 선급금 강제 환수청구 분리 발행 (C-03·C-04)", rule: "미상계 선급금 잔액 -1,204,950원 별도 청구서 발행 (비상계 보호 실지급액 773,600원과 교차상계 차단)", delta: 0, bal: 773600 },
+        { step: "11단계 (PAYOUT)", title: "비상계 보호 금액 실지급 확정", rule: "실지급액 773,600원 이체 확정 + 환수청구액 1,204,950원 채권 원장 이관", delta: 0, bal: 773600 }
       ],
-      evidenceInfo: "사업소득 원천징수(과세표준 950,000원 / 세액 31,350원) | 계약 해지에 따른 미상계 선급금 1,200,000원 반환 청구서(CLM-202610-01) 별도 발행 완료",
+      evidenceInfo: "사업소득 원천징수(과세표준 950,000원 / 세액 31,350원) | 계약 해지에 따른 미상계 선급금 1,204,950원 반환 청구서(CLM-202610-01) 별도 발행 완료",
       auditMemos: [
-        "[2026-10-31 19:30] 법무·재무 합동검토: v4.0.0 C-02/C-03 가드레일에 따라 비상계 MMG(80만원)는 선급금과 상계하지 않고 지급하며, 미상계 선급금(120만원)은 해지 강제청구로 분리 확정."
+        "[2026-10-31 19:30] 법무·재무 합동검토: v4.0.0 C-02/C-03 가드레일에 따라 비상계 MMG(80만원)는 선급금과 상계하지 않고 지급하며, 미상계 선급금(1,204,950원)은 해지 강제청구로 분리 확정."
       ]
     },
     "PY-0015": {
