@@ -10,6 +10,9 @@
 검사 (마크업 + 스크립트 문자열 전체, 태그 제거 후)
   [1] 권리자 RH-NNNN       → 붙어 있는 이름("정종대 (RH-0025)", "RH-0025 (정종대)")이 둘 이상이면 오류
   [2] 계약 CON-YYYY-NNN     → 같은 줄 가까이(60자)에 함께 적힌 권리자 RH 코드가 둘 이상이면 오류
+  [2b] 스크립트 데이터       → 한 객체 안의 권리자 코드 키(holderId · rightsHolderId · payeeId 등)와
+                              이름 키(holderName · rightsHolderName 등)를 짝지어, 같은 RH 코드에 다른 이름이 붙으면 오류.
+                              계약 코드 키(id · contractId)와 권리자 코드 키를 짝지어, 같은 계약이 다른 권리자를 가리키면 오류
   [3] 도서 BK-YYYY-N…       → 일련번호 자릿수가 섞여 있으면 오류(형식 불일치)
                               같은 도서명이 서로 다른 BK 코드로 적혀 있으면 오류
                               같은 BK 코드에 붙은 도서명이 여럿이면 참고(약칭일 수 있음)
@@ -38,6 +41,25 @@ REPORT = os.path.join(ROOT, "scripts", "qa", "reports", "CROSS_DATA_CHECK_REPORT
 NAME = r"([가-힣]{2,4})(?:\s*(?:강사|대표|저자|작가))?"
 RH = r"RH-\d{4}"
 CON = r"CON-\d{4}-\d{3}"
+CT = r"(?:CT|CON)-\d{4}-[0-9A-Z]{3,4}"
+RH_KEY = r"(?:rightsHolderId|primaryHolderId|holderId|payeeId|partnerId|rights_holder_id)"
+NAME_KEY = r"(?:rightsHolderName|primaryHolderName|holderName|payeeName|partnerName|holder_name)"
+CT_KEY = r"(?:id|contractId|contract_id)"
+
+
+def lead_name(s):
+    """이름 값의 첫 한글 낱말(2자 이상) — '고(故) 박위생 → …' → 박위생, '(주)산준교육 에이전시' → 산준교육"""
+    if "*" in s:                               # 비식별(가명) 표시는 대조하지 않는다
+        return None
+    for w in re.findall(r"[가-힣]{2,}", s):
+        if w not in NOT_NAME:
+            return w[:4]
+    return None
+
+
+def objects(raw):
+    """스크립트 객체 리터럴 조각 — 중괄호 안쪽(중첩 없는 가장 안쪽 객체)"""
+    return re.findall(r"\{[^{}]{0,2000}\}", raw)
 BK = r"BK-\d{4}-\d+"
 TITLE_CH = r"[^()<>'\"\n|·:\[\]{}]"
 NOT_NAME = {"강사", "대표", "저자", "본인", "정산", "계약", "권리", "수취", "위탁", "전속", "인세", "도서", "산업", "소방", "선택", "현재", "공동", "단독", "해지", "대상", "주권", "외부"}
@@ -63,8 +85,21 @@ def scan(folder):
     bk_titles = defaultdict(lambda: defaultdict(set))    # BK → 도서명 → 파일
     title_bk = defaultdict(lambda: defaultdict(set))     # 도서명 → BK → 파일
     bk_files = defaultdict(set)
+    obj_rh_names = defaultdict(lambda: defaultdict(set))  # 스크립트 객체: RH → 이름 → 파일
+    obj_ct_rh = defaultdict(lambda: defaultdict(set))     # 스크립트 객체: 계약 → RH → 파일
     for f in files:
-        t = plain(open(os.path.join(base, f), encoding="utf-8").read())
+        raw = open(os.path.join(base, f), encoding="utf-8").read()
+        for o in objects(raw):
+            rid = re.search(RH_KEY + r"""\s*:\s*["'](""" + RH + r""")["']""", o)
+            if not rid:
+                continue
+            nm = re.search(NAME_KEY + r"""\s*:\s*["']([^"']{1,80})["']""", o)
+            if nm and lead_name(nm.group(1)):
+                obj_rh_names[rid.group(1)][lead_name(nm.group(1))].add(f)
+            ct = re.search(CT_KEY + r"""\s*:\s*["'](""" + CT + r""")["']""", o)
+            if ct:
+                obj_ct_rh[ct.group(1)][rid.group(1)].add(f)
+        t = plain(raw)
         for m in re.finditer(NAME + r"\s*\(\s*(" + RH + r")", t):
             if m.group(1) not in NOT_NAME:
                 rh_names[m.group(2)][m.group(1)].add(f)
@@ -92,7 +127,7 @@ def scan(folder):
                 if len(title) >= 4 and re.search(r"[가-힣]", title):
                     bk_titles[m.group(ci)][title].add(f)
                     title_bk[title][m.group(ci)].add(f)
-    return files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files
+    return files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, obj_rh_names, obj_ct_rh
 
 
 def fmt(d):
@@ -104,7 +139,7 @@ def main():
     ap.add_argument("folder", nargs="?", default="prototype_clean")
     ap.add_argument("--strict", action="store_true")
     args = ap.parse_args()
-    files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files = scan(args.folder)
+    files, rh_names, name_rh, con_rh, bk_titles, title_bk, bk_files, obj_rh_names, obj_ct_rh = scan(args.folder)
 
     errors, notes = [], []
     for code, names in sorted(rh_names.items()):
@@ -116,6 +151,19 @@ def main():
     for code, rhs in sorted(con_rh.items()):
         if len(rhs) > 1:
             errors.append(("계약 ↔ 권리자 불일치", code, fmt(rhs)))
+    for code, names in sorted(obj_rh_names.items()):
+        if len(names) > 1:
+            errors.append(("권리자 이름 충돌(스크립트 데이터)", code, fmt(names)))
+    obj_name_rh = defaultdict(lambda: defaultdict(set))
+    for code, names in obj_rh_names.items():
+        for n, fs in names.items():
+            obj_name_rh[n][code] |= fs
+    for n, codes in sorted(obj_name_rh.items()):
+        if len(codes) > 1:
+            errors.append(("같은 이름 · 다른 권리자 코드(스크립트 데이터)", n, fmt(codes)))
+    for code, rhs in sorted(obj_ct_rh.items()):
+        if len(rhs) > 1:
+            errors.append(("계약 ↔ 권리자 불일치(스크립트 데이터)", code, fmt(rhs)))
     # 다수 형식은 코드 개수가 아니라 등장 화면 수로 정한다(한 화면에 몰린 샘플이 기준을 뒤집지 않도록)
     lens = Counter()
     for c, fs in bk_files.items():
@@ -135,7 +183,7 @@ def main():
     L = ["# CROSS DATA CHECK REPORT — 화면 간 권리자 · 계약 · 도서 데이터 대조", "",
          f"- 생성: {datetime.datetime.now():%Y-%m-%d %H:%M}",
          f"- 대상: `{args.folder}` ({len(files)}개 파일)",
-         f"- 수집: 권리자 코드 {len(rh_names)} · 계약 코드 {len(con_rh)} · 도서 코드 {len(bk_files)}",
+         f"- 수집: 권리자 코드 {len(rh_names)} · 계약 코드 {len(con_rh)} · 도서 코드 {len(bk_files)} · 스크립트 객체 권리자 {len(obj_rh_names)} · 계약 {len(obj_ct_rh)}",
          f"- 결과: 오류 {len(errors)}건 · 참고 {len(notes)}건", ""]
     for title, rows in (("오류", errors), ("참고", notes)):
         L += [f"## {title} ({len(rows)}건)", ""]

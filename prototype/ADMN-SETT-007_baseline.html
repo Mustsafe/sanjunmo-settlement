@@ -545,31 +545,8 @@ code, pre, kbd, samp,
 </div></div><script>
   const CONTRACTS = [
     {
-      id: "CON-2026-001",
-      title: "2026 산업안전기사 정종대 통합계약 — 주권리자 80% : (주)산준교육 에이전시 20% (SETT-002 연동)",
-      primaryHolderId: "RH-0025",
-      primaryHolderName: "정종대 (개인 면세사업자 · 주저자 겸 강사)",
-      primaryTaxCase: "면세사업자 원천징수 3.3% + 계산서 역발행 (TX-08)",
-      status: "ACTIVE",
-      category: "SPLIT",
-      advanceRemaining: 0,
-      advanceStatusText: "최초 계약 체결 시 공동서명 80:20 확정 (SETT-002 8단계 활성)",
-      effectiveStart: "2025-01-01",
-      effectiveEnd: "2027-12-31",
-      simBaseAmount: 7393750,
-      coSigners: [
-        { payeeId: "PY-0025-A", name: "정종대 (주권리자 · 강사 겸 저자)", role: "주권리자 (계약 서명인)", entityType: "개인 면세사업자 (211-90-48291)", taxCase: "면세 계산서 역발행 + 3.3% 원천징수 (TX-08)", isAuthor: true, successionYn: false, successionDate: "" },
-        { payeeId: "PY-0025-B", name: "(주)산준교육 에이전시", role: "공동서명 에이전시", entityType: "법인 일반과세자 (120-86-99381)", taxCase: "일반과세 세금계산서 역발행 (TX-07 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" }
-      ],
-      splits: [
-        { payeeId: "PY-0025-A", ratio: 80.00, startDate: "2025-01-01", endDate: "2027-12-31", note: "주권리자 정종대 80% 귀속 (2026-10 과세표준 5,915,000원)" },
-        { payeeId: "PY-0025-B", ratio: 20.00, startDate: "2025-01-01", endDate: "2027-12-31", note: "(주)산준교육 에이전시 20% 귀속 (2026-10 공급가액 1,478,750원)" }
-      ],
-      changeReason: "최초 통합계약 체결 시 주권리자 정종대(PY-0025-A, 80%) 및 공동서명 에이전시 (주)산준교육(PY-0025-B, 20%) 분할 약정"
-    },
-    {
       id: "CT-2026-0715",
-      title: "2026 전기기사 필기·실기 공동 매니지먼트 전속계약 (Case 7)",
+      title: "2026 산업안전기사 실기 공동 매니지먼트 전속계약 (Case 7)",
       primaryHolderId: "RH-0019",
       primaryHolderName: "김안전 (개인 프리랜서 · 원 저작자)",
       primaryTaxCase: "사업소득 원천징수 3.3% (TX-02)",
@@ -622,13 +599,13 @@ code, pre, kbd, samp,
       primaryTaxCase: "일반과세 세금계산서 역발행 (TX-07 / 인세 TX-09)",
       status: "ACTIVE",
       category: "SINGLE",
-      advanceRemaining: 0,
-      advanceStatusText: "선급금 8,500,000원 전액 상계 종결 (잔액 0원 · 분할 전환 가능)",
+      advanceRemaining: 8500000,
+      advanceStatusText: "🚨 미상계 선급금 잔액 8,500,000원 존재 (선급금 원장 미종결 — 선급금 미상계 시 분할 차단)",
       effectiveStart: "2026-01-01",
       effectiveEnd: "2026-12-31",
       simBaseAmount: 3000000,
       coSigners: [
-        { payeeId: "PY-0019", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인", entityType: "법인 일반과세자 (105-87-22910)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" },
+        { payeeId: "PY-0019", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인", entityType: "법인 일반과세자 (120-88-00001)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" },
         { payeeId: "PY-9022", name: "(주)산준미디어제작센터", role: "공동서명 제작계열사", entityType: "법인 일반과세자 (105-81-99120)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [
@@ -639,7 +616,7 @@ code, pre, kbd, samp,
     {
       id: "CT-2026-0702",
       title: "최그래픽 위험물 실기 3D 시뮬레이션 공동제작 계약",
-      primaryHolderId: "RH-0040",
+      primaryHolderId: "RH-0042",
       primaryHolderName: "최그래픽 (개인 프리랜서 · 기여자)",
       primaryTaxCase: "사업소득 원천징수 3.3% (TX-04)",
       status: "ACTIVE",
@@ -650,11 +627,11 @@ code, pre, kbd, samp,
       effectiveEnd: "2027-04-30",
       simBaseAmount: 1000000,
       coSigners: [
-        { payeeId: "PY-0040", name: "최그래픽 (본인)", role: "원 권리자 (기여자)", entityType: "개인 프리랜서", taxCase: "사업소득 원천징수 3.3% (TX-04)", isAuthor: false, successionYn: false, successionDate: "" },
+        { payeeId: "PY-0042", name: "최그래픽 (본인)", role: "원 권리자 (기여자)", entityType: "개인 프리랜서", taxCase: "사업소득 원천징수 3.3% (TX-04)", isAuthor: false, successionYn: false, successionDate: "" },
         { payeeId: "PY-9030", name: "스튜디오픽셀아트 (공동서명 스튜디오)", role: "공동서명 스튜디오", entityType: "개인 일반과세자 (142-19-88210)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [
-        { payeeId: "PY-0040", ratio: 100.00, startDate: "2026-05-01", endDate: "2027-04-30", note: "기여자 본인 100% 단독 수취" }
+        { payeeId: "PY-0042", ratio: 100.00, startDate: "2026-05-01", endDate: "2027-04-30", note: "기여자 본인 100% 단독 수취" }
       ],
       changeReason: "초기 계약 본인 100% 수취"
     },
@@ -672,7 +649,7 @@ code, pre, kbd, samp,
       effectiveEnd: "2027-02-28",
       simBaseAmount: 4500000,
       coSigners: [
-        { payeeId: "PY-0025", name: "정종대 (원 권리자 단독)", role: "원 저작자", entityType: "개인 면세사업자 (138-92-01823)", taxCase: "면세 전자계산서 역발행 (TX-08)", isAuthor: true, successionYn: false, successionDate: "" },
+        { payeeId: "PY-0025", name: "정종대 (원 권리자 단독)", role: "원 저작자", entityType: "개인 면세사업자 (214-19-99881)", taxCase: "면세 전자계산서 역발행 (TX-08)", isAuthor: true, successionYn: false, successionDate: "" },
         { payeeId: "PY-9010", name: "(주)안전교육파트너스", role: "공동서명 후보 소속사", entityType: "법인 일반과세자 (119-86-11203)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [

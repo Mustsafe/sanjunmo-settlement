@@ -674,7 +674,7 @@ code, pre, kbd, samp,
         lecture_id: "LSN-1001-01",
         mapping_status: "VALID_100_PERCENT (판매 허용)",
         shares: [
-          { rights_holder_id: "RH-0025 (정종대)", contract_id: "CT-2026-0501 (CON-2026-001)", share_ratio: 70.00, end_basis: "CONTRACT_LINKED" },
+          { rights_holder_id: "RH-0025 (정종대)", contract_id: "CT-2026-0501", share_ratio: 70.00, end_basis: "CONTRACT_LINKED" },
           { rights_holder_id: "RH-INTERNAL (엘캠퍼스)", contract_id: "CT-INTERNAL-000", share_ratio: 30.00, end_basis: "CONTRACT_LINKED" }
         ]
       }
@@ -1129,7 +1129,7 @@ code, pre, kbd, samp,
 
   // 운영자 접근 · 권한 · 다운로드 로그 (구 ADMN-CONF-006)
   const ACCESS_LOGS = [
-    { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CON-2026-001) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
+    { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CT-2026-0501) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
     { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
     { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정산서 열람', detail: '[BK-2026-101 / BOOK-2601] 산업안전기사 필기 한권완성 도서 인세 정산서 PDF 다운로드', ip: '58.120.89.11' },
     { id: 'AUD-9918', dt: '2026-10-18 14:12', actor: 'admin_white (최고 관리자)', type: '파트너 권한 분리 설정', detail: '한출판 계정에 ROLE_PARTNER_COPYRIGHT(교재 저작권자 전용) 권한 및 도서 스코프 부여', ip: '211.45.120.10' }

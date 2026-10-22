@@ -1215,9 +1215,9 @@ code, pre, kbd, samp,
                   <td><strong>정종대 (개인사업자)</strong><br><span class="mono">면세사업자 (TX-08)</span></td>
                   <td>역발행 전자계산서 (면세)</td>
                   <td>채널 A (팝빌 연동 API)</td>
-                  <td class="num">5,915,000원</td>
+                  <td class="num">7,393,750원</td>
                   <td class="num">0원</td>
-                  <td class="num"><strong>5,915,000원</strong></td>
+                  <td class="num"><strong>7,393,750원</strong></td>
                   <td>2026-11-10 기한</td>
                   <td><span class="badge badge-success">권리자 역발행 서명 완료</span></td>
                 </tr>
@@ -1447,7 +1447,7 @@ code, pre, kbd, samp,
       {
         id: "STMT-02",
         refOriginStmtId: "STMT-202609-008",
-        payeeId: "RH-0019",
+        payeeId: "RH-0012",
         payeeName: "산준교육 주식회사 (법인 · 일반과세)",
         contractId: "CT-2026-0412",
         matrixCase: "법인 일반과세자 세금계산서 역발행 (TX-07)",
@@ -1479,7 +1479,7 @@ code, pre, kbd, samp,
       {
         id: "STMT-03",
         refOriginStmtId: "STMT-202609-031",
-        payeeId: "RH-0031",
+        payeeId: "RH-0051",
         payeeName: "한국소방학회 (위탁 출판사)",
         contractId: "CT-2026-0801",
         matrixCase: "도서 재화 공급 면세 계산서 수취 + 위탁수수료 과세 (TX-11)",
@@ -1512,7 +1512,7 @@ code, pre, kbd, samp,
       {
         id: "STMT-04",
         refOriginStmtId: "STMT-202610-001",
-        payeeId: "RH-0040",
+        payeeId: "RH-0042",
         payeeName: "최그래픽 (프리랜서 기여자)",
         contractId: "CT-2026-0702",
         matrixCase: "개인 프리랜서 사업소득 원천징수 3.3% (TX-02)",
@@ -1930,8 +1930,8 @@ code, pre, kbd, samp,
             <label style="font-size:12px; font-weight:700; color:#334155;">조회 대상 수취인:</label>
             <select id="selP1Holder" class="select" style="min-width:290px;" onchange="renderCarryoverModalP1()">
               <option value="ALL">전체 수취인 (당월 이월 발생·해소 전 건)</option>
-              <option value="PY-0025-A">정종대 (PY-0025-A · 강좌+도서인세+지원금+선급금 상계)</option>
-              <option value="PY-0025-B">(주)산준교육 에이전시 (PY-0025-B · 2계층 분할 20%)</option>
+              <option value="PY-0025">정종대 (PY-0025 · 강좌+도서인세+지원금+선급금 상계)</option>
+              <option value="PY-0019">산준교육 주식회사 (PY-0019 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
               <option value="PY-0031">한국소방학회 (PY-0031 · 위탁 도서 Pipeline 2.2)</option>
               <option value="PY-0042">최그래픽 (PY-0042 · 기타소득 C19 + 전월 세후이월 합산)</option>
               <option value="PY-0055">이중도 (PY-0055 · 중도해지 미상계 선급금 강제청구)</option>
@@ -2019,8 +2019,8 @@ code, pre, kbd, samp,
       <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
         <label style="font-size:12px; color:#cbd5e1; font-weight:600;">수취인 선택 (메인 목록 동기화):</label>
         <select id="selS1Holder" class="select" style="background:#1e293b; color:#fff; border-color:#475569; min-width:300px;" onchange="renderStatementModalS1()">
-          <option value="PY-0025-A">정종대 (PY-0025-A · 강좌+도서인세+지원금+선급금+이월)</option>
-          <option value="PY-0025-B">(주)산준교육 에이전시 (PY-0025-B · 2계층 분할 20% + 선급금)</option>
+          <option value="PY-0025">정종대 (PY-0025 · 강좌+도서인세+지원금+선급금+이월)</option>
+          <option value="PY-0019">산준교육 주식회사 (PY-0019 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
           <option value="PY-0031">한국소방학회 (PY-0031 · 위탁 도서 Pipeline 2.2)</option>
           <option value="PY-0042">최그래픽 (PY-0042 · 기타소득 C19 + 세후이월 합산)</option>
           <option value="PY-0055">이중도 (PY-0055 · 중도해지 미상계 선급금 강제청구 + MMG 보호)</option>
@@ -2145,8 +2145,8 @@ code, pre, kbd, samp,
         <div id="s2OperatorHolderSelectWrap" style="display:flex; align-items:center; gap:8px;">
           <label style="font-size:12px; color:#cbd5e1; font-weight:600;">발송 대상 권리자 선택:</label>
           <select id="selS2Holder" class="select" style="background:#0f172a; color:#fff; border-color:#475569; min-width:270px;" onchange="renderStatementModalS2()">
-            <option value="PY-0025-A">정종대 강사/저자 (PY-0025-A · 강좌+인세+지원금+선급금)</option>
-            <option value="PY-0025-B">(주)산준교육 에이전시 (PY-0025-B · 2계층 분할 20%)</option>
+            <option value="PY-0025">정종대 강사/저자 (PY-0025 · 강좌+인세+지원금+선급금)</option>
+            <option value="PY-0019">산준교육 주식회사 (PY-0019 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
             <option value="PY-0031">한국소방학회 (PY-0031 · 위탁 도서 정산서)</option>
             <option value="PY-0042">최그래픽 작가 (PY-0042 · 기타소득 C19 정산서)</option>
             <option value="PY-0055">이중도 강사 (PY-0055 · 해지 정산 및 MMG 보장)</option>
@@ -2154,7 +2154,7 @@ code, pre, kbd, samp,
         </div>
         <!-- 파트너 로그인 세션일 때 노출되는 본인 계정 고정 배지 및 로그아웃 버튼 -->
         <div id="s2PartnerSessionBar" style="display:none; align-items:center; gap:8px;">
-          <span class="badge badge-primary" id="s2PartnerSessionLabel">👤 파트너 로그인: 정종대 (Data Scope: PY-0025-A 격리)</span>
+          <span class="badge badge-primary" id="s2PartnerSessionLabel">👤 파트너 로그인: 정종대 (Data Scope: PY-0025 격리)</span>
           <a href="ADMN-LOGIN-001_baseline.html" class="btn btn-sm" style="background:#334155; color:#fff; border:none; text-decoration:none;">로그아웃</a>
         </div>
         <button type="button" id="btnS2CloseModal" class="btn btn-sm" style="background:rgba(255,255,255,0.14); color:#fff; border:none;" onclick="closeStatementModalS2()">✕ 닫기</button>
@@ -2229,14 +2229,14 @@ code, pre, kbd, samp,
 <script>
   // === [통합 헬퍼] 메인 목록(state.selectedStmt / state.selectedId)과 모달 키를 100% 일치시키는 매퍼 ===
   function normalizePayeeKey(rawKey) {
-    if (!rawKey) return "PY-0025-A";
+    if (!rawKey) return "PY-0025";
     const k = String(rawKey).trim();
-    if (k === "RH-0025" || k === "STMT-202610-01" || k === "STMT-01" || k === "PY-0025-A") return "PY-0025-A";
-    if (k === "RH-0019" || k === "STMT-202610-02" || k === "STMT-02" || k === "PY-0025-B") return "PY-0025-B";
-    if (k === "RH-0031" || k === "STMT-202610-03" || k === "STMT-03" || k === "PY-0031") return "PY-0031";
-    if (k === "RH-0040" || k === "RH-0042" || k === "STMT-202610-04" || k === "STMT-04" || k === "PY-0042") return "PY-0042";
-    if (k === "RH-0015" || k === "RH-0044" || k === "RH-0055" || k === "STMT-202610-05" || k === "STMT-05" || k === "PY-0055") return "PY-0055";
-    return window.S1_STATEMENT_CASES && window.S1_STATEMENT_CASES[k] ? k : "PY-0025-A";
+    if (k === "RH-0025" || k === "STMT-202610-01" || k === "STMT-01" || k === "PY-0025") return "PY-0025";
+    if (k === "RH-0012" || k === "STMT-202610-02" || k === "STMT-02" || k === "PY-0019") return "PY-0019";
+    if (k === "RH-0051" || k === "STMT-202610-03" || k === "STMT-03" || k === "PY-0031") return "PY-0031";
+    if (k === "RH-0042" || k === "STMT-202610-04" || k === "STMT-04" || k === "PY-0042") return "PY-0042";
+    if (k === "RH-0015" || k === "RH-0055" || k === "STMT-202610-05" || k === "STMT-05" || k === "PY-0055") return "PY-0055";
+    return window.S1_STATEMENT_CASES && window.S1_STATEMENT_CASES[k] ? k : "PY-0025";
   }
 
   function getSelectedPayeeKey() {
@@ -2250,16 +2250,16 @@ code, pre, kbd, samp,
         return normalizePayeeKey(state.selectedId);
       }
     }
-    return "PY-0025-A";
+    return "PY-0025";
   }
 
   // === [Step 1 정합화] 이월 원장 데이터셋 (메인 목록 5명 + 누적 이월 이력 100% 동기화) ===
   window.CARRYOVER_LEDGER_P1 = [
     {
       ledgerId: "CL-202609-001",
-      holderId: "PY-0025-A",
-      holderName: "정종대 (주권리자 80%)",
-      contractId: "CON-2026-001 (산업안전 통합계약)",
+      holderId: "PY-0025",
+      holderName: "정종대 (원 권리자 100%)",
+      contractId: "CT-2026-0501 (산업안전 통합계약)",
       originMonth: "2026-09",
       pipeline: "Pipeline 1.1 (온라인 강좌 수익배분)",
       accountType: "PRE_TAX",
@@ -2278,9 +2278,9 @@ code, pre, kbd, samp,
     },
     {
       ledgerId: "CL-202608-009",
-      holderId: "PY-0025-A",
-      holderName: "정종대 (주권리자 80%)",
-      contractId: "CON-2026-001 (산업안전 통합계약)",
+      holderId: "PY-0025",
+      holderName: "정종대 (원 권리자 100%)",
+      contractId: "CT-2026-0501 (산업안전 통합계약)",
       originMonth: "2026-08",
       pipeline: "Pipeline 2.1 (자사 발행 도서 인세)",
       accountType: "PRE_TAX",
@@ -2370,30 +2370,30 @@ code, pre, kbd, samp,
   window.isPartnerIsolatedSession = false;
 
   window.S1_STATEMENT_CASES = {
-    "PY-0025-A": {
-      holderId: "PY-0025-A",
-      holderName: "정종대 (주권리자 · 2계층 지분 80%)",
-      entityType: "개인 면세사업자 (수취인 분할 80% · 원천징수 3.3% + 계산서 역발행)",
+    "PY-0025": {
+      holderId: "PY-0025",
+      holderName: "정종대 (원 권리자 · 단독 100%)",
+      entityType: "개인 면세사업자 (단독 수취 · 원천징수 3.3% + 계산서 역발행)",
       taxCode: "TX-08 (면세사업자 원천징수 3.3% + 면세 계산서 역발행)",
       lockStatus: "READY (검증 통과 · 마감 가능)",
-      ssnMasked: "211-90-***** (주민 680412-1******)",
-      ssnRaw: "211-90-48291 (주민 680412-1482910)",
+      ssnMasked: "214-19-***** (주민 680412-1******)",
+      ssnRaw: "214-19-99881 (주민 680412-1482910)",
       bankMasked: "신한은행 110-428-****** (예금주: 정종대)",
       bankRaw: "신한은행 110-428-991024 (예금주: 정종대)",
-      contractSummary: "CON-2026-001 | 1계층 단독 100% → 2계층 정종대 80% / (주)산준교육 20%",
-      prepaySummary: "계약 전체 당월 상계 -1,500,000원 중 정종대(80%) 귀속분 -1,200,000원 (기말 잔액 2,000,000원)",
+      contractSummary: "CT-2026-0501 | 1계층 단독 100% · 수취인 분할 없음 (미상계 선급금 잔액이 있는 계약은 분할 불가)",
+      prepaySummary: "당월 상계 -1,500,000원 전액 원 권리자 귀속 (기초 잔액 3,500,000원 → 기말 잔액 2,000,000원)",
       limitsSummary: "최소지급 100,000원 / 최소청구 -100,000원",
       batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
       scores: {
         carryInPre: -120000,
         grossGenerated: 8420000,
         deductions: -906250,
-        taxBase: 5915000,
-        prepayAndPostCarry: -1200000,
-        taxAmount: -195190,
-        finalPayout: 4519810
+        taxBase: 7393750,
+        prepayAndPostCarry: -1500000,
+        taxAmount: -243990,
+        finalPayout: 5649760
       },
-      diffEquation: "8단계 수취인 분할(80%) 후 과세표준 5,915,000원(계산서 역발행 금액) − 선급금 상계(80% 귀속분) 1,200,000원 − 원천징수세액(3.3%) 195,190원 = 최종 실지급액 4,519,810원 (차액 1,395,190원 = 선급금 상계 + 원천세)",
+      diffEquation: "수취인 분할 없음(원 권리자 100%) — 과세표준 7,393,750원(계산서 역발행 금액) − 선급금 상계 1,500,000원 − 원천징수세액(3.3%) 243,990원 = 최종 실지급액 5,649,760원 (차액 1,743,990원 = 선급금 상계 + 원천세)",
       carryoverRows: [
         { type: "PRE_TAX (세전 음수이월)", origin: "2026-09", pipeline: "Pipeline 1.1 (강좌 수익배분)", opening: -120000, delta: 120000, stmtImpact: -120000, newAdd: 0, closing: 0, note: "9월 환불 초과 세전 음수이월(-120,000원) 당월 1단계 상쇄 완료" }
       ],
@@ -2408,11 +2408,10 @@ code, pre, kbd, samp,
         { type: "매출연동 개발지원금", capTotal: 10000000, usedBefore: 8930000, calcCurrent: 1170000, capApplied: 720000, offsetRule: "CONDITIONAL (상계 허용 · v4.0.0)", remainCap: 0, note: "4단계 옵션B 지원금 차감(-325,000원) 후 5단계 잔여 한도 캡 적용 확정액 720,000원" }
       ],
       prepayRows: [
-        { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 7393750, offsetApplied: -1500000, closingBal: 2000000, allocDetail: "계약 전체 상계 -1,500,000원 → 8단계 수취인 분할(80%) 적용 시 정종대 귀속 상계액 -1,200,000원" }
+        { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 7393750, offsetApplied: -1500000, closingBal: 2000000, allocDetail: "선급금 잔액이 있는 계약은 수취인 분할을 둘 수 없으므로 상계액 -1,500,000원 전액 원 권리자(정종대) 귀속" }
       ],
       payeeSplitRows: [
-        { payeeId: "PY-0025-A", name: "정종대 (주권리자 · 저자 겸 강사)", role: "주권리자 (계약 서명인)", ratio: "80.00%", preTaxSplit: 5915000, prepaySplit: -1200000, note: "본인 귀속 80% (과세표준 5,915,000원 / 선급금상계 -1,200,000원)" },
-        { payeeId: "PY-0025-B", name: "(주)산준교육 에이전시", role: "공동수취 에이전시 (계약 서명인)", ratio: "20.00%", preTaxSplit: 1478750, prepaySplit: -300000, note: "에이전시 귀속 20% (과세표준 1,478,750원 / 선급금상계 -300,000원)" }
+        { payeeId: "PY-0025", name: "정종대 (원 권리자 · 저자 겸 강사)", role: "원 권리자 (단독 수취)", ratio: "100.00%", preTaxSplit: 7393750, prepaySplit: -1500000, note: "분할 없음 — 미상계 선급금 잔액 계약 (과세표준 7,393,750원 / 선급금상계 -1,500,000원)" }
       ],
       waterfall: [
         { step: "1단계 (CARRY_IN)", title: "전월 세전 음수 이월금 상쇄", rule: "9월 수강환불 초과 세전 음수이월 -120,000원 반영", delta: -120000, bal: -120000 },
@@ -2422,61 +2421,65 @@ code, pre, kbd, samp,
         { step: "5단계 (SUPPORT_CAP)", title: "개발지원금 누적 한도 캡 통제", rule: "옵션 B 복원 반영 후 잔여 한도 내 통과 (초과 차감 0원)", delta: 0, bal: 7393750 },
         { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계 (계약 전체 -1,500,000원)", rule: "강좌(1.1)·도서(2.1)·상계허용 지원금(5.1) 비례 안분 상계", delta: -1500000, bal: 5893750 },
         { step: "7단계 (LUMPSUM_ADD)", title: "비정기 마일스톤 약정금 합산 (ADMN-INST-002)", rule: "당월 승인 건 없음 (0원)", delta: 0, bal: 5893750 },
-        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 (정종대 80.00% 귀속 확정)", rule: "과세표준 7,393,750×80%=5,915,000원 / 상계 후 잔액 5,893,750×80%=4,715,000원", delta: -1178750, bal: 4715000 },
-        { step: "9단계 (TAX)", title: "면세사업자 원천징수세액(3.3%) 산출 (TX-08)", rule: "과세표준 5,915,000원 기준 → 소득세 Floor(177,450) + 지방세 Floor(17,740) = -195,190원", delta: -195190, bal: 4519810 },
-        { step: "10단계 (CLAIM)", title: "최소지급 기준액(100,000원) 판정", rule: "4,519,810원 ≥ 100,000원 (정상 지급 적격)", delta: 0, bal: 4519810 },
-        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (펌뱅킹 이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 4,519,810원", delta: 0, bal: 4519810 }
+        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가 → 과세표준 7,393,750원 · 상계 후 잔액 5,893,750원 전액 정종대 귀속", delta: 0, bal: 5893750 },
+        { step: "9단계 (TAX)", title: "면세사업자 원천징수세액(3.3%) 산출 (TX-08)", rule: "과세표준 7,393,750원 기준 → 소득세 Floor(221,810) + 지방세 Floor(22,180) = -243,990원", delta: -243990, bal: 5649760 },
+        { step: "10단계 (CLAIM)", title: "최소지급 기준액(100,000원) 판정", rule: "5,649,760원 ≥ 100,000원 (정상 지급 적격)", delta: 0, bal: 5649760 },
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (펌뱅킹 이체 대기)", rule: "세후 이월(POST_TAX) 0원 합산 → 최종 5,649,760원", delta: 0, bal: 5649760 }
       ],
-      evidenceInfo: "복합 증빙(TX-08): [1] 면세 계산서 역발행 공급가액 5,915,000원 승인완료 + [2] 사업소득 원천징수(3.3%, 195,190원) 동시 수행 (채널 2 + 3-a)",
+      evidenceInfo: "복합 증빙(TX-08): [1] 면세 계산서 역발행 공급가액 7,393,750원 승인완료 + [2] 사업소득 원천징수(3.3%, 243,990원) 동시 수행 (채널 2 + 3-a)",
       auditMemos: [
-        "[2026-10-31 19:05] 재무팀 김회계: 정종대(80%) / 산준교육(20%) 2계층 분할 및 선급금 150만원 비례 상계 검증 완료."
+        "[2026-10-31 19:05] 재무팀 김회계: 정종대 단독 100% 귀속(미상계 선급금 계약 · 수취인 분할 차단) 및 선급금 150만원 상계 검증 완료."
       ]
     },
-    "PY-0025-B": {
-      holderId: "PY-0025-B",
-      holderName: "(주)산준교육 에이전시 (공동수취 20%)",
-      entityType: "법인사업자 (일반과세자 · 2계층 수취인 분할 20%)",
+    "PY-0019": {
+      holderId: "PY-0019",
+      holderName: "산준교육 주식회사 (법인 · 원 권리자 단독 100%)",
+      entityType: "법인사업자 (일반과세자 · 강좌 수익배분 + 지원금 종료 일시정산)",
       taxCode: "TX-07 (법인 일반과세 · 세금계산서 역발행 VAT 10% 별도)",
       lockStatus: "WAIT_APPROVAL (역발행 전자서명 대기)",
-      ssnMasked: "120-86-*****",
-      ssnRaw: "120-86-99381",
-      bankMasked: "우리은행 1005-501-****** (예금주: 주식회사산준교육)",
-      bankRaw: "우리은행 1005-501-772819 (예금주: 주식회사산준교육)",
-      contractSummary: "CON-2026-001 | 정종대 계약의 2계층 수취인 분할(Payee Split) 20.00% 귀속",
-      prepaySummary: "계약 전체 당월 상계 -1,500,000원 중 에이전시(20%) 귀속분 -300,000원",
+      ssnMasked: "120-88-*****",
+      ssnRaw: "120-88-00001",
+      bankMasked: "국민은행 042-81-******* (예금주: 산준교육(주))",
+      bankRaw: "국민은행 042-81-0039127 (예금주: 산준교육(주))",
+      contractSummary: "CT-2026-0412 | 1계층 단독 100% · 수취인 분할 없음 (미상계 선급금 잔액이 있는 계약은 분할 불가)",
+      prepaySummary: "당월 상계 -1,556,120원 전액 원 권리자 귀속 (기초 잔액 8,500,000원 → 기말 잔액 6,943,880원)",
       limitsSummary: "최소지급 100,000원 (VAT 포함 기준)",
       batchTimestamp: "2026-10-31 18:40:12 (Batch #202610-04)",
       scores: {
         carryInPre: 0,
-        grossGenerated: 1478750,
+        grossGenerated: 4800000,
         deductions: 0,
-        taxBase: 1478750,
-        prepayAndPostCarry: -300000,
-        taxAmount: 147875,
-        finalPayout: 1326625
+        taxBase: 4800000,
+        prepayAndPostCarry: -1556120,
+        taxAmount: 480000,
+        finalPayout: 3723880
       },
-      diffEquation: "8단계 2계층 분할(20%) 공급가액(과세표준) 1,478,750원 + 부가가치세(10%) 147,875원(세금계산서 합계 1,626,625원) − 선급금 상계(20% 귀속분) 300,000원 = 최종 실지급액 1,326,625원",
+      diffEquation: "공급가액(과세표준) 4,800,000원(강좌 수익배분 3,000,000원 + 지원금 종료 일시정산 1,800,000원) + 부가가치세(10%) 480,000원(세금계산서 합계 5,280,000원) − 선급금 상계 1,556,120원 = 최종 실지급액 3,723,880원",
       carryoverRows: [],
       lectureRows: [
-        { prodCode: "CON-2026-001-SPLIT", prodName: "[2계층 수취인 분할] 정종대 통합계약 정산금 중 에이전시 20.00% 분할 귀속분", pkgType: "2계층 Payee Split (20%)", count: 143, allocBase: "7,393,750.0000", shareRatio: "20.00%", rsRate: "100.00%", refundDeduct: 0, calcRaw: "1,478,750.0000", finalFloor: 1478750 }
+        { prodCode: "CT-2026-0412-LEC", prodName: "[법인 계약] 산업안전 온라인 강좌 수익배분 합계", pkgType: "단과 직접결제", count: 60, allocBase: "6,000,000.0000", shareRatio: "100.00%", rsRate: "50.00%", refundDeduct: 0, calcRaw: "3,000,000.0000", finalFloor: 3000000 }
       ],
       bookRows: [],
-      supportRows: [],
+      supportRows: [
+        { type: "지원금 종료 일시정산 (7단계 LUMPSUM_ADD · ADMN-INST-002 MS-2026-006)", capTotal: 1800000, usedBefore: 0, calcCurrent: 1800000, capApplied: 1800000, offsetRule: "CONDITIONAL (상계 허용)", remainCap: 0, note: "지원금 약정 종료에 따른 일시정산액 당월 7단계 인입" }
+      ],
       prepayRows: [
-        { prepayId: "PP-2026-001", totalLoan: 5000000, openingBal: 3500000, eligiblePreTax: 1478750, offsetApplied: -300000, closingBal: 2000000, allocDetail: "계약 전체 상계액(-1,500,000원) 중 2계층 지분율(20%) 비례 귀속분 -300,000원 차감" }
+        { prepayId: "PP-2026-0412", totalLoan: 8500000, openingBal: 8500000, eligiblePreTax: 3000000, offsetApplied: -1556120, closingBal: 6943880, allocDetail: "수취인 분할 없음 — 상계액 -1,556,120원 전액 원 권리자(산준교육) 귀속" }
       ],
       payeeSplitRows: [
-        { payeeId: "PY-0025-A", name: "정종대 (주권리자)", role: "주권리자", ratio: "80.00%", preTaxSplit: 5915000, prepaySplit: -1200000, note: "주권리자 80% 귀속" },
-        { payeeId: "PY-0025-B", name: "(주)산준교육 에이전시", role: "공동수취 에이전시", ratio: "20.00%", preTaxSplit: 1478750, prepaySplit: -300000, note: "본 에이전시 20% 귀속" }
+        { payeeId: "PY-0019", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -1556120, note: "분할 없음 — 미상계 선급금 잔액 계약" }
       ],
       waterfall: [
-        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할(20.00%) 귀속액 확정", rule: "계약 순정산액 7,393,750원 × 20% = 과세표준 1,478,750원 (선급금상계 20% = -300,000원)", delta: 1178750, bal: 1178750 },
-        { step: "9단계 (TAX)", title: "법인 일반과세 부가가치세(10%) 가산 (TX-07)", rule: "공급가액 1,478,750원 × 10% = +147,875원 (원천징수 비대상)", delta: 147875, bal: 1326625 },
-        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (역발행 승인 대기)", rule: "공급대가 1,626,625원 − 선급금 상계 300,000원 = 1,326,625원", delta: 0, bal: 1326625 }
+        { step: "2단계 (ACCRUAL)", title: "당월 강좌(1.1) 수익배분 발생", rule: "법인 계약 강좌 수익배분 3,000,000원", delta: 3000000, bal: 3000000 },
+        { step: "6단계 (PREPAY_OFFSET)", title: "선급금 자동 상계", rule: "상계 적격 세전액 3,000,000원 중 -1,556,120원 회수 (기말 잔액 6,943,880원)", delta: -1556120, bal: 1443880 },
+        { step: "7단계 (LUMPSUM_ADD)", title: "지원금 종료 일시정산 합산 (ADMN-INST-002)", rule: "MS-2026-006 지원금 종료 일시정산 +1,800,000원", delta: 1800000, bal: 3243880 },
+        { step: "8단계 (PAYEE_SPLIT)", title: "2계층 수취인 분할 없음 (원 권리자 100.00% 단독 귀속)", rule: "미상계 선급금 잔액이 있는 계약은 분할 불가", delta: 0, bal: 3243880 },
+        { step: "9단계 (TAX)", title: "법인 일반과세 부가가치세(10%) 가산 (TX-07)", rule: "공급가액 4,800,000원 × 10% = +480,000원 (원천징수 비대상)", delta: 480000, bal: 3723880 },
+        { step: "11단계 (PAYOUT)", title: "최종 실지급액 확정 (역발행 승인 대기)", rule: "공급대가 5,280,000원 − 선급금 상계 1,556,120원 = 3,723,880원", delta: 0, bal: 3723880 }
       ],
-      evidenceInfo: "전자세금계산서 역발행(TX-07): 공급가액 1,478,750원 / 부가세 147,875원 (합계 1,626,625원) — 현재 수취인 역발행 전자서명 대기 중",
+      evidenceInfo: "전자세금계산서 역발행(TX-07): 공급가액 4,800,000원 / 부가세 480,000원 (합계 5,280,000원) — 현재 수취인 역발행 전자서명 대기 중",
       auditMemos: [
-        "[2026-10-31 19:10] 재무팀 박세무: (주)산준교육 역발행 세금계산서 승인 리마인드 알림톡 발송 완료."
+        "[2026-10-31 19:10] 재무팀 박세무: 산준교육(주) 역발행 세금계산서 승인 리마인드 알림톡 발송 완료."
       ]
     },
     "PY-0031": {
@@ -2485,8 +2488,8 @@ code, pre, kbd, samp,
       entityType: "법인 면세사업자 (위탁자 CONSIGNOR · 도서 위탁 판매)",
       taxCode: "TX-11 / TX-12 (위탁 도서 면세 계산서 수취 + 위탁수수료 과세 세금계산서 매출발행)",
       lockStatus: "READY (위탁 대사 완료)",
-      ssnMasked: "108-82-*****",
-      ssnRaw: "108-82-49102",
+      ssnMasked: "110-82-*****",
+      ssnRaw: "110-82-04912",
       bankMasked: "기업은행 012-098412-**-*** (예금주: 사단법인한국소방학회)",
       bankRaw: "기업은행 012-098412-01-019 (예금주: 사단법인한국소방학회)",
       contractSummary: "CON-2026-014 | 위탁 도서(위탁도서 정산) 수수료 차감지급(NET_DEDUCT, 수수료율 30% VAT포함)",
@@ -2825,7 +2828,7 @@ code, pre, kbd, samp,
 
   function renderStatementModalS1() {
     const holderId = normalizePayeeKey(document.getElementById("selS1Holder").value);
-    const c = window.S1_STATEMENT_CASES[holderId] || window.S1_STATEMENT_CASES["PY-0025-A"];
+    const c = window.S1_STATEMENT_CASES[holderId] || window.S1_STATEMENT_CASES["PY-0025"];
     const showAll = document.getElementById("chkS1ShowAllTables").checked;
     const fmt = (n) => (n >= 0 ? n.toLocaleString("ko-KR") : "-" + Math.abs(n).toLocaleString("ko-KR")) + "원";
 
@@ -3214,7 +3217,7 @@ code, pre, kbd, samp,
 
   function renderStatementModalS2() {
     const holderId = normalizePayeeKey(document.getElementById("selS2Holder").value);
-    const c = window.S1_STATEMENT_CASES[holderId] || window.S1_STATEMENT_CASES["PY-0025-A"];
+    const c = window.S1_STATEMENT_CASES[holderId] || window.S1_STATEMENT_CASES["PY-0025"];
     const sc = c.scores;
     const fmt = (n) => (n >= 0 ? n.toLocaleString("ko-KR") : "-" + Math.abs(n).toLocaleString("ko-KR")) + "원";
 
@@ -3456,7 +3459,7 @@ code, pre, kbd, samp,
   window.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
     const v = params.get("view");
-    const holder = normalizePayeeKey(params.get("holder") || "PY-0025-A");
+    const holder = normalizePayeeKey(params.get("holder") || "PY-0025");
 
     if (v === "partner-stmt") {
       window.isPartnerIsolatedSession = true;
