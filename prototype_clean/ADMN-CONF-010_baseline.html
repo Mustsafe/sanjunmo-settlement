@@ -571,13 +571,13 @@ code, pre, kbd, samp,
       screenCode: "ADMN-SETT-002",
       screenFile: "ADMN-SETT-002_baseline.html",
       eventName: "지원금 약정 상태 전이 (COMPLETED → ACTIVE) 및 한도 복원 ",
-      targetId: "SUP-2026-009 (정종대 · RH-0025)",
+      targetId: "SFA-2026-009 (정종대 · RH-0025)",
       reason: "차월 환불(-75,000원) 발생 및 한도 복원 옵션(cap_restore_on_refund = true)에 따른 잔여 한도 복원 및 약정 상태 ACTIVE 자동 복귀",
       actor: "SYSTEM_BATCH (박정산 실행)",
       ip: "10.20.14.88",
       hash: "SHA256:9f84c2e18b71a032c19e44d1a47b09d2",
       beforeJson: {
-        agreement_id: "SUP-2026-009",
+        agreement_id: "SFA-2026-009",
         cap_type: "CAPPED (한도형)",
         total_cap_amount: 3000000,
         cumulative_used: 3000000,
@@ -585,7 +585,7 @@ code, pre, kbd, samp,
         status: "COMPLETED (한도소진종료)"
       },
       afterJson: {
-        agreement_id: "SUP-2026-009",
+        agreement_id: "SFA-2026-009",
         cap_type: "CAPPED (한도형)",
         total_cap_amount: 3000000,
         refund_deduct_amount: -75000,
@@ -777,13 +777,13 @@ code, pre, kbd, samp,
       screenCode: "ADMN-SETT-005",
       screenFile: "ADMN-SETT-005_baseline.html",
       eventName: "계약 중도해지 지원금 이행률 정산(PRO_RATA) 수동 조정 승인",
-      targetId: "ADJ-202610-04 (산준교육 주식회사 · SUP-2026-003)",
+      targetId: "ADJ-202610-04 (산준교육 주식회사 · SFA-2026-003)",
       reason: "완강 목표 50강 중 32강 검수 완료(이행률 64.0%) 기준으로 비례 인정액 3,200,000원 산출 후 기지급 차액 +640,000원 당월 반영 승인",
       actor: "최재무 (2차 승인 완료)",
       ip: "10.20.11.05",
       hash: "SHA256:6c19d820a3310f44b71829ec0019a215",
       beforeJson: {
-        agreement_id: "SUP-2026-003",
+        agreement_id: "SFA-2026-003",
         on_termination_policy: "PRO_RATA (이행률 정산)",
         paid_cumulative: 2560000,
         status: "TERMINATED_PENDING_SETTLE"
@@ -910,7 +910,7 @@ code, pre, kbd, samp,
         book_supply_type: "OWN_PUBLISHED (자사 발행)",
         own_copyright_yn: true,
         royalty_bypass: true,
-        pipeline_5_1_agreement: "SUP-2026-009 (15% · CONDITIONAL)"
+        pipeline_5_1_agreement: "SFA-2026-009 (15% · CONDITIONAL)"
       }
     }
   ];

@@ -163,7 +163,7 @@
     { id: "RH-0047", name: "박보건 강사", contracts: [{ no: "CT-2024-1101", types: ["강의 수익배분"] }] },
     { id: "RH-0048", name: "최지도 강사 · 저자", contracts: [{ no: "CT-2026-0405", types: ["교재 인세", "강의 수익배분"] }] },
     { id: "RH-0042", name: "최그래픽 (기여자)", contracts: [{ no: "CT-2026-0702", types: ["개발지원금", "공동제작"] }] },
-    { id: "RH-0044", name: "한국안전출판 위탁상사", contracts: [{ no: "CT-2026-0705", types: ["도서 위탁"] }] },
+    { id: "RH-0044", name: "안전기술출판 (위탁사)", contracts: [{ no: "CT-2026-0705", types: ["도서 위탁"] }] },
     { id: "RH-0051", name: "사단법인 한국소방학회", contracts: [{ no: "CT-2026-0801", types: ["도서 위탁"] }] },
     { id: "RH-0063", name: "한도해 작가", contracts: [{ no: "CT-2026-0919", types: ["일시 용역 (삽화 · 자문)"] }] },
     { id: "RH-0088", name: "최신규 강사 (신규 영입)", contracts: [{ no: "CT-2026-NEW", types: ["강의 수익배분", "개발지원금"] }] }

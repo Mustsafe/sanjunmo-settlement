@@ -828,7 +828,7 @@ code, pre, kbd, samp,
             <div class="row c3">
               <div>
                 <label class="lbl" for="supportAgreement">지원금 약정 식별자</label>
-                <input class="fc" id="supportAgreement" value="SUP-2026-001" readonly="" data-field="">
+                <input class="fc" id="supportAgreement" value="SFA-2026-001" readonly="" data-field="">
               </div>
               <div>
                 <label class="lbl" for="supportMethod">지급 방식 (payment_method)</label>
@@ -1337,7 +1337,7 @@ const state = {
   rates:[
     {id:"RATE-B-001",type:"BASIC",agreement:null,start:"2024-10-15",end:"2026-09-30",rate:30,basis:"REVENUE",mmg:0,reason:"기존 확정 조건",locked:true},
     {id:"RATE-B-002",type:"BASIC",agreement:null,start:"2026-10-01",end:"",rate:35,basis:"REVENUE",mmg:0,reason:"차기 적용 조건",locked:false},
-    {id:"RATE-S-001",type:"SUPPORT",agreement:"SUP-2026-001",start:"2026-10-01",end:"",rate:15,basis:"REVENUE",mmg:0,reason:"개발지원금 약정",locked:false}
+    {id:"RATE-S-001",type:"SUPPORT",agreement:"SFA-2026-001",start:"2026-10-01",end:"",rate:15,basis:"REVENUE",mmg:0,reason:"개발지원금 약정",locked:false}
   ],
   books:[
     {id:"BC-001",code:"BK-REQ-2026-0001",title:"산업안전 핵심 이론 교재",expected:"2026-10-20",sku:"PROD-BK-1001",rate:10,basis:"LIST_PRICE",locked:false},
@@ -2631,7 +2631,7 @@ const contractCatalog = [
   {
     id:"CT-2026-0705",
     holderId:"RH-0044",
-    holderName:"한국안전출판 위탁상사",
+    holderName:"안전기술출판 (위탁사)",
     partyType:"BUSINESS",
     bizType:"CORP",
     rep:"박위탁",
@@ -2648,7 +2648,7 @@ const contractCatalog = [
     supportOffset:"NON_OFFSET",
     advanceBalance:0,
     alertType:"ALERT",
-    summaryNote:"만료 27일 전(만료 임박 알림 대상) · 위탁 수수료 25%"
+    summaryNote:"만료 27일 전(만료 임박 알림 대상) · 위탁 공급률 65%(수수료 35%)"
   },
   {
     id:"CT-2026-0715",
@@ -2692,7 +2692,7 @@ const contractCatalog = [
     supportOffset:"CONDITIONAL",
     advanceBalance:0,
     alertType:"OK",
-    summaryNote:"외부 기여자 · 매출연동 개발지원금 무한도형(SUP-2026-012)"
+    summaryNote:"외부 기여자 · 매출연동 개발지원금 무한도형(SFA-2026-012)"
   },
   {
     id:"CT-2025-1102",
