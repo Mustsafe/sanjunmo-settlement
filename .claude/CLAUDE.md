@@ -62,7 +62,7 @@
 - E2E(폴더별 2회, UTF-8 출력):
   - `PYTHONIOENCODING=utf-8 python scripts/qa/skill_playwright_e2e.py prototype`
   - `PYTHONIOENCODING=utf-8 python scripts/qa/skill_playwright_e2e.py prototype_clean`
-- 기준선: 양쪽 38/38 PASS, 콘솔 에러 0건.
+- 기준선: 양쪽 39/39 PASS, 콘솔 에러 0건.
 - 그 밖의 QA 도구(정적 문법 검사·금지어·화면 간 데이터 대조·괄호 중복 스캔)는 `PROJECT_STATE.md` 2절. 기준선: 정적 문법 오류·에셋 경고 0건, 데이터 대조 오류 0건.
 
 ## 커밋 규칙

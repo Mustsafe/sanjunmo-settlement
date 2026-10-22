@@ -120,6 +120,7 @@ code, pre, kbd, samp,
 
   </style>
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 <body>
@@ -130,7 +131,7 @@ code, pre, kbd, samp,
       <div class="crumb-wrap">
         <span class="crumb-code" id="top-crumb-code">ADMN-SETT-011</span>
         <h1 class="crumb-title">물류비 대사 (3PL)</h1>
-        <span class="crumb-sub">월간 정산 · 지급 · 조회 &gt; 물류비 대사 (3PL) · 3PL 파트너: CJ대한통운 파주 물류센터</span>
+        <span class="crumb-sub">월간 정산 · 지급 · 조회 &gt; 물류비 대사 (3PL) · 3PL 파트너: <span id="tpl-partner"></span></span>
       </div>
       <a class="btn btn-outline btn-sm" href="ADMN-ORD-001_baseline.html">주문 · 배송 · 3PL 관리 →</a>
     </header>
@@ -158,6 +159,7 @@ code, pre, kbd, samp,
           <button type="button" class="btn btn-primary" id="btn-run" onclick="runRecon()">대사 실행</button>
         </div>
         <div style="width:100%; font-size:11.5px; color:var(--text-muted);" id="run-meta"></div>
+        <div style="width:100%; font-size:12px; color:var(--text-sub);" id="tpl-terms"></div>
       </div>
 
       <div class="tabs">
@@ -410,12 +412,12 @@ code, pre, kbd, samp,
           { order: 'SJM-20260921-004418 · 박*현', dbReason: '단순 변심', plReason: '파손 회수', deduct: 6000, judge: '', memo: '' }
         ],
         books: [
-          { no: 1, title: '산업안전기사 필기 핵심요약 (BK-2026-201)', supplier: '예문사', qty: 800, cost: 17500, invoice: 14000000, state: 'DONE' },
-          { no: 2, title: '산업안전기사 실기 필답형 문제집 (BK-2026-202)', supplier: '예문사', qty: 600, cost: 18200, invoice: 10920000, state: 'DONE' },
-          { no: 3, title: '산업안전기사 작업형 실전 (BK-2026-203)', supplier: '구민사', qty: 300, cost: 16800, invoice: 4957200, state: 'MISMATCH' },
-          { no: 4, title: '산업안전기사 필기 빈출문제집 (BK-2026-204)', supplier: '성안당', qty: 200, cost: 15000, invoice: 3150000, state: 'REQUESTED' },
-          { no: 5, title: '산업안전 법령집 2026 (BK-2026-205)', supplier: '예문사', qty: 100, cost: 12000, invoice: null, state: 'NONE' },
-          { no: 6, title: '건설안전기사 실기 작업형 워크북 (BK-2026-206)', supplier: '(주)한빛도서유통', qty: 120, cost: 14500, invoice: null, state: 'NONE', closed: '2026.05.31' }
+          { no: 1, title: '산업안전기사 필기 핵심요약 (BK-2026-201)', supplier: 'SUP-0004', qty: 800, cost: 17500, invoice: 14000000, state: 'DONE' },
+          { no: 2, title: '산업안전기사 실기 필답형 문제집 (BK-2026-202)', supplier: 'SUP-0004', qty: 600, cost: 18200, invoice: 10920000, state: 'DONE' },
+          { no: 3, title: '산업안전기사 작업형 실전 (BK-2026-203)', supplier: 'SUP-0005', qty: 300, cost: 16800, invoice: 4957200, state: 'MISMATCH' },
+          { no: 4, title: '산업안전기사 필기 빈출문제집 (BK-2026-204)', supplier: 'SUP-0006', qty: 200, cost: 15000, invoice: 3150000, state: 'REQUESTED' },
+          { no: 5, title: '산업안전 법령집 2026 (BK-2026-205)', supplier: 'SUP-0004', qty: 100, cost: 12000, invoice: null, state: 'NONE' },
+          { no: 6, title: '건설안전기사 실기 작업형 워크북 (BK-2026-206)', supplier: 'SUP-0008', qty: 120, cost: 14500, invoice: null, state: 'NONE' }
         ]
       },
       '2026-10': null
@@ -445,7 +447,15 @@ code, pre, kbd, samp,
       document.getElementById('log-tbody').innerHTML = LOGS.map(l => `<tr><td>${l.dt}</td><td>${l.admin}</td><td>${l.text}</td></tr>`).join('');
     }
 
+    const M = window.SJM_MASTER;
+    const supName = id => M.vendors.name(id);
+    const supClosed = id => { const v = M.vendors.get(id); return v && v.status === '폐업' ? v.checkedAt : null; };
+
     function renderControl() {
+      // 3PL 파트너 · 계약 단가는 거래처 관리(물류 대행 양식)에서 읽는다
+      const tpls = M.vendors.byForm('LOGISTICS').filter(v => v.on);
+      document.getElementById('tpl-partner').innerHTML = tpls.length ? tpls.map(v => `<a href="ADMN-VEND-001_baseline.html?id=${v.id}">${v.name}</a>`).join(' · ') : '등록된 물류 대행사 없음';
+      document.getElementById('tpl-terms').innerHTML = tpls.map(v => `계약 단가(거래처 관리): 출고 건당 ${won(Number(v.terms.outFee))}원 · 반품 회수 ${won(Number(v.terms.returnFee))}원 · 보관 월 ${won(Number(v.terms.storage))}원 — 3PL 청구 단가가 이와 다르면 불일치로 봅니다.`).join('<br/>');
       const m = cur();
       const slot = document.getElementById('file-slot');
       slot.innerHTML = m ? `<span class="file-chip">📄 ${m.file.name} 🔒 · 업로드 ${m.file.at} · ${m.file.by} · 버전 ${m.file.version}</span>` : '<span class="file-chip" style="color:var(--text-muted);">아직 업로드된 명세서가 없습니다</span>';
@@ -547,13 +557,13 @@ code, pre, kbd, samp,
         const diff = b.invoice === null ? null : b.invoice - expected;
         let action = '—';
         if (b.state === 'MISMATCH') action = `<button type="button" class="btn btn-outline btn-sm" onclick="requestReissue(${b.no})">수정 계산서 요청</button>`;
-        else if (b.state === 'NONE' && !b.closed) action = `<button type="button" class="btn btn-outline btn-sm" onclick="receiveInvoice(${b.no})">수취 등록</button>`;
-        else if (b.closed) action = '<a class="btn btn-outline btn-sm" href="ADMN-SETT-008_baseline.html">폐업 확인 ↗</a>';
+        else if (b.state === 'NONE' && !supClosed(b.supplier)) action = `<button type="button" class="btn btn-outline btn-sm" onclick="receiveInvoice(${b.no})">수취 등록</button>`;
+        else if (supClosed(b.supplier)) action = '<a class="btn btn-outline btn-sm" href="ADMN-SETT-008_baseline.html">폐업 확인 ↗</a>';
         return `
           <tr>
             <td>${b.no}</td>
             <td><strong>${b.title}</strong></td>
-            <td>${b.supplier}${b.closed ? ' <span class="badge badge-red">폐업</span>' : ''}</td>
+            <td><a href="ADMN-VEND-001_baseline.html?id=${b.supplier}">${supName(b.supplier)}</a> <code>${b.supplier}</code>${supClosed(b.supplier) ? ' <span class="badge badge-red">폐업</span>' : ''}</td>
             <td class="num">${won(b.qty)}</td>
             <td class="num">${won(b.cost)}</td>
             <td class="num">${won(expected)}</td>
@@ -563,9 +573,9 @@ code, pre, kbd, samp,
             <td>${action}</td>
           </tr>`;
       }).join('') + `<tr class="total"><td></td><td>합계</td><td></td><td></td><td></td><td class="num">${won(base)}</td><td class="num">${won(inv)}</td><td></td><td colspan="2">미수취 ${m.books.filter(b => b.state === 'NONE').length}건 · 불일치 ${m.books.filter(b => b.state === 'MISMATCH').length}건 · 재요청 ${m.books.filter(b => b.state === 'REQUESTED').length}건</td></tr>`;
-      const closed = m.books.filter(b => b.closed);
+      const closed = m.books.filter(b => supClosed(b.supplier));
       box.style.display = closed.length ? 'block' : 'none';
-      box.innerHTML = closed.map(b => `⚠ <strong>${b.supplier}</strong> — 국세청 상태조회 결과 폐업(${b.closed}) · 신규 발주 차단. 미수취 계산서는 공급시기 · 폐업일 · 정정 사유로 수취 가능 여부를 먼저 판정하고, 수취가 불가할 때만 증빙불비 소명 대상(사업자등록 확인 이력)으로 넘깁니다.`).join('<br/>');
+      box.innerHTML = closed.map(b => `⚠ <strong>${supName(b.supplier)}</strong> — 국세청 상태조회 결과 폐업(확인 ${supClosed(b.supplier)}, 거래처 관리) · 신규 발주 차단. 미수취 계산서는 공급시기 · 폐업일 · 정정 사유로 수취 가능 여부를 먼저 판정하고, 수취가 불가할 때만 증빙불비 소명 대상(사업자등록 확인 이력)으로 넘깁니다.`).join('<br/>');
     }
 
     function renderComplete() {
@@ -694,16 +704,16 @@ code, pre, kbd, samp,
     function requestReissue(no) {
       const b = cur().books.find(x => x.no === no);
       b.state = 'REQUESTED';
-      addLog(`매입 계산서 금액 불일치 — ${b.supplier}에 ${b.title} 수정 계산서 요청 (재요청 중)`);
+      addLog(`매입 계산서 금액 불일치 — ${supName(b.supplier)}에 ${b.title} 수정 계산서 요청 (재요청 중)`);
       renderBooks();
-      showToast(`${b.supplier}에 수정 계산서 발행을 요청했습니다. 상태가 '재요청 중'으로 바뀌었습니다.`);
+      showToast(`${supName(b.supplier)}에 수정 계산서 발행을 요청했습니다. 상태가 '재요청 중'으로 바뀌었습니다.`);
     }
 
     function receiveInvoice(no) {
       const b = cur().books.find(x => x.no === no);
       b.invoice = b.qty * b.cost;
       b.state = 'DONE';
-      addLog(`매입 계산서 수취 등록 — ${b.supplier} ${b.title} ${won(b.invoice)}원 (면세 전자계산서)`);
+      addLog(`매입 계산서 수취 등록 — ${supName(b.supplier)} ${b.title} ${won(b.invoice)}원 (면세 전자계산서)`);
       renderBooks();
       showToast(`${b.title} 면세 전자계산서 수취를 등록했습니다.`);
     }

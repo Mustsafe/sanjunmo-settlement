@@ -104,11 +104,12 @@
       ]
     },
     {
-      title: "권리자 계약 · 지분 매핑",
+      title: "권리자 · 거래처 · 지분 매핑",
       items: [
         { code: "INST-001", label: "권리자 계약 원장", href: "ADMN-INST-001_baseline.html", screenCode: "ADMN-INST-001" },
         { code: "SETT-007", label: "수취인 분할 관리", href: "ADMN-SETT-007_baseline.html", screenCode: "ADMN-SETT-007" },
         { code: "BOOK-001", label: "도서 공급 원장", href: "ADMN-BOOK-001_baseline.html", screenCode: "ADMN-BOOK-001" },
+        { code: "VEND-001", label: "거래처 관리", href: "ADMN-VEND-001_baseline.html", screenCode: "ADMN-VEND-001" },
         { code: "SETT-001", label: "상품별 권리자 매핑", href: "ADMN-SETT-001_baseline.html", screenCode: "ADMN-SETT-001" }
       ]
     },
@@ -335,6 +336,7 @@
     ["ADMN-INST-001", "권리자 계약 원장"],
     ["ADMN-INST-002", "약정금 마일스톤 검수"],
     ["ADMN-BOOK-001", "도서 공급 원장"],
+    ["ADMN-VEND-001", "거래처 관리"],
     ["ADMN-ORD-001", "통합 주문 관리"],
     ["ADMN-ORD-002", "배송·3PL 관리"],
     ["ADMN-RFD-002", "환불 심사 관리"],

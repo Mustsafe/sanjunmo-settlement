@@ -4,6 +4,8 @@
  * 역할 그룹 · 1:1 문의 분류는 고정값이 아니라 운영 중 관리 화면에서 바뀌는 변수 데이터다.
  *   - 역할 그룹(권한 묶음)      : 운영자 권한 관리 (ADMN-CONF-005)
  *   - 1:1 문의 분류(라우팅)     : 1:1 문의 분류 관리 (ADMN-BRD-007)
+ *   - 거래처 · 거래처 유형      : 거래처 관리 (ADMN-VEND-001)
+ *   - 권리자 원장 요약(읽기 전용): 원천은 권리자 계약 원장 (ADMN-INST-001)
  * 아래 SEED는 최초 기본값일 뿐이다. 다른 화면은 이름을 직접 적지 말고 이 목록을 읽는다.
  * 프로토타입에서는 관리 화면에서 바꾼 값을 브라우저 localStorage에 저장해 다른 화면이 같은 값을 읽게 한다
  * (실서비스에서는 서버 기준정보 API가 이 역할을 한다).
@@ -47,6 +49,7 @@
     { key: "promo", label: "이벤트 · 쿠폰 · 포인트", screens: "PROM-001 · 002" },
     { key: "product", label: "상품 · 강좌 · 교재", screens: "PROD-001~007 · BOOK-001" },
     { key: "contract", label: "권리자 계약 · 지분 매핑", screens: "INST-001 · SETT-001 · 007" },
+    { key: "vendor", label: "거래처 관리", screens: "VEND-001" },
     { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 006 · 008 · INST-002" },
     { key: "settle", label: "월간 정산 · 지급 · 조회", screens: "SETT-002 · 005 · 009 · 011" },
     { key: "statement", label: "본인 정산서 확인 · 역발행 승인", screens: "SETT-002-S2" },
@@ -72,7 +75,7 @@
       perms: { dash: "R", order: "RW", shipout: "RWX", refund: "R", inquiry: "R", pqna: "RW", product: "R" } },
     { id: "RG-04", name: "재무팀", side: "INTERNAL", queue: true, on: true, order: 4,
       desc: "환불 승인 · 지급 · 정산 · 세무",
-      perms: { dash: "R", stat: "RX", user: "R", order: "R", refund: "RWX", product: "R", contract: "RWX", presettle: "RWX", settle: "RWX", privacy: "R" } },
+      perms: { dash: "R", stat: "RX", user: "R", order: "R", refund: "RWX", product: "R", contract: "RWX", vendor: "RWX", presettle: "RWX", settle: "RWX", privacy: "R" } },
     { id: "RG-05", name: "강사", side: "EXTERNAL", queue: true, on: true, order: 5,
       desc: "본인 강좌 학습 Q&A 답변 · 본인 정산서 확인",
       perms: { lqna: "RW", statement: "RW" } },
@@ -120,7 +123,47 @@
     { code: "VOC-ETC-03", major: "ETC", name: "기타 문의", screen: "ADMN-BRD-002", depts: ["RG-02"], on: false, order: 3 }
   ];
 
+  // 거래처 유형 최초값 — 권리자(계약 원장의 계약 당사자)가 아닌 거래 상대방의 분류. 공급 파트너가 늘면 거래처 관리에서 유형을 추가한다
+  // form: 거래 조건 입력 양식 — PURCHASE 매입(공급률 · 결제 조건) / LOGISTICS 물류 대행(건당 단가 · 회수 · 보관) / GENERAL 일반
+  var VENDOR_TYPE_SEED = [
+    { id: "VT-01", name: "도서 매입처", form: "PURCHASE", evidence: "전자계산서(면세)", on: true, order: 1 },
+    { id: "VT-02", name: "상품 매입처", form: "PURCHASE", evidence: "전자세금계산서(과세)", on: true, order: 2 },
+    { id: "VT-03", name: "물류 대행사(3PL)", form: "LOGISTICS", evidence: "전자세금계산서(과세)", on: true, order: 3 }
+  ];
+
+  // 거래처 최초값 — 화면들에 흩어져 있던 매입처 · 3PL을 한 원장으로 모은 것(코드 SUP-NNNN은 기존 화면 표기를 따름)
+  var VENDOR_SEED = [
+    { id: "SUP-0003", type: "VT-01", name: "한국자격교재총판", bizNo: "214-81-33201", ceo: "권총판", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { rate: "65", pay: "월말 마감 · 익월 10일 지급" }, contact: "02-555-1203", since: "2024-03-01" },
+    { id: "SUP-0004", type: "VT-01", name: "예문사", bizNo: "105-81-12345", ceo: "정예문", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { rate: "70", pay: "월말 마감 · 익월 10일 지급" }, contact: "02-701-4410", since: "2023-01-10" },
+    { id: "SUP-0005", type: "VT-01", name: "구민사", bizNo: "101-81-22987", ceo: "조구민", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { rate: "68", pay: "월말 마감 · 익월 15일 지급" }, contact: "02-333-1200", since: "2023-06-01" },
+    { id: "SUP-0006", type: "VT-01", name: "성안당", bizNo: "110-81-40018", ceo: "이성안", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { rate: "70", pay: "월말 마감 · 익월 10일 지급" }, contact: "031-950-6300", since: "2024-01-15" },
+    { id: "SUP-0008", type: "VT-01", name: "(주)한빛도서유통", bizNo: "124-86-77120", ceo: "한빛남", taxType: "일반과세", status: "폐업", checkedAt: "2026-06-01", on: false,
+      terms: { rate: "66", pay: "월말 마감 · 익월 10일 지급" }, contact: "031-221-0090", since: "2022-09-01" },
+    { id: "SUP-0007", type: "VT-02", name: "(주)세이프기프트", bizNo: "220-87-10293", ceo: "안세이", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { rate: "55", pay: "입고 후 30일" }, contact: "02-6010-7788", since: "2025-04-01" },
+    { id: "SUP-0012", type: "VT-02", name: "카시오코리아 공식총판", bizNo: "211-88-55031", ceo: "김카시", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { rate: "72", pay: "입고 후 45일" }, contact: "02-2222-3456", since: "2025-07-01" },
+    { id: "SUP-0020", type: "VT-03", name: "CJ대한통운 파주 물류센터", bizNo: "110-81-05034", ceo: "신물류", taxType: "일반과세", status: "계속", checkedAt: "2026-10-02", on: true,
+      terms: { outFee: "2000", returnFee: "4000", storage: "300000", cycle: "월 1회 (익월 초 명세서)" }, contact: "031-940-1100", since: "2025-11-01" }
+  ];
+
+  // 권리자 원장 요약 — 원천은 권리자 계약 원장(ADMN-INST-001). 외부 계정의 소속(본인 데이터 범위) 지정에 쓴다.
+  // 강사 · 저자 · 위탁사 같은 구분은 고정 분류가 아니라 계약 유형(정산 입력 구분)에서 나온다
+  var RIGHTS_HOLDER_SEED = [
+    { id: "RH-0012", name: "산준교육 콘텐츠 주식회사", contracts: [{ no: "CT-2026-0412", types: ["강의 수익배분", "교재 인세", "개발지원금"] }] },
+    { id: "RH-0025", name: "정종대 강사 (정종대 안전연구소)", contracts: [{ no: "CT-2026-0501", types: ["강의 수익배분", "개발지원금"] }] },
+    { id: "RH-0031", name: "이안전 저자", contracts: [{ no: "CT-2026-0610", types: ["교재 인세"] }] },
+    { id: "RH-0044", name: "한국안전출판 위탁상사", contracts: [{ no: "CT-2026-0702", types: ["도서 위탁"] }] },
+    { id: "RH-0088", name: "최신규 강사 (신규 영입)", contracts: [{ no: "CT-2026-NEW", types: ["강의 수익배분", "개발지원금"] }] }
+  ];
+
   var roleStore = store("sjm.master.roleGroups.v1", ROLE_SEED);
+  var vendorTypeStore = store("sjm.master.vendorTypes.v1", VENDOR_TYPE_SEED);
+  var vendorStore = store("sjm.master.vendors.v1", VENDOR_SEED);
   var majorStore = store("sjm.master.inquiryMajors.v1", MAJOR_SEED);
   var catStore = store("sjm.master.inquiryCats.v1", CAT_SEED);
 
@@ -168,5 +211,59 @@
     }
   };
 
-  window.SJM_MASTER = { menus: MENUS, roles: roles, inquiry: inquiry };
+  var vendors = {
+    types: function () { return vendorTypeStore.get().slice().sort(byOrder); },
+    activeTypes: function () { return vendors.types().filter(function (t) { return t.on; }); },
+    type: function (id) {
+      var all = vendorTypeStore.get();
+      for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
+      return null;
+    },
+    list: function () { return vendorStore.get().slice(); },
+    get: function (id) {
+      var all = vendorStore.get();
+      for (var i = 0; i < all.length; i++) if (all[i].id === id) return all[i];
+      return null;
+    },
+    name: function (id) { var v = vendors.get(id); return v ? v.name : id; },
+    // 양식(form)으로 고른다 — 유형 이름이 바뀌거나 늘어도 '물류 대행' 거래처를 찾을 수 있게
+    byForm: function (form) {
+      return vendorStore.get().filter(function (v) { var t = vendors.type(v.type); return t && t.form === form; });
+    },
+    byType: function (typeId) { return vendorStore.get().filter(function (v) { return v.type === typeId; }); },
+    save: function (list) { vendorStore.set(clone(list)); },
+    saveTypes: function (list) { vendorTypeStore.set(clone(list)); },
+    reset: function () { vendorStore.reset(); vendorTypeStore.reset(); },
+    nextId: function () {
+      var max = 0;
+      vendorStore.get().forEach(function (v) { var n = parseInt(String(v.id).split("-")[1], 10); if (n > max) max = n; });
+      var s = String(max + 1);
+      while (s.length < 4) s = "0" + s;
+      return "SUP-" + s;
+    },
+    nextTypeId: function () {
+      var max = 0;
+      vendorTypeStore.get().forEach(function (t) { var n = parseInt(String(t.id).split("-")[1], 10); if (n > max) max = n; });
+      return "VT-" + (max + 1 < 10 ? "0" : "") + (max + 1);
+    }
+  };
+
+  var rightsHolders = {
+    list: function () { return clone(RIGHTS_HOLDER_SEED); },
+    get: function (id) {
+      for (var i = 0; i < RIGHTS_HOLDER_SEED.length; i++) if (RIGHTS_HOLDER_SEED[i].id === id) return clone(RIGHTS_HOLDER_SEED[i]);
+      return null;
+    },
+    // 계약 유형 합집합 — 이 권리자가 어떤 성격의 파트너인지는 계약 유형으로 판단한다
+    types: function (id) {
+      var h = rightsHolders.get(id);
+      var seen = {};
+      var out = [];
+      if (!h) return out;
+      h.contracts.forEach(function (c) { c.types.forEach(function (t) { if (!seen[t]) { seen[t] = true; out.push(t); } }); });
+      return out;
+    }
+  };
+
+  window.SJM_MASTER = { menus: MENUS, roles: roles, inquiry: inquiry, vendors: vendors, rightsHolders: rightsHolders };
 })();
