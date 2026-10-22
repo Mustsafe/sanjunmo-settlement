@@ -558,12 +558,12 @@ code, pre, kbd, samp,
       effectiveEnd: "2027-12-31",
       simBaseAmount: 2000000,
       coSigners: [
-        { payeeId: "PY-0012", name: "김안전 (원 권리자 본인)", role: "원 저작자 (강사)", entityType: "개인 프리랜서 (비사업자)", taxCase: "사업소득 원천징수 3.3% (TX-02)", isAuthor: true, successionYn: false, successionDate: "" },
+        { payeeId: "PY-0019", name: "김안전 (원 권리자 본인)", role: "원 저작자 (강사)", entityType: "개인 프리랜서 (비사업자)", taxCase: "사업소득 원천징수 3.3% (TX-02)", isAuthor: true, successionYn: false, successionDate: "" },
         { payeeId: "PY-9001", name: "(주)스타에듀매니지먼트", role: "공동서명 소속사", entityType: "법인 일반과세자 (106-81-55210)", taxCase: "일반과세 세금계산서 역발행 (TX-07 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" },
         { payeeId: "PY-9005", name: "한국기술콘텐츠에이전시", role: "공동서명 기획사", entityType: "개인 일반과세자 (211-08-33190)", taxCase: "일반과세 세금계산서 역발행 (TX-07 · 부가세 10%)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [
-        { payeeId: "PY-0012", ratio: 70.00, startDate: "2026-01-01", endDate: "2026-12-31", note: "1계층 원 저작자 직접 수취분 (70%)" },
+        { payeeId: "PY-0019", ratio: 70.00, startDate: "2026-01-01", endDate: "2026-12-31", note: "1계층 원 저작자 직접 수취분 (70%)" },
         { payeeId: "PY-9001", ratio: 30.00, startDate: "2026-01-01", endDate: "2026-12-31", note: "공동서명 소속사 매니지먼트 배분 (30% · Case 7)" }
       ],
       changeReason: "계약서 제8조(공동 서명인 수익 분할 특약)에 따른 강사 70% : 소속사 30% 분할 등록"
@@ -605,11 +605,11 @@ code, pre, kbd, samp,
       effectiveEnd: "2026-12-31",
       simBaseAmount: 3000000,
       coSigners: [
-        { payeeId: "PY-0019", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인", entityType: "법인 일반과세자 (120-88-00001)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" },
+        { payeeId: "PY-0012", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인", entityType: "법인 일반과세자 (120-88-00001)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" },
         { payeeId: "PY-9022", name: "(주)산준미디어제작센터", role: "공동서명 제작계열사", entityType: "법인 일반과세자 (105-81-99120)", taxCase: "일반과세 세금계산서 역발행 (TX-07)", isAuthor: false, successionYn: false, successionDate: "" }
       ],
       splits: [
-        { payeeId: "PY-0019", ratio: 100.00, startDate: "2026-01-01", endDate: "2026-12-31", note: "단일 법인 100% 수취 (공동서명 계열사 추가 가능)" }
+        { payeeId: "PY-0012", ratio: 100.00, startDate: "2026-01-01", endDate: "2026-12-31", note: "단일 법인 100% 수취 (공동서명 계열사 추가 가능)" }
       ],
       changeReason: "단일 법인 권리자 100% 수취"
     },
@@ -665,8 +665,8 @@ code, pre, kbd, samp,
       contractId: "CT-2026-0715",
       holder: "김안전 (RH-0019)",
       action: "2계층 수취인 분할 비율 등록 (Case 7)",
-      before: '[{"payee_id":"PY-0012","ratio":100.00}]',
-      after: '[{"payee_id":"PY-0012","ratio":70.00},{"payee_id":"PY-9001","ratio":30.00}]',
+      before: '[{"payee_id":"PY-0019","ratio":100.00}]',
+      after: '[{"payee_id":"PY-0019","ratio":70.00},{"payee_id":"PY-9001","ratio":30.00}]',
       actor: "재무팀 박정산 (계약서 제8조 공동서명 특약 반영)"
     },
     {

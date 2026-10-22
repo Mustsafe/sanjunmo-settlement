@@ -1995,8 +1995,8 @@ code, pre, kbd, samp,
             <select id="selP1Holder" class="select" style="min-width:290px;" onchange="renderCarryoverModalP1()">
               <option value="ALL">전체 수취인 (당월 이월 발생·해소 전 건)</option>
               <option value="PY-0025">정종대 (PY-0025 · 강좌+도서인세+지원금+선급금 상계)</option>
-              <option value="PY-0019">산준교육 주식회사 (PY-0019 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
-              <option value="PY-0031">한국소방학회 (PY-0031 · 위탁 도서 위탁도서 정산)</option>
+              <option value="PY-0012">산준교육 주식회사 (PY-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
+              <option value="PY-0051">한국소방학회 (PY-0051 · 위탁 도서 위탁도서 정산)</option>
               <option value="PY-0042">최그래픽 (PY-0042 · 매출연동 지원금 · 최소 지급 미달 세전 이월)</option>
               <option value="PY-0055">이중도 (PY-0055 · 중도해지 미상계 선급금 강제청구)</option>
               <option value="PY-0015">이전기 (PY-0015 · 중도해지 전속계약금 일할반환 + 강제청구)</option>
@@ -2086,8 +2086,8 @@ code, pre, kbd, samp,
         <label style="font-size:12px; color:#cbd5e1; font-weight:600;">수취인 선택 (메인 목록 동기화):</label>
         <select id="selS1Holder" class="select" style="background:#1e293b; color:#fff; border-color:#475569; min-width:300px;" onchange="renderStatementModalS1()">
           <option value="PY-0025">정종대 (PY-0025 · 강좌+도서인세+지원금+선급금+이월)</option>
-          <option value="PY-0019">산준교육 주식회사 (PY-0019 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
-          <option value="PY-0031">한국소방학회 (PY-0031 · 위탁 도서 위탁도서 정산)</option>
+          <option value="PY-0012">산준교육 주식회사 (PY-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
+          <option value="PY-0051">한국소방학회 (PY-0051 · 위탁 도서 위탁도서 정산)</option>
           <option value="PY-0042">최그래픽 (PY-0042 · 매출연동 지원금 · 최소 지급 미달 세전 이월)</option>
           <option value="PY-0055">이중도 (PY-0055 · 중도해지 미상계 선급금 강제청구 + MMG 보호)</option>
           <option value="PY-0015">이전기 (PY-0015 · 중도해지 전속계약금 일할반환 + 강제청구)</option>
@@ -2214,8 +2214,8 @@ code, pre, kbd, samp,
           <label style="font-size:12px; color:#cbd5e1; font-weight:600;">발송 대상 권리자 선택:</label>
           <select id="selS2Holder" class="select" style="background:#0f172a; color:#fff; border-color:#475569; min-width:270px;" onchange="renderStatementModalS2()">
             <option value="PY-0025">정종대 강사/저자 (PY-0025 · 강좌+인세+지원금+선급금)</option>
-            <option value="PY-0019">산준교육 주식회사 (PY-0019 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
-            <option value="PY-0031">한국소방학회 (PY-0031 · 위탁 도서 정산서)</option>
+            <option value="PY-0012">산준교육 주식회사 (PY-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
+            <option value="PY-0051">한국소방학회 (PY-0051 · 위탁 도서 정산서)</option>
             <option value="PY-0042">최그래픽 (PY-0042 · 매출연동 지원금 · 최소 지급 미달 세전 이월)</option>
             <option value="PY-0055">이중도 강사 (PY-0055 · 해지 정산 및 MMG 보장)</option>
             <option value="PY-0015">이전기 (PY-0015 · 중도해지 전속계약금 일할반환 + 강제청구)</option>
@@ -2302,8 +2302,8 @@ code, pre, kbd, samp,
     if (!rawKey) return "PY-0025";
     const k = String(rawKey).trim();
     if (k === "RH-0025" || k === "STMT-202610-01" || k === "STMT-01" || k === "PY-0025") return "PY-0025";
-    if (k === "RH-0012" || k === "STMT-202610-02" || k === "STMT-02" || k === "PY-0019") return "PY-0019";
-    if (k === "RH-0051" || k === "STMT-202610-03" || k === "STMT-03" || k === "PY-0031") return "PY-0031";
+    if (k === "RH-0012" || k === "STMT-202610-02" || k === "STMT-02" || k === "PY-0012") return "PY-0012";
+    if (k === "RH-0051" || k === "STMT-202610-03" || k === "STMT-03" || k === "PY-0051") return "PY-0051";
     if (k === "RH-0042" || k === "STMT-202610-04" || k === "STMT-04" || k === "PY-0042") return "PY-0042";
     if (k === "RH-0015" || k === "STMT-202610-05" || k === "STMT-05" || k === "PY-0015") return "PY-0015";
     if (k === "RH-0055" || k === "STMT-202610-06" || k === "STMT-06" || k === "PY-0055") return "PY-0055";
@@ -2371,7 +2371,7 @@ code, pre, kbd, samp,
     },
     {
       ledgerId: "CL-202610-003",
-      holderId: "PY-0031",
+      holderId: "PY-0051",
       holderName: "한국소방학회 (위탁자)",
       contractId: "CT-2026-0801 (소방 위탁도서 계약)",
       originMonth: "2026-10 (당월 신규)",
@@ -2525,8 +2525,8 @@ code, pre, kbd, samp,
         "[2026-10-31 19:05] 재무팀 김회계: 정종대 단독 100% 귀속(미상계 선급금 계약 · 수취인 분할 차단) 및 선급금 150만원 상계 검증 완료."
       ]
     },
-    "PY-0019": {
-      holderId: "PY-0019",
+    "PY-0012": {
+      holderId: "PY-0012",
       holderName: "산준교육 주식회사 (법인 · 원 권리자 단독 100%)",
       entityType: "법인사업자 (일반과세자 · 강좌 수익배분 + 지원금 종료 일시정산)",
       taxCode: "TX-07 (법인 일반과세 · 세금계산서 역발행 VAT 10% 별도)",
@@ -2561,7 +2561,7 @@ code, pre, kbd, samp,
         { prepayId: "PP-2026-0412", totalLoan: 8500000, openingBal: 8500000, eligiblePreTax: 3000000, offsetApplied: -1556120, closingBal: 6943880, allocDetail: "수취인 분할 없음 — 상계액 -1,556,120원 전액 원 권리자(산준교육) 귀속" }
       ],
       payeeSplitRows: [
-        { payeeId: "PY-0019", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -1556120, note: "분할 없음 — 미상계 선급금 잔액 계약" }
+        { payeeId: "PY-0012", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -1556120, note: "분할 없음 — 미상계 선급금 잔액 계약" }
       ],
       waterfall: [
         { step: "2단계 (ACCRUAL)", title: "당월 강좌(1.1) 수익배분 발생", rule: "법인 계약 강좌 수익배분 3,000,000원", delta: 3000000, bal: 3000000 },
@@ -2576,8 +2576,8 @@ code, pre, kbd, samp,
         "[2026-10-31 19:10] 재무팀 박세무: 산준교육(주) 역발행 세금계산서 승인 리마인드 알림톡 발송 완료."
       ]
     },
-    "PY-0031": {
-      holderId: "PY-0031",
+    "PY-0051": {
+      holderId: "PY-0051",
       holderName: "한국소방학회 (위탁출판사)",
       entityType: "법인 면세사업자 (위탁자 CONSIGNOR · 도서 위탁 판매)",
       taxCode: "TX-11 / TX-12 (위탁 도서 면세 계산서 수취 + 위탁수수료 과세 세금계산서 매출발행)",
