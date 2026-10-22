@@ -104,6 +104,7 @@ code, pre, kbd, samp,
 
   </style>
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 <body>
@@ -121,7 +122,7 @@ code, pre, kbd, samp,
 
     <div id="v4-page-body" class="main-container">
       <div class="access-notice">
-        <strong>🔒 운영 관리자 이상 전용 화면입니다.</strong> 분류와 자동 배정 화면을 바꾸면 이후 접수되는 문의가 다른 담당 부서 큐로 들어가므로, CS 담당자 계정에는 이 메뉴가 열리지 않습니다(운영자 권한 관리에서 설정).<br />
+        <strong>🔒 '1:1 문의 분류' 쓰기 권한을 가진 역할 그룹만 쓰는 화면입니다(기본값: 최고 관리자).</strong> 분류와 자동 배정 화면을 바꾸면 이후 접수되는 문의가 다른 담당 부서 큐로 들어가므로, 권한은 운영자 권한 관리의 역할 그룹 · 권한에서 정합니다.<br />
         여기서 추가 · 수정한 분류는 사용자 1:1 문의 작성 화면의 분류 드롭다운과 1:1 문의 허브의 분기 라우팅에 즉시 반영됩니다.
       </div>
 
@@ -221,7 +222,7 @@ code, pre, kbd, samp,
         <div class="form-row">
           <label>소분류 명칭 *</label>
           <div>
-            <input class="f-input" id="cf-name" style="width:100%;" placeholder="예: 상담 필요 (관리자 판단)" />
+            <input class="f-input" id="cf-name" maxlength="40" style="width:100%;" placeholder="예: 상담 필요 (관리자 판단)" />
             <div class="form-help">사용자 문의 작성 화면 드롭다운에 이 문구가 그대로 노출됩니다.</div>
           </div>
         </div>
@@ -241,7 +242,7 @@ code, pre, kbd, samp,
         </div>
         <div class="form-row">
           <label>담당 부서 큐 *</label>
-          <div class="check-group" id="cf-depts"></div>
+          <div><div class="check-group" id="cf-depts"></div><div class="form-help">운영자 권한 관리(ADMN-CONF-005)에서 '1:1 문의 담당 큐'로 지정한 역할 그룹입니다. 여러 부서를 고르면 모든 부서 큐에 함께 올라가고, 먼저 답변에 들어간 담당자가 처리합니다(선점).</div></div>
         </div>
         <div class="form-row">
           <label>상태</label>
@@ -287,21 +288,34 @@ code, pre, kbd, samp,
     </div>
   </div>
 
+  <!-- 라우팅 변경 확인 -->
+  <div class="modal-backdrop" id="modal-route-confirm">
+    <div class="modal-box" style="max-width:520px;">
+      <div class="modal-header">
+        <h3>라우팅 변경 확인</h3>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeModal('modal-route-confirm')">닫기 ✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px; line-height:1.7;">변경 시 이후 접수되는 문의가 해당 화면 · 부서로 배정됩니다. 계속하시겠습니까?</p>
+        <ul id="route-confirm-list" style="margin:10px 0 0 18px; font-size:12.5px; line-height:1.8;"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-route-confirm')">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmRouteChange()">계속 저장</button>
+      </div>
+    </div>
+  </div>
+
   <div id="toast-box"></div>
 
   <script>
     const NOW = '2026.10.22 10:30';
-    const ADMIN = '운영관리자 (admin_ops)';
+    const ADMIN = '김총괄 (admin_white)';
 
-    // 대분류 — 사용자 문의 작성 화면 드롭다운 1단계
-    let MAJORS = [
-      { prefix: 'PAY', name: '결제 · 환불', on: true },
-      { prefix: 'SHIP', name: '배송 · 교재', on: true },
-      { prefix: 'LECT', name: '수강 · 기기', on: true },
-      { prefix: 'PASS', name: '합격환급 · 혜택', on: true },
-      { prefix: 'STUDY', name: '학습 · 자료', on: true },
-      { prefix: 'ETC', name: '회원 · 기타', on: true }
-    ];
+    const M = window.SJM_MASTER;
+
+    // 대분류 · 소분류는 공통 기준정보(common-master.js)에서 읽고, 바꾸면 다시 저장한다 — 1:1 문의 허브 · 운영자 권한 관리가 같은 값을 쓴다
+    let MAJORS = M.inquiry.majors().map(m => Object.assign({}, m));
 
     // 자동 배정 화면 — 1:1 문의 허브 분기 패널 대상
     const SCREENS = [
@@ -317,36 +331,13 @@ code, pre, kbd, samp,
       { code: 'ADMN-BRD-002', name: '1:1 문의 허브 직접 답변' }
     ];
 
-    const DEPTS = ['CS', '환불 심사', '물류팀', '수강 지원', '환급 심사', '조교', '마케팅'];
 
-    let CATS = [
-      { code: 'VOC-PAY-01', major: 'PAY', name: '카드 · 간편결제 취소', screen: 'ADMN-RFD-002-S1', depts: ['환불 심사'], on: true, order: 1 },
-      { code: 'VOC-PAY-02', major: 'PAY', name: '가상계좌 · 무통장 입금 확인', screen: 'ADMN-RFD-002-S1', depts: ['CS', '환불 심사'], on: true, order: 2 },
-      { code: 'VOC-PAY-03', major: 'PAY', name: '휴대폰 결제 환불', screen: 'ADMN-RFD-002-S1', depts: ['환불 심사'], on: true, order: 3 },
-      { code: 'VOC-PAY-04', major: 'PAY', name: '영수증 · 증빙 발급', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 4 },
-      { code: 'VOC-PAY-05', major: 'PAY', name: '상담 필요 (관리자 판단)', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 5 },
-      { code: 'VOC-SHIP-01', major: 'SHIP', name: '배송지 변경', screen: 'ADMN-ORD-001-S1', depts: ['물류팀'], on: true, order: 1 },
-      { code: 'VOC-SHIP-02', major: 'SHIP', name: '배송 지연 · 배송 조회', screen: 'ADMN-ORD-002', depts: ['물류팀', 'CS'], on: true, order: 2 },
-      { code: 'VOC-SHIP-03', major: 'SHIP', name: '파손 · 오배송 교환', screen: 'ADMN-ORD-002', depts: ['물류팀'], on: true, order: 3 },
-      { code: 'VOC-SHIP-04', major: 'SHIP', name: '교재 낙장 · 인쇄 불량', screen: 'ADMN-ORD-002', depts: ['물류팀'], on: true, order: 4 },
-      { code: 'VOC-LECT-01', major: 'LECT', name: '동시접속 · 세션 차단', screen: 'ADMN-USER-003', depts: ['수강 지원'], on: true, order: 1 },
-      { code: 'VOC-LECT-02', major: 'LECT', name: '수강 기간 연장', screen: 'ADMN-USER-003', depts: ['수강 지원', 'CS'], on: true, order: 2 },
-      { code: 'VOC-LECT-03', major: 'LECT', name: '진도율 누락 · 플레이어 오류', screen: 'ADMN-USER-004', depts: ['수강 지원'], on: true, order: 3 },
-      { code: 'VOC-LECT-04', major: 'LECT', name: '기기 등록 초기화 (2차 고도화)', screen: 'ADMN-USER-003', depts: ['수강 지원'], on: false, order: 4 },
-      { code: 'VOC-PASS-01', major: 'PASS', name: '합격환급 서류 보완', screen: 'ADMN-SETT-006', depts: ['환급 심사'], on: true, order: 1 },
-      { code: 'VOC-PASS-02', major: 'PASS', name: '포인트 · 쿠폰 누락', screen: 'ADMN-USER-002', depts: ['CS'], on: true, order: 2 },
-      { code: 'VOC-PASS-03', major: 'PASS', name: '이벤트 경품 미수령', screen: 'ADMN-USER-002', depts: ['마케팅', 'CS'], on: true, order: 3 },
-      { code: 'VOC-STUDY-01', major: 'STUDY', name: '강의 내용 질문', screen: 'ADMN-BRD-004', depts: ['조교'], on: true, order: 1 },
-      { code: 'VOC-STUDY-02', major: 'STUDY', name: '교재 정답지 요청', screen: 'ADMN-BRD-010', depts: ['조교', 'CS'], on: true, order: 2 },
-      { code: 'VOC-ETC-01', major: 'ETC', name: '회원정보 변경', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 1 },
-      { code: 'VOC-ETC-02', major: 'ETC', name: '탈퇴 · 개인정보 처리', screen: 'ADMN-BRD-002', depts: ['CS'], on: true, order: 2 },
-      { code: 'VOC-ETC-03', major: 'ETC', name: '기타 문의', screen: 'ADMN-BRD-002', depts: ['CS'], on: false, order: 3 }
-    ];
+    let CATS = M.inquiry.cats().map(c => Object.assign({}, c, { depts: c.depts.slice() }));
 
     let LOGS = [
-      { dt: '2026.10.20 16:12', admin: '운영관리자 (admin_ops)', target: 'VOC-ETC-03', change: '상태: 사용 → 미사용 (상담 필요 분류로 통합)' },
-      { dt: '2026.10.18 11:40', admin: '최고관리자 (admin_root)', target: 'VOC-STUDY-01', change: '자동 배정 화면: 1:1 문의 허브 직접 답변 → 학습 Q&A (1차 오픈: 카페 질문게시판 안내)' },
-      { dt: '2026.10.15 09:05', admin: '운영관리자 (admin_ops)', target: 'VOC-SHIP-04', change: '신규 등록 · 담당 부서 큐: 물류팀' }
+      { dt: '2026.10.20 16:12', admin: '김총괄 (admin_white)', target: 'VOC-ETC-03', change: '상태: 사용 → 미사용 (상담 필요 분류로 통합)' },
+      { dt: '2026.10.18 11:40', admin: '김총괄 (admin_white)', target: 'VOC-STUDY-01', change: '자동 배정 화면: 1:1 문의 허브 직접 답변 → 학습 Q&A (1차 오픈: 카페 질문게시판 안내)' },
+      { dt: '2026.10.15 09:05', admin: '김총괄 (admin_white)', target: 'VOC-SHIP-04', change: '신규 등록 · 담당 부서 큐: 물류팀' }
     ];
 
     let editingCode = null;
@@ -391,7 +382,7 @@ code, pre, kbd, samp,
           <td>${majorOf(c.major) ? majorOf(c.major).name : c.major}</td>
           <td><strong>${c.name}</strong></td>
           <td>${screenLabel(c.screen)}</td>
-          <td>${c.depts.map(d => `<span class="badge badge-blue">${d}</span>`).join('')}</td>
+          <td>${c.depts.map(d => `<span class="badge ${M.roles.get(d) && M.roles.get(d).on ? 'badge-blue' : 'badge-gray'}">${M.roles.name(d)}</span>`).join('')}</td>
           <td><span class="badge ${c.on ? 'badge-green' : 'badge-gray'}">${c.on ? '사용' : '미사용'}</span></td>
           <td>${c.order}</td>
           <td><button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openCatModal('${c.code}')">수정</button></td>
@@ -414,6 +405,7 @@ code, pre, kbd, samp,
 
     function addLog(target, change) {
       LOGS.unshift({ dt: NOW, admin: ADMIN, target, change });
+      M.inquiry.save(MAJORS, CATS);
     }
 
     function resetCatFilter() {
@@ -473,7 +465,14 @@ code, pre, kbd, samp,
       document.getElementById('cf-name').value = c ? c.name : '';
       document.getElementById('cf-screen').innerHTML = '<option value="">관리자 화면 선택</option>' + SCREENS.map(s => `<option value="${s.code}">${s.name} (${s.code})</option>`).join('');
       document.getElementById('cf-screen').value = c ? c.screen : '';
-      document.getElementById('cf-depts').innerHTML = DEPTS.map(d => `<label><input type="checkbox" class="cf-dept" value="${d}" ${c && c.depts.includes(d) ? 'checked' : ''} /> ${d}</label>`).join('');
+      // 담당 큐로 쓸 수 있는 역할 그룹 + 이 분류가 이미 쓰고 있지만 지금은 큐에서 빠진 그룹(해제만 가능)
+      const qIds = M.roles.queues().map(g => g.id);
+      if (c) c.depts.forEach(d => { if (!qIds.includes(d)) qIds.push(d); });
+      document.getElementById('cf-depts').innerHTML = qIds.map(d => {
+        const g = M.roles.get(d);
+        const usable = g && g.on && g.queue;
+        return `<label><input type="checkbox" class="cf-dept" value="${d}" ${c && c.depts.includes(d) ? 'checked' : ''} /> ${M.roles.name(d)}${usable ? '' : ' (담당 큐 해제됨)'}</label>`;
+      }).join('');
       document.querySelectorAll('input[name="cf-status"]').forEach(r => { r.checked = r.value === (c && !c.on ? 'OFF' : 'ON'); });
       document.getElementById('cf-order').value = c ? c.order : CATS.filter(x => x.major === majorSel.value).length + 1;
       if (c) document.getElementById('cf-code').value = c.code + ' 🔒';
@@ -485,6 +484,14 @@ code, pre, kbd, samp,
       const box = document.getElementById('cat-form-error');
       box.textContent = msg;
       box.style.display = 'block';
+    }
+
+    let routeConfirmed = false;
+
+    function confirmRouteChange() {
+      routeConfirmed = true;
+      closeModal('modal-route-confirm');
+      saveCat();
     }
 
     function saveCat() {
@@ -500,10 +507,20 @@ code, pre, kbd, samp,
       if (!screen) return catFormError('접수 건을 배정할 관리자 화면을 선택해 주십시오.');
       if (editingCode) {
         const c = CATS.find(x => x.code === editingCode);
+        const names = ids => ids.map(M.roles.name).join(' · ');
+        const routeChanges = [];
+        if (c.screen !== screen) routeChanges.push(`자동 배정 화면: ${screenOf(c.screen).name} → ${screenOf(screen).name}`);
+        if (c.depts.join(',') !== depts.join(',')) routeChanges.push(`담당 부서 큐: ${names(c.depts)} → ${names(depts)}`);
+        if (routeChanges.length && !routeConfirmed) {
+          document.getElementById('route-confirm-list').innerHTML = routeChanges.map(x => `<li>${x}</li>`).join('');
+          openModalEl('modal-route-confirm');
+          return;
+        }
+        routeConfirmed = false;
         const changes = [];
         if (c.name !== name) changes.push(`명칭: ${c.name} → ${name}`);
         if (c.screen !== screen) changes.push(`자동 배정 화면: ${screenOf(c.screen).name} → ${screenOf(screen).name}`);
-        if (c.depts.join(',') !== depts.join(',')) changes.push(`담당 부서 큐: ${c.depts.join(' · ')} → ${depts.join(' · ')}`);
+        if (c.depts.join(',') !== depts.join(',')) changes.push(`담당 부서 큐: ${names(c.depts)} → ${names(depts)}`);
         if (c.on !== on) changes.push(`상태: ${c.on ? '사용 → 미사용' : '미사용 → 사용'}`);
         if (c.order !== order) changes.push(`노출 순서: ${c.order} → ${order}`);
         Object.assign(c, { name, screen, depts, on, order });
@@ -512,7 +529,7 @@ code, pre, kbd, samp,
       } else {
         const code = nextCatCode(major);
         CATS.push({ code, major, name, screen, depts, on, order });
-        addLog(code, `신규 등록 · 자동 배정 화면: ${screenOf(screen).name} · 담당 부서 큐: ${depts.join(' · ')}`);
+        addLog(code, `신규 등록 · 자동 배정 화면: ${screenOf(screen).name} · 담당 부서 큐: ${depts.map(M.roles.name).join(' · ')}`);
         showToast(`${code} 분류를 등록했습니다. 사용자 문의 작성 화면에 즉시 반영됩니다.`);
       }
       closeModal('modal-cat-form');

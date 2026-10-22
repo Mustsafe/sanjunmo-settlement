@@ -337,7 +337,7 @@ code, pre, kbd, samp,
       </div>
       <div style="display:flex; align-items:center; gap:8px;">
         <label style="font-size:12px; font-weight:700; background:#F1F5F9; padding:4px 10px; border-radius:6px; border:1px solid var(--border); cursor:pointer;">
-          <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무 권한(FIN_MANAGER) 시뮬레이션 (사입원가 열람)
+          <input type="checkbox" id="chk-fin-role" checked onchange="toggleFinanceRole(this.checked)" /> 재무팀 권한 시뮬레이션 (사입원가 열람)
         </label>
         <a href="ADMN-SETT-009_baseline.html" class="btn btn-sm btn-outline">내부 정산 조회 (ADMN-SETT-009) ↗</a>
         <a href="ADMN-SETT-001_baseline.html" class="btn btn-sm btn-outline">상품별 권리자 매핑 (ADMN-SETT-001) ↗</a>
@@ -448,7 +448,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div style="display:flex; align-items:center; gap:10px;">
               <span style="font-size:13px;">전체 <strong id="list-cnt">4</strong>건</span>
-              <span class="badge badge-gray">사입 원가는 대외비로 재무 권한(FIN_MANAGER) 외 **** 마스킹</span>
+              <span class="badge badge-gray">사입 원가는 대외비로 재무팀 권한 외 **** 마스킹</span>
             </div>
             <div style="display:flex; gap:6px;">
               <button type="button" class="btn btn-sm btn-outline" onclick="bulkStopSale()">선택 판매중지</button>
@@ -903,7 +903,7 @@ code, pre, kbd, samp,
           document.getElementById('f-cost').readOnly = !checked;
         }
       }
-      showToast(checked ? '재무 권한(FIN_MANAGER): 사입 원가 열람 및 엑셀 다운로드가 활성화되었습니다.' : '일반 상품팀 권한: 대외비 사입 원가가 **** 마스킹되고 엑셀 다운로드가 제한됩니다.');
+      showToast(checked ? '재무팀 권한: 사입 원가 열람 및 엑셀 다운로드가 활성화되었습니다.' : '그 밖의 역할 그룹: 대외비 사입 원가가 **** 마스킹되고 엑셀 다운로드가 제한됩니다.');
     }
 
     function filterStock(mode) {

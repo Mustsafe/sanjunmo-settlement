@@ -2568,7 +2568,7 @@ code, pre, kbd, samp,
         if (!reason) return;
         isDetailShipLocked = false;
         document.getElementById("detailLockBanner").style.display = "none";
-        appendTimelineRow("운영관리자", "출고지시회수", "b-amber", `출고지시 잠금(Lock) 해제 완료 — 사유: ${reason}`);
+        appendTimelineRow("물류팀", "출고지시회수", "b-amber", `출고지시 잠금(Lock) 해제 완료 — 사유: ${reason}`);
       } else {
         isDetailShipLocked = true;
         document.getElementById("detailLockBanner").style.display = "flex";

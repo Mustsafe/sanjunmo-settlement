@@ -1342,7 +1342,7 @@ code, pre, kbd, samp,
         <!-- [M3F-PATCH-v1] 작업 1-B(카드 5): 진도율 수동 보정 이력 원장 -->
         <div class="card" id="m3f-adjlog-card">
           <div class="card-header">
-            <div class="card-title">5. 진도율 수동 보정 이력 원장 (환급 심사 ADMN-RFD-001 자동 연동)</div>
+            <div class="card-title">5. 진도율 수동 보정 이력 원장 (환급 심사 ADMN-SETT-006 자동 연동)</div>
             <a href="ADMN-SETT-006_baseline.html" class="btn btn-sm btn-outline">합격환급 심사 화면 ↗</a>
           </div>
           <div class="card-body">
@@ -1378,7 +1378,7 @@ code, pre, kbd, samp,
                   <td><span class="mono">48.2%</span> ➔ <strong style="color:#2563EB;">49.0% (+0.8%p)</strong></td>
                   <td><span class="badge badge-purple">모바일 앱 동기화 오류</span></td>
                   <td>iOS 앱 오프라인 재생 후 진도율 미전송 CS 확인 <span class="badge badge-gray">📎 cs_capture_0922.png</span></td>
-                  <td>CS팀 김상담<br><span class="mono" style="font-size:11px; color:#64748B;">(admin_kim)</span></td>
+                  <td>CS담당자 김상담<br><span class="mono" style="font-size:11px; color:#64748B;">(admin_kim)</span></td>
                 </tr>
               </tbody>
             </table>
@@ -1681,7 +1681,7 @@ code, pre, kbd, samp,
       <div class="modal-body">
         <div style="background:#FEF2F2; border:1px solid #FECACA; border-left:4px solid #DC2626; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12px; color:#991B1B;">
           <div style="font-weight:800; margin-bottom:4px;">⚠️ 대량 추출 경고 (1,000건 초과) — 이 다운로드는 영구 보안 로그에 기록됩니다</div>
-          요청 관리자: <strong>admin_kim (김운영 · 회원관리팀)</strong><br/>
+          요청 관리자: <strong>admin_kim (김운영 · CS담당자)</strong><br/>
           요청 일시: <strong>2026.10.17 14:07:22</strong> · 접속 IP: <strong>210.***.44.18</strong> (로그에는 원본 IP 적재)<br/>
           추출 대상: <strong id="excel-target-cnt">12,480건</strong> (5,000건 초과 상급자 승인은 2차 오픈 이관 · 1차는 워터마크 + 사유 10자 통제)
         </div>
@@ -3160,7 +3160,7 @@ code, pre, kbd, samp,
 
   var adjLog = [
     { id: 'PRG-ADJ-2026-041', at: '2026.10.10 11:20', target: COURSE_SHORT + ' · 34강', before: 0.0, after: 100.0, ovBefore: 91.6, ovAfter: 92.4, type: '플레이어·네트워크 장애', detail: '10/09 심야 CDN 일시 순단으로 시청 완료 로그 유실 확인', file: 'cdn_error_log_1009.txt', admin: ADMIN_NAME },
-    { id: 'PRG-ADJ-2026-019', at: '2026.09.22 16:05', target: COURSE_SHORT + ' · 12강', before: 45.0, after: 100.0, ovBefore: 48.2, ovAfter: 49.0, type: '모바일 앱 동기화 오류', detail: 'iOS 앱 오프라인 재생 후 진도율 미전송 CS 확인', file: 'cs_capture_0922.png', admin: 'CS팀 김상담 (admin_kim)' }
+    { id: 'PRG-ADJ-2026-019', at: '2026.09.22 16:05', target: COURSE_SHORT + ' · 12강', before: 45.0, after: 100.0, ovBefore: 48.2, ovAfter: 49.0, type: '모바일 앱 동기화 오류', detail: 'iOS 앱 오프라인 재생 후 진도율 미전송 CS 확인', file: 'cs_capture_0922.png', admin: 'CS담당자 김상담 (admin_kim)' }
   ];
 
   var evidenceName = 'cs_evidence_capture.png';

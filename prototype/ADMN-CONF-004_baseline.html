@@ -33,6 +33,13 @@
       max-width: 1640px;
       margin: 0 auto;
     }
+    /* 공통 상단 바 아래 화면 설명 한 줄 */
+    .page-desc {
+      margin: 0 0 16px;
+      color: var(--text-sub);
+      font-size: 13px;
+    }
+    header.top-bar .btn { text-decoration: none; }
     .page-header {
       display: flex;
       justify-content: space-between;
@@ -371,18 +378,24 @@ code, pre, kbd, samp,
   </style>
 </head>
 <body>
+<aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside>
+
 <div id="v4-root-shell">
-  <div id="v4-page-body">
-    <div class="page-header">
-      <div class="page-title-wrap">
-        <span class="code-badge" id="current-screen-code">ADMN-CONF-004</span>
-        <h1 id="current-screen-title">3채널 메시지 템플릿·카카오 검수 및 타겟 발송/이력 관리</h1>
-        <p>카카오 알림톡(솔라피 검수 상태 관리)·문자(SMS/LMS)·이메일 템플릿을 등록/검수하고 타겟 수동 발송(S1) 및 발송 이력(007)을 통합 관리합니다.</p>
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button class="btn btn-primary" onclick="openTemplateModal()">+ 신규 메시지 템플릿 등록</button>
-      </div>
+  <header class="top-bar v4-gen3-topbar">
+    <div class="top-bar-left">
+      <span class="crumb-group">사이트 · 약관 · 메시지 설정</span>
+      <span class="crumb-sep">›</span>
+      <span class="crumb-code" id="current-screen-code">ADMN-CONF-004</span>
+      <h1 class="crumb-title" id="current-screen-title">3채널 메시지 템플릿·카카오 검수 및 타겟 발송/이력 관리</h1>
     </div>
+    <div class="top-bar-right">
+      <button class="btn btn-primary btn-sm" onclick="openTemplateModal()">+ 신규 메시지 템플릿 등록</button>
+    </div>
+  </header>
+
+  <div id="v4-page-body" class="main-container">
+
+    <p class="page-desc">카카오 알림톡(솔라피 검수 상태 관리)·문자(SMS/LMS)·이메일 템플릿을 등록/검수하고 타겟 수동 발송(S1) 및 발송 이력(007)을 통합 관리합니다.</p>
 
     <div class="domain-switch-bar">
       <div class="sub-tabs">

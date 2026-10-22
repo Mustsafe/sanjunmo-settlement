@@ -50,6 +50,7 @@
 
 ### 3.2 공통 레이아웃 및 컴포넌트 마크업 규격
 1. **필수 공통 에셋 로드 (`<head>` 내부):** `common-v84.css` (`id="v4-common-css"`) 및 `common-snb.js` (`id="v4-common-snb"`) 로드 필수.
+   - 역할 그룹 · 1:1 문의 분류처럼 운영 중 바뀌는 기준정보를 쓰는 화면은 `common-master.js` (`id="v4-common-master"`, `window.SJM_MASTER`)를 `common-snb.js` 앞에 로드하고, 이름을 화면에 직접 적지 않고 이 목록에서 읽는다.
 2. **루트 레이아웃 래퍼 (`<body>` 내부):**
    - `aside#v4-master-snb` (좌측 통합 SNB 네비게이션) + `div#v4-root-shell`
    - 상단 헤더: `header.top-bar.v4-gen3-topbar` (`.crumb-code` + `.crumb-title`)
@@ -85,6 +86,6 @@
 | | `ADMN-CONF-003` | 인증 발송 설정 `CONF-008` |
 | | `ADMN-CONF-004` | 알림톡 SENS 템플릿 `CONF-007`, 타겟 발송 `CONF-004-S1` |
 | | `ADMN-BRD-007` | 1:1 문의 분류(운영 관리자 이상 전용) |
-| | `ADMN-CONF-005` | 운영자 계정 · RBAC 권한 매트릭스 (감사 로그는 `CONF-010`) |
+| | `ADMN-CONF-005` | 관리자 계정 · 역할 그룹 · 메뉴 권한 매트릭스 (역할 그룹은 운영 중 추가 · 수정 · 미사용하는 변수, 감사 로그는 `CONF-010`) |
 
 **결번 · 폐지:** `SETT-003` 결번(요율 관리는 `INST-001`로 통합), `BRD-008` 폐지(`PROM-001`로 통합), `ORD-003` 폐지(`ORD-001`로 통합), `CONF-006` 결번(`CONF-010`으로 통합), `SETT-010` 미사용(원천세 · 지급명세서 산출물은 `SETT-009` 내부 기능). 화면설계서 v12의 합격환급 심사 `RFD-001`은 `SETT-006`으로 일원화. 정답지는 독립 화면이 아니라 무료콘텐츠(`BRD-010`) 표기이며, 자유게시판·커뮤니티 신고 관리는 1차 범위가 아니다.

@@ -652,11 +652,11 @@ code, pre, kbd, samp,
       <h1 class="crumb-title" id="header-screen-title">도서 공급 원장 (SKU · 공급원가 · 인세 마스터)</h1>
     </div>
     <div class="top-bar-right" id="v4-topbar-right-slot">
-      <div class="role-sim-box" title="FIN_MANAGER 전용 공급원가 열람 통제 시뮬레이터">
+      <div class="role-sim-box" title="재무팀 전용 공급원가 열람 통제 시뮬레이터">
           <span>열람 권한:</span>
           <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
-            <option value="FIN_MANAGER" selected="">재무/정산책임자 (FIN_MANAGER)</option>
-            <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
+            <option value="FIN_MANAGER" selected="">재무팀 (원가 열람)</option>
+            <option value="PROD_ADMIN">그 밖의 역할 그룹 (원가 마스킹)</option>
           </select>
         </div>
 
@@ -729,7 +729,7 @@ code, pre, kbd, samp,
               <span class="step-light light-green" id="step4-light">🟢 전시 판매중 (420권)</span>
             </div>
             <div class="step-desc">
-              <code>ADMN-PROD-004</code> · 상품팀이 표지/목차/미리보기 PDF와 물류 재고를 입력하여 프론트에 전시합니다.
+              <code>ADMN-PROD-004</code> · 최고 관리자가 표지/목차/미리보기 PDF와 물류 재고를 입력하여 프론트에 전시합니다.
             </div>
           </a>
         </div>
@@ -1025,7 +1025,7 @@ code, pre, kbd, samp,
           <div class="card-header" style="background:var(--slate-50);">
             <div class="card-title-group">
               <h3 class="card-title">Step 0. 도서 공급 원장 등록 경로 선택 (3-Way 바인딩)</h3>
-              <span class="card-subtitle">계약원장 가채번 도서인지, 상품팀이 먼저 선등록한 도서인지, 공급원장에서 처음 채번하는 도서인지 선택하세요.</span>
+              <span class="card-subtitle">계약원장 가채번 도서인지, 최고 관리자가 먼저 선등록한 도서인지, 공급원장에서 처음 채번하는 도서인지 선택하세요.</span>
             </div>
             <span class="badge badge-info">원장 간 자동 동기화</span>
           </div>
@@ -1056,7 +1056,7 @@ code, pre, kbd, samp,
                     <span class="badge badge-warn">원가 미입력 1건</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    상품팀이 <code>ADMN-PROD-004</code>에서 먼저 생성해 둔 <strong>원가 미입력 SKU(판매대기 잠금 상태)</strong>를 불러와 공급처·매입원가를 확정합니다.
+                    최고 관리자가 <code>ADMN-PROD-004</code>에서 먼저 생성해 둔 <strong>원가 미입력 SKU(판매대기 잠금 상태)</strong>를 불러와 공급처·매입원가를 확정합니다.
                   </div>
                 </div>
                 <div class="entry-mode-foot">
@@ -1301,7 +1301,7 @@ code, pre, kbd, samp,
       </div>
       <div class="modal-body">
         <div style="font-size:12px; color:var(--slate-600); margin-bottom:12px;">
-          상품팀이 <code>ADMN-PROD-004</code>에서 먼저 신규 생성하여 현재 <strong>[원가 미입력 · 판매대기 잠금]</strong> 상태인 도서입니다. 원가를 확정하면 판매대기 잠금이 해제됩니다.
+          최고 관리자가 <code>ADMN-PROD-004</code>에서 먼저 신규 생성하여 현재 <strong>[원가 미입력 · 판매대기 잠금]</strong> 상태인 도서입니다. 원가를 확정하면 판매대기 잠금이 해제됩니다.
         </div>
         <table class="data-table">
           <thead>
@@ -1653,11 +1653,11 @@ code, pre, kbd, samp,
       } else if (mode === "PROD_DIRECT") {
         alertBox.className = "ledger-sync-box warn";
         title.textContent = "[경로 [2] 선택됨 — 교재관리(ADMN-PROD-004) 선등록 SKU 사후 원가 확정 모드]";
-        desc.textContent = "상품팀이 PROD-004에서 먼저 만든 도서(현재 판매대기 잠금 상태)의 공급원가를 확정합니다. 저장 즉시 PROD-004의 원가 미입력 잠금이 해제됩니다.";
+        desc.textContent = "최고 관리자가 PROD-004에서 먼저 만든 도서(현재 판매대기 잠금 상태)의 공급원가를 확정합니다. 저장 즉시 PROD-004의 원가 미입력 잠금이 해제됩니다.";
       } else {
         alertBox.className = "ledger-sync-box ok";
         title.textContent = "[경로 [3] 선택됨 — 도서 공급 원장 최초 신규 SKU 채번 모드]";
-        desc.textContent = "외부 위탁/사입 도서의 정식 SKU(BOOK-YYNN)를 여기서 최초 생성합니다. 저장 후 상품팀이 PROD-004에서 이 SKU를 불러와 표지·재고를 입력합니다.";
+        desc.textContent = "외부 위탁/사입 도서의 정식 SKU(BOOK-YYNN)를 여기서 최초 생성합니다. 저장 후 최고 관리자가 PROD-004에서 이 SKU를 불러와 표지·재고를 입력합니다.";
         document.getElementById("f-sku").value = "BOOK-AUTO (신규채번)";
         document.getElementById("f-temp-code").value = "-";
       }

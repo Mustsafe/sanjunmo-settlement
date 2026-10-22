@@ -146,7 +146,7 @@
         { code: "CONF-004", label: "메시지 템플릿 관리 (알림톡·문자·메일)", href: "ADMN-CONF-004_baseline.html?view=template", screenCode: "ADMN-CONF-004" },
         { code: "CONF-004-S1", label: "타겟 메시지 발송 · 내역", href: "ADMN-CONF-004_baseline.html?view=send", screenCode: "ADMN-CONF-004-S1" },
         { code: "BRD-007", label: "1:1 문의 분류 관리", href: "ADMN-BRD-007_baseline.html", screenCode: "ADMN-BRD-007" },
-        { code: "CONF-005", label: "운영자 계정 · 역할 권한(RBAC)", href: "ADMN-CONF-005_baseline.html", screenCode: "ADMN-CONF-005" }
+        { code: "CONF-005", label: "운영자 권한 관리 (계정 · 역할 그룹)", href: "ADMN-CONF-005_baseline.html", screenCode: "ADMN-CONF-005" }
       ]
     }
   ];

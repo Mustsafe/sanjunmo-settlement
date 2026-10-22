@@ -235,13 +235,13 @@ code, pre, kbd, samp,
             <span class="brand-pill">admin.sanjunmo.com · v4.0.0 SSOT</span>
             <div class="brand-title">산준모닷컴 백오피스<br/>통합 어드민 &amp; 파트너 센터</div>
             <div class="brand-desc">
-              사내 운영자(최고관리자·운영·CS·물류·정산)와 외부 권리자(강사·출판사 파트너)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
+              사내 운영자(최고 관리자 · CS담당자 · 물류팀 · 재무팀 등 역할 그룹)와 외부 계정(강사 · 조교 · 저작권자 · 외부 3PL 등)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
             </div>
             <div class="security-policy-list">
               <div>• 모든 로그인 성공 · 실패 · 잠금 이력은 보안 감사 로그(<strong>ADMN-CONF-010</strong>)에 자동 기록됩니다.</div>
               <div>• 비밀번호 <strong>5회 연속 실패 시</strong> 계정이 즉시 잠금 처리됩니다.</div>
               <div>• SMS 본인인증은 24시간 내 <strong>최대 5회</strong>, 재발송 쿨다운 <strong>30초</strong>, 유효시간 <strong>3분</strong>이 적용됩니다 (<strong>ADMN-CONF-008</strong>).</div>
-              <div>• 계정 발급 · 잠금 해제 문의: 운영팀 <strong>ops@sanjunmo.com</strong></div>
+              <div>• 계정 발급 · 잠금 해제 문의: 최고 관리자 <strong>ops@sanjunmo.com</strong></div>
             </div>
           </div>
           <div style="font-size:11px; color:#94a3b8;">
@@ -271,13 +271,13 @@ code, pre, kbd, samp,
               <strong>🔒 계정이 잠겼습니다 (비밀번호 5회 연속 불일치 · ADMN-LOGIN-001-P1)</strong><br/>
               보안 정책에 따라 해당 계정(<strong>cs.kim@sanjunmo.com</strong>)의 로그인이 차단되었습니다.<br/>
               • 본인 휴대폰 SMS 인증 후 <strong>[비밀번호 재설정]</strong>을 완료하면 즉시 잠금이 해제됩니다.<br/>
-              • 또는 최고관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
+              • 또는 최고 관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
             </div>
 
             <div class="form-group">
               <label class="form-label">접속 역할 프리셋 (시연용 빠른 선택)</label>
               <select id="sel-demo-account" class="form-input" onchange="fillDemoAccount(this.value)">
-                <option value="ops@sanjunmo.com|SUPER">최고관리자 (ops@sanjunmo.com → 대시보드 ADMN-DASH-001 이동)</option>
+                <option value="ops@sanjunmo.com|SUPER">최고 관리자 (ops@sanjunmo.com → 대시보드 ADMN-DASH-001 이동)</option>
                 <option value="cs.kim@sanjunmo.com|CS">CS담당자 (cs.kim@sanjunmo.com → 1:1 문의 ADMN-BRD-002 이동)</option>
                 <option value="inst.jung@sanjunmo.com|PARTNER">강사 파트너 (inst.jung@sanjunmo.com → 정산 조회 ADMN-SETT-002-S2 이동)</option>
                 <option value="3pl.logis@sanjunmo.com|3PL">물류 3PL 파트너 (3pl.logis@sanjunmo.com → 배송 관리 ADMN-ORD-002 이동)</option>

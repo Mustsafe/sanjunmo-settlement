@@ -689,8 +689,8 @@ code, pre, kbd, samp,
       <div class="role-sim-box" title="ADMN-BOOK-001 공급원가 열람 권한 시뮬레이터">
           <span>열람 권한:</span>
           <select id="role-mask-select" class="form-select" style="height:26px; width:195px; font-size:11.5px; padding:0 8px;" onchange="applyRoleCostMasking()">
-            <option value="PROD_ADMIN">일반 상품관리자 (원가 마스킹)</option>
-            <option value="FIN_MANAGER">재무/정산책임자 (FIN_MANAGER)</option>
+            <option value="PROD_ADMIN">그 밖의 역할 그룹 (원가 마스킹)</option>
+            <option value="FIN_MANAGER">재무팀 (원가 열람)</option>
           </select>
         </div>
 
@@ -952,7 +952,7 @@ code, pre, kbd, samp,
                       <div>
                         <strong id="d-supply-type">[[경로 1] 계약원장 가채번 출발 · 3원장 완전 동기화]</strong>
                         <span id="d-ledger-desc">공급원장(ADMN-BOOK-001) 원가 등록 완료 · 권리자 매핑(ADMN-SETT-001) 저자인세 10% 자동 매핑 완료</span>
-                        · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (FIN_MANAGER 전용)</span>
+                        · 단위 공급원가: <span class="masked-cost" id="d-cost-display">🔒 마스킹 (재무팀 전용)</span>
                       </div>
                       <div style="display:flex; gap:6px;">
                         <a href="ADMN-BOOK-001_baseline.html" class="btn btn-outline btn-sm">ADMN-BOOK-001 원장</a>
@@ -1045,7 +1045,7 @@ code, pre, kbd, samp,
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
                     재무/출판 담당자가 <strong>도서 공급 원장(<code>ADMN-BOOK-001</code>)</strong>에서 먼저 생성한 정식 SKU를 불러옵니다.<br>
-                    SKU·정가·출판사·공급원가가 자동 세팅되며, 상품팀은 표지·목차·재고만 입력합니다.
+                    SKU·정가·출판사·공급원가가 자동 세팅되며, 최고 관리자는 표지·목차·재고만 입력합니다.
                   </div>
                 </div>
                 <div class="entry-mode-foot">
@@ -1062,7 +1062,7 @@ code, pre, kbd, samp,
                     <span class="badge badge-warn">후속 매핑 필수</span>
                   </div>
                   <div class="entry-mode-body" style="margin-top:8px;">
-                    계약원장·공급원장 등록 전에 상품팀이 먼저 <strong>신규 SKU(<code>BOOK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
+                    계약원장·공급원장 등록 전에 최고 관리자가 먼저 <strong>신규 SKU(<code>BOOK-AUTO</code>)</strong>를 채번하여 등록합니다.<br>
                     단, 저장 후 <strong>공급원장 원가 입력(BOOK-001)</strong> 및 <strong>권리자 매핑(SETT-001)</strong>을 완료하기 전에는 <strong>[판매대기]</strong>로 잠금됩니다.
                   </div>
                 </div>
@@ -1220,7 +1220,7 @@ code, pre, kbd, samp,
                         <option value="사입판매">[SUP-0003] 한국자격교재총판 — 사입판매 (매입가 60%)</option>
                         <option value="미등록(후속입력)">[미등록] 도서 공급 원장(ADMN-BOOK-001) 원가 미입력 상태</option>
                       </select>
-                      <span class="masked-cost" id="f-cost-preview">🔒 매입원가 마스킹 (FIN_MANAGER 전용)</span>
+                      <span class="masked-cost" id="f-cost-preview">🔒 매입원가 마스킹 (재무팀 전용)</span>
                       <a href="ADMN-BOOK-001_baseline.html" class="btn btn-outline btn-sm">ADMN-BOOK-001에서 공급원가 관리 →</a>
                     </div>
                   </td>
@@ -1615,7 +1615,7 @@ code, pre, kbd, samp,
         originMode: "PROD_DIRECT",
         cat: "산업안전지도사",
         title: "2027 대비 산업안전지도사 1차 산안법령 조문해설집 (선등록 · 원장매핑 대기)",
-        subtitle: "상품팀 선등록 도서 · 공급원장 원가 및 권리자 매핑 후 판매 개시 예정",
+        subtitle: "최고 관리자 선등록 도서 · 공급원장 원가 및 권리자 매핑 후 판매 개시 예정",
         author: "최지도",
         publisher: "한국자격교재총판",
         isbn: "979-11-98765-05-0",
@@ -1682,7 +1682,7 @@ code, pre, kbd, samp,
       if (previewEl) {
         previewEl.innerHTML = isFinManagerRole()
           ? `단위 공급원가: ${formatNumber(b.supplyCost)}원 (${b.supplyRateLabel})`
-          : `🔒 매입원가 마스킹 (FIN_MANAGER 전용)`;
+          : `🔒 매입원가 마스킹 (재무팀 전용)`;
       }
     }
 
@@ -2028,7 +2028,7 @@ code, pre, kbd, samp,
       const costEl = document.getElementById("d-cost-display");
       costEl.textContent = isFinManagerRole()
         ? `${formatNumber(b.supplyCost)}원 (${b.supplyRateLabel})`
-        : `🔒 마스킹 (FIN_MANAGER 전용)`;
+        : `🔒 마스킹 (재무팀 전용)`;
 
       const logTbody = document.getElementById("detail-stock-log-tbody");
       logTbody.innerHTML = stockHistoryLogs.map(log => {
