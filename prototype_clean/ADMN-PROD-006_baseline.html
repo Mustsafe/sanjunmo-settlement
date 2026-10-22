@@ -567,7 +567,7 @@ code, pre, kbd, samp,
         <div class="policy-banner-left">
           <span class="policy-badge">권리자 계약 원장(SSOT) 연동 규칙</span>
           <div class="policy-text">
-            강사 노출 정보는 <strong>권리자 계약 원장(ADMN-INST-001)</strong>에 등록된 강사 마스터(<code>INS-XXXX</code>)를 바인딩하여 프론트 전시 프로필을 구성합니다.
+            강사 노출 정보는 <strong>권리자 계약 원장(ADMN-INST-001)</strong>에 등록된 강사 마스터(<code>RH-XXXX</code>)를 바인딩하여 프론트 전시 프로필을 구성합니다.
             실명·주민/사업자번호·정산계좌·RS 요율은 <strong>ADMN-INST-001</strong>에서만 관리하며, 계약 상태가 <strong>[계약해지/종료]</strong>인 경우 프론트 강사관 노출(<code>Y</code>) 설정이 자동 차단됩니다.
           </div>
         </div>
@@ -625,7 +625,7 @@ code, pre, kbd, samp,
 
               <div class="filter-field filter-span-2">
                 <label>검색어 (프론트 강사명 / 권리자코드 / 강사 슬로건)</label>
-                <input type="text" id="filter-keyword" class="form-input" placeholder="강사명(김안전), 권리자코드(INS-XXXX), 슬로건 키워드 입력">
+                <input type="text" id="filter-keyword" class="form-input" placeholder="강사명(김안전), 권리자코드(RH-XXXX), 슬로건 키워드 입력">
               </div>
               <div class="filter-field">
                 <label>정렬 기준</label>
@@ -688,7 +688,7 @@ code, pre, kbd, samp,
             <button type="button" class="btn btn-outline" onclick="switchSubview('list')">← 목록으로</button>
             <span class="code-pill" id="d-prof-code">PRF-2601</span>
             <h2 style="font-size:16px; font-weight:800;" id="d-inst-name">김안전 대표강사 (산업안전기사)</h2>
-            <span class="badge badge-active" id="d-contract-badge">계약 정상 (INS-0001)</span>
+            <span class="badge badge-active" id="d-contract-badge">계약 정상 (RH-0019)</span>
           </div>
           <div style="display:flex; gap:8px;">
             <a class="btn btn-soft" href="ADMN-INST-001_baseline.html">권리자 계약 원장 조회 (ADMN-INST-001)</a>
@@ -713,7 +713,7 @@ code, pre, kbd, samp,
                   <td><span class="code-pill" id="d-code">PRF-2601</span></td>
                   <th>바인딩 권리자 코드</th>
                   <td>
-                    <span class="code-pill" id="d-ins-code">INS-0001</span>
+                    <span class="code-pill" id="d-ins-code">RH-0019</span>
                     <span class="badge badge-active" style="margin-left:6px;" id="d-ins-status">계약 정상 (2026-01-01 ~ 2027-12-31)</span>
                   </td>
                 </tr>
@@ -756,7 +756,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">2. 강사 소개관 하단 자동 노출 상품 (단과 강좌 · 패키지 · 저서)</h3>
-              <span class="card-subtitle">ADMN-PROD-003 / 004 / 005에서 해당 권리자(INS-0001)가 매핑된 상품이 자동 집계됩니다.</span>
+              <span class="card-subtitle">ADMN-PROD-003 / 004 / 005에서 해당 권리자(RH-0019)가 매핑된 상품이 자동 집계됩니다.</span>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -836,11 +836,11 @@ code, pre, kbd, samp,
                   <th>권리자 마스터 선택 <span class="req-star">*</span><br>(ADMN-INST-001)</th>
                   <td>
                     <select id="f-ins-master" class="form-select" style="width:310px;" onchange="onChangeMasterInstructor()">
-                      <option value="INS-0001" data-status="정상" data-name="김안전">[RH-0019 / INS-0001] 김안전 — 계약 정상 (~2027-12-31)</option>
-                      <option value="RH-0025" data-status="정상" data-name="정종대">[RH-0025 / INS-0025] 정종대 — 계약 정상 (~2028-12-31)</option>
-                      <option value="INS-0002" data-status="정상" data-name="이건설">[INS-0002] 이건설 — 계약 정상 (~2027-06-30)</option>
-                      <option value="INS-0003" data-status="갱신대기" data-name="박보건">[INS-0003] 박보건 — 만료임박/갱신대기 (~2026-10-31)</option>
-                      <option value="INS-0005" data-status="계약종료" data-name="정기계">[INS-0005] 정기계 — 계약종료/해지 (전시 차단 대상)</option>
+                      <option value="RH-0019" data-status="정상" data-name="김안전">[RH-0019] 김안전 — 계약 정상 (~2027-12-31)</option>
+                      <option value="RH-0025" data-status="정상" data-name="정종대">[RH-0025] 정종대 — 계약 정상 (~2027-12-31)</option>
+                      <option value="RH-0046" data-status="정상" data-name="이건설">[RH-0046] 이건설 — 계약 정상 (~2027-06-30)</option>
+                      <option value="RH-0047" data-status="갱신대기" data-name="박보건">[RH-0047] 박보건 — 만료임박/갱신대기 (~2026-10-31)</option>
+                      <option value="RH-0049" data-status="계약종료" data-name="정기계">[RH-0049] 정기계 — 계약종료/해지 (전시 차단 대상)</option>
                     </select>
                   </td>
                 </tr>
@@ -849,7 +849,7 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div id="f-contract-gate-box" class="contract-sync-box ok">
                       <div>
-                        <strong id="f-contract-gate-title">[계약 유효 검증 통과] 권리자코드 INS-0001 (계약 상태: 정상)</strong>
+                        <strong id="f-contract-gate-title">[계약 유효 검증 통과] 권리자코드 RH-0019 (계약 상태: 정상)</strong>
                         <div style="font-size:12px; margin-top:2px;" id="f-contract-gate-desc">
                           ADMN-INST-001 원장 계약이 유효하므로 프론트 강사관 노출(Y) 및 메인 배너 추천 설정이 가능합니다.
                         </div>
@@ -991,7 +991,7 @@ code, pre, kbd, samp,
     let instructorsData = [
       {
         profCode: "PRF-2601",
-        insCode: "INS-0001",
+        insCode: "RH-0019",
         name: "김안전",
         cat: "산업안전기사",
         slogan: "산업안전기사 누적 수강생 1위, 비전공자도 이해되는 스토리텔링 안전공학",
@@ -1005,7 +1005,7 @@ code, pre, kbd, samp,
       },
       {
         profCode: "PRF-2602",
-        insCode: "INS-0002",
+        insCode: "RH-0046",
         name: "이건설",
         cat: "건설안전기사",
         slogan: "현장 소장 출신이 짚어주는 건설안전기술 핵심 공법과 실기 작업형 완벽 해법",
@@ -1019,7 +1019,7 @@ code, pre, kbd, samp,
       },
       {
         profCode: "PRF-2603",
-        insCode: "INS-0003",
+        insCode: "RH-0047",
         name: "박보건",
         cat: "산업안전기사",
         slogan: "화학설비·작업환경측정·산업위생 계산문제 공식 암기법 특화",
@@ -1033,7 +1033,7 @@ code, pre, kbd, samp,
       },
       {
         profCode: "PRF-2604",
-        insCode: "INS-0004",
+        insCode: "RH-0048",
         name: "최지도",
         cat: "산업안전지도사",
         slogan: "산업안전지도사 1차·2차 논술 및 구술면접 실전 코칭",
@@ -1047,7 +1047,7 @@ code, pre, kbd, samp,
       },
       {
         profCode: "PRF-2509",
-        insCode: "INS-0005",
+        insCode: "RH-0049",
         name: "정기계",
         cat: "산업안전기사",
         slogan: "기계위험방지기술 과년도 빈출문제 해설 (2025 계약만료)",
