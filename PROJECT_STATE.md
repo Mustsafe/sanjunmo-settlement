@@ -2,7 +2,7 @@
 
 > 이 문서는 **지금 어디까지 왔나**를 기록한다: 확정 기준, 기준선, 현재 상태·미결, 작업 로그.
 > 작업 방법은 `.claude/CLAUDE.md`, 프로젝트 소개·정책·화면 목록은 `README.md`, 안티그래비티 예비 사용법은 `.agents/rules/RULES.md`.
-> 최초 등록: 2026-10-20(`.antigravity/AGENT_PIPELINE_MEMORY.md`) · 2026-10-22 v6.7에서 저장소 루트로 옮기고 역할 규칙을 덜어냄 · 최종 갱신: 2026-10-22 (v6.13 기준)
+> 최초 등록: 2026-10-20(`.antigravity/AGENT_PIPELINE_MEMORY.md`) · 2026-10-22 v6.7에서 저장소 루트로 옮기고 역할 규칙을 덜어냄 · 최종 갱신: 2026-10-22 (v6.14 기준)
 
 ---
 
@@ -15,6 +15,8 @@
 
 **프로토타입**
 - `prototype/`은 기획 검수용(상단 정책 배너, 정책 문구·괄호 병기 유지), `prototype_clean/`은 운영 UI만. 기능 패치는 양쪽 동명 파일에, 표기 정리는 clean 우선이며 prototype/ 괄호 병기는 수정하지 않는다.
+- 등록 · 상세(S1) 화면은 프로토타입에서 모달로 표현하고, 실제 개발은 화면설계서 v12의 별도 페이지 기준을 따른다(2026-10-22 확정).
+- clean HTML 원문의 화면 코드(`ADMN-*`)는 지우지 않는다. 설계서·API·QA·권한의 공통 키라 원문에 남기고, 화면 표시는 `common-snb.js` 런타임 치환으로 가린다(2026-10-22 확정).
 - `screen_spec/`의 원형 번호(`①~⑭`, `[마커 N]`)나 기획 설명 문구를 UI에 노출하지 않는다. 가짜 상단 탭 스위처 대신 실제 SNB와 화면 내 동선 버튼을 쓴다.
 - 업무플로우 페이지(`00_WORKFLOW_GUIDE_baseline.html`)는 clean에서 작업 후 prototype/으로 덮어쓴다. 코드값 비노출, 화면 코드는 회색 라벨.
 - SNB: 정본 9개 그룹 · 메뉴 44개(v6.10에서 BRD-007 추가), 양쪽 `SNB_GROUPS` 동일. 정본 명칭이 길면 축약 허용.
@@ -29,9 +31,9 @@
 
 | 도구 | 파일 | 기능 | 상태 |
 | :--- | :--- | :--- | :--- |
-| 정적 문법 검사 | `skill_static_lint.py` | `<script>` 추출 후 `node --check`, 깨진 href, 중복 ID, 빈 `<tbody>` | 미구축 |
+| 정적 문법 검사 | `skill_static_lint.py` | 인라인 `<script>` 문법(Node.js 파싱), 깨진 로컬 링크(SNB 포함), 중복 ID, 채우는 스크립트 없는 빈 `<tbody>`, 공통 에셋 `id` 규격 경고. 폴더 인자 선택(기본 양쪽), `--strict` → `scripts/qa/reports/STATIC_LINT_REPORT.md` | 구축 |
 | 금지어 스캔 | `skill_jargon_scan.py` | 금지어(`기출`, `정오표`, `Vimeo`, `80%`, `①~⑭`, `[마커`)·기획서 내부 암호(`C-01~04`, `H-01~05`, `D-1~16`, `P1.1~5.1`, `_flag`, `_yn`, `_id` 등)·번역 중복어 탐지 → `scripts/qa/reports/JARGON_SCAN_REPORT.md` | 구축 |
-| 화면 간 데이터 대조 | `skill_cross_data_check.py` | 동일 강사·도서의 정가·요율·계약번호 화면 간 불일치 대조 | 미구축 |
+| 화면 간 데이터 대조 | `skill_cross_data_check.py` | 권리자 코드(RH)↔이름 충돌, 같은 이름의 다른 코드, 계약(CON)↔권리자 불일치, 도서 코드(BK) 형식 혼재 · 같은 도서명의 다른 코드(참고: 한 코드의 여러 도서명). 기본 `prototype_clean`, `--strict` → `scripts/qa/reports/CROSS_DATA_CHECK_REPORT.md` | 구축 |
 | E2E | `skill_playwright_e2e.py` | 모달 열기/닫기, 탭 전환, 레이아웃 겹침. 폴더 인자 필수(`prototype` / `prototype_clean`) → `scripts/qa/reports/PLAYWRIGHT_FUNCTIONAL_AUDIT_REPORT.md` | 구축 |
 | 괄호 중복 스캔 | `scan_paren_dup.py` | 렌더링 후 괄호 중복 탐지(양쪽) + clean 원문 `ADMN-` 코드 자리 집계 → `scripts/qa/reports/PAREN_DUP_*.md` | 구축 |
 
@@ -51,7 +53,7 @@
 
 ---
 
-## 4. 현재 상태 및 다음 작업 (2026-10-22 · v6.13 기준)
+## 4. 현재 상태 및 다음 작업 (2026-10-22 · v6.14 기준)
 
 **상태**
 - 활성 화면 38개(양쪽 폴더). E2E `prototype_clean` 38/38, `prototype` 38/38 PASS (v6.10 기준), 콘솔 에러 0건.
@@ -59,10 +61,8 @@
 - 공통 모달 닫기 핫픽스(`UNIVERSAL-MODAL-CLOSER-HOTFIX`)의 함정은 `.claude/CLAUDE.md` "알려진 함정" 참고.
 
 **미결 사항**
-- clean HTML 원문의 `ADMN-` 코드 252자리: 런타임 치환으로 화면에는 안 보임. 원문 정리 여부 미정.
-- ORD-001 "도서 인세 (+1권)": 원 문구 미확인 상태에서 정한 판단값.
-- 정적 문법 검사·화면 간 데이터 대조 도구 미구축.
-- 상품 Q&A(BRD-003-S1)·문의 분류(BRD-007-S1) 등록·답변 화면: v12는 별도 페이지, 프로토타입은 모달.
+- 샘플 데이터: 권리자 `김안전`이 대부분 화면에서 `RH-0019`인데 SETT-007·CONF-010 등에서는 `RH-0012`(SETT-002에서는 `RH-0012` = (주)산준교육 에이전시). 화면 간 데이터 대조 도구가 검출.
+- 공통 에셋 `id` 규격(README 3.2) 미준수 4개 화면: BRD-001·BRD-005·CONF-004·CONF-005(양쪽). 정적 문법 검사 경고.
 
 **다음 작업: 개별 HTML 점검 및 동작 오류 세부 수정**
 1. white가 화면·증상을 지정(스크린샷 포함 가능).
@@ -111,3 +111,4 @@
 | 2026-10-22 | v6.11 자유게시판 1차 범위 제외 — 통합설계서 프론트 매핑에서 자유게시판 제거, USER-001 블랙리스트 후보 샘플의 삭제된 신고 탭 흔적(RPT-101·103, 자유게시판 비속어) 교체. 통합설계서 Set 4 [B]에 상품 Q&A(BRD-003, BRD-001 탭) 명세 추가, 문의 분류(BRD-007) 운영 관리자 전용 명시. 통합설계서 Ver. 3.2.1로 개정 이력 추가(v6.9~v6.11 본문 변경분). E2E 양쪽 38/38 ×2 | `docs/산준모닷컴 구축 통합 상세 설계서.md`, `prototype*/ADMN-USER-001_baseline.html`, `PROJECT_STATE.md` |
 | 2026-10-22 | v6.12 README 4절 화면 인벤토리 재작성 — 실제 38개 파일을 SNB 9개 그룹 순서로, 파일별로 함께 담는 화면 코드와 결번·폐지 목록 정리. 4절 미결에 첫 화면설계서 점검에서 찾은 코드 충돌(합격환급 심사 이중, 감사 로그 CONF-006/010, USER-007 뜻, SETT-011 범위, SETT-010 미정의, 치환표 SETT-003)과 BRD 권한·S1 페이지 차이 기록 | `README.md`, `PROJECT_STATE.md` |
 | 2026-10-22 | v6.13 미결 코드 충돌 정리(white 결정) — ① 합격환급 심사 SETT-006 일원화: RFD-002의 RFD-001 뷰·심사 모달·S1 업그레이드 블록 제거, `?view=pass`는 SETT-006으로 이동 ② 감사 로그 CONF-010 통합: CONF-010 "시스템 감사 로그"로 개명, 3번 탭에 운영자 접근·권한·다운로드 로그(구 CONF-006) 이전, CONF-005 탭은 바로가기로, `?view=ADMN-CONF-006`은 CONF-010으로, CONF-005 권한 매트릭스에 BRD-007(CS 메뉴 비노출)·CONF-010 행 추가 ③ SETT-011을 v12 기준 3PL 물류비 대사로 새로 작성(출고·수수료 대사 — 스코어카드·불일치 붉은 표시·처리 결과+메모 필수·대사 완료 잠금, 배송비·반품 대사 — 반품 귀책 CS 판정, 도서 매입 계산서 대조 — 수취 상태 4종·폐업 매입처 경고, `?tab=` 유지, 10월 명세서 미수령 빈 상태) ④ USER-007 "민감 정보 보관·열람 통제"로 정의 통일, SETT-010 미사용 명시, SETT-009 `?view=tax-report` 처리 추가, clean 치환표 SETT-003 항목 제거. 문서: 03권 대조표·16.1(USER-007·CONF-010·SETT-011), 00권 인덱스, 01권 v4.0.1 개정 이력, 통합설계서 Ver. 3.2.2, README. Playwright 48/48 + v6.10 회귀 97/97, E2E 양쪽 38/38 ×2 | `prototype*/ADMN-RFD-002·USER-001·SETT-006·CONF-001·002·005·010·SETT-009·011_baseline.html`, `prototype*/00_WORKFLOW_GUIDE_baseline.html`, `prototype*/common-snb.js`, `docs/*.md`, `README.md`, `PROJECT_STATE.md` |
+| 2026-10-22 | v6.14 남은 미결 처리 — S1 화면은 프로토타입 모달·개발은 v12 별도 페이지, clean 원문 화면 코드 유지를 확정 기준으로 기록. ORD-001 교재 라인 문구 '도서 인세 (+1권)' → '자사 발행 도서 인세 · 판매 1권 집계'(prototype은 'Pipeline 2.1' 접두 유지). QA 도구 2종 구축: `skill_static_lint.py`(문법·링크·중복 ID·빈 tbody·에셋 규격, 오류 0건), `skill_cross_data_check.py`(권리자·계약·도서 대조). 대조 결과에 따라 v6.10·v6.13에서 넣은 도서 샘플 코드를 기존 형식(BK-2026-NNN)으로 정렬(BRD-001 → 103·204·206, SETT-011 → 201~206). 기존 데이터의 `김안전` RH-0012/0019 혼용과 공통 에셋 id 미준수 4개 화면은 미결로 기록 | `prototype*/ADMN-ORD-001·BRD-001·SETT-011_baseline.html`, `scripts/qa/skill_static_lint.py`, `scripts/qa/skill_cross_data_check.py`, `PROJECT_STATE.md`, `.claude/CLAUDE.md` |
