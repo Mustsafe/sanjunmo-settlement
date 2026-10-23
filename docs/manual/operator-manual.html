@@ -17,7 +17,7 @@
   --warn-bg: #fdf0e8;
   --ok: #1f7a4d;
   --ok-bg: #e7f4ec;
-  --l-a: #1d63c9; --l-b: #0f8a7a; --l-c: #c2560c; --l-d: #7b3fc4; --l-e: #c22f5b; --l-f: #5c6f12; --l-g: #5b6472; --l-m: #0b6e8a;
+  --l-a: #1d63c9; --l-b: #0f8a7a; --l-c: #c2560c; --l-d: #7b3fc4; --l-e: #c22f5b; --l-f: #5c6f12; --l-g: #5b6472; --l-m: #0b6e8a; --l-h: #8a3b12; --l-i: #2f5d50;
   --font-body: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
   --r: 10px;
@@ -25,12 +25,12 @@
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
   --bg: #11151b; --surface: #1a2029; --ink: #e8ecf2; --ink-2: #b3bcc9; --ink-3: #8691a1; --rule: #2c3440; --tint: #222a35;
   --warn: #f2915c; --warn-bg: #3a2418; --ok: #5cc98f; --ok-bg: #173226;
-  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1; --l-m: #4cc3e0;
+  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1; --l-m: #4cc3e0; --l-h: #e08a5c; --l-i: #6cc4a8;
   color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #11151b; --surface: #1a2029; --ink: #e8ecf2; --ink-2: #b3bcc9; --ink-3: #8691a1; --rule: #2c3440; --tint: #222a35;
   --warn: #f2915c; --warn-bg: #3a2418; --ok: #5cc98f; --ok-bg: #173226;
-  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1; --l-m: #4cc3e0;
+  --l-a: #5b98ef; --l-b: #3cc0ad; --l-c: #f08a3e; --l-d: #a982ea; --l-e: #ee6a90; --l-f: #a3bb45; --l-g: #9aa3b1; --l-m: #4cc3e0; --l-h: #e08a5c; --l-i: #6cc4a8;
   color-scheme: dark; }
 
 * { box-sizing: border-box; }
@@ -189,7 +189,7 @@ footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule)
   <header class="top">
     <span class="eyebrow">산준모닷컴 백오피스 · 운영자용</span>
     <h1>업무 동선 매뉴얼</h1>
-    <p class="lead">한 화면에서 끝나지 않는 업무를 언제 하는 일인지에 따라 세 갈래로 정리했습니다. 매일 반복하는 일, 매달 정산을 마감하는 일, 계약·상품을 처음 한 번 설정하는 일입니다. 앞 화면에서 만든 결과를 다음 화면에서 골라 쓰기 때문에 순서를 지켜야 합니다.</p>
+    <p class="lead">한 화면에서 끝나지 않는 업무를 언제 하는 일인지에 따라 나눴습니다. 매일 반복하는 일과 1:1 문의 이관, 매달 정산을 마감하는 일, 한 해에 몇 번 돌아오는 일, 계약·상품을 처음 한 번 설정하는 일입니다. 앞 화면에서 만든 결과를 다음 화면에서 골라 쓰기 때문에 순서를 지켜야 합니다.</p>
     <nav class="jump" aria-label="바로가기">
       <a href="#daily">매일 하는 일</a>
       <a href="#inquiry">1:1 문의 이관</a>
@@ -489,7 +489,8 @@ const FLOWS = [
       { name: "약정금 마일스톤 검수", code: "INST-002", group: G_PRE, file: "ADMN-INST-002_baseline.html",
         do: ["검수 큐에서 마일스톤을 고르고 증빙을 확인합니다.", "승인하면 해당 월 정산서로 이관됩니다."],
         take: ["CT", "계약 · 마일스톤"],
-        lock: "국세청 사업자 확인이 90일을 넘었거나 소득 구분이 비어 있으면 승인 게이트가 막힙니다. 마감된 월로는 이관할 수 없습니다." },
+        lock: "국세청 사업자 확인이 90일을 넘었거나 소득 구분이 비어 있으면 승인 게이트가 막힙니다. 마감된 월로는 이관할 수 없습니다.",
+        tip: "등록은 계약할 때 한 번이지만, 검수 · 정산 · 지급은 매달 ‘월 정산 마감’ 노선에서 진행합니다." },
       { name: "월간 정산 및 집행", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html",
         do: ["정산을 실행하면 선급금이 상계되고 남은 금액이 지급 대상이 됩니다.", "대량이체 엑셀로 지급하고 결과 파일로 대사합니다."] },
       { name: "정산 수동 조정", code: "SETT-005", group: G_SETT, file: "ADMN-SETT-005_baseline.html", optional: true,
@@ -514,7 +515,7 @@ const FLOWS = [
     done: ["상품 판매중", "재고 0이 되면 결제 자동 차단"]
   },
   {
-    id: "terminate", key: "H", color: "--l-e",
+    id: "terminate", key: "H", color: "--l-h",
     title: "계약 종료 · 중도 해지",
     when: "계약이 만료되거나 중도에 해지될 때",
     start: ["만료 예정 확인 또는 해지 합의", "만료 30일 전부터 계약 원장 목록의 ‘만료 임박’ 필터에 나타납니다"],
@@ -542,7 +543,7 @@ const FLOWS = [
     done: ["대상별 승계 · 매핑 종료 지정 후 저장", "계속 팔 상품은 지분 100% 복구", "강사관 노출 잠김 확인", "반환 · 청구가 정산에 반영"]
   },
   {
-    id: "account", key: "I", color: "--l-b",
+    id: "account", key: "I", color: "--l-i",
     title: "운영자 · 파트너 계정 발급",
     when: "직원이 새로 오거나 강사 · 저자 · 3PL에게 계정을 줄 때",
     start: ["계정 요청 접수", "외부 파트너는 계약 또는 거래가 먼저 등록돼 있어야 합니다"],
@@ -576,7 +577,7 @@ const DAILY = [
       scr: "통합 대시보드 홈", code: "DASH-001", file: "ADMN-DASH-001_baseline.html?view=dash" },
     { who: "CS", title: "밤사이 들어온 1:1 문의 분류 · 이관", detail: "SLA 임박 건부터 열어 분류를 확인하고, 직접 답하거나 담당 부서로 넘깁니다. 자세한 순서와 분류표는 아래 ‘1:1 문의 분기와 타 부서 이관’에 있습니다.",
       scr: "1:1 문의 관리", code: "BRD-002", file: "ADMN-BRD-002_baseline.html", due: SET("접수 후 24시간") },
-    { who: "CS", title: "상품 Q&A 답변", detail: "미답변 문의를 열면 내가 담당자가 됩니다. 다른 사람이 먼저 연 문의는 읽기 전용입니다.",
+    { who: "CS 외", title: "상품 Q&A 답변", detail: "문의마다 담당(물류팀 · 조교 · CS)이 배분됩니다. 미답변 문의를 열면 내가 담당자가 되고, 다른 사람이 먼저 연 문의는 읽기 전용입니다.",
       scr: "공지 · FAQ · Q&A", code: "BRD-001", file: "ADMN-BRD-001_baseline.html?view=pqna" }
   ]},
   { slot: "오전", time: UNSET("시각 미정"), tasks: [
@@ -604,7 +605,7 @@ const DAILY = [
 const EVENTS = [
   { when: "중복 로그인 · 기기 문의", what: "강제 로그아웃 · 기기 초기화 (1계정 1세션)", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
   { when: "진도율 오류 · 0초 강의", what: "사유를 적고 진도율을 수동 보정합니다. 환급 판정에 바로 반영됩니다.", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
-  { when: "수강 일시정지 요청", what: "수강 홀딩 (최대 3회 · 30일), 수강 기간이 그만큼 늘어납니다.", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
+  { when: "수강 일시정지 요청", what: "사유(10자 이상)를 적고 수강 홀딩합니다. 기본 최대 3회 · 누적 30일이며, 정지한 일수만큼 수강 종료일이 늦춰집니다.", scr: "회원 수강 · 기간 · 기기 제어", code: "USER-003", file: "ADMN-USER-001_baseline.html?view=course" },
   { when: "휴대폰 결제 익월 취소 불가", what: "등록된 본인 계좌로 현금 환불합니다. 계좌를 볼 때 열람 사유를 남깁니다.", scr: "환불 요청 · 심사 관리", code: "RFD-002", file: "ADMN-RFD-002_baseline.html" },
   { when: "알림톡 템플릿 새로 필요", what: "SENS 콘솔에서 등록 · 검수 요청(영업일 1~2일) 후, 승인되면 템플릿 코드를 연결합니다.", scr: "메시지 템플릿 관리", code: "CONF-004", file: "ADMN-CONF-004_baseline.html?view=template" },
   { when: "특가 기획전 오픈", what: "기획전을 만들고 쿠폰 · 적립 차단을 켭니다. 결제창 혜택이 자동으로 잠깁니다.", scr: "이벤트 · 기획전 관리", code: "PROM-001", file: "ADMN-PROM-001_baseline.html" }
@@ -616,7 +617,7 @@ const MONTHLY = {
   title: "월 정산 마감",
   when: "매달 전월 매출을 정산해 권리자에게 지급하고 세무 자료를 만들 때",
   notice: "매월 진행할 고정 날짜를 정해야 합니다. 지금은 순서만 정해져 있습니다. 각 단계의 ‘매월 __일’ 칸을 운영 일정으로 채우고, 사전 검증(1~4)이 마감 확정(6)보다 앞서도록 날짜를 잡으세요. 법정 기한이 있는 단계만 기한을 적었습니다.",
-  start: ["전월 매출 · 환불이 모두 들어온 뒤 시작", "사전 검증 1~4는 서로 순서가 없어 동시에 진행해도 됩니다"],
+  start: ["전월 매출 · 환불이 모두 들어온 뒤 시작", "사전 검증 1~4는 동시에 진행해도 됩니다. 다만 사업자 확인(2)이 90일 지난 권리자가 있으면 약정금 승인(3) 전에 재확인합니다"],
   stops: [
     { name: "PG 정산 원장 대사", code: "SETT-004", group: G_PRE, file: "ADMN-SETT-004_baseline.html", due: UNSET("매월 __일"),
       do: ["[PG 원장 배치 재대사 실행]으로 한 달 치를 다시 맞춰 봅니다.", "차이 난 건마다 원인 코드와 소명을 입력합니다. 1,000원 이내 단수차액은 자동 대체할 수 있습니다.", "가상계좌 입금이 월말 · 월초에 걸친 건의 귀속 월을 확인합니다."],
@@ -633,7 +634,7 @@ const MONTHLY = {
       do: ["이번 달 승인된 환급 건을 골라 [선택 건 일괄 정산반영 확정]을 누릅니다."],
       out: ["결과", "환급 공제 · 지원금 한도 복원"] },
     { name: "월간 정산 — 연산 · 검토", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html", due: UNSET("매월 __일"),
-      do: ["[1~11단계 통합 연산 배치 재실행]을 누릅니다.", "수취인별 정산서를 검토합니다. 지급 대상, 지급 보류(최소 지급액 10만 원 미만 → 다음 달 이월), 청구서로 나뉩니다."],
+      do: ["[1~11단계 통합 연산 배치 재실행]을 누릅니다.", "수취인별 정산서를 검토합니다. 지급 대상, 지급 보류(계약별 최소 지급 기준액 — 기본 10만 원 — 미만 → 다음 달 이월), 청구서로 나뉩니다."],
       take: ["입력", "1~4단계 결과"],
       tip: "마감 전에는 몇 번이든 다시 실행할 수 있습니다. 금액이 틀리면 계약이나 지분 매핑을 고친 뒤 다시 실행합니다." },
     { name: "월간 정산 — 마감 확정", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html", due: UNSET("매월 __일"),
