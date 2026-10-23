@@ -1022,6 +1022,16 @@ code, pre, kbd, samp,
         </div>
       </section>
 
+      <!-- 배치 이후 자동 재연산된 권리자 (약정금 승인 · 합격 환급 확정 연계, 정산 02권 10.1절) -->
+      <section id="recalcAfterBatch" style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px 18px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+          <div style="font-weight:700; font-size:13px;">🔄 배치 이후 자동 재연산된 권리자</div>
+          <span class="badge badge-primary" id="recalcAfterBatchCount">0명</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-muted); line-height:1.6;">정산 배치를 돌린 뒤 <a href="ADMN-INST-002_baseline.html">약정금 마일스톤 검수</a>에서 약정금을 승인하거나 <a href="ADMN-SETT-006_baseline.html">합격 환급반 관리</a>에서 환급 정산 반영을 확정하면, 영향을 받는 권리자의 정산서만 자동으로 다시 계산되어 여기에 표시됩니다. 배치를 다시 돌릴 필요는 없습니다.</div>
+        <div id="recalcAfterBatchList"></div>
+      </section>
+
       <!-- KPI 카드 -->
       <section class="kpi-grid">
         <div class="kpi-card active" data-filter="ALL">
@@ -3840,6 +3850,29 @@ code, pre, kbd, samp,
     showToast(`📤 ${d.holder} ${d.kind} 제출을 등록했습니다. 홈택스 매입 내역 대사 후 완료됩니다.`);
   }
   document.addEventListener("DOMContentLoaded", renderTaxDocs);
+
+  // 배치 이후 자동 재연산된 권리자 — 약정금 마일스톤 검수 · 합격 환급반 관리가 남긴 기록(sjm.settle.recalcEvents.v1)을 데이터 기준 월별로 표시
+  function renderRecalcAfterBatch() {
+    const box = document.getElementById("recalcAfterBatchList");
+    if (!box) return;
+    const sel = document.getElementById("monthSelect");
+    const month = sel ? sel.value : "2026-10";
+    let events = [];
+    try { events = JSON.parse(localStorage.getItem("sjm.settle.recalcEvents.v1") || "[]"); } catch (e) {}
+    events = events.filter(ev => ev.month === month).sort((x, y) => y.at.localeCompare(x.at));
+    document.getElementById("recalcAfterBatchCount").textContent = `${new Set(events.map(ev => ev.holderId)).size}명`;
+    if (!events.length) {
+      box.innerHTML = '<div style="font-size:12px; color:var(--text-muted);">배치 이후 자동 재연산된 권리자가 없습니다.</div>';
+      return;
+    }
+    const th = 'style="text-align:left; padding:7px 8px; border-bottom:1px solid var(--border); font-weight:700;"';
+    const td = 'style="padding:7px 8px; border-bottom:1px solid var(--border); vertical-align:top;"';
+    box.innerHTML = `<table style="width:100%; border-collapse:collapse; font-size:12.5px;"><thead><tr><th ${th}>재연산 시각</th><th ${th}>권리자</th><th ${th}>계약</th><th ${th}>사유</th><th ${th}>반영 내용</th></tr></thead><tbody>`
+      + events.map(ev => `<tr><td ${td} nowrap>${ev.at}</td><td ${td}><strong>${ev.holderName}</strong></td><td ${td} nowrap>${ev.contractId}</td><td ${td} nowrap><a href="ADMN-${ev.source}_baseline.html">${ev.reason}</a></td><td ${td}>${ev.detail}</td></tr>`).join("")
+      + `</tbody></table>`;
+  }
+  document.addEventListener("DOMContentLoaded", renderRecalcAfterBatch);
+  document.addEventListener("change", ev => { if (ev.target && ev.target.id === "monthSelect") renderRecalcAfterBatch(); });
 </script>
 
 </body></html>

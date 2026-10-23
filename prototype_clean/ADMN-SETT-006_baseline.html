@@ -740,6 +740,14 @@
   </div>
 </div>
 
+<div id="recalcNoticeModal" class="modal-backdrop recalc-notice" role="dialog" aria-modal="true" aria-labelledby="recalcNoticeTitle" style="position:fixed; inset:0; background:rgba(15,23,42,0.55); display:none; align-items:center; justify-content:center; z-index:11000; padding:20px;">
+  <div style="background:#fff; border-radius:12px; width:680px; max-width:96%; max-height:86vh; display:flex; flex-direction:column; box-shadow:0 20px 45px rgba(15,23,42,0.25); overflow:hidden;">
+    <div style="padding:14px 20px; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; gap:8px;"><strong id="recalcNoticeTitle" style="font-size:15px;">정산서 자동 재연산 안내</strong><button type="button" class="btn btn-sm" onclick="closeRecalcNotice()">✕ 닫기</button></div>
+    <div id="recalcNoticeBody" style="padding:16px 20px; overflow-y:auto; font-size:13px; line-height:1.6; display:flex; flex-direction:column; gap:10px;"></div>
+    <div style="padding:12px 20px; border-top:1px solid #e2e8f0; display:flex; justify-content:flex-end; gap:8px;"><a class="btn" href="ADMN-SETT-002_baseline.html">월간 정산에서 확인 ↗</a><button type="button" class="btn btn-primary" onclick="closeRecalcNotice()">확인</button></div>
+  </div>
+</div>
+
 <div id="toastContainer" class="toast-container"></div>
 
 <script>
@@ -1195,16 +1203,84 @@
     });
   }
 
+  // 정산 배치(SETT-002)를 이미 돌린 미마감 월 — 이 달 확정분은 분담 강사 정산서를 자동 재연산(정산 01권 15.3절)
+  const SETTLE_BATCH_AT = { "2026-10": "2026-10-14 15:45:00" };
+  // 정산서 자동 재연산 기록 — 월간 정산(SETT-002)이 같은 키를 읽어 배치 이후 재연산된 권리자를 표시
+  const RECALC_EVENTS_KEY = "sjm.settle.recalcEvents.v1";
+  function pushRecalcEvents(events) {
+    try {
+      const prev = JSON.parse(localStorage.getItem(RECALC_EVENTS_KEY) || "[]");
+      localStorage.setItem(RECALC_EVENTS_KEY, JSON.stringify(events.concat(prev)));
+    } catch (e) {}
+  }
+  function recalcTable(rows) {
+    const th = 'style="text-align:left; padding:7px 8px; background:#f8fafc; border-bottom:1px solid #e2e8f0; font-weight:700;"';
+    const td = 'style="padding:7px 8px; border-bottom:1px solid #e2e8f0; vertical-align:top;"';
+    return `<table style="width:100%; border-collapse:collapse; font-size:12.5px;"><thead><tr><th ${th}>권리자</th><th ${th}>계약</th><th ${th}>반영 내용</th></tr></thead><tbody>`
+      + rows.map(r => `<tr><td ${td}><strong>${r.holderName}</strong></td><td ${td} class="mono" nowrap>${r.contractId}</td><td ${td}>${r.detail}</td></tr>`).join("")
+      + `</tbody></table>`;
+  }
+  function openRecalcNotice(html) {
+    const m = document.getElementById("recalcNoticeModal");
+    document.getElementById("recalcNoticeBody").innerHTML = html;
+    m.classList.add("show");
+    m.style.setProperty("display", "flex", "important");
+    m.removeAttribute("aria-hidden");
+  }
+  function closeRecalcNotice() {
+    const m = document.getElementById("recalcNoticeModal");
+    m.classList.remove("show");
+    m.style.setProperty("display", "none", "important");
+  }
+
+  // 확정 건 중 강사 정산이 바뀌는 권리자(옵션 B · C)만 권리자별 1회 재연산하고 알림 모달로 안내. 재연산이 없으면 false
+  function reflectToSettlement(items, at) {
+    const affected = {}, noImpact = [], queued = [];
+    items.forEach(item => {
+      if (item.burdenType === "OPTION_A") { noImpact.push(item); return; }
+      const batchAt = SETTLE_BATCH_AT[item.appliedMonth];
+      if (!batchAt) { queued.push(item); return; }
+      const key = item.appliedMonth + "|" + item.rightsHolderId;
+      if (!affected[key]) affected[key] = { month: item.appliedMonth, batchAt: batchAt, holderId: item.rightsHolderId, holderName: item.rightsHolderName, contractId: item.contractId, rs: 0, support: 0, restore: false, ids: [] };
+      const a = affected[key];
+      a.rs += item.deductBasicRs; a.support += item.deductSupport; a.restore = a.restore || (item.capRestoreYn && item.deductSupport > 0); a.ids.push(item.id);
+    });
+    const list = Object.values(affected);
+    if (!list.length) return false;
+    list.forEach(a => {
+      a.detail = `강사료 차감 -${fmt(a.rs)}${a.support ? ` · 지원금 차감 -${fmt(a.support)}` : ""}${a.restore ? " · 지원금 한도 복원" : ""} → 1~11단계 재계산 (확정 건 ${a.ids.join(", ")})`;
+      state.auditLogs.unshift({
+        time: at,
+        actor: "정산 엔진 (자동)",
+        targetId: `${a.month} 정산서`,
+        burden: a.holderName,
+        action: `권리자 단위 1~11단계 재연산 — 실행 사유: 합격 환급 확정 ${a.ids.join(", ")}`,
+        basis: `정산 배치(${a.batchAt}) 이후 확정되어 정산서에 자동 반영`
+      });
+    });
+    pushRecalcEvents(list.map(a => ({ month: a.month, holderId: a.holderId, holderName: a.holderName, contractId: a.contractId,
+      source: "SETT-006", sourceId: a.ids.join(", "), reason: "합격 환급 확정", detail: a.detail, at: at })));
+    openRecalcNotice(
+      `<div><strong>${list[0].month}</strong> 정산 배치(${list[0].batchAt})가 이미 실행된 달입니다. 이번 확정으로 강사 정산이 바뀌는 권리자 ${list.length}명의 정산서를 1~11단계 다시 계산했습니다. 배치를 다시 돌리지 않아도 됩니다.</div>`
+      + recalcTable(list)
+      + (noImpact.length ? `<div>강사 정산 영향 없음 <strong>${noImpact.length}건</strong> — 옵션 A(플랫폼 100% 부담)라 재연산하지 않았습니다.</div>` : "")
+      + (queued.length ? `<div>정산 배치 전 월 <strong>${queued.length}건</strong> — 다음 정산 배치에서 반영됩니다.</div>` : "")
+      + `<div style="font-size:12px; color:#64748b;">재연산 기록은 아래 감사 로그와 월간 정산 화면에 남습니다.</div>`);
+    return true;
+  }
+
   function approveSelectedItems() {
     const checkedIds = Array.from(document.querySelectorAll(".row-chk:checked")).map(el => el.value);
     if (checkedIds.length === 0) {
       showToast("일괄 정산반영 확정할 대기 건을 먼저 선택해 주세요.");
       return;
     }
+    const newlyApproved = [];
     checkedIds.forEach(id => {
       const item = state.items.find(x => x.id === id);
       if (item && item.status !== "APPROVED") {
         item.status = "APPROVED";
+        newlyApproved.push(item);
         state.auditLogs.unshift({
           time: "2026-10-18 15:20:00",
           actor: "재무팀장 (조정식)",
@@ -1215,9 +1291,10 @@
         });
       }
     });
+    const recalculated = reflectToSettlement(newlyApproved, "2026-10-18 15:20:00");
     renderTable();
     renderAuditLogs();
-    showToast(`선택한 ${checkedIds.length}건의 합격환급 정산 차감 내역이 일괄 확정되었습니다.`);
+    if (!recalculated) showToast(`선택한 ${checkedIds.length}건의 합격환급 정산 차감 내역이 일괄 확정되었습니다.`);
   }
 
   function approveSettlementDeduct(id) {
@@ -1234,10 +1311,11 @@
       action: `강사료 차감(-${fmt(item.deductBasicRs)}) 및 개발지원금 차감(-${fmt(item.deductSupport)}) 정산 반영 승인`,
       basis: "4대 제출 증빙(합격증 사본·산준모 카페 합격수기 링크·통장사본·1금융권 실명계좌) 확인 완료"
     });
+    closeSett006Modal();
+    const recalculated = reflectToSettlement([item], "2026-10-18 15:15:10");
     renderTable();
     renderAuditLogs();
-    closeSett006Modal();
-    showToast(`[${item.id}] 합격환급 정산 차감 내역이 확정되었습니다.`);
+    if (!recalculated) showToast(`[${item.id}] 합격환급 정산 차감 내역이 확정되었습니다.`);
   }
 
   function renderAuditLogs() {
