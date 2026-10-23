@@ -597,7 +597,7 @@ code, pre, kbd, samp,
               <span class="badge badge-slate">총 5건 시연 케이스</span>
             </div>
             <div style="display:flex; gap:8px;">
-              <button type="button" class="btn btn-sm" onclick="openTransferModal('INQ-20261016-091')">⇄ 선택 문의 부서/유형 이관</button>
+              <button type="button" class="btn btn-sm" onclick="requestTransfer('INQ-20261016-091')">⇄ 선택 문의 부서/유형 이관</button>
               <button type="button" class="btn btn-sm btn-primary" onclick="openCaseDetail('INQ-20261016-091')">선택 문의 상세/분기 열기 →</button>
             </div>
           </div>
@@ -834,7 +834,7 @@ code, pre, kbd, samp,
                   <span class="badge badge-red" id="dt-status-badge">● 미답변 대기</span>
                 </div>
                 <div style="display:flex; gap:6px;">
-                  <button type="button" class="btn btn-sm" onclick="openTransferModal(currentCaseId)">⇄ 문의유형 재분류 · 부서 이관</button>
+                  <button type="button" class="btn btn-sm" onclick="requestTransfer(currentCaseId)">⇄ 문의유형 재분류 · 부서 이관</button>
                 </div>
               </div>
               <div class="card-body">
@@ -1044,7 +1044,7 @@ code, pre, kbd, samp,
       </div>
       <div class="modal-body">
         <div style="margin-bottom:14px; font-size:12.5px; color:var(--text-secondary);">
-          수험생이 1:1 문의 접수 시 선택한 카테고리가 실제 문의 내용과 다를 경우, 알맞은 분기 도메인으로 재분류하거나 전담 심사로 즉시 이관합니다.
+          분류가 내용과 다르면 바로잡고, 처리할 부서를 지정해 넘깁니다. 이관받은 부서가 답변까지 마치며, 직접 답변할 수 없으면 담당 부서를 CS담당자로 지정해 다시 이관합니다.
         </div>
         <div style="display:flex; flex-direction:column; gap:12px;">
           <div>
@@ -1052,18 +1052,17 @@ code, pre, kbd, samp,
             <input type="text" class="input" id="modal-inq-id" style="width:100%; background:#F8FAFC;" readonly value="INQ-20261016-091" />
           </div>
           <div>
-            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">변경할 문의 유형 및 타겟 허브</label>
-            <select class="select" id="modal-target-cat" style="width:100%;">
-              <option value="REFUND">[결제·환불] ➔ 환불 심사 워크스페이스 (ADMN-RFD-002-S1) 이관</option>
-              <option value="SHIPPING">[배송·교재] ➔ 주문·3PL 출고지시 관리 (ADMN-ORD-001/002)</option>
-              <option value="PLAYER">[수강·동시접속] ➔ 동시접속 IP/세션 제어 패널</option>
-              <option value="BENEFIT">[합격환급·포인트] ➔ 합격환급반 심사 (ADMN-SETT-006)</option>
-              <option value="STUDY_MISROUTE">[학습질문 오인입] ➔ 산준모 네이버 카페 안내 (향후 강사 Q&A)</option>
-            </select>
+            <label for="modal-target-cat" style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">문의 분류 <span style="color:var(--text-muted); font-weight:400;">(1:1 문의 분류 관리 기준)</span></label>
+            <select class="select" id="modal-target-cat" style="width:100%;" onchange="onTransferCatChange()"></select>
+            <div id="modal-target-screen" style="font-size:11.5px; color:var(--text-muted); margin-top:4px;"></div>
           </div>
           <div>
-            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">내부 이관 메모 (관리자 간 공유, 고객 미노출)</label>
-            <textarea class="textarea" style="min-height:80px;" id="modal-memo">고객이 패키지 내 미개봉 실물 교재 3종만 부분 환불 희망함. 최근 주문 ORD-20261012-0041 바인딩 완료하여 환불 심사 큐(ADMN-RFD-002)로 이관함.</textarea>
+            <label style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">담당 부서 <span style="color:var(--text-muted); font-weight:400;">(분류를 고르면 자동 선택 · 직접 바꿀 수 있음)</span></label>
+            <div id="modal-target-depts" style="display:flex; flex-wrap:wrap; gap:6px 14px; font-size:12.5px;"></div>
+          </div>
+          <div>
+            <label for="modal-memo" style="font-size:12px; font-weight:700; display:block; margin-bottom:4px;">내부 이관 메모 <span style="color:var(--danger, #DC2626);">*</span> <span style="color:var(--text-muted); font-weight:400;">(받는 부서에 남기는 상황 · 처리 결과, 수험생 미노출)</span></label>
+            <textarea class="textarea" style="min-height:80px;" id="modal-memo" placeholder="예) 미개봉 교재 3종 부분 환불 희망. 주문 ORD-20261012-0041 연결함. 환불 심사 부탁드립니다."></textarea>
           </div>
         </div>
       </div>
@@ -1192,7 +1191,7 @@ code, pre, kbd, samp,
       { id: 'fin_manager', name: '이재무' }
     ];
     // 이 화면의 문의 유형 → 1:1 문의 분류 관리(BRD-007)의 대분류. 담당 부서 큐는 그 대분류 분류들의 큐 합집합
-    const CAT_MAJOR = { REFUND: 'PAY', SHIPPING: 'SHIP', PLAYER: 'LECT', BENEFIT: 'PASS', STUDY_MISROUTE: 'STUDY' };
+    const CAT_MAJOR = { REFUND: 'PAY', SHIPPING: 'SHIP', PLAYER: 'LECT', BENEFIT: 'PASS', STUDY_MISROUTE: 'STUDY', ETC: 'ETC' };
     const ASSIGN = {
       'INQ-20261016-084': { who: 'cs_lee02', since: '10:12', status: 'IN_PROGRESS' },
       'INQ-20261016-075': { who: 'cs_lead01', since: '09:31', status: 'ANSWERED' }
@@ -1201,12 +1200,13 @@ code, pre, kbd, samp,
       WAITING: ['badge-red', '● 접수 (미답변)'],
       IN_PROGRESS: ['badge-amber', '◐ 처리중'],
       ANSWERED: ['badge-green', '✓ 답변완료'],
+      TRANSFERRED: ['badge-purple', '⇄ 타부서 이관중'],
       HOLD: ['badge-gray', '⏸ 보류']
     };
 
     function staffName(id) { const s = STAFF.find(x => x.id === id); return s ? s.name : id; }
     function queueNames(caseId) {
-      const ids = window.SJM_MASTER.inquiry.queuesForMajor(CAT_MAJOR[CASES[caseId].cat]);
+      const ids = CASE_QUEUE[caseId] || window.SJM_MASTER.inquiry.queuesForMajor(CAT_MAJOR[CASES[caseId].cat]);
       return ids.length ? ids.map(window.SJM_MASTER.roles.name).join(' · ') : '—';
     }
     function rowOf(caseId) { return document.querySelector(`#inquiry-tbody tr[data-id="${caseId}"]`); }
@@ -1232,7 +1232,7 @@ code, pre, kbd, samp,
     }
 
     function claimCase(caseId) {
-      if (!ASSIGN[caseId] && statusOf(caseId) === 'WAITING') {
+      if (!ASSIGN[caseId] && ['WAITING', 'TRANSFERRED'].includes(statusOf(caseId))) {
         ASSIGN[caseId] = { who: ME.id, since: '11:20', status: 'IN_PROGRESS' };
       }
       renderAssignCells();
@@ -1266,6 +1266,8 @@ code, pre, kbd, samp,
             ${reassign}
           </span>`;
       }
+      const t = CASE_TRANSFER[caseId];
+      if (t) html += `<div style="flex-basis:100%; font-size:11.5px; color:var(--text-secondary);">⇄ 이관 ${t.at} · ${t.by} · ${escHtml(t.from)} → <strong>${escHtml(t.to)}</strong> · 분류 ${escHtml(t.cat)} · 메모: ${escHtml(t.memo)}</div>`;
       box.innerHTML = html;
       box.style.background = locked ? '#FEF2F2' : '#F0F9FF';
       box.style.borderColor = locked ? '#FECACA' : '#BAE6FD';
@@ -1409,9 +1411,72 @@ code, pre, kbd, samp,
       });
     }
 
+    // 이관 대상 — 분류는 1:1 문의 분류 관리(BRD-007), 담당 부서는 '1:1 문의 담당 큐' 역할 그룹(CONF-005)에서 읽는다
+    const MAJOR_CAT = { PAY: 'REFUND', SHIP: 'SHIPPING', LECT: 'PLAYER', PASS: 'BENEFIT', STUDY: 'STUDY_MISROUTE', ETC: 'ETC' };
+    const MAJOR_BADGE = { PAY: 'badge-red', SHIP: 'badge-amber', LECT: 'badge-blue', PASS: 'badge-green', STUDY: 'badge-purple', ETC: 'badge-slate' };
+    const SCREENS = {
+      'ADMN-RFD-002-S1': ['환불 요청 · 심사 관리', 'ADMN-RFD-002_baseline.html'],
+      'ADMN-ORD-001-S1': ['주문 · 배송 · 3PL 관리', 'ADMN-ORD-001_baseline.html'],
+      'ADMN-ORD-002': ['주문 · 배송 · 3PL 관리 (3PL 출고 · 반품)', 'ADMN-ORD-001_baseline.html'],
+      'ADMN-USER-003': ['회원 수강 · 기간 · 기기 제어', 'ADMN-USER-001_baseline.html?view=course'],
+      'ADMN-USER-004': ['진도율 보정', 'ADMN-USER-001_baseline.html?view=course'],
+      'ADMN-SETT-006': ['합격 환급반 관리', 'ADMN-SETT-006_baseline.html'],
+      'ADMN-USER-002': ['회원 상세', 'ADMN-USER-001_baseline.html?view=list'],
+      'ADMN-BRD-004': ['학습 Q&A', 'ADMN-BRD-001_baseline.html?view=qna'],
+      'ADMN-BRD-010': ['무료콘텐츠 (정답지)', 'ADMN-BRD-005_baseline.html?view=freeLecture'],
+      'ADMN-BRD-002': ['이 화면에서 직접 답변', null]
+    };
+    const CASE_QUEUE = {};     // 이관으로 지정한 담당 부서(없으면 분류의 담당 부서 큐)
+    const CASE_TRANSFER = {};  // 마지막 이관 기록
+
+    function transferCats() {
+      const M = window.SJM_MASTER.inquiry;
+      return M.majors().filter(m => m.on).map(m => ({ major: m, cats: M.cats().filter(c => c.on && c.major === m.prefix).sort((a, b) => a.order - b.order) }))
+        .filter(g => g.cats.length);
+    }
+    function findCat(code) { return window.SJM_MASTER.inquiry.cats().find(c => c.code === code); }
+
+    function escHtml(v) { return String(v == null ? '' : v).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])); }
+
+    // 다른 사람이 처리 중이거나 답변완료된 문의는 이관하지 않는다.
+    // 공통 모달 핫픽스가 openTransferModal을 감싸 항상 모달을 열기 때문에, 버튼은 requestTransfer로 먼저 거른다
+    function transferBlockReason(id) {
+      const owner = ASSIGN[id];
+      if (statusOf(id) === 'ANSWERED') return '답변완료된 문의는 이관할 수 없습니다.';
+      if (owner && owner.who !== ME.id) return `${staffName(owner.who)} 님이 처리 중인 문의입니다. 담당자만 이관할 수 있습니다. 필요하면 관리자가 담당자를 재배정합니다.`;
+      return '';
+    }
+    function requestTransfer(inqId) {
+      const id = inqId || currentCaseId;
+      const why = transferBlockReason(id);
+      if (why) { alert(why); return; }
+      openTransferModal(id);
+    }
+
     function openTransferModal(inqId) {
-      document.getElementById('modal-inq-id').value = inqId || currentCaseId;
+      const id = inqId || currentCaseId;
+      document.getElementById('modal-inq-id').value = id;
+      document.getElementById('modal-target-cat').innerHTML = transferCats().map(g =>
+        `<optgroup label="${escHtml(g.major.name)}">${g.cats.map(c => `<option value="${escHtml(c.code)}">${escHtml(c.name)}</option>`).join('')}</optgroup>`).join('');
+      const queues = window.SJM_MASTER.roles.list().filter(r => r.on && r.queue);
+      document.getElementById('modal-target-depts').innerHTML = queues.map(r =>
+        `<label style="display:inline-flex; gap:4px; align-items:center;"><input type="checkbox" class="modal-dept" value="${escHtml(r.id)}" /> ${escHtml(r.name)}</label>`).join('');
+      // 지금 분류와 같은 대분류의 첫 소분류를 기본 선택
+      const cur = CASES[id] && CASES[id].cat;
+      const curMajor = Object.keys(MAJOR_CAT).find(k => MAJOR_CAT[k] === cur);
+      const first = transferCats().find(g => g.major.prefix === curMajor);
+      if (first) document.getElementById('modal-target-cat').value = first.cats[0].code;
+      document.getElementById('modal-memo').value = '';
+      onTransferCatChange();
       document.getElementById('transfer-modal').classList.add('show');
+    }
+
+    function onTransferCatChange() {
+      const c = findCat(document.getElementById('modal-target-cat').value);
+      if (!c) return;
+      document.querySelectorAll('.modal-dept').forEach(b => { b.checked = c.depts.includes(b.value); });
+      const s = SCREENS[c.screen] || [c.screen, null];
+      document.getElementById('modal-target-screen').textContent = `처리 화면: ${s[0]}`;
     }
 
     function closeTransferModal() {
@@ -1419,17 +1484,50 @@ code, pre, kbd, samp,
     }
 
     function confirmTransfer() {
-      const targetCat = document.getElementById('modal-target-cat').value;
-      closeTransferModal();
-      if (targetCat === 'REFUND') {
-        if (confirm('환불 심사 큐(ADMN-RFD-002-S1)로 이관이 완료되었습니다. 환불 심사 화면으로 이동하시겠습니까?')) {
-          window.location.href = 'ADMN-RFD-002_baseline.html';
-        }
-      } else {
-        CASES[currentCaseId].cat = targetCat;
-        openCaseDetail(currentCaseId);
-        alert('선택한 문의 유형 도메인으로 분기 패널이 전환되었습니다.');
+      const id = document.getElementById('modal-inq-id').value;
+      const c = findCat(document.getElementById('modal-target-cat').value);
+      const depts = Array.from(document.querySelectorAll('.modal-dept:checked')).map(b => b.value);
+      const memo = document.getElementById('modal-memo').value.trim();
+      if (!c) { alert('문의 분류를 선택해 주세요.'); return; }
+      if (!depts.length) { alert('담당 부서를 1개 이상 선택해 주세요.'); return; }
+      if (!memo) { alert('받는 부서가 알 수 있게 내부 이관 메모를 입력해 주세요.'); return; }
+      const why = transferBlockReason(id);
+      if (why) { alert(why); closeTransferModal(); return; }
+      const major = window.SJM_MASTER.inquiry.majors().find(m => m.prefix === c.major);
+      const before = queueNames(id);
+      const kase = CASES[id];
+      kase.cat = MAJOR_CAT[c.major] || 'ETC';
+      kase.catLabel = `${major ? major.name : ''} · ${c.name}`;
+      kase.catClass = MAJOR_BADGE[c.major] || 'badge-slate';
+      CASE_QUEUE[id] = depts;
+      delete ASSIGN[id];
+      const r = rowOf(id);
+      if (r) {
+        r.dataset.cat = kase.cat;
+        r.dataset.status = 'TRANSFERRED';
+        r.cells[1].innerHTML = `<span class="badge ${kase.catClass}">${escHtml(major ? major.name : '')}</span>`;
+        const s = SCREENS[c.screen] || [c.screen, null];
+        r.cells[5].innerHTML = `<span class="badge badge-blue">➔ ${escHtml(s[0])}</span><div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${escHtml(c.name)}</div>`;
       }
+      CASE_TRANSFER[id] = { from: before, to: queueNames(id), cat: kase.catLabel, memo, at: '11:25', by: ME.name };
+      closeTransferModal();
+      renderAssignCells();
+      if (currentCaseId === id) {
+        document.getElementById('dt-cat-badge').textContent = kase.catLabel;
+        document.getElementById('dt-cat-badge').className = 'badge ' + kase.catClass;
+        document.querySelectorAll('.branch-panel').forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById('branch-' + kase.cat);
+        if (panel) panel.classList.add('active');
+        renderAssignBanner(id);
+      }
+      const s = SCREENS[c.screen] || [c.screen, null];
+      const msg = `${id} 문의를 [${queueNames(id)}] 큐로 이관했습니다. 상태: 타부서 이관중 · 받은 부서에서 먼저 연 사람이 담당자가 됩니다.`;
+      if (s[1] && confirm(`${msg}\n\n처리 화면(${s[0]})으로 이동할까요?`)) {
+        window.location.href = s[1];
+        return;
+      }
+      if (!s[1]) alert(msg);
+      switchView('list');
     }
 
     function saveDraftAnswer() {
