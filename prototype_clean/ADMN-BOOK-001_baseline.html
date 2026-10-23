@@ -848,7 +848,7 @@ code, pre, kbd, samp,
           </div>
           <div class="modal-body">
             <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:11px 14px; margin-bottom:14px; font-size:12px; color:#1e3a8a;">
-              💡 <strong>[정산 기준 정가 변경 이력 관리 원칙]</strong> 도서 정가가 개정판 등으로 인상·변경되더라도 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>를 사후 변경할 수 없습니다.
+              💡 <strong>[정산 기준 정가 변경 이력 관리 원칙]</strong> 도서 정가가 구간 재정가 등으로 인상·변경되더라도(개정판은 새 ISBN이므로 새 SKU로 등록) 과거 주문의 환불/반품(4단계 <code>DEDUCT</code>) 시에는 <strong>원거래 주문 시점의 정가 스냅샷(<code>effective_from ~ effective_to</code>)</strong>을 역참조하여 인세 및 위탁 대금을 정확히 차감합니다. 또한 출고 이력이 1건이라도 발생한 도서는 <code>book_supply_type</code>를 사후 변경할 수 없습니다.
             </div>
             <table class="data-table">
               <thead>

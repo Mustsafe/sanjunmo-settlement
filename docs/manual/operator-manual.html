@@ -159,6 +159,16 @@ td .scr code { color: var(--ink-3); font-weight: 500; margin-left: 4px; }
   .task .due { grid-column: 2; justify-self: start; }
 }
 
+/* 1:1 문의 처리 순서 */
+.steps { margin: 16px 0 0; padding-left: 0; list-style: none; display: grid; gap: 10px; counter-reset: st; }
+.steps > li { counter-increment: st; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r); }
+.steps > li::before { content: counter(st); width: 26px; height: 26px; border-radius: 50%; background: var(--l-m); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 13px; font-family: var(--font-mono); }
+.steps b { display: block; font-weight: 600; margin-bottom: 2px; }
+.steps span { color: var(--ink-2); font-size: 14px; }
+.steps ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 14px; color: var(--ink-2); }
+.steps ul b { display: inline; color: var(--ink); }
+.yr-due { white-space: nowrap; }
+
 footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule); padding-top: 16px; }
 
 @media (max-width: 560px) {
@@ -182,7 +192,9 @@ footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule)
     <p class="lead">한 화면에서 끝나지 않는 업무를 언제 하는 일인지에 따라 세 갈래로 정리했습니다. 매일 반복하는 일, 매달 정산을 마감하는 일, 계약·상품을 처음 한 번 설정하는 일입니다. 앞 화면에서 만든 결과를 다음 화면에서 골라 쓰기 때문에 순서를 지켜야 합니다.</p>
     <nav class="jump" aria-label="바로가기">
       <a href="#daily">매일 하는 일</a>
+      <a href="#inquiry">1:1 문의 이관</a>
       <a href="#monthly">월 정산 마감</a>
+      <a href="#yearly">연간 업무</a>
       <a href="#setup">처음 한 번 하는 설정</a>
       <a href="#lock-h">막혔을 때</a>
       <a href="#code-h">코드</a>
@@ -199,9 +211,37 @@ footer { font-size: 13px; color: var(--ink-3); border-top: 1px solid var(--rule)
     <div class="events" id="events"></div>
   </section>
 
+  <section id="inquiry" aria-labelledby="inquiry-h">
+    <span class="eyebrow">매일 · CS</span>
+    <h2 id="inquiry-h">1:1 문의 분기와 타 부서 이관</h2>
+    <p class="lead" style="margin-top:6px">1:1 문의는 1:1 문의 관리 한 곳에서 받아 분류에 따라 담당 부서로 넘깁니다. 넘겨받은 부서가 답변까지 마치는 것이 원칙입니다.</p>
+    <ol class="steps" id="inquiry-steps"></ol>
+    <h3 style="margin-top:24px">분류별 처리 화면과 담당 부서</h3>
+    <p class="lead" style="margin-top:4px">현재 기준입니다. 분류와 담당 부서는 1:1 문의 분류 관리(BRD-007)에서 바뀔 수 있습니다. 담당 부서가 둘 이상이면 모든 부서 큐에 함께 올라가고, 먼저 연 사람이 맡습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:16%">대분류</th><th style="width:26%">소분류</th><th>처리 화면</th><th style="width:20%">담당 부서 큐</th></tr></thead>
+        <tbody id="inquiry-map"></tbody>
+      </table>
+    </div>
+  </section>
+
   <section id="monthly" aria-labelledby="monthly-h">
     <span class="eyebrow">매월</span>
     <div id="route-monthly"></div>
+  </section>
+
+  <section id="yearly" aria-labelledby="yearly-h">
+    <span class="eyebrow">매년 · 정기</span>
+    <h2 id="yearly-h">연간 · 정기 업무</h2>
+    <p class="lead" style="margin-top:6px">한 해에 몇 번만 돌아오는 일입니다. 정본 문서나 화면에 시기가 정해진 것만 날짜를 적었습니다.</p>
+    <div class="callout"><b>날짜를 정해야 합니다</b><span>‘미정’ 칸은 운영 일정이나 세무 일정으로 정해 채워야 합니다. 연간 지급명세서의 법정 제출 기한은 세무 담당자가 그해 기준으로 확인합니다.</span></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:18%">시기</th><th>할 일</th><th style="width:24%">화면</th><th style="width:14%">근거</th></tr></thead>
+        <tbody id="yearly-table"></tbody>
+      </table>
+    </div>
   </section>
 
   <section id="setup" aria-labelledby="pick-h">
@@ -316,7 +356,13 @@ const FLOWS = [
       { name: "단과 강좌 · 패키지에 교재 연결", code: "PROD-003 · PROD-005", group: G_PROD, file: "ADMN-PROD-003_baseline.html", optional: true,
         do: ["강좌 주교재·부교재로 쓰려면 단과 강좌 관리 ‘연계 교재 매핑’에서 이 교재를 추가합니다.",
              "패키지에 넣으려면 패키지 · 환급반 상품 관리 ‘구성 교재 매핑’에서 추가합니다."],
-        take: ["PROD-BK", "판매중인 교재"] }
+        take: ["PROD-BK", "판매중인 교재"] },
+      { name: "개정판이 나오면 — 새 책으로 다시", code: "INST-001 → PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html", optional: true,
+        do: ["개정판은 ISBN이 새로 나오는 새 책입니다. 같은 계약에 [신규 저서 인세 계약 등록]으로 새 임시코드를 받고, 이 노선 1~4단계를 새 책으로 다시 진행합니다.",
+             "단과 강좌의 ‘연계 교재 매핑’과 패키지의 ‘구성 교재’에서 구판을 빼고 새 판을 넣습니다.",
+             "교재 관리에서 구판의 판매 상태를 [판매종료]로 바꿉니다. 프론트 노출이 미노출로 고정됩니다."],
+        take: ["PROD-BK", "새 판 SKU · 구판 SKU"],
+        tip: "중쇄(재인쇄)는 ISBN이 같아 같은 SKU를 씁니다. 정가만 바꾸는 구간 재정가도 같은 SKU에서 정가 변경 이력으로 처리합니다(연간 · 정기 업무 참고)." }
     ],
     done: ["계약 원장에 계약이 ‘계약 중’", "도서 공급 원장에서 원가 확정", "상품별 권리자 매핑 100.00%", "교재 관리에서 판매중"]
   },
@@ -343,7 +389,11 @@ const FLOWS = [
       { name: "교재 관리", code: "PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html",
         do: ["[경로 2] ‘도서 공급원장 기등록 SKU 불러오기’로 SKU를 선택합니다. SKU·정가·출판사·원가가 자동으로 채워집니다.",
              "표지, 목차, 재고, 할인율(0~10%)을 입력하고 [판매중]으로 바꿉니다."],
-        take: ["PROD-BK", "정식 SKU"] }
+        take: ["PROD-BK", "정식 SKU"] },
+      { name: "개정판이 나오면 — 새 책으로 다시", code: "BOOK-001 → PROD-004", group: G_PROD, file: "ADMN-PROD-004_baseline.html", optional: true,
+        do: ["개정판은 ISBN이 새로 나오는 새 책입니다. 도서 공급 원장 [경로 2]로 새 SKU를 만들고 이 노선 2~4단계를 다시 진행합니다.",
+             "연계 강좌 · 패키지의 교재를 새 판으로 바꾸고, 구판은 교재 관리에서 [판매종료]로 바꿉니다."],
+        take: ["PROD-BK", "새 판 SKU · 구판 SKU"] }
     ],
     done: ["출판사가 권리자 또는 거래처로 등록됨", "공급 원장 원가 확정", "권리자 매핑 100.00%", "교재 판매중"]
   },
@@ -462,6 +512,57 @@ const FLOWS = [
         lock: "한 번이라도 팔리면 공급 형태를 바꿀 수 없습니다. 바꿔야 하면 새 상품으로 등록합니다." }
     ],
     done: ["상품 판매중", "재고 0이 되면 결제 자동 차단"]
+  },
+  {
+    id: "terminate", key: "H", color: "--l-e",
+    title: "계약 종료 · 중도 해지",
+    when: "계약이 만료되거나 중도에 해지될 때",
+    start: ["만료 예정 확인 또는 해지 합의", "만료 30일 전부터 계약 원장 목록의 ‘만료 임박’ 필터에 나타납니다"],
+    stops: [
+      { name: "권리자 계약 원장", code: "INST-001", group: G_RH, file: "ADMN-INST-001_baseline.html",
+        do: ["계약 상태를 ‘만료’ 또는 ‘중도 해지’로 바꿉니다. 중도 해지면 계약 기간 안의 해지일을 넣습니다.",
+             "‘계약 종료 대상별 처리 지정’에서 이 계약에 매핑된 강의 · 도서마다 [승계 계약 지정] 또는 [매핑 종료]를 고릅니다. 승계면 승계 계약 번호를 넣습니다."],
+        out: ["CT", "종료 계약 · 승계 계약"],
+        lock: "대상마다 승계나 매핑 종료를 정하지 않으면 저장되지 않습니다. 선급금 · 최저보장 · 전속계약금 · 개발지원금은 승계 계약으로 넘어가지 않습니다." },
+      { name: "상품별 권리자 매핑", code: "SETT-001", group: G_RH, file: "ADMN-SETT-001_baseline.html",
+        do: ["‘계약 종료일 동기화’ 매핑은 계약 종료일에 함께 끝납니다. 승계 계약이 연결됐는지 확인합니다.",
+             "승계 계약이 없는 상품은 지분이 100% 아래로 떨어져 판매가 차단됩니다. 계속 팔 상품이면 새 권리자나 자사 지분으로 채웁니다."],
+        take: ["CT", "종료 계약"] },
+      { name: "강사 노출 정보 관리", code: "PROD-006", group: G_PROD, file: "ADMN-PROD-006_baseline.html",
+        do: ["계약이 종료 · 해지된 강사는 강사관 노출과 메인 추천이 자동으로 잠깁니다. 잠겼는지 확인합니다."] },
+      { name: "약정금 마일스톤 검수 — 2번 탭", code: "INST-002", group: G_PRE, file: "ADMN-INST-002_baseline.html",
+        do: ["전속계약금 중도해지 일할 반환액을 확인합니다. 세후 실지급액 기준으로 일할 계산합니다.",
+             "개발지원금이 있으면 종료 시 일시정산 대상인지 확인합니다."],
+        out: ["결과", "반환액 · 일시정산액"],
+        tip: "위약금은 정산 엔진에서 다루지 않습니다. 따로 처리합니다." },
+      { name: "월간 정산 및 집행", code: "SETT-002", group: G_SETT, file: "ADMN-SETT-002_baseline.html",
+        do: ["다음 월 정산에서 반환액이 10단계(청구 판정)에서 한 번 차감됩니다. 지급액보다 크면 청구서가 나갑니다."],
+        take: ["결과", "반환액 · 일시정산액"] }
+    ],
+    done: ["대상별 승계 · 매핑 종료 지정 후 저장", "계속 팔 상품은 지분 100% 복구", "강사관 노출 잠김 확인", "반환 · 청구가 정산에 반영"]
+  },
+  {
+    id: "account", key: "I", color: "--l-b",
+    title: "운영자 · 파트너 계정 발급",
+    when: "직원이 새로 오거나 강사 · 저자 · 3PL에게 계정을 줄 때",
+    start: ["계정 요청 접수", "외부 파트너는 계약 또는 거래가 먼저 등록돼 있어야 합니다"],
+    stops: [
+      { name: "권리자 계약 원장 또는 거래처 관리", code: "INST-001 · VEND-001", group: G_RH, file: "ADMN-INST-001_baseline.html", optional: true,
+        do: ["외부 계정이면 소속 대상이 먼저 원장에 있어야 고를 수 있습니다. 강사 · 저자 · 수취인은 권리자 계약 원장, 3PL · 매입처는 거래처 관리에 등록합니다."],
+        out: ["RH/SUP", "소속 대상"] },
+      { name: "운영자 권한 관리 — 역할 그룹", code: "CONF-005", group: G_CONF, file: "ADMN-CONF-005_baseline.html", optional: true,
+        do: ["맞는 역할 그룹이 없으면 [역할 그룹 추가]로 만듭니다. 내부 · 외부, 1:1 문의 담당 큐 여부를 정하고 기존 그룹의 권한을 복사해 시작할 수 있습니다."],
+        out: ["결과", "역할 그룹"] },
+      { name: "운영자 권한 관리 — 계정 발급", code: "CONF-005", group: G_CONF, file: "ADMN-CONF-005_baseline.html",
+        do: ["[계정 발급]에서 계정 ID, 성명 · 소속, 역할 그룹, 소속(내부 직원 / 권리자 / 거래처)과 대상, 상태를 넣습니다.",
+             "겸직자는 계정을 따로 만들지 않고 역할 그룹을 여러 개 줍니다. 실제 권한은 합집합입니다."],
+        take: ["RH/SUP", "소속 대상"],
+        lock: "외부 역할 그룹(강사 · 조교 · 저작권자 · 외부 3PL)은 소속이 권리자나 거래처여야 하고, 내부 역할 그룹은 내부 직원에게만 줄 수 있습니다." },
+      { name: "1:1 문의 분류 관리", code: "BRD-007", group: G_CONF, file: "ADMN-BRD-007_baseline.html", optional: true,
+        do: ["1:1 문의를 받을 사람이면 그 역할 그룹이 담당 문의 분류의 담당 부서 큐로 지정돼 있는지 확인합니다."],
+        tip: "퇴사하거나 계약이 끝나면 계정 상태를 ‘잠금 · 중지’로 바꿉니다." }
+    ],
+    done: ["계정 발급 · 상태 정상", "외부 계정은 본인 데이터만 보이는지 확인", "문의 담당자는 담당 큐 지정 확인"]
   }
 ];
 
@@ -473,7 +574,7 @@ const DAILY = [
   { slot: "업무 시작", time: UNSET("시각 미정"), tasks: [
     { who: "전원", title: "처리 대기 큐 · 외부 연동 상태 확인", detail: "대기 큐 5종(환불 심사, 합격환급 기한 초과, 월간 정산 미확정, PG 대사 불일치, 교재 반품)의 건수와 최장 경과일을 보고 담당 화면으로 갑니다. 외부 연동 6종에 ‘주의’ 배지가 있으면 담당자에게 알립니다.",
       scr: "통합 대시보드 홈", code: "DASH-001", file: "ADMN-DASH-001_baseline.html?view=dash" },
-    { who: "CS", title: "밤사이 들어온 1:1 문의 분류 · 이관", detail: "문의를 분류해 결제·환불, 교재·배송, 수강·기기, 합격환급 담당 화면으로 넘깁니다. SLA 임박 건부터 처리합니다.",
+    { who: "CS", title: "밤사이 들어온 1:1 문의 분류 · 이관", detail: "SLA 임박 건부터 열어 분류를 확인하고, 직접 답하거나 담당 부서로 넘깁니다. 자세한 순서와 분류표는 아래 ‘1:1 문의 분기와 타 부서 이관’에 있습니다.",
       scr: "1:1 문의 관리", code: "BRD-002", file: "ADMN-BRD-002_baseline.html", due: SET("접수 후 24시간") },
     { who: "CS", title: "상품 Q&A 답변", detail: "미답변 문의를 열면 내가 담당자가 됩니다. 다른 사람이 먼저 연 문의는 읽기 전용입니다.",
       scr: "공지 · FAQ · Q&A", code: "BRD-001", file: "ADMN-BRD-001_baseline.html?view=pqna" }
@@ -557,6 +658,53 @@ const MONTHLY = {
   done: ["게이트 3개 통과 후 마감 확정", "이체 결과 대사 완료 (실패 건 이월 확인)", "세금계산서 대사 · 원천세 신고 자료 추출 (익월 10일 전)"]
 };
 
+// 1:1 문의: 처리 순서. 이관 원칙은 2026-10-23 white 확정 — 넘겨받은 부서가 답변 종결, 못 하면 CS로 되돌림
+const INQUIRY_STEPS = [
+  { t: "문의를 열어 담당자로 선점합니다", d: "SLA 24시간이 임박한 건부터 엽니다. [분기 처리]로 들어간 사람이 담당자가 되고, 다른 사람이 처리 중인 문의는 읽기 전용으로 열립니다. 담당자 재배정은 관리자만 합니다." },
+  { t: "분류가 맞는지 확인합니다", d: "수험생이 고른 분류가 내용과 다르면 [문의 유형 재분류 · 부서 이관]으로 바로잡습니다. 바뀐 분류의 담당 부서 큐로 넘어갑니다." },
+  { t: "셋 중 하나로 처리합니다", list: [
+    ["직접 답변", "단순 안내는 CS가 답변을 등록하고 끝냅니다. 등록하면 알림톡이 나가고(실패하면 LMS), 이메일도 함께 갑니다."],
+    ["타 부서 이관", "주문 등 관련 건을 연결하고 ‘내부 이관 메모’에 상황을 적어 담당 부서로 넘깁니다. 메모는 수험생에게 보이지 않습니다. 상태는 ‘타부서 이관중’이 됩니다."],
+    ["보류", "확인이 더 필요하면 사유를 적고 보류합니다. 사유 없이는 보류되지 않습니다."]
+  ]},
+  { t: "넘겨받은 부서가 답변까지 마칩니다", d: "이관받은 부서는 처리 화면에서 일을 끝낸 뒤 수험생에게 직접 답변을 등록해 문의를 종결합니다." },
+  { t: "직접 답변할 수 없으면 CS로 되돌립니다", d: "처리 결과를 내부 이관 메모에 남겨 CS 큐로 되돌리면, CS가 그 결과로 수험생에게 답변하고 종결합니다." }
+];
+
+// 현재 1:1 문의 분류(공통 기준정보 · BRD-007 최초값). 미사용 분류는 뺐다
+const INQUIRY_MAP = [
+  ["결제 · 환불", [
+    ["카드 · 간편결제 취소, 휴대폰 결제 환불", "환불 요청 · 심사 관리", "RFD-002", "ADMN-RFD-002_baseline.html", "재무팀"],
+    ["가상계좌 · 무통장 입금 확인", "환불 요청 · 심사 관리", "RFD-002", "ADMN-RFD-002_baseline.html", "CS담당자 · 재무팀"],
+    ["영수증 · 증빙 발급, 상담 필요", "1:1 문의 관리에서 직접 답변", "BRD-002", "ADMN-BRD-002_baseline.html", "CS담당자"]]],
+  ["배송 · 교재", [
+    ["배송지 변경", "주문 · 배송 · 3PL 관리", "ORD-001", "ADMN-ORD-001_baseline.html", "물류팀"],
+    ["배송 지연 · 배송 조회", "주문 · 배송 · 3PL 관리 (3PL 출고)", "ORD-002", "ADMN-ORD-001_baseline.html", "물류팀 · CS담당자"],
+    ["파손 · 오배송 교환, 교재 낙장 · 인쇄 불량", "주문 · 배송 · 3PL 관리 (반품 검수)", "ORD-002", "ADMN-ORD-001_baseline.html", "물류팀"]]],
+  ["수강 · 기기", [
+    ["동시접속 · 세션 차단, 수강 기간 연장", "회원 수강 · 기간 · 기기 제어", "USER-003", "ADMN-USER-001_baseline.html?view=course", "CS담당자"],
+    ["진도율 누락 · 플레이어 오류", "진도율 보정", "USER-004", "ADMN-USER-001_baseline.html?view=course", "CS담당자"]]],
+  ["합격환급 · 혜택", [
+    ["합격환급 서류 보완", "합격 환급반 관리", "SETT-006", "ADMN-SETT-006_baseline.html", "CS담당자 · 재무팀"],
+    ["포인트 · 쿠폰 누락, 이벤트 경품 미수령", "회원 상세", "USER-002", "ADMN-USER-001_baseline.html?view=list", "CS담당자"]]],
+  ["학습 · 자료", [
+    ["강의 내용 질문", "학습 Q&A", "BRD-004", "ADMN-BRD-001_baseline.html?view=qna", "강사 · 조교"],
+    ["교재 정답지 요청", "무료콘텐츠 (정답지)", "BRD-010", "ADMN-BRD-005_baseline.html?view=freeLecture", "조교 · CS담당자"]]],
+  ["회원 · 기타", [
+    ["회원정보 변경, 탈퇴 · 개인정보 처리", "1:1 문의 관리에서 직접 답변", "BRD-002", "ADMN-BRD-002_baseline.html", "CS담당자"]]]
+];
+
+// 연간 · 정기 업무. due.set=false는 운영 · 세무 일정으로 정해야 하는 칸
+const YEARLY = [
+  { due: SET("매년 6/15 ~ 6/30"), what: "전체 사업자 권리자 · 위탁자 · 매입처 정기 일괄 상태조회. 7월 1일 과세유형 전환에 대비합니다.", scr: "사업자등록 확인 이력", code: "SETT-008", file: "ADMN-SETT-008_baseline.html", src: "정산 03권 17.5" },
+  { due: SET("1 · 4 · 10월 15일"), what: "폐업 · 휴업 감지를 위한 분기 일괄 재조회", scr: "사업자등록 확인 이력", code: "SETT-008", file: "ADMN-SETT-008_baseline.html", src: "정산 03권 17.5" },
+  { due: SET("만료 30일 전"), what: "‘만료 임박’ 계약을 갱신할지 종료할지 정합니다. 종료면 계약 종료 노선(H)을 따릅니다.", scr: "권리자 계약 원장", code: "INST-001", file: "ADMN-INST-001_baseline.html", src: "화면 필터" },
+  { due: SET("발행 후 12개월"), what: "구간 재정가 예정일을 점검합니다. 정가를 바꾸면 같은 SKU에 적용 시작일을 정해 정가 변경 이력을 추가하고, 개정판과 겹치는 계약은 요율 라인의 재정가 예정일을 다시 봅니다.", scr: "도서 공급 원장 · 정가 변경 이력", code: "BOOK-001", file: "ADMN-BOOK-001_baseline.html", src: "정산 01권" },
+  { due: SET("시행 7일 전 (불리 · 중대 30일 전)"), what: "약관 · 개인정보처리방침 개정을 등록하고 전체 회원에게 사전 고지를 보냅니다.", scr: "약관 · 개인정보처리방침 관리", code: "CONF-002", file: "ADMN-CONF-002_baseline.html", src: "화면" },
+  { due: UNSET("미정 (세무 일정)"), what: "연간 지급명세서 · 연간 신고 기초 자료를 내려받습니다.", scr: "내부 정산 조회 · 4번 탭", code: "SETT-009", file: "ADMN-SETT-009_baseline.html?view=taxreport", src: "화면" },
+  { due: UNSET("주기 미정"), what: "법정 보존기한(5년)이 지난 개인정보 파기 후보를 확인하고, 재무 담당자 승인 후 파기합니다. 파기 보류 예외 건은 남깁니다.", scr: "민감 정보 열람 통제", code: "USER-007", file: "ADMN-USER-007_baseline.html", src: "화면" }
+];
+
 const LOCKS = [
   ["교재 목록에 ‘판매대기(매핑 미완)’", "교재 화면에서 먼저 만든 SKU의 원가 또는 권리자 지분이 비어 있음", ["도서 공급 원장", "BOOK-001", "경로 3으로 원가 입력"], ["상품별 권리자 매핑", "SETT-001", "지분 100%"]],
   ["상품 목록에 ‘미매핑 · 판매차단’", "권리자 지분 합계가 100.00%가 아님", ["상품별 권리자 매핑", "SETT-001", "지분 입력 또는 잔여 지분 자사 채우기"]],
@@ -572,7 +720,11 @@ const LOCKS = [
   ["[당월 정산 마감 확정]이 게이트에서 막힘", "PG 미대사 건, 세무 판정 보류 건, 이월 금액 불일치 중 하나가 남음", ["PG 정산 원장 대사", "SETT-004", "미대사 0건으로"], ["사업자등록 확인 이력", "SETT-008", "보류 0건으로"]],
   ["약정금을 정산서로 이관할 수 없음", "이미 마감한 달을 골랐음", ["약정금 마일스톤 검수", "INST-002", "마감 전 달로 이관 (마감 후엔 다음 달)"]],
   ["은행 이체가 일부 실패함", "계좌 오류 등 — 마감 원장은 되돌리지 않음", ["월간 정산 및 집행", "SETT-002", "결과 파일 대사 → 실패 건 다음 달 이월 확인"]],
-  ["마감한 달의 금액이 틀림", "마감한 달은 다시 실행하거나 고칠 수 없음", ["정산 수동 조정", "SETT-005", "조정 건 등록 (100만 원 초과는 재무 승인)"]]
+  ["마감한 달의 금액이 틀림", "마감한 달은 다시 실행하거나 고칠 수 없음", ["정산 수동 조정", "SETT-005", "조정 건 등록 (100만 원 초과는 재무 승인)"]],
+  ["계약을 만료 · 해지로 바꿨는데 저장이 안 됨", "매핑된 강의 · 도서 중 승계나 매핑 종료를 정하지 않은 대상이 있음", ["권리자 계약 원장", "INST-001", "계약 종료 대상별 처리 지정 채우기"]],
+  ["개정판이 나왔는데 구판이 프론트에 계속 보임", "구판의 판매 상태를 바꾸지 않았음", ["교재 관리", "PROD-004", "구판을 [판매종료]로 (미노출 자동 고정)"]],
+  ["외부 계정에 역할 그룹을 줄 수 없음", "소속이 내부 직원으로 되어 있음", ["운영자 권한 관리", "CONF-005", "소속을 권리자 · 거래처로, 대상 지정"]],
+  ["새 담당자에게 1:1 문의가 배정되지 않음", "그 역할 그룹이 문의 분류의 담당 부서 큐에 없음", ["1:1 문의 분류 관리", "BRD-007", "담당 부서 큐에 역할 그룹 추가"]]
 ];
 
 const $ = (s) => document.querySelector(s);
@@ -656,6 +808,22 @@ function renderDaily() {
       <div class="task-main">${link(e)}</div></div>`).join("");
 }
 
+function renderInquiry() {
+  $("#inquiry-steps").innerHTML = INQUIRY_STEPS.map((s) => `<li><div><b>${esc(s.t)}</b>${s.d ? `<span>${esc(s.d)}</span>` : ""}${s.list ? `<ul>${s.list.map(([k, v]) => `<li><b>${esc(k)}</b> — ${esc(v)}</li>`).join("")}</ul>` : ""}</div></li>`).join("");
+  $("#inquiry-map").innerHTML = INQUIRY_MAP.map(([major, rows]) => rows.map((r, i) => `
+    <tr>${i === 0 ? `<td rowspan="${rows.length}"><b>${esc(major)}</b></td>` : ""}
+      <td>${esc(r[0])}</td>
+      <td><a href="${BASE + r[3]}" target="_blank" rel="noopener">${esc(r[1])}</a> <code style="color:var(--ink-3)">${esc(r[2])}</code></td>
+      <td>${esc(r[4])}</td></tr>`).join("")).join("");
+}
+
+function renderYearly() {
+  $("#yearly-table").innerHTML = YEARLY.map((y) => `
+    <tr><td class="yr-due">${dueChip(y.due)}</td><td>${esc(y.what)}</td>
+      <td><a href="${BASE + y.file}" target="_blank" rel="noopener">${esc(y.scr)}</a> <code style="color:var(--ink-3)">${esc(y.code)}</code></td>
+      <td style="color:var(--ink-3)">${esc(y.src)}</td></tr>`).join("");
+}
+
 function select(id, push) {
   if (!FLOWS.some((f) => f.id === id)) id = FLOWS[0].id;
   renderPicker(id);
@@ -673,7 +841,9 @@ $("#picker").addEventListener("click", (e) => {
 const flowHash = () => { const h = location.hash.slice(1); return FLOWS.some((f) => f.id === h) ? h : null; };
 window.addEventListener("hashchange", () => { const h = flowHash(); if (h) select(h, false); });
 renderDaily();
+renderInquiry();
 renderRoute(MONTHLY, $("#route-monthly"));
+renderYearly();
 renderLocks();
 select(flowHash(), false);
 </script>
