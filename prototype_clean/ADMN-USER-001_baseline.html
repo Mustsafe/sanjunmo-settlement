@@ -595,9 +595,6 @@ code, pre, kbd, samp,
                   </td>
                   <th>배송 주소</th>
                   <td>
-                    <label style="font-size:12px; margin-right:14px; cursor:pointer;">
-                      <input type="checkbox" /> 기본 배송지 등록자
-                    </label>
                     <label style="font-size:12px; font-weight:700; color:#B45309; cursor:pointer;">
                       <input type="checkbox" /> 주소 미등록 (교재 주문 건 발송 불가 CS 추출용)
                     </label>
@@ -781,7 +778,7 @@ code, pre, kbd, samp,
                   <th>이름 / 회원번호</th>
                   <td>
                     <strong id="dt-name" style="font-size:14px;">홍*동</strong> (<code id="dt-no">100482</code>)
-                    <span id="unmask-timer-badge" class="badge badge-amber" style="display:none; margin-left:6px;">열람 중 · 09:59 후 자동 재마스킹</span>
+                    <span id="unmask-timer-badge" class="badge badge-amber" style="display:none; margin-left:6px;">열람 중 · 10:00 후 자동 재마스킹</span>
                     <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">클릭 즉시 <code>보안 열람 로그</code>에 계정·일시·IP·대상 회원번호가 기록됩니다.</div>
                   </td>
                   <th>회원 상태 · 잠금 분리</th>
@@ -1218,7 +1215,7 @@ code, pre, kbd, samp,
                   <td>2026.08.19</td>
                   <td id="crs-end-1"><strong>2027.02.18</strong></td>
                   <td><span class="badge badge-blue">D-124</span></td>
-                  <td><strong id="crs-prog-txt-1">62.4%</strong> (24/38강 완료) <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px;" onclick="openProgressModal('CRS-2026-8841', '2026 산업안전기사 필기+실기 합격패스', '62.4%')">📊 진도·이어보기 조회/보정 (004)</button></td>
+                  <td><strong id="crs-prog-txt-1">62.4%</strong> (24/38강 완료) <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px;" onclick="openProgressAdjustModal()">📊 진도 보정 · 이력 (004)</button></td>
                   <td><span class="badge badge-green">수강중</span></td>
                 </tr>
                 <tr>
@@ -1228,7 +1225,7 @@ code, pre, kbd, samp,
                   <td>2026.10.05</td>
                   <td><strong>2026.11.04</strong></td>
                   <td><span class="badge badge-amber">D-18</span></td>
-                  <td><strong id="crs-prog-txt-2">18.0%</strong> (3/15강 완료) <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px;" onclick="openProgressModal('CRS-2026-9102', '산업안전기사 실기 작업형 특강', '18.0%')">📊 진도·이어보기 조회/보정 (004)</button></td>
+                  <td><strong id="crs-prog-txt-2">18.0%</strong> (3/15강 완료) <button type="button" class="btn btn-sm btn-outline" style="margin-left:6px;" onclick="openProgressAdjustModal()">📊 진도 보정 · 이력 (004)</button></td>
                   <td><span class="badge badge-green">수강중</span></td>
                 </tr>
                 <tr style="background:#F8FAFC; color:var(--text-muted);">
@@ -1247,22 +1244,24 @@ code, pre, kbd, samp,
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px;">
               <div class="card" style="margin-bottom:0;">
                 <div class="card-header">
-                  <div class="card-title">2. 수강 기간 강제 조정 (원 수강기간의 최대 1배수 상한 · 단축 불가)</div>
+                  <div class="card-title">2. 수강 기간 강제 조정 (연장은 원 수강기간의 최대 1배수 상한 · 일시정지 최대 3회 · 통산 30일)</div>
                   <span class="badge badge-blue">StarPlayer+ DRM 만료일 실시간 동기화</span>
                 </div>
                 <div class="card-body">
-                  <div style="margin-bottom:10px;">
-                    <label style="font-weight:700; margin-right:14px;"><input type="radio" name="adj_type" checked /> 종료일 연장 (+N일)</label>
-                    <label style="font-weight:700;"><input type="radio" name="adj_type" /> 일시정지 부여 (정지 일수만큼 종료일 자동 순연)</label>
+                  <div style="margin-bottom:6px; display:flex; flex-wrap:wrap; gap:6px 14px;">
+                    <label style="font-weight:700;"><input type="radio" name="adj_type" value="EXTEND" checked onchange="onAdjTypeChange()" /> 종료일 연장 (+N일)</label>
+                    <label style="font-weight:700;"><input type="radio" name="adj_type" value="SHORTEN" onchange="onAdjTypeChange()" /> 종료일 단축 (-N일)</label>
+                    <label style="font-weight:700;"><input type="radio" name="adj_type" value="PAUSE" onchange="onAdjTypeChange()" /> 일시정지 부여 (정지 일수만큼 종료일 자동 순연)</label>
                   </div>
+                  <div id="adj-limit-note" style="font-size:11.5px; color:var(--text-muted); margin-bottom:10px;"></div>
                   <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
                     <span style="font-size:12px; font-weight:700;">빠른 프리셋:</span>
-                    <button type="button" class="chip" onclick="setExtendDays(7)">+7일</button>
-                    <button type="button" class="chip active" onclick="setExtendDays(15)">+15일</button>
-                    <button type="button" class="chip" onclick="setExtendDays(30)">+30일</button>
-                    <button type="button" class="chip" onclick="setExtendDays(60)">+60일</button>
-                    <button type="button" class="chip" onclick="setExtendDays(90)">+90일</button>
-                    <input type="number" id="ext-days-input" class="f-input" style="width:80px;" value="15" /> 일
+                    <button type="button" class="chip" onclick="setExtendDays(7)">7일</button>
+                    <button type="button" class="chip active" onclick="setExtendDays(15)">15일</button>
+                    <button type="button" class="chip" onclick="setExtendDays(30)">30일</button>
+                    <button type="button" class="chip" onclick="setExtendDays(60)">60일</button>
+                    <button type="button" class="chip" onclick="setExtendDays(90)">90일</button>
+                    <input type="number" id="ext-days-input" class="f-input" style="width:80px;" value="15" min="1" /> 일
                   </div>
                   <div style="margin-bottom:10px;">
                     <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">조정 사유 (필수 · 최소 10자 · 감사 타임라인 기록)</label>
@@ -1578,7 +1577,7 @@ code, pre, kbd, samp,
                   <td class="mono">2026.10.18 06:00</td>
                   <td>
                     <div class="m3f-actions">
-                      <a href="ADMN-CONF-004_baseline.html" class="btn btn-sm btn-outline">단체 알림톡 발송</a>
+                      <a href="ADMN-CONF-004_baseline.html?view=send" class="btn btn-sm btn-outline">단체 알림톡 발송</a>
                       <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-outline">쿠폰 발급</a>
                     </div>
                   </td>
@@ -1596,7 +1595,7 @@ code, pre, kbd, samp,
                   <td class="mono">2026.10.18 06:00</td>
                   <td>
                     <div class="m3f-actions">
-                      <a href="ADMN-CONF-004_baseline.html" class="btn btn-sm btn-outline">단체 알림톡 발송</a>
+                      <a href="ADMN-CONF-004_baseline.html?view=send" class="btn btn-sm btn-outline">단체 알림톡 발송</a>
                       <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-outline">쿠폰 발급</a>
                     </div>
                   </td>
@@ -1614,7 +1613,7 @@ code, pre, kbd, samp,
                   <td class="mono">2026.09.15 11:20</td>
                   <td>
                     <div class="m3f-actions">
-                      <a href="ADMN-CONF-004_baseline.html" class="btn btn-sm btn-outline">단체 알림톡 발송</a>
+                      <a href="ADMN-CONF-004_baseline.html?view=send" class="btn btn-sm btn-outline">단체 알림톡 발송</a>
                       <a href="ADMN-PROM-002_baseline.html" class="btn btn-sm btn-outline">쿠폰 발급</a>
                     </div>
                   </td>
@@ -1981,79 +1980,22 @@ code, pre, kbd, samp,
   </div>
 
     <!-- MODAL 5: ADMN-USER-004 / 004-P1 차시별 진도율 · 이어보기 조회 및 진도율 보정 -->
-  <div class="modal-backdrop" id="modal-progress-004">
-    <div class="modal-box" style="max-width:760px; width:94%;">
+  <div class="modal-backdrop" id="modal-unmask-reason" aria-hidden="true">
+    <div class="modal-box">
       <div class="modal-head">
-        <span>📊 강의별 진도율 · 이어보기 지점 조회 및 보정 (ADMN-USER-004 / 004-P1)</span>
-        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-progress-004')">✕</button>
+        <span>🔓 개인정보 마스킹 해제 사유 (ADMN-USER-007)</span>
+        <button type="button" class="btn btn-sm btn-outline" onclick="closeModal('modal-unmask-reason')">✕</button>
       </div>
       <div class="modal-body">
-        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:10px 14px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <strong id="prog-modal-course-title" style="color:#1E3A8A;">[CRS-2026-8841] 2026 산업안전기사 필기+실기 합격패스</strong>
-            <div style="font-size:11.5px; color:#1E40AF; margin-top:2px;">• 환불 심사(ADMN-RFD-002) 및 합격환급 심사(ADMN-SETT-006)의 기준 진도율로 실시간 연동됩니다.</div>
-          </div>
-          <span class="badge badge-blue" id="prog-modal-total-rate">총 진도율 62.4%</span>
+        <div style="background:#FFFBEB; border:1px solid #FDE68A; border-left:4px solid #D97706; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12px; color:#92400E;">
+          해제한 정보는 <strong>10분간만</strong> 노출되고 이후 자동으로 다시 마스킹됩니다. 사유와 계정 · 일시 · IP · 대상 회원번호가 보안 열람 로그에 기록됩니다.
         </div>
-
-        <table class="data-table" style="margin-bottom:14px;">
-          <thead>
-            <tr>
-              <th>차시</th>
-              <th>강의(영상 Unit) 명</th>
-              <th>전체 길이</th>
-              <th>최종 이어보기 위치(초)</th>
-              <th>차시 진도율</th>
-              <th>완강 상태</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1강</td>
-              <td>안전관리론 핵심 개념 및 법령 체계</td>
-              <td>45분 00초 (2,700초)</td>
-              <td><code>2,700초 (45:00)</code></td>
-              <td><strong>100.0%</strong></td>
-              <td><span class="badge badge-green">완강 (COMPLETED)</span></td>
-            </tr>
-            <tr>
-              <td>2강</td>
-              <td>재해조사 및 산업재해 통계 지표 계산</td>
-              <td>50분 00초 (3,000초)</td>
-              <td><code>3,000초 (50:00)</code></td>
-              <td><strong>100.0%</strong></td>
-              <td><span class="badge badge-green">완강 (COMPLETED)</span></td>
-            </tr>
-            <tr style="background:#FFFBEB;">
-              <td>3강</td>
-              <td>인간공학 및 시스템 위험성 평가 기법 (FTA/HAZOP)</td>
-              <td>40분 00초 (2,400초)</td>
-              <td><code id="unit-3-pos">1,140초 (19:00)</code></td>
-              <td><strong id="unit-3-rate" style="color:var(--warning);">47.5%</strong></td>
-              <td id="unit-3-status"><span class="badge badge-amber">수강중 (플레이어 네트워크 오류 신고)</span></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div style="background:#F8FAFC; border:1px solid var(--border); border-radius:8px; padding:12px 14px;">
-          <div style="font-weight:800; font-size:12.5px; margin-bottom:8px;">🔧 차시 진도율 수동 보정 (ADMN-USER-004-P1 · 감사 로그 필수 기록)</div>
-          <div style="display:grid; grid-template-columns:160px 140px 1fr; gap:8px; align-items:center;">
-            <select id="prog-adj-unit" class="f-select">
-              <option value="3">3강 (현재 47.5%)</option>
-              <option value="2">2강 (현재 100.0%)</option>
-              <option value="1">1강 (현재 100.0%)</option>
-            </select>
-            <select id="prog-adj-target" class="f-select">
-              <option value="100.0%">100.0% (완강 인정)</option>
-              <option value="0.0%">0.0% (진도 초기화·환불심사 반영)</option>
-            </select>
-            <input type="text" id="prog-adj-reason" class="f-input" placeholder="보정 사유 입력 (필수 10자 이상 · 예: CDN 일시 순단으로 인한 수강 완료 로그 누락 보정)" />
-          </div>
-        </div>
-
+        <label for="unmask-reason" style="display:block; font-size:12px; font-weight:700; margin-bottom:4px;">해제 사유 (필수 · 최소 10자)</label>
+        <textarea id="unmask-reason" class="f-textarea" rows="3" style="width:100%;" placeholder="예) 수강생 본인 요청 CS-20261017-09 — 전화 본인확인 후 배송지 정정 안내" oninput="updateUnmaskReasonCount()"></textarea>
+        <div id="unmask-reason-count" style="font-size:11.5px; color:var(--text-muted); margin-top:4px;">현재 0자 / 최소 10자</div>
         <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:14px;">
-          <button type="button" class="btn btn-outline" onclick="closeModal('modal-progress-004')">닫기</button>
-          <button type="button" class="btn btn-primary" onclick="submitProgressAdjust()">진도율 보정 반영 및 감사 로그 기록</button>
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-unmask-reason')">취소</button>
+          <button type="button" class="btn btn-primary" onclick="confirmUnmaskMember()">사유 기록 후 마스킹 해제</button>
         </div>
       </div>
     </div>
@@ -2237,6 +2179,7 @@ code, pre, kbd, samp,
     function selectMember(id, trEl) {
       currentMemberId = id;
       isUnmasked = false;
+      stopUnmaskTimer();
       document.getElementById('unmask-timer-badge').style.display = 'none';
       document.getElementById('btn-unmask').textContent = '🔓 마스킹 해제 (10분 후 자동 재마스킹)';
 
@@ -2310,20 +2253,56 @@ code, pre, kbd, samp,
       showToast('산준모 카페 ID, 마케팅 수신 동의(단일 필드)가 저장되고 관리 이력에 기록되었습니다.');
     }
 
-    function unmaskMemberDetail() {
-      isUnmasked = !isUnmasked;
+    let unmaskTimer = null, unmaskDeadline = 0;
+    const UNMASK_TTL_MS = 10 * 60 * 1000;
+    function stopUnmaskTimer() { if (unmaskTimer) { clearInterval(unmaskTimer); unmaskTimer = null; } }
+    function unmaskBadgeText() {
+      const left = Math.max(0, Math.ceil((unmaskDeadline - Date.now()) / 1000));
+      const mm = String(Math.floor(left / 60)).padStart(2, '0'), ss = String(left % 60).padStart(2, '0');
+      return `열람 중 · ${mm}:${ss} 후 자동 재마스킹`;
+    }
+    function remaskMemberDetail(auto) {
+      stopUnmaskTimer();
+      isUnmasked = false;
       renderMemberDetail();
-      /* Init USER-001 Blacklist Modal */
       if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
-      if (isUnmasked) {
-        document.getElementById('unmask-timer-badge').style.display = 'inline-flex';
-        document.getElementById('btn-unmask').textContent = '🔒 즉시 재마스킹';
-        showToast(`회원번호 ${currentMemberId}의 개인정보 마스킹이 해제되었습니다. (admin_access_log 적재 완료 · 10분 후 자동 재마스킹)`);
-      } else {
-        document.getElementById('unmask-timer-badge').style.display = 'none';
-        document.getElementById('btn-unmask').textContent = '🔓 마스킹 해제 (10분 후 자동 재마스킹)';
-        showToast('개인정보가 재마스킹 처리되었습니다.');
-      }
+      document.getElementById('unmask-timer-badge').style.display = 'none';
+      document.getElementById('btn-unmask').textContent = '🔓 마스킹 해제 (10분 후 자동 재마스킹)';
+      showToast(auto ? '해제 후 10분이 지나 개인정보가 자동 재마스킹되었습니다.' : '개인정보가 재마스킹 처리되었습니다.');
+    }
+    function unmaskMemberDetail() {
+      if (isUnmasked) { remaskMemberDetail(false); return; }
+      const modal = document.getElementById('modal-unmask-reason');
+      document.getElementById('unmask-reason').value = '';
+      updateUnmaskReasonCount();
+      modal.style.removeProperty('display');
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function updateUnmaskReasonCount() {
+      const len = document.getElementById('unmask-reason').value.trim().length;
+      const el = document.getElementById('unmask-reason-count');
+      el.textContent = `현재 ${len}자 / 최소 10자`;
+      el.style.color = len >= 10 ? 'var(--success)' : 'var(--text-muted)';
+    }
+    function confirmUnmaskMember() {
+      const reason = document.getElementById('unmask-reason').value.trim();
+      if (reason.length < 10) { showToast('마스킹 해제 사유를 최소 10자 이상 입력해 주세요 (보안 열람 로그 기록 필수).'); return; }
+      document.getElementById('modal-unmask-reason').classList.remove('show');
+      isUnmasked = true;
+      renderMemberDetail();
+      if (typeof filterBlacklistCandidateMembers === 'function') filterBlacklistCandidateMembers();
+      stopUnmaskTimer();
+      unmaskDeadline = Date.now() + UNMASK_TTL_MS;
+      const badge = document.getElementById('unmask-timer-badge');
+      badge.style.display = 'inline-flex';
+      badge.textContent = unmaskBadgeText();
+      document.getElementById('btn-unmask').textContent = '🔒 즉시 재마스킹';
+      unmaskTimer = setInterval(() => {
+        if (Date.now() >= unmaskDeadline) { remaskMemberDetail(true); return; }
+        badge.textContent = unmaskBadgeText();
+      }, 1000);
+      showToast(`회원번호 ${currentMemberId}의 개인정보 마스킹이 해제되었습니다. (사유·계정·IP 보안 열람 로그 적재 완료 · 10분 후 자동 재마스킹)`);
     }
 
     function unlockPw5() {
@@ -2751,15 +2730,54 @@ code, pre, kbd, samp,
       document.getElementById('ext-days-input').value = d;
     }
 
+    const CRS1_START = new Date(2026, 7, 19), CRS1_ORIG_END = new Date(2027, 1, 18), CRS_BASE_TODAY = new Date(2026, 9, 17);
+    const CRS_EXT_MAX_DAYS = Math.round((CRS1_ORIG_END - CRS1_START) / 86400000);
+    const PAUSE_MAX_COUNT = 3, PAUSE_MAX_DAYS = 30;
+    let crs1End = new Date(CRS1_ORIG_END), crs1NetExt = 0, crs1PauseCount = 0, crs1PauseDays = 0;
+    function fmtYmd(d) { return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`; }
+    function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+    function adjMode() { const r = document.querySelector('input[name="adj_type"]:checked'); return r ? r.value : 'EXTEND'; }
+    function renderAdjLimitNote() {
+      const mode = adjMode();
+      const note = document.getElementById('adj-limit-note');
+      if (!note) return;
+      note.textContent = mode === 'PAUSE'
+        ? `일시정지 사용 현황: ${crs1PauseCount}/${PAUSE_MAX_COUNT}회 · ${crs1PauseDays}/${PAUSE_MAX_DAYS}일 (통산) — 초과 시 부여할 수 없습니다.`
+        : mode === 'SHORTEN'
+          ? `단축은 오늘(${fmtYmd(CRS_BASE_TODAY)}) 이후 날짜까지만 가능합니다. 현재 종료일 ${fmtYmd(crs1End)}.`
+          : `연장 누적 ${crs1NetExt}/${CRS_EXT_MAX_DAYS}일 (원 수강기간 ${CRS_EXT_MAX_DAYS}일의 1배수 상한) · 현재 종료일 ${fmtYmd(crs1End)}.`;
+    }
+    function onAdjTypeChange() { renderAdjLimitNote(); }
+    document.addEventListener('DOMContentLoaded', renderAdjLimitNote);
+
     function applyCourseExtend() {
-      const days = document.getElementById('ext-days-input').value;
+      const days = parseInt(document.getElementById('ext-days-input').value, 10);
       const reason = document.getElementById('ext-reason-input').value.trim();
+      const mode = adjMode();
+      if (!(days >= 1)) { showToast('조정 일수를 1일 이상으로 입력해 주세요.'); return; }
       if (reason.length < 10) {
         showToast('수강 기간 조정 사유를 최소 10자 이상 입력해 주세요.');
         return;
       }
-      document.getElementById('crs-end-1').innerHTML = `<strong style="color:var(--primary);">2027.03.05 (+${days}일 연장됨)</strong>`;
-      showToast(`수강 종료일이 +${days}일 연장되고 StarPlayer+ DRM 만료일과 실시간 동기화되었습니다.`);
+      let label, msg;
+      if (mode === 'EXTEND') {
+        if (crs1NetExt + days > CRS_EXT_MAX_DAYS) { showToast(`연장 한도 초과: 원 수강기간(${CRS_EXT_MAX_DAYS}일)의 1배수까지만 연장할 수 있습니다. (누적 ${crs1NetExt}일)`); return; }
+        crs1End = addDays(crs1End, days); crs1NetExt += days;
+        label = `+${days}일 연장됨`; msg = `수강 종료일이 +${days}일 연장되고 StarPlayer+ DRM 만료일과 실시간 동기화되었습니다.`;
+      } else if (mode === 'SHORTEN') {
+        const next = addDays(crs1End, -days);
+        if (next < CRS_BASE_TODAY) { showToast(`단축 불가: 종료일이 오늘(${fmtYmd(CRS_BASE_TODAY)}) 이전이 됩니다.`); return; }
+        crs1End = next; crs1NetExt -= days;
+        label = `-${days}일 단축됨`; msg = `수강 종료일이 -${days}일 단축되고 StarPlayer+ DRM 만료일과 실시간 동기화되었습니다.`;
+      } else {
+        if (crs1PauseCount >= PAUSE_MAX_COUNT) { showToast(`일시정지 한도 초과: 최대 ${PAUSE_MAX_COUNT}회까지만 부여할 수 있습니다.`); return; }
+        if (crs1PauseDays + days > PAUSE_MAX_DAYS) { showToast(`일시정지 한도 초과: 통산 ${PAUSE_MAX_DAYS}일까지만 부여할 수 있습니다. (사용 ${crs1PauseDays}일)`); return; }
+        crs1End = addDays(crs1End, days); crs1PauseCount += 1; crs1PauseDays += days;
+        label = `일시정지 ${days}일 · 종료일 순연`; msg = `일시정지 ${days}일이 부여되어 종료일이 순연되었습니다. (${crs1PauseCount}/${PAUSE_MAX_COUNT}회 · 통산 ${crs1PauseDays}/${PAUSE_MAX_DAYS}일)`;
+      }
+      document.getElementById('crs-end-1').innerHTML = `<strong style="color:var(--primary);">${fmtYmd(crs1End)} (${label})</strong>`;
+      renderAdjLimitNote();
+      showToast(msg);
     }
 
     function killSession(btn) {
@@ -2773,30 +2791,6 @@ code, pre, kbd, samp,
     }
 
     
-    function openProgressModal(crsCode, crsTitle, totalRate) {
-      document.getElementById('prog-modal-course-title').textContent = `[${crsCode}] ${crsTitle}`;
-      document.getElementById('prog-modal-total-rate').textContent = `총 진도율 ${totalRate}`;
-      document.getElementById('prog-adj-reason').value = '';
-      document.getElementById('modal-progress-004').classList.add('show');
-    }
-
-    function submitProgressAdjust() {
-      const targetVal = document.getElementById('prog-adj-target').value;
-      const reason = document.getElementById('prog-adj-reason').value.trim();
-      if (reason.length < 10) {
-        showToast('진도율 보정 사유를 최소 10자 이상 입력해 주세요 (감사 로그 기록 필수).');
-        return;
-      }
-      document.getElementById('unit-3-rate').textContent = targetVal;
-      document.getElementById('unit-3-rate').style.color = 'var(--success)';
-      document.getElementById('unit-3-pos').textContent = targetVal === '100.0%' ? '2,400초 (40:00 · 보정완강)' : '0초 (00:00 · 초기화)';
-      document.getElementById('unit-3-status').innerHTML = '<span class="badge badge-green">보정 완료 (ADMN-USER-004-P1)</span>';
-      const p1 = document.getElementById('crs-prog-txt-1');
-      if (p1) p1.textContent = targetVal === '100.0%' ? '65.0%' : '60.0%';
-      closeModal('modal-progress-004');
-      showToast(`[ADMN-USER-004-P1] 3강 진도율이 ${targetVal}로 보정되었으며 감사 로그에 사유가 기록되었습니다.`);
-    }
-
     function filterBlacklistRows(typeVal) {
       document.querySelectorAll('#blacklist-table tbody tr').forEach(tr => {
         tr.style.display = (typeVal === 'ALL' || tr.dataset.bltype === typeVal) ? '' : 'none';
@@ -3095,7 +3089,7 @@ code, pre, kbd, samp,
         <div class="m3f-hint">• 이미 수동 보정이 반영된 차시는 목록에서 제외됩니다 (이력 원장에서 확인).</div>
       </div>
       <div class="m3f-field">
-        <label for="m3f-pa-rate">보정 후 진도율 (0 ~ 100%) <span class="m3f-req">*</span></label>
+        <label for="m3f-pa-rate">보정 후 진도율 (현재 진도율 ~ 100%) <span class="m3f-req">*</span></label>
         <div style="display:flex; align-items:center; gap:8px;">
           <input type="number" id="m3f-pa-rate" class="f-input" style="width:120px;" min="0" max="100" step="0.1" value="100" oninput="m3fUpdateAdjustPreview()" /> %
           <button type="button" class="btn btn-sm btn-outline" onclick="m3fSetRatePreset(100)">100% 수강완료 프리셋</button>
@@ -3120,7 +3114,7 @@ code, pre, kbd, samp,
         <input type="file" id="m3f-pa-file" style="display:none;" onchange="m3fOnEvidenceSelected(this)" />
         <div style="display:flex; align-items:center; gap:8px;">
           <button type="button" class="btn btn-sm btn-outline" onclick="document.getElementById('m3f-pa-file').click()">📎 파일 선택</button>
-          <span class="m3f-readonly" style="padding:4px 10px;" id="m3f-pa-filename">cs_evidence_capture.png</span>
+          <span class="m3f-readonly" style="padding:4px 10px;" id="m3f-pa-filename">선택된 파일 없음</span>
           <button type="button" class="btn btn-sm btn-outline" onclick="m3fRemoveEvidence()">첨부 삭제</button>
         </div>
       </div>
@@ -3367,6 +3361,7 @@ code, pre, kbd, samp,
     if (!u) return { error: '보정 가능한 차시가 없습니다.' };
     if (raw === '' || isNaN(rate) || rate < 0 || rate > 100) return { error: '보정 후 진도율은 0 ~ 100% 범위로 입력해 주세요.' };
     rate = r1(rate);
+    if (rate < u.rate) return { error: '보정은 수강 인정 방향(현재 진도율 이상)만 가능합니다. 진도 초기화 · 하향은 허용되지 않습니다.' };
     var next = r1(prog.overall + (rate - u.rate) * u.run / TOTAL_RUNTIME_SEC);
     if (next > 100) next = 100;
     if (next < 0) next = 0;
@@ -3413,8 +3408,8 @@ code, pre, kbd, samp,
     $('m3f-pa-type').selectedIndex = 0;
     $('m3f-pa-reason').value = '';
     $('m3f-pa-file').value = '';
-    evidenceName = 'cs_evidence_capture.png';
-    $('m3f-pa-filename').textContent = evidenceName;
+    evidenceName = '';
+    $('m3f-pa-filename').textContent = '선택된 파일 없음';
     window.m3fUpdateReasonCount();
     window.m3fUpdateAdjustPreview();
     openModalEl('modalProgressAdjust');

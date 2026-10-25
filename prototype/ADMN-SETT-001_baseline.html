@@ -427,6 +427,7 @@ code, pre, kbd, samp,
 "use strict";
 
 const FIRST_OPEN_DATE = "2026-10-01";
+const LOCKED_THROUGH_MONTH = "2026-09"; // 마감 확정(Locked) 월 — 01권 4.3
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const pct = v => Number(v || 0).toFixed(2) + "%";
@@ -543,7 +544,7 @@ const products = [
     id:"PROD-BK-4001",
     kind:"BOOK",
     name:"[비매품] 2026 산업안전 합격 필수 암기노트 (강좌 포함 번들 · BUNDLED)",
-    pipeline:"강좌 포함 비매품 (정산기준금 0원 고정 · 1계층 매핑 면제)",
+    pipeline:"강좌 포함 비매품 (정산기준금 0원 고정 · 자사 권리자 100% 자동 고정)",
     supplyType:"BUNDLED",
     ownCopyright:true,
     registeredDate:"2025-03-15",
@@ -655,7 +656,7 @@ function analyzeUnit(unitKey, supportAgreements = [], productObj = null){
   const warnings = [];
 
   if(productObj && productObj.kind === "BOOK" && productObj.supplyType === "BUNDLED"){
-    return {slices:[], errors:[], warnings:["강좌 포함 비매품 도서(BUNDLED)는 정산기준금이 0원으로 고정되며 별도 1계층 인세 지분 매핑 대상이 아닙니다."], mismatchCount:0, isAuto:true, currentSum:0};
+    return {slices:[], errors:[], warnings:["강좌 포함 비매품 도서(BUNDLED)는 정산기준금이 0원으로 고정되며, 1계층 권리자는 자사(엘캠퍼스) 100%로 자동 매핑됩니다(별도 인세 지분 매핑 없음)."], mismatchCount:0, isAuto:true, currentSum:0};
   }
   if(productObj && productObj.kind === "BOOK" && productObj.supplyType === "CONSIGNMENT"){
     return {slices:[], errors:[], warnings:["위탁 도서(CONSIGNMENT)는 1계층 인세 지분 매핑 대상이 아니며 위탁 판매대금으로 별도 정산합니다."], mismatchCount:0, isAuto:true, currentSum:0};
@@ -738,11 +739,12 @@ function evaluateProduct(p){
     const res = analyzeUnit(p.id, p.supportAgreements, p);
     const status = res.isAuto ? "AUTO" : (res.errors.length > 0 ? "UNMAPPED" : (res.mismatchCount > 0 ? "MISMATCH" : "OK"));
     const summaryText = p.supplyType === "CONSIGNMENT" ? "위탁정산 분리"
+      : p.supplyType === "BUNDLED" ? "자사 100% 자동 고정 (비매품)"
       : p.ownCopyright ? "자사저작권 100% + 지원금 15%"
       : p.supplyType === "PURCHASED_RESALE" ? "사입 도서 자사 100% 고정"
       : (res.errors.length ? `미매핑 (${pct(res.currentSum)})` : "100.00% 매핑 완료");
     const holderNames = (state.mappings[p.id]||[]).map(r => `${getHolder(r.holderId)?.name?.split(" ")[0]}(${r.share}%)`);
-    return {status, summaryText, holderSummary: holderNames.join(" + ") || (p.supplyType==="CONSIGNMENT"?"위탁자 직접귀속":"미지정"), canSell: res.errors.length === 0, unitRes:res};
+    return {status, summaryText, holderSummary: holderNames.join(" + ") || (p.supplyType==="CONSIGNMENT"?"위탁자 직접귀속":(p.supplyType==="BUNDLED"?"엘캠퍼스(100%) 자동 고정":"미지정")), canSell: res.errors.length === 0, unitRes:res};
   }
 }
 
@@ -1092,6 +1094,7 @@ function openRowModal(rowId = null){
       <div>
         <label class="lbl" for="m_start">유효 시작일</label>
         <input class="fc" id="m_start" name="start" type="date" value="${esc(r.start)}" required>
+        <div class="note">마감 확정(${LOCKED_THROUGH_MONTH}까지 Locked) 월에 걸치는 시작일은 저장할 수 없습니다. 마감 전 소급은 해당 월 재연산으로 반영됩니다.</div>
       </div>
       <div>
         <label class="lbl" for="m_endBasis">종료 기준 (end_basis)</label>
@@ -1121,6 +1124,9 @@ function openRowModal(rowId = null){
 
     if(!contract || contract.holderId !== holderId){
       return showModalErr("권리자와 선택한 계약의 당사자가 일치하지 않습니다.");
+    }
+    if(start && start.slice(0,7) <= LOCKED_THROUGH_MONTH && (!current || current.start !== start)){
+      return showModalErr("마감 확정("+LOCKED_THROUGH_MONTH+"까지 Locked) 월에 걸치는 시작일은 저장할 수 없습니다. 마감 전 소급은 해당 월 재연산으로 처리됩니다.");
     }
     const end = endBasis === "CONTRACT_LINKED" ? contract.currentEnd : data.get("end");
     const reason = (data.get("reason") || "").trim();

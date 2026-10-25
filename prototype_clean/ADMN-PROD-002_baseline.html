@@ -508,7 +508,7 @@ code, pre, kbd, samp,
             <span id="s1DurationFormatted" style="font-weight:800; color:#334155; min-width:95px;">= 49분 00초</span>
             <button type="button" class="btn" onclick="fetchFromVodMeta()">VOD 메타에서 가져오기</button>
           </div>
-          <div class="help-warn">진도율 산정의 분모 및 다중 강사 정산 배분 가중치 모수. 실제 영상 길이와 다르면 진도율 전체가 틀어지고 환급 심사 판정까지 흔들린다</div>
+          <div class="help-warn">진도율 산정의 분모 및 다중 강사 정산 배분 가중치 모수. 실제 영상 길이와 다르면 진도율 전체가 틀어지고 환급 심사 판정까지 흔들린다. 재생시간이 0초인 자료형 차시는 정산 배분 가중치 계산 시 60초로 자동 적용된다</div>
         </div>
 
         <!-- 맛보기(무료) 재생 -->
@@ -533,7 +533,7 @@ code, pre, kbd, samp,
             <button type="button" class="btn" onclick="attachSamplePdf()">파일 선택</button>
             <button type="button" class="btn" onclick="removePdf()">삭제</button>
           </div>
-          <div class="help-txt">PDF 20MB 이하 1개 · 수강권 보유자만 강의실(USER-CRS-002)에서 다운로드</div>
+          <div class="help-txt">PDF 50MB 이하 1개 · 수강권 보유자만 강의실(USER-CRS-002)에서 다운로드</div>
         </div>
 
         <!-- 사용 여부 -->
@@ -790,7 +790,7 @@ function updateDurationFormatted() {
   const val = parseInt(document.getElementById("s1Duration").value, 10);
   const span = document.getElementById("s1DurationFormatted");
   if (!val || val <= 0) {
-    span.textContent = "= 00분 00초 (미입력)";
+    span.textContent = "= 00분 00초 (0초 자료형 차시 · 가중치 60초 자동 적용)";
     return;
   }
   const m = Math.floor(val / 60);
@@ -839,7 +839,7 @@ function setUseYn(flag) {
 
 function renderPdfBox() {
   const box = document.getElementById("s1PdfBox");
-  box.textContent = currentPdfFile ? currentPdfFile : "첨부된 학습 보조 교안(PDF)이 없습니다. (20MB 이하 1개)";
+  box.textContent = currentPdfFile ? currentPdfFile : "첨부된 학습 보조 교안(PDF)이 없습니다. (50MB 이하 1개)";
 }
 
 function attachSamplePdf() {

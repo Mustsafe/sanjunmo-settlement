@@ -326,7 +326,7 @@ code, pre, kbd, samp,
       <!-- 상단 KPI 5종 (선택한 월/기간 기준으로 실시간 재집계) -->
       <div class="kpi-grid">
         <div class="kpi-card active" id="kpi-ALL" onclick="setAuditCategory('ALL')">
-          <div class="k-title"><span id="kpiLabelMonth">2026-10 감사 이벤트</span><span class="badge b-pri">전체 9대 영역</span></div>
+          <div class="k-title"><span id="kpiLabelMonth">2026-10 감사 이벤트</span><span class="badge b-pri">전체 감사 영역</span></div>
           <div class="k-num" id="kpiValAll">9건</div>
           <div class="k-sub">변경 전·후 JSON 스냅샷 100% 보존</div>
         </div>
@@ -365,7 +365,7 @@ code, pre, kbd, samp,
           <div class="filter-bar">
             <span style="font-weight:800; font-size:12.5px;">감사 영역:</span>
             <select id="catSelect" class="select" onchange="setAuditCategory(this.value)">
-              <option value="ALL">전체 9대 감사 이벤트 보기 </option>
+              <option value="ALL">전체 감사 이벤트 보기</option>
               <option value="SHARE">1. 1계층·2계층 지분율 및 매핑 변경 (SETT-001 / SETT-007)</option>
               <option value="FINANCE">2. 정산 수동 조정 · 계정 간 대체 · 수기 검수 (SETT-005 / INST-002)</option>
               <option value="STATE">3. 지원금 상태전이(COMPLETED↔ACTIVE) · 국세청 · 도서 공급형태</option>
@@ -396,7 +396,7 @@ code, pre, kbd, samp,
                   <th>로그 ID / 발생 일시</th>
                   <th>귀속 정산월</th>
                   <th>발생 화면</th>
-                  <th>감사 이벤트 구분 (정산 기준 9대 항목)</th>
+                  <th>감사 이벤트 구분 (정산 기준 4개 구분)</th>
                   <th>대상 엔티티 / 권리자</th>
                   <th>입력된 변경·열람·승인 사유</th>
                   <th>작업자 / IP</th>
@@ -412,7 +412,20 @@ code, pre, kbd, samp,
         <div class="card" id="tabPanel-access" style="display:none; border-top-left-radius:0;">
           <div class="card-hd">
             <h3>🛡️ 운영자 · 파트너 계정 접근 · 권한 변경 · 다운로드 로그</h3>
-            <span class="badge b-pri">계정 단위 · 접속 IP 기록</span>
+            <span class="badge b-pri">계정 단위 · 접속 IP 기록 · 감사 로그 5년 보존</span>
+          </div>
+          <div class="filter-bar" style="border-bottom:1px solid var(--line, #E2E8F0);">
+            <span style="font-weight:800; font-size:12.5px;">이벤트 유형:</span>
+            <select id="accessTypeSelect" class="select" onchange="renderAccessLogs()">
+              <option value="ALL">전체 유형</option>
+              <option value="LOGIN">로그인 시도 · 실패 · 잠금 (전체)</option>
+              <option value="로그인 성공">로그인 성공</option>
+              <option value="로그인 실패">로그인 실패</option>
+              <option value="로그인 5회 실패 · 계정 잠금">로그인 5회 실패 · 계정 잠금</option>
+              <option value="잠금 해제">잠금 해제</option>
+              <option value="OTHER">그 밖의 접근 · 권한 · 다운로드</option>
+            </select>
+            <span style="margin-left:auto; font-size:12px; color:var(--muted);" id="accessCountInfo"></span>
           </div>
           <div style="padding:0;">
             <table>
@@ -434,8 +447,8 @@ code, pre, kbd, samp,
         <!-- TAB 2: 정산월별 감사 통계 요약 -->
         <div class="card" id="tabPanel-monthly" style="display:none; border-top-left-radius:0;">
           <div class="card-hd">
-            <h3>📊 정산월(귀속월)별 9대 감사 이벤트 집계 및 외부 감사 제출용 월별 패키지</h3>
-            <span class="badge b-pri">상법 제33조 10년 보존 아카이브</span>
+            <h3>📊 정산월(귀속월)별 감사 이벤트 집계 및 외부 감사 제출용 월별 패키지</h3>
+            <span class="badge b-pri">감사 로그 5년 보존 · 정산 원장 스냅샷은 상법 제33조 10년 보존</span>
           </div>
           <div style="padding:0;">
             <table>
@@ -1129,6 +1142,10 @@ code, pre, kbd, samp,
 
   // 운영자 접근 · 권한 · 다운로드 로그 (구 ADMN-CONF-006)
   const ACCESS_LOGS = [
+    { id: 'AUD-9925', dt: '2026-10-19 13:05', actor: 'fin_manager (재무관리)', type: '잠금 해제', loginEvent: true, detail: '최고 관리자 본인확인 후 비밀번호 5회 오류 잠금을 해제하고 임시 비밀번호 변경을 강제 (ADMN-CONF-005)', ip: '211.45.120.10' },
+    { id: 'AUD-9924', dt: '2026-10-19 12:41', actor: 'fin_manager (재무관리)', type: '로그인 5회 실패 · 계정 잠금', loginEvent: true, detail: '비밀번호 연속 5회 오류로 계정 자동 잠금 (is_locked=true · 잠금 해제는 최고 관리자 본인확인 후)', ip: '211.45.120.18' },
+    { id: 'AUD-9923', dt: '2026-10-19 12:40', actor: 'fin_manager (재무관리)', type: '로그인 실패', loginEvent: true, detail: '비밀번호 불일치 (4/5회)', ip: '211.45.120.18' },
+    { id: 'AUD-9922', dt: '2026-10-19 11:02', actor: '3pl_cjlogis (외부물류 3PL)', type: '로그인 성공', loginEvent: true, detail: '외부 파트너 로그인 · 초기 착지 ADMN-ORD-001 (3PL 출고 대상)', ip: '121.160.44.92' },
     { id: 'AUD-9921', dt: '2026-10-19 11:32', actor: 'fin_manager (재무관리)', type: '정산 계좌번호 마스킹 해제', detail: '정종대 강사(RH-0025 / CT-2026-0501) 10월 정산금 이체 대조를 위한 계좌번호 열람 (ADMN-USER-007 10자 사유 통과)', ip: '211.45.120.18' },
     { id: 'AUD-9920', dt: '2026-10-19 10:48', actor: '3pl_cjlogis (외부물류 3PL)', type: '출고 송장 엑셀 업로드', detail: '2026-10-19 오전 출고분 실물 교재 64건 CJ대한통운 송장번호 일괄 매핑', ip: '121.160.44.92' },
     { id: 'AUD-9919', dt: '2026-10-18 16:35', actor: 'copy_sanjunbook (저작권자)', type: '정산서 열람', detail: '[PROD-BK-1011] 2026 산준모 산업안전기사 필기 한권완성 도서 인세 정산서 PDF 다운로드', ip: '58.120.89.11' },
@@ -1136,7 +1153,12 @@ code, pre, kbd, samp,
   ];
 
   function renderAccessLogs() {
-    document.getElementById("accessLogTbody").innerHTML = ACCESS_LOGS.map(l => `
+    const sel = document.getElementById("accessTypeSelect");
+    const f = sel ? sel.value : "ALL";
+    const rows = ACCESS_LOGS.filter(l => f === "ALL" || (f === "LOGIN" ? l.loginEvent : f === "OTHER" ? !l.loginEvent : l.type === f));
+    const info = document.getElementById("accessCountInfo");
+    if (info) info.textContent = `조회 결과: ${rows.length}건`;
+    document.getElementById("accessLogTbody").innerHTML = rows.map(l => `
       <tr>
         <td style="font-weight:700;">${l.id}</td>
         <td>${l.dt}</td>

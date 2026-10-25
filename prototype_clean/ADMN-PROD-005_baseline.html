@@ -786,13 +786,13 @@ code, pre, kbd, samp,
               </div>
               <div class="price-split-card">
                 <div class="price-split-label">(C) 포함 교재 실결제액 (도서 면세 · 도서 기본할인 최대 10% 적용 · 추가 쿠폰/포인트 차단)</div>
-                <div class="price-split-val" style="color:var(--emerald);" id="d-book-sale-sum">72,000원</div>
-                <div class="price-split-sub">정가 80,000원 → 10% 할인가 72,000원 (쿠폰·포인트 추가할인 제외 / 환급 모수 제외)</div>
+                <div class="price-split-val" style="color:var(--emerald);" id="d-book-sale-sum">64,800원</div>
+                <div class="price-split-sub">정가 72,000원 → 10% 할인가 64,800원 (쿠폰·포인트 추가할인 제외 / 환급 모수 제외)</div>
               </div>
               <div class="price-split-card highlight">
                 <div class="price-split-label">(D) 수강생 최종 실결제 합계 (B+C)</div>
-                <div class="price-split-val" style="color:var(--primary);" id="d-total-sale-sum">312,000원</div>
-                <div class="price-split-sub">교육면세 240,000원 + 도서면세 72,000원 자동 분리</div>
+                <div class="price-split-val" style="color:var(--primary);" id="d-total-sale-sum">304,800원</div>
+                <div class="price-split-sub">교육면세 240,000원 + 도서면세 64,800원 자동 분리</div>
               </div>
             </div>
 
@@ -810,7 +810,7 @@ code, pre, kbd, samp,
                   <th>합격 환급 조건<br>(ADMN-SETT-006 연동)</th>
                   <td id="d-refund-rule">
                     전 강좌 평균 <strong>인정 진도율 90% 이상 (재생시간 가중평균)</strong> + <strong>합격증 사본 · 플랫폼/산준모 카페 합격수기 아웃링크 · 통장 사본 · 시중 1금융권 실명계좌</strong> 제출 승인 시<br>
-                    <span style="color:var(--violet); font-weight:700;">※ 교재비(72,000원) 및 제세공과금(22%) 공제 후 강좌 실결제액(240,000원) 기준 환급 (계약 부담옵션 B: 강사·플랫폼 공동 분담)</span>
+                    <span style="color:var(--violet); font-weight:700;">※ 교재비(64,800원) 및 제세공과금(22%) 공제 후 강좌 실결제액(240,000원) 기준 환급 (계약 부담옵션 B: 강사·플랫폼 공동 분담)</span>
                   </td>
                 </tr>
               </tbody>
@@ -851,7 +851,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">3. 패키지 포함 교재 내역 (ADMN-PROD-004 연동 · 면세 분리 결제)</h3>
-              <span class="card-subtitle">도서정가제 준수를 위해 패키지 내에서도 교재는 정가 100%(할인 0%)로 합산됩니다.</span>
+              <span class="card-subtitle">패키지 내 교재는 도서 실판매가(도서정가제 범위 내 최대 10% 기본할인가)로 합산됩니다. 쿠폰·포인트 추가할인은 제외합니다.</span>
             </div>
           </div>
           <div class="card-body" style="padding:0;">
@@ -999,7 +999,7 @@ code, pre, kbd, samp,
           <div class="card-header">
             <div class="card-title-group">
               <h3 class="card-title">3. 구성 교재 매핑 (ADMN-PROD-004 연동 · 면세 분리 및 도서 기본할인 최대 10% (쿠폰·포인트 0% 고정))</h3>
-              <span class="card-subtitle">패키지에 포함된 교재는 할인 없이 정가 100%로 합산되며, PG 결제 시 면세 금액으로 분리 승인됩니다.</span>
+              <span class="card-subtitle">패키지에 포함된 교재는 도서 실판매가(최대 10% 기본할인가)로 합산되며, PG 결제 시 면세 금액으로 분리 승인됩니다.</span>
             </div>
             <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal()">+ 패키지 교재 추가 (ADMN-PROD-004)</button>
           </div>
@@ -1025,7 +1025,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
-              <h3 class="card-title">4. 복합상품 가격 설정 (강좌 교육면세 할인 + 교재 도서면세 정가 합산) 및 판매 상태</h3>
+              <h3 class="card-title">4. 복합상품 가격 설정 (강좌 교육면세 할인 + 교재 도서면세 실판매가 합산) 및 판매 상태</h3>
               <span class="card-subtitle">할인은 강좌 금액에만 적용되며 교재 금액은 면세 정가로 자동 합산됩니다.</span>
             </div>
           </div>
@@ -1059,7 +1059,7 @@ code, pre, kbd, samp,
                   <th>포함 교재 합계액 (면세 고정)</th>
                   <td>
                     <div class="input-with-unit" style="width:230px;">
-                      <input type="text" id="f-book-net-price" class="form-input text-right" style="font-weight:800; color:var(--emerald);" value="72,000" readonly="">
+                      <input type="text" id="f-book-net-price" class="form-input text-right" style="font-weight:800; color:var(--emerald);" value="64,800" readonly="">
                       <span class="input-unit">원 (면세 · 최대 10% 기본할인 반영 실결제액)</span>
                     </div>
                   </td>
@@ -1068,7 +1068,7 @@ code, pre, kbd, samp,
                   <th>패키지 총 판매가 (최종 결제액)</th>
                   <td>
                     <div class="input-with-unit" style="width:240px;">
-                      <input type="text" id="f-pkg-total-price" class="form-input text-right" style="font-weight:900; font-size:14px; color:var(--navy-900); background:#EFF6FF;" value="312,000" readonly="">
+                      <input type="text" id="f-pkg-total-price" class="form-input text-right" style="font-weight:900; font-size:14px; color:var(--navy-900); background:#EFF6FF;" value="304,800" readonly="">
                       <span class="input-unit">원 (교육면세+도서면세 합산)</span>
                     </div>
                   </td>
@@ -1197,9 +1197,9 @@ code, pre, kbd, samp,
                   <th>환급금 정산 부담 옵션<br>(ADMN-INST-001 연동)</th>
                   <td colspan="3">
                     <select id="f-refund-burden-opt" class="form-select" style="width:520px;">
-                      <option value="OPT_B" selected="">[옵션 B · 기본] 환급 발생 시 강좌 안분 매출에서 차감 (강사·플랫폼 지분율 비례 공동 분담)</option>
-                      <option value="OPT_A">[옵션 A] 플랫폼 100% 부담 (강사 정상 RS 지급 유지)</option>
-                      <option value="OPT_C">[옵션 C] 강사 계약서 특약 비율 별도 적용</option>
+                      <option value="OPT_A" selected="">[옵션 A · 기본] 플랫폼 전액 부담 (강사 정상 RS 지급 유지)</option>
+                      <option value="OPT_B">[옵션 B] R/S 지분율 비율 공동 부담 (환급 발생 시 강좌 안분 매출에서 차감)</option>
+                      <option value="OPT_C">[옵션 C] 매출 취소 처리</option>
                     </select>
                   </td>
                 </tr>
@@ -1244,7 +1244,7 @@ code, pre, kbd, samp,
   <div class="modal-backdrop" id="modal-book-picker">
     <div class="modal-window">
       <div class="modal-header">
-        <div class="modal-title">패키지 포함 교재 추가 — ADMN-PROD-004 연동 (면세 · 할인 0% 고정)</div>
+        <div class="modal-title">패키지 포함 교재 추가 — ADMN-PROD-004 연동 (면세 · 실판매가 합산)</div>
         <button type="button" class="btn btn-outline btn-sm" onclick="closeBookPickerModal()">닫기 ✕</button>
       </div>
       <div class="modal-body">
@@ -1293,9 +1293,9 @@ code, pre, kbd, samp,
     ];
 
     const BOOK_POOL = [
-      { sku: "PROD-BK-1011", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, stock: 420 },
-      { sku: "PROD-BK-1005", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, stock: 310 },
-      { sku: "PROD-BK-1012", role: "부교재", title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집", isbn: "979-11-98765-02-9", price: 29000, stock: 185 }
+      { sku: "PROD-BK-1011", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, sale: 34200, stock: 420 },
+      { sku: "PROD-BK-1005", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, sale: 30600, stock: 310 },
+      { sku: "PROD-BK-1012", role: "부교재", title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집", isbn: "979-11-98765-02-9", price: 29000, sale: 26100, stock: 185 }
     ];
 
     let packagesData = [
@@ -1310,8 +1310,8 @@ code, pre, kbd, samp,
         courseOriginSum: 340000,
         courseDiscount: 100000,
         courseSaleSum: 240000,
-        bookSaleSum: 72000,
-        totalSalePrice: 312000,
+        bookSaleSum: 64800,
+        totalSalePrice: 304800,
         periodDays: 180,
         refundProgress: 80,
         refundAttendance: 60,
@@ -1331,8 +1331,8 @@ code, pre, kbd, samp,
         courseOriginSum: 480000,
         courseDiscount: 150000,
         courseSaleSum: 330000,
-        bookSaleSum: 72000,
-        totalSalePrice: 402000,
+        bookSaleSum: 64800,
+        totalSalePrice: 394800,
         periodDays: 180,
         refundProgress: 0,
         refundAttendance: 0,
@@ -1391,8 +1391,8 @@ code, pre, kbd, samp,
     ];
 
     let mappedPkgBooks = [
-      { sku: "PROD-BK-1011", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, stock: 420 },
-      { sku: "PROD-BK-1005", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, stock: 310 }
+      { sku: "PROD-BK-1011", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, sale: 34200, stock: 420 },
+      { sku: "PROD-BK-1005", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, sale: 30600, stock: 310 }
     ];
 
     /* =========================================================================
@@ -1625,7 +1625,7 @@ code, pre, kbd, samp,
           <td><span class="code-pill">${b.sku}</span></td>
           <td style="font-weight:600;">${b.title}</td>
           <td><code>${b.isbn}</code></td>
-          <td class="text-right" style="font-weight:700; color:var(--emerald);">${formatNumber(b.price)}원</td>
+          <td class="text-right" style="font-weight:700; color:var(--emerald);">${formatNumber(b.price)}원 / ${formatNumber(b.sale != null ? b.sale : b.price)}원</td>
           <td class="text-center">${formatNumber(b.stock)}권</td>
           <td class="text-center"><span class="badge badge-end">환급 제외 (도서공제)</span></td>
         </tr>
@@ -1742,7 +1742,7 @@ code, pre, kbd, samp,
           <td><span class="code-pill">${b.sku}</span></td>
           <td style="font-weight:600;">${b.title}</td>
           <td><code>${b.isbn}</code></td>
-          <td class="text-right" style="font-weight:700; color:var(--emerald);">${formatNumber(b.price)}원</td>
+          <td class="text-right" style="font-weight:700; color:var(--emerald);">${formatNumber(b.price)}원 / ${formatNumber(b.sale != null ? b.sale : b.price)}원</td>
           <td class="text-center">${formatNumber(b.stock)}권</td>
           <td class="text-center">
             <button type="button" class="btn btn-danger-outline btn-sm" onclick="removeBookFromPkg(${idx})">제외</button>
@@ -1772,7 +1772,7 @@ code, pre, kbd, samp,
       const weightSum = mappedPkgCourses.reduce((a, c) => a + Number(c.weight || 0), 0);
       const discount = Math.min(originSum, Math.max(0, Number(document.getElementById("f-course-discount").value || 0)));
       const courseNet = originSum - discount;
-      const bookNet = mappedPkgBooks.reduce((a, b) => a + b.price, 0);
+      const bookNet = mappedPkgBooks.reduce((a, b) => a + (b.sale != null ? b.sale : b.price), 0);
       const totalPkgPrice = courseNet + bookNet;
 
       document.getElementById("foot-course-list-sum").textContent = `${formatNumber(originSum)}원`;
@@ -1919,7 +1919,7 @@ code, pre, kbd, samp,
       const originSum = mappedPkgCourses.reduce((a, c) => a + c.listPrice, 0);
       const discount = Number(document.getElementById("f-course-discount").value || 0);
       const courseSaleSum = Math.max(0, originSum - discount);
-      const bookSaleSum = mappedPkgBooks.reduce((a, b) => a + b.price, 0);
+      const bookSaleSum = mappedPkgBooks.reduce((a, b) => a + (b.sale != null ? b.sale : b.price), 0);
       const pkgType = document.querySelector('input[name="f-pkg-type"]:checked').value;
 
       const payload = {

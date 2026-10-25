@@ -165,7 +165,7 @@ code, pre, kbd, samp,
                 <th style="width:200px;">성명 · 소속</th>
                 <th style="width:200px;">역할 그룹</th>
                 <th style="width:300px;">소속 (데이터 범위)</th>
-                <th>2단계 인증 · 접속 제한</th>
+                <th>접속 제한</th>
                 <th style="width:130px;">최근 접속</th>
                 <th style="width:80px;">상태</th>
                 <th style="width:90px;">관리</th>
@@ -292,7 +292,7 @@ code, pre, kbd, samp,
           <div id="af-target" style="margin-top:8px;"></div>
           <div class="form-help" id="af-scope-preview"></div>
         </div></div>
-        <div class="form-row"><label>보안 옵션</label><div><input class="f-input" id="af-sec" style="width:100%;" /></div></div>
+        <div class="form-row"><label>접속 제한</label><div><input class="f-input" id="af-sec" style="width:100%;" /></div></div>
         <div class="form-row"><label>상태</label><div class="check-group"><label><input type="radio" name="af-status" value="ACTIVE" checked /> 정상</label><label><input type="radio" name="af-status" value="LOCKED" /> 잠금 · 중지</label></div></div>
       </div>
       <div class="modal-footer">
@@ -311,15 +311,15 @@ code, pre, kbd, samp,
 
     // 소속(aff): STAFF 내부 직원 / RH 권리자(계약 원장의 계약 당사자) / VENDOR 거래처 — 데이터 범위는 소속에서 나온다
     let ACCOUNTS = [
-      { id: 'admin_white', name: '김총괄 (기획 · PO)', roles: ['RG-01'], aff: { kind: 'STAFF' }, sec: '2단계 인증 + 사내망 IP', lastLogin: '2026-10-22 09:40', status: 'ACTIVE' },
-      { id: 'fin_manager', name: '이재무', roles: ['RG-04'], aff: { kind: 'STAFF' }, sec: '2단계 인증 + 사내망 IP', lastLogin: '2026-10-22 10:15', status: 'ACTIVE' },
-      { id: 'cs_lead01', name: '최상담', roles: ['RG-02'], aff: { kind: 'STAFF' }, sec: '2단계 인증', lastLogin: '2026-10-22 11:05', status: 'ACTIVE' },
-      { id: 'cs_lee02', name: '이지원', roles: ['RG-02'], aff: { kind: 'STAFF' }, sec: '2단계 인증', lastLogin: '2026-10-22 10:12', status: 'ACTIVE' },
-      { id: 'log_choi', name: '최민아 (물류 · CS 겸직)', roles: ['RG-03', 'RG-02'], aff: { kind: 'STAFF' }, sec: '2단계 인증', lastLogin: '2026-10-22 08:50', status: 'ACTIVE' },
-      { id: 'inst_jjd', name: '정종대', roles: ['RG-05'], aff: { kind: 'RH', ref: 'RH-0025' }, sec: '2단계 인증(모바일)', lastLogin: '2026-10-21 21:10', status: 'ACTIVE' },
-      { id: 'ta_jung', name: '정조교 (정종대 강사 소속)', roles: ['RG-06'], aff: { kind: 'RH', ref: 'RH-0025' }, sec: '2단계 인증(모바일)', lastLogin: '2026-10-21 18:02', status: 'ACTIVE' },
-      { id: 'author_lee', name: '이안전', roles: ['RG-07'], aff: { kind: 'RH', ref: 'RH-0031' }, sec: '2단계 인증(모바일)', lastLogin: '2026-10-21 16:30', status: 'ACTIVE' },
-      { id: 'consign_kas', name: '안전기술출판 (위탁사)', roles: ['RG-07'], aff: { kind: 'RH', ref: 'RH-0044' }, sec: '2단계 인증(모바일)', lastLogin: '2026-10-20 15:12', status: 'ACTIVE' },
+      { id: 'admin_white', name: '김총괄 (기획 · PO)', roles: ['RG-01'], aff: { kind: 'STAFF' }, sec: '사내망 IP', lastLogin: '2026-10-22 09:40', status: 'ACTIVE' },
+      { id: 'fin_manager', name: '이재무', roles: ['RG-04'], aff: { kind: 'STAFF' }, sec: '사내망 IP', lastLogin: '2026-10-22 10:15', status: 'ACTIVE' },
+      { id: 'cs_lead01', name: '최상담', roles: ['RG-02'], aff: { kind: 'STAFF' }, sec: '제한 없음', lastLogin: '2026-10-22 11:05', status: 'ACTIVE' },
+      { id: 'cs_lee02', name: '이지원', roles: ['RG-02'], aff: { kind: 'STAFF' }, sec: '제한 없음', lastLogin: '2026-10-22 10:12', status: 'ACTIVE' },
+      { id: 'log_choi', name: '최민아 (물류 · CS 겸직)', roles: ['RG-03', 'RG-02'], aff: { kind: 'STAFF' }, sec: '제한 없음', lastLogin: '2026-10-22 08:50', status: 'ACTIVE' },
+      { id: 'inst_jjd', name: '정종대', roles: ['RG-05'], aff: { kind: 'RH', ref: 'RH-0025' }, sec: '제한 없음', lastLogin: '2026-10-21 21:10', status: 'ACTIVE' },
+      { id: 'ta_jung', name: '정조교 (정종대 강사 소속)', roles: ['RG-06'], aff: { kind: 'RH', ref: 'RH-0025' }, sec: '제한 없음', lastLogin: '2026-10-21 18:02', status: 'ACTIVE' },
+      { id: 'author_lee', name: '이안전', roles: ['RG-07'], aff: { kind: 'RH', ref: 'RH-0031' }, sec: '제한 없음', lastLogin: '2026-10-21 16:30', status: 'ACTIVE' },
+      { id: 'consign_kas', name: '안전기술출판 (위탁사)', roles: ['RG-07'], aff: { kind: 'RH', ref: 'RH-0044' }, sec: '제한 없음', lastLogin: '2026-10-20 15:12', status: 'ACTIVE' },
       { id: '3pl_cjlogis', name: '정물류 (CJ대한통운 파주)', roles: ['RG-08'], aff: { kind: 'VENDOR', ref: 'SUP-0020' }, sec: '물류센터 고정 IP', lastLogin: '2026-10-22 08:30', status: 'ACTIVE' }
     ];
 
@@ -412,7 +412,7 @@ code, pre, kbd, samp,
       const aff = a ? a.aff : { kind: 'STAFF' };
       document.querySelectorAll('input[name="af-kind"]').forEach(r => { r.checked = r.value === aff.kind; });
       renderAffTarget(aff.ref);
-      document.getElementById('af-sec').value = a ? a.sec : '2단계 인증';
+      document.getElementById('af-sec').value = a ? a.sec : '제한 없음';
       document.querySelectorAll('input[name="af-status"]').forEach(r => { r.checked = r.value === (a ? a.status : 'ACTIVE'); });
       // 미사용 그룹은 새로 줄 수 없고, 이미 가진 경우에만 보여 준다
       document.getElementById('af-roles').innerHTML = M.roles.list().filter(g => g.on || (a && a.roles.includes(g.id))).map(g =>
@@ -459,6 +459,13 @@ code, pre, kbd, samp,
       if (external && aff.kind === 'STAFF') return fail('외부 역할 그룹을 주는 계정은 소속을 권리자 또는 거래처로 정해 본인 데이터만 보게 해야 합니다.');
       if (!external && aff.kind !== 'STAFF') return fail('권리자 · 거래처 소속 계정에는 외부 역할 그룹만 줄 수 있습니다.');
       if (aff.kind !== 'STAFF' && !aff.ref) return fail('소속 대상을 선택해 주십시오.');
+      const AFF_KIND_LABEL = { STAFF: '내부 직원', RH: '권리자', VENDOR: '거래처' };
+      for (const r of roles) {
+        const g = M.roles.get(r);
+        if (g && Array.isArray(g.aff) && g.aff.length && !g.aff.includes(aff.kind)) {
+          return fail(`'${g.name}' 그룹은 ${g.aff.map(k => AFF_KIND_LABEL[k] || k).join(' · ')} 소속 계정에만 지정할 수 있습니다. (현재 소속: ${AFF_KIND_LABEL[aff.kind] || aff.kind})`);
+        }
+      }
       const data = { id, name, roles, aff, sec: document.getElementById('af-sec').value.trim(), status: document.querySelector('input[name="af-status"]:checked').value };
       if (editingAccId) {
         const a = ACCOUNTS.find(x => x.id === editingAccId);

@@ -629,7 +629,7 @@ code, pre, kbd, samp,
             <div class="k-sub">실물 교재·상품 실결제액 합계 30,000원↑ 무료 / 제주·도서산간 +3,000원 부과</div>
           </div>
 
-          <div class="kpi-card" id="kpi-ord-return" onclick="filterOrdListByKpi('반품진행중')">
+          <div class="kpi-card" id="kpi-ord-return" onclick="filterOrdListByKpi('반품수거중')">
             <div class="k-title"><span>환불 · 반품 수거 및 창고 검수 대기</span><span class="badge">ORD-002-S3 ↔ RFD-002</span></div>
             <div class="k-num" style="color:var(--danger);" id="kpiNumReturn">6건 (검수 대기 3건)</div>
             <div class="k-sub">정상 판정 시 교재 자동 재입고 · 훼손 시 착불 반송 기각</div>
@@ -695,7 +695,7 @@ code, pre, kbd, samp,
                         <button type="button" class="filter-chip" data-status="배송준비중" onclick="selectStatusChip(this)">배송준비중</button>
                         <button type="button" class="filter-chip" data-status="배송중" onclick="selectStatusChip(this)">배송중</button>
                         <button type="button" class="filter-chip" data-status="배송완료" onclick="selectStatusChip(this)">배송완료</button>
-                        <button type="button" class="filter-chip" data-status="반품진행중" onclick="selectStatusChip(this)">반품진행중</button>
+                        <button type="button" class="filter-chip" data-status="반품수거중" onclick="selectStatusChip(this)">반품수거중</button>
                         <button type="button" class="filter-chip" data-status="환불완료" onclick="selectStatusChip(this)">환불완료</button>
                         <button type="button" class="filter-chip" data-status="기각" onclick="selectStatusChip(this)">기각</button>
                       </div>
@@ -937,7 +937,8 @@ code, pre, kbd, samp,
                     <div>
                       <label style="display:block;font-weight:700;font-size:12px;margin-bottom:6px;">반품 배송비 귀책 판정 <span style="color:var(--danger);">*</span></label>
                       <select class="form-select" id="inpInspectFault" style="width:100%;">
-                        <option value="CUSTOMER">고객 귀책 (단순 변심 ➔ 왕복 반품 배송비 6,000원 차감)</option>
+                        <option value="CUSTOMER_ONEWAY">고객 귀책 – 단순변심 편도 3,000원 (유료배송 주문)</option>
+                        <option value="CUSTOMER">고객 귀책 – 무료배송 주문 취소 왕복 6,000원</option>
                         <option value="COMPANY">회사 귀책 (파본 · 오배송 ➔ 배송비 차감 없음 0원)</option>
                       </select>
                       <div style="font-size:11.5px;color:var(--text-muted);margin-top:4px;">
@@ -1438,6 +1439,12 @@ code, pre, kbd, samp,
             <button type="button" class="btn btn-sm btn-dark" onclick="retryFailedAlimtalk()">🔄 발송 실패 2건 재시도</button>
           </div>
 
+          <div class="notice-bar" id="p1StockLine" style="margin-bottom:12px;">
+            <div>
+              📦 <b>재고 반영:</b> 교재 재고 실차감 141권 · 안전재고(20권 이하) 경고 3건 · 재고 0권 자동 일시품절 전환 1건 (상품 관리에서 확인)
+            </div>
+          </div>
+
           <div class="toolbar">
             <div class="toolbar-left">
               <b>실패 목록 (7건) — 주문번호 불일치 2 · 이미 처리됨 1 · 필수값 누락 1 · 형식 오류 1 · 상태 불일치 1 · 운송장 중복 1</b>
@@ -1489,7 +1496,7 @@ code, pre, kbd, samp,
                 <tr>
                   <td>103</td><td class="mono">SJM20260809-0044</td><td>2</td><td class="mono">641233879130</td><td>CJ대한통운</td>
                   <td><span class="badge b-purple">E05</span></td>
-                  <td><b>상태 불일치</b> — 현재 '반품진행중' 상태. 출고 송장 등록 불가</td>
+                  <td><b>상태 불일치</b> — 현재 '반품수거중' 상태. 출고 송장 등록 불가</td>
                 </tr>
                 <tr>
                   <td>117</td><td class="mono">SJM20260818-0021</td><td>2</td><td class="mono">641233879021</td><td>한진택배</td>
@@ -2011,14 +2018,14 @@ code, pre, kbd, samp,
         hasDelivery: true,
         lines: [
           { tag: "강좌", cls: "b-blue", name: "산업안전기사 필기 올패스(2026)", status: "환불심사", sCls: "b-red", sub: "ADMN-RFD-002 심사중" },
-          { tag: "교재", cls: "b-teal", name: "정종대 (RH-0025) 2026 산업안전기사 필기 기본서 ×1", status: "반품진행중", sCls: "b-red", sub: "3PL 창고 입고 · 검수 대기" }
+          { tag: "교재", cls: "b-teal", name: "정종대 (RH-0025) 2026 산업안전기사 필기 기본서 ×1", status: "반품수거중", sCls: "b-red", sub: "3PL 창고 입고 · 검수 대기" }
         ],
         deliverySub: "수거 운송장 641299001122 · 창고 입고일 2026.08.18",
         paidAmt: "189,000원",
         priceNote: "환불 심사 진행 건",
         payMethod: "간편결제",
         paySub: "토스페이 (토스PG)",
-        status: "반품진행중",
+        status: "반품수거중",
         shipLocked: true,
         presetKey: "SJM20260818-0021"
       }
@@ -2050,7 +2057,7 @@ code, pre, kbd, samp,
       }
 
       tbody.innerHTML = filtered.map(o => {
-        const rowCls = o.status === "결제대기" ? "row-vbank" : (o.status === "반품진행중" ? "row-refund" : "");
+        const rowCls = o.status === "결제대기" ? "row-vbank" : (o.status === "반품수거중" ? "row-refund" : "");
         const linesHtml = o.lines.map(l => `
           <div class="order-line-item">
             <span class="badge ${l.cls}">${l.tag}</span>
@@ -2063,13 +2070,13 @@ code, pre, kbd, samp,
         let statusBadge = `<span class="badge b-amber">${o.status}</span>`;
         if (o.status === "결제완료" || o.status === "배송완료") statusBadge = `<span class="badge b-green">${o.status}</span>`;
         if (o.status === "배송중") statusBadge = `<span class="badge b-blue">${o.status}</span>`;
-        if (o.status === "반품진행중") statusBadge = `<span class="badge b-red">${o.status}</span>`;
+        if (o.status === "반품수거중") statusBadge = `<span class="badge b-red">${o.status}</span>`;
         if (o.status === "결제대기") statusBadge = `<span class="badge b-purple">결제대기(미입금)</span>`;
 
         let actionBtn = `<button type="button" class="btn btn-sm btn-outline" onclick="openOrderDetail('${o.presetKey}')">상세</button>`;
         if (o.status === "결제대기") {
           actionBtn = `<button type="button" class="btn btn-sm btn-warn" onclick="openOrderDetail('SJM20260817-0132')">⏳ 기한연장</button>`;
-        } else if (o.status === "반품진행중") {
+        } else if (o.status === "반품수거중") {
           actionBtn = `<a href="ADMN-RFD-002_baseline.html" class="btn btn-sm btn-danger" style="text-decoration:none;">환불건 ➔</a>`;
         }
 
@@ -2133,7 +2140,7 @@ code, pre, kbd, samp,
       if (status === "배송준비중") document.getElementById("kpi-ord-ready").classList.add("active");
       if (status === "결제대기") document.getElementById("kpi-ord-vbank").classList.add("active");
       if (status === "배송중") document.getElementById("kpi-ord-ship").classList.add("active");
-      if (status === "반품진행중") document.getElementById("kpi-ord-return").classList.add("active");
+      if (status === "반품수거중") document.getElementById("kpi-ord-return").classList.add("active");
 
       switchOrdView("ord001");
       curOrdStatus = status;
@@ -2325,7 +2332,7 @@ code, pre, kbd, samp,
             </td>
           </tr>
         `).join("");
-        notice.innerHTML = `<div class="notice-bar"><div>📌 <b>배송완료 탭(ORD-002-S2) 안내:</b> 배송완료 후 고객이 교재 환불을 요청하면 해당 라인은 <b>반품진행중</b>으로 자동 전환되어 우측 <b>[4. 반품 수거 · 창고 검수]</b> 탭으로 이동합니다.</div></div>`;
+        notice.innerHTML = `<div class="notice-bar"><div>📌 <b>배송완료 탭(ORD-002-S2) 안내:</b> 배송완료 후 고객이 교재 환불을 요청하면 해당 라인은 <b>반품수거중</b>으로 자동 전환되어 우측 <b>[4. 반품 수거 · 창고 검수]</b> 탭으로 이동합니다.</div></div>`;
       } else if (curShipTab === "RETURN") {
         const list = SHIP_LINES.RETURN;
         thead.innerHTML = `
@@ -2400,7 +2407,7 @@ code, pre, kbd, samp,
         btn3pl.disabled = true;
         btnSingle.disabled = true;
       } else if (curShipTab === "RETURN") {
-        summary.innerHTML = `반품진행중 <b>6</b>건 · 창고 검수 대기 <b>3</b>건`;
+        summary.innerHTML = `반품수거중 <b>6</b>건 · 창고 검수 대기 <b>3</b>건`;
         btn3pl.disabled = true;
         btnSingle.disabled = true;
       }

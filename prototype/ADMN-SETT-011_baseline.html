@@ -401,8 +401,8 @@ code, pre, kbd, samp,
           { no: 12, date: '09.30', waybill: '6841-2201-0801', order: 'SJM-20260929-004590 · 문*희', qty: 1, db: '출고', claim: '청구', price: 2000, status: 'MATCH', diff: '일치' }
         ],
         ship: [
-          { kind: '정상 출고 배송비', recv: 4884000, pay: 3698000, note: '1,628건 × 3,000원 수취 / 1,849건 × 2,000원 청구' },
-          { kind: '무료배송 프로모션', recv: 0, pay: 428000, note: '214건 · 회사 부담 마케팅 비용으로 계상' },
+          { kind: '정상 출고 배송비', recv: 4884000, pay: 3270000, note: '1,628건 × 3,000원 수취 / 1,635건 × 2,000원 청구 (3PL 청구 1,849건 중 무료배송 214건은 아래 행으로 분리)' },
+          { kind: '무료배송 프로모션', recv: 0, pay: 428000, note: '214건 × 2,000원 · 정상 출고 청구와 중복 없이 분리 계상 · 회사 부담 마케팅 비용' },
           { kind: '반품 — 고객 귀책', recv: 186000, pay: 124000, note: '31건 · 왕복 6,000원 환불금에서 공제 / 3PL 회수비 4,000원 · 인세 원장은 판매 수량만 −1' },
           { kind: '반품 — 회사 귀책', recv: 0, pay: 36000, note: '9건 · 오배송 · 파손 · 고객 공제 없음(회사 전액 부담)' }
         ],
@@ -455,7 +455,7 @@ code, pre, kbd, samp,
       // 3PL 파트너 · 계약 단가는 거래처 관리(물류 대행 양식)에서 읽는다
       const tpls = M.vendors.byForm('LOGISTICS').filter(v => v.on);
       document.getElementById('tpl-partner').innerHTML = tpls.length ? tpls.map(v => `<a href="ADMN-VEND-001_baseline.html?id=${v.id}">${v.name}</a>`).join(' · ') : '등록된 물류 대행사 없음';
-      document.getElementById('tpl-terms').innerHTML = tpls.map(v => `계약 단가(거래처 관리): 출고 건당 ${won(Number(v.terms.outFee))}원 · 반품 회수 ${won(Number(v.terms.returnFee))}원 · 보관 월 ${won(Number(v.terms.storage))}원 — 3PL 청구 단가가 이와 다르면 불일치로 봅니다.`).join('<br/>');
+      document.getElementById('tpl-terms').innerHTML = tpls.map(v => `계약 단가(거래처 관리): 출고 건당 ${won(Number(v.terms.outFee))}원 · 반품 회수 ${won(Number(v.terms.returnFee))}원 · 보관료 월 ${won(Number(v.terms.storage))}원(보관료 별도 정산 · 이 대사 범위 밖) — 3PL 청구 단가가 이와 다르면 불일치로 봅니다.`).join('<br/>');
       const m = cur();
       const slot = document.getElementById('file-slot');
       slot.innerHTML = m ? `<span class="file-chip">📄 ${m.file.name} 🔒 · 업로드 ${m.file.at} · ${m.file.by} · 버전 ${m.file.version}</span>` : '<span class="file-chip" style="color:var(--text-muted);">아직 업로드된 명세서가 없습니다</span>';
@@ -478,7 +478,7 @@ code, pre, kbd, samp,
       document.getElementById('kpi-fee').textContent = won(m.fee) + '원';
       const f = document.getElementById('flt-status').value;
       const list = m.rows.filter(r => f === 'ALL' || (f === 'MISMATCH' ? isMismatch(r) : r.status === f));
-      document.getElementById('out-summary').textContent = `불일치 ${mis.length}건 · 전체 ${won(m.claimCount)}건 중 ${list.length}건 표시`;
+      document.getElementById('out-summary').textContent = `불일치 ${mis.length}건 (3PL만 ${mis.filter(r => r.status === 'ONLY_3PL').length} · DB만 ${mis.filter(r => r.status === 'ONLY_DB').length} · 수량 · 단가 차 ${mis.filter(r => r.status === 'DIFF').length}) · 청구 ${won(m.claimCount)}건 − DB ${won(m.dbCount)}건 = 건수 차 ${m.claimCount - m.dbCount}건은 수량 차이 건의 초과분을 포함해 집계하므로 불일치 건수와 다릅니다 · ${list.length}건 표시`;
       document.getElementById('lock-badge').innerHTML = m.completed ? '<span class="badge badge-green">대사 완료 · 확정 잠금</span>' : '<span class="badge badge-amber">대사 진행 중</span>';
       const tbody = document.getElementById('out-tbody');
       if (!list.length) {

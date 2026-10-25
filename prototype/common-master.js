@@ -38,19 +38,21 @@
   // 권한 매트릭스의 메뉴 축 — 메뉴(화면) 구성은 시스템이 정하고, 역할 그룹별 읽기(R) · 쓰기(W) · 엑셀(X) 값만 운영에서 바꾼다
   var MENUS = [
     { key: "dash", label: "운영 현황 대시보드", screens: "DASH-001" },
-    { key: "stat", label: "매출 · 상품 통계", screens: "STAT-001 · 002" },
+    { key: "stat", label: "매출 · 상품 통계", screens: "STAT-001" },
     { key: "user", label: "회원 · 수강 관리", screens: "USER-001~006" },
     { key: "order", label: "주문 · 배송 관리", screens: "ORD-001" },
-    { key: "shipout", label: "출고 지시 · 송장 업로드", screens: "ORD-002" },
+    { key: "shipout", label: "출고 지시 · 송장 업로드", screens: "ORD-001 (출고 지시 · 송장)" },
     { key: "refund", label: "환불 요청 · 심사", screens: "RFD-002" },
-    { key: "inquiry", label: "1:1 문의 · 공지 · FAQ · 후기", screens: "BRD-001 · 002 · 005" },
+    { key: "inquiry", label: "1:1 문의 · 공지 · FAQ · 후기", screens: "BRD-001 · 002 · 005 (후기)" },
     { key: "pqna", label: "상품 Q&A", screens: "BRD-003" },
     { key: "lqna", label: "학습 Q&A", screens: "BRD-004" },
-    { key: "promo", label: "이벤트 · 쿠폰 · 포인트", screens: "PROM-001 · 002" },
-    { key: "product", label: "상품 · 강좌 · 교재", screens: "PROD-001~007 · BOOK-001" },
-    { key: "contract", label: "권리자 계약 · 지분 매핑", screens: "INST-001 · SETT-001 · 007" },
+    { key: "freecon", label: "무료 콘텐츠 · 교재 정답지", screens: "BRD-005 (무료특강) · BRD-010" },
+    { key: "promo", label: "이벤트 · 쿠폰 · 포인트", screens: "PROM-001 · 002 · 003" },
+    { key: "product", label: "상품 · 강좌 · 교재", screens: "PROD-001~007" },
+    { key: "contract", label: "권리자 계약 · 지분 매핑", screens: "INST-001 · SETT-001 · 007 · BOOK-001" },
     { key: "vendor", label: "거래처 관리", screens: "VEND-001" },
-    { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 011 · 006 · 008 · INST-002" },
+    { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 011 · 008 · INST-002" },
+    { key: "refundpass", label: "합격 환급반 관리 · 서류 보완", screens: "SETT-006" },
     { key: "settle", label: "월간 정산 · 지급 · 조회", screens: "SETT-002 · 005 · 009" },
     { key: "statement", label: "본인 정산서 확인 · 세금계산서 제출", screens: "SETT-002-S2" },
     { key: "privacy", label: "민감 정보 · 시스템 감사 로그", screens: "USER-007 · CONF-010" },
@@ -63,29 +65,30 @@
   MENUS.forEach(function (m) { ALL[m.key] = "RWX"; });
 
   // 역할 그룹 최초값 — 화면설계서 v12 예시 6종 + README 외부 파트너 2종(2026-10-22). 이름 · 구성 · 권한은 운영 중 바뀐다
-  // side: INTERNAL 내부 관리자 / EXTERNAL 외부 계정, queue: 1:1 문의 담당 부서 큐로 선택 가능 여부
+  // side: INTERNAL 내부 관리자 / EXTERNAL 외부 계정, queue: 1:1 문의 담당 부서 큐로 선택 가능 여부,
+  // aff: 이 그룹을 줄 수 있는 계정 소속 종류(STAFF 내부 직원 / RH 권리자 / VENDOR 거래처) — 없으면 CONF-005가 side로만 검사
   var ROLE_SEED = [
-    { id: "RG-01", name: "최고 관리자", side: "INTERNAL", queue: false, on: true, order: 1,
+    { id: "RG-01", name: "최고 관리자", side: "INTERNAL", queue: false, aff: ["STAFF"], on: true, order: 1,
       desc: "전 메뉴 · 권한 · 감사 관리", perms: ALL },
-    { id: "RG-02", name: "CS담당자", side: "INTERNAL", queue: true, on: true, order: 2,
+    { id: "RG-02", name: "CS담당자", side: "INTERNAL", queue: true, aff: ["STAFF"], on: true, order: 2,
       desc: "회원 응대 · 1:1 문의 · 환불 접수",
-      perms: { dash: "R", user: "RW", order: "RW", refund: "RW", inquiry: "RW", pqna: "RW", lqna: "R", promo: "R", product: "R" } },
-    { id: "RG-03", name: "물류팀", side: "INTERNAL", queue: true, on: true, order: 3,
+      perms: { dash: "R", user: "RW", order: "RW", refund: "RW", inquiry: "RW", pqna: "RW", lqna: "R", freecon: "RW", refundpass: "RW", promo: "R", product: "R" } },
+    { id: "RG-03", name: "물류팀", side: "INTERNAL", queue: true, aff: ["STAFF"], on: true, order: 3,
       desc: "출고 지시 · 송장 · 반품 검수",
-      perms: { dash: "R", order: "RW", shipout: "RWX", refund: "R", inquiry: "R", pqna: "RW", product: "R" } },
-    { id: "RG-04", name: "재무팀", side: "INTERNAL", queue: true, on: true, order: 4,
+      perms: { dash: "R", order: "RW", shipout: "RWX", refund: "R", inquiry: "RW", pqna: "RW", product: "R" } },
+    { id: "RG-04", name: "재무팀", side: "INTERNAL", queue: true, aff: ["STAFF"], on: true, order: 4,
       desc: "환불 승인 · 지급 · 정산 · 세무",
-      perms: { dash: "R", stat: "RX", user: "R", order: "R", refund: "RWX", product: "R", contract: "RWX", vendor: "RWX", presettle: "RWX", settle: "RWX", privacy: "R" } },
-    { id: "RG-05", name: "강사", side: "EXTERNAL", queue: true, on: true, order: 5,
+      perms: { dash: "R", stat: "RX", user: "R", order: "R", refund: "RWX", product: "R", inquiry: "RW", contract: "RWX", vendor: "RWX", presettle: "RWX", refundpass: "RWX", settle: "RWX", privacy: "RW" } },
+    { id: "RG-05", name: "강사", side: "EXTERNAL", queue: true, aff: ["RH"], on: true, order: 5,
       desc: "본인 강좌 학습 Q&A 답변 · 본인 정산서 확인",
       perms: { lqna: "RW", statement: "RW" } },
-    { id: "RG-06", name: "조교", side: "EXTERNAL", queue: true, on: true, order: 6,
+    { id: "RG-06", name: "조교", side: "EXTERNAL", queue: true, aff: ["RH"], on: true, order: 6,
       desc: "소속 강사 강좌 학습 Q&A · 상품 Q&A 내용 오류 답변",
-      perms: { lqna: "RW", pqna: "RW" } },
-    { id: "RG-07", name: "저작권자", side: "EXTERNAL", queue: false, on: true, order: 7,
+      perms: { lqna: "RW", pqna: "RW", freecon: "RW" } },
+    { id: "RG-07", name: "저작권자", side: "EXTERNAL", queue: false, aff: ["RH"], on: true, order: 7,
       desc: "본인 도서 인세 정산서 확인 · 세금계산서 제출",
       perms: { statement: "RW" } },
-    { id: "RG-08", name: "외부 3PL", side: "EXTERNAL", queue: false, on: true, order: 8,
+    { id: "RG-08", name: "외부 3PL", side: "EXTERNAL", queue: false, aff: ["VENDOR"], on: true, order: 8,
       desc: "출고 대상 조회 · 송장 업로드 (금액 비노출)",
       perms: { shipout: "RW" } }
   ];
@@ -170,6 +173,21 @@
   ];
 
   var roleStore = store("sjm.master.roleGroups.v1", ROLE_SEED);
+  // v6.38 새 메뉴 키 호환 — 이전 버전이 localStorage에 저장한 역할 그룹에는 새 키가 없으므로 최초값에서 한 번 채운다(기존 키 값은 건드리지 않음)
+  (function () {
+    var cur = roleStore.get(), changed = false;
+    cur.forEach(function (g) {
+      ROLE_SEED.forEach(function (sg) {
+        if (sg.id !== g.id) return;
+        g.perms = g.perms || {};
+        if (sg.aff && !g.aff) { g.aff = sg.aff.slice(); changed = true; }
+        ["refundpass", "freecon"].forEach(function (k) {
+          if (sg.perms[k] && g.perms[k] === undefined) { g.perms[k] = sg.perms[k]; changed = true; }
+        });
+      });
+    });
+    if (changed) roleStore.set(cur);
+  })();
   var vendorTypeStore = store("sjm.master.vendorTypes.v1", VENDOR_TYPE_SEED);
   var vendorStore = store("sjm.master.vendors.v1", VENDOR_SEED);
   var majorStore = store("sjm.master.inquiryMajors.v1", MAJOR_SEED);

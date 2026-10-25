@@ -477,7 +477,7 @@ code, pre, kbd, samp,
       <section class="kpi-grid">
         <div class="kpi-card active" data-filter="ALL">
           <div class="k-title">전체 조회 대상 거래처</div>
-          <div class="k-num" id="kpiAll">6곳</div>
+          <div class="k-num" id="kpiAll">8곳</div>
           <div class="k-sub">권리자 · 위탁자 · 도서 매입처</div>
         </div>
         <div class="kpi-card" data-filter="CHANGE_DETECTED">
@@ -487,7 +487,7 @@ code, pre, kbd, samp,
         </div>
         <div class="kpi-card" data-filter="CLOSED_SUSPENDED">
           <div class="k-title">🚨 폐업 · 휴업 감지 (강제정산/차단)</div>
-          <div class="k-num" id="kpiClosed" style="color:var(--danger);">1건</div>
+          <div class="k-num" id="kpiClosed" style="color:var(--danger);">2건</div>
           <div class="k-sub">리마인더 중단 · 강제 정산 트리거</div>
         </div>
         <div class="kpi-card" data-filter="PENDING_REVIEW">
@@ -497,7 +497,7 @@ code, pre, kbd, samp,
         </div>
         <div class="kpi-card" data-filter="NORMAL">
           <div class="k-title">🟢 계속사업자 · 유효기간(90일) 정상</div>
-          <div class="k-num" id="kpiNormal" style="color:var(--success);">2건</div>
+          <div class="k-num" id="kpiNormal" style="color:var(--success);">3건</div>
           <div class="k-sub">원장 과세유형 일치 · 마감 가능</div>
         </div>
       </section>
@@ -640,7 +640,7 @@ code, pre, kbd, samp,
             <div>
               <div class="card-title">국세청 오픈API 호출 제어 파라미터(부록 B) 및 지수 백오프 재시도 큐 (정산 기준)</div>
               <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">
-                API 장애 시 정산 배치를 무한 대기시키지 않고 재시도 큐에 적재하며, 마감 실행 시점까지 미확인 건이 남아 있으면 해당 거래처의 마감만 선택 차단합니다.
+                API 장애 시 정산 배치를 무한 대기시키지 않고 재시도 큐에 적재하며, 마감 실행 시점에 유효기간(90일)이 경과한 미확인 건이 남아 있으면 해당 거래처의 마감만 선택 차단합니다(유효기간 내 확인 건은 스냅샷으로 마감 진행).
               </div>
             </div>
           </div>
@@ -798,6 +798,7 @@ code, pre, kbd, samp,
         endDt: "2026-09-28",
         controlStatus: "CLOSED",
         controlStatusLabel: "폐업 감지 (리마인더 중단 · 강제정산)",
+        closure: { label: "폐업일자", date: "2026-09-28", unpaid: 1420000, unapproved: 2, missingInvoice: 1, followUp: "강제 정산 트리거(7.3절) 연동 완료 · 10월 지급 대상" },
         memo: "2026-09-28 폐업 확인됨. 17.5절에 따라 미승인 증빙 리마인더를 즉시 중단하고, 미지급 정산금은 강제 정산 트리거(7.3절) 대상으로 선정함. 수취 계산서 확보 불가 시 채널 4 증빙불비 소명 절차로 전환.",
         rawJson: {
           b_no: "1058177210",
@@ -813,9 +814,9 @@ code, pre, kbd, samp,
       },
       {
         id: "NTS-202610-04",
-        partnerType: "권리자",
+        partnerType: "위탁자",
         partnerId: "RH-0051",
-        partnerName: "사단법인 한국소방학회 (법인·단체)",
+        partnerName: "사단법인 한국소방학회 (위탁 도서 공급자)",
         bizNo: "110-82-04912",
         corpNo: "110121-0029184",
         triggerName: "계약 등록/갱신",
@@ -824,14 +825,14 @@ code, pre, kbd, samp,
         ledgerTaxTypeLabel: "비영리·고유번호 단체 (NON_PROFIT_ORG)",
         apiTaxTypeLabel: "비영리법인·고유번호 단체 (코드 05)",
         apiTaxTypeCd: "05",
-        matrixCaseLabel: "후보 TX-09(인세) / TX-07(강의) 보류",
-        invoiceEligibleText: "수익사업 영위 확인 필요",
+        matrixCaseLabel: "도서 재화 공급 면세 (TX-11 고정)",
+        invoiceEligibleText: "면세 계산서 수취 대상 (도서 재화 공급)",
         taxTypeChangeDt: "-",
         invoiceApplyDt: "-",
         endDt: "-",
-        controlStatus: "PENDING_REVIEW",
-        controlStatusLabel: "세무 판정 보류 (PENDING_REVIEW 격리)",
-        memo: "국세청 과세유형 코드 05(비영리법인) 응답. 17.3절 규칙에 따라 인세 라인은 후보 TX-09, 강의 라인은 후보 TX-07을 부여하되 세무 판정 보류(PENDING_REVIEW)로 격리함. 수익사업 개시신고 및 세금계산서 발급 가능 여부 확인 후 확정 가능.",
+        controlStatus: "NORMAL",
+        controlStatusLabel: "정상 일치 (도서 면세 TX-11 고정)",
+        memo: "국세청 과세유형 코드 05(비영리법인) 응답이나, 위탁 도서 공급 계약(CT-2026-0801)은 17.3절 공급 성격 우선 규칙에 따라 과세유형과 무관하게 도서 면세 계산서 수취(TX-11)로 고정함. 세무 판정 보류 대상 아님.",
         rawJson: {
           b_no: "1108204912",
           b_stt: "계속사업자",
@@ -847,7 +848,7 @@ code, pre, kbd, samp,
         partnerType: "권리자",
         partnerId: "RH-0025",
         partnerName: "정종대 (산업안전 개인사업자)",
-        bizNo: "138-92-01823",
+        bizNo: "214-19-99881",
         corpNo: "",
         triggerName: "계약 등록/갱신",
         checkedAt: "2026-10-14 15:10:00",
@@ -864,7 +865,7 @@ code, pre, kbd, samp,
         controlStatusLabel: "정상 일치 (90일 유효기간 내)",
         memo: "진위확인 및 상태조회 완료. 원장 과세유형(면세사업자, TX-08)과 100% 일치.",
         rawJson: {
-          b_no: "1389201823",
+          b_no: "2141999881",
           b_stt: "계속사업자",
           b_stt_cd: "01",
           tax_type: "부가가치세 면세사업자",
@@ -876,10 +877,10 @@ code, pre, kbd, samp,
       {
         id: "NTS-202610-06",
         partnerType: "매입처",
-        partnerId: "SUPP-001",
-        partnerName: "주식회사 한빛총판도매 (사입도서 매입처)",
-        bizNo: "107-86-33190",
-        corpNo: "110111-3319021",
+        partnerId: "SUP-0003",
+        partnerName: "한국자격교재총판 (사입도서 매입처)",
+        bizNo: "214-81-33201",
+        corpNo: "",
         triggerName: "정기 재조회",
         checkedAt: "2026-10-14 09:05:30",
         bStt: "계속사업자 (01)",
@@ -895,12 +896,75 @@ code, pre, kbd, samp,
         controlStatusLabel: "정상 일치 (도서 면세 TX-11 고정)",
         memo: "17.3절 공급 성격 우선 규칙: 매입처의 과세유형은 일반과세자(01)이나 도서 재화 공급이므로 부가세 가산 없이 도서 면세 계산서 수취(TX-11)로 고정됨.",
         rawJson: {
-          b_no: "1078633190",
+          b_no: "2148133201",
           b_stt: "계속사업자",
           b_stt_cd: "01",
           tax_type: "부가가치세 일반과세자",
           tax_type_cd: "01",
           end_dt: "",
+          utcc_yn: "N"
+        }
+      },
+      {
+        id: "NTS-202610-07",
+        partnerType: "권리자",
+        partnerId: "RH-0052",
+        partnerName: "사단법인 한국산업안전교육협회 (강의·인세 단체)",
+        bizNo: "108-82-30417",
+        corpNo: "110121-0031507",
+        triggerName: "계약 등록/갱신",
+        checkedAt: "2026-10-10 14:20:00",
+        bStt: "계속사업자 (01)",
+        ledgerTaxTypeLabel: "비영리·고유번호 단체 (NON_PROFIT_ORG)",
+        apiTaxTypeLabel: "비영리법인·고유번호 단체 (코드 05)",
+        apiTaxTypeCd: "05",
+        matrixCaseLabel: "후보 TX-09(인세) / TX-07(강의) 보류",
+        invoiceEligibleText: "수익사업 영위 확인 필요",
+        taxTypeChangeDt: "-",
+        invoiceApplyDt: "-",
+        endDt: "-",
+        controlStatus: "PENDING_REVIEW",
+        controlStatusLabel: "세무 판정 보류 (PENDING_REVIEW 격리)",
+        memo: "국세청 과세유형 코드 05(비영리법인) 응답. 17.3절 규칙에 따라 인세 라인은 후보 TX-09, 강의 라인은 후보 TX-07을 부여하되 세무 판정 보류(PENDING_REVIEW)로 격리함. 수익사업 개시신고 및 세금계산서 발급 가능 여부 확인 후 확정 가능.",
+        rawJson: {
+          b_no: "1088230417",
+          b_stt: "계속사업자",
+          b_stt_cd: "01",
+          tax_type: "수익사업을 영위하지 않는 비영리법인이거나 고유번호가 부여된 단체",
+          tax_type_cd: "05",
+          end_dt: "",
+          utcc_yn: "N"
+        }
+      },
+      {
+        id: "NTS-202610-08",
+        partnerType: "권리자",
+        partnerId: "RH-0036",
+        partnerName: "박기술 교육원 (강사 사업자)",
+        bizNo: "312-91-55270",
+        corpNo: "",
+        triggerName: "정기 재조회",
+        checkedAt: "2026-10-14 09:06:10",
+        bStt: "휴업자 (02)",
+        ledgerTaxTypeLabel: "일반과세자 (GENERAL)",
+        apiTaxTypeLabel: "일반과세자 (휴업)",
+        apiTaxTypeCd: "01",
+        matrixCaseLabel: "일반과세 사업자 (TX-07)",
+        invoiceEligibleText: "휴업 중 신규 요청 보류",
+        taxTypeChangeDt: "-",
+        invoiceApplyDt: "-",
+        endDt: "2026-10-05",
+        controlStatus: "SUSPENDED",
+        controlStatusLabel: "휴업 감지 (신규 증빙 요청 보류 · 정산금 보류)",
+        closure: { label: "휴업일자", date: "2026-10-05", unpaid: 640000, unapproved: 1, missingInvoice: 1, followUp: "정산금 지급 보류 · 재무책임자 승인 후 지급 (휴업자 예외 승인 대기)" },
+        memo: "2026-10-05 휴업 신고 확인됨. 신규 증빙 발행 요청은 보류하고, 미지급 정산금은 재무책임자 승인 전까지 지급 보류함. 재개업 확인 시 보류 해제.",
+        rawJson: {
+          b_no: "3129155270",
+          b_stt: "휴업자",
+          b_stt_cd: "02",
+          tax_type: "부가가치세 일반과세자",
+          tax_type_cd: "01",
+          end_dt: "20261005",
           utcc_yn: "N"
         }
       }
@@ -916,10 +980,34 @@ code, pre, kbd, samp,
     setTimeout(() => el.remove(), 3300);
   }
 
+  function maskBizNo(b) {
+    const d = String(b || "").replace(/\D/g, "");
+    return d.length === 10 ? `${d.slice(0, 3)}-${d.slice(3, 5)}-***${d.slice(8)}` : (b || "");
+  }
+  function maskCorpNo(c) {
+    const d = String(c || "").replace(/\D/g, "");
+    return d.length === 13 ? `${d.slice(0, 6)}-*******` : (c || "");
+  }
+
+  function closureTableHtml(r) {
+    const c = r.closure;
+    if (!c) return "";
+    const th = 'style="text-align:left; padding:5px 8px; border:1px solid #fecaca;"';
+    const td = 'style="padding:5px 8px; border:1px solid #fecaca;"';
+    return `
+      <table style="width:100%; border-collapse:collapse; margin-top:8px; font-size:12px; background:#fff;">
+        <tr><th ${th}>${c.label}</th><td ${td}>${c.date}</td></tr>
+        <tr><th ${th}>미지급 정산금 잔액</th><td ${td}>${c.unpaid.toLocaleString("ko-KR")}원</td></tr>
+        <tr><th ${th}>미승인 증빙 건수</th><td ${td}>${c.unapproved}건</td></tr>
+        <tr><th ${th}>미수취 계산서 건수</th><td ${td}>${c.missingInvoice}건</td></tr>
+        <tr><th ${th}>후속 처리 상태</th><td ${td}>${c.followUp}</td></tr>
+      </table>`;
+  }
+
   function updateKpis() {
     const all = state.records;
     const changeList = all.filter(r => r.controlStatus === "CHANGE_DETECTED" || r.controlStatus === "CHANGE_UNKNOWN_DATE");
-    const closedList = all.filter(r => r.controlStatus === "CLOSED");
+    const closedList = all.filter(r => r.controlStatus === "CLOSED" || r.controlStatus === "SUSPENDED");
     const reviewList = all.filter(r => r.controlStatus === "PENDING_REVIEW");
     const normalList = all.filter(r => r.controlStatus === "NORMAL");
 
@@ -936,7 +1024,7 @@ code, pre, kbd, samp,
     if (actionNeeded === 0) {
       footerBadge.className = "badge badge-success";
       footerBadge.textContent = "전 거래처 과세유형·세무 버전 확정 완료";
-      footerText.innerHTML = `미승인 과세유형 전환 <strong>0건</strong>, 세무 판정 보류 <strong>0건</strong> (폐업 감지 1건은 강제 정산 트리거 연동 완료)`;
+      footerText.innerHTML = `미승인 과세유형 전환 <strong>0건</strong>, 세무 판정 보류 <strong>0건</strong> (폐업 · 휴업 감지 ${closedList.length}건은 후속 처리 연동 완료)`;
     } else {
       footerBadge.className = "badge badge-warn";
       footerBadge.textContent = `마감 전 확인 필요 (${actionNeeded}건)`;
@@ -952,7 +1040,7 @@ code, pre, kbd, samp,
 
     const filtered = state.records.filter(r => {
       if (state.kpiFilter === "CHANGE_DETECTED" && !(r.controlStatus === "CHANGE_DETECTED" || r.controlStatus === "CHANGE_UNKNOWN_DATE")) return false;
-      if (state.kpiFilter === "CLOSED_SUSPENDED" && r.controlStatus !== "CLOSED") return false;
+      if (state.kpiFilter === "CLOSED_SUSPENDED" && !(r.controlStatus === "CLOSED" || r.controlStatus === "SUSPENDED")) return false;
       if (state.kpiFilter === "PENDING_REVIEW" && r.controlStatus !== "PENDING_REVIEW") return false;
       if (state.kpiFilter === "NORMAL" && r.controlStatus !== "NORMAL") return false;
 
@@ -971,15 +1059,16 @@ code, pre, kbd, samp,
       if (r.controlStatus === "NORMAL") statusBadge = `<span class="badge badge-success">${r.controlStatusLabel}</span>`;
       if (r.controlStatus === "CHANGE_DETECTED") statusBadge = `<span class="badge badge-warn">${r.controlStatusLabel}</span>`;
       if (r.controlStatus === "CHANGE_UNKNOWN_DATE") statusBadge = `<span class="badge badge-danger">${r.controlStatusLabel}</span>`;
+      if (r.controlStatus === "SUSPENDED") statusBadge = `<span class="badge badge-danger">${r.controlStatusLabel}</span>`;
       if (r.controlStatus === "CLOSED") statusBadge = `<span class="badge badge-danger">${r.controlStatusLabel}</span>`;
       if (r.controlStatus === "PENDING_REVIEW") statusBadge = `<span class="badge badge-purple">${r.controlStatusLabel}</span>`;
 
-      const bSttHtml = r.bStt.includes("폐업")
+      const bSttHtml = (r.bStt.includes("폐업") || r.bStt.includes("휴업"))
         ? `<strong style="color:var(--danger);">${r.bStt}</strong>`
         : `<span style="color:var(--success); font-weight:600;">${r.bStt}</span>`;
 
-      const effDateHtml = r.controlStatus === "CLOSED"
-        ? `<span style="color:var(--danger); font-weight:700;">폐업일: ${r.endDt}</span>`
+      const effDateHtml = (r.controlStatus === "CLOSED" || r.controlStatus === "SUSPENDED")
+        ? `<span style="color:var(--danger); font-weight:700;">${r.controlStatus === "SUSPENDED" ? "휴업일" : "폐업일"}: ${r.endDt}</span>`
         : (r.controlStatus === "CHANGE_UNKNOWN_DATE"
             ? `<span style="color:var(--danger); font-weight:700;">효력일 미반환 (수기확인)</span>`
             : `<span class="mono">${r.taxTypeChangeDt}</span>`);
@@ -990,7 +1079,7 @@ code, pre, kbd, samp,
             <div><span class="badge badge-neutral">${r.partnerType}</span> <strong>${r.partnerName}</strong></div>
             <div class="mono" style="color:var(--text-muted); margin-top:2px;">${r.partnerId} · ${r.triggerName}</div>
           </td>
-          <td class="mono"><strong>${r.bizNo}</strong></td>
+          <td class="mono"><strong>${maskBizNo(r.bizNo)}</strong></td>
           <td>${bSttHtml}</td>
           <td>
             <div style="font-size:11.5px; color:var(--text-muted);">원장: ${r.ledgerTaxTypeLabel}</div>
@@ -1054,6 +1143,15 @@ code, pre, kbd, samp,
           </div>
         </div>
       `;
+    } else if (r.controlStatus === "SUSPENDED") {
+      actionPanel = `
+        <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px 14px; font-size:12px; color:#991b1b;">
+          <strong>🚨 [17.5절 휴업 사업자 후속 통제 작동 중]</strong><br>
+          1) 신규 증빙 발행 요청은 보류되고, 재개업이 확인되면 보류가 해제됩니다<br>
+          2) 미지급 정산금은 재무책임자 승인 전까지 지급 보류됩니다(휴업자 예외 승인)
+          ${closureTableHtml(r)}
+        </div>
+      `;
     } else if (r.controlStatus === "CLOSED") {
       actionPanel = `
         <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:12px 14px; font-size:12px; color:#991b1b;">
@@ -1061,6 +1159,7 @@ code, pre, kbd, samp,
           1) 신규 증빙 발행 요청 및 미제출 리마인더 발송 자동 중단됨<br>
           2) 미지급 정산금 잔액은 <strong>강제 정산 트리거(7.3절)</strong>에 의해 최소 지급 하한(100,000원)과 무관하게 당월 지급 실행 대상으로 이관됨<br>
           3) 폐업일(${r.endDt}) 이후 공급분 및 수취 계산서 미확보 건은 채널 4(증빙불비 소명 절차)로 분기됨
+          ${closureTableHtml(r)}
         </div>
       `;
     }
@@ -1070,7 +1169,7 @@ code, pre, kbd, samp,
         <div class="kv-label">거래처 명칭 / 구분</div>
         <div><strong>${r.partnerName}</strong> <span class="badge badge-neutral">${r.partnerType} (${r.partnerId})</span></div>
         <div class="kv-label">사업자등록번호</div>
-        <div class="mono"><strong>${r.bizNo}</strong> ${r.corpNo ? `(법인번호: ${r.corpNo})` : ""}</div>
+        <div class="mono"><strong>${maskBizNo(r.bizNo)}</strong> ${r.corpNo ? `(법인번호: ${maskCorpNo(r.corpNo)})` : ""}</div>
         <div class="kv-label">최종 API 확인 시각</div>
         <div class="mono">${r.checkedAt} (${r.triggerName})</div>
         <div class="kv-label">납세자 상태 (국세청)</div>
@@ -1089,7 +1188,7 @@ code, pre, kbd, samp,
 
       <div class="form-group">
         <label class="form-label">📦 국세청 오픈API 응답 원문 스냅샷 (api_response_snapshot · 10년 보존)</label>
-        <div class="json-box">${JSON.stringify(r.rawJson, null, 2)}</div>
+        <div class="json-box">${JSON.stringify(r.rawJson, (k, v) => k === "b_no" ? maskBizNo(v) : v, 2)}</div>
       </div>
     `;
   }
@@ -1112,7 +1211,7 @@ code, pre, kbd, samp,
     }
     pendingTaxChangeId = id;
     document.getElementById("mdl-partner-name").textContent = r.partnerName;
-    document.getElementById("mdl-biz-no").textContent = r.bizNo;
+    document.getElementById("mdl-biz-no").textContent = maskBizNo(r.bizNo);
     document.getElementById("mdl-prev-tax").textContent = r.ledgerTaxTypeLabel;
     document.getElementById("mdl-new-tax").textContent = r.apiTaxTypeLabel + " — " + r.matrixCaseLabel;
 

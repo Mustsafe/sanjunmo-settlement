@@ -642,6 +642,7 @@ code, pre, kbd, samp,
 
   </style>
     <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
@@ -861,7 +862,7 @@ code, pre, kbd, samp,
                   <th>변경 사유 및 스냅샷 상태</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="price-history-tbody">
                 <tr>
                   <td><code>BPH-2025-01</code></td>
                   <td><code>PROD-BK-1006</code> (정종대 산업안전기사 필기 기본서)</td>
@@ -1111,7 +1112,7 @@ code, pre, kbd, samp,
                   <td>
                     <div style="display:flex; align-items:center; gap:8px;">
                       <input type="text" id="f-sku" class="form-input" style="width:190px; font-weight:700;" value="PROD-BK-1011" readonly="">
-                      <span class="field-hint" style="margin:0;">신규 채번 시 <code>PROD-BK-NNNN</code> 자동 생성</span>
+                      <span class="field-hint" style="margin:0;" id="sku-hint">신규 채번 시 <code>PROD-BK-NNNN</code> 자동 생성</span>
                     </div>
                   </td>
                   <th>계약원장 가채번 코드<br>(ADMN-INST-001)</th>
@@ -1131,11 +1132,8 @@ code, pre, kbd, samp,
                 <tr>
                   <th>공급처 (출판사/총판) <span class="req-star">*</span></th>
                   <td>
-                    <select id="f-supplier" class="form-select" style="width:260px;">
-                      <option value="산준모북스">[자사] 산준모북스 (자체출판)</option>
-                      <option value="안전기술출판">[RH-0044] 안전기술출판 (위탁계약 · 권리자)</option>
-                      <option value="한국자격교재총판">[SUP-0003] 한국자격교재총판 (총판사입)</option>
-                    </select>
+                    <select id="f-supplier" class="form-select" style="width:260px;" onchange="onSupplierChange()"></select>
+                    <div class="field-hint" id="supplier-hint" style="margin-top:4px;"></div>
                   </td>
                   <th>ISBN-13 <span class="req-star">*</span></th>
                   <td>
@@ -1182,16 +1180,39 @@ code, pre, kbd, samp,
                   <td colspan="3">
                     <div style="display:flex; gap:18px; flex-wrap:wrap;">
                       <label class="option-label">
-                        <input type="radio" name="f-supply-type" value="자체출판(인세)" checked="" onchange="recalcSupplyNumbers()">
-                        <span><strong>자체출판 (인쇄 제조원가 + 저자 인세 정산)</strong></span>
+                        <input type="radio" name="f-supply-type" value="자체출판(인세)" checked="" onchange="onSupplyTypeChange()">
+                        <span><strong>자사 발행 (인쇄 제조원가 + 저자 인세 정산)</strong></span>
                       </label>
                       <label class="option-label">
-                        <input type="radio" name="f-supply-type" value="위탁판매" onchange="recalcSupplyNumbers()">
+                        <input type="radio" name="f-supply-type" value="위탁판매" onchange="onSupplyTypeChange()">
                         <span><strong>출판사 위탁판매 (판매분 공급률 정산)</strong></span>
                       </label>
                       <label class="option-label">
-                        <input type="radio" name="f-supply-type" value="사입판매" onchange="recalcSupplyNumbers()">
+                        <input type="radio" name="f-supply-type" value="사입판매" onchange="onSupplyTypeChange()">
                         <span><strong>출판사 총판 사입 (매입원가 정산)</strong></span>
+                      </label>
+                      <label class="option-label">
+                        <input type="radio" name="f-supply-type" value="비매품(번들)" onchange="onSupplyTypeChange()">
+                        <span><strong>비매품 (강좌 번들 출고 전용 · 정산기준금 0원)</strong></span>
+                      </label>
+                    </div>
+                    <div id="supply-lock-box" style="display:none; margin-top:8px; padding:8px 12px; border:1px solid #fcd34d; background:#fffbeb; border-radius:6px; font-size:12px; color:#92400e;">
+                      <span id="supply-lock-msg">판매 이력이 있어 공급 형태를 바꿀 수 없습니다. 다른 공급 형태가 필요하면 신규 SKU를 발급하세요.</span>
+                      <button type="button" class="btn btn-soft btn-sm" style="margin-left:8px;" onclick="issueNewSkuFromLocked()">신규 SKU 발급</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr id="row-own-copyright">
+                  <th>저작권 귀속</th>
+                  <td colspan="3">
+                    <div style="display:flex; gap:18px; flex-wrap:wrap;">
+                      <label class="option-label">
+                        <input type="radio" name="f-own-copyright" value="false" checked="" onchange="onOwnCopyrightChange()">
+                        <span><strong>외부 저작권자 보유</strong> (저자 인세 정산 · 권리자 지분 100% 충족 필요)</span>
+                      </label>
+                      <label class="option-label">
+                        <input type="radio" name="f-own-copyright" value="true" onchange="onOwnCopyrightChange()">
+                        <span><strong>자사 저작권 보유</strong> (자사 권리자 100% 자동 매핑 · 외부 인세 지급 없음)</span>
                       </label>
                     </div>
                   </td>
@@ -1203,6 +1224,7 @@ code, pre, kbd, samp,
                       <input type="number" id="f-price" class="form-input text-right" value="38000" min="0" step="500" oninput="recalcSupplyNumbers()">
                       <span class="input-unit">원 (면세)</span>
                     </div>
+                    <div class="field-hint">정가를 바꿔 저장하면 변경 전 정가가 정가 이력(book_price_history)에 종료 스냅샷으로 남고, 과거 주문의 반품 · 환불은 원거래 정가 기준으로 처리됩니다.</div>
                   </td>
                   <th>공급률 / 제조원가율 (%) <span class="req-star">*</span></th>
                   <td>
@@ -1355,6 +1377,8 @@ code, pre, kbd, samp,
     let ledgerData = [
       {
         sku: "PROD-BK-1011",
+        hasSales: true,
+        ownCopyright: false,
         tempCode: "BK-REQ-2026-0011",
         originMode: "INST_TEMP",
         title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출",
@@ -1374,6 +1398,8 @@ code, pre, kbd, samp,
       },
       {
         sku: "PROD-BK-1012",
+        hasSales: true,
+        ownCopyright: false,
         tempCode: "BK-REQ-2026-0012",
         originMode: "INST_TEMP",
         title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집",
@@ -1393,6 +1419,8 @@ code, pre, kbd, samp,
       },
       {
         sku: "PROD-BK-3003",
+        hasSales: true,
+        ownCopyright: false,
         tempCode: "-",
         originMode: "BOOK_LEDGER",
         title: "2026 건설안전기사 필기 핵심이론 + 과년도 빈출",
@@ -1412,6 +1440,8 @@ code, pre, kbd, samp,
       },
       {
         sku: "PROD-BK-1015",
+        hasSales: false,
+        ownCopyright: false,
         tempCode: "-",
         originMode: "PROD_DIRECT",
         title: "2027 대비 산업안전지도사 1차 산안법령 조문해설집 (PROD-004 선등록)",
@@ -1606,6 +1636,141 @@ code, pre, kbd, samp,
       }).join("");
     }
 
+    /* =========================================================================
+       4-1. 공급 형태 · 채번 · 매입처 (v6.38 F3)
+       ========================================================================= */
+    const SUPPLY_PREFIX = { "자체출판(인세)": 1, "사입판매": 2, "위탁판매": 3, "비매품(번들)": 4 };
+    /* 다른 화면(PROD-004 등)에서 이미 쓰는 SKU — 신규 채번 중복 방지용 */
+    const RESERVED_SKUS = ["PROD-BK-1001", "PROD-BK-1004", "PROD-BK-1006", "PROD-BK-1016", "PROD-BK-2001", "PROD-BK-3001", "PROD-BK-3002", "PROD-BK-3004", "PROD-BK-4001"];
+    const CONSIGN_HOLDERS = [
+      { id: "RH-0044", name: "안전기술출판", label: "[RH-0044] 안전기술출판 (위탁계약 · 권리자)" },
+      { id: "RH-0051", name: "한국소방학회", label: "[RH-0051] 한국소방학회 (위탁계약 · 권리자)" }
+    ];
+
+    function nextBookSku(type) {
+      const p = SUPPLY_PREFIX[type] || 1;
+      const used = new Set(ledgerData.map(x => x.sku).concat(RESERVED_SKUS));
+      let max = p * 1000;
+      used.forEach(code => {
+        const m = /^PROD-BK-(\d{4})$/.exec(code);
+        if (m && Math.floor(Number(m[1]) / 1000) === p && Number(m[1]) > max) max = Number(m[1]);
+      });
+      let n = max + 1;
+      while (used.has(`PROD-BK-${n}`)) n++;
+      return `PROD-BK-${n}`;
+    }
+    function currentSupplyType() {
+      const r = document.querySelector('input[name="f-supply-type"]:checked');
+      return r ? r.value : "자체출판(인세)";
+    }
+    function currentOwnCopyright() {
+      const r = document.querySelector('input[name="f-own-copyright"]:checked');
+      return r ? r.value === "true" : false;
+    }
+    function purchaseVendors() {
+      const M = window.SJM_MASTER;
+      if (!M || !M.vendors) return [];
+      return M.vendors.byForm("PURCHASE").filter(v => v.type === "VT-01" && v.on && v.status !== "폐업");
+    }
+    function rebuildSupplierOptions(type, keep) {
+      const sel = document.getElementById("f-supplier");
+      const hint = document.getElementById("supplier-hint");
+      let html = "";
+      if (type === "사입판매") {
+        html = purchaseVendors().map(v => `<option value="${v.name}" data-rate="${v.terms && v.terms.rate ? v.terms.rate : ""}">[${v.id}] ${v.name} (도서 매입처 · 공급률 ${v.terms && v.terms.rate ? v.terms.rate : "-"}%)</option>`).join("");
+        hint.textContent = "거래처 관리(ADMN-VEND-001) 원장의 도서 매입처만 표시합니다. 폐업 · 거래 중지 거래처는 제외하며, 공급률은 거래처 원장 값을 기본 적용합니다.";
+      } else if (type === "위탁판매") {
+        html = CONSIGN_HOLDERS.map(h => `<option value="${h.name}">${h.label}</option>`).join("");
+        hint.textContent = "위탁 도서의 공급처는 권리자 원장(ADMN-INST-001) 도서 위탁 계약 당사자입니다.";
+      } else {
+        html = `<option value="산준모북스">[자사] 산준모북스 (${type === "비매품(번들)" ? "자체 제작 비매품" : "자체출판"})</option>`;
+        hint.textContent = "자사 발행 · 비매품은 공급처가 자사로 고정됩니다.";
+      }
+      sel.innerHTML = html;
+      if (keep && Array.from(sel.options).some(o => o.value === keep)) sel.value = keep;
+    }
+    function selectedVendorRate() {
+      const o = document.getElementById("f-supplier").selectedOptions[0];
+      return o && o.dataset.rate ? Number(o.dataset.rate) : null;
+    }
+    function onSupplierChange() {
+      if (currentSupplyType() === "사입판매") {
+        const r = selectedVendorRate();
+        if (r !== null) document.getElementById("f-supply-rate").value = r;
+      }
+      recalcSupplyNumbers();
+    }
+    function setSupplyType(type) {
+      document.querySelectorAll('input[name="f-supply-type"]').forEach(r => { r.checked = (r.value === type); });
+    }
+    function setOwnCopyright(yes) {
+      document.querySelectorAll('input[name="f-own-copyright"]').forEach(r => { r.checked = (r.value === String(!!yes)); });
+    }
+    function applySupplyTypeUi(type, opts) {
+      opts = opts || {};
+      const price = document.getElementById("f-price");
+      const rate = document.getElementById("f-supply-rate");
+      const roy = document.getElementById("f-royalty-rate");
+      const bundled = type === "비매품(번들)";
+      document.getElementById("row-own-copyright").style.display = type === "자체출판(인세)" ? "" : "none";
+      if (bundled) {
+        if (Number(price.value) > 0) price.dataset.prev = price.value;
+        price.value = 0; rate.value = 0;
+      } else if (price.readOnly && Number(price.value) === 0) {
+        price.value = price.dataset.prev || 38000;
+        if (!opts.keepRate) rate.value = type === "위탁판매" ? 65 : 30;
+      }
+      price.readOnly = bundled;
+      rate.readOnly = bundled;
+      const royLocked = !(type === "자체출판(인세)" && !currentOwnCopyright());
+      if (royLocked) roy.value = 0;
+      else if (!opts.keepRate && Number(roy.value) === 0) roy.value = 10;
+      roy.readOnly = royLocked;
+    }
+    function onSupplyTypeChange() {
+      const type = currentSupplyType();
+      rebuildSupplierOptions(type);
+      applySupplyTypeUi(type);
+      if (type === "사입판매") {
+        const r = selectedVendorRate();
+        if (r !== null) document.getElementById("f-supply-rate").value = r;
+      }
+      recalcSupplyNumbers();
+    }
+    function onOwnCopyrightChange() {
+      applySupplyTypeUi(currentSupplyType(), { keepRate: true });
+      recalcSupplyNumbers();
+    }
+    function lockSupplyType(locked) {
+      document.querySelectorAll('input[name="f-supply-type"]').forEach(r => { r.disabled = locked; });
+      document.getElementById("supply-lock-box").style.display = locked ? "block" : "none";
+    }
+    function issueNewSkuFromLocked() {
+      lockSupplyType(false);
+      selectLedgerEntryMode("BOOK_LEDGER");
+      recalcSupplyNumbers();
+      showToast("판매 이력이 있는 SKU는 공급 형태를 바꿀 수 없어 신규 SKU 등록으로 전환했습니다. 공급 형태를 고르면 앞자리에 맞춰 채번됩니다. 기존 SKU는 판매종료로 내려 주세요.");
+    }
+    function refreshSkuHint() {
+      const el = document.getElementById("sku-hint");
+      if (!el) return;
+      const isAuto = document.getElementById("f-sku").value.includes("AUTO");
+      el.innerHTML = isAuto
+        ? `신규 채번: 공급 형태 앞자리(1 자사 발행 · 2 사입 · 3 위탁 · 4 비매품) 기준 — 현재 선택 시 <strong>${nextBookSku(currentSupplyType())}</strong> 부여`
+        : `SKU 앞자리는 공급 형태 기준 (1 자사 발행 · 2 사입 · 3 위탁 · 4 비매품)`;
+    }
+    function recordPriceHistory(sku, payload) {
+      window.__phNote = "";
+      const prev = ledgerData.find(x => x.sku === sku);
+      if (!prev || prev.price === payload.price || payload.supplyType === "비매품(번들)") return;
+      const tb = document.getElementById("price-history-tbody");
+      if (!tb) return;
+      const today = new Date().toISOString().slice(0, 10);
+      const id = `BPH-${today.slice(0, 4)}-${String(tb.rows.length + 1).padStart(2, "0")}`;
+      tb.insertAdjacentHTML("beforeend", `<tr><td><code>${id}</code></td><td><code>${sku}</code> (${payload.title})</td><td>${today}</td><td>2099-12-31</td><td class="text-right"><strong>${formatNumber(payload.price)}원</strong></td><td><span class="badge badge-sale">현재 유효</span> 정가 변경 — 직전 정가 ${formatNumber(prev.price)}원은 종료 스냅샷으로 보존</td></tr>`);
+      window.__phNote = ` 정가 이력(${id}) 스냅샷을 남겼습니다.`;
+    }
+
     function openEditLedger(sku) {
       const found = ledgerData.find(x => x.sku === sku) || ledgerData[0];
       updateStepperByRow(found);
@@ -1613,16 +1778,25 @@ code, pre, kbd, samp,
       document.getElementById("f-sku").value = found.sku;
       document.getElementById("f-temp-code").value = found.tempCode;
       document.getElementById("f-title").value = found.title;
-      document.getElementById("f-supplier").value = found.supplier;
+      setSupplyType(found.supplyType);
+      setOwnCopyright(found.ownCopyright);
+      lockSupplyType(!!found.hasSales);
+      rebuildSupplierOptions(found.supplyType, found.supplier);
       document.getElementById("f-isbn").value = found.isbn;
       document.getElementById("f-price").value = found.price;
       document.getElementById("f-supply-rate").value = found.supplyRate || 60;
       document.getElementById("f-royalty-rate").value = found.royaltyRate || 0;
+      applySupplyTypeUi(found.supplyType, { keepRate: true });
+      if (found.supplyType === "사입판매" && !found.costConfirmed) {
+        const vr = selectedVendorRate();
+        if (vr !== null) document.getElementById("f-supply-rate").value = vr;
+      }
       recalcSupplyNumbers();
       switchSubview("form");
     }
 
     function openNewLedgerForm() {
+      lockSupplyType(false);
       selectLedgerEntryMode("INST_TEMP");
       switchSubview("form");
     }
@@ -1659,6 +1833,7 @@ code, pre, kbd, samp,
         title.textContent = "[경로 2 선택됨 — 도서 공급 원장 최초 신규 SKU 채번 모드]";
         desc.textContent = "외부 위탁/사입 도서의 정식 SKU(PROD-BK-NNNN)를 여기서 최초 생성합니다. 저장 후 최고 관리자가 PROD-004에서 이 SKU를 불러와 표지·재고를 입력합니다.";
         document.getElementById("f-sku").value = "PROD-BK-AUTO (신규채번)";
+        refreshSkuHint();
         document.getElementById("f-temp-code").value = "-";
       }
     }
@@ -1677,6 +1852,10 @@ code, pre, kbd, samp,
       document.getElementById("f-royalty-amt").textContent = formatNumber(royaltyAmt);
       document.getElementById("f-margin-summary").textContent =
         `권당 ${formatNumber(marginAmt)}원 (이익률 ${marginRate}%) = 정가 ${formatNumber(price)}원 - 공급/제조원가 ${formatNumber(supplyCost)}원(${supplyRate}%) - 저자인세 ${formatNumber(royaltyAmt)}원(${royaltyRate}%)`;
+      if (currentSupplyType() === "비매품(번들)") {
+        document.getElementById("f-margin-summary").textContent = "비매품 — 정산기준금 0원 · 정산 비대상 (강좌 번들 출고 전용, 매출 인식 없이 판촉비 처리)";
+      }
+      refreshSkuHint();
     }
 
     function openInstTempModal() {
@@ -1687,6 +1866,10 @@ code, pre, kbd, samp,
     }
     function applyInstTempToLedger(tempCode, sku, title, author, price, supplyRate, royaltyRate) {
       selectLedgerEntryMode("INST_TEMP");
+      lockSupplyType(false);
+      setSupplyType("자체출판(인세)");
+      setOwnCopyright(false);
+      rebuildSupplierOptions("자체출판(인세)", "산준모북스");
       document.getElementById("f-temp-code").value = tempCode;
       document.getElementById("f-sku").value = sku;
       document.getElementById("f-title").value = title;
@@ -1711,9 +1894,13 @@ code, pre, kbd, samp,
       document.getElementById("f-temp-code").value = "-";
       document.getElementById("f-title").value = title;
       document.getElementById("f-author").value = author;
-      document.getElementById("f-supplier").value = supplier;
+      lockSupplyType(false);
+      setSupplyType("사입판매");
+      rebuildSupplierOptions("사입판매", supplier);
+      applySupplyTypeUi("사입판매", { keepRate: true });
       document.getElementById("f-price").value = price;
-      document.getElementById("f-supply-rate").value = 60;
+      const vr = selectedVendorRate();
+      document.getElementById("f-supply-rate").value = vr !== null ? vr : 65;
       document.getElementById("f-royalty-rate").value = 0;
       recalcSupplyNumbers();
       closeProdPendingModal();
@@ -1723,7 +1910,7 @@ code, pre, kbd, samp,
     function saveLedgerForm() {
       const rawSku = document.getElementById("f-sku").value;
       const isNew = rawSku.includes("AUTO");
-      const finalSku = isNew ? `PROD-BK-${3004 + ledgerData.length}` : rawSku;
+      const finalSku = isNew ? nextBookSku(currentSupplyType()) : rawSku;
 
       const price = Number(document.getElementById("f-price").value || 0);
       const supplyRate = Number(document.getElementById("f-supply-rate").value || 0);
@@ -1739,6 +1926,8 @@ code, pre, kbd, samp,
         supplier: document.getElementById("f-supplier").value,
         author: document.getElementById("f-author").value.trim(),
         supplyType: document.querySelector('input[name="f-supply-type"]:checked').value,
+        ownCopyright: currentSupplyType() === "자체출판(인세)" ? currentOwnCopyright() : false,
+        hasSales: !!(ledgerData.find(x => x.sku === finalSku) || {}).hasSales,
         price,
         supplyRate,
         supplyCost,
@@ -1750,18 +1939,22 @@ code, pre, kbd, samp,
         prodStatus: "원가확정 완료"
       };
 
+      recordPriceHistory(finalSku, payload);
       const idx = ledgerData.findIndex(x => x.sku === finalSku);
       if (idx >= 0) ledgerData[idx] = payload;
       else ledgerData.unshift(payload);
 
       updateStepperByRow(payload);
-      showToast(`도서 공급 원장 [${finalSku}] 단위 원가(${formatNumber(supplyCost)}원) 확정 저장이 완료되었습니다.`);
+      showToast(`도서 공급 원장 [${finalSku}] 단위 원가(${formatNumber(supplyCost)}원) 확정 저장이 완료되었습니다.${window.__phNote || ""}`);
       switchSubview("list");
     }
 
     window.addEventListener("DOMContentLoaded", () => {
       updateStepperByRow(ledgerData[0]);
       renderLedgerList();
+      rebuildSupplierOptions(currentSupplyType(), "산준모북스");
+      applySupplyTypeUi(currentSupplyType(), { keepRate: true });
+      lockSupplyType(false);
       recalcSupplyNumbers();
     });
   </script><script>

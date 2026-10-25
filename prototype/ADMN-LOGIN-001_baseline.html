@@ -6,6 +6,7 @@
   <title>[ADMN-LOGIN-001~003] 관리자 · 파트너 로그인 및 계정 찾기 — 산준모 백오피스</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
   <style>
     :root {
@@ -241,7 +242,7 @@ code, pre, kbd, samp,
               <div>• 모든 로그인 성공 · 실패 · 잠금 이력은 보안 감사 로그(<strong>ADMN-CONF-010</strong>)에 자동 기록됩니다.</div>
               <div>• 비밀번호 <strong>5회 연속 실패 시</strong> 계정이 즉시 잠금 처리됩니다.</div>
               <div>• SMS 본인인증은 24시간 내 <strong>최대 5회</strong>, 재발송 쿨다운 <strong>30초</strong>, 유효시간 <strong>3분</strong>이 적용됩니다 (<strong>ADMN-CONF-008</strong>).</div>
-              <div>• 계정 발급 · 잠금 해제 문의: 최고 관리자 <strong>ops@sanjunmo.com</strong></div>
+              <div>• 계정 발급 · 잠금 해제 문의: 최고 관리자 (운영자 권한 관리 ADMN-CONF-005)</div>
             </div>
           </div>
           <div style="font-size:11px; color:#94a3b8;">
@@ -269,7 +270,7 @@ code, pre, kbd, samp,
             <!-- 5회 실패 잠금 안내 (ADMN-LOGIN-001-P1) -->
             <div id="box-lockout-p1" class="alert-box alert-danger" style="display:none;">
               <strong>🔒 계정이 잠겼습니다 (비밀번호 5회 연속 불일치 · ADMN-LOGIN-001-P1)</strong><br/>
-              보안 정책에 따라 해당 계정(<strong>cs.kim@sanjunmo.com</strong>)의 로그인이 차단되었습니다.<br/>
+              보안 정책에 따라 해당 계정(<strong id="lockout-account">admin_white</strong>)의 로그인이 차단되었습니다.<br/>
               • 본인 휴대폰 SMS 인증 후 <strong>[비밀번호 재설정]</strong>을 완료하면 즉시 잠금이 해제됩니다.<br/>
               • 또는 최고 관리자에게 <strong>운영자 권한 관리(ADMN-CONF-005)</strong>에서 잠금 해제를 요청하세요.
             </div>
@@ -277,16 +278,12 @@ code, pre, kbd, samp,
             <div class="form-group">
               <label class="form-label">접속 역할 프리셋 (시연용 빠른 선택)</label>
               <select id="sel-demo-account" class="form-input" onchange="fillDemoAccount(this.value)">
-                <option value="ops@sanjunmo.com|SUPER">최고 관리자 (ops@sanjunmo.com → 대시보드 ADMN-DASH-001 이동)</option>
-                <option value="cs.kim@sanjunmo.com|CS">CS담당자 (cs.kim@sanjunmo.com → 1:1 문의 ADMN-BRD-002 이동)</option>
-                <option value="inst.jung@sanjunmo.com|PARTNER">강사 파트너 (inst.jung@sanjunmo.com → 정산 조회 ADMN-SETT-002-S2 이동)</option>
-                <option value="3pl.logis@sanjunmo.com|3PL">물류 3PL 파트너 (3pl.logis@sanjunmo.com → 배송 관리 ADMN-ORD-002 이동)</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label class="form-label">관리자 아이디 (이메일) *</label>
-              <input type="email" id="inp-login-email" class="form-input" value="ops@sanjunmo.com" placeholder="사내 업무용 이메일 또는 파트너 계정" />
+              <label class="form-label">관리자 아이디 *</label>
+              <input type="text" id="inp-login-email" class="form-input" value="admin_white" placeholder="발급받은 관리자 · 파트너 계정 ID" autocomplete="username" />
             </div>
 
             <div class="form-group">
@@ -378,6 +375,7 @@ code, pre, kbd, samp,
 
   <script>
     let loginFailCount = 0;
+    document.addEventListener("DOMContentLoaded", function () { renderDemoAccountOptions(); });
 
     function switchAuthMode(mode) {
       document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
@@ -441,15 +439,59 @@ code, pre, kbd, samp,
         return;
       }
 
-      if (email.indexOf("inst.") === 0) {
-        window.location.href = "ADMN-SETT-002_baseline.html?view=partner-stmt&holder=RH-0025";
-      } else if (email.indexOf("3pl.") === 0) {
-        window.location.href = "ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL";
-      } else if (email.indexOf("cs.") === 0) {
-        window.location.href = "ADMN-BRD-002_baseline.html";
-      } else {
-        window.location.href = "ADMN-DASH-001_baseline.html?view=dash";
+      const acc = findDemoAccount(email);
+      const land = resolveLanding(acc);
+      window.location.href = land.url;
+    }
+
+    // 시연용 계정 — ADMN-CONF-005 계정 목록(ACCOUNTS)과 같은 ID · 역할 그룹 · 소속. 착지는 계정의 첫 역할 그룹 권한과 소속으로 정한다.
+    const DEMO_ACCOUNTS = [
+      { id: "admin_white", roles: ["RG-01"], aff: { kind: "STAFF" } },
+      { id: "fin_manager", roles: ["RG-04"], aff: { kind: "STAFF" } },
+      { id: "cs_lead01", roles: ["RG-02"], aff: { kind: "STAFF" } },
+      { id: "log_choi", roles: ["RG-03", "RG-02"], aff: { kind: "STAFF" } },
+      { id: "inst_jjd", roles: ["RG-05"], aff: { kind: "RH", ref: "RH-0025" } },
+      { id: "ta_jung", roles: ["RG-06"], aff: { kind: "RH", ref: "RH-0025" } },
+      { id: "author_lee", roles: ["RG-07"], aff: { kind: "RH", ref: "RH-0031" } },
+      { id: "3pl_cjlogis", roles: ["RG-08"], aff: { kind: "VENDOR", ref: "SUP-0020" } }
+    ];
+
+    function findDemoAccount(id) {
+      const key = String(id || "").trim().toLowerCase();
+      return DEMO_ACCOUNTS.filter(a => a.id === key)[0] || null;
+    }
+
+    // 역할 그룹 권한 -> 초기 착지 (권한 없는 화면으로 보내지 않는다)
+    function resolveLanding(acc) {
+      const dash = { code: "ADMN-DASH-001", label: "운영 현황 대시보드", url: "ADMN-DASH-001_baseline.html?view=dash" };
+      const M = window.SJM_MASTER;
+      const g = acc && M ? M.roles.get(acc.roles[0]) : null;
+      if (!g) return dash;
+      const p = g.perms || {};
+      const has = k => !!p[k];
+      const canW = k => (p[k] || "").indexOf("W") !== -1;
+      if (g.side === "EXTERNAL") {
+        if (has("lqna")) return { code: "ADMN-BRD-001", label: "학습 Q&A", url: "ADMN-BRD-001_baseline.html?view=qna" };
+        if (has("statement")) return { code: "ADMN-SETT-002", label: "본인 정산서", url: "ADMN-SETT-002_baseline.html?view=partner-stmt&holder=" + ((acc.aff && acc.aff.ref) || "") };
+        if (has("shipout")) return { code: "ADMN-ORD-001", label: "출고 · 송장", url: "ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL" };
+        return dash;
       }
+      if (has("rbac")) return dash;
+      if (canW("settle")) return { code: "ADMN-SETT-002", label: "월간 정산 및 집행", url: "ADMN-SETT-002_baseline.html" };
+      if (canW("shipout")) return { code: "ADMN-ORD-001", label: "주문 · 배송 · 출고", url: "ADMN-ORD-001_baseline.html" };
+      if (has("inquiry")) return { code: "ADMN-BRD-002", label: "1:1 문의", url: "ADMN-BRD-002_baseline.html" };
+      return dash;
+    }
+
+    function renderDemoAccountOptions() {
+      const M = window.SJM_MASTER;
+      const sel = document.getElementById("sel-demo-account");
+      if (!sel) return;
+      sel.innerHTML = DEMO_ACCOUNTS.map(a => {
+        const g = M ? M.roles.get(a.roles[0]) : null;
+        const land = resolveLanding(a);
+        return `<option value="${a.id}">${g ? g.name : a.roles[0]} (${a.id} → ${land.label} ${land.code} 이동)</option>`;
+      }).join("");
     }
 
     function triggerLockoutState() {
@@ -458,6 +500,7 @@ code, pre, kbd, samp,
       document.getElementById("login-screen-badge").textContent = "ADMN-LOGIN-001-P1";
       document.getElementById("lbl-fail-cnt").textContent = "(5/5회 실패 · 계정 잠금)";
       document.getElementById("box-lockout-p1").style.display = "block";
+      document.getElementById("lockout-account").textContent = document.getElementById("inp-login-email").value.trim();
       document.getElementById("btn-do-login").disabled = true;
     }
 

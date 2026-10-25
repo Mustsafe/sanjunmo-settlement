@@ -208,7 +208,7 @@ code, pre, kbd, samp,
         <div class="form-row"><label>거래처 유형 *</label><div><select class="f-select" id="vf-type" style="width:100%;" onchange="renderTermsForm()"></select><div class="form-help" id="vf-type-help"></div></div></div>
         <div class="form-row"><label>거래처 코드</label><div><input class="f-input" id="vf-id" readonly style="width:160px; background:var(--bg-subtle);" /><div class="form-help">최초 저장 시 자동 채번되며 바꿀 수 없습니다.</div></div></div>
         <div class="form-row"><label>거래처명 *</label><div><input class="f-input" id="vf-name" maxlength="40" style="width:100%;" /></div></div>
-        <div class="form-row"><label>사업자등록번호 *</label><div style="display:flex; gap:8px; align-items:center;"><input class="f-input" id="vf-biz" style="width:180px;" placeholder="000-00-00000" /><button type="button" class="btn btn-outline btn-sm" onclick="checkNts()">국세청 상태조회</button><span id="vf-nts" style="font-size:12px;"></span></div></div>
+        <div class="form-row"><label>사업자등록번호 *</label><div style="display:flex; gap:8px; align-items:center;"><input class="f-input" id="vf-biz" style="width:180px;" placeholder="000-00-00000" oninput="onBizInput()" /><button type="button" class="btn btn-outline btn-sm" onclick="checkNts()">국세청 상태조회</button><span id="vf-nts" style="font-size:12px;"></span></div></div>
         <div class="form-row"><label>대표자 · 과세유형</label><div style="display:flex; gap:8px;"><input class="f-input" id="vf-ceo" style="width:160px;" placeholder="대표자" /><select class="f-select" id="vf-tax"><option>일반과세</option><option>간이과세</option><option>면세</option></select></div></div>
         <div class="form-row"><label>연락처 · 거래 시작일</label><div style="display:flex; gap:8px;"><input class="f-input" id="vf-contact" style="width:180px;" /><input class="f-input" id="vf-since" type="date" style="width:160px;" /></div></div>
         <div class="form-row"><label>거래 조건</label><div id="vf-terms"></div></div>
@@ -383,13 +383,25 @@ code, pre, kbd, samp,
       return { memo: g('vt-memo') };
     }
 
+    // 사업자등록번호를 바꾸면 이전 국세청 조회 결과는 다른 번호의 결과이므로 무효 처리한다
+    function onBizInput() {
+      const biz = document.getElementById('vf-biz').value.trim();
+      const prev = editingId ? M.vendors.get(editingId) : null;
+      if (ntsResult && ntsResult.biz !== biz) ntsResult = null;
+      if (ntsResult) return;
+      const el = document.getElementById('vf-nts');
+      if (prev && biz === prev.bizNo) el.innerHTML = `${prev.status} · 확인 ${prev.checkedAt}`;
+      else if (prev) el.innerHTML = '<span style="color:var(--warning);">사업자등록번호가 바뀌어 이전 조회 결과는 무효입니다 — 국세청 상태조회를 다시 해 주십시오.</span>';
+      else el.innerHTML = '<span style="color:var(--warning);">미확인 — 저장 전에 조회해 주십시오.</span>';
+    }
+
     function checkNts() {
       const biz = document.getElementById('vf-biz').value.trim();
       if (!/^\d{3}-\d{2}-\d{5}$/.test(biz)) { document.getElementById('vf-nts').innerHTML = '<span style="color:var(--danger);">사업자등록번호 형식(000-00-00000)을 확인해 주십시오.</span>'; return; }
       // 시연: 기존에 폐업으로 확인된 번호는 폐업, 그 밖은 계속사업자
       const known = M.vendors.list().find(v => v.bizNo === biz);
       const status = known && known.status === '폐업' ? '폐업' : '계속';
-      ntsResult = { status, checkedAt: TODAY };
+      ntsResult = { status, checkedAt: TODAY, biz };
       document.getElementById('vf-nts').innerHTML = `<span style="color:${status === '계속' ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${status}</span> · 확인 ${TODAY}`;
     }
 
@@ -405,6 +417,7 @@ code, pre, kbd, samp,
       if (!/^\d{3}-\d{2}-\d{5}$/.test(bizNo)) return fail('사업자등록번호 형식(000-00-00000)을 확인해 주십시오.');
       if (M.vendors.list().some(v => v.bizNo === bizNo && v.id !== editingId)) return fail('같은 사업자등록번호의 거래처가 이미 있습니다.');
       const prev = editingId ? M.vendors.get(editingId) : null;
+      if (prev && prev.bizNo !== bizNo && !(ntsResult && ntsResult.biz === bizNo)) return fail('사업자등록번호가 바뀌었습니다. 새 번호로 국세청 상태조회를 다시 한 뒤 저장해 주십시오.');
       const status = ntsResult ? ntsResult.status : (prev ? prev.status : null);
       if (!status) return fail('국세청 상태조회를 먼저 해 주십시오. 폐업 · 휴업 사업자와는 거래를 시작할 수 없습니다.');
       if (on && status === '폐업') return fail('폐업으로 확인된 사업자는 거래 중으로 둘 수 없습니다. 미수취 계산서는 사업자등록 확인 이력(ADMN-SETT-008)에서 처리합니다.');
@@ -421,6 +434,7 @@ code, pre, kbd, samp,
       if (prev) {
         const changes = [];
         if (prev.name !== name) changes.push(`거래처명: ${prev.name} → ${name}`);
+        if (prev.bizNo !== bizNo) changes.push(`사업자등록번호: ${prev.bizNo} → ${bizNo} (국세청 재조회 완료)`);
         if (termsText(prev) !== termsText(Object.assign({}, prev, { terms }))) changes.push(`거래 조건: ${termsText(prev)} → ${termsText(Object.assign({}, prev, { terms }))}`);
         if (prev.on !== on) changes.push(`상태: ${prev.on ? '거래 중 → 거래 중지' : '거래 중지 → 거래 중'}`);
         if (ntsResult) changes.push(`국세청 상태조회: ${status}`);
