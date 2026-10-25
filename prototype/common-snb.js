@@ -27,6 +27,7 @@
         { code: "ORD-001", label: "주문 · 배송 · 3PL 관리", href: "ADMN-ORD-001_baseline.html" },
         { code: "RFD-002", label: "환불 요청 · 심사 관리", href: "ADMN-RFD-002_baseline.html" },
         { code: "BRD-002", label: "1:1 문의 관리 (문의 분기 허브)", href: "ADMN-BRD-002_baseline.html", screenCode: "ADMN-BRD-002" },
+        { code: "BRD-007", label: "1:1 문의 분류 관리", href: "ADMN-BRD-007_baseline.html", screenCode: "ADMN-BRD-007" },
         { code: "BRD-001", label: "공지 · FAQ · Q&A · 당첨자 발표", href: "ADMN-BRD-001_baseline.html?view=notice", screenCode: "ADMN-BRD-001" },
         { code: "BRD-005", label: "수강·합격수기 · 무료특강(빈출)", href: "ADMN-BRD-005_baseline.html?view=review", screenCode: "ADMN-BRD-005" },
         { code: "PROM-001", label: "이벤트 · 기획전 관리 (Slug·특가)", href: "ADMN-PROM-001_baseline.html", screenCode: "ADMN-PROM-001" },
@@ -60,6 +61,7 @@
       title: "정산 마감 전 사전 대사",
       items: [
         { code: "SETT-004", label: "PG 정산 원장 대사", href: "ADMN-SETT-004_baseline.html", screenCode: "ADMN-SETT-004" },
+        { code: "SETT-011", label: "물류비 대사 (3PL)", href: "ADMN-SETT-011_baseline.html", screenCode: "ADMN-SETT-011" },
         { code: "INST-002", label: "약정금 마일스톤 검수", href: "ADMN-INST-002_baseline.html", screenCode: "ADMN-INST-002" },
         { code: "SETT-006", label: "합격 환급반 관리", href: "ADMN-SETT-006_baseline.html", screenCode: "ADMN-SETT-006" },
         { code: "SETT-008", label: "사업자등록 확인 이력", href: "ADMN-SETT-008_baseline.html", screenCode: "ADMN-SETT-008" }
@@ -70,13 +72,13 @@
       items: [
         { code: "SETT-002", label: "월간 정산 및 집행", href: "ADMN-SETT-002_baseline.html", screenCode: "ADMN-SETT-002" },
         { code: "SETT-005", label: "정산 수동 조정", href: "ADMN-SETT-005_baseline.html", screenCode: "ADMN-SETT-005" },
-        { code: "SETT-009", label: "내부 정산 조회 · 조회 전용", href: "ADMN-SETT-009_baseline.html", screenCode: "ADMN-SETT-009" },
-        { code: "SETT-011", label: "물류비 대사 (3PL)", href: "ADMN-SETT-011_baseline.html", screenCode: "ADMN-SETT-011" }
+        { code: "SETT-009", label: "내부 정산 조회 · 조회 전용", href: "ADMN-SETT-009_baseline.html", screenCode: "ADMN-SETT-009" }
       ]
     },
     {
-      title: "개인정보 · 보안 감사",
+      title: "권한 · 개인정보 · 보안 감사",
       items: [
+        { code: "CONF-005", label: "운영자 권한 관리 (계정 · 역할 그룹)", href: "ADMN-CONF-005_baseline.html", screenCode: "ADMN-CONF-005" },
         { code: "USER-007", label: "민감 정보 열람 통제", href: "ADMN-USER-007_baseline.html", screenCode: "ADMN-USER-007" },
         { code: "CONF-010", label: "시스템 감사 로그", href: "ADMN-CONF-010_baseline.html", screenCode: "ADMN-CONF-010" },
       ]
@@ -88,9 +90,7 @@
         { code: "CONF-002", label: "약관 · 개인정보처리방침 관리", href: "ADMN-CONF-002_baseline.html", screenCode: "ADMN-CONF-002" },
         { code: "CONF-003", label: "플레이어 · 동시접속 · 인증 설정", href: "ADMN-CONF-003_baseline.html?view=player", screenCode: "ADMN-CONF-003" },
         { code: "CONF-004", label: "메시지 템플릿 관리 (알림톡·문자·메일)", href: "ADMN-CONF-004_baseline.html?view=template", screenCode: "ADMN-CONF-004" },
-        { code: "CONF-004-S1", label: "타겟 메시지 발송 · 내역", href: "ADMN-CONF-004_baseline.html?view=send", screenCode: "ADMN-CONF-004-S1" },
-        { code: "BRD-007", label: "1:1 문의 분류 관리", href: "ADMN-BRD-007_baseline.html", screenCode: "ADMN-BRD-007" },
-        { code: "CONF-005", label: "운영자 권한 관리 (계정 · 역할 그룹)", href: "ADMN-CONF-005_baseline.html", screenCode: "ADMN-CONF-005" }
+        { code: "CONF-004-S1", label: "타겟 메시지 발송 · 내역", href: "ADMN-CONF-004_baseline.html?view=send", screenCode: "ADMN-CONF-004-S1" }
       ]
     }
   ];

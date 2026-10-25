@@ -50,8 +50,8 @@
     { key: "product", label: "상품 · 강좌 · 교재", screens: "PROD-001~007 · BOOK-001" },
     { key: "contract", label: "권리자 계약 · 지분 매핑", screens: "INST-001 · SETT-001 · 007" },
     { key: "vendor", label: "거래처 관리", screens: "VEND-001" },
-    { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 006 · 008 · INST-002" },
-    { key: "settle", label: "월간 정산 · 지급 · 조회", screens: "SETT-002 · 005 · 009 · 011" },
+    { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 011 · 006 · 008 · INST-002" },
+    { key: "settle", label: "월간 정산 · 지급 · 조회", screens: "SETT-002 · 005 · 009" },
     { key: "statement", label: "본인 정산서 확인 · 세금계산서 제출", screens: "SETT-002-S2" },
     { key: "privacy", label: "민감 정보 · 시스템 감사 로그", screens: "USER-007 · CONF-010" },
     { key: "site", label: "사이트 · 약관 · 메시지 설정", screens: "CONF-001~004" },
@@ -271,9 +271,9 @@
     { id: "RH-0075", name: "스튜디오픽셀아트", entity: "개인 일반과세자 (142-19-88210)", biz: true, taxCase: "일반과세 세금계산서 권리자 발행 (TX-07)", isAuthor: false, contracts: [],
       payeeOf: [{ contract: "CT-2026-0702", holderId: "RH-0042", holderName: "최그래픽", role: "공동서명 스튜디오", kind: "CO_SIGNER", since: "", ratio: 0 }] },
     { id: "RH-0076", name: "박승계", entity: "개인 비사업자 (상속 승계)", biz: false, taxCase: "기타소득 C05 (payee_is_author=false · 필요경비 0% · 세율 22% TX-03 확정)", isAuthor: false, contracts: [],
-      payeeOf: [{ contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", role: "법정 상속인 (배우자)", kind: "SUCCESSOR", since: "2026-09-01", ratio: 60 }] },
+      payeeOf: [{ contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", role: "법정 상속인 · 배우자", kind: "SUCCESSOR", since: "2026-09-01", ratio: 60 }] },
     { id: "RH-0077", name: "박자녀", entity: "개인 비사업자 (상속 승계)", biz: false, taxCase: "기타소득 C05 (payee_is_author=false · 필요경비 0% · 세율 22% TX-03 확정)", isAuthor: false, contracts: [],
-      payeeOf: [{ contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", role: "법정 상속인 (자녀)", kind: "SUCCESSOR", since: "2026-09-01", ratio: 40 }] }
+      payeeOf: [{ contract: "CT-2025-1102", holderId: "RH-0018", holderName: "고(故) 박위생", role: "법정 상속인 · 자녀", kind: "SUCCESSOR", since: "2026-09-01", ratio: 40 }] }
   ];
   var holderStore = store("sjm.master.rightsHolders.v1", RIGHTS_HOLDER_SEED.concat(PAYEE_HOLDER_SEED));
 
