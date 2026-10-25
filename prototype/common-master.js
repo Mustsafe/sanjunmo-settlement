@@ -82,7 +82,7 @@
     { id: "RG-05", name: "강사", side: "EXTERNAL", queue: true, aff: ["RH"], on: true, order: 5,
       desc: "본인 강좌 학습 Q&A 답변 · 본인 정산서 확인",
       perms: { lqna: "RW", statement: "RW" } },
-    { id: "RG-06", name: "조교", side: "EXTERNAL", queue: true, aff: ["RH"], on: true, order: 6,
+    { id: "RG-06", name: "조교", side: "INTERNAL", queue: true, aff: ["STAFF"], on: true, order: 6,
       desc: "소속 강사 강좌 학습 Q&A · 상품 Q&A 내용 오류 답변",
       perms: { lqna: "RW", pqna: "RW", freecon: "RW" } },
     { id: "RG-07", name: "저작권자", side: "EXTERNAL", queue: false, aff: ["RH"], on: true, order: 7,
@@ -181,6 +181,8 @@
         if (sg.id !== g.id) return;
         g.perms = g.perms || {};
         if (sg.aff && !g.aff) { g.aff = sg.aff.slice(); changed = true; }
+        // v6.40 조교는 내부 직원 — 이전에 저장된 외부 · 권리자 소속 값을 내부 · 직원으로 갱신
+        if (g.id === "RG-06" && (g.side !== "INTERNAL" || !g.aff || g.aff.join() !== "STAFF")) { g.side = "INTERNAL"; g.aff = ["STAFF"]; changed = true; }
         ["refundpass", "freecon"].forEach(function (k) {
           if (sg.perms[k] && g.perms[k] === undefined) { g.perms[k] = sg.perms[k]; changed = true; }
         });
@@ -365,5 +367,22 @@
     reset: function () { holderStore.reset(); }
   };
 
-  window.SJM_MASTER = { menus: MENUS, roles: roles, inquiry: inquiry, vendors: vendors, rightsHolders: rightsHolders };
+  // 운영 설정값 — 운영자가 관리 화면에서 바꾸는 변수(고정값 아님). 화면은 값을 직접 적지 않고 여기서 읽는다(v6.40)
+  //   remaskMemberSec · remaskHolderSec: 민감정보 열람 후 자동 재마스킹 시간(초) — 설정 화면 CONF-003
+  //   playbackMaxCreditedSpeed · limitedForward: 진도 인정 최대 배속 · 앞으로 건너뛰기 제한 — 설정 화면 CONF-003
+  //   reviewRewardP · reviewBestRewardP · freePointCapP: 후기 보상 · 베스트 후기 보상 · 무상 포인트 잔액 상한 — 설정 화면 PROM-002 포인트 정책
+  var SETTINGS_SEED = {
+    remaskMemberSec: 600, remaskHolderSec: 30,
+    playbackMaxCreditedSpeed: 2.0, limitedForward: true,
+    reviewRewardP: 1000, reviewBestRewardP: 5000, freePointCapP: 200000
+  };
+  var settingsStore = store("sjm.master.settings.v1", SETTINGS_SEED);
+  var settings = {
+    get: function (k) { var v = settingsStore.get()[k]; return v === undefined ? SETTINGS_SEED[k] : v; },
+    set: function (k, v) { var cur = settingsStore.get(); cur[k] = v; settingsStore.set(cur); },
+    all: function () { var o = clone(SETTINGS_SEED), cur = settingsStore.get(); for (var k in cur) o[k] = cur[k]; return o; },
+    reset: function () { settingsStore.reset(); }
+  };
+
+  window.SJM_MASTER = { menus: MENUS, roles: roles, inquiry: inquiry, vendors: vendors, rightsHolders: rightsHolders, settings: settings };
 })();

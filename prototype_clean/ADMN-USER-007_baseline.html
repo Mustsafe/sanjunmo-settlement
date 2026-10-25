@@ -276,6 +276,7 @@ code, pre, kbd, samp,
 
 
 <link id="v4-common-css" rel="stylesheet" href="common-v84.css">
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 <body><aside id="v4-master-snb" role="navigation" aria-label="산준모 마스터 사이드바"></aside><div id="v4-root-shell"><header class="top-bar v4-gen3-topbar" id="v4-gen3-topbar">
@@ -308,9 +309,9 @@ code, pre, kbd, samp,
           <div class="k-sub">프리랜서(주민번호+계좌) · 사업자(계좌만 수집)</div>
         </div>
         <div class="kpi-card" onclick="switchTab('vault')">
-          <div class="k-title"><span>현재 마스킹 일시 해제 중</span><span class="badge b-bad">TTL 30초</span></div>
+          <div class="k-title"><span>현재 마스킹 일시 해제 중</span><span class="badge b-bad">TTL <span class="js-ttl"></span></span></div>
           <div class="k-num" style="color:var(--bad);" id="kpiUnmaskedCount">0건</div>
-          <div class="k-sub"><code>pii_unmask_ttl_seconds = 30초</code> 경과 시 자동 잠금</div>
+          <div class="k-sub"><code>열람 유지시간 = <span class="js-ttl"></span></code> 경과 시 자동 잠금</div>
         </div>
         <div class="kpi-card" onclick="switchTab('retention')">
           <div class="k-title"><span>계층 1 개인정보 파기 후보 (5년 경과)</span><span class="badge b-warn">승인 대기</span></div>
@@ -343,7 +344,7 @@ code, pre, kbd, samp,
               <option value="REFUND">합격환급반 수강생 (제세공과금 22% 신고용 수집)</option>
             </select>
             <span style="margin-left:auto; font-size:12px; color:var(--muted);">
-              ※ 열람 아이콘 클릭 시 <strong>[ADMN-USER-007 민감 정보 열람 사유 입력 팝업]</strong>이 호출되며, 사유(10자 이상) 입력 후 <strong>30초간만 평문이 표시</strong>됩니다.
+              ※ 열람 아이콘 클릭 시 <strong>[ADMN-USER-007 민감 정보 열람 사유 입력 팝업]</strong>이 호출되며, 사유(10자 이상) 입력 후 <strong><span class="js-ttl"></span>간만 평문이 표시</strong>됩니다.
             </span>
           </div>
 
@@ -479,7 +480,7 @@ code, pre, kbd, samp,
         </span>
       </div>
       <div style="font-family:var(--mono); font-size:12px; color:#93c5fd;">
-        부록 B 파라미터: <code>pii_unmask_ttl_seconds = 30초</code> · 암호화: <code>AES-256 (AWS KMS)</code>
+        부록 B 파라미터: <code>열람 유지시간 = <span class="js-ttl"></span></code> · 암호화: <code>AES-256 (AWS KMS)</code>
       </div>
     </footer>
   </main>
@@ -497,7 +498,7 @@ code, pre, kbd, samp,
     <div class="modal-bd">
       <div style="background:#fef2f2; border:1px solid #fca5a5; border-radius:8px; padding:12px 14px; margin-bottom:14px; font-size:12.5px; color:#7f1d1d;">
         ⚠️ <strong>[개인정보 보호법 및 내부 감사 통제 고지]</strong><br>
-        요청하신 항목은 AES-256 암호화 보호 대상입니다. 열람 또는 사본 다운로드 시 <strong>작업자 ID, IP, 열람 시각, 입력 사유가 시스템 감사 로그(<code>ADMN-CONF-010</code>)에 즉시 기록</strong>되며, 화면 평문은 <strong>30초(<code>pii_unmask_ttl_seconds</code>) 후 자동으로 다시 마스킹</strong>됩니다.
+        요청하신 항목은 AES-256 암호화 보호 대상입니다. 열람 또는 사본 다운로드 시 <strong>작업자 ID, IP, 열람 시각, 입력 사유가 시스템 감사 로그(<code>ADMN-CONF-010</code>)에 즉시 기록</strong>되며, 화면 평문은 <strong><span class="js-ttl"></span>(<code>열람 유지시간</code>) 후 자동으로 다시 마스킹</strong>됩니다.
       </div>
 
       <div style="background:#f8fafc; border:1px solid var(--line); border-radius:8px; padding:11px 14px; margin-bottom:14px;">
@@ -526,7 +527,7 @@ code, pre, kbd, samp,
     <div class="modal-ft">
       <button class="btn" onclick="closeUnmaskModal()">취소</button>
       <button class="btn btn-bad" id="btnConfirmUnmask" disabled="" onclick="confirmUnmaskAction()">
-        🔓 감사 로그 기록 및 30초간 열람 실행
+        🔓 감사 로그 기록 및 <span class="js-ttl"></span>간 열람 실행
       </button>
     </div>
   </div>
@@ -655,6 +656,10 @@ code, pre, kbd, samp,
 
 
 </div></div><script>
+  function ttlSec() { try { const v = Number(window.SJM_MASTER.settings.get('remaskHolderSec')); return v > 0 ? v : 30; } catch (e) { return 30; } }
+  function fillTtlText() { document.querySelectorAll('.js-ttl').forEach(function (el) { el.textContent = ttlSec() + '초'; }); }
+  fillTtlText();
+  document.addEventListener('DOMContentLoaded', fillTtlText);
   const PII_RECORDS = [
     {
       id: "RH-0019",
@@ -807,10 +812,10 @@ code, pre, kbd, samp,
     {
       ts: "2026-10-15 14:22:10",
       target: "정종대 (RH-0025)",
-      action: "계좌번호 마스킹 해제 (30초 열람)",
+      action: `계좌번호 마스킹 해제 (${ttlSec()}초 열람)`,
       reason: "2026-10 당월 대량이체 실행 전 예금주 실명 확인 및 계좌 대조",
       actor: "박정산 (ROLE_FINANCE_ADMIN)",
-      stateText: "30초 경과 후 자동 재마스킹 완료"
+      stateText: `${ttlSec()}초 경과 후 자동 재마스킹 완료`
     },
     {
       ts: "2026-10-15 11:08:45",
@@ -934,7 +939,7 @@ code, pre, kbd, samp,
 
     pendingAction = { recordId, mode };
     const actionName = mode === "UNMASK"
-      ? "주민등록번호 및 계좌번호 평문 마스킹 해제 (30초 한시 노출)"
+      ? `주민등록번호 및 계좌번호 평문 마스킹 해제 (${ttlSec()}초 한시 노출)`
       : "프라이빗 S3 증빙 사본 Presigned URL 발급 열람 (5분 만기)";
 
     document.getElementById("modalTargetSummary").textContent = `[${rec.id}] ${rec.name} — ${actionName}`;
@@ -982,20 +987,20 @@ code, pre, kbd, samp,
     closeUnmaskModal();
 
     if (mode === "UNMASK") {
-      rec.remainingSec = 30; // 부록 B: pii_unmask_ttl_seconds = 30초
+      rec.remainingSec = ttlSec(); // 부록 B: 열람 유지시간 = 전역 설정 remaskHolderSec
       ACCESS_LOGS.unshift({
         ts: "2026-10-15 17:20:05",
         target: `${rec.name} (${rec.id})`,
-        action: "주민번호·계좌번호 마스킹 해제 (TTL 30초)",
+        action: `주민번호·계좌번호 마스킹 해제 (TTL ${ttlSec()}초)`,
         reason,
         actor: "박정산 (ROLE_FINANCE_ADMIN)",
-        stateText: "30초 카운트다운 진행 중"
+        stateText: `${ttlSec()}초 카운트다운 진행 중`
       });
       renderVaultTable();
   /* Init USER-007 Retention and Access */
   if (typeof renderRetentionTable === 'function') renderRetentionTable();
   if (typeof renderAccessLogs === 'function') renderAccessLogs();
-      showToast(`[감사 로그 기록 완료] ${rec.name}의 민감 정보가 30초간 일시 해제됩니다.`);
+      showToast(`[감사 로그 기록 완료] ${rec.name}의 민감 정보가 ${ttlSec()}초간 일시 해제됩니다.`);
     } else {
       ACCESS_LOGS.unshift({
         ts: "2026-10-15 17:20:05",
@@ -1041,7 +1046,7 @@ code, pre, kbd, samp,
     showToast("열람 중이던 모든 민감 정보가 즉시 마스킹(별표) 상태로 복귀되었습니다.");
   }
 
-  // 1초 주기 TTL 카운트다운 타이머 (pii_unmask_ttl_seconds = 30초 자동 재마스킹)
+  // 1초 주기 TTL 카운트다운 타이머 (열람 유지시간 = 전역 설정값 자동 재마스킹)
   setInterval(() => {
     let changed = false;
     PII_RECORDS.forEach(r => {
@@ -1049,7 +1054,7 @@ code, pre, kbd, samp,
         r.remainingSec -= 1;
         changed = true;
         if (r.remainingSec === 0) {
-          showToast(`[3.4절 자동 재마스킹] 30초(pii_unmask_ttl_seconds)가 경과하여 ${r.name}(${r.id})의 민감 정보가 자동 잠금되었습니다.`);
+          showToast(`[3.4절 자동 재마스킹] ${ttlSec()}초(열람 유지시간)가 경과하여 ${r.name}(${r.id})의 민감 정보가 자동 잠금되었습니다.`);
         }
       }
     });

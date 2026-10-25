@@ -1455,13 +1455,13 @@ code, pre, kbd, samp,
               </td>
             </tr>
             <tr>
-              <td><span class="code-pill">PROD-BK-3002</span></td>
+              <td><span class="code-pill">PROD-BK-2018</span></td>
               <td><span class="badge badge-preorder">사입판매 (65%)</span></td>
               <td style="font-weight:700;">2026 소방설비기사(전기) 핵심이론 기본서</td>
               <td>한국자격교재총판</td>
               <td class="text-right">40,000원</td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('PROD-BK-3002', '2026 소방설비기사(전기) 핵심이론 기본서', '외부저자팀', '한국자격교재총판', 40000, '사입판매')">SKU 불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applySupplySkuSelection('PROD-BK-2018', '2026 소방설비기사(전기) 핵심이론 기본서', '외부저자팀', '한국자격교재총판', 40000, '사입판매')">SKU 불러오기</button>
               </td>
             </tr>
           </tbody>
@@ -1621,7 +1621,7 @@ code, pre, kbd, samp,
         createdAt: "2026-02-01"
       },
       {
-        sku: "PROD-BK-1015",
+        sku: "PROD-BK-2017",
         tempCode: "-",
         originMode: "PROD_DIRECT",
         cat: "산업안전지도사",
@@ -1956,7 +1956,7 @@ code, pre, kbd, samp,
        ========================================================================= */
     const SUPPLY_PREFIX = { "자체출판(인세)": 1, "사입판매": 2, "위탁판매": 3, "비매품(번들)": 4 };
     /* 다른 화면(BOOK-001 등)에서 이미 쓰는 SKU — 신규 채번 중복 방지용 */
-    const RESERVED_SKUS = ["PROD-BK-1001", "PROD-BK-1004", "PROD-BK-1006", "PROD-BK-1011", "PROD-BK-1012", "PROD-BK-1015", "PROD-BK-1016", "PROD-BK-2001", "PROD-BK-3001", "PROD-BK-3002", "PROD-BK-3003", "PROD-BK-3004", "PROD-BK-4001"];
+    const RESERVED_SKUS = ["PROD-BK-1001", "PROD-BK-1004", "PROD-BK-1006", "PROD-BK-1011", "PROD-BK-1012", "PROD-BK-2017", "PROD-BK-1016", "PROD-BK-2001", "PROD-BK-3001", "PROD-BK-2018", "PROD-BK-3003", "PROD-BK-3004", "PROD-BK-4001"];
     function nextBookSku(type) {
       const p = SUPPLY_PREFIX[type];
       if (!p) return "";

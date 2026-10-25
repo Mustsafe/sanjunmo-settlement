@@ -236,7 +236,7 @@ code, pre, kbd, samp,
             <span class="brand-pill">admin.sanjunmo.com · v4.0.0 SSOT</span>
             <div class="brand-title">산준모닷컴 백오피스<br/>통합 어드민 &amp; 파트너 센터</div>
             <div class="brand-desc">
-              사내 운영자(최고 관리자 · CS담당자 · 물류팀 · 재무팀 등 역할 그룹)와 외부 계정(강사 · 조교 · 저작권자 · 외부 3PL 등)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
+              사내 운영자(최고 관리자 · CS담당자 · 물류팀 · 재무팀 · 조교 등 역할 그룹)와 외부 계정(강사 · 저작권자 · 외부 3PL 등)가 동일한 게이트웨이로 로그인하며, 부여된 역할(RBAC)에 따라 진입 화면이 자동 분기됩니다.
             </div>
             <div class="security-policy-list">
               <div>• 모든 로그인 성공 · 실패 · 잠금 이력은 보안 감사 로그(<strong>ADMN-CONF-010</strong>)에 자동 기록됩니다.</div>
@@ -451,7 +451,7 @@ code, pre, kbd, samp,
       { id: "cs_lead01", roles: ["RG-02"], aff: { kind: "STAFF" } },
       { id: "log_choi", roles: ["RG-03", "RG-02"], aff: { kind: "STAFF" } },
       { id: "inst_jjd", roles: ["RG-05"], aff: { kind: "RH", ref: "RH-0025" } },
-      { id: "ta_jung", roles: ["RG-06"], aff: { kind: "RH", ref: "RH-0025" } },
+      { id: "ta_jung", roles: ["RG-06"], aff: { kind: "STAFF" } },
       { id: "author_lee", roles: ["RG-07"], aff: { kind: "RH", ref: "RH-0031" } },
       { id: "3pl_cjlogis", roles: ["RG-08"], aff: { kind: "VENDOR", ref: "SUP-0020" } }
     ];
@@ -471,7 +471,7 @@ code, pre, kbd, samp,
       const has = k => !!p[k];
       const canW = k => (p[k] || "").indexOf("W") !== -1;
       if (g.side === "EXTERNAL") {
-        if (has("lqna")) return { code: "ADMN-BRD-001", label: "학습 Q&A", url: "ADMN-BRD-001_baseline.html?view=qna" };
+        // 강사 · 저작권자 등 외부 계정의 착지는 본인 정산서(같은 파트너 화면)
         if (has("statement")) return { code: "ADMN-SETT-002", label: "본인 정산서", url: "ADMN-SETT-002_baseline.html?view=partner-stmt&holder=" + ((acc.aff && acc.aff.ref) || "") };
         if (has("shipout")) return { code: "ADMN-ORD-001", label: "출고 · 송장", url: "ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL" };
         return dash;
@@ -480,6 +480,8 @@ code, pre, kbd, samp,
       if (canW("settle")) return { code: "ADMN-SETT-002", label: "월간 정산 및 집행", url: "ADMN-SETT-002_baseline.html" };
       if (canW("shipout")) return { code: "ADMN-ORD-001", label: "주문 · 배송 · 출고", url: "ADMN-ORD-001_baseline.html" };
       if (has("inquiry")) return { code: "ADMN-BRD-002", label: "1:1 문의", url: "ADMN-BRD-002_baseline.html" };
+      // 조교(내부 직원)는 학습 Q&A 관리로 착지
+      if (has("lqna")) return { code: "ADMN-BRD-001", label: "학습 Q&A 관리", url: "ADMN-BRD-001_baseline.html?view=qna" };
       return dash;
     }
 

@@ -13,6 +13,10 @@
 
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
 
+  <script id="v4-common-master" src="common-master.js"></script>
+  <script>
+function rewardP(best) { return window.SJM_MASTER ? SJM_MASTER.settings.get(best ? "reviewBestRewardP" : "reviewRewardP") : (best ? 5000 : 1000); }
+  </script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 
   <style>
@@ -1029,7 +1033,7 @@ code, pre, kbd, samp,
 
       <button class="btn btn-danger" onclick="decidePassEssay('REJECTED')">반려 처리 (증빙 불일치/식별불가)</button>
 
-      <button class="btn btn-success" onclick="decidePassEssay('APPROVED')">✓ 합격인증 승인 및 축하 포인트(5,000P) 지급</button>
+      <button class="btn btn-success" onclick="decidePassEssay('APPROVED')">✓ 합격인증 승인 및 축하 포인트 지급</button>
 
     </div>
 
@@ -1285,9 +1289,9 @@ code, pre, kbd, samp,
 
           ${r.best
 
-            ? `<span class="badge badge-amber">👑 베스트 후기 (+1,500P)</span>`
+            ? `<span class="badge badge-amber">👑 베스트 후기 (+${rewardP(true).toLocaleString()}P)</span>`
 
-            : `<span class="badge badge-slate">일반 후기 (+500P)</span>`
+            : `<span class="badge badge-slate">일반 후기 (+${rewardP(false).toLocaleString()}P)</span>`
 
           }
 
@@ -1319,11 +1323,11 @@ code, pre, kbd, samp,
 
     r.best = !r.best;
 
-    r.pointPaid = r.best ? 1500 : 500;
+    r.pointPaid = rewardP(r.best);
 
     renderCourseReviews();
 
-    showToast(r.best ? `${id} 수강후기가 베스트로 선정되어 추가 1,000P가 적립되었습니다.` : `${id} 베스트 지정이 해제되었습니다.`);
+    showToast(r.best ? `${id} 수강후기가 베스트로 선정되어 베스트 후기 보상 ${rewardP(true).toLocaleString()}P가 적립되었습니다.` : `${id} 베스트 지정이 해제되었습니다.`);
 
   }
 
@@ -1489,7 +1493,7 @@ code, pre, kbd, samp,
 
     showToast(decision === 'APPROVED'
 
-      ? `${p.id} 합격수기 증빙이 승인되어 합격 축하 포인트 5,000P가 지급되었습니다.`
+      ? `${p.id} 합격수기 증빙이 승인되어 합격 축하 포인트 ${rewardP(true).toLocaleString()}P가 지급되었습니다.`
 
       : `${p.id} 합격수기가 증빙 미비로 반려 처리되었으며 재업로드 안내 알림톡이 발송되었습니다.`);
 

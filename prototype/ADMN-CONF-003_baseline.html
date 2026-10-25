@@ -90,6 +90,7 @@ code, pre, kbd, samp,
 
   </style>
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 <body>
@@ -177,20 +178,27 @@ code, pre, kbd, samp,
                     <tr>
                       <th>첫 수강 빨리감기 제한<br/>(<code>limitedForward</code>)</th>
                       <td>
-                        <label style="font-weight:800; margin-right:16px;"><input type="radio" name="pl_fwd" value="ON" checked /> ON (미수강 구간 마우스 드래그 스킵 차단 · 합격환급반 진도율 어뷰징 방지)</label>
-                        <label style="font-weight:700;"><input type="radio" name="pl_fwd" value="OFF" /> OFF (자유 이동 허용 · 맛보기/무료특강은 자동 OFF)</label>
+                        <label style="font-weight:800; margin-right:16px;"><input type="radio" name="pl_fwd" value="ON" checked onchange="onFwdChange(this)" /> ON (미수강 구간 마우스 드래그 스킵 차단 · 합격환급반 진도율 어뷰징 방지)</label>
+                        <label style="font-weight:700;"><input type="radio" name="pl_fwd" value="OFF" onchange="onFwdChange(this)" /> OFF (자유 이동 허용 · 맛보기/무료특강은 자동 OFF)</label>
                       </td>
                     </tr>
                     <tr>
                       <th>허용 재생 배속 범위 *</th>
                       <td>
                         최소 <code>0.5x</code> ~ 최대
-                        <select id="pl-max-speed" class="f-select" style="width:100px;">
+                        <select id="pl-max-speed" class="f-select" style="width:100px;" onchange="updateSpeedHint()">
                           <option value="2.0x" selected>2.0x (권장)</option>
                           <option value="1.5x">1.5x</option>
                           <option value="2.5x">2.5x</option>
                         </select>
-                        <span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">(전 배속 진도율 정상 인정 · 구간 반복 A↔B 및 10초 앞/뒤 이동 기본 활성)</span>
+                        <span style="font-size:11.5px; color:var(--text-muted); margin-left:6px;">(구간 반복 A↔B 및 10초 앞/뒤 이동 기본 활성)</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>진도 인정 최대 배속<br/>(<code>playbackMaxCreditedSpeed</code>)</th>
+                      <td>
+                        <input type="number" id="pl-credit-speed" class="f-input" style="width:80px;" min="0.5" max="4" step="0.25" onchange="updateSpeedHint()" /> 배속까지 진도율 인정
+                        <span id="pl-credit-hint" style="font-size:11.5px; color:var(--text-muted); margin-left:6px;"></span>
                       </td>
                     </tr>
                     <tr>
@@ -239,6 +247,36 @@ code, pre, kbd, samp,
                   <tr><td>2026.10.11 10:05</td><td>최고 관리자 (admin_kim)</td><td>워터마크 노출 시간 (displayDuration)</td><td>3초</td><td><strong>5초 (이동 주기 10초)</strong></td></tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="card-privacy-display">
+          <div class="card-header">
+            <div class="card-title"><span>🔒 개인정보 표시 설정 (재마스킹 시간)</span></div>
+            <button type="button" class="btn btn-sm btn-primary" onclick="savePrivacyConfig()">💾 개인정보 표시 설정 저장</button>
+          </div>
+          <div class="card-body">
+            <table class="kv-table">
+              <tbody>
+                <tr>
+                  <th>회원 개인정보 재마스킹 시간 *</th>
+                  <td>
+                    회원 상세(<code>ADMN-USER-002</code>)에서 마스킹 해제 후 <input type="number" id="pv-member-sec" class="f-input" style="width:90px;" min="1" step="1" /> 초 경과 시 자동 재마스킹
+                    <span id="pv-member-hint" style="font-size:11.5px; color:var(--text-muted); margin-left:6px;"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <th>권리자 민감정보 재마스킹 시간 *</th>
+                  <td>
+                    권리자 민감정보(<code>ADMN-USER-007</code>) 열람 후 <input type="number" id="pv-holder-sec" class="f-input" style="width:90px;" min="1" step="1" /> 초 경과 시 자동 재마스킹
+                    <span id="pv-holder-hint" style="font-size:11.5px; color:var(--text-muted); margin-left:6px;"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
+              ※ 저장한 값은 다음 열람 시점부터 회원 상세와 권리자 민감정보 화면에 반영됩니다. 이미 열람 중인 건에는 적용되지 않습니다.
             </div>
           </div>
         </div>
@@ -318,9 +356,63 @@ code, pre, kbd, samp,
     function savePlayerConfig() {
       const tbody = document.getElementById('player-hist-tbody');
       const tr = document.createElement('tr');
-      tr.innerHTML = `<td>2026.10.18 15:45</td><td>최고 관리자 (admin_root)</td><td>워터마크 · 배속 · 동시접속 정책 갱신</td><td>기존 설정</td><td><strong>${document.getElementById('pl-wm-text').value} / 최대 ${document.getElementById('pl-max-speed').value}</strong></td>`;
+      tr.innerHTML = `<td>2026.10.18 15:45</td><td>최고 관리자 (admin_root)</td><td>워터마크 · 배속 · 동시접속 정책 갱신</td><td>기존 설정</td><td><strong>${document.getElementById('pl-wm-text').value} / 최대 ${document.getElementById('pl-max-speed').value} / 진도 인정 ${document.getElementById('pl-credit-speed').value}배속</strong></td>`;
+      const cs = parseFloat(document.getElementById('pl-credit-speed').value);
+      if (!(cs >= 0.5 && cs <= 4)) { showToast('진도 인정 최대 배속은 0.5 ~ 4.0 사이로 입력해 주세요.'); return; }
+      sjmSettings().set('playbackMaxCreditedSpeed', cs);
       tbody.prepend(tr);
       showToast('플레이어/DRM 및 동시접속 1세션 제어 설정이 저장되었습니다.');
+    }
+
+    // v6.40 전역 설정(SJM_MASTER.settings) 연동 — 재마스킹 시간 · 진도 인정 배속 · 앞으로 건너뛰기 제한
+    function sjmSettings() { return (window.SJM_MASTER && window.SJM_MASTER.settings) || null; }
+    function secLabel(s) { s = Number(s); if (s < 60) return s + '초'; const m = Math.floor(s / 60), r = s % 60; return r ? m + '분 ' + r + '초' : m + '분'; }
+    function updateSpeedHint() {
+      const credit = parseFloat(document.getElementById('pl-credit-speed').value);
+      const maxAllowed = parseFloat(document.getElementById('pl-max-speed').value);
+      const el = document.getElementById('pl-credit-hint');
+      if (!isFinite(credit)) { el.textContent = ''; return; }
+      el.textContent = maxAllowed > credit ? '(' + credit.toFixed(1) + '배속을 넘는 구간은 재생은 되지만 진도 미인정)' : '(허용 배속 전 구간 진도율 인정)';
+    }
+    function updatePrivacyHints() {
+      const m = Number(document.getElementById('pv-member-sec').value), h = Number(document.getElementById('pv-holder-sec').value);
+      document.getElementById('pv-member-hint').textContent = m > 0 ? '(= ' + secLabel(m) + ')' : '';
+      document.getElementById('pv-holder-hint').textContent = h > 0 ? '(= ' + secLabel(h) + ')' : '';
+    }
+    function loadSettingsToForm() {
+      const st = sjmSettings(); if (!st) return;
+      document.getElementById('pv-member-sec').value = st.get('remaskMemberSec');
+      document.getElementById('pv-holder-sec').value = st.get('remaskHolderSec');
+      document.getElementById('pl-credit-speed').value = Number(st.get('playbackMaxCreditedSpeed')).toFixed(1);
+      const on = !!st.get('limitedForward');
+      document.querySelector('input[name="pl_fwd"][value="' + (on ? 'ON' : 'OFF') + '"]').checked = true;
+      window.__fwdPrev = on ? 'ON' : 'OFF';
+      updatePrivacyHints(); updateSpeedHint();
+    }
+    function onFwdChange(radio) {
+      const next = radio.value;
+      const msg = next === 'OFF'
+        ? '앞으로 건너뛰기 제한을 해제하면 미수강 구간도 자유롭게 이동할 수 있어 진도율 어뷰징 방지가 약해집니다. 변경하시겠습니까?'
+        : '앞으로 건너뛰기 제한을 켜면 미수강 구간으로의 이동이 차단됩니다. 변경하시겠습니까?';
+      if (!window.confirm(msg)) {
+        document.querySelector('input[name="pl_fwd"][value="' + window.__fwdPrev + '"]').checked = true;
+        return;
+      }
+      window.__fwdPrev = next;
+      sjmSettings().set('limitedForward', next === 'ON');
+      showToast('첫 수강 빨리감기 제한이 ' + next + '(으)로 변경되었습니다.');
+    }
+    function savePrivacyConfig() {
+      const m = Number(document.getElementById('pv-member-sec').value), h = Number(document.getElementById('pv-holder-sec').value);
+      if (!Number.isInteger(m) || m < 1 || !Number.isInteger(h) || h < 1) { showToast('재마스킹 시간은 1초 이상의 정수로 입력해 주세요.'); return; }
+      const st = sjmSettings(); const prevM = st.get('remaskMemberSec'), prevH = st.get('remaskHolderSec');
+      st.set('remaskMemberSec', m); st.set('remaskHolderSec', h);
+      updatePrivacyHints();
+      const tbody = document.getElementById('player-hist-tbody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>2026.10.18 15:50</td><td>최고 관리자 (admin_root)</td><td>개인정보 재마스킹 시간</td><td>회원 ${secLabel(prevM)} / 권리자 ${secLabel(prevH)}</td><td><strong>회원 ${secLabel(m)} / 권리자 ${secLabel(h)}</strong></td>`;
+      tbody.prepend(tr);
+      showToast('개인정보 재마스킹 시간이 저장되었습니다. 다음 열람부터 적용됩니다.');
     }
 
     function renderIpWhitelist() {
@@ -368,6 +460,8 @@ code, pre, kbd, samp,
 
     document.addEventListener('DOMContentLoaded', () => {
       renderIpWhitelist();
+      loadSettingsToForm();
+      ['pv-member-sec', 'pv-holder-sec'].forEach(id => document.getElementById(id).addEventListener('input', updatePrivacyHints));
       const params = new URLSearchParams(window.location.search);
       if (params.get('view') === 'auth') switchConfTab('auth');
     });

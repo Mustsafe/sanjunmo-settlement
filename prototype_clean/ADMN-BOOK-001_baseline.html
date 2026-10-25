@@ -1078,7 +1078,7 @@ code, pre, kbd, samp,
                   </div>
                 </div>
                 <div class="entry-mode-foot">
-                  <span style="color:var(--amber);" id="ledger-status-PROD_DIRECT">대기중: PROD-BK-1015 (산안지도사 법령집)</span>
+                  <span style="color:var(--amber);" id="ledger-status-PROD_DIRECT">대기중: PROD-BK-2017 (산안지도사 법령집)</span>
                   <button type="button" class="btn btn-outline btn-sm" onclick="event.stopPropagation(); openProdPendingModal();">선등록 SKU 불러오기 →</button>
                 </div>
               </div>
@@ -1338,13 +1338,13 @@ code, pre, kbd, samp,
           </thead>
           <tbody>
             <tr>
-              <td><span class="code-pill">PROD-BK-1015</span></td>
+              <td><span class="code-pill">PROD-BK-2017</span></td>
               <td style="font-weight:700;">2027 대비 산업안전지도사 1차 산안법령 조문해설집</td>
               <td>최지도 / 한국자격교재총판</td>
               <td class="text-right">45,000원</td>
               <td class="text-center"><span class="badge badge-out">원가 미입력</span></td>
               <td class="text-center">
-                <button type="button" class="btn btn-primary btn-sm" onclick="applyProdPendingToLedger('PROD-BK-1015', '2027 대비 산업안전지도사 1차 산안법령 조문해설집', '최지도', '한국자격교재총판', 45000)">불러오기</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="applyProdPendingToLedger('PROD-BK-2017', '2027 대비 산업안전지도사 1차 산안법령 조문해설집', '최지도', '한국자격교재총판', 45000)">불러오기</button>
               </td>
             </tr>
           </tbody>
@@ -1439,7 +1439,7 @@ code, pre, kbd, samp,
         prodStatus: "일시품절 (0권)"
       },
       {
-        sku: "PROD-BK-1015",
+        sku: "PROD-BK-2017",
         hasSales: false,
         ownCopyright: false,
         tempCode: "-",
@@ -1641,7 +1641,7 @@ code, pre, kbd, samp,
        ========================================================================= */
     const SUPPLY_PREFIX = { "자체출판(인세)": 1, "사입판매": 2, "위탁판매": 3, "비매품(번들)": 4 };
     /* 다른 화면(PROD-004 등)에서 이미 쓰는 SKU — 신규 채번 중복 방지용 */
-    const RESERVED_SKUS = ["PROD-BK-1001", "PROD-BK-1004", "PROD-BK-1006", "PROD-BK-1016", "PROD-BK-2001", "PROD-BK-3001", "PROD-BK-3002", "PROD-BK-3004", "PROD-BK-4001"];
+    const RESERVED_SKUS = ["PROD-BK-1001", "PROD-BK-1004", "PROD-BK-1006", "PROD-BK-1016", "PROD-BK-2001", "PROD-BK-3001", "PROD-BK-2018", "PROD-BK-3004", "PROD-BK-4001"];
     const CONSIGN_HOLDERS = [
       { id: "RH-0044", name: "안전기술출판", label: "[RH-0044] 안전기술출판 (위탁계약 · 권리자)" },
       { id: "RH-0051", name: "한국소방학회", label: "[RH-0051] 한국소방학회 (위탁계약 · 권리자)" }
@@ -1802,8 +1802,8 @@ code, pre, kbd, samp,
     }
 
     function openPendingProdBookForm() {
-      openEditLedger("PROD-BK-1015");
-      showToast("PROD-004에서 선등록된 원가 미입력 도서 [PROD-BK-1015]를 호출했습니다.");
+      openEditLedger("PROD-BK-2017");
+      showToast("PROD-004에서 선등록된 원가 미입력 도서 [PROD-BK-2017]를 호출했습니다.");
     }
 
     /* =========================================================================

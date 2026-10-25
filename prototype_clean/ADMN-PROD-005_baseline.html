@@ -731,7 +731,7 @@ code, pre, kbd, samp,
                     <th class="text-right" style="width:110px;">강좌 결제액(교육면세)</th>
                     <th class="text-right" style="width:110px;">교재 결제액(면세)</th>
                     <th class="text-right" style="width:115px;">총 판매가</th>
-                    <th class="text-center" style="width:125px;">환급조건 (진도율 90% · 4대 증빙)</th>
+                    <th class="text-center" style="width:125px;">환급조건 (상품별 진도율 · 4대 증빙)</th>
                     <th class="text-center" style="width:110px;">정산매핑(1계층)</th>
                     <th class="text-center" style="width:85px;">판매상태</th>
                     <th class="text-center" style="width:95px;">등록일</th>
@@ -809,7 +809,7 @@ code, pre, kbd, samp,
                   <td id="d-period">결제일로부터 <strong>180일</strong> (불합격 인증 시 1회 90일 무상 연장 지원)</td>
                   <th>합격 환급 조건<br>(ADMN-SETT-006 연동)</th>
                   <td id="d-refund-rule">
-                    전 강좌 평균 <strong>인정 진도율 90% 이상 (재생시간 가중평균)</strong> + <strong>합격증 사본 · 플랫폼/산준모 카페 합격수기 아웃링크 · 통장 사본 · 시중 1금융권 실명계좌</strong> 제출 승인 시<br>
+                    전 강좌 평균 <strong>인정 진도율 <span id="d-refund-progress">90</span>% 이상 (재생시간 가중평균, 상품별 기준)</strong> + <strong>합격증 사본 · 플랫폼/산준모 카페 합격수기 아웃링크 · 통장 사본 · 시중 1금융권 실명계좌</strong> 제출 승인 시<br>
                     <span style="color:var(--violet); font-weight:700;">※ 교재비(64,800원) 및 제세공과금(22%) 공제 후 강좌 실결제액(240,000원) 기준 환급 (계약 부담옵션 B: 강사·플랫폼 공동 분담)</span>
                   </td>
                 </tr>
@@ -922,7 +922,7 @@ code, pre, kbd, samp,
                     <div class="inline-options">
                       <label class="option-label">
                         <input type="radio" name="f-pkg-type" value="환급반" checked="" onchange="toggleRefundSection()">
-                        <span><strong>합격 환급반</strong> (ADMN-SETT-006 환급 4대 증빙 심사 및 진도율(90%) 연동)</span>
+                        <span><strong>합격 환급반</strong> (ADMN-SETT-006 환급 4대 증빙 심사 및 상품별 진도율 기준 연동)</span>
                       </label>
                       <label class="option-label">
                         <input type="radio" name="f-pkg-type" value="일반패키지" onchange="toggleRefundSection()">
@@ -1164,10 +1164,10 @@ code, pre, kbd, samp,
                   <th>필수 진도율 기준 <span class="req-star">*</span></th>
                   <td>
                     <div class="input-with-unit" style="width:200px;">
-                      <input type="number" id="f-refund-progress" class="form-input text-right" value="80" min="0" max="100">
+                      <input type="number" id="f-refund-progress" class="form-input text-right" value="90" min="0" max="100">
                       <span class="input-unit">% 이상 수강 완료</span>
                     </div>
-                    <div class="field-hint">포함된 단과 강좌(ADMN-PROD-003) 전체 차시 기준 평균 진도율</div>
+                    <div class="field-hint">포함된 단과 강좌(ADMN-PROD-003) 전체 차시 기준 평균 진도율 (상품별로 정하는 값, 기본 90%)</div>
                   </td>
                   <th>필수 출석일수 기준 <span class="req-star">*</span></th>
                   <td>
@@ -1313,7 +1313,7 @@ code, pre, kbd, samp,
         bookSaleSum: 64800,
         totalSalePrice: 304800,
         periodDays: 180,
-        refundProgress: 80,
+        refundProgress: 90,
         refundAttendance: 60,
         settlementShare: 100,
         status: "판매중",
@@ -1551,6 +1551,8 @@ code, pre, kbd, samp,
       document.getElementById("f-pkg-title").value = "";
       document.getElementById("f-pkg-summary").value = "";
       document.getElementById("f-course-discount").value = 80000;
+      document.getElementById("f-refund-progress").value = 90;
+      document.getElementById("f-refund-attendance").value = 60;
       document.getElementById("f-pkg-settlement-sim").value = "70";
       applyPkgSettlementLock();
       switchSubview("form");
@@ -1570,6 +1572,8 @@ code, pre, kbd, samp,
       document.getElementById("f-pkg-summary").value = p.summary;
       document.getElementById("f-course-discount").value = p.courseDiscount;
       document.getElementById("f-pkg-days").value = p.periodDays;
+      document.getElementById("f-refund-progress").value = p.refundProgress > 0 ? p.refundProgress : 90;
+      document.getElementById("f-refund-attendance").value = p.refundAttendance > 0 ? p.refundAttendance : 60;
       document.querySelectorAll('input[name="f-pkg-type"]').forEach(r => {
         r.checked = (r.value === p.pkgType);
       });
@@ -1600,6 +1604,8 @@ code, pre, kbd, samp,
       document.getElementById("d-course-sale-sum").textContent = `${formatNumber(p.courseSaleSum)}원`;
       document.getElementById("d-book-sale-sum").textContent = `${formatNumber(p.bookSaleSum)}원`;
       document.getElementById("d-total-sale-sum").textContent = `${formatNumber(p.totalSalePrice)}원`;
+      const rp = document.getElementById("d-refund-progress");
+      if (rp) rp.textContent = p.refundProgress > 0 ? p.refundProgress : "-";
 
       const courseTbody = document.getElementById("detail-pkg-courses-tbody");
       courseTbody.innerHTML = mappedPkgCourses.map((c, idx) => {
@@ -1936,7 +1942,7 @@ code, pre, kbd, samp,
         bookSaleSum,
         totalSalePrice: courseSaleSum + bookSaleSum,
         periodDays: Number(document.getElementById("f-pkg-days").value || 180),
-        refundProgress: pkgType === "환급반" ? Number(document.getElementById("f-refund-progress").value || 80) : 0,
+        refundProgress: pkgType === "환급반" ? (document.getElementById("f-refund-progress").value === "" ? 90 : Number(document.getElementById("f-refund-progress").value)) : 0,
         refundAttendance: pkgType === "환급반" ? Number(document.getElementById("f-refund-attendance").value || 60) : 0,
         settlementShare: Number(document.getElementById("f-pkg-settlement-sim").value || 100),
         status: document.querySelector('input[name="f-pkg-status"]:checked').value,

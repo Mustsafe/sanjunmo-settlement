@@ -365,6 +365,7 @@ code, pre, kbd, samp,
 
   </style>
   <link id="v4-common-css" rel="stylesheet" href="common-v84.css" />
+  <script id="v4-common-master" src="common-master.js"></script>
   <script id="v4-common-snb" src="common-snb.js" defer></script>
 </head>
 <body>
@@ -953,7 +954,7 @@ code, pre, kbd, samp,
       </section>
 
       <!-- ===================================================================
-           SUBVIEW 3: 포인트(유/무상 20만P Cap) 분리 원장 & 전역 설정 (benefit_config)
+           SUBVIEW 3: 포인트(유/무상 잔액 상한) 분리 원장 & 전역 설정 (benefit_config)
            =================================================================== -->
       <section id="view-point" class="view-section">
         <!-- 1. 포인트 자동 적립 · 지급 · 유효기간 정책 설정 (ADMN-PROM-003) -->
@@ -963,7 +964,7 @@ code, pre, kbd, samp,
               <span>⚙️ 포인트 자동 적립 · 보상 지급 · 유효기간 정책 설정 (ADMN-PROM-003)</span>
               <span class="badge badge-blue">주문 결제 · 수강후기 · 회원가입 연동</span>
             </div>
-            <button type="button" class="btn btn-sm btn-primary" onclick="showToast('[ADMN-PROM-003] 포인트 적립률 및 지급 정책 설정이 저장되었습니다 (감사 로그 기록).')">💾 포인트 정책 저장</button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="savePointPolicy()">💾 포인트 정책 저장</button>
           </div>
           <div class="card-body">
             <table class="form-table" style="margin-bottom:0;">
@@ -994,9 +995,19 @@ code, pre, kbd, samp,
                   <td>
                     <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
                       <span>일반 수강후기 승인:</span>
-                      <input type="number" class="form-input" style="width:100px; font-weight:800;" value="1000" /> <span>P</span>
+                      <input type="number" id="pol-review" class="form-input" style="width:100px; font-weight:800;" value="1000" min="0" step="100" /> <span>P</span>
                       <span style="margin-left:8px;">베스트 후기 · 합격수기(<code>ADMN-BRD-005</code>) 승인:</span>
-                      <input type="number" class="form-input" style="width:100px; font-weight:800;" value="5000" /> <span>P (무상 FREE)</span>
+                      <input type="number" id="pol-best" class="form-input" style="width:100px; font-weight:800;" value="5000" min="0" step="100" /> <span>P (무상 FREE)</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>무상 포인트 잔액 상한</th>
+                  <td>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                      <span>회원 1인당 무상(FREE) 포인트 보유 상한:</span>
+                      <input type="number" id="pol-cap" class="form-input" style="width:120px; font-weight:800;" value="200000" min="0" step="1000" />
+                      <span>P (관리자 수동 지급 · 자동 보상 지급 시 초과분 차단)</span>
                     </div>
                   </td>
                 </tr>
@@ -1100,7 +1111,7 @@ code, pre, kbd, samp,
     </div>
   </div>
 
-  <!-- MODAL 2: 관리자 포인트 수동 지급 (20만P Cap 검증) -->
+  <!-- MODAL 2: 관리자 포인트 수동 지급 (무상 잔액 상한 검증) -->
   <div class="modal-backdrop" id="modal-point">
     <div class="modal-dialog">
       <div class="modal-header">
@@ -1580,20 +1591,40 @@ code, pre, kbd, samp,
       const msgEl = document.getElementById("pt-cap-msg");
       const btn = document.getElementById("pt-submit-btn");
 
-      if (bal + amt > 200000) {
+      const cap = (window.SJM_MASTER && SJM_MASTER.settings.get("freePointCapP")) || 200000;
+      if (bal + amt > cap) {
         msgEl.style.background = "#FEF2F2";
         msgEl.style.border = "1px solid #FECACA";
         msgEl.style.color = "#991B1B";
-        msgEl.innerHTML = `⚠ <b>무상 포인트 200,000P Cap 초과 차단:</b> 현재 ${bal.toLocaleString()}P + ${amt.toLocaleString()}P = ${(bal+amt).toLocaleString()}P (최대 지급 가능: ${(200000-bal).toLocaleString()}P)`;
+        msgEl.innerHTML = `⚠ <b>무상 포인트 ${cap.toLocaleString()}P 상한 초과 차단:</b> 현재 ${bal.toLocaleString()}P + ${amt.toLocaleString()}P = ${(bal+amt).toLocaleString()}P (최대 지급 가능: ${Math.max(0,cap-bal).toLocaleString()}P)`;
         btn.disabled = true;
       } else {
         msgEl.style.background = "#ECFDF5";
         msgEl.style.border = "1px solid #A7F3D0";
         msgEl.style.color = "#065F46";
-        msgEl.innerHTML = `✓ <b>지급 가능:</b> 처리 후 무상 포인트 잔액 ${(bal+amt).toLocaleString()}P (200,000P 한도 이내)`;
+        msgEl.innerHTML = `✓ <b>지급 가능:</b> 처리 후 무상 포인트 잔액 ${(bal+amt).toLocaleString()}P (${cap.toLocaleString()}P 한도 이내)`;
         btn.disabled = false;
       }
     }
+    function savePointPolicy() {
+      var rv = Number(document.getElementById("pol-review").value), bv = Number(document.getElementById("pol-best").value), cv = Number(document.getElementById("pol-cap").value);
+      if (!(rv >= 0) || !(bv >= 0) || !(cv > 0) || rv % 1 || bv % 1 || cv % 1) { showToast("보상 포인트와 잔액 상한은 0 이상 정수로 입력해 주세요."); return; }
+      if (window.SJM_MASTER) { SJM_MASTER.settings.set("reviewRewardP", rv); SJM_MASTER.settings.set("reviewBestRewardP", bv); SJM_MASTER.settings.set("freePointCapP", cv); }
+      syncPointModal();
+      showToast("[ADMN-PROM-003] 포인트 정책이 저장되었습니다 (후기 보상 · 베스트 후기 보상 · 무상 잔액 상한, 감사 로그 기록).");
+    }
+    function syncPointModal() {
+      var cap = (window.SJM_MASTER && SJM_MASTER.settings.get("freePointCapP")) || 200000;
+      var sel = document.getElementById("pt-member"); if (!sel) return;
+      var names = ["최산안 (USR-1082)", "김산준 (USR-0701)"];
+      Array.prototype.forEach.call(sel.options, function (o, i) { var b = Number(o.value); o.textContent = names[i] + " — 현재 무상 잔액: " + b.toLocaleString() + " P (잔여 한도 " + Math.max(0, cap - b).toLocaleString() + " P)"; });
+      validatePtCap();
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.SJM_MASTER) { var st = SJM_MASTER.settings;
+        document.getElementById("pol-review").value = st.get("reviewRewardP"); document.getElementById("pol-best").value = st.get("reviewBestRewardP"); document.getElementById("pol-cap").value = st.get("freePointCapP"); }
+      syncPointModal();
+    });
     function confirmPointGrant() {
       closePointModal();
       showToast("✓ 무상 포인트 수동 지급이 완료되었습니다.");

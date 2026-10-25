@@ -601,7 +601,7 @@
   "adj_account_type": "반영 계정 구분",
   "carryover_ledger": "이월 원장",
   "payment_event_date": "원천징수 성립일",
-  "pii_unmask_ttl_seconds": "열람 유지시간(30초)",
+  "pii_unmask_ttl_seconds": "열람 유지시간",
   "book_price_history": "도서 정가 이력",
   "book_supply_type": "도서 공급형태",
   "book_supply_type_snapshot": "도서 공급형태 스냅샷",

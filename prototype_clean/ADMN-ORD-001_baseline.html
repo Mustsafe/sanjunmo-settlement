@@ -596,7 +596,7 @@ code, pre, kbd, samp,
                   <span class="step-light light-purple">🟣 RFD-002 · SETT-004 직결</span>
                 </div>
                 <div class="step-desc">
-                  <code>ADMN-RFD-002</code> · 창고 반품 검수(정상 재입고 / 훼손 기각) 결과를 환불 심사기로 전달하고, 실결제액을 PG 대사 원장과 1:1 검증합니다.
+                  <code>ADMN-RFD-002</code> · 창고 반품 검수(정상 재입고 / 훼손 교재비 차감) 결과를 환불 심사기로 전달하고, 실결제액을 PG 대사 원장과 1:1 검증합니다.
                 </div>
               </a>
             </div>
@@ -632,7 +632,7 @@ code, pre, kbd, samp,
           <div class="kpi-card" id="kpi-ord-return" onclick="filterOrdListByKpi('반품수거중')">
             <div class="k-title"><span>환불 · 반품 수거 및 창고 검수 대기</span><span class="badge">ORD-002-S3 ↔ RFD-002</span></div>
             <div class="k-num" style="color:var(--danger);" id="kpiNumReturn">6건 (검수 대기 3건)</div>
-            <div class="k-sub">정상 판정 시 교재 자동 재입고 · 훼손 시 착불 반송 기각</div>
+            <div class="k-sub">정상 판정 시 교재 자동 재입고 · 훼손 시 교재비만 차감(강좌 환불은 진행)</div>
           </div>
         </div>
 
@@ -928,10 +928,10 @@ code, pre, kbd, samp,
                       <label style="display:block;font-weight:700;font-size:12px;margin-bottom:6px;">검수 결과 판정 (운영자 수동 판정 필수) <span style="color:var(--danger);">*</span></label>
                       <select class="form-select" id="inpInspectResult" onchange="onChangeInspectResult()" style="width:100%;">
                         <option value="NORMAL">🟢 정상 (재판매 가능 ➔ ADMN-PROD-004 교재 재고 +1권 자동 재입고)</option>
-                        <option value="DAMAGED">🔴 훼손 · 파본 · 필기 흔적 (재판매 불가 ➔ 반품 기각 · 고객 착불 반송 · 폐기/손실 처리)</option>
+                        <option value="DAMAGED">🔴 훼손 · 파본 · 필기 흔적 (재판매 불가 ➔ 교재비(도서 실판매가)만 차감 · 고객 착불 반송 · 폐기/손실 처리)</option>
                       </select>
                       <div style="font-size:11.5px;color:var(--text-muted);margin-top:4px;">
-                        ※ 훼손(재판매 불가) 선택 시 반품이 기각되어 환불 불가로 종결되며 귀책 선택이 비활성화됩니다.
+                        ※ 훼손(재판매 불가) 선택 시 해당 교재비(도서 실판매가)만 환불에서 차감되고, 같은 주문의 강좌 환불은 그대로 진행됩니다. 귀책 선택은 비활성화됩니다.
                       </div>
                     </div>
                     <div>
@@ -950,7 +950,7 @@ code, pre, kbd, samp,
                       <input type="text" class="form-input" id="inpInspectMemo" value="래핑 미개봉 신품 상태 확인 완료, 모서리 찍힘 없음" placeholder="파본 위치, 필기 흔적, 래핑 개봉 여부 등 판정 근거 입력" style="width:100%;" />
                     </div>
                     <div>
-                      <label style="display:block;font-weight:700;font-size:12px;margin-bottom:6px;">창고 검수 증빙 사진 (훼손 기각 시 필수)</label>
+                      <label style="display:block;font-weight:700;font-size:12px;margin-bottom:6px;">창고 검수 증빙 사진 (훼손 판정 시 필수)</label>
                       <div style="display:flex;align-items:center;gap:8px;">
                         <button type="button" class="btn btn-outline" onclick="alert('창고 검수 사진(return_check_0809.jpg)이 S3 보안 버킷에 첨부되었습니다.')">📷 검수 사진 첨부</button>
                         <span style="font-size:12px;color:var(--success);font-weight:600;" id="inspectPhotoLabel">첨부됨: warehouse_cam_0044.jpg</span>
@@ -2199,7 +2199,7 @@ code, pre, kbd, samp,
       ],
       RETURN: [
         { key: "SJM20260809-0044 #2", recv: "정하늘", book: "정종대 (RH-0025) 2026 산업안전기사 필기 기본서 ×1", returnWb: "641299001122", inDate: "2026.08.18", status: "검수 대기", sCls: "b-amber", selectable: true },
-        { key: "SJM20260805-0012 #1", recv: "서지호", book: "정종대 (RH-0025) 2026 산업안전기사 실기 기본서 ×1", returnWb: "641288774411", inDate: "2026.08.17", status: "훼손 · 기각 (환불심사 전달 완료)", sCls: "b-red", selectable: true },
+        { key: "SJM20260805-0012 #1", recv: "서지호", book: "정종대 (RH-0025) 2026 산업안전기사 실기 기본서 ×1", returnWb: "641288774411", inDate: "2026.08.17", status: "훼손 · 교재비 차감 (환불심사 전달 완료)", sCls: "b-red", selectable: true },
         { key: "SJM20260811-0030 #1", recv: "이도윤", book: "정종대 (RH-0025) 2026 산업안전기사 필기 기본서 ×1", returnWb: "641299004455", inDate: "입고 전", status: "창고 입고 대기", sCls: "b-gray", selectable: false }
       ]
     };
@@ -2361,7 +2361,7 @@ code, pre, kbd, samp,
             <td><span class="badge ${r.sCls}">${r.status}</span></td>
           </tr>
         `).join("");
-        notice.innerHTML = `<div class="notice-bar"><div>📌 <b>반품 수거 · 검수 탭(ORD-002-S3) 안내:</b> 창고 입고일이 찍힌 건만 단일 선택하여 하단 검수 판정을 입력할 수 있습니다 (피드백 #460). 정상 판정 시 교재 재고에 자동 재입고되며, 훼손 판정 시 반품 기각(고객 착불 반송)으로 종결됩니다.</div></div>`;
+        notice.innerHTML = `<div class="notice-bar"><div>📌 <b>반품 수거 · 검수 탭(ORD-002-S3) 안내:</b> 창고 입고일이 찍힌 건만 단일 선택하여 하단 검수 판정을 입력할 수 있습니다 (피드백 #460). 정상 판정 시 교재 재고에 자동 재입고되며, 훼손 판정 시 교재비만 차감하고(고객 착불 반송) 강좌 환불은 진행됩니다.</div></div>`;
       }
 
       updateShipToolbarButtons();
@@ -2438,7 +2438,7 @@ code, pre, kbd, samp,
           target.status = "정상 · 환불 심사(RFD-002) 전달 완료 (재고 +1)";
           target.sCls = "b-green";
         } else {
-          target.status = "훼손 · 반품 기각 (착불 반송 · 폐기)";
+          target.status = "훼손 · 교재비 차감 (착불 반송 · 폐기)";
           target.sCls = "b-red";
         }
       }

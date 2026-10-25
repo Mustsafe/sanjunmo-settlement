@@ -861,7 +861,7 @@ code, pre, kbd, samp,
                       <option value="WAIT" selected>⏳ 입고 대기 (미판정 · 3PL 입고 전)</option>
                       <option value="PASS">✅ 검수 합격 (미개봉 정상 ➔ 재고 +1)</option>
                       <option value="DAMAGED">⚠️ 파본/불량 합격 (재고 미산입·폐기)</option>
-                      <option value="REJECT">❌ 검수 불합격 (고객 훼손 ➔ 교재 기각)</option>
+                      <option value="REJECT">❌ 검수 불합격 (고객 훼손 ➔ 교재비만 차감 · 강좌 환불은 진행)</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -919,7 +919,7 @@ code, pre, kbd, samp,
                     </tr>
                     <tr class="calc-step-row">
                       <td>Step 5~7</td>
-                      <td>인강 환불 산출액 (<span id="c-lec-net">240,800</span>원) + 교재 환불 산출액 (<span id="c-book-net">41,000</span>원)</td>
+                      <td>인강 환불 산출액 (<span id="c-lec-net">240,800</span>원) + 교재 환불 산출액 (<span id="c-book-net">41,000</span>원) <span style="font-size:11px;color:var(--text-muted);">· 훼손 판정 시 교재 환불 산출액 0원(교재비만 차감)</span></td>
                       <td class="num" id="c-sub-sum">281,800원</td>
                     </tr>
                     <tr class="calc-step-row">
@@ -1347,7 +1347,11 @@ code, pre, kbd, samp,
       document.getElementById('lec-usage').textContent = LEC.usage;
 
       let bookBase = 0, bookNet = 0, shipDed = 0;
-      if (bookOn && inspect !== 'REJECT') {
+      if (bookOn && inspect === 'REJECT') {
+        // 훼손 반품: 교재비(도서 실판매가)만 차감, 강좌 환불은 진행
+        bookBase = 41000;
+        bookNet = 0;
+      } else if (bookOn) {
         bookBase = 41000;
         bookNet = 41000;
         const inspectOk = (inspect === 'PASS' || inspect === 'WAIT');
