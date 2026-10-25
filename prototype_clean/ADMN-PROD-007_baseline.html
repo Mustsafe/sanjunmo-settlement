@@ -394,7 +394,7 @@ code, pre, kbd, samp,
         <div class="card">
           <div class="card-header">
             <div class="card-title">일반 상품 검색 조건</div>
-            <span style="font-size:11.5px; color:var(--text-muted);">물리적 삭제는 금지되며(주문·정산 원장 참조 무결성), 단종 시 [판매중지]로 전환합니다.</span>
+            <span style="font-size:11.5px; color:var(--text-muted);">물리적 삭제는 금지되며(주문·정산 원장 참조 무결성), 잠시 멈출 때는 [판매중지](전시 유지 · 구매 차단), 단종은 [판매종료]로 전환합니다.</span>
           </div>
           <div class="card-body" style="padding:14px 18px;">
             <table class="search-tbl">
@@ -413,8 +413,10 @@ code, pre, kbd, samp,
                     <select id="fl-status" class="f-select" style="width:180px;">
                       <option value="ALL">전체</option>
                       <option value="판매중">판매중</option>
+                      <option value="판매대기">판매대기 (등록만 · 미노출)</option>
                       <option value="판매중지">판매중지</option>
                       <option value="품절">품절 (재고 0)</option>
+                      <option value="판매종료">판매종료 (단종 · 미노출)</option>
                     </select>
                   </td>
                   <th>재고 상태</th>
@@ -528,10 +530,13 @@ code, pre, kbd, samp,
                       <option value="공학용계산기">공학용 계산기</option>
                       <option value="문구류">문구 · 노트</option>
                     </select>
-                    <select id="f-status" class="f-select" style="width:130px; margin-left:6px;">
+                    <select id="f-status" class="f-select" style="width:130px; margin-left:6px;" onchange="syncGoodsStatusHint()">
                       <option value="판매중">판매중</option>
+                      <option value="판매대기">판매대기</option>
                       <option value="판매중지">판매중지</option>
+                      <option value="판매종료">판매종료</option>
                     </select>
+                    <div id="f-status-hint" style="display:none; margin-top:6px; font-size:12px; color:#B45309;"></div>
                   </td>
                 </tr>
                 <tr>
@@ -858,7 +863,9 @@ code, pre, kbd, samp,
         if (isOut) stockBadge = `<strong style="color:var(--danger);">0개</strong> <span class="badge badge-red">품절</span>`;
 
         let stBadge = '<span class="badge badge-green">판매중</span>';
-        if (g.status === '품절' || isOut) stBadge = '<span class="badge badge-red">품절</span>';
+        if (g.status === '판매종료') stBadge = '<span class="badge badge-gray">판매종료(미노출)</span>';
+        else if (g.status === '판매대기') stBadge = '<span class="badge badge-amber">판매대기(미노출)</span>';
+        else if (g.status === '품절' || isOut) stBadge = '<span class="badge badge-red">품절</span>';
         else if (g.status === '판매중지') stBadge = '<span class="badge badge-gray">판매중지</span>';
 
         const tr = document.createElement('tr');
@@ -970,6 +977,7 @@ code, pre, kbd, samp,
         document.getElementById('f-name').value = g.name;
         document.getElementById('f-cat').value = g.cat;
         document.getElementById('f-status').value = g.status === '품절' ? '판매중' : g.status;
+        syncGoodsStatusHint();
         document.getElementById('f-price').value = g.price;
         document.getElementById('f-stock').value = g.stock + ' 개';
         document.getElementById('f-stock').readOnly = true;
@@ -1020,7 +1028,8 @@ code, pre, kbd, samp,
           g.name = name;
           g.price = price;
           g.cat = document.getElementById('f-cat').value;
-          g.status = g.stock === 0 ? '품절' : document.getElementById('f-status').value;
+          const selSt = document.getElementById('f-status').value;
+          g.status = (g.stock === 0 && selSt !== '판매종료' && selSt !== '판매대기') ? '품절' : selSt;
           g.threshold = parseInt(document.getElementById('f-threshold').value || '20', 10);
         }
       } else {
@@ -1036,7 +1045,7 @@ code, pre, kbd, samp,
           cost: st === 'PURCHASED_RESALE' ? 5000 : 0,
           stock: parseInt(document.getElementById('f-stock').value || '0', 10) || 0,
           threshold: parseInt(document.getElementById('f-threshold').value || '20', 10),
-          status: '판매중',
+          status: ['판매대기', '판매종료'].includes(document.getElementById('f-status').value) ? document.getElementById('f-status').value : '판매중',
           supplier: document.getElementById('f-supplier').value,
           hasSalesHistory: false,
           logs: []
@@ -1044,6 +1053,13 @@ code, pre, kbd, samp,
       }
       showToast('일반 상품 마스터 정보가 저장되었습니다. (자사 권리자 100% 매핑 · TX-13 · 일반상품 매출)');
       switchView('list');
+    }
+
+    function syncGoodsStatusHint() {
+      const v = document.getElementById('f-status').value;
+      const el = document.getElementById('f-status-hint');
+      const msg = { '판매대기': '[판매대기] 등록만 해 둔 상태로 미노출입니다. 판매 준비가 끝나면 [판매중]으로 바꾸세요.', '판매종료': '[판매종료] 단종 상품입니다. 미노출로 고정되고 재고가 바뀌어도 판매중으로 돌아가지 않습니다. 과거 주문의 환불 · 정산은 그대로 처리됩니다.' }[v] || '';
+      el.textContent = msg; el.style.display = msg ? 'block' : 'none';
     }
 
     function stopCurrentProduct() {
@@ -1115,7 +1131,8 @@ code, pre, kbd, samp,
 
       const diff = dir === 'PLUS' ? qty : -qty;
       g.stock += diff;
-      if (g.stock === 0) g.status = '품절';
+      if (g.status === '판매종료' || g.status === '판매대기') { /* 재고가 바뀌어도 판매종료 · 판매대기 유지 */ }
+      else if (g.stock === 0) g.status = '품절';
       else if (g.status === '품절' && g.stock > 0) g.status = '판매중';
 
       g.logs.unshift({

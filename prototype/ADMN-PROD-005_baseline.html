@@ -855,6 +855,7 @@ code, pre, kbd, samp,
             </div>
           </div>
           <div class="card-body" style="padding:0;">
+            <div id="detail-book-status-warn" style="display:none; margin:12px 16px; padding:10px 12px; border:1px solid #F59E0B; background:#FFFBEB; color:#92400E; border-radius:8px; font-size:13px; font-weight:600;"></div>
             <table class="data-table">
               <thead>
                 <tr>
@@ -1004,6 +1005,7 @@ code, pre, kbd, samp,
             <button type="button" class="btn btn-soft btn-sm" onclick="openBookPickerModal()">+ 패키지 교재 추가 (ADMN-PROD-004)</button>
           </div>
           <div class="card-body" style="padding:0;">
+            <div id="form-book-status-warn" style="display:none; margin:12px 16px; padding:10px 12px; border:1px solid #F59E0B; background:#FFFBEB; color:#92400E; border-radius:8px; font-size:13px; font-weight:600;"></div>
             <table class="data-table">
               <thead>
                 <tr>
@@ -1295,8 +1297,28 @@ code, pre, kbd, samp,
     const BOOK_POOL = [
       { sku: "PROD-BK-1011", role: "필기 주교재", title: "2026 산준모 산업안전기사 필기 한권완성 이론+빈출", isbn: "979-11-98765-01-2", price: 38000, sale: 34200, stock: 420 },
       { sku: "PROD-BK-1005", role: "실기 주교재", title: "2026 산준모 산업안전기사 실기 필답형 모범답안집", isbn: "979-11-98765-03-6", price: 34000, sale: 30600, stock: 310 },
-      { sku: "PROD-BK-1012", role: "부교재", title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집", isbn: "979-11-98765-02-9", price: 29000, sale: 26100, stock: 185 }
+      { sku: "PROD-BK-1012", role: "부교재", title: "2026 산업안전기사 필기 10개년 과년도 빈출해설집", isbn: "979-11-98765-02-9", price: 29000, sale: 26100, stock: 185 },
+      { sku: "PROD-BK-1013", role: "부교재", title: "2025 산업안전기사 필기 핵심요약 노트", isbn: "979-11-98765-04-3", price: 18000, sale: 16200, stock: 40, status: "판매중지" },
+      { sku: "PROD-BK-0901", role: "부교재", title: "2024 산업안전기사 필기 한권완성 (구판)", isbn: "979-11-98765-05-0", price: 32000, sale: 28800, stock: 0, status: "판매종료" }
     ];
+
+    /* 포함 교재가 판매중지 · 판매종료이면 경고만 표시한다(판매 차단은 하지 않음) */
+    function bookStatusWarnText(list) {
+      const bad = list.filter(b => b.status === "판매중지" || b.status === "판매종료");
+      if (!bad.length) return "";
+      return "⚠ 포함 교재 중 " + bad.map(b => `[${b.sku}] ${b.status}`).join(", ") + " 상태인 교재가 있습니다. 패키지 판매는 차단되지 않으니 교재 교체 또는 구성 변경 여부를 확인하세요.";
+    }
+    function bookStatusTag(b) {
+      return (b.status === "판매중지" || b.status === "판매종료") ? ` <span class="badge badge-stop" style="margin-left:4px;">${b.status}</span>` : "";
+    }
+    function updateBookStatusWarn() {
+      const t = bookStatusWarnText(mappedPkgBooks);
+      ["detail-book-status-warn", "form-book-status-warn"].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = t; el.style.display = t ? "block" : "none";
+      });
+    }
 
     let packagesData = [
       {
@@ -1629,13 +1651,14 @@ code, pre, kbd, samp,
         <tr>
           <td><span class="badge badge-info">${b.role}</span></td>
           <td><span class="code-pill">${b.sku}</span></td>
-          <td style="font-weight:600;">${b.title}</td>
+          <td style="font-weight:600;">${b.title}${bookStatusTag(b)}</td>
           <td><code>${b.isbn}</code></td>
           <td class="text-right" style="font-weight:700; color:var(--emerald);">${formatNumber(b.price)}원 / ${formatNumber(b.sale != null ? b.sale : b.price)}원</td>
           <td class="text-center">${formatNumber(b.stock)}권</td>
           <td class="text-center"><span class="badge badge-end">환급 제외 (도서공제)</span></td>
         </tr>
       `).join("");
+      updateBookStatusWarn();
     }
 
     /* =========================================================================
@@ -1732,6 +1755,7 @@ code, pre, kbd, samp,
 
     function renderFormBooks() {
       const tbody = document.getElementById("form-pkg-books-tbody");
+      updateBookStatusWarn();
       if (mappedPkgBooks.length === 0) {
         tbody.innerHTML = `
           <tr>
@@ -1746,7 +1770,7 @@ code, pre, kbd, samp,
         <tr>
           <td><span class="badge badge-info">${b.role}</span></td>
           <td><span class="code-pill">${b.sku}</span></td>
-          <td style="font-weight:600;">${b.title}</td>
+          <td style="font-weight:600;">${b.title}${bookStatusTag(b)}</td>
           <td><code>${b.isbn}</code></td>
           <td class="text-right" style="font-weight:700; color:var(--emerald);">${formatNumber(b.price)}원 / ${formatNumber(b.sale != null ? b.sale : b.price)}원</td>
           <td class="text-center">${formatNumber(b.stock)}권</td>

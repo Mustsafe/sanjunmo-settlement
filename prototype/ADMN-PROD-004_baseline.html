@@ -825,6 +825,7 @@ code, pre, kbd, samp,
                   <option value="예약판매">예약판매 (출간예정)</option>
                   <option value="판매대기">판매대기 (원장 매핑 미완)</option>
                   <option value="일시품절">일시품절 (재고 0)</option>
+                  <option value="판매중지">판매중지 (구매만 차단)</option>
                   <option value="판매종료">판매종료 (구판 · 절판)</option>
                 </select>
               </div>
@@ -1300,11 +1301,16 @@ code, pre, kbd, samp,
                         <span>일시품절 (재고 0)</span>
                       </label>
                       <label class="option-label">
+                        <input type="radio" name="f-book-status" id="radio-book-pause" value="판매중지">
+                        <span>판매중지 (구매 차단)</span>
+                      </label>
+                      <label class="option-label">
                         <input type="radio" name="f-book-status" id="radio-book-end" value="판매종료">
                         <span>판매종료 (구판 · 절판)</span>
                       </label>
                     </div>
                     <div class="field-hint" id="stock-hardlock-msg">3원장 매핑이 완료되고 재고가 1권 이상일 때 [판매중] 설정이 가능합니다.</div>
+                    <div class="field-hint" id="pause-sale-msg" style="display:none;">[판매중지] 운영자가 판매를 멈춘 교재입니다. 목록 · 상세 전시는 유지되고 구매(결제) 버튼만 비활성화되어 신규 결제가 차단됩니다. [일시품절]과 달리 재고가 입고되거나 바뀌어도 자동으로 판매중이 되지 않으며, 운영자가 판매 상태를 [판매중]으로 직접 바꿔야 다시 판매됩니다. 판매중 전환은 3원장 매핑(권리자 지분 합계 100%) 완료와 재고 1권 이상 조건을 그대로 따릅니다.</div>
                     <div class="field-hint" id="end-of-sale-msg" style="display:none;">[판매종료] 개정판 출간 등으로 판매를 끝낸 교재입니다. 프론트 노출이 미노출로 고정되고, 재고가 바뀌어도 판매중으로 돌아가지 않습니다. 과거 주문의 환불 · 정산은 그대로 처리됩니다.</div>
                   </td>
                   <th>프론트 노출 여부 <span class="req-star">*</span></th>
@@ -1735,6 +1741,9 @@ code, pre, kbd, samp,
       } else if (b.status === "일시품절") {
         s4.className = "step-light light-red";
         s4.textContent = `🔴 일시품절 (0권)`;
+      } else if (b.status === "판매중지") {
+        s4.className = "step-light light-yellow";
+        s4.textContent = `⏸ 판매중지 (구매 차단)`;
       } else if (b.status === "판매종료") {
         s4.className = "step-light light-yellow";
         s4.textContent = `⚫ 판매종료 (미노출)`;
@@ -1789,6 +1798,7 @@ code, pre, kbd, samp,
       if (b.status === "예약판매") return `<span class="badge badge-preorder">예약판매</span>`;
       if (b.status === "판매대기") return `<span class="badge badge-warn">판매대기(매핑미완)</span>`;
       if (b.status === "일시품절") return `<span class="badge badge-out">일시품절(0권)</span>`;
+      if (b.status === "판매중지") return `<span class="badge badge-warn">판매중지(구매차단)</span>`;
       if (b.status === "판매종료") return `<span class="badge badge-end">판매종료(미노출)</span>`;
       return `<span class="badge badge-end">${b.status}</span>`;
     }
@@ -2141,7 +2151,7 @@ code, pre, kbd, samp,
       const isPlus = type.includes("(+)");
       const delta = isPlus ? rawQty : -rawQty;
       b.stock = Math.max(0, b.stock + delta);
-      if (b.status === "판매종료") { /* 재고가 바뀌어도 판매종료 유지 */ }
+      if (b.status === "판매종료" || b.status === "판매중지") { /* 재고가 바뀌어도 판매종료 · 판매중지 유지 */ }
       else if (b.stock === 0) b.status = "일시품절";
       else if (b.status === "일시품절" && b.stock > 0) b.status = (b.step2Ok && b.step3Ok) ? "판매중" : "판매대기";
 
@@ -2185,16 +2195,23 @@ code, pre, kbd, samp,
 
     // 판매종료(구판 · 절판)를 고르면 프론트 노출을 미노출로 고정한다. 다른 상태로 바꾸면 노출 선택을 다시 연다
     function syncEndOfSaleLock() {
+      const paused = document.getElementById("radio-book-pause").checked;
       const ended = document.getElementById("radio-book-end").checked;
+      document.getElementById("pause-sale-msg").style.display = paused ? "block" : "none";
       document.querySelectorAll('input[name="f-book-display"]').forEach(r => {
         if (ended) r.checked = r.value === "N";
         r.disabled = ended;
       });
-      document.getElementById("end-of-sale-msg").style.display = ended ? "block" : "none";
+      document.getElementById("end-of-sale-msg").style.display = document.getElementById("radio-book-end").checked ? "block" : "none";
     }
 
     function checkZeroStockHardLock() {
       if (document.getElementById("radio-book-end").checked) return;
+      if (document.getElementById("radio-book-pause").checked) {
+        /* 판매중지는 재고로 상태를 바꾸지 않되, 판매중 복귀 잠금 규칙(재고 0 · 선등록)은 유지한다 */
+        document.getElementById("radio-book-sale").disabled = (Number(document.getElementById("f-stock-qty").value || 0) <= 0) || currentEntryMode === "PROD_DIRECT";
+        return;
+      }
       const qty = Number(document.getElementById("f-stock-qty").value || 0);
       const radioSale = document.getElementById("radio-book-sale");
       const radioOut = document.getElementById("radio-book-out");

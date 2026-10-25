@@ -1433,7 +1433,7 @@ code, pre, kbd, samp,
         id: "STMT-02",
         refOriginStmtId: "STMT-202609-008",
         payeeId: "RH-0012",
-        payeeName: "산준교육 주식회사 (법인 · 일반과세)",
+        payeeName: "산준교육 콘텐츠 주식회사 (법인 · 일반과세)",
         contractId: "CT-2026-0412",
         matrixCase: "법인 일반과세자 세금계산서(권리자 발행) (TX-07)",
         pipelines: ["P1_1"],
@@ -1980,7 +1980,7 @@ code, pre, kbd, samp,
             <select id="selP1Holder" class="select" style="min-width:290px;" onchange="renderCarryoverModalP1()">
               <option value="ALL">전체 수취인 (당월 이월 발생·해소 전 건)</option>
               <option value="RH-0025">정종대 (RH-0025 · 강좌+도서인세+지원금+선급금 상계)</option>
-              <option value="RH-0012">산준교육 주식회사 (RH-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
+              <option value="RH-0012">산준교육 콘텐츠 주식회사 (RH-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
               <option value="RH-0051">한국소방학회 (RH-0051 · 위탁 도서 위탁도서 정산)</option>
               <option value="RH-0042">최그래픽 (RH-0042 · 매출연동 지원금 · 최소 지급 미달 세전 이월)</option>
               <option value="RH-0055">이중도 (RH-0055 · 중도해지 미상계 선급금 강제청구)</option>
@@ -2071,7 +2071,7 @@ code, pre, kbd, samp,
         <label style="font-size:12px; color:#cbd5e1; font-weight:600;">수취인 선택 (메인 목록 동기화):</label>
         <select id="selS1Holder" class="select" style="background:#1e293b; color:#fff; border-color:#475569; min-width:300px;" onchange="renderStatementModalS1()">
           <option value="RH-0025">정종대 (RH-0025 · 강좌+도서인세+지원금+선급금+이월)</option>
-          <option value="RH-0012">산준교육 주식회사 (RH-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
+          <option value="RH-0012">산준교육 콘텐츠 주식회사 (RH-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
           <option value="RH-0051">한국소방학회 (RH-0051 · 위탁 도서 위탁도서 정산)</option>
           <option value="RH-0042">최그래픽 (RH-0042 · 매출연동 지원금 · 최소 지급 미달 세전 이월)</option>
           <option value="RH-0055">이중도 (RH-0055 · 중도해지 미상계 선급금 강제청구 + MMG 보호)</option>
@@ -2199,7 +2199,7 @@ code, pre, kbd, samp,
           <label style="font-size:12px; color:#cbd5e1; font-weight:600;">발송 대상 권리자 선택:</label>
           <select id="selS2Holder" class="select" style="background:#0f172a; color:#fff; border-color:#475569; min-width:270px;" onchange="renderStatementModalS2()">
             <option value="RH-0025">정종대 강사/저자 (RH-0025 · 강좌+인세+지원금+선급금)</option>
-            <option value="RH-0012">산준교육 주식회사 (RH-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
+            <option value="RH-0012">산준교육 콘텐츠 주식회사 (RH-0012 · 법인 강좌 + 지원금 종료 일시정산 + 선급금 상계)</option>
             <option value="RH-0051">한국소방학회 (RH-0051 · 위탁 도서 정산서)</option>
             <option value="RH-0042">최그래픽 (RH-0042 · 매출연동 지원금 · 최소 지급 미달 세전 이월)</option>
             <option value="RH-0055">이중도 강사 (RH-0055 · 해지 정산 및 MMG 보장)</option>
@@ -2512,7 +2512,7 @@ code, pre, kbd, samp,
     },
     "RH-0012": {
       holderId: "RH-0012",
-      holderName: "산준교육 주식회사 (법인 · 원 권리자 단독 100%)",
+      holderName: "산준교육 콘텐츠 주식회사 (법인 · 원 권리자 단독 100%)",
       entityType: "법인사업자 (일반과세자 · 강좌 수익배분 + 지원금 종료 일시정산)",
       taxCode: "TX-07 (법인 일반과세 · 세금계산서 권리자 발행 · VAT 10% 별도)",
       lockStatus: "WAIT_SUBMIT (세금계산서 제출 대기)",
@@ -2546,7 +2546,7 @@ code, pre, kbd, samp,
         { prepayId: "PP-2026-0412", totalLoan: 8500000, openingBal: 8500000, eligiblePreTax: 3000000, offsetApplied: -3000000, closingBal: 5500000, allocDetail: "상계 대상 = 강좌 수익배분 3,000,000원(법인 · 예상 원천세 0원) — 지원금 종료 일시정산 1,800,000원은 비상계(NON_OFFSET) 약정이라 제외 → 3,000,000원 상계" }
       ],
       payeeSplitRows: [
-        { payeeId: "RH-0012", name: "산준교육 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -3000000, note: "분할 없음 — 미상계 선급금 잔액 계약" }
+        { payeeId: "RH-0012", name: "산준교육 콘텐츠 주식회사 (본사)", role: "원 권리자 법인 (단독 수취)", ratio: "100.00%", preTaxSplit: 4800000, prepaySplit: -3000000, note: "분할 없음 — 미상계 선급금 잔액 계약" }
       ],
       waterfall: [
         { step: "2단계 (ACCRUAL)", title: "당월 강좌(1.1) 수익배분 발생", rule: "법인 계약 강좌 수익배분 3,000,000원", delta: 3000000, bal: 3000000 },
@@ -3754,7 +3754,7 @@ code, pre, kbd, samp,
   // 권리자 발행 증빙: 발행 요청 → 제출(권리자 · 운영자 대리) → 홈택스 매입 내역 대사 (제2권 9.1 · 9.4절)
   window.TAX_DOCS = [
     { key: "RH-0025", holder: "정종대 (개인사업자)", matrix: "면세사업자 (TX-08)", kind: "전자계산서", kindLabel: "[발행 요청] 전자계산서 (면세 · 권리자 발행)", supply: 13018750, vat: 0, deadline: "2026-11-10", status: "SUBMITTED", approvalNo: "20261103-41000000-00012345", by: "권리자 제출" },
-    { key: "RH-0012", holder: "산준교육 주식회사 (법인)", matrix: "일반과세자 (TX-07 / TX-09)", kind: "전자세금계산서", kindLabel: "[발행 요청] 전자세금계산서 (과세 10% · 권리자 발행)", supply: 4800000, vat: 480000, deadline: "2026-11-10", status: "REQUESTED", approvalNo: "", by: "" }
+    { key: "RH-0012", holder: "산준교육 콘텐츠 주식회사 (법인)", matrix: "일반과세자 (TX-07 / TX-09)", kind: "전자세금계산서", kindLabel: "[발행 요청] 전자세금계산서 (과세 10% · 권리자 발행)", supply: 4800000, vat: 480000, deadline: "2026-11-10", status: "REQUESTED", approvalNo: "", by: "" }
   ];
   window.TAX_RECEIVE_DONE = false;
   window.taxSubmitMode = "OPERATOR";
