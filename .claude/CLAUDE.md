@@ -58,6 +58,13 @@
   - QA 스크립트 출력은 `scripts/qa/reports/`에 쌓이며 `.gitignore`에 등록돼 있다.
 - 화면 문구 검사는 HTML grep이 아니라 Playwright 렌더링 기준으로 한다(`prototype_clean/common-snb.js`가 로드 후 문구를 런타임 치환).
 
+## 읽기 · 수정 효율 (2026-10-26, 문서 · HTML이 크고 두 폴더라서)
+- 정본 · screen_spec은 통째로 읽지 않는다. 화면 코드별 위치 색인(`scripts/qa/reports/review/canon_index.md`)에서 문서 · 절 · 줄을 찾아 그 근처만 읽는다. 색인이 낡았으면 다시 만든다(생성 방법은 `PROJECT_STATE.md` 2절).
+- HTML도 통째로 읽지 않는다. `python scripts/qa/build_screen_digest.py`로 만든 화면 요약본(`scripts/qa/reports/digest/<파일>.md`, 원본의 약 6%, 원본 줄 번호 포함)을 먼저 보고 필요한 줄만 연다.
+- 두 폴더 수정은 `prototype_clean`을 한 번 고치고 `python scripts/qa/mirror_patch.py --from prototype_clean --to prototype`로 같은 변경을 옮긴다. 건너뛴 hunk(문구가 다른 줄)만 손으로 옮긴다. 마지막에 `python scripts/qa/skill_pair_diff.py`로 두 폴더 로직 · 구조 차이 0을 확인한다.
+- 에이전트 분업: 조사 결과는 파일(`scripts/qa/reports/review/findings/`), 최종 응답은 한 줄. 총괄이 건수는 파일에서 세고 근거는 원문과 대조한 뒤 판정(`decisions.md`). 수정은 파일이 겹치지 않게 나눠 맡기고, E2E · QA는 마지막에 한 번. 진행은 `STATUS.md` 한 줄씩.
+- 같은 폴더를 다른 세션과 함께 쓴다(화면설계서 살펴보기 세션 등): 작업 전 `git pull`, 수정 전 `STATUS.md`에 담당 파일 기록, 공용 파일(`common-*.js` · `common-v84.css` · `PROJECT_STATE.md` · `README.md`)은 작은 단위로 고치고 커밋 직전 다시 pull, 버전 번호는 커밋 직전 `git log`로 확인 후 +1, `stash` · `reset` · 브랜치 전환 금지. 분담은 `scripts/qa/reports/review/HANDOFF.md`.
+
 ## 검증
 - E2E(폴더별 2회, UTF-8 출력):
   - `PYTHONIOENCODING=utf-8 python scripts/qa/skill_playwright_e2e.py prototype`
