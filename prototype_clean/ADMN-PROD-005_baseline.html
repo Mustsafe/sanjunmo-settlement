@@ -638,6 +638,7 @@ code, pre, kbd, samp,
       <!-- [SUBVIEW 1] ADMN-PROD-005 : 패키지 · 환급반 목록                            -->
       <!-- ========================================================================= -->
       <section id="subview-list" class="subview-panel active">
+        <div id="bk-alert-area" style="display:none;"></div>
         <div class="card">
           <div class="card-header">
             <div class="card-title-group">
@@ -763,6 +764,8 @@ code, pre, kbd, samp,
           </div>
         </div>
 
+        <div id="bk-detail-note" style="display:none;"></div>
+
         <!-- 1. 기본 및 복합결제 분할 요약 -->
         <div class="card">
           <div class="card-header">
@@ -872,6 +875,28 @@ code, pre, kbd, samp,
             </table>
           </div>
         </div>
+        <!-- 주교재 연동 판매 상태 변경 이력 -->
+        <div class="card" id="bk-log-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">판매 상태 변경 이력 (주교재 연동)</h3>
+              <span class="card-subtitle">주교재가 판매중지 · 판매종료되면 이 패키지은(는) 자동으로 판매중지되고, 변경 내용이 여기에 기록됩니다.</span>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="text-center" style="width:150px;">일시</th>
+                  <th>변경 내용</th>
+                  <th class="text-center" style="width:180px;">처리</th>
+                </tr>
+              </thead>
+              <tbody id="bk-log-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
       </section>
 
       <!-- ========================================================================= -->
@@ -1130,6 +1155,7 @@ code, pre, kbd, samp,
                         <span>판매종료</span>
                       </label>
                     </div>
+                    <div id="book-link-form-note" style="display:none; margin-top:8px;"></div>
                   </td>
                   <th>프론트 노출 여부 <span class="req-star">*</span></th>
                   <td>
@@ -1302,15 +1328,92 @@ code, pre, kbd, samp,
       { sku: "PROD-BK-0901", role: "부교재", title: "2024 산업안전기사 필기 한권완성 (구판)", isbn: "979-11-98765-05-0", price: 32000, sale: 28800, stock: 0, status: "판매종료" }
     ];
 
-    /* 포함 교재가 판매중지 · 판매종료이면 경고만 표시한다(판매 차단은 하지 않음) */
+    /* =========================================================================
+       [v6.42] 주교재 연동: ADMN-PROD-004 교재 상태 -> 연결 강좌 · 패키지
+       - 주교재 판매중지 · 판매종료: 연결 상품 자동 판매중지 + [판매중] 선택 잠금(복귀는 운영자 수동)
+       - 주교재 일시품절: 판매 상태 유지 + 구매 일시 중지 표시(입고 시 자동 복귀)
+       - 부교재 문제: 경고만
+       ========================================================================= */
+    const BK_STATUS_KEY = "sjm.prod.bookStatus.v1";
+    const BK_STOP_KEY = "sjm.prod.autoStop.v1";
+    const BK_LOG_KEY = "sjm.prod.bookLinkLog.v1";
+    const BK_BOX_ROSE = "margin:0 0 10px; padding:10px 12px; border:1px solid #EF4444; background:#FEF2F2; color:#991B1B; border-radius:8px; font-size:13px; font-weight:600;";
+    const BK_BOX_AMBER = "margin:0 0 10px; padding:10px 12px; border:1px solid #F59E0B; background:#FFFBEB; color:#92400E; border-radius:8px; font-size:13px; font-weight:600;";
+    const BK_PAUSE_BADGE = '<span class="badge" style="margin-left:4px; background:#FFFBEB; color:#92400E; border:1px solid #F59E0B;">구매 일시 중지(주교재 품절)</span>';
+    function bkRead(key, fb) { try { const v = JSON.parse(localStorage.getItem(key) || "null"); return v == null ? fb : v; } catch (e) { return fb; } }
+    function bkWrite(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} }
+    function bkNow() { const d = new Date(); const p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; }
+    function bkBad(st) { return st === "판매중지" || st === "판매종료"; }
+    function bkView(sku, baseStatus, baseStock) {
+      const s = bkRead(BK_STATUS_KEY, {})[sku];
+      let status = baseStatus || "판매중", stock = baseStock;
+      if (s) {
+        if (s.status) status = s.status;
+        if (typeof s.stock === "number") stock = s.stock;
+        if (!bkBad(status) && typeof stock === "number" && stock <= 0) status = "일시품절";
+      }
+      return { status, stock };
+    }
+    function bkEval(items) {
+      const r = { stop: [], sold: [], warn: [] };
+      items.forEach(it => {
+        const v = bkView(it.sku, it.baseStatus, it.baseStock);
+        const e = { sku: it.sku, status: v.status };
+        if (it.main) { if (bkBad(v.status)) r.stop.push(e); else if (v.status === "일시품절") r.sold.push(e); }
+        else if (bkBad(v.status) || v.status === "일시품절") r.warn.push(e);
+      });
+      return r;
+    }
+    function bkLog(code, text) {
+      const arr = bkRead(BK_LOG_KEY, []);
+      arr.unshift({ at: bkNow(), code, text });
+      bkWrite(BK_LOG_KEY, arr.slice(0, 60));
+    }
+    function bkMsgs(iss, who) {
+      const out = [];
+      iss.stop.forEach(e => out.push({ tone: "rose", text: `주교재 [${e.sku}] ${e.status} - 이 ${who}은(는) 자동으로 판매중지되었고 [판매중] 선택이 잠깁니다. 주교재 문제가 풀린 뒤 운영자가 수동으로 판매중으로 되돌려 주세요.` }));
+      iss.sold.forEach(e => out.push({ tone: "amber", text: `주교재 [${e.sku}] 일시품절 - 구매 일시 중지(주교재 품절). 판매 상태는 바뀌지 않으며, 주교재 재고가 들어오면 자동으로 복귀합니다.` }));
+      iss.warn.forEach(e => out.push({ tone: "amber", text: `부교재 [${e.sku}] ${e.status} - 경고만 표시합니다(판매 상태는 유지). 교재 교체 또는 구성 변경 여부를 확인하세요.` }));
+      return out;
+    }
+    function bkMsgHtml(list) {
+      return list.map(m => `<div style="${m.tone === "rose" ? BK_BOX_ROSE : BK_BOX_AMBER}">${m.tone === "rose" ? "[자동 판매중지] " : "[안내] "}${m.text}</div>`).join("");
+    }
+
+    const PKG_BOOKS = {
+      "PKG-2601": [{ sku: "PROD-BK-1011", role: "주교재" }, { sku: "PROD-BK-1005", role: "주교재" }],
+      "PKG-2602": [{ sku: "PROD-BK-1011", role: "주교재" }, { sku: "PROD-BK-1005", role: "주교재" }]
+    };
+    function bkItems(code) {
+      return (PKG_BOOKS[code] || []).map(m => {
+        const b = BOOK_POOL.find(x => x.sku === m.sku) || {};
+        return { sku: m.sku, main: m.role === "주교재", baseStatus: b.status, baseStock: b.stock };
+      });
+    }
+    function bkApplyPkgBooks(code) {
+      const m = PKG_BOOKS[code];
+      if (!m) return;
+      mappedPkgBooks = m.map(x => BOOK_POOL.find(p => p.sku === x.sku)).filter(Boolean).map(b => Object.assign({}, b));
+    }
+    /* 포함 교재 상태 안내: 주교재는 자동 판매중지 · 구매 일시 중지, 부교재는 경고만 */
     function bookStatusWarnText(list) {
-      const bad = list.filter(b => b.status === "판매중지" || b.status === "판매종료");
-      if (!bad.length) return "";
-      return "⚠ 포함 교재 중 " + bad.map(b => `[${b.sku}] ${b.status}`).join(", ") + " 상태인 교재가 있습니다. 패키지 판매는 차단되지 않으니 교재 교체 또는 구성 변경 여부를 확인하세요.";
+      const lines = [];
+      list.forEach(b => {
+        const v = bkView(b.sku, b.status, b.stock);
+        const main = String(b.role || "").indexOf("주교재") >= 0;
+        const bad = bkBad(v.status), sold = v.status === "일시품절";
+        if (!bad && !sold) return;
+        if (main && bad) lines.push(`주교재 [${b.sku}] ${v.status} - 이 패키지는 자동으로 판매중지되고 [판매중] 선택이 잠깁니다.`);
+        else if (main && sold) lines.push(`주교재 [${b.sku}] 일시품절 - 구매 일시 중지(주교재 품절) 표시, 입고되면 자동 복귀합니다.`);
+        else lines.push(`부교재 [${b.sku}] ${v.status} - 경고만 표시합니다(판매 상태는 유지). 교재 교체 또는 구성 변경 여부를 확인하세요.`);
+      });
+      return lines.length ? "⚠ " + lines.join(" / ") : "";
     }
     function bookStatusTag(b) {
-      return (b.status === "판매중지" || b.status === "판매종료") ? ` <span class="badge badge-stop" style="margin-left:4px;">${b.status}</span>` : "";
+      const v = bkView(b.sku, b.status, b.stock);
+      return (bkBad(v.status) || v.status === "일시품절") ? ` <span class="badge badge-stop" style="margin-left:4px;">${v.status}</span>` : "";
     }
+    function bkStock(b) { return bkView(b.sku, b.status, b.stock).stock; }
     function updateBookStatusWarn() {
       const t = bookStatusWarnText(mappedPkgBooks);
       ["detail-book-status-warn", "form-book-status-warn"].forEach(id => {
@@ -1318,6 +1421,114 @@ code, pre, kbd, samp,
         if (!el) return;
         el.textContent = t; el.style.display = t ? "block" : "none";
       });
+    }
+
+    function bkSyncPkgs() {
+      const marks = bkRead(BK_STOP_KEY, {}); const newly = []; let dirty = false;
+      packagesData.forEach(c => {
+        const iss = bkEval(bkItems(c.code));
+        const mark = marks[c.code];
+        if (iss.stop.length) {
+          if (mark && mark.released) { delete mark.released; dirty = true; }
+          if (c.status === "판매중") {
+            c.status = "판매중지";
+            if (!mark) {
+              const e = iss.stop[0];
+              marks[c.code] = { sku: e.sku, status: e.status, at: bkNow() }; dirty = true;
+              bkLog(c.code, `주교재 [${e.sku}] ${e.status} → 판매중에서 판매중지로 자동 전환 (담당자 알림 발송)`);
+              newly.push(c);
+            }
+          }
+        } else if (mark) {
+          if (c.status === "판매중") c.status = "판매중지";
+          if (!mark.released) { mark.released = bkNow(); dirty = true; bkLog(c.code, "주교재 문제 해소 확인 - 판매중 복귀는 운영자가 수동으로 진행"); }
+        }
+        c.bk = { stop: iss.stop, sold: iss.sold, warn: iss.warn, auto: !!marks[c.code], released: !!(marks[c.code] && !iss.stop.length) };
+      });
+      if (dirty) bkWrite(BK_STOP_KEY, marks);
+      return newly;
+    }
+    function bkPaused(c) { return c.status === "판매중" && c.bk && !c.bk.stop.length && c.bk.sold.length > 0; }
+    function bkListExtra(c) {
+      if (!c.bk) return "";
+      let h = "";
+      if (c.bk.stop.length && c.status === "판매중지") h += `<div style="font-size:11px; color:#B91C1C; font-weight:600;">주교재 ${c.bk.stop[0].status}로 자동 중지</div>`;
+      else if (c.bk.released && c.status === "판매중지") h += `<div style="font-size:11px; color:#92400E; font-weight:600;">주교재 정상화 - 수동 복귀 대기</div>`;
+      if (bkPaused(c)) h += `<div style="margin-top:2px;">${BK_PAUSE_BADGE}</div>`;
+      if (c.bk.warn.length) h += `<div style="font-size:11px; color:#92400E;">부교재 경고 ${c.bk.warn.length}건</div>`;
+      return h;
+    }
+    function bkRenderAlerts() {
+      const box = document.getElementById("bk-alert-area");
+      if (!box) return;
+      let h = "";
+      packagesData.forEach(c => {
+        if (!c.bk) return;
+        if (c.bk.stop.length && c.bk.auto) h += `<div style="${BK_BOX_ROSE}">[담당자 알림] [${c.code}] 주교재 [${c.bk.stop[0].sku}] ${c.bk.stop[0].status}로 자동 판매중지되었습니다. 문제 해소 후 상세 · 수정에서 수동으로 판매중으로 되돌려 주세요.</div>`;
+        if (bkPaused(c)) h += `<div style="${BK_BOX_AMBER}">[안내] [${c.code}] 주교재 [${c.bk.sold[0].sku}] 일시품절 - 구매 일시 중지(주교재 품절). 입고되면 자동으로 복귀합니다.</div>`;
+        if (c.bk.warn.length) h += `<div style="${BK_BOX_AMBER}">[경고] [${c.code}] 부교재 ${c.bk.warn.map(e => `[${e.sku}] ${e.status}`).join(", ")} - 판매 상태는 유지됩니다.</div>`;
+      });
+      box.innerHTML = h;
+      box.style.display = h ? "block" : "none";
+    }
+    function bkRenderLog(code) {
+      const tb = document.getElementById("bk-log-tbody");
+      if (!tb) return;
+      const rows = bkRead(BK_LOG_KEY, []).filter(x => x.code === code);
+      tb.innerHTML = rows.length
+        ? rows.map(x => `<tr><td class="text-center">${x.at}</td><td>${x.text}</td><td class="text-center">시스템(주교재 연동)</td></tr>`).join("")
+        : `<tr><td colspan="3" class="text-center" style="padding:16px; color:var(--slate-400);">주교재 연동으로 기록된 판매 상태 변경 이력이 없습니다.</td></tr>`;
+    }
+    function bkApplyLock(code, radioSale, statusName, fallbackSel) {
+      const note = document.getElementById("book-link-form-note");
+      const iss = bkEval(bkItems(code));
+      if (iss.stop.length && radioSale) {
+        radioSale.disabled = true;
+        if (radioSale.checked) { const f = document.querySelector(fallbackSel); if (f) f.checked = true; }
+      }
+      if (note) {
+        const html = bkMsgHtml(bkMsgs(iss, "패키지"));
+        note.innerHTML = html; note.style.display = html ? "block" : "none";
+      }
+    }
+    function bkOnStorage(e) {
+      if (e && e.key && e.key !== BK_STATUS_KEY && e.key !== BK_STOP_KEY) return;
+      bkSyncPkgs();
+      renderPkgList(); renderDetailView(); bkRefreshLock();
+    }
+    window.addEventListener("storage", bkOnStorage);
+    window.addEventListener("DOMContentLoaded", () => {
+      const n = bkSyncPkgs();
+      if (n.length) showToast(`주교재 문제로 연결된 패키지 ${n.length}개가 자동으로 판매중지되었습니다. (담당자 알림 · 변경 이력 기록)`);
+    });
+
+    function bkRenderDetail(p) {
+      const badge = document.getElementById("d-pkg-status-badge");
+      if (badge) {
+        badge.className = "badge " + ({ "판매중": "badge-sale", "판매대기": "badge-ready", "판매중지": "badge-stop" }[p.status] || "badge-end");
+        badge.textContent = p.status;
+        let x = document.getElementById("bk-pause-badge");
+        if (!x) { x = document.createElement("span"); x.id = "bk-pause-badge"; badge.after(x); }
+        x.innerHTML = bkPaused(p) ? BK_PAUSE_BADGE : "";
+      }
+      const note = document.getElementById("bk-detail-note");
+      if (note && p.bk) {
+        const msgs = bkMsgs({ stop: p.bk.stop, sold: p.bk.sold, warn: [] }, "패키지");
+        if (p.bk.released && p.status === "판매중지") msgs.push({ tone: "amber", text: "주교재 문제가 해소되었습니다. 현재 판매중지 상태이며, 판매중 복귀는 운영자가 수정 화면에서 직접 진행합니다." });
+        note.innerHTML = bkMsgHtml(msgs);
+        note.style.display = msgs.length ? "block" : "none";
+      }
+      bkRenderLog(p.code);
+    }
+    function bkRefreshLock() {
+      const f = document.getElementById("f-pkg-code");
+      if (f) bkApplyLock(f.value, document.getElementById("radio-pkg-sale"), "f-pkg-status", 'input[name="f-pkg-status"][value="판매중지"]');
+    }
+    {
+      const _origLock = applyPkgSettlementLock;
+      applyPkgSettlementLock = function () { _origLock(); bkRefreshLock(); };
+      const _origList = renderPkgList;
+      renderPkgList = function () { _origList(); bkRenderAlerts(); };
     }
 
     let packagesData = [
@@ -1541,7 +1752,7 @@ code, pre, kbd, samp,
             <td class="text-right"><strong>${formatNumber(p.totalSalePrice)}원</strong></td>
             <td class="text-center">${refundText}</td>
             <td class="text-center">${settleBadge}</td>
-            <td class="text-center">${getStatusBadge(p.status)}</td>
+            <td class="text-center">${getStatusBadge(p.status)}${bkListExtra(p)}</td>
             <td class="text-center">${p.createdAt}</td>
             <td class="text-center">
               <div style="display:flex; gap:4px; justify-content:center;">
@@ -1555,12 +1766,14 @@ code, pre, kbd, samp,
     }
 
     function openPkgDetail(code) {
+      bkApplyPkgBooks(code);
       const found = packagesData.find(p => p.code === code) || packagesData[0];
       window.__currentPkg = found;
       switchSubview("detail");
     }
 
     function openPkgEdit(code) {
+      bkApplyPkgBooks(code);
       const found = packagesData.find(p => p.code === code) || packagesData[0];
       window.__currentPkg = found;
       populatePkgForm(found);
@@ -1601,6 +1814,7 @@ code, pre, kbd, samp,
       });
       toggleRefundSection();
       document.getElementById("f-pkg-settlement-sim").value = p.settlementShare === 100 ? "100" : "70";
+      { const _r = document.querySelector('input[name="f-pkg-status"][value="' + p.status + '"]'); if (_r) _r.checked = true; }
       applyPkgSettlementLock();
       recalcPackagePricing();
       /* Pre-populate picker tables */
@@ -1622,6 +1836,7 @@ code, pre, kbd, samp,
       document.getElementById("d-pkg-code").textContent = p.code;
       document.getElementById("d-pkg-title").textContent = p.title;
       document.getElementById("d-pkg-created").textContent = `등록일: ${p.createdAt}`;
+      bkRenderDetail(p);
       document.getElementById("d-course-origin-sum").textContent = `${formatNumber(p.courseOriginSum)}원`;
       document.getElementById("d-course-sale-sum").textContent = `${formatNumber(p.courseSaleSum)}원`;
       document.getElementById("d-book-sale-sum").textContent = `${formatNumber(p.bookSaleSum)}원`;
@@ -1974,11 +2189,18 @@ code, pre, kbd, samp,
         createdAt: "2026-10-15"
       };
 
+      {
+        const _iss = bkEval(bkItems(finalCode));
+        if (_iss.stop.length && payload.status === "판매중") payload.status = "판매중지";
+        const _m = bkRead(BK_STOP_KEY, {});
+        if (!_iss.stop.length && _m[finalCode]) { delete _m[finalCode]; bkWrite(BK_STOP_KEY, _m); bkLog(finalCode, `운영자 저장: 판매 상태 ${payload.status} (자동 중지 표식 해제)`); }
+      }
       const idx = packagesData.findIndex(p => p.code === finalCode);
       if (idx >= 0) packagesData[idx] = payload;
       else packagesData.unshift(payload);
 
       window.__currentPkg = payload;
+      bkSyncPkgs();
       showToast(`패키지 상품 [${finalCode}] 저장이 완료되었습니다.`);
       switchSubview("list");
     }

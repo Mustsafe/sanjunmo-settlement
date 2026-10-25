@@ -1529,6 +1529,31 @@ code, pre, kbd, samp,
     </div>
   </div>
 
+  <!-- ==================== [모달 4] 주교재 판매중지 · 판매종료 시 연결 상품 자동 판매중지 확인 ==================== -->
+  <div class="modal-backdrop" id="modal-autostop-confirm">
+    <div class="modal-window" style="">
+      <div class="modal-header">
+        <div class="modal-title" id="autostop-title">연결된 강좌 · 패키지가 자동으로 판매중지됩니다</div>
+        <button type="button" class="btn btn-outline btn-sm" onclick="closeAutoStopConfirm()">닫기 ✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="autostop-book" style="font-weight:700; margin-bottom:10px;"></div>
+        <table class="data-table">
+          <thead>
+            <tr><th style="width:90px;">구분</th><th style="width:110px;">코드</th><th>상품명</th><th style="width:80px;">교재 역할</th></tr>
+          </thead>
+          <tbody id="autostop-main-tbody"></tbody>
+        </table>
+        <div id="autostop-sub" style="display:none; margin-top:10px; color:#92400E; font-weight:600;"></div>
+        <div style="margin-top:10px; font-size:12px; color:var(--slate-500);">담당자 알림이 발송되고 변경 이력이 기록됩니다. 판매중 복귀는 교재 문제가 풀린 뒤 운영자가 각 상품에서 수동으로 진행합니다.</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeAutoStopConfirm()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="confirmAutoStop()">확인 후 저장</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast-msg" id="toast-box"></div>
 
   
@@ -2134,6 +2159,74 @@ code, pre, kbd, samp,
       }).join("");
     }
 
+
+    /* =========================================================================
+       [v6.42] 주교재 연동: 교재 상태 · 재고를 브라우저 저장소에 남겨 강좌(PROD-003) · 패키지(PROD-005)가 읽는다
+       ========================================================================= */
+    const BOOKSTATUS_KEY = "sjm.prod.bookStatus.v1";
+    const BOOK_LINKED_PRODUCTS = {
+      "PROD-BK-1011": [
+        { type: "단과 강좌", code: "CRS-2601", title: "2026 산업안전기사 필기 한권완성 개념+빈출 단과", role: "주교재" },
+        { type: "패키지", code: "PKG-2601", title: "2026 산업안전기사 필기+실기 0원 합격 환급반 (교재포함)", role: "주교재" },
+        { type: "패키지", code: "PKG-2602", title: "2026 산업안전기사 필기+실기(필답+작업) 올인원 종합반", role: "주교재" }
+      ],
+      "PROD-BK-1005": [
+        { type: "단과 강좌", code: "CRS-2602", title: "2026 산업안전기사 실기 필답형 만점 답안 작성 전략반", role: "주교재" },
+        { type: "패키지", code: "PKG-2601", title: "2026 산업안전기사 필기+실기 0원 합격 환급반 (교재포함)", role: "주교재" },
+        { type: "패키지", code: "PKG-2602", title: "2026 산업안전기사 필기+실기(필답+작업) 올인원 종합반", role: "주교재" }
+      ],
+      "PROD-BK-1012": [
+        { type: "단과 강좌", code: "CRS-2601", title: "2026 산업안전기사 필기 한권완성 개념+빈출 단과", role: "부교재" }
+      ],
+      "PROD-BK-3003": [
+        { type: "단과 강좌", code: "CRS-2603", title: "2026 건설안전기사 필기 핵심이론 + 계산문제 특강", role: "부교재" }
+      ]
+    };
+    function recordBookStatus(b) {
+      try {
+        const s = JSON.parse(localStorage.getItem(BOOKSTATUS_KEY) || "{}") || {};
+        s[b.sku] = { status: b.status, stock: Number(b.stock || 0), at: new Date().toISOString() };
+        localStorage.setItem(BOOKSTATUS_KEY, JSON.stringify(s));
+      } catch (e) {}
+    }
+    function applyBookStatusStore() {
+      try {
+        const s = JSON.parse(localStorage.getItem(BOOKSTATUS_KEY) || "{}") || {};
+        booksData.forEach(b => {
+          const r = s[b.sku];
+          if (!r) return;
+          if (r.status) b.status = r.status;
+          if (typeof r.stock === "number") b.stock = r.stock;
+        });
+      } catch (e) {}
+    }
+    function bkAutoStopTargets(payload, prev) {
+      const none = { main: [], sub: [] };
+      if (payload.status !== "판매중지" && payload.status !== "판매종료") return none;
+      if (prev && (prev.status === "판매중지" || prev.status === "판매종료")) return none;
+      const list = BOOK_LINKED_PRODUCTS[payload.sku] || [];
+      return { main: list.filter(x => x.role === "주교재"), sub: list.filter(x => x.role !== "주교재") };
+    }
+    function openAutoStopConfirm(payload, tg) {
+      document.getElementById("autostop-title").textContent = `연결된 강좌 · 패키지 ${tg.main.length}개가 자동으로 판매중지됩니다`;
+      document.getElementById("autostop-book").textContent = `[${payload.sku}] ${payload.title} 을(를) [${payload.status}]로 저장합니다. 이 교재가 주교재로 연결된 상품은 판매를 멈춥니다.`;
+      document.getElementById("autostop-main-tbody").innerHTML = tg.main.map(x => `<tr><td>${x.type}</td><td><span class="code-pill">${x.code}</span></td><td>${x.title}</td><td>${x.role}</td></tr>`).join("");
+      const sub = document.getElementById("autostop-sub");
+      sub.innerHTML = tg.sub.length ? `부교재로 연결된 상품(${tg.sub.map(x => x.code).join(", ")})은 판매 상태를 바꾸지 않고 경고만 표시합니다.` : "";
+      sub.style.display = tg.sub.length ? "block" : "none";
+      const el = document.getElementById("modal-autostop-confirm");
+      el.style.removeProperty("display");
+      el.classList.add("open");
+    }
+    function closeAutoStopConfirm() {
+      document.getElementById("modal-autostop-confirm").classList.remove("open");
+    }
+    function confirmAutoStop() {
+      closeAutoStopConfirm();
+      window.__autoStopConfirmed = true;
+      saveBookForm();
+    }
+
     function openStockAdjustModal() {
       const b = window.__currentBook || booksData[0];
       document.getElementById("modal-stock-book-name").textContent = `[${b.sku}] ${b.title} (현재 ${b.stock}권)`;
@@ -2167,6 +2260,7 @@ code, pre, kbd, samp,
       closeStockAdjustModal();
       renderBookList();
       renderDetailView();
+      recordBookStatus(b);
       showToast(`[${b.sku}] 재고가 ${b.stock}권으로 반영되었습니다.`);
     }
 
@@ -2290,11 +2384,16 @@ code, pre, kbd, samp,
         createdAt: "2026-10-15"
       };
 
+      const autoStopTargets = bkAutoStopTargets(payload, prevBook);
+      if (autoStopTargets.main.length && !window.__autoStopConfirmed) { openAutoStopConfirm(payload, autoStopTargets); return; }
+      window.__autoStopConfirmed = false;
       const idx = booksData.findIndex(b => b.sku === finalSku);
       if (idx >= 0) booksData[idx] = payload;
       else booksData.unshift(payload);
 
       window.__currentBook = payload;
+      recordBookStatus(payload);
+      if (autoStopTargets.main.length) setTimeout(() => showToast(`연결된 강좌 · 패키지 ${autoStopTargets.main.length}개가 자동으로 판매중지되었습니다. (담당자 알림 · 변경 이력은 각 상품 화면에서 확인)`), 60);
       updateTopStepperByBook(payload);
       showToast(isDirect
         ? `[${finalSku}] 선등록 완료 (판매대기). 후속 작업으로 ADMN-BOOK-001 원가 입력 및 ADMN-SETT-001 권리자 매핑을 진행하세요.`
@@ -2303,6 +2402,7 @@ code, pre, kbd, samp,
     }
 
     window.addEventListener("DOMContentLoaded", () => {
+      applyBookStatusStore();
       document.querySelectorAll('input[name="f-book-status"]').forEach(r => r.addEventListener("change", syncEndOfSaleLock));
       window.__currentBook = booksData[0];
       updateTopStepperByBook(booksData[0]);
