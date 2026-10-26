@@ -243,10 +243,11 @@ code, pre, kbd, samp,
         <div class="form-error" id="role-error"></div>
         <div class="form-row"><label>그룹 이름 *</label><div><input class="f-input" id="rf-name" maxlength="20" style="width:100%;" placeholder="예: 운영팀" /><div class="form-help">이름을 바꿔도 계정 · 1:1 문의 담당 부서 큐 연결은 그대로 유지됩니다.</div></div></div>
         <div class="form-row"><label>그룹 코드</label><div><input class="f-input" id="rf-id" readonly style="width:140px; background:var(--bg-subtle);" /><div class="form-help">최초 저장 시 자동 채번되며 바꿀 수 없습니다.</div></div></div>
-        <div class="form-row"><label>구분 *</label><div class="check-group"><label><input type="radio" name="rf-side" value="INTERNAL" checked /> 내부 관리자</label><label><input type="radio" name="rf-side" value="EXTERNAL" /> 외부 계정</label></div></div>
+        <div class="form-row"><label>구분 *</label><div class="check-group"><label><input type="radio" name="rf-side" value="INTERNAL" checked onchange="renderStartOptions('INTERNAL')" /> 내부 관리자</label><label><input type="radio" name="rf-side" value="EXTERNAL" onchange="renderStartOptions('EXTERNAL')" /> 외부 계정</label></div></div>
         <div class="form-row"><label>1:1 문의 담당 큐</label><div class="check-group"><label><input type="checkbox" id="rf-queue" /> 1:1 문의 분류의 담당 부서 큐로 선택할 수 있음</label></div></div>
         <div class="form-row"><label>설명</label><div><input class="f-input" id="rf-desc" maxlength="40" style="width:100%;" /></div></div>
         <div class="form-row"><label>노출 순서</label><div><input class="f-input" id="rf-order" type="number" min="1" style="width:100px;" /></div></div>
+        <div class="form-row"><label>시작 화면</label><div><select class="f-select" id="rf-start" style="width:100%;"></select><div class="form-help">이 그룹 계정이 로그인한 뒤 처음 열리는 화면입니다. 원래 가려던 화면이 있으면 그 화면이 먼저이고, 첫 로그인 · 임시 비밀번호 계정은 비밀번호 변경이 먼저입니다. 내부 그룹은 SNB 메뉴에서, 외부 그룹은 파트너 화면에서 고릅니다.</div></div></div>
         <div class="form-row" id="rf-copy-row"><label>권한 시작값</label><div><select class="f-select" id="rf-copy" style="width:100%;"></select><div class="form-help">기존 그룹의 권한을 복사해 시작하거나 권한 없이 시작합니다. 저장 후 권한 매트릭스에서 고칩니다.</div></div></div>
       </div>
       <div class="modal-footer">
@@ -335,6 +336,22 @@ code, pre, kbd, samp,
     let pendingAction = null;   // 영향 확인 후 실행할 저장 동작
 
     const SIDE_LABEL = { INTERNAL: '내부', EXTERNAL: '외부' };
+    // 시작 화면 선택지 — 내부 그룹은 SNB 메뉴(common-snb.js)와 같은 항목, 외부 그룹은 파트너 화면
+    const START_INTERNAL = [{"title": "대시보드 · 통계", "items": [{"code": "ADMN-DASH-001", "label": "통합 대시보드 홈 (현황·큐·연동)", "url": "ADMN-DASH-001_baseline.html?view=dash"}, {"code": "ADMN-STAT-001", "label": "매출 · 상품 통계 (결제·환불·순위)", "url": "ADMN-DASH-001_baseline.html?view=stat-sales"}]}, {"title": "회원 · 수강 관리", "items": [{"code": "ADMN-USER-001", "label": "일반 회원 관리 (목록·상세)", "url": "ADMN-USER-001_baseline.html?view=list"}, {"code": "ADMN-USER-003", "label": "회원 수강 · 기간 · 기기 제어", "url": "ADMN-USER-001_baseline.html?view=course"}, {"code": "ADMN-USER-006", "label": "회원 그룹 · 다중 태그 관리", "url": "ADMN-USER-001_baseline.html?view=tags"}, {"code": "ADMN-USER-005", "label": "블랙리스트 · 부정사용 제재 관리", "url": "ADMN-USER-001_baseline.html?view=blacklist"}]}, {"title": "주문 · 환불 · CS · 프로모션", "items": [{"code": "ADMN-ORD-001", "label": "주문 · 배송 · 3PL 관리", "url": "ADMN-ORD-001_baseline.html"}, {"code": "ADMN-RFD-002", "label": "환불 요청 · 심사 관리", "url": "ADMN-RFD-002_baseline.html"}, {"code": "ADMN-BRD-002", "label": "1:1 문의 관리 (문의 분기 허브)", "url": "ADMN-BRD-002_baseline.html"}, {"code": "ADMN-BRD-007", "label": "1:1 문의 분류 관리", "url": "ADMN-BRD-007_baseline.html"}, {"code": "ADMN-BRD-001", "label": "공지 · FAQ · Q&A · 당첨자 발표", "url": "ADMN-BRD-001_baseline.html?view=notice"}, {"code": "ADMN-BRD-005", "label": "수강·합격수기 · 무료특강(빈출)", "url": "ADMN-BRD-005_baseline.html?view=review"}, {"code": "ADMN-PROM-001", "label": "이벤트 · 기획전 관리 (Slug·특가)", "url": "ADMN-PROM-001_baseline.html"}, {"code": "ADMN-PROM-002", "label": "쿠폰 마스터 등록 · 발급 관리", "url": "ADMN-PROM-002_baseline.html?view=list"}, {"code": "ADMN-PROM-003", "label": "포인트 적립 정책 및 원장 관리", "url": "ADMN-PROM-002_baseline.html?view=point"}]}, {"title": "상품 · 강좌 · 교재 관리", "items": [{"code": "ADMN-PROD-001", "label": "카테고리 관리", "url": "ADMN-PROD-001_baseline.html"}, {"code": "ADMN-PROD-002", "label": "강의 관리 (영상 단품)", "url": "ADMN-PROD-002_baseline.html"}, {"code": "ADMN-PROD-003", "label": "단과 강좌 관리", "url": "ADMN-PROD-003_baseline.html"}, {"code": "ADMN-PROD-004", "label": "교재 관리", "url": "ADMN-PROD-004_baseline.html"}, {"code": "ADMN-PROD-005", "label": "패키지 · 환급반 상품 관리", "url": "ADMN-PROD-005_baseline.html"}, {"code": "ADMN-PROD-006", "label": "강사 노출 정보 관리", "url": "ADMN-PROD-006_baseline.html"}, {"code": "ADMN-PROD-007", "label": "일반상품 관리", "url": "ADMN-PROD-007_baseline.html"}]}, {"title": "권리자 · 거래처 · 지분 매핑", "items": [{"code": "ADMN-INST-001", "label": "권리자 계약 원장", "url": "ADMN-INST-001_baseline.html"}, {"code": "ADMN-SETT-007", "label": "수취인 분할 관리", "url": "ADMN-SETT-007_baseline.html"}, {"code": "ADMN-BOOK-001", "label": "도서 공급 원장", "url": "ADMN-BOOK-001_baseline.html"}, {"code": "ADMN-VEND-001", "label": "거래처 관리", "url": "ADMN-VEND-001_baseline.html"}, {"code": "ADMN-SETT-001", "label": "상품별 권리자 매핑", "url": "ADMN-SETT-001_baseline.html"}]}, {"title": "정산 마감 전 사전 대사", "items": [{"code": "ADMN-SETT-004", "label": "PG 정산 원장 대사", "url": "ADMN-SETT-004_baseline.html"}, {"code": "ADMN-SETT-011", "label": "물류비 대사 (3PL)", "url": "ADMN-SETT-011_baseline.html"}, {"code": "ADMN-INST-002", "label": "약정금 마일스톤 검수", "url": "ADMN-INST-002_baseline.html"}, {"code": "ADMN-SETT-006", "label": "합격 환급반 관리", "url": "ADMN-SETT-006_baseline.html"}, {"code": "ADMN-SETT-008", "label": "사업자등록 확인 이력", "url": "ADMN-SETT-008_baseline.html"}]}, {"title": "월간 정산 · 지급 · 조회", "items": [{"code": "ADMN-SETT-002", "label": "월간 정산 및 집행", "url": "ADMN-SETT-002_baseline.html"}, {"code": "ADMN-SETT-005", "label": "정산 수동 조정", "url": "ADMN-SETT-005_baseline.html"}, {"code": "ADMN-SETT-009", "label": "내부 정산 조회 · 조회 전용", "url": "ADMN-SETT-009_baseline.html"}]}, {"title": "권한 · 개인정보 · 보안 감사", "items": [{"code": "ADMN-CONF-005", "label": "운영자 권한 관리 (계정 · 역할 그룹)", "url": "ADMN-CONF-005_baseline.html"}, {"code": "ADMN-USER-007", "label": "민감 정보 열람 통제", "url": "ADMN-USER-007_baseline.html"}, {"code": "ADMN-CONF-010", "label": "시스템 감사 로그", "url": "ADMN-CONF-010_baseline.html"}]}, {"title": "사이트 · 약관 · 메시지 설정", "items": [{"code": "ADMN-CONF-001", "label": "전시 배너 · 띠배너 · 팝업 관리", "url": "ADMN-CONF-001_baseline.html?view=banner"}, {"code": "ADMN-CONF-002", "label": "약관 · 개인정보처리방침 관리", "url": "ADMN-CONF-002_baseline.html"}, {"code": "ADMN-CONF-003", "label": "플레이어 · 동시접속 · 인증 설정", "url": "ADMN-CONF-003_baseline.html?view=player"}, {"code": "ADMN-CONF-004", "label": "메시지 템플릿 관리 (알림톡·문자·메일)", "url": "ADMN-CONF-004_baseline.html?view=template"}, {"code": "ADMN-CONF-004-S1", "label": "타겟 메시지 발송 · 내역", "url": "ADMN-CONF-004_baseline.html?view=send"}]}];
+    const START_PARTNER = [
+      { code: 'ADMN-SETT-002', label: '본인 정산서', url: 'ADMN-SETT-002_baseline.html?view=partner-stmt' },
+      { code: 'ADMN-ORD-001', label: '출고 · 송장', url: 'ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL' }
+    ];
+    function startItems(side) { return side === 'EXTERNAL' ? START_PARTNER : START_INTERNAL.reduce((a, g) => a.concat(g.items), []); }
+    function renderStartOptions(side, curUrl) {
+      const sel = document.getElementById('rf-start');
+      const opt = i => `<option value="${i.url}">${i.label} (${i.code})</option>`;
+      sel.innerHTML = side === 'EXTERNAL' ? START_PARTNER.map(opt).join('')
+        : START_INTERNAL.map(g => `<optgroup label="${g.title}">${g.items.map(opt).join('')}</optgroup>`).join('');
+      const items = startItems(side);
+      sel.value = items.some(i => i.url === curUrl) ? curUrl : items[0].url;
+    }
+    function pickStart(side, url) { return startItems(side).filter(i => i.url === url)[0]; }
     const FLAG_LABEL = { R: '읽기', W: '쓰기', X: '엑셀' };
 
     function accountsOf(roleId) { return ACCOUNTS.filter(a => a.roles.includes(roleId)); }
@@ -513,7 +530,7 @@ code, pre, kbd, samp,
       document.getElementById('rh-name').textContent = g.name;
       document.getElementById('rh-id').textContent = g.id;
       document.getElementById('rh-badges').innerHTML = `<span class="badge ${g.side === 'EXTERNAL' ? 'badge-purple' : 'badge-blue'}">${SIDE_LABEL[g.side]}</span>${g.queue ? '<span class="badge badge-amber">1:1 문의 담당 큐</span>' : ''}<span class="badge ${g.on ? 'badge-green' : 'badge-gray'}">${g.on ? '사용' : '미사용'}</span>`;
-      document.getElementById('rh-desc').textContent = `${g.desc || ''} · 소속 계정 ${accountsOf(g.id).length}개`;
+      document.getElementById('rh-desc').textContent = `${g.desc || ''} · 소속 계정 ${accountsOf(g.id).length}개 · 시작 화면 ${g.startScreen ? g.startScreen.label : '운영 현황 대시보드'}`;
       document.getElementById('btn-toggle-role').textContent = g.on ? '미사용으로 변경' : '사용으로 변경';
       document.getElementById('perm-tbody').innerHTML = M.menus.map(m => {
         const v = draftPerms[m.key] || '';
@@ -642,6 +659,7 @@ code, pre, kbd, samp,
       document.getElementById('rf-desc').value = g ? (g.desc || '') : '';
       document.getElementById('rf-order').value = g ? g.order : M.roles.list().length + 1;
       document.getElementById('rf-copy-row').style.display = g ? 'none' : '';
+      renderStartOptions(g ? g.side : 'INTERNAL', g && g.startScreen ? g.startScreen.url : '');
       document.getElementById('rf-copy').innerHTML = '<option value="">권한 없이 시작</option>' + M.roles.list().map(x => `<option value="${x.id}">${x.name} 권한 복사</option>`).join('');
       openModalEl('modal-role');
     }
@@ -652,6 +670,7 @@ code, pre, kbd, samp,
       const queue = document.getElementById('rf-queue').checked;
       const desc = document.getElementById('rf-desc').value.trim();
       const order = parseInt(document.getElementById('rf-order').value, 10) || M.roles.list().length + 1;
+      const startScreen = pickStart(side, document.getElementById('rf-start').value);
       const err = document.getElementById('role-error');
       const fail = msg => { err.textContent = msg; err.style.display = 'block'; };
       if (!name) return fail('그룹 이름을 입력해 주십시오.');
@@ -660,8 +679,8 @@ code, pre, kbd, samp,
         const copy = document.getElementById('rf-copy').value;
         const id = M.roles.nextId();
         const perms = copy ? Object.assign({}, M.roles.get(copy).perms) : {};
-        M.roles.save(M.roles.list().concat([{ id, name, side, queue, on: true, order, desc, perms }]));
-        addLog(`${id} ${name}`, `신규 등록 · ${SIDE_LABEL[side]} · 문의 큐 ${queue ? '사용' : '미사용'}${copy ? ` · ${M.roles.name(copy)} 권한 복사` : ' · 권한 없음'}`);
+        M.roles.save(M.roles.list().concat([{ id, name, side, queue, on: true, order, desc, perms, startScreen: Object.assign({}, startScreen) }]));
+        addLog(`${id} ${name}`, `신규 등록 · ${SIDE_LABEL[side]} · 문의 큐 ${queue ? '사용' : '미사용'} · 시작 화면 ${startScreen.label}${copy ? ` · ${M.roles.name(copy)} 권한 복사` : ' · 권한 없음'}`);
         closeModal('modal-role');
         draftPerms = null;
         selectedRoleId = id;
@@ -679,6 +698,8 @@ code, pre, kbd, samp,
       if (g.queue !== queue) changes.push(`문의 큐: ${g.queue ? '사용' : '미사용'} → ${queue ? '사용' : '미사용'}`);
       if ((g.desc || '') !== desc) changes.push('설명 변경');
       if (g.order !== order) changes.push(`노출 순서: ${g.order} → ${order}`);
+      const oldStart = g.startScreen ? g.startScreen.label : '운영 현황 대시보드';
+      if (!g.startScreen || g.startScreen.url !== startScreen.url) changes.push(`시작 화면: ${oldStart} → ${startScreen.label}`);
       closeModal('modal-role');
       if (!changes.length) return;
       const html = `
@@ -686,7 +707,7 @@ code, pre, kbd, samp,
         <p class="impact-title">이 그룹을 쓰는 곳 — 연결은 그대로이고 표시 이름만 바뀝니다</p>
         <ul class="impact-list"><li>소속 계정 ${accountsOf(g.id).length}개</li><li>1:1 문의 분류 담당 부서 큐 ${cats.length}건</li></ul>`;
       showImpact('역할 그룹 정보 변경 확인', html, '변경 저장', () => {
-        M.roles.save(M.roles.list().map(x => x.id === g.id ? Object.assign({}, x, { name, side, queue, desc, order }) : x));
+        M.roles.save(M.roles.list().map(x => x.id === g.id ? Object.assign({}, x, { name, side, queue, desc, order, startScreen: Object.assign({}, startScreen) }) : x));
         addLog(`${g.id} ${name}`, changes.join(' / '));
         renderAll();
         showToast(`${name} 그룹 정보를 저장했습니다.`);

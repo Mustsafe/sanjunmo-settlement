@@ -261,7 +261,9 @@ code, pre, kbd, samp,
           <!-- 세션 만료 배너 -->
           <div id="banner-session-expired" class="alert-box alert-warn" style="display:none;">
             ⏳ <strong>장시간(30분) 조작이 없어 자동 로그아웃되었습니다.</strong> 다시 로그인해 주세요.
+            <div id="banner-return-line" style="display:none; margin-top:4px; font-size:12px;">로그인하면 원래 가려던 화면으로 이동합니다 (권한이 있는 경우). 주소 파라미터 <code>return=<span id="banner-return-val"></span></code></div>
           </div>
+          <div id="box-noperm" class="alert-box alert-warn" style="display:none;"></div>
 
           <!-- =========================================================
                MODE 1: 로그인 (ADMN-LOGIN-001 & 001-P1)
@@ -368,6 +370,29 @@ code, pre, kbd, samp,
             </div>
             <button type="button" class="btn-submit" onclick="submitPasswordReset()">비밀번호 변경 및 계정 잠금 해제</button>
           </div>
+
+          <!-- =========================================================
+               MODE 4: 비밀번호 변경 (첫 로그인 · 임시 비밀번호 계정)
+               ========================================================= -->
+          <div id="panel-change-pw" class="view-panel">
+            <div class="alert-box alert-warn">
+              <strong id="chg-account-label"></strong> 계정은 첫 로그인(임시 비밀번호)입니다. 새 비밀번호를 설정해야 업무 화면으로 이동합니다.
+            </div>
+            <div class="form-group">
+              <label class="form-label">임시 비밀번호 *</label>
+              <input type="password" id="inp-chg-cur" class="form-input" value="Temp!2026" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">새 비밀번호 (영문+숫자+특수문자 조합 8~20자) *</label>
+              <input type="password" id="inp-chg-pw1" class="form-input" value="NewStaff!2026" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">새 비밀번호 확인 *</label>
+              <input type="password" id="inp-chg-pw2" class="form-input" value="NewStaff!2026" />
+            </div>
+            <div id="chg-msg" style="display:none; font-size:12px; font-weight:700; margin-top:6px;"></div>
+            <button type="button" class="btn-submit" id="btn-change-pw" onclick="submitChangePw()">비밀번호 변경 후 이동</button>
+          </div>
         </div>
       </div>
     </div>
@@ -375,7 +400,10 @@ code, pre, kbd, samp,
 
   <script>
     let loginFailCount = 0;
-    document.addEventListener("DOMContentLoaded", function () { renderDemoAccountOptions(); });
+    document.addEventListener("DOMContentLoaded", function () {
+      renderDemoAccountOptions();
+      if (getReturnUrl()) { document.getElementById("banner-session-expired").style.display = "block"; showReturnLine(); }
+    });
 
     function switchAuthMode(mode) {
       document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
@@ -389,6 +417,10 @@ code, pre, kbd, samp,
         document.getElementById("mode-btn-find-id").classList.add("active");
         badge.textContent = "ADMN-LOGIN-002";
         title.textContent = "아이디 찾기 — 이름 · 휴대폰 본인인증(SMS) 기반 관리자 계정 조회";
+      } else if (mode === "change-pw") {
+        document.getElementById("panel-change-pw").classList.add("active");
+        badge.textContent = "ADMN-LOGIN-001";
+        title.textContent = "비밀번호 변경 — 첫 로그인 · 임시 비밀번호 계정";
       } else if (mode === "reset-pw") {
         document.getElementById("panel-reset-pw").classList.add("active");
         document.getElementById("mode-btn-reset-pw").classList.add("active");
@@ -405,7 +437,8 @@ code, pre, kbd, samp,
     function fillDemoAccount(val) {
       const [email] = val.split("|");
       document.getElementById("inp-login-email").value = email;
-      document.getElementById("inp-login-pw").value = "Sanjunmo!2026";
+      const acc = findDemoAccount(email);
+      document.getElementById("inp-login-pw").value = acc && acc.tempPw ? acc.tempPw : "Sanjunmo!2026";
       loginFailCount = 0;
       document.getElementById("lbl-fail-cnt").textContent = "";
       document.getElementById("box-lockout-p1").style.display = "none";
@@ -440,11 +473,49 @@ code, pre, kbd, samp,
       }
 
       const acc = findDemoAccount(email);
-      const land = resolveLanding(acc);
+      const land = resolveLanding(acc, getReturnUrl());
+      if (land.kind === "changepw") {
+        pendingAcc = acc;
+        document.getElementById("chg-account-label").textContent = acc.id;
+        switchAuthMode("change-pw");
+        return;
+      }
+      goLanding(land);
+    }
+
+    let pendingAcc = null;
+    let demoReturn = null;   // 세션 만료 배너 시연에서 정한 return 값
+
+    function goLanding(land) {
+      window.__lastLanding = land;
+      if (land.rejected) {
+        const box = document.getElementById("box-noperm");
+        box.textContent = "요청한 화면에 권한이 없어 시작 화면으로 이동합니다. (" + land.label + ")";
+        box.style.display = "block";
+        setTimeout(function () { window.location.href = land.url; }, 1800);
+        return;
+      }
       window.location.href = land.url;
     }
 
-    // 시연용 계정 — ADMN-CONF-005 계정 목록(ACCOUNTS)과 같은 ID · 역할 그룹 · 소속. 착지는 계정의 첫 역할 그룹 권한과 소속으로 정한다.
+    function submitChangePw() {
+      const cur = document.getElementById("inp-chg-cur").value;
+      const p1 = document.getElementById("inp-chg-pw1").value;
+      const p2 = document.getElementById("inp-chg-pw2").value;
+      const msg = document.getElementById("chg-msg");
+      const fail = t => { msg.style.color = "var(--danger)"; msg.textContent = t; msg.style.display = "block"; };
+      if (!cur) return fail("임시 비밀번호를 입력해 주세요.");
+      if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,20}$/.test(p1)) return fail("새 비밀번호는 영문+숫자+특수문자 조합 8~20자여야 합니다.");
+      if (p1 !== p2) return fail("새 비밀번호 확인이 일치하지 않습니다.");
+      if (p1 === cur) return fail("임시 비밀번호와 다른 비밀번호를 써야 합니다.");
+      msg.style.color = "var(--success, #059669)";
+      msg.textContent = "비밀번호를 변경했습니다. 시작 화면으로 이동합니다.";
+      msg.style.display = "block";
+      if (pendingAcc) pendingAcc.firstLogin = false;
+      goLanding(resolveLanding(pendingAcc, getReturnUrl(), true));
+    }
+
+    // 시연용 계정 — ADMN-CONF-005 계정 목록(ACCOUNTS)과 같은 ID · 역할 그룹 · 소속. new_staff는 첫 로그인(임시 비밀번호) 시연용으로 이 화면에만 둔다.
     const DEMO_ACCOUNTS = [
       { id: "admin_white", roles: ["RG-01"], aff: { kind: "STAFF" } },
       { id: "fin_manager", roles: ["RG-04"], aff: { kind: "STAFF" } },
@@ -453,47 +524,101 @@ code, pre, kbd, samp,
       { id: "inst_jjd", roles: ["RG-05"], aff: { kind: "RH", ref: "RH-0025" } },
       { id: "ta_jung", roles: ["RG-06"], aff: { kind: "STAFF" } },
       { id: "author_lee", roles: ["RG-07"], aff: { kind: "RH", ref: "RH-0031" } },
-      { id: "3pl_cjlogis", roles: ["RG-08"], aff: { kind: "VENDOR", ref: "SUP-0020" } }
+      { id: "3pl_cjlogis", roles: ["RG-08"], aff: { kind: "VENDOR", ref: "SUP-0020" } },
+      { id: "new_staff", roles: ["RG-02"], aff: { kind: "STAFF" }, firstLogin: true, tempPw: "Temp!2026" }
     ];
+    const DEMO_RETURN_SAMPLE = "ADMN-BRD-002_baseline.html";
 
     function findDemoAccount(id) {
       const key = String(id || "").trim().toLowerCase();
       return DEMO_ACCOUNTS.filter(a => a.id === key)[0] || null;
     }
 
-    // 역할 그룹 권한 -> 초기 착지 (권한 없는 화면으로 보내지 않는다)
-    function resolveLanding(acc) {
+    // return 파라미터: 이 프로토타입 화면 파일명(+쿼리)만 받는다
+    function getReturnUrl() {
+      let v = null;
+      try { v = new URLSearchParams(window.location.search).get("return"); } catch (e) { v = null; }
+      v = v || demoReturn;
+      return v && /^ADMN-[A-Z]+-\d{3}(-[A-Z0-9]+)?_baseline\.html(\?[A-Za-z0-9_=&.%-]*)?$/.test(v) ? v : null;
+    }
+
+    // MENUS의 screens 문자열("USER-001~006", "INST-001 · SETT-001 · 007")을 화면 코드 목록으로 푼다
+    function menuCodes(m) {
+      const out = []; let prefix = "";
+      const rng = (a, b) => { for (let n = parseInt(a, 10); n <= parseInt(b, 10); n++) out.push(prefix + "-" + String(n).padStart(3, "0")); };
+      String(m.screens).replace(/\([^)]*\)/g, "").split("\u00b7").forEach(tok => {
+        tok = tok.trim();
+        let x = /^([A-Z]+)-(\d+)(?:~(\d+))?(-S\d+)?$/.exec(tok);
+        if (x) {
+          prefix = x[1];
+          if (x[4]) out.push(prefix + "-" + x[2] + x[4]); else rng(x[2], x[3] || x[2]);
+          return;
+        }
+        x = /^(\d+)(?:~(\d+))?$/.exec(tok);
+        if (x && prefix) rng(x[1], x[2] || x[1]);
+      });
+      return out;
+    }
+
+    // 계정의 역할 그룹들 중 하나라도 그 화면에 읽기 이상 권한이 있는가 (전 메뉴 RWX인 최고 관리자는 통과)
+    function canOpenScreen(roleIds, url) {
+      const M = window.SJM_MASTER;
+      const m = /^ADMN-([A-Z]+-\d+)_baseline\.html(?:\?(.*))?$/.exec(url || "");
+      if (!M || !m) return false;
+      const view = new URLSearchParams(m[2] || "").get("view");
+      let need = m[1];
+      if (need === "SETT-002" && view === "partner-stmt") need = "SETT-002-S2";
+      const ship = need === "ORD-001" && view === "ord002";
+      return roleIds.some(id => {
+        const g = M.roles.get(id);
+        if (!g || g.on === false) return false;
+        const p = g.perms || {};
+        if (M.menus.every(mn => p[mn.key] === "RWX")) return true;
+        if (g.startScreen && g.startScreen.url === url) return true;
+        return M.menus.some(mn => p[mn.key] && (mn.key !== "shipout" || ship) && menuCodes(mn).indexOf(need) !== -1);
+      });
+    }
+
+    function withHolder(url, acc) {
+      if (acc && acc.aff && acc.aff.kind === "RH" && acc.aff.ref && url.indexOf("holder=") === -1) return url + (url.indexOf("?") === -1 ? "?" : "&") + "holder=" + acc.aff.ref;
+      return url;
+    }
+
+    // 착지 순서: 1) 가려던 화면(return, 권한 있을 때) 2) 첫 로그인 · 임시 비밀번호면 비밀번호 변경 3) 역할 그룹 시작 화면(없으면 대시보드)
+    function resolveLanding(acc, retUrl, skipPw) {
       const dash = { code: "ADMN-DASH-001", label: "운영 현황 대시보드", url: "ADMN-DASH-001_baseline.html?view=dash" };
       const M = window.SJM_MASTER;
       const g = acc && M ? M.roles.get(acc.roles[0]) : null;
-      if (!g) return dash;
-      const p = g.perms || {};
-      const has = k => !!p[k];
-      const canW = k => (p[k] || "").indexOf("W") !== -1;
-      if (g.side === "EXTERNAL") {
-        // 강사 · 저작권자 등 외부 계정의 착지는 본인 정산서(같은 파트너 화면)
-        if (has("statement")) return { code: "ADMN-SETT-002", label: "본인 정산서", url: "ADMN-SETT-002_baseline.html?view=partner-stmt&holder=" + ((acc.aff && acc.aff.ref) || "") };
-        if (has("shipout")) return { code: "ADMN-ORD-001", label: "출고 · 송장", url: "ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL" };
-        return dash;
+      if (!g) return Object.assign({ kind: "start" }, dash);
+      let rejected = false;
+      if (retUrl) {
+        if (canOpenScreen(acc.roles, retUrl)) {
+          const code = "ADMN-" + /^ADMN-([A-Z]+-\d+)/.exec(retUrl)[1];
+          return { kind: "return", code: code, label: "요청한 화면", url: withHolder(retUrl, acc) };
+        }
+        rejected = true;
       }
-      if (has("rbac")) return dash;
-      if (canW("settle")) return { code: "ADMN-SETT-002", label: "월간 정산 및 집행", url: "ADMN-SETT-002_baseline.html" };
-      if (canW("shipout")) return { code: "ADMN-ORD-001", label: "주문 · 배송 · 출고", url: "ADMN-ORD-001_baseline.html" };
-      if (has("inquiry")) return { code: "ADMN-BRD-002", label: "1:1 문의", url: "ADMN-BRD-002_baseline.html" };
-      // 조교(내부 직원)는 학습 Q&A 관리로 착지
-      if (has("lqna")) return { code: "ADMN-BRD-001", label: "학습 Q&A 관리", url: "ADMN-BRD-001_baseline.html?view=qna" };
-      return dash;
+      const st = g.startScreen && g.startScreen.url ? g.startScreen : dash;
+      const start = { kind: "start", code: st.code, label: st.label, url: withHolder(st.url, acc), rejected: rejected };
+      if (acc.firstLogin && !skipPw) return { kind: "changepw", code: "ADMN-LOGIN-001", label: "비밀번호 변경", url: "", rejected: rejected, next: start };
+      return start;
     }
 
     function renderDemoAccountOptions() {
       const M = window.SJM_MASTER;
       const sel = document.getElementById("sel-demo-account");
       if (!sel) return;
+      const keep = sel.value;
       sel.innerHTML = DEMO_ACCOUNTS.map(a => {
         const g = M ? M.roles.get(a.roles[0]) : null;
-        const land = resolveLanding(a);
-        return `<option value="${a.id}">${g ? g.name : a.roles[0]} (${a.id} → ${land.label} ${land.code} 이동)</option>`;
+        const land = resolveLanding(a, getReturnUrl());
+        let to;
+        if (land.kind === "return") to = `요청한 화면 ${land.code} 이동`;
+        else if (land.kind === "changepw") to = `비밀번호 변경 → ${land.next.label} ${land.next.code} 이동`;
+        else to = `${land.label} ${land.code} 이동${land.rejected ? " · 요청 화면 권한 없음" : ""}`;
+        return `<option value="${a.id}">${g ? g.name : a.roles[0]} (${a.id} → ${to})</option>`;
       }).join("");
+      if (keep) sel.value = keep;
     }
 
     function triggerLockoutState() {
@@ -508,7 +633,18 @@ code, pre, kbd, samp,
 
     function triggerSessionExpiredBanner() {
       const el = document.getElementById("banner-session-expired");
-      el.style.display = el.style.display === "none" ? "block" : "none";
+      const show = el.style.display === "none";
+      el.style.display = show ? "block" : "none";
+      demoReturn = show ? DEMO_RETURN_SAMPLE : null;
+      showReturnLine();
+      renderDemoAccountOptions();
+    }
+
+    // 주소의 return 파라미터(또는 시연 값)가 있으면 배너에 표시
+    function showReturnLine() {
+      const r = getReturnUrl();
+      document.getElementById("banner-return-line").style.display = r ? "block" : "none";
+      document.getElementById("banner-return-val").textContent = (r || "").replace("ADMN-", "ADMN​-");  // 표시용(clean 문구 치환기가 화면 코드를 이름으로 바꾸지 않게)
     }
 
     function sendSmsOtp(target) {
