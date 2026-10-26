@@ -59,6 +59,7 @@
 - 화면 문구 검사는 HTML grep이 아니라 Playwright 렌더링 기준으로 한다(`prototype_clean/common-snb.js`가 로드 후 문구를 런타임 치환).
 
 ## 읽기 · 수정 효율 (2026-10-26, 문서 · HTML이 크고 두 폴더라서)
+- `docs/screen_spec/`(화면설계서)는 프로토타입을 따라가는 문서로, 별도 에이전트가 프로토타입 기준으로 고친다. 여기서는 수정하지 않고, 프로토타입을 바꾸면 화면별 변경 요지를 `scripts/qa/reports/review/SPEC_SYNC.md`에 남긴다(2026-10-26 white). 화면설계서와 프로토타입이 다르면 프로토타입(정본 기준)이 맞다.
 - 정본 · screen_spec은 통째로 읽지 않는다. 화면 코드별 위치 색인(`scripts/qa/reports/review/canon_index.md`)에서 문서 · 절 · 줄을 찾아 그 근처만 읽는다. 색인이 낡았으면 다시 만든다(생성 방법은 `PROJECT_STATE.md` 2절).
 - HTML도 통째로 읽지 않는다. `python scripts/qa/build_screen_digest.py`로 만든 화면 요약본(`scripts/qa/reports/digest/<파일>.md`, 원본의 약 6%, 원본 줄 번호 포함)을 먼저 보고 필요한 줄만 연다.
 - 두 폴더 수정은 `prototype_clean`을 한 번 고치고 `python scripts/qa/mirror_patch.py --from prototype_clean --to prototype`로 같은 변경을 옮긴다. 건너뛴 hunk(문구가 다른 줄)만 손으로 옮긴다. 마지막에 `python scripts/qa/skill_pair_diff.py`로 두 폴더 로직 · 구조 차이 0을 확인한다.

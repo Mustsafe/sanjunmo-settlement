@@ -11,7 +11,7 @@
 **문서 우선순위**
 - 1순위: `README.md` 및 white의 실시간 지시
 - 2순위: `docs/산준모닷컴 구축 통합 상세 설계서.md`, `docs/[산준모 정산시스템]_00~04.md`
-- 3순위(참고용): `docs/screen_spec/*.md`
+- 3순위(참고용): `docs/screen_spec/*.md` — 프로토타입을 따라가는 문서로 별도 에이전트가 프로토타입 기준으로 갱신한다(2026-10-26 white). 프로토타입 변경 요지는 `scripts/qa/reports/review/SPEC_SYNC.md`
 
 **프로토타입**
 - `prototype/`은 기획 검수용(상단 정책 배너, 정책 문구·괄호 병기 유지), `prototype_clean/`은 운영 UI만. 기능 패치는 양쪽 동명 파일에, 표기 정리는 clean 우선이며 prototype/ 괄호 병기는 수정하지 않는다.
