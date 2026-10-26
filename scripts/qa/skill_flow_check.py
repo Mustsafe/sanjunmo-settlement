@@ -300,7 +300,13 @@ def load_ledger(folder):
     led = {}
     for m in re.finditer(r'\{\s*id:\s*"(RH-\d{4})"\s*,\s*name:\s*"([^"]*)"', t):
         led.setdefault(m.group(1), m.group(2))
+    # caseLabel = 원장이 정한 케이스 표기. 화면 부가설명이 이것과 같으면 차이로 보지 않는다
+    for m in re.finditer(r'\{\s*id:\s*"(RH-\d{4})"\s*,\s*name:\s*"[^"]*"\s*,\s*caseLabel:\s*"([^"]*)"', t):
+        CASE_LABEL.setdefault(m.group(1), re.sub(r"[\s·,/:：]+", " ", m.group(2)).strip())
     return led
+
+
+CASE_LABEL = {}
 
 
 OBJ_ID = r"(?:rightsHolderId|primaryHolderId|holderId|payeeId|partnerId|rights_holder_id)"
@@ -373,6 +379,8 @@ def check_names(folder, ledger, errors, notes, rows_out):
                 rows_out.append((rh, led, shown.strip(), f"{folder}/{f}:{ln}", "오류"))
                 continue
             ex = extra_info(shown, rh, led)
+            if ex and CASE_LABEL.get(rh):
+                ex = re.sub(r"\s+", " ", ex.replace(CASE_LABEL[rh], " ")).strip()
             if ex and norm(ex) not in norm(led):
                 notes.append(("4 부가설명 차이", f"{folder}/{f}:{ln}", f"`{rh}` 원장 `{led}` · 화면 `{shown.strip()}`"))
                 rows_out.append((rh, led, shown.strip(), f"{folder}/{f}:{ln}", "참고"))

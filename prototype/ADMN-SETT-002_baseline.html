@@ -1401,7 +1401,7 @@ code, pre, kbd, samp,
         id: "STMT-01",
         refOriginStmtId: "STMT-202609-014", // ADMN-SETT-005 연동용 정산서 ID
         payeeId: "RH-0025",
-        payeeName: "정종대 (개인사업자 · 면세)",
+        payeeName: "정종대 (개인 면세사업자)",
         contractId: "CT-2026-0501",
         matrixCase: "면세사업자 계산서(권리자 발행) + 사업소득 원천징수 (TX-08)",
         pipelines: ["P1_1", "P2_1", "P5_1"],
@@ -1465,7 +1465,7 @@ code, pre, kbd, samp,
         id: "STMT-03",
         refOriginStmtId: "STMT-202609-031",
         payeeId: "RH-0051",
-        payeeName: "한국소방학회 (위탁 출판사)",
+        payeeName: "한국소방학회 (도서 위탁)",
         contractId: "CT-2026-0801",
         matrixCase: "도서 재화 공급 면세 계산서 수취 + 위탁수수료 과세 (TX-11)",
         pipelines: ["P2_2"],
@@ -1498,7 +1498,7 @@ code, pre, kbd, samp,
         id: "STMT-04",
         refOriginStmtId: "STMT-202610-001",
         payeeId: "RH-0042",
-        payeeName: "최그래픽 (프리랜서 기여자)",
+        payeeName: "최그래픽 (개인 프리랜서 · 기여자)",
         contractId: "CT-2026-0702",
         matrixCase: "개인 프리랜서 사업소득 원천징수 3.3% (TX-02)",
         pipelines: ["P5_1"],
@@ -1594,7 +1594,7 @@ code, pre, kbd, samp,
         id: "STMT-07",
         refOriginStmtId: "STMT-202610-007",
         payeeId: "RH-0063",
-        payeeName: "한도해 (일시 삽화·자문 작가)",
+        payeeName: "한도해 (일시 삽화·자문 · 기타소득)",
         contractId: "CT-2026-0919",
         matrixCase: "기타소득 제19호 원천징수 (TX-04 · 필요경비 60% 의제)",
         pipelines: ["P1_1"],
@@ -2357,7 +2357,7 @@ code, pre, kbd, samp,
     {
       ledgerId: "CL-202610-003",
       holderId: "RH-0051",
-      holderName: "한국소방학회 (위탁자)",
+      holderName: "한국소방학회 (도서 위탁)",
       contractId: "CT-2026-0801 (소방 위탁도서 계약)",
       originMonth: "2026-10 (당월 신규)",
       pipeline: "Pipeline 2.2 (위탁 도서 판매대금)",
@@ -2378,7 +2378,7 @@ code, pre, kbd, samp,
     {
       ledgerId: "CL-202609-063",
       holderId: "RH-0063",
-      holderName: "한도해 (기타소득 C19)",
+      holderName: "한도해 (일시 삽화·자문 · 기타소득)",
       contractId: "CT-2026-0919 (일시 자문·삽화 용역)",
       originMonth: "2026-09",
       pipeline: "Pipeline 1.1 (일시 특강·콘텐츠 용역)",
@@ -2420,7 +2420,7 @@ code, pre, kbd, samp,
     {
       ledgerId: "CL-202610-042",
       holderId: "RH-0042",
-      holderName: "최그래픽 (프리랜서 기여자)",
+      holderName: "최그래픽 (개인 프리랜서 · 기여자)",
       contractId: "CT-2026-0702 (3D 시뮬레이션 공동제작)",
       originMonth: "2026-10 (당월 신규)",
       pipeline: "Pipeline 5.1 (매출연동 개발지원금)",
@@ -2563,7 +2563,7 @@ code, pre, kbd, samp,
     },
     "RH-0051": {
       holderId: "RH-0051",
-      holderName: "한국소방학회 (위탁출판사)",
+      holderName: "한국소방학회 (도서 위탁)",
       entityType: "법인 면세사업자 (위탁자 CONSIGNOR · 도서 위탁 판매)",
       taxCode: "TX-11 / TX-12 (위탁 도서 면세 계산서 수취 + 위탁수수료 과세 세금계산서 매출발행)",
       lockStatus: "READY (위탁 대사 완료)",
@@ -2606,7 +2606,7 @@ code, pre, kbd, samp,
     },
     "RH-0042": {
       holderId: "RH-0042",
-      holderName: "최그래픽 (프리랜서 기여자)",
+      holderName: "최그래픽 (개인 프리랜서 · 기여자)",
       entityType: "개인 프리랜서 (사업소득 3.3%)",
       taxCode: "TX-02 (사업소득 3.3%)",
       lockStatus: "HOLD (최소 지급 기준 미달 · 세전 이월)",
@@ -2743,7 +2743,7 @@ code, pre, kbd, samp,
     },
     "RH-0063": {
       holderId: "RH-0063",
-      holderName: "한도해 (일시 삽화·자문 작가)",
+      holderName: "한도해 (일시 삽화·자문 · 기타소득)",
       entityType: "개인 비사업자 (일시적 인적용역 · 기타소득 제19호)",
       taxCode: "TX-04 (기타소득 C19 · 필요경비 60% 의제 후 실효세율 8.8%)",
       lockStatus: "READY (검증 통과 · 마감 가능)",
@@ -3753,8 +3753,8 @@ code, pre, kbd, samp,
 <script>
   // 권리자 발행 증빙: 발행 요청 → 제출(권리자 · 운영자 대리) → 홈택스 매입 내역 대사 (제2권 9.1 · 9.4절)
   window.TAX_DOCS = [
-    { key: "RH-0025", holder: "정종대 (개인사업자)", matrix: "면세사업자 (TX-08)", kind: "전자계산서", kindLabel: "[발행 요청] 전자계산서 (면세 · 권리자 발행)", supply: 13018750, vat: 0, deadline: "2026-11-10", status: "SUBMITTED", approvalNo: "20261103-41000000-00012345", by: "권리자 제출" },
-    { key: "RH-0012", holder: "산준교육 콘텐츠 주식회사 (법인)", matrix: "일반과세자 (TX-07 / TX-09)", kind: "전자세금계산서", kindLabel: "[발행 요청] 전자세금계산서 (과세 10% · 권리자 발행)", supply: 4800000, vat: 480000, deadline: "2026-11-10", status: "REQUESTED", approvalNo: "", by: "" }
+    { key: "RH-0025", holder: "정종대 (개인 면세사업자)", matrix: "면세사업자 (TX-08)", kind: "전자계산서", kindLabel: "[발행 요청] 전자계산서 (면세 · 권리자 발행)", supply: 13018750, vat: 0, deadline: "2026-11-10", status: "SUBMITTED", approvalNo: "20261103-41000000-00012345", by: "권리자 제출" },
+    { key: "RH-0012", holder: "산준교육 콘텐츠 주식회사 (법인 · 일반과세)", matrix: "일반과세자 (TX-07 / TX-09)", kind: "전자세금계산서", kindLabel: "[발행 요청] 전자세금계산서 (과세 10% · 권리자 발행)", supply: 4800000, vat: 480000, deadline: "2026-11-10", status: "REQUESTED", approvalNo: "", by: "" }
   ];
   window.TAX_RECEIVE_DONE = false;
   window.taxSubmitMode = "OPERATOR";
@@ -3780,7 +3780,7 @@ code, pre, kbd, samp,
         <td>${TAX_STATUS[d.status]}${d.approvalNo ? '<div style="font-size:11px; color:var(--text-muted); margin-top:3px;">승인번호 ' + d.approvalNo + ' · ' + d.by + '</div>' : ''}</td>
       </tr>`).join("") + `
       <tr>
-        <td><strong>한국소방학회 (위탁출판사)</strong><br><span class="mono">도서 재화 공급 (TX-11)</span></td>
+        <td><strong>한국소방학회 (도서 위탁)</strong><br><span class="mono">도서 재화 공급 (TX-11)</span></td>
         <td>[1] [수취] 도서 판매대금 면세 계산서<br>[2] [당사 발행] 위탁 수수료 과세 세금계산서</td>
         <td>[수취] 홈택스 매입 내역 대사 / [발행] 당사 발행</td>
         <td class="num">도서: 4,000,000원<br>수수료: 1,000,000원</td>
