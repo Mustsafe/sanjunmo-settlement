@@ -45,7 +45,7 @@
     { key: "refund", label: "환불 요청 · 심사", screens: "RFD-002" },
     { key: "inquiry", label: "1:1 문의 · 공지 · FAQ · 후기", screens: "BRD-001 · 002 · 005 (후기)" },
     { key: "pqna", label: "상품 Q&A", screens: "BRD-003" },
-    { key: "lqna", label: "학습 Q&A", screens: "BRD-004" },
+    { key: "lqna", label: "학습 Q&A", screens: "BRD-004 · PTNR-001 (학습 Q&A)" },
     { key: "freecon", label: "무료 콘텐츠 · 교재 정답지", screens: "BRD-005 (무료특강) · BRD-010" },
     { key: "promo", label: "이벤트 · 쿠폰 · 포인트", screens: "PROM-001 · 002 · 003" },
     { key: "product", label: "상품 · 강좌 · 교재", screens: "PROD-001~007" },
@@ -54,7 +54,7 @@
     { key: "presettle", label: "정산 마감 전 사전 대사", screens: "SETT-004 · 011 · 008 · INST-002" },
     { key: "refundpass", label: "합격 환급반 관리 · 서류 보완", screens: "SETT-006" },
     { key: "settle", label: "월간 정산 · 지급 · 조회", screens: "SETT-002 · 005 · 009" },
-    { key: "statement", label: "본인 정산서 확인 · 세금계산서 제출", screens: "SETT-002-S2" },
+    { key: "statement", label: "본인 정산서 확인 · 세금계산서 제출", screens: "SETT-002-S2 · PTNR-001" },
     { key: "privacy", label: "민감 정보 · 시스템 감사 로그", screens: "USER-007 · CONF-010" },
     { key: "site", label: "사이트 · 약관 · 메시지 설정", screens: "CONF-001~004" },
     { key: "inqcat", label: "1:1 문의 분류", screens: "BRD-007" },
@@ -80,13 +80,13 @@
     { id: "RG-04", name: "재무팀", side: "INTERNAL", queue: true, aff: ["STAFF"], on: true, order: 4, startScreen: { code: "ADMN-DASH-001", label: "운영 현황 대시보드", url: "ADMN-DASH-001_baseline.html?view=dash" },
       desc: "환불 승인 · 지급 · 정산 · 세무",
       perms: { dash: "R", stat: "RX", user: "R", order: "R", refund: "RWX", product: "R", inquiry: "RW", contract: "RWX", vendor: "RWX", presettle: "RWX", refundpass: "RWX", settle: "RWX", privacy: "RW" } },
-    { id: "RG-05", name: "강사", side: "EXTERNAL", queue: true, aff: ["RH"], on: true, order: 5, startScreen: { code: "ADMN-SETT-002", label: "본인 정산서", url: "ADMN-SETT-002_baseline.html?view=partner-stmt" },
+    { id: "RG-05", name: "강사", side: "EXTERNAL", queue: true, aff: ["RH"], on: true, order: 5, startScreen: { code: "ADMN-PTNR-001", label: "파트너 센터", url: "ADMN-PTNR-001_baseline.html?role=RG-05" },
       desc: "본인 강좌 학습 Q&A 답변 · 본인 정산서 확인",
       perms: { lqna: "RW", statement: "RW" } },
     { id: "RG-06", name: "조교", side: "INTERNAL", queue: true, aff: ["STAFF"], on: true, order: 6, startScreen: { code: "ADMN-BRD-001", label: "학습 Q&A 관리", url: "ADMN-BRD-001_baseline.html?view=qna" },
       desc: "소속 강사 강좌 학습 Q&A · 상품 Q&A 내용 오류 답변",
       perms: { lqna: "RW", pqna: "RW", freecon: "RW" } },
-    { id: "RG-07", name: "저작권자", side: "EXTERNAL", queue: false, aff: ["RH"], on: true, order: 7, startScreen: { code: "ADMN-SETT-002", label: "본인 정산서", url: "ADMN-SETT-002_baseline.html?view=partner-stmt" },
+    { id: "RG-07", name: "저작권자", side: "EXTERNAL", queue: false, aff: ["RH"], on: true, order: 7, startScreen: { code: "ADMN-PTNR-001", label: "파트너 센터", url: "ADMN-PTNR-001_baseline.html?role=RG-07" },
       desc: "본인 도서 인세 정산서 확인 · 세금계산서 제출",
       perms: { statement: "RW" } },
     { id: "RG-08", name: "외부 3PL", side: "EXTERNAL", queue: false, aff: ["VENDOR"], on: true, order: 8, startScreen: { code: "ADMN-ORD-001", label: "출고 · 송장", url: "ADMN-ORD-001_baseline.html?view=ord002&role=ROLE_PARTNER_3PL" },
@@ -187,6 +187,8 @@
         if (g.id === "RG-06" && (g.side !== "INTERNAL" || !g.aff || g.aff.join() !== "STAFF")) { g.side = "INTERNAL"; g.aff = ["STAFF"]; changed = true; }
         // v6.49 역할 그룹 시작 화면(로그인 착지 3순위) — 저장된 값에 없으면 최초값으로 보충
         if (sg.startScreen && !g.startScreen) { g.startScreen = Object.assign({}, sg.startScreen); changed = true; }
+        // v6.52 강사 · 저작권자 기본 시작 화면을 파트너 센터로 — 운영자가 바꾸지 않은(옛 기본값 그대로인) 경우만 갱신
+        if (sg.startScreen && g.startScreen && g.startScreen.code === "ADMN-SETT-002" && String(g.startScreen.url || "").indexOf("partner-stmt") !== -1 && sg.startScreen.code === "ADMN-PTNR-001") { g.startScreen = Object.assign({}, sg.startScreen); changed = true; }
         ["refundpass", "freecon"].forEach(function (k) {
           if (sg.perms[k] && g.perms[k] === undefined) { g.perms[k] = sg.perms[k]; changed = true; }
         });
@@ -374,11 +376,13 @@
   // 운영 설정값 — 운영자가 관리 화면에서 바꾸는 변수(고정값 아님). 화면은 값을 직접 적지 않고 여기서 읽는다(v6.40)
   //   remaskMemberSec · remaskHolderSec: 민감정보 열람 후 자동 재마스킹 시간(초) — 설정 화면 CONF-003
   //   playbackMaxCreditedSpeed · limitedForward: 진도 인정 최대 배속 · 앞으로 건너뛰기 제한 — 설정 화면 CONF-003
+  //   lqnaMode: 학습 Q&A 운영 방식 CAFE(네이버 카페 아웃링크) / INTERNAL(자체 학습 Q&A, 파트너 센터에서 강사 답변) — 설정 화면 CONF-003
   //   reviewRewardP · reviewBestRewardP · freePointCapP: 후기 보상 · 베스트 후기 보상 · 무상 포인트 잔액 상한 — 설정 화면 PROM-002 포인트 정책
   var SETTINGS_SEED = {
     remaskMemberSec: 600, remaskHolderSec: 30,
     playbackMaxCreditedSpeed: 2.0, limitedForward: true,
-    reviewRewardP: 1000, reviewBestRewardP: 5000, freePointCapP: 200000
+    reviewRewardP: 1000, reviewBestRewardP: 5000, freePointCapP: 200000,
+    lqnaMode: "CAFE"
   };
   var settingsStore = store("sjm.master.settings.v1", SETTINGS_SEED);
   var settings = {

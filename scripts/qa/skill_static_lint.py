@@ -33,6 +33,9 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# 공통 에셋 규격 [5]에서 script#v4-common-snb 누락 경고를 내지 않는 화면: 운영자 SNB 없이 단독으로 쓰는 파트너 화면
+# (common-snb.js가 body 맨 앞에 운영자 SNB를 무조건 넣기 때문에 일부러 로드하지 않음)
+NO_SNB_SCREENS = {"ADMN-PTNR-001_baseline.html"}
 REPORT = os.path.join(ROOT, "scripts", "qa", "reports", "STATIC_LINT_REPORT.md")
 
 # 여러 블록을 한 번에 넘겨 파싱만 한다 — 임시 파일을 만들지 않는다
@@ -162,7 +165,7 @@ def lint_folder(folder, node):
         # [5] 공통 에셋
         if "css" not in c.assets:
             r["assets"].append("link#v4-common-css 없음")
-        if "snb" not in c.assets:
+        if "snb" not in c.assets and f not in NO_SNB_SCREENS:
             r["assets"].append("script#v4-common-snb 없음")
         results[f] = r
         for start, code in c.scripts:

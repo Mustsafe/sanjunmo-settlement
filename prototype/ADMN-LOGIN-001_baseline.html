@@ -573,6 +573,8 @@ code, pre, kbd, samp,
         const g = M.roles.get(id);
         if (!g || g.on === false) return false;
         const p = g.perms || {};
+        // 파트너 센터는 본인 정산서(statement) 또는 학습 Q&A(lqna) 권한이 있으면 허용 — common-master MENUS 반영 후 제거 가능
+        if (need === "PTNR-001") return !!(p.statement || p.lqna);
         if (M.menus.every(mn => p[mn.key] === "RWX")) return true;
         if (g.startScreen && g.startScreen.url === url) return true;
         return M.menus.some(mn => p[mn.key] && (mn.key !== "shipout" || ship) && menuCodes(mn).indexOf(need) !== -1);
@@ -580,7 +582,9 @@ code, pre, kbd, samp,
     }
 
     function withHolder(url, acc) {
-      if (acc && acc.aff && acc.aff.kind === "RH" && acc.aff.ref && url.indexOf("holder=") === -1) return url + (url.indexOf("?") === -1 ? "?" : "&") + "holder=" + acc.aff.ref;
+      if (acc && acc.aff && acc.aff.kind === "RH" && acc.aff.ref && url.indexOf("holder=") === -1) url = url + (url.indexOf("?") === -1 ? "?" : "&") + "holder=" + acc.aff.ref;
+      // 파트너 센터는 화면이 강사 · 저작권자를 구분하도록 계정의 첫 역할 그룹 ID를 함께 넘긴다
+      if (acc && acc.roles && acc.roles[0] && /^ADMN-PTNR-001_baseline\.html/.test(url) && !/[?&]role=/.test(url)) url = url + (url.indexOf("?") === -1 ? "?" : "&") + "role=" + acc.roles[0];
       return url;
     }
 

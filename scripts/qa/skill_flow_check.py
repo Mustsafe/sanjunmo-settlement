@@ -173,6 +173,10 @@ def parse_readme():
     return rows
 
 
+# SNB 밖 화면 — 운영자 SNB에 넣지 않는 전용 화면(README 표에서 이 그룹명으로 적는다)
+NON_SNB_GROUP = "SNB 밖 · 파트너 전용"
+NON_SNB_FILES = {"ADMN-PTNR-001_baseline.html"}  # 파트너 센터(권리자 소속 강사 · 저작권자 전용, v6.52)
+
 def check_readme(groups, errors, notes):
     rows = parse_readme()
     if rows is None:
@@ -182,6 +186,12 @@ def check_readme(groups, errors, notes):
     seen = set()
     for title, n, ln, files in rows:
         seen.add(title)
+        if title == NON_SNB_GROUP:
+            for fname, fl in files:
+                if fname not in NON_SNB_FILES:
+                    errors.append(("1c SNB 밖 그룹에 등록되지 않은 파일", f"README.md:{fl}", fname))
+            notes.append(("1c SNB 밖 화면", f"README.md:{ln}", ", ".join(f for f, _ in files)))
+            continue
         if title not in snb:
             errors.append(("1c README 그룹이 SNB에 없음", f"README.md:{ln}", title))
             continue

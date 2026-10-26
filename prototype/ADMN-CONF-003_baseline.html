@@ -280,6 +280,29 @@ code, pre, kbd, samp,
             </div>
           </div>
         </div>
+
+        <div class="card" id="card-lqna-mode">
+          <div class="card-header">
+            <div class="card-title"><span>💬 학습 Q&amp;A 운영 방식</span></div>
+          </div>
+          <div class="card-body">
+            <table class="kv-table">
+              <tbody>
+                <tr>
+                  <th>운영 방식<br/>(<code>lqnaMode</code>)</th>
+                  <td>
+                    <label style="font-weight:800; margin-right:16px;"><input type="radio" name="lqna_mode" value="CAFE" checked onchange="onLqnaModeChange(this)" /> 네이버 카페 아웃링크 (기본)</label>
+                    <label style="font-weight:700;"><input type="radio" name="lqna_mode" value="INTERNAL" onchange="onLqnaModeChange(this)" /> 자체 학습 Q&amp;A</label>
+                    <span id="lqna-mode-hint" style="font-size:11.5px; color:var(--text-muted); margin-left:6px;"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="font-size:11.5px; color:var(--text-muted); margin-top:8px;">
+              ※ 카페 아웃링크 운영 중에는 강사 파트너 센터의 학습 Q&amp;A가 미리보기로만 동작합니다(답변이 수강생에게 발송되지 않음). 자체 학습 Q&amp;A로 전환하면 파트너 센터에서 등록한 답변이 수강생에게 알림으로 발송됩니다.
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- 탭 2: ADMN-CONF-008 인증 발송 설정 및 허용 IP 화이트리스트 -->
@@ -388,6 +411,27 @@ code, pre, kbd, samp,
       document.querySelector('input[name="pl_fwd"][value="' + (on ? 'ON' : 'OFF') + '"]').checked = true;
       window.__fwdPrev = on ? 'ON' : 'OFF';
       updatePrivacyHints(); updateSpeedHint();
+      const lm = st.get('lqnaMode') || 'CAFE';
+      document.querySelector('input[name="lqna_mode"][value="' + lm + '"]').checked = true;
+      window.__lqnaPrev = lm;
+      updateLqnaHint(lm);
+    }
+    function updateLqnaHint(v) {
+      document.getElementById('lqna-mode-hint').textContent = v === 'INTERNAL' ? '(자체 학습 Q&A 운영 중)' : '(네이버 카페 아웃링크 운영 중)';
+    }
+    function onLqnaModeChange(radio) {
+      const next = radio.value;
+      const msg = next === 'INTERNAL'
+        ? '자체 학습 Q&A로 전환하면 강사 파트너 센터의 학습 Q&A가 활성화되어, 강사가 등록한 답변이 수강생에게 알림으로 발송됩니다. 변경하시겠습니까?'
+        : '네이버 카페 아웃링크로 되돌리면 강사 파트너 센터의 학습 Q&A는 미리보기로만 동작하고 답변이 수강생에게 발송되지 않습니다. 변경하시겠습니까?';
+      if (!window.confirm(msg)) {
+        document.querySelector('input[name="lqna_mode"][value="' + window.__lqnaPrev + '"]').checked = true;
+        return;
+      }
+      window.__lqnaPrev = next;
+      sjmSettings().set('lqnaMode', next);
+      updateLqnaHint(next);
+      showToast('학습 Q&A 운영 방식이 ' + (next === 'INTERNAL' ? '자체 학습 Q&A' : '네이버 카페 아웃링크') + '(으)로 변경되었습니다.');
     }
     function onFwdChange(radio) {
       const next = radio.value;
